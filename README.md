@@ -13,3 +13,16 @@ Details of the VM architecture and the planned interaction with the blockchain
 can be found here:
   1. https://github.com/Zilliqa/scilla-backend/wiki/Scilla-Backend-Design
   2. https://github.com/Zilliqa/scilla-backend/wiki/Interaction-of-State-Variables-with-Blockchain
+
+## Build and install
+We suggesting building ScillaVM in a directory that is *not* the source the directory.
+  * `$mkdir build; cd  build`
+  * `cmake ..`. To specify an install directory other than the default (which requires super-user
+  permissions), provide the `-DCMAKE_INSTALL_PREFIX=/path/to/install` flag to `cmake`.
+  * `make` builds the entire project. You can find the built files in `bin/` and `lib/`.
+  * `make install` installs the project.
+  We suggest to provide your installation path as described earlier.
+
+## Source directory organisation
+All public headers are placed in (include)[include]. Source files for the JIT driver are
+in (libjitd/)[libjitd] while the sources for the Scilla RTL is in (srtl)[srtl].
