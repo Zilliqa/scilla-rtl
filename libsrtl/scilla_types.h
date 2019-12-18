@@ -103,6 +103,11 @@ struct ADTDesc {
   Specl *m_specls;
 };
 
+struct MapTyp {
+  Typ *m_keyTyp;
+  Typ *m_valTyp;
+};
+
 // We don't model Scilla types with inheritance because values
 // of these types need to be generated in the compiler, and having
 // inheritance makes it harder.
@@ -115,10 +120,11 @@ struct Typ {
 
   Typs m_t; // Tag for the union below
   union {
-    PrimTyp m_prim;
+    PrimTyp m_primt;
     // Typ can only be specialized.
     ADTDesc::Specl *m_spladt;
-    // TODO: Maps.
+    // key type, value type.
+    MapTyp m_mapt;
   };
 };
 
