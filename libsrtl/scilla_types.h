@@ -69,7 +69,7 @@ struct PrimTyp {
 struct Typ;
 
 // Describes a monomorphic Scilla ADT.
-struct ADTDesc {
+struct ADTTyp {
 
   // Describe a constructor.
   struct Constr {
@@ -90,10 +90,10 @@ struct ADTDesc {
     Typ *m_TArgs;
     // The constructors for this specialization. The number of
     // constructors is same for all specializations, and hence
-    // defined outside in ADTDesc.
+    // defined outside in ADTTyp.
     Constr *m_constrs;
-    // Pointer to the parent ADTDesc. Necessary when only a Specl is known.
-    ADTDesc *m_parent;
+    // Pointer to the parent ADTTyp. Necessary when only a Specl is known.
+    ADTTyp *m_parent;
   };
 
   // The ADT name
@@ -125,7 +125,7 @@ struct Typ {
   union {
     PrimTyp m_primt;
     // Typ can only be specialized.
-    ADTDesc::Specl *m_spladt;
+    ADTTyp::Specl *m_spladt;
     // key type, value type.
     MapTyp m_mapt;
   };
