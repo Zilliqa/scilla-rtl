@@ -123,11 +123,11 @@ struct Typ {
 
   Typs m_t; // Tag for the union below
   union {
-    PrimTyp m_primt;
+    PrimTyp *m_primt;
     // Typ can only be specialized.
     ADTTyp::Specl *m_spladt;
     // key type, value type.
-    MapTyp m_mapt;
+    MapTyp *m_mapt;
   };
 };
 
