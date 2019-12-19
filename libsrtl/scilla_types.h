@@ -78,7 +78,7 @@ struct ADTTyp {
     // Number of arguments to this constructor.
     uint32_t m_numArgs;
     // The type of each argument of this constructor.
-    Typ *m_args;
+    Typ **m_args;
   };
 
   // Describe an ADT specialization.
@@ -87,11 +87,11 @@ struct ADTTyp {
     uint32_t m_numTArgs;
     // Types used to instantiate the ADT.
     // Needed to serialize the ADT with full type information.
-    Typ *m_TArgs;
+    Typ **m_TArgs;
     // The constructors for this specialization. The number of
     // constructors is same for all specializations, and hence
     // defined outside in ADTTyp.
-    Constr *m_constrs;
+    Constr **m_constrs;
     // Pointer to the parent ADTTyp. Necessary when only a Specl is known.
     ADTTyp *m_parent;
   };
@@ -103,7 +103,7 @@ struct ADTTyp {
   // Number of type specializations
   uint32_t m_numSpecls;
   // An array of all specializations.
-  Specl *m_specls;
+  Specl **m_specls;
 };
 
 struct MapTyp {
