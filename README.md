@@ -15,11 +15,13 @@ and the planned [interaction with the blockchain](https://github.com/Zilliqa/sci
 are available.
 
 ## Build and install
-We suggesting building ScillaVM in a directory that is *not* the source the directory.
+We suggest building ScillaVM in a directory that is *not* the source directory.
   * `$git clone https://github.com/Zilliqa/scilla-vm.git`
   * `$cd scilla-vm; mkdir build; cd build`
-  * `$cmake ..` To specify an install directory other than the default (which requires super-user
-  permissions), provide the `-DCMAKE_INSTALL_PREFIX=/path/to/install` flag to `cmake`.
+  * `$cmake ..` configures the project. To specify an install directory other than the default
+  (which requires super-user), provide the `-DCMAKE_INSTALL_PREFIX=/path/to/install` flag to `cmake`.
+  scilla-vm uses LLVM. If your LLVM is installed in a non-default directory, specify it using
+  `-DLLVM_DIR=/path/to/llvm/install/lib/cmake/llvm`.
   * `$make` builds the entire project. You can find the built files in `bin/` and `lib/`.
   * `$make install` installs the project.
   We suggest to provide your installation path as described earlier.

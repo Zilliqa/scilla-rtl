@@ -28,12 +28,18 @@
 #include "llvm/IR/DataLayout.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/LegacyPassManager.h"
+#include "llvm/IRReader/IRReader.h"
+#include "llvm/Support/SourceMgr.h"
+#include "llvm/Support/TargetSelect.h"
+#include "llvm/Support/raw_ostream.h"
 #include "llvm/Transforms/InstCombine/InstCombine.h"
-#include "llvm/Transforms/Utils.h"
 #include "llvm/Transforms/Scalar.h"
 #include "llvm/Transforms/Scalar/GVN.h"
+#include "llvm/Transforms/Utils.h"
+
 #include <memory>
 
+#include "../libsrtl/scilla_functions.h"
 #include "scillavm/jitd.h"
 
 namespace llvm {
@@ -56,12 +62,21 @@ public:
       : ObjectLayer(ES,
                     []() { return llvm::make_unique<SectionMemoryManager>(); }),
         CompileLayer(ES, ObjectLayer, ConcurrentIRCompiler(std::move(JTMB))),
-        OptimizeLayer(ES, CompileLayer /*, optimizeModule */),
-        DL(std::move(DL)), Mangle(ES, this->DL),
-        Ctx(llvm::make_unique<LLVMContext>()) {
+        OptimizeLayer(ES, CompileLayer, optimizeModule), DL(std::move(DL)),
+        Mangle(ES, this->DL), Ctx(llvm::make_unique<LLVMContext>()) {
+
     ES.getMainJITDylib().setGenerator(
         cantFail(DynamicLibrarySearchGenerator::GetForCurrentProcess(
             DL.getGlobalPrefix())));
+
+    SymbolMap M;
+    // Register every symbol that can be accessed from the JIT'ed code.
+    auto ScillaFuncs = scilla_vm::getAllScillaFunctions();
+    for (auto fa : ScillaFuncs) {
+      M[Mangle(fa.FName)] = JITEvaluatedSymbol(
+          pointerToJITTargetAddress(fa.FAddr), JITSymbolFlags());
+    }
+    cantFail(ES.getMainJITDylib().define(absoluteSymbols(M)));
   }
 
   const DataLayout &getDataLayout() const { return DL; }
@@ -119,3 +134,57 @@ private:
 
 } // end namespace orc
 } // end namespace llvm
+
+namespace scilla_vm {
+
+// One time initialization.
+void initScillaJIT() {
+  llvm::InitializeAllTargets();
+  llvm::InitializeAllTargetMCs();
+  llvm::InitializeAllAsmParsers();
+  llvm::InitializeAllAsmPrinters();
+  llvm::InitializeAllTargetInfos();
+}
+
+// Compile LLVM-IR from a file @Filename and return handle to @FuncName
+llvm::Expected<void *> compileLLVMFile(const std::string &Filename,
+                                       const std::string &FuncName) {
+
+  auto JitterOrError = llvm::orc::ScillaJIT::Create();
+  if (auto Err = JitterOrError.takeError()) {
+    return std::move(Err);
+  }
+  auto Jitter = std::move(*(JitterOrError));
+
+  auto &Ctx = Jitter->getContext();
+  llvm::SMDiagnostic Smd;
+  auto M = llvm::parseIRFile(Filename, Smd, Ctx);
+  if (!M) {
+    std::string ErrMsg;
+    llvm::raw_string_ostream OS(ErrMsg);
+    Smd.print("scilla-vm", OS);
+    auto Err = llvm::make_error<llvm::StringError>(
+        OS.str(), std::make_error_code(std::errc::invalid_argument));
+    return std::move(Err);
+  }
+
+  if (auto Err = Jitter->addModule(std::move(M))) {
+    return std::move(Err);
+  }
+
+  auto fref = Jitter->lookup(FuncName);
+  if (auto Err = fref.takeError()) {
+    return std::move(Err);
+  }
+
+  if (!(*fref)) {
+    auto Err = llvm::make_error<llvm::StringError>(
+        "Function " + FuncName + " not found",
+        std::make_error_code(std::errc::invalid_argument));
+    return std::move(Err);
+  }
+
+  return reinterpret_cast<void *>((*fref).getAddress());
+}
+
+} // namespace scilla_vm

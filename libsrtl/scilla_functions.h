@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Zilliqa
+ * Copyright (C) 2020 Zilliqa
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,16 +17,25 @@
 
 #pragma once
 
-#include "llvm/Support/Error.h"
-#include <string>
+/* This file declares functions that are callable from an executing
+ * Scilla contract. It is not intended to be called from other C++
+ * code, and is therefore not a public header. */
+
+#include "scilla_types.h"
 
 namespace scilla_vm {
 
-// One time initialization.
-void initScillaJIT(void);
+struct ScillaFunctionsMap {
+  const char* FName;
+  const void* FAddr;
+};
+std::vector<ScillaFunctionsMap> getAllScillaFunctions(void);
 
-// Compile LLVM-IR from a file @Filename and return handle to @FuncName
-llvm::Expected<void *> compileLLVMFile(const std::string &Filename,
-                                       const std::string &FuncName);
+} // end of namespace scilla_vm
 
-} // namespace scillavm
+extern "C" {
+
+// Print to stdout the Scilla value @V whose type is described by @T.
+void _print_scilla_val(const scilla_vm::scilla_types::Typ *T, void* V);
+
+} // extern "C"
