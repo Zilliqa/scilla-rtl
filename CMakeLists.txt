@@ -15,15 +15,15 @@ find_package(LLVM 9 REQUIRED CONFIG)
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
 message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 # Find the libraries that correspond to the LLVM components we use
-llvm_map_components_to_libnames(llvm_libs all)
+llvm_map_components_to_libnames(llvm_libs support core orcjit nativecodegen)
 
 # compiler and linker options
 add_compile_options(-Wall)
 add_compile_options(-Werror)
 add_compile_options(-pedantic)
 add_compile_options(-Wextra)
-# May be required when linking with LLVM built locally
-add_compile_options(-fno-rtti)
+# Required when linking with LLVM shared libs built locally
+# add_compile_options(-fno-rtti)
 
 if (THREAD_SANITIZER AND ADDRESS_SANITIZER)
     message(FATAL_ERROR "Cannot use ThreadSanitizer (THREAD_SANITIZER=ON) and AddressSanitizer (ADDRESS_SANITIZER=ON) at the same time")

@@ -17,14 +17,12 @@
 
 #include "llvm/ADT/StringRef.h"
 #include "llvm/ExecutionEngine/JITSymbol.h"
+#include "llvm/ExecutionEngine/ObjectCache.h"
 #include "llvm/ExecutionEngine/Orc/CompileUtils.h"
 #include "llvm/ExecutionEngine/Orc/Core.h"
 #include "llvm/ExecutionEngine/Orc/ExecutionUtils.h"
-#include "llvm/ExecutionEngine/Orc/IRCompileLayer.h"
-#include "llvm/ExecutionEngine/Orc/IRTransformLayer.h"
+#include "llvm/ExecutionEngine/Orc/LLJIT.h"
 #include "llvm/ExecutionEngine/Orc/JITTargetMachineBuilder.h"
-#include "llvm/ExecutionEngine/Orc/RTDyldObjectLinkingLayer.h"
-#include "llvm/ExecutionEngine/SectionMemoryManager.h"
 #include "llvm/IR/DataLayout.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/LegacyPassManager.h"
@@ -42,149 +40,112 @@
 #include "../libsrtl/scilla_functions.h"
 #include "scillavm/jitd.h"
 
-namespace llvm {
-namespace orc {
+using namespace llvm;
 
-// This class is taken from the "Building a JIT" tutorial.
-class ScillaJIT {
-private:
-  ExecutionSession ES;
-  RTDyldObjectLinkingLayer ObjectLayer;
-  IRCompileLayer CompileLayer;
-  IRTransformLayer OptimizeLayer;
+namespace {
 
-  DataLayout DL;
-  MangleAndInterner Mangle;
-  ThreadSafeContext Ctx;
-
-public:
-  ScillaJIT(JITTargetMachineBuilder JTMB, DataLayout DL)
-      : ObjectLayer(ES,
-                    []() { return llvm::make_unique<SectionMemoryManager>(); }),
-        CompileLayer(ES, ObjectLayer, ConcurrentIRCompiler(std::move(JTMB))),
-        OptimizeLayer(ES, CompileLayer, optimizeModule), DL(std::move(DL)),
-        Mangle(ES, this->DL), Ctx(llvm::make_unique<LLVMContext>()) {
-
-    ES.getMainJITDylib().setGenerator(
-        cantFail(DynamicLibrarySearchGenerator::GetForCurrentProcess(
-            DL.getGlobalPrefix())));
-
-    SymbolMap M;
-    // Register every symbol that can be accessed from the JIT'ed code.
-    auto ScillaFuncs = scilla_vm::getAllScillaFunctions();
-    for (auto fa : ScillaFuncs) {
-      M[Mangle(fa.FName)] = JITEvaluatedSymbol(
-          pointerToJITTargetAddress(fa.FAddr), JITSymbolFlags());
-    }
-    cantFail(ES.getMainJITDylib().define(absoluteSymbols(M)));
+// Add functions in SRTL that the JIT'ed code can access.
+Error addScillaBuiltins(orc::ExecutionSession &ES, const DataLayout &DL) {
+  orc::SymbolMap M;
+  orc::MangleAndInterner Mangle (ES, DL);
+  // Register every symbol that can be accessed from the JIT'ed code.
+  auto ScillaFuncs = scilla_vm::getAllScillaFunctions();
+  for (auto fa : ScillaFuncs) {
+    M[Mangle(fa.FName)] = JITEvaluatedSymbol(
+        pointerToJITTargetAddress(fa.FAddr), JITSymbolFlags());
   }
+  
+  if (auto Err = (ES.getMainJITDylib().define(absoluteSymbols(M))))
+    return Err;
+  
+  return Error::success();
+}
 
-  const DataLayout &getDataLayout() const { return DL; }
-
-  LLVMContext &getContext() { return *Ctx.getContext(); }
-
-  static Expected<std::unique_ptr<ScillaJIT>> Create() {
-    auto JTMB = JITTargetMachineBuilder::detectHost();
-
-    if (!JTMB)
-      return JTMB.takeError();
-
-    auto DL = JTMB->getDefaultDataLayoutForTarget();
-    if (!DL)
-      return DL.takeError();
-
-    return llvm::make_unique<ScillaJIT>(std::move(*JTMB), std::move(*DL));
-  }
-
-  Error addModule(std::unique_ptr<Module> M) {
-    return OptimizeLayer.add(ES.getMainJITDylib(),
-                             ThreadSafeModule(std::move(M), Ctx));
-  }
-
-  Expected<JITEvaluatedSymbol> lookup(StringRef Name) {
-    return ES.lookup({&ES.getMainJITDylib()}, Mangle(Name.str()));
-  }
-
-private:
-  static Expected<ThreadSafeModule>
-  optimizeModule(ThreadSafeModule TSM, const MaterializationResponsibility &R) {
-
-    (void)R; // A dummy use to prevent warnings over R not being used.
-
-    // Create a function pass manager.
-    auto FPM = llvm::make_unique<legacy::FunctionPassManager>(TSM.getModule());
-
-    // Add some optimizations.
-    FPM->add(createPromoteMemoryToRegisterPass());
-    FPM->add(createAggressiveDCEPass());
-    FPM->add(createInstructionCombiningPass());
-    FPM->add(createReassociatePass());
-    FPM->add(createGVNPass());
-    FPM->add(createCFGSimplificationPass());
-    FPM->doInitialization();
-
-    // Run the optimizations over all functions in the module being added to
-    // the JIT.
-    for (auto &F : *TSM.getModule())
-      FPM->run(F);
-
-    return std::move(TSM);
-  }
-};
-
-} // end namespace orc
-} // end namespace llvm
+} // end of anonymous namespace
 
 namespace scilla_vm {
 
-// One time initialization.
-void initScillaJIT() {
-  llvm::InitializeAllTargets();
-  llvm::InitializeAllTargetMCs();
-  llvm::InitializeAllAsmParsers();
-  llvm::InitializeAllAsmPrinters();
-  llvm::InitializeAllTargetInfos();
+void ScillaObjCache::notifyObjectCompiled(const Module *M,
+                          MemoryBufferRef ObjBuffer) {
+  CachedObjects[M->getModuleIdentifier()] = MemoryBuffer::getMemBufferCopy(
+      ObjBuffer.getBuffer(), ObjBuffer.getBufferIdentifier());
 }
 
-// Compile LLVM-IR from a file @Filename and return handle to @FuncName
-llvm::Expected<void *> compileLLVMFile(const std::string &Filename,
-                                       const std::string &FuncName) {
-
-  auto JitterOrError = llvm::orc::ScillaJIT::Create();
-  if (auto Err = JitterOrError.takeError()) {
-    return std::move(Err);
+std::unique_ptr<MemoryBuffer> ScillaObjCache::getObject(const Module *M){
+  auto I = CachedObjects.find(M->getModuleIdentifier());
+  if (I == CachedObjects.end()) {
+    dbgs() << "No object for " << M->getModuleIdentifier()
+            << " in cache. Compiling.\n";
+    return nullptr;
   }
-  auto Jitter = std::move(*(JitterOrError));
 
-  auto &Ctx = Jitter->getContext();
-  llvm::SMDiagnostic Smd;
-  auto M = llvm::parseIRFile(Filename, Smd, Ctx);
+  dbgs() << "Object for " << M->getModuleIdentifier()
+          << " loaded from cache.\n";
+  return MemoryBuffer::getMemBuffer(I->second->getMemBufferRef());
+}
+
+using namespace orc;
+
+// One time initialization.
+void ScillaJIT::init() {
+  InitializeNativeTarget();
+  InitializeNativeTargetAsmPrinter();
+}
+
+// JIT Compile LLVM-IR @FileName. Optionally, a cache manager can be provided.
+Expected<std::unique_ptr<ScillaJIT>>
+ScillaJIT::Create(std::string &Filename, ObjectCache *OC) {
+
+  // Create an LLJIT instance with a custom CompileFunction.
+  auto J = 
+      orc::LLJITBuilder()
+          .setCompileFunctionCreator(
+              [&](JITTargetMachineBuilder JTMB)
+                  -> Expected<IRCompileLayer::CompileFunction> {
+                auto TM = JTMB.createTargetMachine();
+                if (!TM)
+                  return TM.takeError();
+                return IRCompileLayer::CompileFunction(
+                    TMOwningSimpleCompiler(std::move(*TM), OC));
+              })
+          .create();
+
+  if (!J)
+    return std::move(J.takeError());
+
+  if (auto Err = addScillaBuiltins((*J)->getExecutionSession(), (*J)->getDataLayout()))
+    return std::move(Err);
+
+  auto *THIS = new ScillaJIT(std::move(*J), OC);
+
+  auto Ctx = llvm::make_unique<LLVMContext>();
+  SMDiagnostic Smd;
+  auto M = parseIRFile(Filename, Smd, *Ctx);
   if (!M) {
     std::string ErrMsg;
-    llvm::raw_string_ostream OS(ErrMsg);
+    raw_string_ostream OS(ErrMsg);
     Smd.print("scilla-vm", OS);
-    auto Err = llvm::make_error<llvm::StringError>(
+    auto Err = make_error<StringError>(
         OS.str(), std::make_error_code(std::errc::invalid_argument));
     return std::move(Err);
   }
 
-  if (auto Err = Jitter->addModule(std::move(M))) {
+  ThreadSafeModule TSM(std::move(M), std::move(Ctx));
+  if (auto Err = THIS->Jitter->addIRModule(std::move(TSM))) {
     return std::move(Err);
   }
 
-  auto fref = Jitter->lookup(FuncName);
-  if (auto Err = fref.takeError()) {
+  return std::unique_ptr<ScillaJIT>(THIS);
+}
+
+Expected<void *> ScillaJIT::getAddressFor(const std::string &Symbol) {
+
+  auto SA = Jitter->lookup(Symbol);
+  if (auto Err = SA.takeError()) {
     return std::move(Err);
   }
 
-  if (!(*fref)) {
-    auto Err = llvm::make_error<llvm::StringError>(
-        "Function " + FuncName + " not found",
-        std::make_error_code(std::errc::invalid_argument));
-    return std::move(Err);
-  }
-
-  return reinterpret_cast<void *>((*fref).getAddress());
+  return reinterpret_cast<void *>((*SA).getAddress());
 }
 
 } // namespace scilla_vm

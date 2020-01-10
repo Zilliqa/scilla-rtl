@@ -17,16 +17,43 @@
 
 #pragma once
 
+#include "llvm/ADT/StringMap.h"
+#include "llvm/ExecutionEngine/ObjectCache.h"
+#include "llvm/ExecutionEngine/Orc/LLJIT.h"
 #include "llvm/Support/Error.h"
+#include "llvm/Support/MemoryBuffer.h"
 #include <string>
 
 namespace scilla_vm {
 
-// One time initialization.
-void initScillaJIT(void);
+// Caching mechanism for compiled files. Not thread safe.
+class ScillaObjCache : public llvm::ObjectCache {
+public:
+  void notifyObjectCompiled(const llvm::Module *M,
+                            llvm::MemoryBufferRef ObjBuffer) override;
 
-// Compile LLVM-IR from a file @Filename and return handle to @FuncName
-llvm::Expected<void *> compileLLVMFile(const std::string &Filename,
-                                       const std::string &FuncName);
+  std::unique_ptr<llvm::MemoryBuffer> getObject(const llvm::Module *M) override;
 
-} // namespace scillavm
+private:
+  llvm::StringMap<std::unique_ptr<llvm::MemoryBuffer>> CachedObjects;
+};
+
+class ScillaJIT {
+private:
+  // Use the Create method to build a ScillaJIT object.
+  ScillaJIT(std::unique_ptr<llvm::orc::LLJIT> J, llvm::ObjectCache *C)
+      : Jitter(std::move(J)), Cache(C) {}
+  std::unique_ptr<llvm::orc::LLJIT> Jitter;
+  llvm::ObjectCache *Cache;
+
+public:
+  // One time initialization.
+  static void init();
+  // JIT Compile LLVM-IR @FileName. Optionally, a cache manager can be provided.
+  static llvm::Expected<std::unique_ptr<ScillaJIT>>
+  Create(std::string &FileName, llvm::ObjectCache * = nullptr);
+  // Get address for @Symbol inside the compiled IR, ready to be used.
+  llvm::Expected<void *> getAddressFor(const std::string &Symbol);
+};
+
+} // namespace scilla_vm

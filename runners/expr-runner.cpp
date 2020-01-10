@@ -16,6 +16,7 @@
  */
 
 #include <functional>
+#include <iostream>
 
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/raw_ostream.h"
@@ -23,10 +24,9 @@
 #include "scillavm/jitd.h"
 
 using namespace llvm;
+using namespace scilla_vm;
 
-namespace scilla_vm {
-
-namespace expr_runner {
+namespace {
 
 // Command line arguments parsed using LLVM's command line parser.
 cl::opt<std::string> InputFilename(cl::Positional, cl::desc("<input file>"),
@@ -37,27 +37,18 @@ void versionPrinter(llvm::raw_ostream &OS) { OS << "expr-runner: v0.0.0\n"; }
 
 ExitOnError ExitOnErr;
 
-} // end namespace expr_runner
-} // end namespace scilla_vm
-
-#include <iostream>
-
-using namespace scilla_vm::expr_runner;
+} // namespace
 
 int main(int argc, char *argv[]) {
-  cl::SetVersionPrinter(scilla_vm::expr_runner::versionPrinter);
+  cl::SetVersionPrinter(versionPrinter);
   cl::ParseCommandLineOptions(argc, argv);
 
-  scilla_vm::initScillaJIT();
+  ScillaJIT::init();
+  auto SJ = ExitOnErr(ScillaJIT::Create(InputFilename));
+  auto ScillaMain =
+      reinterpret_cast<void (*)()>(ExitOnErr(SJ->getAddressFor("scilla_main")));
 
-  auto ScillaMainOrError =
-      scilla_vm::compileLLVMFile(InputFilename, "scilla_main");
-  if (auto Err = ScillaMainOrError.takeError()) {
-    ExitOnErr(std::move(Err));
-  }
-
-  // auto ScillaMain = reinterpret_cast<void(*)()> (*ScillaMainOrError);
-  // ScillaMain();
+  ScillaMain();
 
   return EXIT_SUCCESS;
 }

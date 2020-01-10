@@ -23,14 +23,14 @@
 namespace scilla_vm {
 
 // Stringify a Scilla type @T to @out and return @out.
-std::string& PrintScillaType (const scilla_types::Typ *T, std::string &out)
+std::string& printScillaType (const scilla_types::Typ *T, std::string &out)
 {
   (void)T;
   out = "<void>";
   return out;
 }
 
-std::string& PrintScillaValue (const scilla_types::Typ *T, void* V, std::string &out)
+std::string& printScillaValue (const scilla_types::Typ *T, void* V, std::string &out)
 {
   (void)T; (void)V;
   out = "scilla_val";
@@ -56,7 +56,7 @@ extern "C" {
 void _print_scilla_val(const scilla_types::Typ *T, void *V)
 {
   std::string out;
-  std::cout << PrintScillaValue (T, V, out) << " : " << PrintScillaType (T, out) << "\n";
+  std::cout << printScillaValue (T, V, out) << " : " << printScillaType (T, out) << "\n";
 }
 
 }
