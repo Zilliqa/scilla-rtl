@@ -21,9 +21,9 @@
  * Scilla contract. It is not intended to be called from other C++
  * code, and is therefore not a public header. */
 
-#include "scilla_types.h"
+#include "ScillaTypes.h"
 
-namespace scilla_vm {
+namespace ScillaVM {
 
 struct ScillaFunctionsMap {
   const char* FName;
@@ -31,11 +31,11 @@ struct ScillaFunctionsMap {
 };
 std::vector<ScillaFunctionsMap> getAllScillaFunctions(void);
 
-} // end of namespace scilla_vm
+} // end of namespace ScillaVM
 
 extern "C" {
 
 // Print to stdout the Scilla value @V whose type is described by @T.
-void _print_scilla_val(const scilla_vm::scilla_types::Typ *T, void* V);
+void _print_scilla_val(const ScillaVM::ScillaTypes::Typ *T, void* V);
 
 } // extern "C"

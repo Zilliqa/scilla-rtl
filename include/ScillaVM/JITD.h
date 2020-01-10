@@ -24,7 +24,7 @@
 #include "llvm/Support/MemoryBuffer.h"
 #include <string>
 
-namespace scilla_vm {
+namespace ScillaVM {
 
 // Caching mechanism for compiled files. Not thread safe.
 class ScillaObjCache : public llvm::ObjectCache {
@@ -56,4 +56,4 @@ public:
   llvm::Expected<void *> getAddressFor(const std::string &Symbol);
 };
 
-} // namespace scilla_vm
+} // namespace ScillaVM

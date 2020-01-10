@@ -21,10 +21,10 @@
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/raw_ostream.h"
 
-#include "scillavm/jitd.h"
+#include "ScillaVM/JITD.h"
 
 using namespace llvm;
-using namespace scilla_vm;
+using namespace ScillaVM;
 
 namespace {
 
@@ -37,7 +37,7 @@ void versionPrinter(llvm::raw_ostream &OS) { OS << "expr-runner: v0.0.0\n"; }
 
 ExitOnError ExitOnErr;
 
-} // namespace
+} // end of anonymous namespace
 
 int main(int argc, char *argv[]) {
   cl::SetVersionPrinter(versionPrinter);

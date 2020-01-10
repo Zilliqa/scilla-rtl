@@ -15,5 +15,5 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "scillavm/srtl.h"
-#include "scilla_types.h"
+#include "ScillaVM/SRTL.h"
+#include "ScillaTypes.h"

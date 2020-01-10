@@ -37,8 +37,8 @@
 
 #include <memory>
 
-#include "../libsrtl/scilla_functions.h"
-#include "scillavm/jitd.h"
+#include "../libsrtl/ScillaBuiltins.h"
+#include "ScillaVM/JITD.h"
 
 using namespace llvm;
 
@@ -49,7 +49,7 @@ Error addScillaBuiltins(orc::ExecutionSession &ES, const DataLayout &DL) {
   orc::SymbolMap M;
   orc::MangleAndInterner Mangle (ES, DL);
   // Register every symbol that can be accessed from the JIT'ed code.
-  auto ScillaFuncs = scilla_vm::getAllScillaFunctions();
+  auto ScillaFuncs = ScillaVM::getAllScillaFunctions();
   for (auto fa : ScillaFuncs) {
     M[Mangle(fa.FName)] = JITEvaluatedSymbol(
         pointerToJITTargetAddress(fa.FAddr), JITSymbolFlags());
@@ -63,7 +63,7 @@ Error addScillaBuiltins(orc::ExecutionSession &ES, const DataLayout &DL) {
 
 } // end of anonymous namespace
 
-namespace scilla_vm {
+namespace ScillaVM {
 
 void ScillaObjCache::notifyObjectCompiled(const Module *M,
                           MemoryBufferRef ObjBuffer) {
@@ -148,4 +148,4 @@ Expected<void *> ScillaJIT::getAddressFor(const std::string &Symbol) {
   return reinterpret_cast<void *>((*SA).getAddress());
 }
 
-} // namespace scilla_vm
+} // namespace ScillaVM
