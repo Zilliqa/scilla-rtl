@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
   cl::ParseCommandLineOptions(argc, argv);
 
   ScillaJIT::init();
-  auto SJ = ExitOnErr(ScillaJIT::Create(InputFilename));
+  auto SJ = ExitOnErr(ScillaJIT::create(InputFilename));
   auto ScillaMain =
       reinterpret_cast<void (*)()>(ExitOnErr(SJ->getAddressFor("scilla_main")));
 

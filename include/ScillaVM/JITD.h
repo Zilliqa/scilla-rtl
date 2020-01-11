@@ -51,7 +51,7 @@ public:
   static void init();
   // JIT Compile LLVM-IR @FileName. Optionally, a cache manager can be provided.
   static llvm::Expected<std::unique_ptr<ScillaJIT>>
-  Create(std::string &FileName, llvm::ObjectCache * = nullptr);
+  create(std::string &FileName, llvm::ObjectCache * = nullptr);
   // Get address for @Symbol inside the compiled IR, ready to be used.
   llvm::Expected<void *> getAddressFor(const std::string &Symbol);
 };

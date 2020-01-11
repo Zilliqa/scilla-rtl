@@ -21,8 +21,8 @@
 #include "llvm/ExecutionEngine/Orc/CompileUtils.h"
 #include "llvm/ExecutionEngine/Orc/Core.h"
 #include "llvm/ExecutionEngine/Orc/ExecutionUtils.h"
-#include "llvm/ExecutionEngine/Orc/LLJIT.h"
 #include "llvm/ExecutionEngine/Orc/JITTargetMachineBuilder.h"
+#include "llvm/ExecutionEngine/Orc/LLJIT.h"
 #include "llvm/IR/DataLayout.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/LegacyPassManager.h"
@@ -47,17 +47,17 @@ namespace {
 // Add functions in SRTL that the JIT'ed code can access.
 Error addScillaBuiltins(orc::ExecutionSession &ES, const DataLayout &DL) {
   orc::SymbolMap M;
-  orc::MangleAndInterner Mangle (ES, DL);
+  orc::MangleAndInterner Mangle(ES, DL);
   // Register every symbol that can be accessed from the JIT'ed code.
   auto ScillaFuncs = ScillaVM::getAllScillaFunctions();
   for (auto fa : ScillaFuncs) {
     M[Mangle(fa.FName)] = JITEvaluatedSymbol(
         pointerToJITTargetAddress(fa.FAddr), JITSymbolFlags());
   }
-  
+
   if (auto Err = (ES.getMainJITDylib().define(absoluteSymbols(M))))
     return Err;
-  
+
   return Error::success();
 }
 
@@ -66,21 +66,21 @@ Error addScillaBuiltins(orc::ExecutionSession &ES, const DataLayout &DL) {
 namespace ScillaVM {
 
 void ScillaObjCache::notifyObjectCompiled(const Module *M,
-                          MemoryBufferRef ObjBuffer) {
+                                          MemoryBufferRef ObjBuffer) {
   CachedObjects[M->getModuleIdentifier()] = MemoryBuffer::getMemBufferCopy(
       ObjBuffer.getBuffer(), ObjBuffer.getBufferIdentifier());
 }
 
-std::unique_ptr<MemoryBuffer> ScillaObjCache::getObject(const Module *M){
+std::unique_ptr<MemoryBuffer> ScillaObjCache::getObject(const Module *M) {
   auto I = CachedObjects.find(M->getModuleIdentifier());
   if (I == CachedObjects.end()) {
     dbgs() << "No object for " << M->getModuleIdentifier()
-            << " in cache. Compiling.\n";
+           << " in cache. Compiling.\n";
     return nullptr;
   }
 
   dbgs() << "Object for " << M->getModuleIdentifier()
-          << " loaded from cache.\n";
+         << " loaded from cache.\n";
   return MemoryBuffer::getMemBuffer(I->second->getMemBufferRef());
 }
 
@@ -93,27 +93,27 @@ void ScillaJIT::init() {
 }
 
 // JIT Compile LLVM-IR @FileName. Optionally, a cache manager can be provided.
-Expected<std::unique_ptr<ScillaJIT>>
-ScillaJIT::Create(std::string &Filename, ObjectCache *OC) {
+Expected<std::unique_ptr<ScillaJIT>> ScillaJIT::create(std::string &Filename,
+                                                       ObjectCache *OC) {
 
   // Create an LLJIT instance with a custom CompileFunction.
-  auto J = 
-      orc::LLJITBuilder()
-          .setCompileFunctionCreator(
-              [&](JITTargetMachineBuilder JTMB)
-                  -> Expected<IRCompileLayer::CompileFunction> {
-                auto TM = JTMB.createTargetMachine();
-                if (!TM)
-                  return TM.takeError();
-                return IRCompileLayer::CompileFunction(
-                    TMOwningSimpleCompiler(std::move(*TM), OC));
-              })
-          .create();
+  auto J = orc::LLJITBuilder()
+               .setCompileFunctionCreator(
+                   [&](JITTargetMachineBuilder JTMB)
+                       -> Expected<IRCompileLayer::CompileFunction> {
+                     auto TM = JTMB.createTargetMachine();
+                     if (!TM)
+                       return TM.takeError();
+                     return IRCompileLayer::CompileFunction(
+                         TMOwningSimpleCompiler(std::move(*TM), OC));
+                   })
+               .create();
 
   if (!J)
     return std::move(J.takeError());
 
-  if (auto Err = addScillaBuiltins((*J)->getExecutionSession(), (*J)->getDataLayout()))
+  if (auto Err =
+          addScillaBuiltins((*J)->getExecutionSession(), (*J)->getDataLayout()))
     return std::move(Err);
 
   auto *THIS = new ScillaJIT(std::move(*J), OC);

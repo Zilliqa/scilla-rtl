@@ -26,8 +26,8 @@
 namespace ScillaVM {
 
 struct ScillaFunctionsMap {
-  const char* FName;
-  const void* FAddr;
+  const char *FName;
+  const void *FAddr;
 };
 std::vector<ScillaFunctionsMap> getAllScillaFunctions(void);
 
@@ -36,6 +36,6 @@ std::vector<ScillaFunctionsMap> getAllScillaFunctions(void);
 extern "C" {
 
 // Print to stdout the Scilla value @V whose type is described by @T.
-void _print_scilla_val(const ScillaVM::ScillaTypes::Typ *T, void* V);
+void _print_scilla_val(const ScillaVM::ScillaTypes::Typ *T, void *V);
 
 } // extern "C"

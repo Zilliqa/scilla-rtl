@@ -65,3 +65,5 @@ install(
     DESTINATION ${CMAKE_INSTALL_PREFIX}
     USE_SOURCE_PERMISSIONS
 )
+
+include(clang-dev-tools.cmake)

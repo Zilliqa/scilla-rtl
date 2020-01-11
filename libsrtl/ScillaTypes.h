@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include <vector>
 #include <cstdint>
+#include <vector>
 
 using bytes = std::vector<uint8_t>;
 
@@ -36,18 +36,13 @@ struct Bytes {
   explicit operator bytes() const;
   // We don't define this as a constructor because
   // we want a POD, to be used in unions later.
-  static Bytes construct (const bytes &b);
+  static Bytes construct(const bytes &b);
 };
 using String = Bytes;
 
 struct PrimTyp {
 
-  enum BitWidth {
-    Bits32 = 0,
-    Bits64,
-    Bits128,
-    Bits256
-  };
+  enum BitWidth { Bits32 = 0, Bits64, Bits128, Bits256 };
 
   enum Prims {
     Int_typ = 0,
@@ -133,6 +128,6 @@ struct Typ {
   };
 };
 
-} // end of namespace scillatypes
+} // namespace ScillaTypes
 
 } // end of namespace ScillaVM

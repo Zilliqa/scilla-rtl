@@ -26,6 +26,22 @@ We suggest building ScillaVM in a directory that is *not* the source directory.
   * `$make install` installs the project.
   We suggest to provide your installation path as described earlier.
 
-## Source directory organisation
+## Developer Notes
 All public headers are placed in [include](./include). Source files for the JIT driver are
 in [libjitd](./libjitd) while the sources for the Scilla RTL is in [libsrtl](./libsrtl).
+
+### Coding Standards
+This project uses the [LLVM coding standards](https://llvm.org/docs/CodingStandards.html).
+For convenience, the naming convention is summarized below. All names (with exceptions)
+must be in [camel case](https://en.wikipedia.org/wiki/Camel_case)
+  - Types (structs, classes etc), namespaces and filenames begin with a capital letter.
+  - Function and method names being with a small letter.
+  - Variable (local, global and class members) names being with a capital letter.
+  - Exceptions: Functions that serve as Scilla builtins, accessible from the JIT'ed code
+    use snake casing, beginning with an `_`.
+
+To conform to code formatting style, a CMake target `clang-format` is provided, which when
+run as `make clang-format` in the build directory will auto format all source files. This
+target requires `clang-format-9`. To manually run `clang-format`, (if you don't have `clang-format-9`)
+the following command line can be run in the project root:
+  - ```clang-format -style=LLVM -i `find . -name "*.cpp" -o -name "*.h" | xargs```
