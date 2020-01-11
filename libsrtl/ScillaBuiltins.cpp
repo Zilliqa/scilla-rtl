@@ -49,7 +49,6 @@ using namespace ScillaVM;
 
 extern "C" {
 
-// Print to stdout the Scilla value @V whose type is described by @T.
 void _print_scilla_val(const ScillaTypes::Typ *T, void *V) {
   std::string out;
   std::cout << printScillaValue(T, V, out) << " : " << printScillaType(T, out)

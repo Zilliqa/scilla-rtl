@@ -86,13 +86,11 @@ std::unique_ptr<MemoryBuffer> ScillaObjCache::getObject(const Module *M) {
 
 using namespace orc;
 
-// One time initialization.
 void ScillaJIT::init() {
   InitializeNativeTarget();
   InitializeNativeTargetAsmPrinter();
 }
 
-// JIT Compile LLVM-IR @FileName. Optionally, a cache manager can be provided.
 Expected<std::unique_ptr<ScillaJIT>> ScillaJIT::create(std::string &Filename,
                                                        ObjectCache *OC) {
 

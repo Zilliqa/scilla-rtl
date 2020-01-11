@@ -38,6 +38,8 @@ private:
   llvm::StringMap<std::unique_ptr<llvm::MemoryBuffer>> CachedObjects;
 };
 
+// Each ScillaJIT object compiles an LLVM-IR module and provides access
+// to the symbols inside it. TODO: Handle multiple modules.
 class ScillaJIT {
 private:
   // Use the Create method to build a ScillaJIT object.
