@@ -42,14 +42,14 @@ if (ADDRESS_SANITIZER)
     message(STATUS "ADDRESS SANITIZER enabled")
 endif()
 
-add_subdirectory(libjitd)
-add_subdirectory(libsrtl)
-add_subdirectory(runners)
-
 # export compile commands
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # C++ standard
 set(CMAKE_CXX_STANDARD 14)
+
+add_subdirectory(libjitd)
+add_subdirectory(libsrtl)
+add_subdirectory(runners)
 
 # installation
 set_target_properties(scilla-runner
