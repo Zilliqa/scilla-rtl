@@ -110,7 +110,7 @@ Expected<std::unique_ptr<ScillaJIT>> ScillaJIT::create(std::string &Filename,
                .create();
 
   if (!J)
-    return std::move(J.takeError());
+    return J.takeError();
 
   if (auto Err =
           addScillaBuiltins((*J)->getExecutionSession(), (*J)->getDataLayout()))

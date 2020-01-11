@@ -40,10 +40,10 @@ must be in [camel case](https://en.wikipedia.org/wiki/Camel_case)
   - Exceptions: Functions that serve as Scilla builtins, accessible from the JIT'ed code
     use snake casing, beginning with an `_`.
 
-To conform to coding styles, the CMake target `clang-format` is provided, which when
-run as `make clang-format` in the build directory will auto format all source files.
-It can also be manually run from the command line as:
-  - ```clang-format -style=LLVM -i `find . -name "*.cpp" -o -name "*.h" | xargs```
+To conform to the coding style and good programming practices, CMake targets `clang-format`
+and `clang-tidy` are provided, which when run as `make clang-format` and `make clang-tidy`
+in the build directory, will auto format all source files.
 
-There is a plan to use clang-tidy in the future.
+They can also be manually run from the command line:
+  - ```clang-format -style=LLVM -i `find . -name "*.cpp" -o -name "*.h" | xargs```
   - ```clang-tidy `find . -name "*.cpp" -o -name "*.h" | xargs` -p build/```
