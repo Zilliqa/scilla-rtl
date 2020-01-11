@@ -28,17 +28,17 @@ We suggest building ScillaVM in a directory that is *not* the source directory.
 
 ## Developer Notes
 All public headers are placed in [include](./include). Source files for the JIT driver are
-in [libjitd](./libjitd) while the sources for the Scilla RTL is in [libsrtl](./libsrtl).
+in [libjitd](./libjitd) while the sources for Scilla RTL are in [libsrtl](./libsrtl).
 
 ### Coding Standards
 This project uses the [LLVM coding standards](https://llvm.org/docs/CodingStandards.html).
-For convenience, the naming convention is summarized below. All names (with exceptions)
+For convenience, the naming convention is summarized below. All names (with allowed exceptions)
 must be in [camel case](https://en.wikipedia.org/wiki/Camel_case)
   - Types (structs, classes etc), namespaces and filenames begin with a capital letter.
   - Function and method names being with a small letter.
   - Variable (local, global and class members) names being with a capital letter.
-  - Exceptions: Functions that serve as Scilla builtins, accessible from the JIT'ed code
-    use snake casing, beginning with an `_`.
+  - Functions that serve as Scilla builtins, accessible from the JIT'ed code
+    must start with an `_` and be in [snake case](https://en.wikipedia.org/wiki/Snake_case).
 
 To conform to the coding style and good programming practices, CMake targets `clang-format`
 and `clang-tidy` are provided, which when run as `make clang-format` and `make clang-tidy`
