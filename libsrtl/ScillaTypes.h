@@ -131,7 +131,10 @@ struct Typ {
 
   // Stringify a Scilla type @T to @out and return @out.
   static std::string toString(const Typ *T);
+  // The size of a Scilla value of type @T.
+  // Boxed values have pointer size.
   static int sizeOf(const Typ *T);
+  // Are values of Typ @T boxed?
   static bool isBoxed(const Typ *T);
 };
 

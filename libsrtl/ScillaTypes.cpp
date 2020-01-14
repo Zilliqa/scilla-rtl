@@ -110,8 +110,6 @@ std::string Typ::toString(const Typ *T) {
   return Out;
 }
 
-// The size of a Scilla value.
-// ADTs and Maps are assumed to be boxed, and hence pointer sized.
 int ScillaTypes::Typ::sizeOf(const Typ *T) {
   switch (T->m_t) {
   case Typ::Prim_typ: {

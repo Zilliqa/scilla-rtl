@@ -43,7 +43,7 @@ boost::multiprecision::uint256_t rawToBoost_uint256(const void *V);
 // Create boost::multiprecision::checked_int256 from raw bytes
 boost::multiprecision::uint256_t rawToBoost_uint256_safe(const void *V);
 
-// Stringify Scilla value @V with type @T
+// Stringify Scilla value @V of type @T
 std::string toString(const ScillaTypes::Typ *T, void *V);
 
 } // namespace ScillaValues
