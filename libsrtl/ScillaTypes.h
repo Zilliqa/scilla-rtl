@@ -19,8 +19,9 @@
 
 #include <cstdint>
 #include <vector>
+#include <string>
 
-using bytes = std::vector<uint8_t>;
+using ByteVec = std::vector<uint8_t>;
 
 namespace ScillaVM {
 
@@ -31,12 +32,13 @@ namespace ScillaTypes {
 // Equivalent of scilla_bytes_ty in the compiler code.
 struct Bytes {
   uint8_t *m_buffer;
-  uint32_t m_length;
+  int32_t m_length;
 
-  explicit operator bytes() const;
+  explicit operator ByteVec() const;
+  explicit operator std::string() const;
   // We don't define this as a constructor because
   // we want a POD, to be used in unions later.
-  static Bytes construct(const bytes &b);
+  static Bytes construct(const ByteVec &b);
 };
 using String = Bytes;
 
@@ -60,7 +62,8 @@ struct PrimTyp {
   union {
     BitWidth m_intBW; // bit-width of Int*, Uint*
     uint32_t m_bystX; // Length of ByStrX
-  };
+  } m_detail;
+  
 };
 
 struct Typ;
@@ -73,7 +76,7 @@ struct ADTTyp {
     // Constructor name.
     String m_cName;
     // Number of arguments to this constructor.
-    uint32_t m_numArgs;
+    int32_t m_numArgs;
     // The type of each argument of this constructor.
     Typ **m_args;
   };
@@ -81,7 +84,7 @@ struct ADTTyp {
   // Describe an ADT specialization.
   struct Specl {
     // Number of type arguments to the ADT.
-    uint32_t m_numTArgs;
+    int32_t m_numTArgs;
     // Types used to instantiate the ADT.
     // Needed to serialize the ADT with full type information.
     Typ **m_TArgs;
@@ -96,9 +99,9 @@ struct ADTTyp {
   // The ADT name
   String m_tName;
   // Number of constructors
-  uint32_t m_numConstrs;
+  int32_t m_numConstrs;
   // Number of type specializations
-  uint32_t m_numSpecls;
+  int32_t m_numSpecls;
   // An array of all specializations.
   Specl **m_specls;
 };
@@ -125,7 +128,10 @@ struct Typ {
     ADTTyp::Specl *m_spladt;
     // key type, value type.
     MapTyp *m_mapt;
-  };
+  } m_sub;
+
+  // Stringify a Scilla type @T to @out and return @out.
+  static std::string &toString(const Typ *T, std::string &Out);
 };
 
 } // namespace ScillaTypes

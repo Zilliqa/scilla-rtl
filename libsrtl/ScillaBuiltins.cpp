@@ -19,26 +19,22 @@
 #include <string>
 
 #include "ScillaBuiltins.h"
+#include "ScillaTypes.h"
+#include "ScillaVM/ScillaErrors.h"
 
 namespace ScillaVM {
 
-// Stringify a Scilla type @T to @out and return @out.
-std::string &printScillaType(const ScillaTypes::Typ *T, std::string &out) {
-  (void)T;
-  out = "<void>";
-  return out;
-}
+using namespace ScillaTypes;
 
-std::string &printScillaValue(const ScillaTypes::Typ *T, void *V,
-                              std::string &out) {
+std::string &printScillaValue(const Typ *T, void *V, std::string &Out) {
   (void)T;
   (void)V;
-  out = "scilla_val";
-  return out;
+  return Out;
 }
 
 std::vector<ScillaFunctionsMap> getAllScillaFunctions(void) {
-  ScillaFunctionsMap m[] = {{"_print_scilla_val", (void *)_print_scilla_val}};
+  ScillaFunctionsMap m[] = {{"_print_scilla_val", (void *)_print_scilla_val},
+                            {"malloc", (void *)malloc}};
 
   return std::vector<ScillaFunctionsMap>(std::begin(m), std::end(m));
 }
@@ -49,9 +45,9 @@ using namespace ScillaVM;
 
 extern "C" {
 
-void _print_scilla_val(const ScillaTypes::Typ *T, void *V) {
+void _print_scilla_val(const Typ *T, void *V) {
   std::string out;
-  std::cout << printScillaValue(T, V, out) << " : " << printScillaType(T, out)
+  std::cout << printScillaValue(T, V, out) << " : " << Typ::toString(T, out)
             << "\n";
 }
 }

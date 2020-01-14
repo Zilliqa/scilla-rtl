@@ -2,6 +2,7 @@ set(TARGET ScillaRTL)
 add_library(${TARGET} SHARED
   SRTL.cpp
   ScillaBuiltins.cpp
+  ScillaTypes.cpp
 )
 
 target_include_directories(${TARGET} PUBLIC ${PROJECT_SOURCE_DIR}/include ${JSONCPP_INCLUDE_DIR})
