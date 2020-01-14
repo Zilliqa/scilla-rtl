@@ -36,6 +36,7 @@ in [libjitd](./libjitd) while the sources for Scilla RTL are in [libsrtl](./libs
 
 ### Coding Standards
 This project uses the [LLVM coding standards](https://llvm.org/docs/CodingStandards.html).
+
 For convenience, the naming convention is summarized below. All names (with allowed exceptions)
 must be in [camel case](https://en.wikipedia.org/wiki/Camel_case)
   - Types (structs, classes etc), namespaces and filenames begin with a capital letter.
@@ -43,6 +44,19 @@ must be in [camel case](https://en.wikipedia.org/wiki/Camel_case)
   - Variable (local, global and class members) names being with a capital letter.
   - Functions that serve as Scilla builtins, accessible from the JIT'ed code
     must start with an `_` and be in [snake case](https://en.wikipedia.org/wiki/Snake_case).
+
+A few other points to note
+  - Add function [comments](https://llvm.org/docs/CodingStandards.html#doxygen-use-in-documentation-comments)
+  at declaration points rather than definition points. Definition points
+  can have more details if necessary.
+  - Include system headers first, then library headers and lastly
+  project headers. Each category separated by a line. `clang-format`
+  takes care of arranging them in alphabetical order.
+  - Since this library is designed to be part of an ever running process
+  in the Zilliqa network, do not `abort()`, `exit()` or `assert()`.
+  Always use the provided `CREATE_ERROR` and `CREATE_ERROR_SLOC` macros.
+  This throws an exception (with information on where it was thrown from)
+  and can be caught and handled by the blockchain.
 
 To conform to the coding style and good programming practices, CMake targets `clang-format`
 and `clang-tidy` are provided, which when run as `make clang-format` and `make clang-tidy`
