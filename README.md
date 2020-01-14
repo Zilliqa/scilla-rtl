@@ -15,6 +15,10 @@ and the planned [interaction with the blockchain](https://github.com/Zilliqa/sci
 are available.
 
 ## Build and install
+
+The following ubuntu packages must first be installed.
+    - `sudo apt-get install llvm-9-dev libboost-dev libboost-test-dev libjsoncpp-dev`
+
 We suggest building ScillaVM in a directory that is *not* the source directory.
   * `$git clone https://github.com/Zilliqa/scilla-vm.git`
   * `$cd scilla-vm; mkdir build; cd build`

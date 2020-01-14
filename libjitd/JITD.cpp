@@ -49,7 +49,7 @@ Error addScillaBuiltins(orc::ExecutionSession &ES, const DataLayout &DL) {
   orc::SymbolMap M;
   orc::MangleAndInterner Mangle(ES, DL);
   // Register every symbol that can be accessed from the JIT'ed code.
-  auto ScillaFuncs = ScillaVM::getAllScillaFunctions();
+  auto ScillaFuncs = ScillaVM::getAllScillaBuiltins();
   for (auto fa : ScillaFuncs) {
     M[Mangle(fa.FName)] = JITEvaluatedSymbol(
         pointerToJITTargetAddress(fa.FAddr), JITSymbolFlags());

@@ -22,6 +22,7 @@
 #include "llvm/Support/raw_ostream.h"
 
 #include "ScillaVM/JITD.h"
+#include "ScillaVM/SRTL.h"
 
 using namespace llvm;
 using namespace ScillaVM;
@@ -48,7 +49,9 @@ int main(int argc, char *argv[]) {
   auto ScillaMain =
       reinterpret_cast<void (*)()>(ExitOnErr(SJ->getAddressFor("scilla_main")));
 
+  ScillaStdout.clear();
   ScillaMain();
+  std::cout << ScillaStdout;
 
   return EXIT_SUCCESS;
 }

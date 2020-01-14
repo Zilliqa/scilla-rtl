@@ -20,19 +20,13 @@
 
 #include "ScillaBuiltins.h"
 #include "ScillaTypes.h"
-#include "ScillaVM/ScillaErrors.h"
+#include "ScillaVM/Errors.h"
+#include "ScillaVM/SRTL.h"
+#include "ScillaValue.h"
 
 namespace ScillaVM {
 
-using namespace ScillaTypes;
-
-std::string &printScillaValue(const Typ *T, void *V, std::string &Out) {
-  (void)T;
-  (void)V;
-  return Out;
-}
-
-std::vector<ScillaFunctionsMap> getAllScillaFunctions(void) {
+std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
   ScillaFunctionsMap m[] = {{"_print_scilla_val", (void *)_print_scilla_val},
                             {"malloc", (void *)malloc}};
 
@@ -45,9 +39,8 @@ using namespace ScillaVM;
 
 extern "C" {
 
-void _print_scilla_val(const Typ *T, void *V) {
-  std::string out;
-  std::cout << printScillaValue(T, V, out) << " : " << Typ::toString(T, out)
-            << "\n";
+void _print_scilla_val(const ScillaTypes::Typ *T, void *V) {
+  ScillaStdout += ScillaValues::toString(T, V) + "\n";
 }
-}
+
+} // end of extern "C".

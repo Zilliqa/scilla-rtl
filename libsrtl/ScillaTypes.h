@@ -131,7 +131,9 @@ struct Typ {
   } m_sub;
 
   // Stringify a Scilla type @T to @out and return @out.
-  static std::string &toString(const Typ *T, std::string &Out);
+  static std::string toString(const Typ *T);
+  static int sizeOf(const Typ *T);
+  static bool isBoxed(const Typ *T);
 };
 
 } // namespace ScillaTypes

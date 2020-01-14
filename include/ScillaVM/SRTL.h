@@ -16,3 +16,12 @@
  */
 
 #pragma once
+
+#include <string>
+
+namespace ScillaVM {
+
+// A global that accummulates messages printed from the JIT'ed code.
+extern std::string ScillaStdout;
+
+} // namespace ScillaVM
