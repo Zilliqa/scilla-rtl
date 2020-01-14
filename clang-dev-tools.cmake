@@ -6,7 +6,7 @@ find_program(CLANG_TIDY NAMES clang-tidy clang-tidy-9)
 
 if (CLANG_FORMAT OR CLANG_TIDY)
   # Get all project files
-  file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.hpp)
+  file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.hpp *.h)
 
   if (CLANG_FORMAT)
     message(STATUS "found ${CLANG_FORMAT}")

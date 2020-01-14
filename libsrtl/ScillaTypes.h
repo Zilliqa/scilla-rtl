@@ -18,8 +18,8 @@
 #pragma once
 
 #include <cstdint>
-#include <vector>
 #include <string>
+#include <vector>
 
 using ByteVec = std::vector<uint8_t>;
 
@@ -63,7 +63,6 @@ struct PrimTyp {
     BitWidth m_intBW; // bit-width of Int*, Uint*
     uint32_t m_bystX; // Length of ByStrX
   } m_detail;
-  
 };
 
 struct Typ;

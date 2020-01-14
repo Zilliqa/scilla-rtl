@@ -46,5 +46,5 @@ boost::multiprecision::uint256_t rawToBoost_uint256_safe(const void *V);
 // Stringify Scilla value @V with type @T
 std::string toString(const ScillaTypes::Typ *T, void *V);
 
-}
-}
+} // namespace ScillaValues
+} // namespace ScillaVM
