@@ -77,5 +77,7 @@ BOOST_AUTO_TEST_CASE(lit_pair_list_int) { testExecExpr("lit-pair-list-int"); }
 BOOST_AUTO_TEST_CASE(lit_string) { testExecExpr("lit-string"); }
 BOOST_AUTO_TEST_CASE(lit_ui256_4) { testExecExpr("lit-ui256-4"); }
 BOOST_AUTO_TEST_CASE(lit_ui256_max) { testExecExpr("lit-ui256-max"); }
+BOOST_AUTO_TEST_CASE(pm1) { testExecExpr("pm1"); }
+BOOST_AUTO_TEST_CASE(pm2) { testExecExpr("pm2"); }
 
 BOOST_AUTO_TEST_SUITE_END()
