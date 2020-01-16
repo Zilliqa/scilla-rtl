@@ -41,7 +41,7 @@ using BoostUint =
 // Create boost::multiprecision signed integer from raw bytes
 template <unsigned Bits> BoostInt<Bits> rawToBoostInt(const void *V);
 // Create boost::multiprecision unsigned integer from raw bytes
-template <unsigned Bits> BoostInt<Bits> rawToBoostUint(const void *V);
+template <unsigned Bits> BoostUint<Bits> rawToBoostUint(const void *V);
 
 // Stringify Scilla value @V of type @T
 std::string toString(const ScillaTypes::Typ *T, void *V);

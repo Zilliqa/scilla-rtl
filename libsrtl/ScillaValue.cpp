@@ -59,7 +59,7 @@ template <unsigned Bits> BoostInt<Bits> rawToBoostInt(const void *V) {
   return rawToBoost<Bits, boost::multiprecision::signed_magnitude>(V);
 }
 
-template <unsigned Bits> BoostInt<Bits> rawToBoostUint(const void *V) {
+template <unsigned Bits> BoostUint<Bits> rawToBoostUint(const void *V) {
   return rawToBoost<Bits, boost::multiprecision::unsigned_magnitude>(V);
 }
 
@@ -98,11 +98,11 @@ std::string toString(const ScillaTypes::Typ *T, void *V) {
         auto BW = T->m_sub.m_primt->m_detail.m_intBW;
         switch (BW) {
         case ScillaTypes::PrimTyp::Bits32: {
-          auto VV = *reinterpret_cast<int32_t *>(V);
+          auto VV = *reinterpret_cast<uint32_t *>(V);
           Out += std::to_string(VV);
         } break;
         case ScillaTypes::PrimTyp::Bits64: {
-          auto VV = *reinterpret_cast<int64_t *>(V);
+          auto VV = *reinterpret_cast<uint64_t *>(V);
           Out += std::to_string(VV);
         } break;
         case ScillaTypes::PrimTyp::Bits128: {
