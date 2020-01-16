@@ -4,6 +4,7 @@ add_library(${TARGET} SHARED
   ScillaBuiltins.cpp
   ScillaTypes.cpp
   ScillaValue.cpp
+  SafeInt.cpp
 )
 
 target_include_directories(${TARGET} PUBLIC ${PROJECT_SOURCE_DIR}/include)

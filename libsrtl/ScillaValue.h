@@ -26,23 +26,6 @@
 namespace ScillaVM {
 namespace ScillaValues {
 
-template <unsigned Bits>
-using BoostInt =
-    boost::multiprecision::number<boost::multiprecision::cpp_int_backend<
-        Bits, Bits, boost::multiprecision::signed_magnitude,
-        boost::multiprecision::checked, void>>;
-
-template <unsigned Bits>
-using BoostUint =
-    boost::multiprecision::number<boost::multiprecision::cpp_int_backend<
-        Bits, Bits, boost::multiprecision::unsigned_magnitude,
-        boost::multiprecision::checked, void>>;
-
-// Create boost::multiprecision signed integer from raw bytes
-template <unsigned Bits> BoostInt<Bits> rawToBoostInt(const void *V);
-// Create boost::multiprecision unsigned integer from raw bytes
-template <unsigned Bits> BoostUint<Bits> rawToBoostUint(const void *V);
-
 // Stringify Scilla value @V of type @T
 std::string toString(const ScillaTypes::Typ *T, void *V);
 

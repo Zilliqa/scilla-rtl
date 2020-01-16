@@ -15,10 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <boost/multiprecision/cpp_int.hpp>
-
-#include "ScillaVM/Errors.h"
 #include "ScillaValue.h"
+#include "SafeInt.h"
+#include "ScillaVM/Errors.h"
 
 namespace ScillaVM {
 namespace ScillaValues {
@@ -35,32 +34,6 @@ std::string rawToHex(uint8_t *Data, int Len) {
     S.push_back(Hexmap[(Data[I] >> 0) & 0x0f]);
   }
   return S;
-}
-
-template <unsigned Bits, boost::multiprecision::cpp_integer_type SignType>
-boost::multiprecision::number<boost::multiprecision::cpp_int_backend<
-    Bits, Bits, SignType, boost::multiprecision::checked, void>>
-rawToBoost(const void *V) {
-  using namespace boost::multiprecision;
-
-#if BOOST_ENDIAN_BIG_BYTE
-  static const auto msv_first = true;
-#else
-  static const auto msv_first = false;
-#endif
-
-  number<cpp_int_backend<Bits, Bits, SignType, checked, void>> ret;
-  auto VPtr = reinterpret_cast<const uint8_t *>(V);
-  import_bits(ret, VPtr, VPtr + (Bits / 8), 0, msv_first);
-  return ret;
-}
-
-template <unsigned Bits> BoostInt<Bits> rawToBoostInt(const void *V) {
-  return rawToBoost<Bits, boost::multiprecision::signed_magnitude>(V);
-}
-
-template <unsigned Bits> BoostUint<Bits> rawToBoostUint(const void *V) {
-  return rawToBoost<Bits, boost::multiprecision::unsigned_magnitude>(V);
 }
 
 std::string toString(const ScillaTypes::Typ *T, void *V) {
@@ -85,12 +58,12 @@ std::string toString(const ScillaTypes::Typ *T, void *V) {
           Out += std::to_string(VV);
         } break;
         case ScillaTypes::PrimTyp::Bits128: {
-          auto VV = rawToBoostInt<128>(V);
-          Out += VV.str();
+          auto VV = SafeInt<128>(V);
+          Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits256: {
-          auto VV = rawToBoostInt<256>(V);
-          Out += VV.str();
+          auto VV = SafeInt<256>(V);
+          Out += VV.toString();
         } break;
         }
       } break;
@@ -106,12 +79,12 @@ std::string toString(const ScillaTypes::Typ *T, void *V) {
           Out += std::to_string(VV);
         } break;
         case ScillaTypes::PrimTyp::Bits128: {
-          auto VV = rawToBoostUint<128>(V);
-          Out += VV.str();
+          auto VV = SafeUint<128>(V);
+          Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits256: {
-          auto VV = rawToBoostUint<256>(V);
-          Out += VV.str();
+          auto VV = SafeUint<256>(V);
+          Out += VV.toString();
         } break;
         }
       } break;
