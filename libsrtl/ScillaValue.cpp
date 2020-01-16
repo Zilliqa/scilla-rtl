@@ -37,10 +37,9 @@ std::string rawToHex(uint8_t *Data, int Len) {
   return S;
 }
 
-template <unsigned Bits, boost::multiprecision::cpp_integer_type SignType,
-          boost::multiprecision::cpp_int_check_type Checked>
-boost::multiprecision::number<
-    boost::multiprecision::cpp_int_backend<Bits, Bits, SignType, Checked, void>>
+template <unsigned Bits, boost::multiprecision::cpp_integer_type SignType>
+boost::multiprecision::number<boost::multiprecision::cpp_int_backend<
+    Bits, Bits, SignType, boost::multiprecision::checked, void>>
 rawToBoost(const void *V) {
   using namespace boost::multiprecision;
 
@@ -50,50 +49,18 @@ rawToBoost(const void *V) {
   static const auto msv_first = false;
 #endif
 
-  number<cpp_int_backend<Bits, Bits, SignType, Checked, void>> ret;
+  number<cpp_int_backend<Bits, Bits, SignType, checked, void>> ret;
   auto VPtr = reinterpret_cast<const uint8_t *>(V);
   import_bits(ret, VPtr, VPtr + (Bits / 8), 0, msv_first);
   return ret;
 }
 
-boost::multiprecision::int128_t rawToBoost_int128(const void *V) {
-  using namespace boost::multiprecision;
-  return rawToBoost<128, signed_magnitude, unchecked>(V);
+template <unsigned Bits> BoostInt<Bits> rawToBoostInt(const void *V) {
+  return rawToBoost<Bits, boost::multiprecision::signed_magnitude>(V);
 }
 
-boost::multiprecision::int128_t rawToBoost_int128_safe(const void *V) {
-  using namespace boost::multiprecision;
-  return rawToBoost<128, signed_magnitude, checked>(V);
-}
-
-boost::multiprecision::uint128_t rawToBoost_uint128(const void *V) {
-  using namespace boost::multiprecision;
-  return rawToBoost<128, unsigned_magnitude, unchecked>(V);
-}
-
-boost::multiprecision::uint128_t rawToBoost_uint128_safe(const void *V) {
-  using namespace boost::multiprecision;
-  return rawToBoost<128, unsigned_magnitude, checked>(V);
-}
-
-boost::multiprecision::int256_t rawToBoost_int256(const void *V) {
-  using namespace boost::multiprecision;
-  return rawToBoost<256, signed_magnitude, unchecked>(V);
-}
-
-boost::multiprecision::int256_t rawToBoost_int256_safe(const void *V) {
-  using namespace boost::multiprecision;
-  return rawToBoost<256, signed_magnitude, checked>(V);
-}
-
-boost::multiprecision::uint256_t rawToBoost_uint256(const void *V) {
-  using namespace boost::multiprecision;
-  return rawToBoost<256, unsigned_magnitude, unchecked>(V);
-}
-
-boost::multiprecision::uint256_t rawToBoost_uint256_safe(const void *V) {
-  using namespace boost::multiprecision;
-  return rawToBoost<256, unsigned_magnitude, checked>(V);
+template <unsigned Bits> BoostInt<Bits> rawToBoostUint(const void *V) {
+  return rawToBoost<Bits, boost::multiprecision::unsigned_magnitude>(V);
 }
 
 std::string toString(const ScillaTypes::Typ *T, void *V) {
@@ -118,11 +85,11 @@ std::string toString(const ScillaTypes::Typ *T, void *V) {
           Out += std::to_string(VV);
         } break;
         case ScillaTypes::PrimTyp::Bits128: {
-          auto VV = rawToBoost_int128(V);
+          auto VV = rawToBoostInt<128>(V);
           Out += VV.str();
         } break;
         case ScillaTypes::PrimTyp::Bits256: {
-          auto VV = rawToBoost_int256(V);
+          auto VV = rawToBoostInt<256>(V);
           Out += VV.str();
         } break;
         }
@@ -139,11 +106,11 @@ std::string toString(const ScillaTypes::Typ *T, void *V) {
           Out += std::to_string(VV);
         } break;
         case ScillaTypes::PrimTyp::Bits128: {
-          auto VV = rawToBoost_uint128(V);
+          auto VV = rawToBoostUint<128>(V);
           Out += VV.str();
         } break;
         case ScillaTypes::PrimTyp::Bits256: {
-          auto VV = rawToBoost_uint256(V);
+          auto VV = rawToBoostUint<256>(V);
           Out += VV.str();
         } break;
         }

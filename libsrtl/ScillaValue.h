@@ -26,22 +26,22 @@
 namespace ScillaVM {
 namespace ScillaValues {
 
-// Create boost::multiprecision::i128 from raw bytes
-boost::multiprecision::int128_t rawToBoost_int128(const void *V);
-// Create boost::multiprecision::checked_int128 from raw bytes
-boost::multiprecision::int128_t rawToBoost_int128_safe(const void *V);
-// Create boost::multiprecision::int128 from raw bytes
-boost::multiprecision::uint128_t rawToBoost_uint128(const void *V);
-// Create boost::multiprecision::checked_int128 from raw bytes
-boost::multiprecision::uint128_t rawToBoost_uint128_safe(const void *V);
-// Create boost::multiprecision::int128 from raw bytes
-boost::multiprecision::int256_t rawToBoost_int256(const void *V);
-// Create boost::multiprecision::checked_int256 from raw bytes
-boost::multiprecision::int256_t rawToBoost_int256_safe(const void *V);
-// Create boost::multiprecision::int256 from raw bytes
-boost::multiprecision::uint256_t rawToBoost_uint256(const void *V);
-// Create boost::multiprecision::checked_int256 from raw bytes
-boost::multiprecision::uint256_t rawToBoost_uint256_safe(const void *V);
+template <unsigned Bits>
+using BoostInt =
+    boost::multiprecision::number<boost::multiprecision::cpp_int_backend<
+        Bits, Bits, boost::multiprecision::signed_magnitude,
+        boost::multiprecision::checked, void>>;
+
+template <unsigned Bits>
+using BoostUint =
+    boost::multiprecision::number<boost::multiprecision::cpp_int_backend<
+        Bits, Bits, boost::multiprecision::unsigned_magnitude,
+        boost::multiprecision::checked, void>>;
+
+// Create boost::multiprecision signed integer from raw bytes
+template <unsigned Bits> BoostInt<Bits> rawToBoostInt(const void *V);
+// Create boost::multiprecision unsigned integer from raw bytes
+template <unsigned Bits> BoostInt<Bits> rawToBoostUint(const void *V);
 
 // Stringify Scilla value @V of type @T
 std::string toString(const ScillaTypes::Typ *T, void *V);
