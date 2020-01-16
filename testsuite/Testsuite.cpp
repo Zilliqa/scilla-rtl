@@ -18,19 +18,18 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE scilla_testsuite
 
-#include <boost/test/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
+#include <boost/test/unit_test.hpp>
 using boost::test_tools::output_test_stream;
 
 #include <ScillaVM/JITD.h>
 #include <ScillaVM/SRTL.h>
 
 #ifndef TESTSUITE_DIR
-  #error TESTSUITE_DIR not defined. Cannot build testsuite.
+#error TESTSUITE_DIR not defined. Cannot build testsuite.
 #endif // TESTSUITE_DIR
 
-void testExecExpr(const std::string &Testname)
-{
+void testExecExpr(const std::string &Testname) {
   using namespace ScillaVM;
 
   auto Filename = std::string(TESTSUITE_DIR) + "/expr/" + Testname + ".ll";
@@ -40,13 +39,13 @@ void testExecExpr(const std::string &Testname)
   if (!SJ) {
     auto Err = SJ.takeError();
     auto M = llvm::toString(std::move(Err));
-    BOOST_FAIL (M);
+    BOOST_FAIL(M);
   }
   auto ScillaMainAddr = (*SJ)->getAddressFor("scilla_main");
   if (!ScillaMainAddr) {
     auto Err = SJ.takeError();
     auto M = llvm::toString(std::move(Err));
-    BOOST_FAIL (M);
+    BOOST_FAIL(M);
   }
 
   BOOST_TEST_CHECKPOINT(Filename + ": JIT compilation succeeded");
@@ -57,27 +56,26 @@ void testExecExpr(const std::string &Testname)
 
   BOOST_TEST_CHECKPOINT(Filename + ": Execution succeeded");
 
-  output_test_stream output( Filename + ".result", true );
+  output_test_stream output(Filename + ".result", true);
   output << ScillaStdout;
-  BOOST_TEST( output.match_pattern() );
+  BOOST_TEST(output.match_pattern());
   // BOOST_TEST(b = a, boost::test_tools::lexicographic());
 
   BOOST_TEST_CHECKPOINT(Filename + ": Output matched");
 }
 
-BOOST_AUTO_TEST_SUITE (expr_exec)
+BOOST_AUTO_TEST_SUITE(expr_exec)
 
-BOOST_AUTO_TEST_CASE( adt_fun ) { testExecExpr("adt-fun"); }
-BOOST_AUTO_TEST_CASE( lit_bystr3) { testExecExpr("lit-bystr3"); }
-BOOST_AUTO_TEST_CASE( lit_i256_4 ) { testExecExpr("lit-i256-4"); }
-BOOST_AUTO_TEST_CASE ( lit_i256_max ) { testExecExpr("lit-i256-max"); }
-BOOST_AUTO_TEST_CASE ( lit_i256_min ) { testExecExpr("lit-i256-min"); }
-BOOST_AUTO_TEST_CASE ( lit_int32 ) { testExecExpr("lit-int32"); }
-BOOST_AUTO_TEST_CASE ( list_nil ) { testExecExpr ("lit-nil"); }
-BOOST_AUTO_TEST_CASE ( lit_pair_list_int ) { testExecExpr("lit-pair-list-int"); }
-BOOST_AUTO_TEST_CASE ( lit_string ) { testExecExpr("lit-string"); }
-BOOST_AUTO_TEST_CASE ( lit_ui256_4 ) { testExecExpr("lit-ui256-4"); }
-BOOST_AUTO_TEST_CASE ( lit_ui256_max ) { testExecExpr("lit-ui256-max"); }
-
+BOOST_AUTO_TEST_CASE(adt_fun) { testExecExpr("adt-fun"); }
+BOOST_AUTO_TEST_CASE(lit_bystr3) { testExecExpr("lit-bystr3"); }
+BOOST_AUTO_TEST_CASE(lit_i256_4) { testExecExpr("lit-i256-4"); }
+BOOST_AUTO_TEST_CASE(lit_i256_max) { testExecExpr("lit-i256-max"); }
+BOOST_AUTO_TEST_CASE(lit_i256_min) { testExecExpr("lit-i256-min"); }
+BOOST_AUTO_TEST_CASE(lit_int32) { testExecExpr("lit-int32"); }
+BOOST_AUTO_TEST_CASE(list_nil) { testExecExpr("lit-nil"); }
+BOOST_AUTO_TEST_CASE(lit_pair_list_int) { testExecExpr("lit-pair-list-int"); }
+BOOST_AUTO_TEST_CASE(lit_string) { testExecExpr("lit-string"); }
+BOOST_AUTO_TEST_CASE(lit_ui256_4) { testExecExpr("lit-ui256-4"); }
+BOOST_AUTO_TEST_CASE(lit_ui256_max) { testExecExpr("lit-ui256-max"); }
 
 BOOST_AUTO_TEST_SUITE_END()
