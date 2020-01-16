@@ -46,8 +46,8 @@ int main(int argc, char *argv[]) {
 
   ScillaJIT::init();
   auto SJ = ExitOnErr(ScillaJIT::create(InputFilename));
-  auto ScillaMain =
-      reinterpret_cast<void (*)()>(ExitOnErr(SJ->getAddressFor("scilla_main")));
+  auto ScillaMainAddr = ExitOnErr(SJ->getAddressFor("scilla_main"));
+  auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
 
   ScillaStdout.clear();
   ScillaMain();

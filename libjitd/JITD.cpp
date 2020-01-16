@@ -91,8 +91,8 @@ void ScillaJIT::init() {
   InitializeNativeTargetAsmPrinter();
 }
 
-Expected<std::unique_ptr<ScillaJIT>> ScillaJIT::create(std::string &Filename,
-                                                       ObjectCache *OC) {
+Expected<std::unique_ptr<ScillaJIT>>
+ScillaJIT::create(const std::string &Filename, ObjectCache *OC) {
 
   // Create an LLJIT instance with a custom CompileFunction.
   auto J = orc::LLJITBuilder()
@@ -123,8 +123,7 @@ Expected<std::unique_ptr<ScillaJIT>> ScillaJIT::create(std::string &Filename,
     std::string ErrMsg;
     raw_string_ostream OS(ErrMsg);
     Smd.print("scilla-vm", OS);
-    auto Err = make_error<StringError>(
-        OS.str(), std::make_error_code(std::errc::invalid_argument));
+    auto Err = createStringError(inconvertibleErrorCode(), OS.str().c_str());
     return std::move(Err);
   }
 

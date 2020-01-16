@@ -18,7 +18,7 @@ message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 # Find the libraries that correspond to the LLVM components we use
 llvm_map_components_to_libnames(llvm_libs support core orcjit nativecodegen)
 # Boost stuff
-find_package(Boost REQUIRED)
+find_package(Boost REQUIRED unit_test_framework)
 
 # compiler and linker options
 add_compile_options(-Wall)
@@ -53,6 +53,7 @@ set(CMAKE_CXX_STANDARD 14)
 add_subdirectory(libjitd)
 add_subdirectory(libsrtl)
 add_subdirectory(runners)
+add_subdirectory(testsuite)
 
 # installation
 set_target_properties(scilla-runner
