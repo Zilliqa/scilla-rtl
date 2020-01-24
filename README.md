@@ -22,13 +22,17 @@ The following ubuntu packages must first be installed.
 We suggest building ScillaVM in a directory that is *not* the source directory.
   * `$git clone https://github.com/Zilliqa/scilla-vm.git`
   * `$cd scilla-vm; mkdir build; cd build`
-  * `$cmake ..` configures the project. To specify an install directory other than the default
-  (which requires super-user), provide the `-DCMAKE_INSTALL_PREFIX=/path/to/install` flag to `cmake`.
-  scilla-vm uses LLVM. If your LLVM is installed in a non-default directory, specify it using
-  `-DLLVM_DIR=/path/to/llvm/install/lib/cmake/llvm`.
+  * `$cmake ..` configures the project.
+    Additional (optional) flags:
+    - `-DCMAKE_INSTALL_PREFIX=/where/to/install/scilla-vm`: To specify an install directory other
+    than the default (which requires root permissions).
+    - `-DLLVM_DIR=/path/to/llvm/install/lib/cmake/llvm`: scilla-vm uses LLVM.
+    If your LLVM is installed in a non-default directory, use this flag.
+    - `-DCMAKE_BUILD_TYPE=[Debug|Release|RelWithDebInfo|MinSizeRel]`: The default build is `Debug`.
   * `$make` builds the entire project. You can find the built files in `bin/` and `lib/`.
   * `$make install` installs the project.
-  We suggest to provide your installation path as described earlier.
+  We suggest to provide your installation path as described earlier and not install in a system
+  directory.
 
 ## Developer Notes
 All public headers are placed in [include](./include). Source files for the JIT driver are
