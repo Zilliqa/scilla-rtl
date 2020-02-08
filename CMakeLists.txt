@@ -18,7 +18,7 @@ message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 # Find the libraries that correspond to the LLVM components we use
 llvm_map_components_to_libnames(llvm_libs support core orcjit nativecodegen)
 # Boost stuff
-find_package(Boost REQUIRED unit_test_framework)
+find_package(Boost REQUIRED unit_test_framework system filesystem)
 
 # compiler and linker options
 add_compile_options(-Wall)

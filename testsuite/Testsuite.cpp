@@ -22,17 +22,46 @@
 #include <boost/test/unit_test.hpp>
 using boost::test_tools::output_test_stream;
 
+#include <boost/filesystem.hpp>
+
 #include <ScillaVM/JITD.h>
 #include <ScillaVM/SRTL.h>
 
-#ifndef TESTSUITE_DIR
-#error TESTSUITE_DIR not defined. Cannot build testsuite.
-#endif // TESTSUITE_DIR
+namespace {
+
+namespace Config {
+std::string testsuite_src;
+}
+
+struct CommandLineInit {
+  CommandLineInit() {
+    using namespace boost::unit_test;
+    // Check if there's a testsuite source directory provided as argument.
+    if (framework::master_test_suite().argc == 3) {
+      // This is the only named argument we support at the moment.
+      BOOST_TEST_REQUIRE(framework::master_test_suite().argv[1] ==
+                         "--testsuite_src");
+      auto dir = framework::master_test_suite().argv[2];
+      BOOST_TEST_REQUIRE(boost::filesystem::is_directory(dir));
+      Config::testsuite_src = dir;
+    } else {
+      BOOST_FAIL("\nUsage: " << framework::master_test_suite().argv[0]
+                             << " [Boost.Test argument]... -- --testsuite_src "
+                                "/path/to/scilla-vm/testsuite");
+    }
+    BOOST_TEST_MESSAGE("Using testsuite inputs from " << Config::testsuite_src);
+  }
+  ~CommandLineInit() {}
+};
+
+} // namespace
+
+BOOST_TEST_GLOBAL_FIXTURE(CommandLineInit);
 
 void testExecExpr(const std::string &Testname) {
   using namespace ScillaVM;
 
-  auto Filename = std::string(TESTSUITE_DIR) + "/expr/" + Testname + ".ll";
+  auto Filename = Config::testsuite_src + "/expr/" + Testname + ".ll";
 
   ScillaJIT::init();
   auto SJ = ScillaJIT::create(Filename);
