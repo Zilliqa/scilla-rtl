@@ -47,43 +47,45 @@ std::string toString(const ScillaTypes::Typ *T, void *V) {
     case ScillaTypes::Typ::Prim_typ: {
       switch (T->m_sub.m_primt->pt) {
       case ScillaTypes::PrimTyp::Int_typ: {
+        using namespace ScillaTypes;
         auto BW = T->m_sub.m_primt->m_detail.m_intBW;
         switch (BW) {
         case ScillaTypes::PrimTyp::Bits32: {
-          auto VV = *reinterpret_cast<int32_t *>(V);
-          Out += std::to_string(VV);
+          auto VV = SafeInt<32>(reinterpret_cast<Int32 *>(V));
+          Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits64: {
-          auto VV = *reinterpret_cast<int64_t *>(V);
-          Out += std::to_string(VV);
+          auto VV = SafeInt<64>(reinterpret_cast<Int64 *>(V));
+          Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits128: {
-          auto VV = SafeInt<128>(V);
+          auto VV = SafeInt<128>(reinterpret_cast<Int128 *>(V));
           Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits256: {
-          auto VV = SafeInt<256>(V);
+          auto VV = SafeInt<256>(reinterpret_cast<Int256 *>(V));
           Out += VV.toString();
         } break;
         }
       } break;
       case ScillaTypes::PrimTyp::Uint_typ: {
+        using namespace ScillaTypes;
         auto BW = T->m_sub.m_primt->m_detail.m_intBW;
         switch (BW) {
         case ScillaTypes::PrimTyp::Bits32: {
-          auto VV = *reinterpret_cast<uint32_t *>(V);
-          Out += std::to_string(VV);
+          auto VV = SafeUint<32>(reinterpret_cast<Uint32 *>(V));
+          Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits64: {
-          auto VV = *reinterpret_cast<uint64_t *>(V);
-          Out += std::to_string(VV);
+          auto VV = SafeUint<64>(reinterpret_cast<Uint64 *>(V));
+          Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits128: {
-          auto VV = SafeUint<128>(V);
+          auto VV = SafeUint<128>(reinterpret_cast<Uint128 *>(V));
           Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits256: {
-          auto VV = SafeUint<256>(V);
+          auto VV = SafeUint<256>(reinterpret_cast<Uint256 *>(V));
           Out += VV.toString();
         } break;
         }

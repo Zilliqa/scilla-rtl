@@ -29,6 +29,16 @@ namespace ScillaVM {
 // Any changes to the definitions here must be synchronized with the compiler.
 namespace ScillaTypes {
 
+template <unsigned Bits> struct RawInt { uint8_t buf[Bits / 8]; };
+typedef RawInt<32> Int32;
+typedef RawInt<32> Uint32;
+typedef RawInt<64> Int64;
+typedef RawInt<64> Uint64;
+typedef RawInt<128> Int128;
+typedef RawInt<128> Uint128;
+typedef RawInt<256> Int256;
+typedef RawInt<256> Uint256;
+
 // Equivalent of scilla_bytes_ty in the compiler code.
 struct Bytes {
   uint8_t *m_buffer;

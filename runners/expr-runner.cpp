@@ -21,6 +21,7 @@
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/raw_ostream.h"
 
+#include "ScillaVM/Errors.h"
 #include "ScillaVM/JITD.h"
 #include "ScillaVM/SRTL.h"
 
@@ -50,7 +51,12 @@ int main(int argc, char *argv[]) {
   auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
 
   ScillaStdout.clear();
-  ScillaMain();
+  try {
+    ScillaMain();
+  } catch (ScillaError &e) {
+    std::cerr << e.Msg << "\n";
+    return EXIT_FAILURE;
+  }
   std::cout << ScillaStdout;
 
   return EXIT_SUCCESS;

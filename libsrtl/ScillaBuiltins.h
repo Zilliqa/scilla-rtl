@@ -22,6 +22,7 @@
  * code, and is therefore not a public header. */
 
 #include "ScillaTypes.h"
+#include "ScillaValue.h"
 
 namespace ScillaVM {
 
@@ -37,5 +38,26 @@ extern "C" {
 
 // Print Scilla value @V whose type is described by @T to ScillaStdout .
 void _print_scilla_val(const ScillaVM::ScillaTypes::Typ *T, void *V);
+
+// Integer addition builtins
+ScillaVM::ScillaTypes::Int32 _add_Int32(ScillaVM::ScillaTypes::Int32,
+                                        ScillaVM::ScillaTypes::Int32);
+ScillaVM::ScillaTypes::Int64 _add_Int64(ScillaVM::ScillaTypes::Int64,
+                                        ScillaVM::ScillaTypes::Int64);
+ScillaVM::ScillaTypes::Int128 _add_Int128(ScillaVM::ScillaTypes::Int128,
+                                          ScillaVM::ScillaTypes::Int128);
+void _add_Int256(ScillaVM::ScillaTypes::Int256 *,
+                 ScillaVM::ScillaTypes::Int256 *,
+                 ScillaVM::ScillaTypes::Int256 *);
+
+ScillaVM::ScillaTypes::Uint32 _add_Uint32(ScillaVM::ScillaTypes::Uint32,
+                                          ScillaVM::ScillaTypes::Uint32);
+ScillaVM::ScillaTypes::Uint64 _add_Uint64(ScillaVM::ScillaTypes::Uint64,
+                                          ScillaVM::ScillaTypes::Uint64);
+ScillaVM::ScillaTypes::Uint128 _add_Uint128(ScillaVM::ScillaTypes::Uint128,
+                                            ScillaVM::ScillaTypes::Uint128);
+void _add_Uint256(ScillaVM::ScillaTypes::Uint256 *,
+                  ScillaVM::ScillaTypes::Uint256 *,
+                  ScillaVM::ScillaTypes::Uint256 *);
 
 } // extern "C"
