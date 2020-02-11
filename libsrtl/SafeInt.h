@@ -27,8 +27,8 @@ namespace ScillaVM {
 // Creates an error on overflows or underflows in any operation.
 template <unsigned Bits> class SafeInt {
 public:
-
-  static_assert(Bits % 8 == 0, "Cannot instantiate SafeInt with non byte-aligned size");
+  static_assert(Bits % 8 == 0,
+                "Cannot instantiate SafeInt with non byte-aligned size");
 
   // 0 initializing constructor
   SafeInt(){};
@@ -54,8 +54,8 @@ private:
 
 template <unsigned Bits> class SafeUint {
 public:
-
-  static_assert(Bits % 8 == 0, "Cannot instantiate SafeUint with non byte-aligned size");
+  static_assert(Bits % 8 == 0,
+                "Cannot instantiate SafeUint with non byte-aligned size");
 
   // 0 initializing constructor
   SafeUint(){};

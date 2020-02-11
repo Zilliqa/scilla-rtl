@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <string>
 #include <boost/predef.h>
+#include <string>
 
-#include <ScillaVM/Errors.h>
 #include "SafeInt.h"
+#include <ScillaVM/Errors.h>
 
 #if BOOST_ENDIAN_BIG_BYTE
 #error "Big endian architecture not supported."
@@ -29,8 +29,15 @@ namespace ScillaVM {
 
 using namespace ScillaTypes;
 
-template <unsigned Bits> SafeInt<Bits>::SafeInt(const void *V) : Container () {
-  std::memcpy (Container.limbs.data(), V, Bits / 8);
+template <unsigned Bits> SafeInt<Bits>::SafeInt(const void *V) {
+  // Make sure that Container's buffer has enough space to hold our data.
+  constexpr auto len = std::tuple_size<decltype(SafeIntImpl::limbs)>::value;
+  using elmty =
+      typename std::tuple_element<0, decltype(SafeIntImpl::limbs)>::type;
+  static_assert(len * sizeof(elmty) >= Bits / 8,
+                "Internal error: SafeInt container does not have enough space");
+
+  std::memcpy(Container.limbs.data(), V, Bits / 8);
 }
 
 template <unsigned Bits> std::string SafeInt<Bits>::toString() const {
@@ -39,7 +46,7 @@ template <unsigned Bits> std::string SafeInt<Bits>::toString() const {
 
 template <unsigned Bits> SafeInt<Bits>::operator RawInt<Bits>() const {
   RawInt<Bits> Ret;
-  std::memcpy (Ret.buf, Container.limbs.data(), Bits / 8);
+  std::memcpy(Ret.buf, Container.limbs.data(), Bits / 8);
   return Ret;
 }
 
@@ -51,7 +58,15 @@ SafeInt<Bits> SafeInt<Bits>::operator+(const SafeInt<Bits> &rhs) const {
 }
 
 template <unsigned Bits> SafeUint<Bits>::SafeUint(const void *V) {
-  std::memcpy (Container.limbs.data(), V, Bits / 8);
+  // Make sure that Container's buffer has enough space to hold our data.
+  constexpr auto len = std::tuple_size<decltype(SafeUintImpl::limbs)>::value;
+  using elmty =
+      typename std::tuple_element<0, decltype(SafeUintImpl::limbs)>::type;
+  static_assert(
+      len * sizeof(elmty) >= Bits / 8,
+      "Internal error: SafeUint container does not have enough space");
+
+  std::memcpy(Container.limbs.data(), V, Bits / 8);
 }
 
 template <unsigned Bits> std::string SafeUint<Bits>::toString() const {
@@ -60,7 +75,7 @@ template <unsigned Bits> std::string SafeUint<Bits>::toString() const {
 
 template <unsigned Bits> SafeUint<Bits>::operator RawInt<Bits>() const {
   RawInt<Bits> Ret;
-  std::memcpy (Ret.buf, Container.limbs.data(), Bits / 8);
+  std::memcpy(Ret.buf, Container.limbs.data(), Bits / 8);
   return Ret;
 }
 

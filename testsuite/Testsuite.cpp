@@ -109,7 +109,9 @@ BOOST_AUTO_TEST_CASE(pm2) { testExecExpr("pm2"); }
 BOOST_AUTO_TEST_CASE(builtin_add_int32) { testExecExpr("builtin_add_int32"); }
 BOOST_AUTO_TEST_CASE(builtin_add_int256) { testExecExpr("builtin_add_int256"); }
 BOOST_AUTO_TEST_CASE(builtin_add_uint32) { testExecExpr("builtin_add_uint32"); }
-BOOST_AUTO_TEST_CASE(builtin_add_uint256) { testExecExpr("builtin_add_uint256"); }
+BOOST_AUTO_TEST_CASE(builtin_add_uint256) {
+  testExecExpr("builtin_add_uint256");
+}
 BOOST_AUTO_TEST_CASE(name_clash) { testExecExpr("name_clash"); }
 BOOST_AUTO_TEST_CASE(name_clash2) { testExecExpr("name_clash2"); }
 BOOST_AUTO_TEST_CASE(lit_int32_1) { testExecExpr("lit-int32-1"); }
