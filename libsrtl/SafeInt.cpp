@@ -15,110 +15,60 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <ScillaVM/Errors.h>
+#include <string>
+#include <boost/predef.h>
 
+#include <ScillaVM/Errors.h>
 #include "SafeInt.h"
 
-namespace {
-
-using namespace ScillaVM;
-
 #if BOOST_ENDIAN_BIG_BYTE
-static const auto msv_first = true;
-#else
-static const auto msv_first = false;
+#error "Big endian architecture not supported."
 #endif
-
-template <unsigned Bits, boost::multiprecision::cpp_integer_type SignType>
-boost::multiprecision::number<boost::multiprecision::cpp_int_backend<
-    Bits, Bits, SignType, boost::multiprecision::checked, void>>
-rawToBoost(const void *V) {
-  using namespace boost::multiprecision;
-
-  number<cpp_int_backend<Bits, Bits, SignType, checked, void>> ret;
-  auto VPtr = reinterpret_cast<const uint8_t *>(V);
-  import_bits(ret, VPtr, VPtr + (Bits / 8), 0, msv_first);
-  return ret;
-}
-
-template <unsigned Bits>
-using BoostInt =
-    boost::multiprecision::number<boost::multiprecision::cpp_int_backend<
-        Bits, Bits, boost::multiprecision::signed_magnitude,
-        boost::multiprecision::checked, void>>;
-
-template <unsigned Bits> BoostInt<Bits> rawToBoostInt(const void *V) {
-  return rawToBoost<Bits, boost::multiprecision::signed_magnitude>(V);
-}
-
-template <unsigned Bits>
-using BoostUint =
-    boost::multiprecision::number<boost::multiprecision::cpp_int_backend<
-        Bits, Bits, boost::multiprecision::unsigned_magnitude,
-        boost::multiprecision::checked, void>>;
-
-template <unsigned Bits> BoostUint<Bits> rawToBoostUint(const void *V) {
-  return rawToBoost<Bits, boost::multiprecision::unsigned_magnitude>(V);
-}
-
-} // namespace
 
 namespace ScillaVM {
 
 using namespace ScillaTypes;
 
-template <unsigned Bits> SafeInt<Bits>::SafeInt(const void *V) {
-  Container = rawToBoostInt<Bits>(V);
+template <unsigned Bits> SafeInt<Bits>::SafeInt(const void *V) : Container () {
+  std::memcpy (Container.limbs.data(), V, Bits / 8);
 }
 
 template <unsigned Bits> std::string SafeInt<Bits>::toString() const {
-  return Container.str();
+  return Container.to_string();
 }
 
 template <unsigned Bits> SafeInt<Bits>::operator RawInt<Bits>() const {
-  using namespace boost::multiprecision;
-
   RawInt<Bits> Ret;
-  std::memset(Ret.buf, 0, sizeof(Ret.buf));
-  export_bits(Container, Ret.buf, 8, msv_first);
+  std::memcpy (Ret.buf, Container.limbs.data(), Bits / 8);
   return Ret;
 }
 
 template <unsigned Bits>
 SafeInt<Bits> SafeInt<Bits>::operator+(const SafeInt<Bits> &rhs) const {
-  try {
-    SafeInt<Bits> Result(this->Container + rhs.Container);
-    return Result;
-  } catch (std::overflow_error) {
-    CREATE_ERROR("Integer overflow");
-  }
+  // TODO: Implement safety semantics.
+  SafeInt<Bits> Result(this->Container + rhs.Container);
+  return Result;
 }
 
 template <unsigned Bits> SafeUint<Bits>::SafeUint(const void *V) {
-  Container = rawToBoostUint<Bits>(V);
+  std::memcpy (Container.limbs.data(), V, Bits / 8);
 }
 
 template <unsigned Bits> std::string SafeUint<Bits>::toString() const {
-  return Container.str();
+  return Container.to_string();
 }
 
 template <unsigned Bits> SafeUint<Bits>::operator RawInt<Bits>() const {
-  using namespace boost::multiprecision;
-
   RawInt<Bits> Ret;
-  std::memset(Ret.buf, 0, sizeof(Ret.buf));
-  export_bits(Container, Ret.buf, 8, msv_first);
+  std::memcpy (Ret.buf, Container.limbs.data(), Bits / 8);
   return Ret;
 }
 
 template <unsigned Bits>
 SafeUint<Bits> SafeUint<Bits>::operator+(const SafeUint<Bits> &rhs) const {
-  try {
-    SafeUint<Bits> Result(this->Container + rhs.Container);
-    return Result;
-  } catch (std::overflow_error) {
-    CREATE_ERROR("Integer overflow");
-  }
+  // TODO: Implement safety semantics.
+  SafeUint<Bits> Result(this->Container + rhs.Container);
+  return Result;
 }
 
 // Let's instantiate for all widths that we want.

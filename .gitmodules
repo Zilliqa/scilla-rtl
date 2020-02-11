@@ -1,0 +1,3 @@
+[submodule "deps/bignum"]
+	path = deps/bignum
+	url = git@github.com:vaivaswatha/bignum.git
