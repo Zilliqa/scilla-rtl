@@ -20,7 +20,7 @@ The following ubuntu packages must first be installed.
     - `sudo apt-get install llvm-9-dev libboost-dev libboost-test-dev libjsoncpp-dev libboost-test-dev`
 
 We suggest building ScillaVM in a directory that is *not* the source directory.
-  * `$git clone https://github.com/Zilliqa/scilla-vm.git`
+  * `$git clone --recurse-submodules https://github.com/Zilliqa/scilla-vm.git`
   * `$cd scilla-vm; mkdir build; cd build`
   * `$cmake ..` configures the project.
     Additional (optional) flags:

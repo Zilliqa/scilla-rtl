@@ -17,7 +17,7 @@
 
 #include <string>
 
-#include <boost/multiprecision/cpp_int.hpp>
+#include <wideint.h>
 
 #include "ScillaTypes.h"
 
@@ -27,13 +27,16 @@ namespace ScillaVM {
 // Creates an error on overflows or underflows in any operation.
 template <unsigned Bits> class SafeInt {
 public:
+
+  static_assert(Bits % 8 == 0, "Cannot instantiate SafeInt with non byte-aligned size");
+
   // 0 initializing constructor
   SafeInt(){};
-  // Initialize from Scilla IntWrapper
+  // Initialize from Scilla RawInt
   SafeInt(const ScillaTypes::RawInt<Bits> *IW) : SafeInt(IW->buf) {}
   // Convert to decimal string
   std::string toString() const;
-  // Convert to IntegerWrapper
+  // Convert to RawInt
   operator ScillaTypes::RawInt<Bits>() const;
 
   // Safe operations: over/underflows will cause an error.
@@ -43,29 +46,24 @@ private:
   // Initialize from raw bytes
   SafeInt(const void *V);
 
-  // This implementation uses boost::multiprecision::cpp_int.
-  // It does not use 2s complement, hence incompatible with Scilla.
-  // TODO: https://github.com/Zilliqa/scilla-vm/issues/2
-  boost::multiprecision::number<boost::multiprecision::cpp_int_backend<
-      Bits, Bits, boost::multiprecision::signed_magnitude,
-      boost::multiprecision::checked, void>>
-      Container;
-  SafeInt(const boost::multiprecision::number<
-          boost::multiprecision::cpp_int_backend<
-              Bits, Bits, boost::multiprecision::signed_magnitude,
-              boost::multiprecision::checked, void>> &C)
-      : Container(C){};
+  using SafeIntImpl = wideint<Bits, true>;
+  SafeIntImpl Container;
+
+  SafeInt(const SafeIntImpl &C) : Container(C){};
 };
 
 template <unsigned Bits> class SafeUint {
 public:
+
+  static_assert(Bits % 8 == 0, "Cannot instantiate SafeUint with non byte-aligned size");
+
   // 0 initializing constructor
   SafeUint(){};
-  // Initialize from Scilla IntWrapper
+  // Initialize from Scilla RawInt
   SafeUint(const ScillaTypes::RawInt<Bits> *IW) : SafeUint(IW->buf) {}
   // Convert to decimal string
   std::string toString() const;
-  // Convert to IntegerWrapper
+  // Convert to RawInt
   operator ScillaTypes::RawInt<Bits>() const;
 
   // Safe operations: over/underflows will cause an error.
@@ -75,19 +73,10 @@ private:
   // Initialize from raw bytes
   SafeUint(const void *V);
 
-  // This implementation uses boost::multiprecision::cpp_int.
-  // It does not use 2s complement, hence incompatible with Scilla.
-  // TODO: https://github.com/Zilliqa/scilla-vm/issues/2
-  boost::multiprecision::number<boost::multiprecision::cpp_int_backend<
-      Bits, Bits, boost::multiprecision::unsigned_magnitude,
-      boost::multiprecision::checked, void>>
-      Container;
+  using SafeUintImpl = wideint<Bits, false>;
+  SafeUintImpl Container;
 
-  SafeUint(const boost::multiprecision::number<
-           boost::multiprecision::cpp_int_backend<
-               Bits, Bits, boost::multiprecision::unsigned_magnitude,
-               boost::multiprecision::checked, void>> &C)
-      : Container(C){};
+  SafeUint(const SafeUintImpl &C) : Container(C){};
 };
 
 } // namespace ScillaVM
