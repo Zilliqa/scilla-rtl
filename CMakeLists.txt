@@ -26,7 +26,7 @@ add_compile_options(-Werror)
 add_compile_options(-pedantic)
 add_compile_options(-Wextra)
 # Required when linking with LLVM shared libs built locally
-# add_compile_options(-fno-rtti)
+add_compile_options(-fno-rtti)
 
 if (THREAD_SANITIZER AND ADDRESS_SANITIZER)
     message(FATAL_ERROR "Cannot use ThreadSanitizer (THREAD_SANITIZER=ON) and AddressSanitizer (ADDRESS_SANITIZER=ON) at the same time")
