@@ -25,7 +25,14 @@ namespace ScillaVM {
 
 // A class for safe arithmetic operations.
 // Creates an error on overflows or underflows in any operation.
-template <unsigned Bits> class SafeInt {
+
+enum SafeIntKind {
+  Unsigned = false,
+  Signed = true,
+};
+
+template <unsigned Bits, SafeIntKind Signedness> 
+class SafeInt {
 public:
   static_assert(Bits % 8 == 0,
                 "Cannot instantiate SafeInt with non byte-aligned size");
@@ -46,37 +53,19 @@ private:
   // Initialize from raw bytes
   SafeInt(const void *V);
 
-  using SafeIntImpl = wideint<Bits, true>;
+  using SafeIntImpl = wideint<Bits, Signedness>;
   SafeIntImpl Container;
 
   SafeInt(const SafeIntImpl &C) : Container(C){};
 };
 
-template <unsigned Bits> class SafeUint {
-public:
-  static_assert(Bits % 8 == 0,
-                "Cannot instantiate SafeUint with non byte-aligned size");
-
-  // 0 initializing constructor
-  SafeUint(){};
-  // Initialize from Scilla RawInt
-  SafeUint(const ScillaTypes::RawInt<Bits> *IW) : SafeUint(IW->buf) {}
-  // Convert to decimal string
-  std::string toString() const;
-  // Convert to RawInt
-  operator ScillaTypes::RawInt<Bits>() const;
-
-  // Safe operations: over/underflows will cause an error.
-  SafeUint operator+(const SafeUint &rhs) const;
-
-private:
-  // Initialize from raw bytes
-  SafeUint(const void *V);
-
-  using SafeUintImpl = wideint<Bits, false>;
-  SafeUintImpl Container;
-
-  SafeUint(const SafeUintImpl &C) : Container(C){};
-};
+typedef SafeInt<32, SafeIntKind::Signed> SafeInt32;
+typedef SafeInt<64, SafeIntKind::Signed> SafeInt64;
+typedef SafeInt<128, SafeIntKind::Signed> SafeInt128;
+typedef SafeInt<256, SafeIntKind::Signed> SafeInt256;
+typedef SafeInt<32, SafeIntKind::Unsigned> SafeUint32;
+typedef SafeInt<64, SafeIntKind::Unsigned> SafeUint64;
+typedef SafeInt<128, SafeIntKind::Unsigned> SafeUint128;
+typedef SafeInt<256, SafeIntKind::Unsigned> SafeUint256;
 
 } // namespace ScillaVM

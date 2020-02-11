@@ -51,19 +51,19 @@ std::string toString(const ScillaTypes::Typ *T, void *V) {
         auto BW = T->m_sub.m_primt->m_detail.m_intBW;
         switch (BW) {
         case ScillaTypes::PrimTyp::Bits32: {
-          auto VV = SafeInt<32>(reinterpret_cast<Int32 *>(V));
+          auto VV = SafeInt32(reinterpret_cast<Int32 *>(V));
           Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits64: {
-          auto VV = SafeInt<64>(reinterpret_cast<Int64 *>(V));
+          auto VV = SafeInt64(reinterpret_cast<Int64 *>(V));
           Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits128: {
-          auto VV = SafeInt<128>(reinterpret_cast<Int128 *>(V));
+          auto VV = SafeInt128(reinterpret_cast<Int128 *>(V));
           Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits256: {
-          auto VV = SafeInt<256>(reinterpret_cast<Int256 *>(V));
+          auto VV = SafeInt256(reinterpret_cast<Int256 *>(V));
           Out += VV.toString();
         } break;
         }
@@ -73,19 +73,19 @@ std::string toString(const ScillaTypes::Typ *T, void *V) {
         auto BW = T->m_sub.m_primt->m_detail.m_intBW;
         switch (BW) {
         case ScillaTypes::PrimTyp::Bits32: {
-          auto VV = SafeUint<32>(reinterpret_cast<Uint32 *>(V));
+          auto VV = SafeUint32(reinterpret_cast<Uint32 *>(V));
           Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits64: {
-          auto VV = SafeUint<64>(reinterpret_cast<Uint64 *>(V));
+          auto VV = SafeUint64(reinterpret_cast<Uint64 *>(V));
           Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits128: {
-          auto VV = SafeUint<128>(reinterpret_cast<Uint128 *>(V));
+          auto VV = SafeUint128(reinterpret_cast<Uint128 *>(V));
           Out += VV.toString();
         } break;
         case ScillaTypes::PrimTyp::Bits256: {
-          auto VV = SafeUint<256>(reinterpret_cast<Uint256 *>(V));
+          auto VV = SafeUint256(reinterpret_cast<Uint256 *>(V));
           Out += VV.toString();
         } break;
         }

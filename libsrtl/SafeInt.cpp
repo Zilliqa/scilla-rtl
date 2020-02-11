@@ -29,7 +29,8 @@ namespace ScillaVM {
 
 using namespace ScillaTypes;
 
-template <unsigned Bits> SafeInt<Bits>::SafeInt(const void *V) {
+template <unsigned Bits, SafeIntKind Signedness>
+SafeInt<Bits, Signedness>::SafeInt(const void *V) {
   // Make sure that Container's buffer has enough space to hold our data.
   constexpr auto len = std::tuple_size<decltype(SafeIntImpl::limbs)>::value;
   using elmty =
@@ -40,60 +41,34 @@ template <unsigned Bits> SafeInt<Bits>::SafeInt(const void *V) {
   std::memcpy(Container.limbs.data(), V, Bits / 8);
 }
 
-template <unsigned Bits> std::string SafeInt<Bits>::toString() const {
+template <unsigned Bits, SafeIntKind Signedness>
+std::string SafeInt<Bits, Signedness>::toString() const {
   return Container.to_string();
 }
 
-template <unsigned Bits> SafeInt<Bits>::operator RawInt<Bits>() const {
+template <unsigned Bits, SafeIntKind Signedness>
+SafeInt<Bits, Signedness>::operator RawInt<Bits>() const {
   RawInt<Bits> Ret;
   std::memcpy(Ret.buf, Container.limbs.data(), Bits / 8);
   return Ret;
 }
 
-template <unsigned Bits>
-SafeInt<Bits> SafeInt<Bits>::operator+(const SafeInt<Bits> &rhs) const {
+template <unsigned Bits, SafeIntKind Signedness>
+SafeInt<Bits, Signedness>
+SafeInt<Bits, Signedness>::operator+(const SafeInt<Bits, Signedness> &rhs) const {
   // TODO: Implement safety semantics.
-  SafeInt<Bits> Result(this->Container + rhs.Container);
-  return Result;
-}
-
-template <unsigned Bits> SafeUint<Bits>::SafeUint(const void *V) {
-  // Make sure that Container's buffer has enough space to hold our data.
-  constexpr auto len = std::tuple_size<decltype(SafeUintImpl::limbs)>::value;
-  using elmty =
-      typename std::tuple_element<0, decltype(SafeUintImpl::limbs)>::type;
-  static_assert(
-      len * sizeof(elmty) >= Bits / 8,
-      "Internal error: SafeUint container does not have enough space");
-
-  std::memcpy(Container.limbs.data(), V, Bits / 8);
-}
-
-template <unsigned Bits> std::string SafeUint<Bits>::toString() const {
-  return Container.to_string();
-}
-
-template <unsigned Bits> SafeUint<Bits>::operator RawInt<Bits>() const {
-  RawInt<Bits> Ret;
-  std::memcpy(Ret.buf, Container.limbs.data(), Bits / 8);
-  return Ret;
-}
-
-template <unsigned Bits>
-SafeUint<Bits> SafeUint<Bits>::operator+(const SafeUint<Bits> &rhs) const {
-  // TODO: Implement safety semantics.
-  SafeUint<Bits> Result(this->Container + rhs.Container);
+  SafeInt<Bits, Signedness> Result(this->Container + rhs.Container);
   return Result;
 }
 
 // Let's instantiate for all widths that we want.
-template class SafeInt<32>;
-template class SafeInt<64>;
-template class SafeInt<128>;
-template class SafeInt<256>;
-template class SafeUint<32>;
-template class SafeUint<64>;
-template class SafeUint<128>;
-template class SafeUint<256>;
+template class SafeInt<32, SafeIntKind::Signed>;
+template class SafeInt<64, SafeIntKind::Signed>;
+template class SafeInt<128, SafeIntKind::Signed>;
+template class SafeInt<256, SafeIntKind::Signed>;
+template class SafeInt<32, SafeIntKind::Unsigned>;
+template class SafeInt<64, SafeIntKind::Unsigned>;
+template class SafeInt<128, SafeIntKind::Unsigned>;
+template class SafeInt<256, SafeIntKind::Unsigned>;
 
 } // namespace ScillaVM
