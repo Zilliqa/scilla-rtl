@@ -7,6 +7,8 @@ find_program(CLANG_TIDY NAMES clang-tidy clang-tidy-9)
 if (CLANG_FORMAT OR CLANG_TIDY)
   # Get all project files
   file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.hpp *.h)
+  # Exclude files in git submodules
+  list(FILTER ALL_SOURCE_FILES EXCLUDE REGEX "/deps/|/build/")
 
   if (CLANG_FORMAT)
     message(STATUS "found ${CLANG_FORMAT}")
@@ -29,4 +31,5 @@ if (CLANG_FORMAT OR CLANG_TIDY)
       ${ALL_SOURCE_FILES}
       )
   endif()
+
 endif()
