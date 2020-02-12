@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
 
   ScillaJIT::init();
 
-  auto InputFilename = boost::any_cast<std::string>(VM["input-file"].value());
+  auto InputFilename = VM["input-file"].as<std::string>();
   auto SJ = ExitOnErr(ScillaJIT::create(InputFilename));
   auto ScillaMainAddr = ExitOnErr(SJ->getAddressFor("scilla_main"));
   auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
@@ -104,8 +104,7 @@ int main(int argc, char *argv[]) {
   }
 
   if (VM.count("output-file")) {
-    auto OutputFilename =
-        boost::any_cast<std::string>(VM["output-file"].value());
+    auto OutputFilename = VM["output-file"].as<std::string>();
     std::ofstream OFile(OutputFilename);
     if (!OFile) {
       std::cerr << "Error opening output file " << OutputFilename << "\n";
