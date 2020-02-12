@@ -30,8 +30,10 @@ using boost::test_tools::output_test_stream;
 namespace {
 
 namespace Config {
-std::string testsuite_src;
-}
+// Overwrites the expected result instead of comparing with it.
+bool UpdateResults = false;
+std::string TestsuiteSrc;
+} // namespace Config
 
 struct CommandLineInit {
   CommandLineInit() {
@@ -39,17 +41,18 @@ struct CommandLineInit {
     // Check if there's a testsuite source directory provided as argument.
     if (framework::master_test_suite().argc == 3) {
       // This is the only named argument we support at the moment.
+      // TODO: Use boost::program_options and support UpdateResult too.
       BOOST_TEST_REQUIRE(framework::master_test_suite().argv[1] ==
                          "--testsuite_src");
       auto dir = framework::master_test_suite().argv[2];
       BOOST_TEST_REQUIRE(boost::filesystem::is_directory(dir));
-      Config::testsuite_src = dir;
+      Config::TestsuiteSrc = dir;
     } else {
       BOOST_FAIL("\nUsage: " << framework::master_test_suite().argv[0]
                              << " [Boost.Test argument]... -- --testsuite_src "
                                 "/path/to/scilla-vm/testsuite");
     }
-    BOOST_TEST_MESSAGE("Using testsuite inputs from " << Config::testsuite_src);
+    BOOST_TEST_MESSAGE("Using testsuite inputs from " << Config::TestsuiteSrc);
   }
   ~CommandLineInit() {}
 };
@@ -61,7 +64,7 @@ BOOST_TEST_GLOBAL_FIXTURE(CommandLineInit);
 void testExecExpr(const std::string &Testname) {
   using namespace ScillaVM;
 
-  auto Filename = Config::testsuite_src + "/expr/" + Testname + ".ll";
+  auto Filename = Config::TestsuiteSrc + "/expr/" + Testname + ".ll";
 
   ScillaJIT::init();
   auto SJ = ScillaJIT::create(Filename);
@@ -85,7 +88,7 @@ void testExecExpr(const std::string &Testname) {
 
   BOOST_TEST_CHECKPOINT(Filename + ": Execution succeeded");
 
-  output_test_stream output(Filename + ".result", true);
+  output_test_stream output(Filename + ".result", !Config::UpdateResults);
   output << ScillaStdout;
   BOOST_TEST(output.match_pattern());
   BOOST_TEST_CHECKPOINT(Filename + ": Output matched");

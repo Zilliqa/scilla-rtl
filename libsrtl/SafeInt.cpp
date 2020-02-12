@@ -54,8 +54,8 @@ SafeInt<Bits, Signedness>::operator RawInt<Bits>() const {
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness>
-SafeInt<Bits, Signedness>::operator+(const SafeInt<Bits, Signedness> &rhs) const {
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator+(
+    const SafeInt<Bits, Signedness> &rhs) const {
   // TODO: Implement safety semantics.
   SafeInt<Bits, Signedness> Result(this->Container + rhs.Container);
   return Result;

@@ -31,8 +31,7 @@ enum SafeIntKind {
   Signed = true,
 };
 
-template <unsigned Bits, SafeIntKind Signedness> 
-class SafeInt {
+template <unsigned Bits, SafeIntKind Signedness> class SafeInt {
 public:
   static_assert(Bits % 8 == 0,
                 "Cannot instantiate SafeInt with non byte-aligned size");
