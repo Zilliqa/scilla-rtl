@@ -15,37 +15,82 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <functional>
+#include <boost/program_options.hpp>
+#include <fstream>
 #include <iostream>
-
-#include "llvm/Support/CommandLine.h"
-#include "llvm/Support/raw_ostream.h"
 
 #include "ScillaVM/Errors.h"
 #include "ScillaVM/JITD.h"
 #include "ScillaVM/SRTL.h"
 
-using namespace llvm;
 using namespace ScillaVM;
 
 namespace {
 
-// Command line arguments parsed using LLVM's command line parser.
-cl::opt<std::string> InputFilename(cl::Positional, cl::desc("<input file>"),
-                                   cl::Required);
-cl::opt<std::string> OutputFilename("o", cl::desc("Specify output filename"),
-                                    cl::value_desc("filename"));
-void versionPrinter(llvm::raw_ostream &OS) { OS << "expr-runner: v0.0.0\n"; }
+namespace po = boost::program_options;
 
-ExitOnError ExitOnErr;
+void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
+  auto UsageString = "Usage: " + std::string(argv[0]) +
+                     " [option...] input-file" + "\nSupported options";
+  po::options_description Desc(UsageString);
+
+  // clang-format off
+  Desc.add_options()
+    ("output-file,o", po::value<std::string>(), "Specify output filename")
+    ("help,h", "Print help message")
+    ("version,v", "Print version")
+  ;
+
+  po::options_description Hidden("Hidden options");
+  Hidden.add_options()
+    ("input-file", po::value<std::string>(), "Specify input file")
+  ;
+  // clang-format on
+
+  // Gather all options.
+  po::options_description AllOptions;
+  AllOptions.add(Desc).add(Hidden);
+
+  // Mark "input-file" as a positional argument.
+  po::positional_options_description P;
+  P.add("input-file", 1);
+  try {
+    po::store(po::command_line_parser(argc, argv)
+                  .options(AllOptions)
+                  .positional(P)
+                  .run(),
+              VM);
+    po::notify(VM);
+  } catch (std::exception &e) {
+    std::cerr << e.what() << "\n";
+    std::cerr << Desc << "\n";
+    exit(EXIT_FAILURE);
+  }
+
+  if (VM.count("help")) {
+    std::cerr << Desc << "\n";
+    exit(EXIT_SUCCESS);
+  }
+
+  // Ensure that an input file is provided.
+  if (!VM.count("input-file")) {
+    std::cerr << "No input file provided.\n" << Desc << "\n";
+    exit(EXIT_FAILURE);
+  }
+}
+
+llvm::ExitOnError ExitOnErr;
 
 } // end of anonymous namespace
 
 int main(int argc, char *argv[]) {
-  cl::SetVersionPrinter(versionPrinter);
-  cl::ParseCommandLineOptions(argc, argv);
+
+  po::variables_map VM;
+  parseCLIArgs(argc, argv, VM);
 
   ScillaJIT::init();
+
+  auto InputFilename = boost::any_cast<std::string>(VM["input-file"].value());
   auto SJ = ExitOnErr(ScillaJIT::create(InputFilename));
   auto ScillaMainAddr = ExitOnErr(SJ->getAddressFor("scilla_main"));
   auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
@@ -57,7 +102,24 @@ int main(int argc, char *argv[]) {
     std::cerr << e.Msg << "\n";
     return EXIT_FAILURE;
   }
-  std::cout << ScillaStdout;
+
+  if (VM.count("output-file")) {
+    auto OutputFilename =
+        boost::any_cast<std::string>(VM["output-file"].value());
+    std::ofstream OFile(OutputFilename);
+    if (!OFile) {
+      std::cerr << "Error opening output file " << OutputFilename << "\n";
+      return EXIT_FAILURE;
+    } else {
+      OFile << ScillaStdout;
+      if (OFile.bad()) {
+        std::cerr << "Error writing to output file " << OutputFilename << "\n";
+        return EXIT_FAILURE;
+      }
+    }
+  } else {
+    std::cout << ScillaStdout;
+  }
 
   return EXIT_SUCCESS;
 }

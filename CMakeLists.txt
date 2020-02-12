@@ -5,6 +5,9 @@ project(ScillaVM)
 # detect operating system
 message(STATUS "We are on a ${CMAKE_SYSTEM_NAME} system")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
+# Print build type: Debug/Release etc.
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 #
 # check dependencies
 #
@@ -18,15 +21,13 @@ message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 # Find the libraries that correspond to the LLVM components we use
 llvm_map_components_to_libnames(llvm_libs support core orcjit nativecodegen)
 # Boost stuff
-find_package(Boost REQUIRED unit_test_framework filesystem)
+find_package(Boost REQUIRED unit_test_framework filesystem program_options)
 
 # compiler and linker options
 add_compile_options(-Wall)
 add_compile_options(-Werror)
 add_compile_options(-pedantic)
 add_compile_options(-Wextra)
-# Required when linking with LLVM shared libs built locally
-add_compile_options(-fno-rtti)
 
 if (THREAD_SANITIZER AND ADDRESS_SANITIZER)
     message(FATAL_ERROR "Cannot use ThreadSanitizer (THREAD_SANITIZER=ON) and AddressSanitizer (ADDRESS_SANITIZER=ON) at the same time")

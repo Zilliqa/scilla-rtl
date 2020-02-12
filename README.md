@@ -17,7 +17,7 @@ are available.
 ## Build and install
 
 The following ubuntu packages must first be installed.
-    - `sudo apt-get install llvm-9-dev libboost-dev libboost-test-dev libjsoncpp-dev libboost-test-dev`
+    - `sudo apt-get install build-essential cmake llvm-9-dev libboost-dev libboost-test-dev libboost-test-dev libjsoncpp-dev `
 
 We suggest building ScillaVM in a directory that is *not* the source directory.
   * `$git clone --recurse-submodules https://github.com/Zilliqa/scilla-vm.git`
@@ -25,12 +25,15 @@ We suggest building ScillaVM in a directory that is *not* the source directory.
   * `$cmake ..` configures the project.
     Additional (optional) flags:
     - `-DCMAKE_INSTALL_PREFIX=/where/to/install/scilla-vm`: To specify an install directory other
-    than the default (which requires root permissions).
-    - `-DLLVM_DIR=/path/to/llvm/install/lib/cmake/llvm`: scilla-vm uses LLVM.
-    If your LLVM is installed in a non-default directory, use this flag.
+    than the default. The default installation path typically requires root permissions.
+    - `-DLLVM_DIR=/path/to/llvm/install/lib/cmake/llvm`:
+    If your LLVM is not installed in a default (system) directory,
+    provide this [flag](https://llvm.org/docs/CMake.html#embedding-llvm-in-your-project)
+    to enable `CMake` to find LLVM. Note: LLVM must be built with [RTTI support](https://llvm.org/docs/CMake.html).
     - `-DCMAKE_BUILD_TYPE=[Debug|Release|RelWithDebInfo|MinSizeRel]`: The default build is `Debug`.
   * `$make` builds the entire project. You can find the built files in `bin/` and `lib/`.
   * `$make install` installs the project.
+  * `$make runtests` runs the testsuite.
   We suggest to provide your installation path as described earlier and not install in a system
   directory.
 
