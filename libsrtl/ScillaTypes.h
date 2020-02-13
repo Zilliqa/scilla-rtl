@@ -29,7 +29,11 @@ namespace ScillaVM {
 // Any changes to the definitions here must be synchronized with the compiler.
 namespace ScillaTypes {
 
-template <unsigned Bits> struct RawInt { uint8_t buf[Bits / 8]; };
+template <unsigned Bits> struct RawInt {
+  static_assert(Bits % 8 == 0,
+                "Cannot instantiate RawInt with non byte-aligned size");
+  uint8_t buf[Bits / 8];
+};
 typedef RawInt<32> Int32;
 typedef RawInt<32> Uint32;
 typedef RawInt<64> Int64;
