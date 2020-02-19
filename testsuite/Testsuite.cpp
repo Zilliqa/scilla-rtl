@@ -120,5 +120,6 @@ BOOST_AUTO_TEST_CASE(name_clash2) { testExecExpr("name_clash2"); }
 BOOST_AUTO_TEST_CASE(lit_int32_1) { testExecExpr("lit-int32-1"); }
 BOOST_AUTO_TEST_CASE(simple_fun) { testExecExpr("simple-fun"); }
 BOOST_AUTO_TEST_CASE(simple_ho) { testExecExpr("simple_ho"); }
+BOOST_AUTO_TEST_CASE(match_assign) { testExecExpr("match_assign"); }
 
 BOOST_AUTO_TEST_SUITE_END()
