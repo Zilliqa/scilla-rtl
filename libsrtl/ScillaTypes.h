@@ -96,10 +96,10 @@ struct ADTTyp {
 
   // Describe an ADT specialization.
   struct Specl {
-    // Number of type arguments to the ADT.
-    int32_t m_numTArgs;
     // Types used to instantiate the ADT.
-    // Needed to serialize the ADT with full type information.
+    // The number of type args is same for all specializations,
+    // and hence defined outside in ADTTyp.
+    // This info is needed for ADT (de)serialization.
     Typ **m_TArgs;
     // The constructors for this specialization. The number of
     // constructors is same for all specializations, and hence
@@ -111,6 +111,8 @@ struct ADTTyp {
 
   // The ADT name
   String m_tName;
+  // Number of type arguments to the ADT.
+  int32_t m_numTArgs;
   // Number of constructors
   int32_t m_numConstrs;
   // Number of type specializations

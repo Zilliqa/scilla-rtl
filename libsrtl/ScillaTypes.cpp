@@ -87,7 +87,7 @@ std::string Typ::toString(const Typ *T) {
     case Typ::ADT_typ: {
       ADTTyp::Specl *SP = T->m_sub.m_spladt;
       Out += std::string((SP->m_parent->m_tName));
-      for (int i = 0; i < SP->m_numTArgs; i++) {
+      for (int i = 0; i < SP->m_parent->m_numTArgs; i++) {
         Out += " (";
         recurser(SP->m_TArgs[i]);
         Out += ")";
