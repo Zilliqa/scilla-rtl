@@ -92,6 +92,13 @@ void testExecExpr(const std::string &Testname) {
   output << ScillaStdout;
   BOOST_TEST(output.match_pattern());
   BOOST_TEST_CHECKPOINT(Filename + ": Output matched");
+
+  // https://github.com/boostorg/boost/issues/379
+  try {
+    throw std::exception();
+  } catch (std::exception &) {
+    ;
+  }
 }
 
 BOOST_AUTO_TEST_SUITE(expr_exec)
