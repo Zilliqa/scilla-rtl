@@ -292,7 +292,7 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
                 }
               }
               // No success matching this type.
-              CREATE_ERROR("Unknown typ");
+              CREATE_ERROR("Unknown type " + TName);
             },
             _1, _2
           )
@@ -346,7 +346,7 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
               //  "Incorrect number of type arguments to ADT " + TName);
               return T;
             }
-            CREATE_ERROR("Unknown typ");
+            CREATE_ERROR("Unknown type " + TName);
           },
           _1
         )

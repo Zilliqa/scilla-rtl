@@ -186,6 +186,18 @@ BOOST_AUTO_TEST_CASE(parse_pair_int32_list_int64) {
   parserTestSuccess("Pair Int32 (List Int64)", "Pair (Int32) (List (Int64))");
 }
 
+BOOST_AUTO_TEST_CASE(parse_int33_fail) {
+  parserTestFail("Int33");
+}
+
+BOOST_AUTO_TEST_CASE(parse_list_fail_1) {
+  parserTestFail("List");
+}
+
+BOOST_AUTO_TEST_CASE(parse_list_fail_2) {
+  parserTestFail("List Int");
+}
+
 BOOST_AUTO_TEST_CASE(parse_pair_list_int32_int64_fail) {
   parserTestFail("Pair List Int32 Int64");
 }
