@@ -281,7 +281,7 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
                   if (Spl->m_parent->m_numTArgs != (int)TArgs.size()) {
                     CREATE_ERROR(TName + " expects " +
                       std::to_string(Spl->m_parent->m_numTArgs) +
-                      " type arguments. But got " + std::to_string(TArgs.size()));
+                      " type arguments, but got " + std::to_string(TArgs.size()));
                   }
                   // Test if this is the specialization we want.
                   if (std::equal(TArgs.begin(), TArgs.end(),
