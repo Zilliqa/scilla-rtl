@@ -182,7 +182,7 @@ bool Typ::isBoxed(const Typ *T) {
 namespace ScillaVM {
 namespace ScillaTypes {
 
-const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &input) {
+const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
   // Classify Ts into PrimTypes, ADTs and Map types.
   // TODO: Cache this classification and re-use across invocations.
   std::unordered_map<std::string, const Typ *> PrimMap;
@@ -195,8 +195,7 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &input) {
       PrimMap[toString(Ts[i])] = Ts[i];
       break;
     case ADT_typ:
-      // Use the ADT name to map. It doesn't matter which specialization
-      // we point to, we'll need to search through them all later.
+      // List down all Typ objects for this ADT.
       ADTMap[(std::string)Ts[i]->m_sub.m_spladt->m_parent->m_tName].push_back(
           Ts[i]);
       break;
@@ -220,19 +219,41 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &input) {
   qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
       TIdent_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> T_R;
+  qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> TArg_R;
 
   // A type identifier is "[A-Z][a-zA-Z0-9]*"
   TIdent_R = lexeme[char_('A', 'Z') >> *(ascii::alnum)];
 
   // clang-format off
   T_R =
-      (lit("Map") >> T_R >> T_R) // Rule-1 for Map
+    // Rule-0 Get all the PrimTyps.
+     (qi::string("Int32")   | qi::string("Int64") 
+    | qi::string("Int128")  | qi::string("Int256")
+    | qi::string("Uint32")  | qi::string("Uint64")
+    | qi::string("Uint128") | qi::string("Uint256")
+    | qi::string("String")  | qi::string("BNum"))
+       [_val = px::bind
+        (
+          [&PrimMap]
+          (const std::string &TName) {
+              auto itrPrim = PrimMap.find(TName);
+              ASSERT(itrPrim != PrimMap.end(), TName + " not a PrimTyp");
+              const Typ *T = itrPrim->second;
+              ASSERT(T->m_t == Typ::Prim_typ,
+                "Internal error: " + TName + " classified incorrectly");
+              return T;
+            },
+            _1
+          )
+        ]
+    |  (lit("Map") >> T_R >> T_R) // Rule-1 for Map
         [_val = px::bind
           (
             [&MapList]
             (const Typ *KTyp, const Typ *VTyp) {
               for (const Typ *T : MapList) {
-                ASSERT(T->m_t == Typ::Map_typ, "Expected MapTyp");
+                ASSERT(T->m_t == Typ::Map_typ, 
+                  "Internal error: non MapTyp classfied incorrectly");
                 if (T->m_sub.m_mapt->m_keyTyp == KTyp &&
                     T->m_sub.m_mapt->m_valTyp == VTyp) {
                   // We have a match.
@@ -244,30 +265,23 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &input) {
             _1, _2
           )
         ]
-    | (TIdent_R >> *T_R) // Rule-2 for PrimTyp and ADTs
+    | (TIdent_R >> *TArg_R) // Rule-2 for ADTs
         [_val = px::bind
           (
-            [&PrimMap, &ADTMap]
-            (std::string &TName, std::vector<const Typ *> TArgs) {
-              // Check if this is a PrimTyp.
-              auto itrPrim = PrimMap.find(TName);
-              if (itrPrim != PrimMap.end()) {
-                const Typ *T = itrPrim->second;
-                ASSERT(T->m_t == Typ::Prim_typ, "Expected PrimTyp");
-                ASSERT(TArgs.empty(), "Primary type " + TName +
-                                          " cannot have type arguments");
-                return T;
-              }
+            [&ADTMap]
+            (const std::string &TName, std::vector<const Typ *> TArgs) {
               // Check if this is an ADT
               auto itrADT = ADTMap.find(TName);
               if (itrADT != ADTMap.end()) {
                 std::vector<const Typ *> &Ts = itrADT->second;
                 for (auto *T : Ts) {
-                  ASSERT(T->m_t == Typ::ADT_typ, "Expected ADT");
+                  ASSERT(T->m_t == Typ::ADT_typ,
+                    "Internal error: " + TName + " classfied incorrectly");
                   ADTTyp::Specl *Spl = T->m_sub.m_spladt;
                   if (Spl->m_parent->m_numTArgs != (int)TArgs.size()) {
-                    CREATE_ERROR("Error parsing " + TName +
-                                ": incorrect number of type arguments");
+                    CREATE_ERROR(TName + " expects " +
+                      std::to_string(Spl->m_parent->m_numTArgs) +
+                      " type arguments. But got " + std::to_string(TArgs.size()));
                   }
                   // Test if this is the specialization we want.
                   if (std::equal(TArgs.begin(), TArgs.end(),
@@ -294,11 +308,57 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &input) {
           )
         ]
     ;
+
+  TArg_R =
+      ('(' >> T_R >> ')')
+        [_val = px::bind
+          (
+            []
+            (const Typ *Var) {
+              return Var; 
+            },
+            _1
+          )
+        ]
+    | TIdent_R 
+      [_val = px::bind
+        (
+          [&PrimMap, &ADTMap]
+          (const std::string &TName) {
+            auto itrPrim = PrimMap.find(TName);
+            if (itrPrim != PrimMap.end()) {
+              const Typ *T = itrPrim->second;
+              ASSERT(T->m_t == Typ::Prim_typ,
+                "Internal error: " + TName + " classified incorrectly");
+              return T;
+            }
+            auto itrADT = ADTMap.find(TName);
+            if (itrADT != ADTMap.end()) {
+              std::vector<const Typ *> &Ts = itrADT->second;
+              ASSERT(!Ts.empty(),
+                "No specialization found for ADT " + TName);
+              const Typ *T = Ts[0];
+              ASSERT(T->m_t == Typ::ADT_typ,
+                "Internal error: " + TName + " classfied incorrectly");
+              // We mimic the behaviour of the OCaml parser here and
+              // do not assert that:
+              // ASSERT(T->m_sub.m_spladt->m_parent->m_numTArgs == 0,
+              //  "Incorrect number of type arguments to ADT " + TName);
+              return T;
+            }
+            CREATE_ERROR("Unknown typ");
+          },
+          _1
+        )
+      ]
+    ;
+
   // clang-format on
 
   const Typ *T = nullptr;
-  if (!phrase_parse(input.begin(), input.end(), T_R, ascii::space, T))
+  if (!phrase_parse(Input.begin(), Input.end(), T_R, ascii::space, T))
     return nullptr;
+
   return T;
 }
 

@@ -43,8 +43,7 @@ private:
 class ScillaJIT {
 private:
   // Use the Create method to build a ScillaJIT object.
-  ScillaJIT(std::unique_ptr<llvm::orc::LLJIT> J)
-      : Jitter(std::move(J)) {}
+  ScillaJIT(std::unique_ptr<llvm::orc::LLJIT> J) : Jitter(std::move(J)) {}
   std::unique_ptr<llvm::orc::LLJIT> Jitter;
 
 public:

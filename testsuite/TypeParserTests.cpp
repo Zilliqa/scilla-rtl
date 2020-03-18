@@ -2,6 +2,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include "../libsrtl/ScillaTypes.h"
+#include <ScillaVM/Errors.h>
 
 namespace {
 using namespace ScillaVM::ScillaTypes;
@@ -81,11 +82,42 @@ ADTTyp::Specl List_int64_specl = {List_int64_argtys, List_int64_constrs,
                                   &List_adttyp};
 ADTTyp::Specl *List_specls[] = {&List_int32_specl, &List_int64_specl};
 
+// Pair (List Int32) Int64 and Pair Int32 (List Int64)
+extern ADTTyp::Specl *Pair_specls[];
+ADTTyp Pair_adttyp = {{(uint8_t *)"Pair", (int)strlen("Pair")},
+                      2 /* m_numTArgs */,
+                      1 /* m_numConstrs */,
+                      2 /* m_numSpecls */,
+                      Pair_specls /* specializations */};
+Typ Pair_list_int32_int64_typ = buildTyp_ADT(Pair_specls[0]);
+Typ Pair_int32_list_int64_typ = buildTyp_ADT(Pair_specls[1]);
+Typ *Pair_list_int32_int64_Pair_argtys[] = {&List_int32_typ, &Int64_typ};
+Typ *Pair_int32_list_int64_Pair_argtys[] = {&Int32_typ, &List_int64_typ};
+ADTTyp::Constr Pair_list_int32_int64_Pair = {
+    {(uint8_t *)"Pair", (int)strlen("Pair")},
+    2 /* m_numArgs */,
+    Pair_list_int32_int64_Pair_argtys};
+ADTTyp::Constr Pair_int32_list_int64_Pair = {
+    {(uint8_t *)"Pair", (int)strlen("Pair")},
+    2 /* m_numArgs */,
+    Pair_int32_list_int64_Pair_argtys};
+Typ *Pair_list_int32_int64_argtys[] = {&List_int32_typ, &Int64_typ};
+Typ *Pair_int32_list_int64_argtys[] = {&Int32_typ, &List_int64_typ};
+ADTTyp::Constr *Pair_list_int32_int64_constrs[] = {&Pair_list_int32_int64_Pair};
+ADTTyp::Constr *Pair_int32_list_int64_constrs[] = {&Pair_int32_list_int64_Pair};
+ADTTyp::Specl Pair_list_int32_int64_specl = {
+    Pair_list_int32_int64_argtys, Pair_list_int32_int64_constrs, &Pair_adttyp};
+ADTTyp::Specl Pair_int32_list_int64_specl = {
+    Pair_int32_list_int64_argtys, Pair_int32_list_int64_constrs, &Pair_adttyp};
+ADTTyp::Specl *Pair_specls[] = {&Pair_list_int32_int64_specl,
+                                &Pair_int32_list_int64_specl};
+
 // clang-format off
 const Typ* AllTyDescrs[] = {
   &Int32_typ, &Int64_typ, &Int128_typ, &Int256_typ,
   &Uint32_typ, &Uint64_typ, &Uint128_typ, &Uint256_typ,
-  &String_typ, &List_int32_typ, &List_int64_typ
+  &String_typ, &List_int32_typ, &List_int64_typ,
+  &Pair_list_int32_int64_typ, &Pair_int32_list_int64_typ
 };
 size_t NTyDescrs = sizeof(AllTyDescrs) / sizeof(const Typ *);
 
@@ -111,29 +143,55 @@ BOOST_AUTO_TEST_CASE(tydescrs_print) {
   BOOST_ASSERT(Typ::toString(&List_int64_typ) == "List (Int64)");
 }
 
-BOOST_AUTO_TEST_CASE(parse_int32) {
-  const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, "Int32");
-  BOOST_ASSERT(T && Typ::toString(T) == "Int32");
+void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
+  try {
+    const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, Input);
+    BOOST_ASSERT(T && Typ::toString(T) == ExpectedO);
+  } catch (const ScillaVM::ScillaError &E) {
+    BOOST_FAIL(E.toString());
+  }
 }
 
-BOOST_AUTO_TEST_CASE(parse_string) {
-  const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, "String");
-  BOOST_ASSERT(T && Typ::toString(T) == "String");
+void parserTestFail(const std::string &Input) {
+  try {
+    const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, Input);
+    BOOST_ASSERT_MSG(!T, "Type parser should have failed, but did not.");
+  } catch (const ScillaVM::ScillaError &E) {
+    BOOST_TEST_MESSAGE("\tCaught expected exception: " << E.toString());
+  }
 }
+
+BOOST_AUTO_TEST_CASE(parse_int32) {
+  parserTestSuccess("Int32", "Int32");
+  parserTestSuccess("(Int32)", "Int32");
+}
+
+BOOST_AUTO_TEST_CASE(parse_string) { parserTestSuccess("String", "String"); }
 
 BOOST_AUTO_TEST_CASE(parse_list_int32) {
-  const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, "List Int32");
-  BOOST_ASSERT(T && Typ::toString(T) == "List (Int32)");
-  T = Typ::fromString(AllTyDescrs, NTyDescrs, "List (Int32)");
-  BOOST_ASSERT(T && Typ::toString(T) == "List (Int32)");
+  parserTestSuccess("List Int32", "List (Int32)");
+  parserTestSuccess("List(Int32)", "List (Int32)");
 }
 
 BOOST_AUTO_TEST_CASE(parse_list_int64) {
-  const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, "List Int64");
-  BOOST_ASSERT(T && Typ::toString(T) == "List (Int64)");
-  T = Typ::fromString(AllTyDescrs, NTyDescrs, "List (Int64)");
-  BOOST_ASSERT(T && Typ::toString(T) == "List (Int64)");
+  parserTestSuccess("List Int64", "List (Int64)");
+  parserTestSuccess("List (Int64)", "List (Int64)");
 }
 
+BOOST_AUTO_TEST_CASE(parse_pair_list_int32_int64) {
+  parserTestSuccess("Pair (List Int32) Int64", "Pair (List (Int32)) (Int64)");
+}
+
+BOOST_AUTO_TEST_CASE(parse_pair_int32_list_int64) {
+  parserTestSuccess("Pair Int32 (List Int64)", "Pair (Int32) (List (Int64))");
+}
+
+BOOST_AUTO_TEST_CASE(parse_pair_list_int32_int64_fail) {
+  parserTestFail("Pair List Int32 Int64");
+}
+
+BOOST_AUTO_TEST_CASE(parse_pair_int32_list_int64_fail) {
+  parserTestFail("Pair Int32 List Int64");
+}
 
 BOOST_AUTO_TEST_SUITE_END()
