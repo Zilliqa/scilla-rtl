@@ -1,0 +1,139 @@
+#include <boost/test/output_test_stream.hpp>
+#include <boost/test/unit_test.hpp>
+
+#include "../libsrtl/ScillaTypes.h"
+
+namespace {
+using namespace ScillaVM::ScillaTypes;
+
+// IntX types
+PrimTyp Int32_primtyp = {PrimTyp::Int_typ, {PrimTyp::Bits32}};
+Typ Int32_typ = {Typ::Prim_typ, {&Int32_primtyp}};
+
+PrimTyp Int64_primtyp = {PrimTyp::Int_typ, {PrimTyp::Bits64}};
+Typ Int64_typ = {Typ::Prim_typ, {&Int64_primtyp}};
+
+PrimTyp Int128_primtyp = {PrimTyp::Int_typ, {PrimTyp::Bits128}};
+Typ Int128_typ = {Typ::Prim_typ, {&Int128_primtyp}};
+
+PrimTyp Int256_primtyp = {PrimTyp::Int_typ, {PrimTyp::Bits256}};
+Typ Int256_typ = {Typ::Prim_typ, {&Int256_primtyp}};
+
+// UintX types
+PrimTyp Uint32_primtyp = {PrimTyp::Uint_typ, {PrimTyp::Bits32}};
+Typ Uint32_typ = {Typ::Prim_typ, {&Uint32_primtyp}};
+
+PrimTyp Uint64_primtyp = {PrimTyp::Uint_typ, {PrimTyp::Bits64}};
+Typ Uint64_typ = {Typ::Prim_typ, {&Uint64_primtyp}};
+
+PrimTyp Uint128_primtyp = {PrimTyp::Uint_typ, {PrimTyp::Bits128}};
+Typ Uint128_typ = {Typ::Prim_typ, {&Uint128_primtyp}};
+
+PrimTyp Uint256_primtyp = {PrimTyp::Uint_typ, {PrimTyp::Bits256}};
+Typ Uint256_typ = {Typ::Prim_typ, {&Uint256_primtyp}};
+
+// String type
+PrimTyp String_primtyp = []() {
+  PrimTyp pt;
+  pt.m_pt = PrimTyp::String_typ;
+  pt.m_detail.m_bystX = 0;
+  return pt;
+}();
+Typ String_typ = {Typ::Prim_typ, {&String_primtyp}};
+
+// List type, with Int32 and Int64 specializations.
+extern ADTTyp::Specl *List_specls[];
+ADTTyp List_adttyp = {{(uint8_t *)"List", (int)strlen("List")},
+                      1 /* m_numTArgs */,
+                      2 /* m_numConstrs */,
+                      2 /* m_numSpecls */,
+                      List_specls /* specializations */};
+
+// C++ doesn't support C99's designated initializers.
+// So this is a workaround to initialize our struct.
+Typ buildTyp_ADT(ADTTyp::Specl *specl) {
+  Typ r;
+  r.m_t = Typ::ADT_typ;
+  r.m_sub.m_spladt = specl;
+  return r;
+}
+
+Typ List_int32_typ = buildTyp_ADT(List_specls[0]);
+Typ List_int64_typ = buildTyp_ADT(List_specls[1]);
+Typ *List_int32_Cons_argtys[] = {&Int32_typ, &List_int32_typ};
+Typ *List_int64_Cons_argtys[] = {&Int64_typ, &List_int64_typ};
+ADTTyp::Constr List_int32_Cons = {{(uint8_t *)"Cons", (int)strlen("Cons")},
+                                  2 /* m_numArgs */,
+                                  List_int32_Cons_argtys /* m_args */};
+ADTTyp::Constr List_int64_Cons = {{(uint8_t *)"Cons", (int)strlen("Cons")},
+                                  2 /* m_numArgs */,
+                                  List_int64_Cons_argtys /* m_args */};
+ADTTyp::Constr List_Nil = {{(uint8_t *)"Nil", (int)strlen("Nil")},
+                           0 /* m_numArgs */,
+                           nullptr /* m_args */};
+Typ *List_int32_argtys[] = {&Int32_typ};
+Typ *List_int64_argtys[] = {&Int64_typ};
+ADTTyp::Constr *List_int32_constrs[] = {&List_int32_Cons, &List_Nil};
+ADTTyp::Constr *List_int64_constrs[] = {&List_int64_Cons, &List_Nil};
+ADTTyp::Specl List_int32_specl = {List_int32_argtys, List_int32_constrs,
+                                  &List_adttyp};
+ADTTyp::Specl List_int64_specl = {List_int64_argtys, List_int64_constrs,
+                                  &List_adttyp};
+ADTTyp::Specl *List_specls[] = {&List_int32_specl, &List_int64_specl};
+
+// clang-format off
+const Typ* AllTyDescrs[] = {
+  &Int32_typ, &Int64_typ, &Int128_typ, &Int256_typ,
+  &Uint32_typ, &Uint64_typ, &Uint128_typ, &Uint256_typ,
+  &String_typ, &List_int32_typ, &List_int64_typ
+};
+size_t NTyDescrs = sizeof(AllTyDescrs) / sizeof(const Typ *);
+
+// clang-format on
+
+} // namespace
+
+BOOST_AUTO_TEST_SUITE(typ_parser)
+using namespace ScillaVM::ScillaTypes;
+
+// Just print and verify our type descriptors above.
+BOOST_AUTO_TEST_CASE(tydescrs_print) {
+  BOOST_ASSERT(Typ::toString(&Int32_typ) == "Int32");
+  BOOST_ASSERT(Typ::toString(&Int64_typ) == "Int64");
+  BOOST_ASSERT(Typ::toString(&Int128_typ) == "Int128");
+  BOOST_ASSERT(Typ::toString(&Int256_typ) == "Int256");
+  BOOST_ASSERT(Typ::toString(&Uint32_typ) == "Uint32");
+  BOOST_ASSERT(Typ::toString(&Uint64_typ) == "Uint64");
+  BOOST_ASSERT(Typ::toString(&Uint128_typ) == "Uint128");
+  BOOST_ASSERT(Typ::toString(&Uint256_typ) == "Uint256");
+  BOOST_ASSERT(Typ::toString(&String_typ) == "String");
+  BOOST_ASSERT(Typ::toString(&List_int32_typ) == "List (Int32)");
+  BOOST_ASSERT(Typ::toString(&List_int64_typ) == "List (Int64)");
+}
+
+BOOST_AUTO_TEST_CASE(parse_int32) {
+  const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, "Int32");
+  BOOST_ASSERT(T && Typ::toString(T) == "Int32");
+}
+
+BOOST_AUTO_TEST_CASE(parse_string) {
+  const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, "String");
+  BOOST_ASSERT(T && Typ::toString(T) == "String");
+}
+
+BOOST_AUTO_TEST_CASE(parse_list_int32) {
+  const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, "List Int32");
+  BOOST_ASSERT(T && Typ::toString(T) == "List (Int32)");
+  T = Typ::fromString(AllTyDescrs, NTyDescrs, "List (Int32)");
+  BOOST_ASSERT(T && Typ::toString(T) == "List (Int32)");
+}
+
+BOOST_AUTO_TEST_CASE(parse_list_int64) {
+  const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, "List Int64");
+  BOOST_ASSERT(T && Typ::toString(T) == "List (Int64)");
+  T = Typ::fromString(AllTyDescrs, NTyDescrs, "List (Int64)");
+  BOOST_ASSERT(T && Typ::toString(T) == "List (Int64)");
+}
+
+
+BOOST_AUTO_TEST_SUITE_END()

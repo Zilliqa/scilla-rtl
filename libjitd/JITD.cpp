@@ -114,7 +114,7 @@ ScillaJIT::create(const std::string &Filename, ObjectCache *OC) {
           addScillaBuiltins((*J)->getExecutionSession(), (*J)->getDataLayout()))
     return std::move(Err);
 
-  auto *THIS = new ScillaJIT(std::move(*J), OC);
+  auto *THIS = new ScillaJIT(std::move(*J));
 
   auto Ctx = llvm::make_unique<LLVMContext>();
   SMDiagnostic Smd;

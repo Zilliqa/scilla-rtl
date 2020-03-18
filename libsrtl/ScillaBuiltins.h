@@ -34,6 +34,9 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void);
 
 } // end of namespace ScillaVM
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreturn-type-c-linkage"
+
 extern "C" {
 
 // Print Scilla value @V whose type is described by @T to ScillaStdout .
@@ -61,3 +64,4 @@ void _add_Uint256(ScillaVM::ScillaTypes::Uint256 *,
                   ScillaVM::ScillaTypes::Uint256 *);
 
 } // extern "C"
+#pragma clang diagnostic pop

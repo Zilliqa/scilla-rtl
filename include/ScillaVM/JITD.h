@@ -43,10 +43,9 @@ private:
 class ScillaJIT {
 private:
   // Use the Create method to build a ScillaJIT object.
-  ScillaJIT(std::unique_ptr<llvm::orc::LLJIT> J, llvm::ObjectCache *C)
-      : Jitter(std::move(J)), Cache(C) {}
+  ScillaJIT(std::unique_ptr<llvm::orc::LLJIT> J)
+      : Jitter(std::move(J)) {}
   std::unique_ptr<llvm::orc::LLJIT> Jitter;
-  llvm::ObjectCache *Cache;
 
 public:
   // One time initialization.

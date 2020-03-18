@@ -52,3 +52,6 @@ struct ScillaError {
 // source location
 #define CREATE_ERROR_SLOC(MSG, SCILLA_LOC)                                     \
   throw(MSG, SourceLoc(__FILE__, __LINE__), SCILLA_LOC)
+
+// Assert EXPR. If false, CREATE_ERROR with MSG.
+#define ASSERT(EXPR, MSG) if(EXPR) {} else { CREATE_ERROR(MSG); }
