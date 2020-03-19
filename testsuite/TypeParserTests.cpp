@@ -35,12 +35,21 @@ Typ Uint256_typ = {Typ::Prim_typ, {&Uint256_primtyp}};
 
 // String type
 PrimTyp String_primtyp = []() {
-  PrimTyp pt;
-  pt.m_pt = PrimTyp::String_typ;
-  pt.m_detail.m_bystX = 0;
-  return pt;
+  PrimTyp PT;
+  PT.m_pt = PrimTyp::String_typ;
+  PT.m_detail.m_bystX = 0;
+  return PT;
 }();
 Typ String_typ = {Typ::Prim_typ, {&String_primtyp}};
+
+// BNum type
+PrimTyp BNum_primtyp = []() {
+  PrimTyp PT;
+  PT.m_pt = PrimTyp::Bnum_typ;
+  PT.m_detail.m_bystX = 0;
+  return PT;
+}();
+Typ BNum_typ = {Typ::Prim_typ, {&BNum_primtyp}};
 
 // List type, with Int32 and Int64 specializations.
 extern ADTTyp::Specl *List_specls[];
@@ -52,11 +61,17 @@ ADTTyp List_adttyp = {{(uint8_t *)"List", (int)strlen("List")},
 
 // C++ doesn't support C99's designated initializers.
 // So this is a workaround to initialize our struct.
-Typ buildTyp_ADT(ADTTyp::Specl *specl) {
-  Typ r;
-  r.m_t = Typ::ADT_typ;
-  r.m_sub.m_spladt = specl;
-  return r;
+Typ buildTyp_ADT(ADTTyp::Specl *Specl) {
+  Typ R;
+  R.m_t = Typ::ADT_typ;
+  R.m_sub.m_spladt = Specl;
+  return R;
+}
+Typ buildTyp_Map(MapTyp *MT) {
+  Typ R;
+  R.m_t = Typ::Map_typ;
+  R.m_sub.m_mapt = MT;
+  return R;
 }
 
 Typ List_int32_typ = buildTyp_ADT(List_specls[0]);
@@ -112,12 +127,21 @@ ADTTyp::Specl Pair_int32_list_int64_specl = {
 ADTTyp::Specl *Pair_specls[] = {&Pair_list_int32_int64_specl,
                                 &Pair_int32_list_int64_specl};
 
+// Map Int32 String, Map Int64 (Pair Int32 (List Int64))
+MapTyp Map_int32_string_MapTyp = {&Int32_typ, &String_typ};
+Typ Map_int32_string_typ = buildTyp_Map(&Map_int32_string_MapTyp);
+MapTyp Map_int64_pair_int32_list_int64_MapTyp = {&Int64_typ,
+                                                 &Pair_int32_list_int64_typ};
+Typ Map_int64_pair_int32_list_int64_typ =
+    buildTyp_Map(&Map_int64_pair_int32_list_int64_MapTyp);
+
 // clang-format off
 const Typ* AllTyDescrs[] = {
   &Int32_typ, &Int64_typ, &Int128_typ, &Int256_typ,
   &Uint32_typ, &Uint64_typ, &Uint128_typ, &Uint256_typ,
-  &String_typ, &List_int32_typ, &List_int64_typ,
-  &Pair_list_int32_int64_typ, &Pair_int32_list_int64_typ
+  &String_typ, &BNum_typ, &List_int32_typ, &List_int64_typ,
+  &Pair_list_int32_int64_typ, &Pair_int32_list_int64_typ,
+  &Map_int32_string_typ, &Map_int64_pair_int32_list_int64_typ
 };
 size_t NTyDescrs = sizeof(AllTyDescrs) / sizeof(const Typ *);
 
@@ -161,9 +185,28 @@ void parserTestFail(const std::string &Input) {
   }
 }
 
-BOOST_AUTO_TEST_CASE(parse_int32) {
-  parserTestSuccess("Int32", "Int32");
+BOOST_AUTO_TEST_CASE(parse_prims) {
   parserTestSuccess("(Int32)", "Int32");
+
+  parserTestSuccess("Int32", "Int32");
+  parserTestSuccess("Int64", "Int64");
+  parserTestSuccess("Int128", "Int128");
+  parserTestSuccess("Int256", "Int256");
+
+  parserTestSuccess("Uint32", "Uint32");
+  parserTestSuccess("Uint64", "Uint64");
+  parserTestSuccess("Uint128", "Uint128");
+  parserTestSuccess("Uint256", "Uint256");
+
+  parserTestSuccess("String", "String");
+  parserTestSuccess("BNum", "BNum");
+}
+
+BOOST_AUTO_TEST_CASE(parse_prim_fail) {
+  parserTestFail("(Int32");
+  parserTestFail("Uint256)");
+  parserTestFail("String Int32");
+  parserTestFail("Uint128 (String)");
 }
 
 BOOST_AUTO_TEST_CASE(parse_string) { parserTestSuccess("String", "String"); }
@@ -186,17 +229,11 @@ BOOST_AUTO_TEST_CASE(parse_pair_int32_list_int64) {
   parserTestSuccess("Pair Int32 (List Int64)", "Pair (Int32) (List (Int64))");
 }
 
-BOOST_AUTO_TEST_CASE(parse_int33_fail) {
-  parserTestFail("Int33");
-}
+BOOST_AUTO_TEST_CASE(parse_int33_fail) { parserTestFail("Int33"); }
 
-BOOST_AUTO_TEST_CASE(parse_list_fail_1) {
-  parserTestFail("List");
-}
+BOOST_AUTO_TEST_CASE(parse_list_fail_1) { parserTestFail("List"); }
 
-BOOST_AUTO_TEST_CASE(parse_list_fail_2) {
-  parserTestFail("List Int");
-}
+BOOST_AUTO_TEST_CASE(parse_list_fail_2) { parserTestFail("List Int"); }
 
 BOOST_AUTO_TEST_CASE(parse_pair_list_int32_int64_fail) {
   parserTestFail("Pair List Int32 Int64");
@@ -204,6 +241,22 @@ BOOST_AUTO_TEST_CASE(parse_pair_list_int32_int64_fail) {
 
 BOOST_AUTO_TEST_CASE(parse_pair_int32_list_int64_fail) {
   parserTestFail("Pair Int32 List Int64");
+}
+
+BOOST_AUTO_TEST_CASE(parse_map_int32_string) {
+  parserTestSuccess("Map Int32 String", "Map (Int32) (String)");
+}
+
+BOOST_AUTO_TEST_CASE(parser_map_int64_pair_int32_list_int64) {
+  parserTestSuccess("Map Int64 (Pair Int32 (List Int64))",
+                    "Map (Int64) (Pair (Int32) (List (Int64)))");
+  parserTestSuccess("Map Int64 Pair Int32 (List Int64)",
+                    "Map (Int64) (Pair (Int32) (List (Int64)))");
+}
+
+BOOST_AUTO_TEST_CASE(parser_map_int64_pair_int32_list_int64_fail) {
+  // This is the same issue as with "parse_pair_list_int32_int64_fail"
+  parserTestFail("Map Int64 Pair Int32 List Int64");
 }
 
 BOOST_AUTO_TEST_SUITE_END()

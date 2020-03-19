@@ -173,11 +173,8 @@ bool Typ::isBoxed(const Typ *T) {
 } // namespace ScillaVM
 
 #include <boost/config/warning_disable.hpp>
-#include <boost/fusion/include/adapt_struct.hpp>
-#include <boost/lambda/lambda.hpp>
 #include <boost/spirit/include/phoenix.hpp>
 #include <boost/spirit/include/qi.hpp>
-#include <boost/spirit/include/qi_lexeme.hpp>
 
 namespace ScillaVM {
 namespace ScillaTypes {
@@ -208,21 +205,15 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
   namespace qi = boost::spirit::qi;
   namespace ascii = boost::spirit::ascii;
   namespace px = boost::phoenix;
-  using px::at_c;
-  using qi::_1;
-  using qi::_2;
-  using qi::_val;
-  using qi::char_;
-  using qi::lexeme;
-  using qi::lit;
 
   qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
       TIdent_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> T_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> TArg_R;
+  qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> Start_R;
 
   // A type identifier is "[A-Z][a-zA-Z0-9]*"
-  TIdent_R = lexeme[char_('A', 'Z') >> *(ascii::alnum)];
+  TIdent_R = qi::lexeme[qi::char_('A', 'Z') >> *(ascii::alnum)];
 
   // clang-format off
   T_R =
@@ -232,7 +223,7 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
     | qi::string("Uint32")  | qi::string("Uint64")
     | qi::string("Uint128") | qi::string("Uint256")
     | qi::string("String")  | qi::string("BNum"))
-       [_val = px::bind
+       [qi::_val = px::bind
         (
           [&PrimMap]
           (const std::string &TName) {
@@ -243,11 +234,11 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
                 "Internal error: " + TName + " classified incorrectly");
               return T;
             },
-            _1
+            qi::_1
           )
         ]
-    |  (lit("Map") >> T_R >> T_R) // Rule-1 for Map
-        [_val = px::bind
+    |  (qi::lit("Map") >> T_R >> T_R) // Rule-1 for Map
+        [qi::_val = px::bind
           (
             [&MapList]
             (const Typ *KTyp, const Typ *VTyp) {
@@ -262,11 +253,11 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
               }
               CREATE_ERROR("No matching MapTyp found");
             },
-            _1, _2
+            qi::_1, qi::_2
           )
         ]
     | (TIdent_R >> *TArg_R) // Rule-2 for ADTs
-        [_val = px::bind
+        [qi::_val = px::bind
           (
             [&ADTMap]
             (const std::string &TName, std::vector<const Typ *> TArgs) {
@@ -294,34 +285,34 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
               // No success matching this type.
               CREATE_ERROR("Unknown type " + TName);
             },
-            _1, _2
+            qi::_1, qi::_2
           )
         ] 
     | ('(' >> T_R >> ')') // Rule-3 for "( typ )"
-        [_val = px::bind
+        [qi::_val = px::bind
           (
             []
             (const Typ *Var) {
               return Var; 
             },
-            _1
+            qi::_1
           )
         ]
     ;
 
   TArg_R =
       ('(' >> T_R >> ')')
-        [_val = px::bind
+        [qi::_val = px::bind
           (
             []
             (const Typ *Var) {
               return Var; 
             },
-            _1
+            qi::_1
           )
         ]
     | TIdent_R 
-      [_val = px::bind
+      [qi::_val = px::bind
         (
           [&PrimMap, &ADTMap]
           (const std::string &TName) {
@@ -348,15 +339,17 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
             }
             CREATE_ERROR("Unknown type " + TName);
           },
-          _1
+          qi::_1
         )
       ]
     ;
 
   // clang-format on
 
+  Start_R %= T_R >> qi::eoi;
+
   const Typ *T = nullptr;
-  if (!phrase_parse(Input.begin(), Input.end(), T_R, ascii::space, T))
+  if (!phrase_parse(Input.begin(), Input.end(), Start_R, ascii::space, T))
     return nullptr;
 
   return T;
