@@ -16,6 +16,7 @@
  */
 
 #include <functional>
+#include <unordered_map>
 
 #include "ScillaTypes.h"
 #include "ScillaVM/Errors.h"
@@ -31,6 +32,16 @@ Bytes::operator ByteVec() const {
 Bytes::operator std::string() const {
   return std::string(m_buffer, m_buffer + m_length);
 }
+
+// Are two types equal?
+bool Typ::operator==(const Typ *RHS) {
+  // Currently only once Typ instance of each type exists.
+  // So a pointer equality is sufficient.
+  return static_cast<const void *>(this) == static_cast<const void *>(RHS);
+}
+
+// Are two types unequal?
+bool Typ::operator!=(const Typ *RHS) { return !(this == RHS); }
 
 std::string Typ::toString(const Typ *T) {
 
@@ -54,7 +65,7 @@ std::string Typ::toString(const Typ *T) {
         }
         CREATE_ERROR("Unhandled integer bit-width");
       };
-      switch (T->m_sub.m_primt->pt) {
+      switch (T->m_sub.m_primt->m_pt) {
       case PrimTyp::Int_typ:
         Out += "Int" + bwToString(T->m_sub.m_primt->m_detail.m_intBW);
         break;
@@ -113,7 +124,7 @@ std::string Typ::toString(const Typ *T) {
 int ScillaTypes::Typ::sizeOf(const Typ *T) {
   switch (T->m_t) {
   case Typ::Prim_typ: {
-    switch (T->m_sub.m_primt->pt) {
+    switch (T->m_sub.m_primt->m_pt) {
     case PrimTyp::Int_typ:
     case PrimTyp::Uint_typ:
       switch (T->m_sub.m_primt->m_detail.m_intBW) {
@@ -156,6 +167,192 @@ bool Typ::isBoxed(const Typ *T) {
     return true;
   }
   CREATE_ERROR("Unreachable executed");
+}
+
+} // namespace ScillaTypes
+} // namespace ScillaVM
+
+#include <boost/config/warning_disable.hpp>
+#include <boost/spirit/include/phoenix.hpp>
+#include <boost/spirit/include/qi.hpp>
+
+namespace ScillaVM {
+namespace ScillaTypes {
+
+const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
+  // Classify Ts into PrimTypes, ADTs and Map types.
+  // TODO: Cache this classification and re-use across invocations.
+  std::unordered_map<std::string, const Typ *> PrimMap;
+  std::unordered_map<std::string, std::vector<const Typ *>> ADTMap;
+  std::vector<const Typ *> MapList;
+  for (int i = 0; i < NT; i++) {
+    switch (Ts[i]->m_t) {
+    case Prim_typ:
+      // Direct mapping for prim types.
+      PrimMap[toString(Ts[i])] = Ts[i];
+      break;
+    case ADT_typ:
+      // List down all Typ objects for this ADT.
+      ADTMap[(std::string)Ts[i]->m_sub.m_spladt->m_parent->m_tName].push_back(
+          Ts[i]);
+      break;
+    case Map_typ:
+      MapList.push_back(Ts[i]);
+      break;
+    }
+  }
+
+  namespace qi = boost::spirit::qi;
+  namespace ascii = boost::spirit::ascii;
+  namespace px = boost::phoenix;
+
+  qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
+      TIdent_R;
+  qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> T_R;
+  qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> TArg_R;
+  qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> Start_R;
+
+  // A type identifier is "[A-Z][a-zA-Z0-9]*"
+  TIdent_R = qi::lexeme[qi::char_('A', 'Z') >> *(ascii::alnum)];
+
+  // clang-format off
+  T_R =
+    // Rule-0 Get all the PrimTyps.
+     (qi::string("Int32")   | qi::string("Int64") 
+    | qi::string("Int128")  | qi::string("Int256")
+    | qi::string("Uint32")  | qi::string("Uint64")
+    | qi::string("Uint128") | qi::string("Uint256")
+    | qi::string("String")  | qi::string("BNum"))
+       [qi::_val = px::bind
+        (
+          [&PrimMap]
+          (const std::string &TName) {
+              auto itrPrim = PrimMap.find(TName);
+              ASSERT(itrPrim != PrimMap.end(), TName + " not a PrimTyp");
+              const Typ *T = itrPrim->second;
+              ASSERT(T->m_t == Typ::Prim_typ,
+                "Internal error: " + TName + " classified incorrectly");
+              return T;
+            },
+            qi::_1
+          )
+        ]
+    |  (qi::lit("Map") >> T_R >> T_R) // Rule-1 for Map
+        [qi::_val = px::bind
+          (
+            [&MapList]
+            (const Typ *KTyp, const Typ *VTyp) {
+              for (const Typ *T : MapList) {
+                ASSERT(T->m_t == Typ::Map_typ, 
+                  "Internal error: non MapTyp classfied incorrectly");
+                if (T->m_sub.m_mapt->m_keyTyp == KTyp &&
+                    T->m_sub.m_mapt->m_valTyp == VTyp) {
+                  // We have a match.
+                  return T;
+                }
+              }
+              CREATE_ERROR("No matching MapTyp found");
+            },
+            qi::_1, qi::_2
+          )
+        ]
+    | (TIdent_R >> *TArg_R) // Rule-2 for ADTs
+        [qi::_val = px::bind
+          (
+            [&ADTMap]
+            (const std::string &TName, std::vector<const Typ *> TArgs) {
+              // Check if this is an ADT
+              auto itrADT = ADTMap.find(TName);
+              if (itrADT != ADTMap.end()) {
+                std::vector<const Typ *> &Ts = itrADT->second;
+                for (auto *T : Ts) {
+                  ASSERT(T->m_t == Typ::ADT_typ,
+                    "Internal error: " + TName + " classfied incorrectly");
+                  ADTTyp::Specl *Spl = T->m_sub.m_spladt;
+                  if (Spl->m_parent->m_numTArgs != (int)TArgs.size()) {
+                    CREATE_ERROR(TName + " expects " +
+                      std::to_string(Spl->m_parent->m_numTArgs) +
+                      " type arguments, but got " + std::to_string(TArgs.size()));
+                  }
+                  // Test if this is the specialization we want.
+                  if (std::equal(TArgs.begin(), TArgs.end(),
+                                Spl->m_TArgs)) {
+                    // We have a match.
+                    return T;
+                  }
+                }
+              }
+              // No success matching this type.
+              CREATE_ERROR("Unknown type " + TName);
+            },
+            qi::_1, qi::_2
+          )
+        ] 
+    | ('(' >> T_R >> ')') // Rule-3 for "( typ )"
+        [qi::_val = px::bind
+          (
+            []
+            (const Typ *Var) {
+              return Var; 
+            },
+            qi::_1
+          )
+        ]
+    ;
+
+  TArg_R =
+      ('(' >> T_R >> ')')
+        [qi::_val = px::bind
+          (
+            []
+            (const Typ *Var) {
+              return Var; 
+            },
+            qi::_1
+          )
+        ]
+    | TIdent_R 
+      [qi::_val = px::bind
+        (
+          [&PrimMap, &ADTMap]
+          (const std::string &TName) {
+            auto itrPrim = PrimMap.find(TName);
+            if (itrPrim != PrimMap.end()) {
+              const Typ *T = itrPrim->second;
+              ASSERT(T->m_t == Typ::Prim_typ,
+                "Internal error: " + TName + " classified incorrectly");
+              return T;
+            }
+            auto itrADT = ADTMap.find(TName);
+            if (itrADT != ADTMap.end()) {
+              std::vector<const Typ *> &Ts = itrADT->second;
+              ASSERT(!Ts.empty(),
+                "No specialization found for ADT " + TName);
+              const Typ *T = Ts[0];
+              ASSERT(T->m_t == Typ::ADT_typ,
+                "Internal error: " + TName + " classfied incorrectly");
+              // We mimic the behaviour of the OCaml parser here and
+              // do not assert that:
+              // ASSERT(T->m_sub.m_spladt->m_parent->m_numTArgs == 0,
+              //  "Incorrect number of type arguments to ADT " + TName);
+              return T;
+            }
+            CREATE_ERROR("Unknown type " + TName);
+          },
+          qi::_1
+        )
+      ]
+    ;
+
+  // clang-format on
+
+  Start_R %= T_R >> qi::eoi;
+
+  const Typ *T = nullptr;
+  if (!phrase_parse(Input.begin(), Input.end(), Start_R, ascii::space, T))
+    return nullptr;
+
+  return T;
 }
 
 } // namespace ScillaTypes

@@ -44,9 +44,9 @@ struct CommandLineInit {
       // TODO: Use boost::program_options and support UpdateResult too.
       BOOST_TEST_REQUIRE(framework::master_test_suite().argv[1] ==
                          "--testsuite_src");
-      auto dir = framework::master_test_suite().argv[2];
-      BOOST_TEST_REQUIRE(boost::filesystem::is_directory(dir));
-      Config::TestsuiteSrc = dir;
+      auto Dir = framework::master_test_suite().argv[2];
+      BOOST_TEST_REQUIRE(boost::filesystem::is_directory(Dir));
+      Config::TestsuiteSrc = Dir;
     } else {
       BOOST_FAIL("\nUsage: " << framework::master_test_suite().argv[0]
                              << " [Boost.Test argument]... -- --testsuite_src "
@@ -92,6 +92,13 @@ void testExecExpr(const std::string &Testname) {
   output << ScillaStdout;
   BOOST_TEST(output.match_pattern());
   BOOST_TEST_CHECKPOINT(Filename + ": Output matched");
+
+  // https://github.com/boostorg/boost/issues/379
+  try {
+    throw std::exception();
+  } catch (std::exception &) {
+    ;
+  }
 }
 
 BOOST_AUTO_TEST_SUITE(expr_exec)

@@ -40,6 +40,10 @@ struct ScillaError {
   ScillaError(const std::string &Msg, const SourceLoc &ThrowLoc,
               const SourceLoc &ScillaSrcLoc)
       : Msg(Msg), ThrowLoc(ThrowLoc), ScillaSrcLoc(ScillaSrcLoc) {}
+  std::string toString() const {
+    return ThrowLoc.File + "(" + std::to_string(ThrowLoc.Line) +
+           "): error: " + Msg;
+  }
 };
 
 } // namespace ScillaVM
@@ -52,3 +56,10 @@ struct ScillaError {
 // source location
 #define CREATE_ERROR_SLOC(MSG, SCILLA_LOC)                                     \
   throw(MSG, SourceLoc(__FILE__, __LINE__), SCILLA_LOC)
+
+// Assert EXPR. If false, CREATE_ERROR with MSG.
+#define ASSERT(EXPR, MSG)                                                      \
+  if (EXPR) {                                                                  \
+  } else {                                                                     \
+    CREATE_ERROR(MSG);                                                         \
+  }

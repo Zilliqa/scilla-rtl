@@ -26,7 +26,7 @@ constexpr char Hexmap[] = {'0', '1', '2', '3', '4', '5', '6', '7',
                            '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
 // Adapted from https://codereview.stackexchange.com/a/78539.
-std::string rawToHex(uint8_t *Data, int Len) {
+std::string rawToHex(const uint8_t *Data, int Len) {
   std::string S("0x");
   S.reserve(2 * Len + 2);
   for (int I = 0; I < Len; ++I) {
@@ -45,7 +45,7 @@ std::string toString(const ScillaTypes::Typ *T, void *V) {
       [&recurser, &Out](const ScillaTypes::Typ *T, void *V) -> void {
     switch (T->m_t) {
     case ScillaTypes::Typ::Prim_typ: {
-      switch (T->m_sub.m_primt->pt) {
+      switch (T->m_sub.m_primt->m_pt) {
       case ScillaTypes::PrimTyp::Int_typ: {
         using namespace ScillaTypes;
         auto BW = T->m_sub.m_primt->m_detail.m_intBW;

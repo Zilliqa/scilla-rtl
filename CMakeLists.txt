@@ -28,6 +28,7 @@ add_compile_options(-Wall)
 add_compile_options(-Werror)
 add_compile_options(-pedantic)
 add_compile_options(-Wextra)
+add_compile_options(-Wno-unknown-pragmas)
 
 if (THREAD_SANITIZER AND ADDRESS_SANITIZER)
     message(FATAL_ERROR "Cannot use ThreadSanitizer (THREAD_SANITIZER=ON) and AddressSanitizer (ADDRESS_SANITIZER=ON) at the same time")
