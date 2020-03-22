@@ -1,4 +1,3 @@
-#include <boost/test/output_test_stream.hpp>
 #include <boost/test/unit_test.hpp>
 
 #include "../libsrtl/ScillaTypes.h"
