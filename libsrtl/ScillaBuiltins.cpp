@@ -53,7 +53,7 @@ using namespace ScillaVM;
 extern "C" {
 
 void _print_scilla_val(const ScillaTypes::Typ *T, void *V) {
-  ScillaStdout += ScillaValues::toString(T, V) + "\n";
+  ScillaStdout += ScillaValues::toString(true, T, V) + "\n";
 }
 
 ScillaVM::ScillaTypes::Int32 _add_Int32(ScillaVM::ScillaTypes::Int32 Lhs,

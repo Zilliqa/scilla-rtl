@@ -36,13 +36,13 @@ std::string rawToHex(const uint8_t *Data, int Len) {
   return S;
 }
 
-std::string toString(const ScillaTypes::Typ *T, void *V) {
+std::string toString(bool PrintType, const ScillaTypes::Typ *T, void *V) {
 
   std::string Out;
   // Do the work in a lambda to avoid generating new strings and
   // concatening it to Out. This saves a cop
   std::function<void(const ScillaTypes::Typ *T, void *V)> recurser =
-      [&recurser, &Out](const ScillaTypes::Typ *T, void *V) -> void {
+      [&recurser, &Out, &PrintType](const ScillaTypes::Typ *T, void *V) -> void {
     switch (T->m_t) {
     case ScillaTypes::Typ::Prim_typ: {
       switch (T->m_sub.m_primt->m_pt) {
@@ -138,10 +138,77 @@ std::string toString(const ScillaTypes::Typ *T, void *V) {
       CREATE_ERROR("Unimplemented");
     }
 
-    Out += " : " + ScillaTypes::Typ::toString(T);
+    if (PrintType)
+      Out += " : " + ScillaTypes::Typ::toString(T);
   };
 
   recurser(T, V);
+
+  return Out;
+}
+
+Json::Value toJSON(const ScillaTypes::Typ *T, void *V) {
+
+  Json::Value Out;
+
+  // Do the work in a lambda.
+  std::function<void(const ScillaTypes::Typ *, void *, Json::Value &)>
+      recurser = [&recurser](const ScillaTypes::Typ *T, void *V,
+                             Json::Value &Out) -> void {
+    switch (T->m_t) {
+    case ScillaTypes::Typ::Prim_typ: {
+      switch (T->m_sub.m_primt->m_pt) {
+      case ScillaTypes::PrimTyp::Int_typ:
+      case ScillaTypes::PrimTyp::Uint_typ:
+      case ScillaTypes::PrimTyp::String_typ:
+      case ScillaTypes::PrimTyp::Bystrx_typ:
+      case ScillaTypes::PrimTyp::Bystr_typ:
+      case ScillaTypes::PrimTyp::Bnum_typ: {
+        // All these types just become JSON strings.
+        Out = toString(false, T, V);
+      } break;
+      case ScillaTypes::PrimTyp::Msg_typ:
+      case ScillaTypes::PrimTyp::Event_typ:
+      case ScillaTypes::PrimTyp::Exception_typ:
+        CREATE_ERROR("Unhandled PrimTyp values");
+      }
+    } break;
+    case ScillaTypes::Typ::ADT_typ: {
+      auto Tag = *reinterpret_cast<uint8_t *>(V);
+      auto SpeclP = T->m_sub.m_spladt;
+      auto ConstrP = SpeclP->m_constrs[Tag];
+      auto ADTP = SpeclP->m_parent;
+      // Print the constructor name.
+      Out["constructor"] = Json::Value(std::string(ConstrP->m_cName));
+      for (int i = 0; i < ADTP->m_numTArgs; i++) {
+        Out["argtypes"].append(
+            Json::Value(ScillaTypes::Typ::toString(SpeclP->m_TArgs[i])));
+      }
+      // Now print each argument.
+      Out["arguments"] = Json::Value(Json::arrayValue);
+      auto VP = reinterpret_cast<uint8_t *>(V);
+      // Increment VP once to go past the Tag.
+      VP++;
+      for (int I = 0; I < ConstrP->m_numArgs; I++) {
+        auto ArgT = ConstrP->m_args[I];
+        Json::Value Arg;
+        if (ScillaTypes::Typ::isBoxed(ArgT))
+          recurser(ArgT, *reinterpret_cast<void **>(VP), Arg);
+        else
+          recurser(ArgT, reinterpret_cast<void *>(VP), Arg);
+        Out["arguments"].append(Arg);
+        // Increment our data pointer equal to the size we just finised.
+        // structs containing ADTs are packed, so that we don't have to
+        // worry about padding here.
+        VP += ScillaTypes::Typ::sizeOf(ArgT);
+      }
+    } break;
+    case ScillaTypes::Typ::Map_typ:
+      CREATE_ERROR("Unimplemented");
+    }
+  };
+
+  recurser(T, V, Out);
 
   return Out;
 }

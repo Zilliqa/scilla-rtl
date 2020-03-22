@@ -19,6 +19,7 @@
 
 #include <string>
 
+#include <jsoncpp/json/json.h>
 #include <boost/multiprecision/cpp_int.hpp>
 
 #include "ScillaTypes.h"
@@ -26,8 +27,11 @@
 namespace ScillaVM {
 namespace ScillaValues {
 
-// Stringify Scilla value @V of type @T
-std::string toString(const ScillaTypes::Typ *T, void *V);
+// Stringify Scilla value @V of type @T.
+// @PrintType for each (sub) value printed.
+std::string toString(bool PrintType, const ScillaTypes::Typ *T, void *V);
+// Serialize Scilla value @V to a JSON
+Json::Value toJSON(const ScillaTypes::Typ *T, void *V);
 
 } // namespace ScillaValues
 } // namespace ScillaVM
