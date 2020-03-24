@@ -14,6 +14,7 @@ target triple = "x86_64-pc-linux-gnu"
 %"$$fundef_3_env_30" = type {}
 %Uint32 = type { i32 }
 
+@_execptr = global i8* null
 @"$TyDescr_Int32_Prim_6" = global %"$TyDescrTy_PrimTyp_5" zeroinitializer
 @"$TyDescr_Int32_7" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_Int32_Prim_6" to i8*) }
 @"$TyDescr_Uint32_Prim_8" = global %"$TyDescrTy_PrimTyp_5" { i32 1, i32 0 }

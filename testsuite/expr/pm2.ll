@@ -31,6 +31,7 @@ target triple = "x86_64-pc-linux-gnu"
 %CName_None_Int32 = type <{ i8 }>
 %"CName_None_Option_(Int32)" = type <{ i8 }>
 
+@_execptr = global i8* null
 @"$TyDescr_Int32_Prim_6" = global %"$TyDescrTy_PrimTyp_5" zeroinitializer
 @"$TyDescr_Int32_7" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_Int32_Prim_6" to i8*) }
 @"$TyDescr_Uint32_Prim_8" = global %"$TyDescrTy_PrimTyp_5" { i32 1, i32 0 }
@@ -151,8 +152,9 @@ entry:
   %y = alloca %Int32
   store %Int32 { i32 41 }, %Int32* %y
   %f = alloca { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* }
-  %malloccall = tail call i8* @malloc(i32 trunc (i64 mul nuw (i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2) to i32))
-  %"$$fundef_3_envp_84" = bitcast i8* %malloccall to %"$$fundef_3_env_53"*
+  %"$$fundef_3_envp_84_load" = load i8*, i8** @_execptr
+  %"$$fundef_3_envp_84_salloc" = call i8* @_salloc(i8* %"$$fundef_3_envp_84_load", i64 8)
+  %"$$fundef_3_envp_84" = bitcast i8* %"$$fundef_3_envp_84_salloc" to %"$$fundef_3_env_53"*
   %"$$fundef_3_env_voidp_86" = bitcast %"$$fundef_3_env_53"* %"$$fundef_3_envp_84" to i8*
   %"$$fundef_3_cloval_87" = insertvalue { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)* bitcast (%Int32 (%"$$fundef_3_env_53"*, %"TName_Option_Option_(Int32)"*)* @"$fundef_3" to %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*), i8* undef }, i8* %"$$fundef_3_env_voidp_86", 1
   %"$$fundef_3_envp_88" = extractvalue { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } %"$$fundef_3_cloval_87", 1
@@ -168,8 +170,9 @@ entry:
   store { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } %"$$fundef_3_cloval_87", { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* }* %f
   %o1 = alloca %TName_Option_Int32*
   %"$x_96" = load %Int32, %Int32* %x
-  %malloccall1 = tail call i8* @malloc(i32 ptrtoint (%CName_Some_Int32* getelementptr (%CName_Some_Int32, %CName_Some_Int32* null, i32 1) to i32))
-  %"$adtval_97" = bitcast i8* %malloccall1 to %CName_Some_Int32*
+  %"$adtval_97_load" = load i8*, i8** @_execptr
+  %"$adtval_97_salloc" = call i8* @_salloc(i8* %"$adtval_97_load", i64 5)
+  %"$adtval_97" = bitcast i8* %"$adtval_97_salloc" to %CName_Some_Int32*
   %"$adtgep_98" = getelementptr inbounds %CName_Some_Int32, %CName_Some_Int32* %"$adtval_97", i32 0, i32 0
   store i8 0, i8* %"$adtgep_98"
   %"$adtgep_99" = getelementptr inbounds %CName_Some_Int32, %CName_Some_Int32* %"$adtval_97", i32 0, i32 1
@@ -178,8 +181,9 @@ entry:
   store %TName_Option_Int32* %"$adtptr_100", %TName_Option_Int32** %o1
   %o2 = alloca %"TName_Option_Option_(Int32)"*
   %"$o1_101" = load %TName_Option_Int32*, %TName_Option_Int32** %o1
-  %malloccall2 = tail call i8* @malloc(i32 ptrtoint (%"CName_Some_Option_(Int32)"* getelementptr (%"CName_Some_Option_(Int32)", %"CName_Some_Option_(Int32)"* null, i32 1) to i32))
-  %"$adtval_102" = bitcast i8* %malloccall2 to %"CName_Some_Option_(Int32)"*
+  %"$adtval_102_load" = load i8*, i8** @_execptr
+  %"$adtval_102_salloc" = call i8* @_salloc(i8* %"$adtval_102_load", i64 9)
+  %"$adtval_102" = bitcast i8* %"$adtval_102_salloc" to %"CName_Some_Option_(Int32)"*
   %"$adtgep_103" = getelementptr inbounds %"CName_Some_Option_(Int32)", %"CName_Some_Option_(Int32)"* %"$adtval_102", i32 0, i32 0
   store i8 0, i8* %"$adtgep_103"
   %"$adtgep_104" = getelementptr inbounds %"CName_Some_Option_(Int32)", %"CName_Some_Option_(Int32)"* %"$adtval_102", i32 0, i32 1
@@ -199,7 +203,7 @@ entry:
   ret %Int32 %"$$expr_2_112"
 }
 
-declare noalias i8* @malloc(i32)
+declare i8* @_salloc(i8*, i64)
 
 declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 

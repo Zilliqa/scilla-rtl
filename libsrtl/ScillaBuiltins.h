@@ -21,6 +21,7 @@
  * Scilla contract. It is not intended to be called from other C++
  * code, and is therefore not a public header. */
 
+#include "ScillaVM/JITD.h"
 #include "ScillaTypes.h"
 #include "ScillaValue.h"
 
@@ -41,6 +42,9 @@ extern "C" {
 
 // Print Scilla value @V whose type is described by @T to ScillaStdout .
 void _print_scilla_val(const ScillaVM::ScillaTypes::Typ *T, void *V);
+
+// Allocate memory for JIT code owned by @SJ
+void* _salloc(ScillaVM::ScillaJIT *SJ, size_t size);
 
 // Integer addition builtins
 ScillaVM::ScillaTypes::Int32 _add_Int32(ScillaVM::ScillaTypes::Int32,

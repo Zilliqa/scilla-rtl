@@ -39,12 +39,13 @@ private:
 };
 
 // Each ScillaJIT object compiles an LLVM-IR module and provides access
-// to the symbols inside it. TODO: Handle multiple modules.
+// to the symbols inside it.
 class ScillaJIT {
 private:
   // Use the Create method to build a ScillaJIT object.
   ScillaJIT(std::unique_ptr<llvm::orc::LLJIT> J) : Jitter(std::move(J)) {}
   std::unique_ptr<llvm::orc::LLJIT> Jitter;
+  std::vector<uint8_t *> MAllocs;
 
 public:
   // One time initialization.
@@ -54,6 +55,15 @@ public:
   create(const std::string &FileName, llvm::ObjectCache * = nullptr);
   // Get address for @Symbol inside the compiled IR, ready to be used.
   llvm::Expected<void *> getAddressFor(const std::string &Symbol);
+
+  // Allocate and own the memory for code owned by this object.
+  void* sAlloc(size_t size);
+  // Free all memory allocated for code owned by this object.
+  void sFreeAll();
+
+  ~ScillaJIT() {
+    sFreeAll();
+  }
 };
 
 } // namespace ScillaVM

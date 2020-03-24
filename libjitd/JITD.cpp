@@ -132,6 +132,13 @@ ScillaJIT::create(const std::string &Filename, ObjectCache *OC) {
     return std::move(Err);
   }
 
+  // Set execptr in the generated code to THIS
+  auto ExecPtr = THIS->getAddressFor("_execptr");
+  if (auto Err = ExecPtr.takeError()) {
+    return std::move(Err);
+  }
+  *reinterpret_cast<ScillaJIT **>(*ExecPtr) = THIS;
+
   return std::unique_ptr<ScillaJIT>(THIS);
 }
 
@@ -143,6 +150,19 @@ Expected<void *> ScillaJIT::getAddressFor(const std::string &Symbol) {
   }
 
   return reinterpret_cast<void *>((*SA).getAddress());
+}
+
+void *ScillaJIT::sAlloc(size_t size) {
+  auto P = new uint8_t[size];
+  MAllocs.push_back(P);
+  return reinterpret_cast<void*>(P);
+}
+
+void ScillaJIT::sFreeAll() {
+  for (auto *P : MAllocs) {
+    delete[] P;
+  }
+  MAllocs.clear();
 }
 
 } // namespace ScillaVM

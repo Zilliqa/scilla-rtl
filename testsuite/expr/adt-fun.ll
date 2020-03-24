@@ -22,6 +22,7 @@ target triple = "x86_64-pc-linux-gnu"
 %"$$fundef_2_env_42" = type {}
 %Int32 = type { i32 }
 
+@_execptr = global i8* null
 @"$TyDescr_Int32_Prim_5" = global %"$TyDescrTy_PrimTyp_4" zeroinitializer
 @"$TyDescr_Int32_6" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_4"* @"$TyDescr_Int32_Prim_5" to i8*) }
 @"$TyDescr_Uint32_Prim_7" = global %"$TyDescrTy_PrimTyp_4" { i32 1, i32 0 }
@@ -60,15 +61,17 @@ define internal %TName_List_Int32* @"$fundef_2"(%"$$fundef_2_env_42"*, %Int32) {
 entry:
   %"$retval_3" = alloca %TName_List_Int32*
   %n = alloca %TName_List_Int32*
-  %malloccall = tail call i8* @malloc(i32 ptrtoint (%CName_Nil_Int32* getelementptr (%CName_Nil_Int32, %CName_Nil_Int32* null, i32 1) to i32))
-  %"$adtval_43" = bitcast i8* %malloccall to %CName_Nil_Int32*
+  %"$adtval_43_load" = load i8*, i8** @_execptr
+  %"$adtval_43_salloc" = call i8* @_salloc(i8* %"$adtval_43_load", i64 1)
+  %"$adtval_43" = bitcast i8* %"$adtval_43_salloc" to %CName_Nil_Int32*
   %"$adtgep_44" = getelementptr inbounds %CName_Nil_Int32, %CName_Nil_Int32* %"$adtval_43", i32 0, i32 0
   store i8 1, i8* %"$adtgep_44"
   %"$adtptr_45" = bitcast %CName_Nil_Int32* %"$adtval_43" to %TName_List_Int32*
   store %TName_List_Int32* %"$adtptr_45", %TName_List_Int32** %n
   %"$n_46" = load %TName_List_Int32*, %TName_List_Int32** %n
-  %malloccall1 = tail call i8* @malloc(i32 ptrtoint (%CName_Cons_Int32* getelementptr (%CName_Cons_Int32, %CName_Cons_Int32* null, i32 1) to i32))
-  %"$adtval_47" = bitcast i8* %malloccall1 to %CName_Cons_Int32*
+  %"$adtval_47_load" = load i8*, i8** @_execptr
+  %"$adtval_47_salloc" = call i8* @_salloc(i8* %"$adtval_47_load", i64 13)
+  %"$adtval_47" = bitcast i8* %"$adtval_47_salloc" to %CName_Cons_Int32*
   %"$adtgep_48" = getelementptr inbounds %CName_Cons_Int32, %CName_Cons_Int32* %"$adtval_47", i32 0, i32 0
   store i8 0, i8* %"$adtgep_48"
   %"$adtgep_49" = getelementptr inbounds %CName_Cons_Int32, %CName_Cons_Int32* %"$adtval_47", i32 0, i32 1
@@ -81,7 +84,7 @@ entry:
   ret %TName_List_Int32* %"$$retval_3_52"
 }
 
-declare noalias i8* @malloc(i32)
+declare i8* @_salloc(i8*, i64)
 
 define internal %TName_List_Int32* @"$scilla_expr_53"(i8*) {
 entry:

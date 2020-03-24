@@ -25,6 +25,7 @@ target triple = "x86_64-pc-linux-gnu"
 %True = type <{ i8 }>
 %False = type <{ i8 }>
 
+@_execptr = global i8* null
 @"$TyDescr_Int32_Prim_6" = global %"$TyDescrTy_PrimTyp_5" zeroinitializer
 @"$TyDescr_Int32_7" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_Int32_Prim_6" to i8*) }
 @"$TyDescr_Uint32_Prim_8" = global %"$TyDescrTy_PrimTyp_5" { i32 1, i32 0 }
@@ -103,8 +104,9 @@ entry:
   %y = alloca %Int32
   store %Int32 { i32 41 }, %Int32* %y
   %f = alloca { %Int32 (i8*, %Bool*)*, i8* }
-  %malloccall = tail call i8* @malloc(i32 trunc (i64 mul nuw (i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2) to i32))
-  %"$$fundef_3_envp_58" = bitcast i8* %malloccall to %"$$fundef_3_env_43"*
+  %"$$fundef_3_envp_58_load" = load i8*, i8** @_execptr
+  %"$$fundef_3_envp_58_salloc" = call i8* @_salloc(i8* %"$$fundef_3_envp_58_load", i64 8)
+  %"$$fundef_3_envp_58" = bitcast i8* %"$$fundef_3_envp_58_salloc" to %"$$fundef_3_env_43"*
   %"$$fundef_3_env_voidp_60" = bitcast %"$$fundef_3_env_43"* %"$$fundef_3_envp_58" to i8*
   %"$$fundef_3_cloval_61" = insertvalue { %Int32 (i8*, %Bool*)*, i8* } { %Int32 (i8*, %Bool*)* bitcast (%Int32 (%"$$fundef_3_env_43"*, %Bool*)* @"$fundef_3" to %Int32 (i8*, %Bool*)*), i8* undef }, i8* %"$$fundef_3_env_voidp_60", 1
   %"$$fundef_3_envp_62" = extractvalue { %Int32 (i8*, %Bool*)*, i8* } %"$$fundef_3_cloval_61", 1
@@ -119,8 +121,9 @@ entry:
   store %Int32 %"$y_69", %Int32* %"$$fundef_3_env_y_68"
   store { %Int32 (i8*, %Bool*)*, i8* } %"$$fundef_3_cloval_61", { %Int32 (i8*, %Bool*)*, i8* }* %f
   %t = alloca %Bool*
-  %malloccall1 = tail call i8* @malloc(i32 ptrtoint (%True* getelementptr (%True, %True* null, i32 1) to i32))
-  %"$adtval_70" = bitcast i8* %malloccall1 to %True*
+  %"$adtval_70_load" = load i8*, i8** @_execptr
+  %"$adtval_70_salloc" = call i8* @_salloc(i8* %"$adtval_70_load", i64 1)
+  %"$adtval_70" = bitcast i8* %"$adtval_70_salloc" to %True*
   %"$adtgep_71" = getelementptr inbounds %True, %True* %"$adtval_70", i32 0, i32 0
   store i8 0, i8* %"$adtgep_71"
   %"$adtptr_72" = bitcast %True* %"$adtval_70" to %Bool*
@@ -138,7 +141,7 @@ entry:
   ret %Int32 %"$$expr_2_79"
 }
 
-declare noalias i8* @malloc(i32)
+declare i8* @_salloc(i8*, i64)
 
 declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 

@@ -31,7 +31,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
   // clang-format off
   ScillaFunctionsMap m[] = {
     {"_print_scilla_val", (void *) _print_scilla_val},
-    {"malloc", (void *) malloc},
+    {"_salloc", (void *) _salloc},
     {"_add_Int32", (void *) _add_Int32},
     {"_add_Int64", (void *) _add_Int64},
     {"_add_Int128", (void *) _add_Int128},
@@ -54,6 +54,10 @@ extern "C" {
 
 void _print_scilla_val(const ScillaTypes::Typ *T, void *V) {
   ScillaStdout += ScillaValues::toString(true, T, V) + "\n";
+}
+
+void* _salloc(ScillaVM::ScillaJIT *SJ, size_t size) {
+  return SJ->sAlloc(size);
 }
 
 ScillaVM::ScillaTypes::Int32 _add_Int32(ScillaVM::ScillaTypes::Int32 Lhs,

@@ -10,6 +10,7 @@ target triple = "x86_64-pc-linux-gnu"
 %_TyDescrTy_Typ = type { i32, i8* }
 %Int256 = type { i256 }
 
+@_execptr = global i8* null
 @"$TyDescr_Int32_Prim_2" = global %"$TyDescrTy_PrimTyp_1" zeroinitializer
 @"$TyDescr_Int32_3" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Int32_Prim_2" to i8*) }
 @"$TyDescr_Uint32_Prim_4" = global %"$TyDescrTy_PrimTyp_1" { i32 1, i32 0 }

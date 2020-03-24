@@ -27,6 +27,7 @@ target triple = "x86_64-pc-linux-gnu"
 %Uint32 = type { i32 }
 %CName_Nil_Uint32 = type <{ i8 }>
 
+@_execptr = global i8* null
 @"$TyDescr_Int32_Prim_2" = global %"$TyDescrTy_PrimTyp_1" zeroinitializer
 @"$TyDescr_Int32_3" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Int32_Prim_2" to i8*) }
 @"$TyDescr_Uint32_Prim_4" = global %"$TyDescrTy_PrimTyp_1" { i32 1, i32 0 }
@@ -85,8 +86,9 @@ define internal %"TName_Pair_List_(Int32)_List_(Uint32)"* @"$scilla_expr_59"(i8*
 entry:
   %"$expr_0" = alloca %"TName_Pair_List_(Int32)_List_(Uint32)"*
   %nil_int32 = alloca %TName_List_Int32*
-  %malloccall = tail call i8* @malloc(i32 ptrtoint (%CName_Nil_Int32* getelementptr (%CName_Nil_Int32, %CName_Nil_Int32* null, i32 1) to i32))
-  %"$adtval_60" = bitcast i8* %malloccall to %CName_Nil_Int32*
+  %"$adtval_60_load" = load i8*, i8** @_execptr
+  %"$adtval_60_salloc" = call i8* @_salloc(i8* %"$adtval_60_load", i64 1)
+  %"$adtval_60" = bitcast i8* %"$adtval_60_salloc" to %CName_Nil_Int32*
   %"$adtgep_61" = getelementptr inbounds %CName_Nil_Int32, %CName_Nil_Int32* %"$adtval_60", i32 0, i32 0
   store i8 1, i8* %"$adtgep_61"
   %"$adtptr_62" = bitcast %CName_Nil_Int32* %"$adtval_60" to %TName_List_Int32*
@@ -96,8 +98,9 @@ entry:
   %cons_int32 = alloca %TName_List_Int32*
   %"$ione_63" = load %Int32, %Int32* %ione
   %"$nil_int32_64" = load %TName_List_Int32*, %TName_List_Int32** %nil_int32
-  %malloccall1 = tail call i8* @malloc(i32 ptrtoint (%CName_Cons_Int32* getelementptr (%CName_Cons_Int32, %CName_Cons_Int32* null, i32 1) to i32))
-  %"$adtval_65" = bitcast i8* %malloccall1 to %CName_Cons_Int32*
+  %"$adtval_65_load" = load i8*, i8** @_execptr
+  %"$adtval_65_salloc" = call i8* @_salloc(i8* %"$adtval_65_load", i64 13)
+  %"$adtval_65" = bitcast i8* %"$adtval_65_salloc" to %CName_Cons_Int32*
   %"$adtgep_66" = getelementptr inbounds %CName_Cons_Int32, %CName_Cons_Int32* %"$adtval_65", i32 0, i32 0
   store i8 0, i8* %"$adtgep_66"
   %"$adtgep_67" = getelementptr inbounds %CName_Cons_Int32, %CName_Cons_Int32* %"$adtval_65", i32 0, i32 1
@@ -107,8 +110,9 @@ entry:
   %"$adtptr_69" = bitcast %CName_Cons_Int32* %"$adtval_65" to %TName_List_Int32*
   store %TName_List_Int32* %"$adtptr_69", %TName_List_Int32** %cons_int32
   %nil_uint32 = alloca %TName_List_Uint32*
-  %malloccall2 = tail call i8* @malloc(i32 ptrtoint (%CName_Nil_Uint32* getelementptr (%CName_Nil_Uint32, %CName_Nil_Uint32* null, i32 1) to i32))
-  %"$adtval_70" = bitcast i8* %malloccall2 to %CName_Nil_Uint32*
+  %"$adtval_70_load" = load i8*, i8** @_execptr
+  %"$adtval_70_salloc" = call i8* @_salloc(i8* %"$adtval_70_load", i64 1)
+  %"$adtval_70" = bitcast i8* %"$adtval_70_salloc" to %CName_Nil_Uint32*
   %"$adtgep_71" = getelementptr inbounds %CName_Nil_Uint32, %CName_Nil_Uint32* %"$adtval_70", i32 0, i32 0
   store i8 1, i8* %"$adtgep_71"
   %"$adtptr_72" = bitcast %CName_Nil_Uint32* %"$adtval_70" to %TName_List_Uint32*
@@ -118,8 +122,9 @@ entry:
   %cons_uint32 = alloca %TName_List_Uint32*
   %"$uione_73" = load %Uint32, %Uint32* %uione
   %"$nil_uint32_74" = load %TName_List_Uint32*, %TName_List_Uint32** %nil_uint32
-  %malloccall3 = tail call i8* @malloc(i32 ptrtoint (%CName_Cons_Uint32* getelementptr (%CName_Cons_Uint32, %CName_Cons_Uint32* null, i32 1) to i32))
-  %"$adtval_75" = bitcast i8* %malloccall3 to %CName_Cons_Uint32*
+  %"$adtval_75_load" = load i8*, i8** @_execptr
+  %"$adtval_75_salloc" = call i8* @_salloc(i8* %"$adtval_75_load", i64 13)
+  %"$adtval_75" = bitcast i8* %"$adtval_75_salloc" to %CName_Cons_Uint32*
   %"$adtgep_76" = getelementptr inbounds %CName_Cons_Uint32, %CName_Cons_Uint32* %"$adtval_75", i32 0, i32 0
   store i8 0, i8* %"$adtgep_76"
   %"$adtgep_77" = getelementptr inbounds %CName_Cons_Uint32, %CName_Cons_Uint32* %"$adtval_75", i32 0, i32 1
@@ -130,8 +135,9 @@ entry:
   store %TName_List_Uint32* %"$adtptr_79", %TName_List_Uint32** %cons_uint32
   %"$cons_int32_80" = load %TName_List_Int32*, %TName_List_Int32** %cons_int32
   %"$cons_uint32_81" = load %TName_List_Uint32*, %TName_List_Uint32** %cons_uint32
-  %malloccall4 = tail call i8* @malloc(i32 ptrtoint (%"CName_Pair_List_(Int32)_List_(Uint32)"* getelementptr (%"CName_Pair_List_(Int32)_List_(Uint32)", %"CName_Pair_List_(Int32)_List_(Uint32)"* null, i32 1) to i32))
-  %"$adtval_82" = bitcast i8* %malloccall4 to %"CName_Pair_List_(Int32)_List_(Uint32)"*
+  %"$adtval_82_load" = load i8*, i8** @_execptr
+  %"$adtval_82_salloc" = call i8* @_salloc(i8* %"$adtval_82_load", i64 17)
+  %"$adtval_82" = bitcast i8* %"$adtval_82_salloc" to %"CName_Pair_List_(Int32)_List_(Uint32)"*
   %"$adtgep_83" = getelementptr inbounds %"CName_Pair_List_(Int32)_List_(Uint32)", %"CName_Pair_List_(Int32)_List_(Uint32)"* %"$adtval_82", i32 0, i32 0
   store i8 0, i8* %"$adtgep_83"
   %"$adtgep_84" = getelementptr inbounds %"CName_Pair_List_(Int32)_List_(Uint32)", %"CName_Pair_List_(Int32)_List_(Uint32)"* %"$adtval_82", i32 0, i32 1
@@ -144,7 +150,7 @@ entry:
   ret %"TName_Pair_List_(Int32)_List_(Uint32)"* %"$$expr_0_87"
 }
 
-declare noalias i8* @malloc(i32)
+declare i8* @_salloc(i8*, i64)
 
 declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
