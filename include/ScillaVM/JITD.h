@@ -57,13 +57,11 @@ public:
   llvm::Expected<void *> getAddressFor(const std::string &Symbol);
 
   // Allocate and own the memory for code owned by this object.
-  void* sAlloc(size_t size);
+  void *sAlloc(size_t size);
   // Free all memory allocated for code owned by this object.
   void sFreeAll();
 
-  ~ScillaJIT() {
-    sFreeAll();
-  }
+  ~ScillaJIT() { sFreeAll(); }
 };
 
 } // namespace ScillaVM

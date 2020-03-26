@@ -155,7 +155,7 @@ Expected<void *> ScillaJIT::getAddressFor(const std::string &Symbol) {
 void *ScillaJIT::sAlloc(size_t size) {
   auto P = new uint8_t[size];
   MAllocs.push_back(P);
-  return reinterpret_cast<void*>(P);
+  return reinterpret_cast<void *>(P);
 }
 
 void ScillaJIT::sFreeAll() {

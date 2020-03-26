@@ -42,6 +42,16 @@ SafeInt<Bits, Signedness>::SafeInt(const void *V) {
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
+SafeInt<Bits, Signedness>::SafeInt(const std::string &IS) : Container(IS) {
+  // Make sure that Container's buffer has enough space to hold our data.
+  constexpr auto len = std::tuple_size<decltype(SafeIntImpl::limbs)>::value;
+  using elmty =
+      typename std::tuple_element<0, decltype(SafeIntImpl::limbs)>::type;
+  static_assert(len * sizeof(elmty) >= Bits / 8,
+                "Internal error: SafeInt container does not have enough space");
+}
+
+template <unsigned Bits, SafeIntKind Signedness>
 std::string SafeInt<Bits, Signedness>::toString() const {
   return Container.to_string();
 }

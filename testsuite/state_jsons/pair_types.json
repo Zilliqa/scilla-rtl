@@ -1,0 +1,104 @@
+[
+  {
+    "vname": "v_empty_100",
+    "type": "Pair (List Int32) Int64",
+    "val": {
+      "constructor": "Pair",
+      "argtypes": [
+        "List (Int32)",
+        "Int64"
+      ],
+      "arguments": [
+        {
+          "constructor": "Nil",
+          "argtypes": [
+            "Int32"
+          ],
+          "arguments": []
+        },
+        "100"
+      ]
+    }
+  },
+  {
+    "vname": "v_singleton_101",
+    "type": "Pair (List Int32) Int64",
+    "val": {
+      "constructor": "Pair",
+      "argtypes": [
+        "List (Int32)",
+        "Int64"
+      ],
+      "arguments": [
+        {
+          "constructor": "Cons",
+          "argtypes": [
+            "Int32"
+          ],
+          "arguments": [
+            "1",
+            {
+              "constructor": "Nil",
+              "argtypes": [
+                "Int32"
+              ],
+              "arguments": []
+            }
+          ]
+        },
+        "101"
+      ]
+    }
+  },
+  {
+    "vname": "v_100_empty",
+    "type": "Pair Int32 (List Int64)",
+    "val": {
+      "constructor": "Pair",
+      "argtypes": [
+        "Int32",
+        "List (Int64)"
+      ],
+      "arguments": [
+        "100",
+        {
+          "constructor": "Nil",
+          "argtypes": [
+            "Int64"
+          ],
+          "arguments": []
+        }
+      ]
+    }
+  },
+  {
+    "vname": "v_101_singleton",
+    "type": "Pair Int32 (List Int64)",
+    "val": {
+      "constructor": "Pair",
+      "argtypes": [
+        "Int32",
+        "List (Int64)"
+      ],
+      "arguments": [
+        "101",
+        {
+          "constructor": "Cons",
+          "argtypes": [
+            "Int64"
+          ],
+          "arguments": [
+            "2",
+            {
+              "constructor": "Nil",
+              "argtypes": [
+                "Int64"
+              ],
+              "arguments": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

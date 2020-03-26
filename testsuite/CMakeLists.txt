@@ -5,6 +5,7 @@ add_executable(${TARGET_SCILLA_TESTS}
   ExprExecTests.cpp
   TypeParserTests.cpp
   TypeDescrs.cpp
+  StateJsonTests.cpp
 )
 
 target_include_directories(${TARGET_SCILLA_TESTS} PUBLIC ${PROJECT_SOURCE_DIR}/include)

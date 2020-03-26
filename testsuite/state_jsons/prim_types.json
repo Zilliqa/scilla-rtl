@@ -1,0 +1,22 @@
+[
+  {
+    "vname" : "v_string_empty",
+    "type" : "String",
+    "val" : ""
+  },
+  {
+    "vname" : "v_string_hello",
+    "type" : "String",
+    "val" : "hello"
+  },
+  {
+    "vname" : "v_bystr20",
+    "type" : "ByStr20",
+    "val" : "0xabfeccdc9012345678901234567890f777567890"
+  },
+  {
+    "vname" : "v_bystr",
+    "type" : "ByStr",
+    "val" : "0xfe"
+  }
+]

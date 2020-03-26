@@ -40,6 +40,8 @@ public:
   SafeInt(){};
   // Initialize from Scilla RawInt
   SafeInt(const ScillaTypes::RawInt<Bits> *IW) : SafeInt(IW->buf) {}
+  // Initialize from decimal string
+  SafeInt(const std::string &IS);
   // Convert to decimal string
   std::string toString() const;
   // Convert to RawInt

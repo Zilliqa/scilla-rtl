@@ -30,7 +30,7 @@ void testExecExpr(const std::string &Testname) {
 
   auto ScillaMain = reinterpret_cast<void (*)()>(*ScillaMainAddr);
   ScillaStdout.clear();
-  BOOST_CHECK_NO_THROW(ScillaMain());
+  BOOST_REQUIRE_NO_THROW(ScillaMain());
 
   BOOST_TEST_CHECKPOINT(Filename + ": Execution succeeded");
 

@@ -56,9 +56,7 @@ void _print_scilla_val(const ScillaTypes::Typ *T, void *V) {
   ScillaStdout += ScillaValues::toString(true, T, V) + "\n";
 }
 
-void* _salloc(ScillaVM::ScillaJIT *SJ, size_t size) {
-  return SJ->sAlloc(size);
-}
+void *_salloc(ScillaVM::ScillaJIT *SJ, size_t size) { return SJ->sAlloc(size); }
 
 ScillaVM::ScillaTypes::Int32 _add_Int32(ScillaVM::ScillaTypes::Int32 Lhs,
                                         ScillaVM::ScillaTypes::Int32 Rhs) {

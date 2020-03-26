@@ -30,6 +30,6 @@ extern Typ Pair_int32_list_int64_typ;
 extern Typ Map_int32_string_typ;
 extern Typ Map_int64_pair_int32_list_int64_typ;
 
-extern const Typ* AllTyDescrs[];
+extern const Typ *AllTyDescrs[];
 extern size_t NTyDescrs;
-}
+} // namespace TypeDescrs

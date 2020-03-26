@@ -57,9 +57,19 @@ struct ScillaError {
 #define CREATE_ERROR_SLOC(MSG, SCILLA_LOC)                                     \
   throw(MSG, SourceLoc(__FILE__, __LINE__), SCILLA_LOC)
 
-// Assert EXPR. If false, CREATE_ERROR with MSG.
-#define ASSERT(EXPR, MSG)                                                      \
+// Assert EXPR. If false, CREATE_ERROR with MSG. Turned off in release builds.
+#ifndef NDEBUG
+#define ASSERT(EXPR)                                                           \
+  if (EXPR) {                                                                  \
+  } else {                                                                     \
+    CREATE_ERROR("");                                                          \
+  }
+#define ASSERT_MSG(EXPR, MSG)                                                  \
   if (EXPR) {                                                                  \
   } else {                                                                     \
     CREATE_ERROR(MSG);                                                         \
   }
+#else
+#define ASSERT(EXPR)
+#define ASSERT_MSG(EXPR, MSG)
+#endif

@@ -88,10 +88,10 @@ std::string Typ::toString(const Typ *T) {
         Out += "Exception";
         break;
       case PrimTyp::Bystr_typ:
-        Out += "Bystr";
+        Out += "ByStr";
         break;
       case PrimTyp::Bystrx_typ:
-        Out += ("Bystr" + std::to_string(T->m_sub.m_primt->m_detail.m_bystX));
+        Out += ("ByStr" + std::to_string(T->m_sub.m_primt->m_detail.m_bystX));
         break;
       }
     } break;
@@ -208,12 +208,16 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
 
   qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
       TIdent_R;
+  qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
+      TByStr_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> T_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> TArg_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> Start_R;
 
   // A type identifier is "[A-Z][a-zA-Z0-9]*"
   TIdent_R = qi::lexeme[qi::char_('A', 'Z') >> *(ascii::alnum)];
+  // ByStr and ByStrX are primitive types
+  TByStr_R = qi::lexeme[qi::string("ByStr") >> *(ascii::digit)];
 
   // clang-format off
   T_R =
@@ -222,16 +226,16 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
     | qi::string("Int128")  | qi::string("Int256")
     | qi::string("Uint32")  | qi::string("Uint64")
     | qi::string("Uint128") | qi::string("Uint256")
-    | qi::string("String")  | qi::string("BNum"))
+    | qi::string("String")  | qi::string("BNum")
+    | TByStr_R)
        [qi::_val = px::bind
         (
           [&PrimMap]
           (const std::string &TName) {
               auto itrPrim = PrimMap.find(TName);
-              ASSERT(itrPrim != PrimMap.end(), TName + " not a PrimTyp");
+              ASSERT_MSG(itrPrim != PrimMap.end(), TName + " not a PrimTyp");
               const Typ *T = itrPrim->second;
-              ASSERT(T->m_t == Typ::Prim_typ,
-                "Internal error: " + TName + " classified incorrectly");
+              ASSERT_MSG(T->m_t == Typ::Prim_typ, TName + " classified incorrectly");
               return T;
             },
             qi::_1
@@ -243,8 +247,7 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
             [&MapList]
             (const Typ *KTyp, const Typ *VTyp) {
               for (const Typ *T : MapList) {
-                ASSERT(T->m_t == Typ::Map_typ, 
-                  "Internal error: non MapTyp classfied incorrectly");
+                ASSERT_MSG(T->m_t == Typ::Map_typ, "Non MapTyp classfied incorrectly");
                 if (T->m_sub.m_mapt->m_keyTyp == KTyp &&
                     T->m_sub.m_mapt->m_valTyp == VTyp) {
                   // We have a match.
@@ -266,8 +269,7 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
               if (itrADT != ADTMap.end()) {
                 std::vector<const Typ *> &Ts = itrADT->second;
                 for (auto *T : Ts) {
-                  ASSERT(T->m_t == Typ::ADT_typ,
-                    "Internal error: " + TName + " classfied incorrectly");
+                  ASSERT_MSG(T->m_t == Typ::ADT_typ,TName + " classfied incorrectly");
                   ADTTyp::Specl *Spl = T->m_sub.m_spladt;
                   if (Spl->m_parent->m_numTArgs != (int)TArgs.size()) {
                     CREATE_ERROR(TName + " expects " +
@@ -319,18 +321,17 @@ const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
             auto itrPrim = PrimMap.find(TName);
             if (itrPrim != PrimMap.end()) {
               const Typ *T = itrPrim->second;
-              ASSERT(T->m_t == Typ::Prim_typ,
-                "Internal error: " + TName + " classified incorrectly");
+              ASSERT_MSG(T->m_t == Typ::Prim_typ, TName + " classified incorrectly");
               return T;
             }
             auto itrADT = ADTMap.find(TName);
             if (itrADT != ADTMap.end()) {
               std::vector<const Typ *> &Ts = itrADT->second;
-              ASSERT(!Ts.empty(),
-                "No specialization found for ADT " + TName);
+              if (Ts.empty()) {
+                CREATE_ERROR("No specialization found for ADT " + TName);
+              }
               const Typ *T = Ts[0];
-              ASSERT(T->m_t == Typ::ADT_typ,
-                "Internal error: " + TName + " classfied incorrectly");
+              ASSERT_MSG(T->m_t == Typ::ADT_typ, TName + " classfied incorrectly");
               // We mimic the behaviour of the OCaml parser here and
               // do not assert that:
               // ASSERT(T->m_sub.m_spladt->m_parent->m_numTArgs == 0,

@@ -41,6 +41,24 @@ PrimTyp String_primtyp = []() {
 }();
 Typ String_typ = {Typ::Prim_typ, {&String_primtyp}};
 
+// ByStr20 type
+PrimTyp ByStr20_primtyp = []() {
+  PrimTyp PT;
+  PT.m_pt = PrimTyp::Bystrx_typ;
+  PT.m_detail.m_bystX = 20;
+  return PT;
+}();
+Typ ByStr20_typ = {Typ::Prim_typ, {&ByStr20_primtyp}};
+
+// ByStr type
+PrimTyp ByStr_primtyp = []() {
+  PrimTyp PT;
+  PT.m_pt = PrimTyp::Bystr_typ;
+  PT.m_detail.m_bystX = 0;
+  return PT;
+}();
+Typ ByStr_typ = {Typ::Prim_typ, {&ByStr_primtyp}};
+
 // BNum type
 PrimTyp BNum_primtyp = []() {
   PrimTyp PT;
@@ -140,10 +158,11 @@ const Typ* AllTyDescrs[] = {
   &Uint32_typ, &Uint64_typ, &Uint128_typ, &Uint256_typ,
   &String_typ, &BNum_typ, &List_int32_typ, &List_int64_typ,
   &Pair_list_int32_int64_typ, &Pair_int32_list_int64_typ,
-  &Map_int32_string_typ, &Map_int64_pair_int32_list_int64_typ
+  &Map_int32_string_typ, &Map_int64_pair_int32_list_int64_typ,
+  &ByStr_typ, &ByStr20_typ
 };
 size_t NTyDescrs = sizeof(AllTyDescrs) / sizeof(const Typ *);
 
 // clang-format on
 
-} // namespace
+} // namespace TypeDescrs

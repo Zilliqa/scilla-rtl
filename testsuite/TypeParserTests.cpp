@@ -12,24 +12,24 @@ using namespace ScillaVM::ScillaTypes;
 BOOST_AUTO_TEST_CASE(tydescrs_print) {
   using namespace TypeDescrs;
 
-  BOOST_ASSERT(Typ::toString(&Int32_typ) == "Int32");
-  BOOST_ASSERT(Typ::toString(&Int64_typ) == "Int64");
-  BOOST_ASSERT(Typ::toString(&Int128_typ) == "Int128");
-  BOOST_ASSERT(Typ::toString(&Int256_typ) == "Int256");
-  BOOST_ASSERT(Typ::toString(&Uint32_typ) == "Uint32");
-  BOOST_ASSERT(Typ::toString(&Uint64_typ) == "Uint64");
-  BOOST_ASSERT(Typ::toString(&Uint128_typ) == "Uint128");
-  BOOST_ASSERT(Typ::toString(&Uint256_typ) == "Uint256");
-  BOOST_ASSERT(Typ::toString(&String_typ) == "String");
-  BOOST_ASSERT(Typ::toString(&List_int32_typ) == "List (Int32)");
-  BOOST_ASSERT(Typ::toString(&List_int64_typ) == "List (Int64)");
+  BOOST_REQUIRE(Typ::toString(&Int32_typ) == "Int32");
+  BOOST_REQUIRE(Typ::toString(&Int64_typ) == "Int64");
+  BOOST_REQUIRE(Typ::toString(&Int128_typ) == "Int128");
+  BOOST_REQUIRE(Typ::toString(&Int256_typ) == "Int256");
+  BOOST_REQUIRE(Typ::toString(&Uint32_typ) == "Uint32");
+  BOOST_REQUIRE(Typ::toString(&Uint64_typ) == "Uint64");
+  BOOST_REQUIRE(Typ::toString(&Uint128_typ) == "Uint128");
+  BOOST_REQUIRE(Typ::toString(&Uint256_typ) == "Uint256");
+  BOOST_REQUIRE(Typ::toString(&String_typ) == "String");
+  BOOST_REQUIRE(Typ::toString(&List_int32_typ) == "List (Int32)");
+  BOOST_REQUIRE(Typ::toString(&List_int64_typ) == "List (Int64)");
 }
 
 void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
   using namespace TypeDescrs;
   try {
     const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, Input);
-    BOOST_ASSERT(T && Typ::toString(T) == ExpectedO);
+    BOOST_REQUIRE(T && Typ::toString(T) == ExpectedO);
   } catch (const ScillaVM::ScillaError &E) {
     BOOST_FAIL(E.toString());
   }
@@ -39,7 +39,7 @@ void parserTestFail(const std::string &Input) {
   using namespace TypeDescrs;
   try {
     const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, Input);
-    BOOST_ASSERT_MSG(!T, "Type parser should have failed, but did not.");
+    BOOST_REQUIRE_MESSAGE(!T, "Type parser should have failed, but did not.");
   } catch (const ScillaVM::ScillaError &E) {
     BOOST_TEST_MESSAGE("\tCaught expected exception: " << E.toString());
   }

@@ -5,6 +5,7 @@ add_library(${TARGET} SHARED
   ScillaTypes.cpp
   ScillaValue.cpp
   SafeInt.cpp
+  Utils.cpp
 )
 
 target_compile_definitions(${TARGET} PUBLIC ${LLVM_DEFINITIONS})

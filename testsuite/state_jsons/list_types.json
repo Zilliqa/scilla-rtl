@@ -1,0 +1,62 @@
+[
+  {
+    "vname": "v_list_int32_empty",
+    "type": "List Int32",
+    "val": {
+      "constructor": "Nil",
+      "argtypes": [
+        "Int32"
+      ],
+      "arguments": []
+    }
+  },
+  {
+    "vname": "v_list_int32_1",
+    "type": "List Int32",
+    "val": {
+      "constructor": "Cons",
+      "argtypes": [
+        "Int32"
+      ],
+      "arguments": [
+        "0",
+        {
+          "constructor": "Nil",
+          "argtypes": [
+            "Int32"
+          ],
+          "arguments": []
+        }
+      ]
+    }
+  },
+  {
+    "vname": "v_list_int64_2",
+    "type": "List Int64",
+    "val": {
+      "constructor": "Cons",
+      "argtypes": [
+        "Int64"
+      ],
+      "arguments": [
+        "0",
+        {
+          "constructor": "Cons",
+          "argtypes": [
+            "Int64"
+          ],
+          "arguments": [
+            "2",
+            {
+              "constructor": "Nil",
+              "argtypes": [
+                "Int64"
+              ],
+              "arguments": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

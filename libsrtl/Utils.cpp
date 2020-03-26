@@ -15,26 +15,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include <jsoncpp/json/reader.h>
+#include <jsoncpp/json/value.h>
+#include <memory>
 
-#include <string>
-
-#include <boost/multiprecision/cpp_int.hpp>
-#include <jsoncpp/json/json.h>
-
-#include "ScillaVM/SRTL.h"
-#include "ScillaTypes.h"
+#include "ScillaVM/Errors.h"
 
 namespace ScillaVM {
-namespace ScillaValues {
 
-// Stringify Scilla value @V of type @T.
-// @PrintType for each (sub) value printed.
-std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V);
-// Serialize Scilla value @V to a JSON
-Json::Value toJSON(const ScillaTypes::Typ *T, const void *V);
-// Deserialize JSON @J of Scilla type T to Scilla value.
-void *fromJSON(SAllocator &A, const ScillaTypes::Typ *T, const Json::Value &J);
+Json::Value parseJSONString(const std::string &JS) {
+  Json::Value Ret;
+  Json::CharReaderBuilder ReadBuilder;
+  std::unique_ptr<Json::CharReader> Reader(ReadBuilder.newCharReader());
+  std::string Error;
+  try {
+    Reader->parse(JS.c_str(), JS.c_str() + JS.length(), &Ret, &Error);
+  } catch (const std::exception &e) {
+    CREATE_ERROR(std::string(e.what()) + ": " + Error);
+  }
 
-} // namespace ScillaValues
+  return Ret;
+}
 } // namespace ScillaVM

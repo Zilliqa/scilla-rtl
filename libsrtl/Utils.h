@@ -15,26 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
-
+#include <jsoncpp/json/value.h>
 #include <string>
 
-#include <boost/multiprecision/cpp_int.hpp>
-#include <jsoncpp/json/json.h>
-
-#include "ScillaVM/SRTL.h"
-#include "ScillaTypes.h"
-
 namespace ScillaVM {
-namespace ScillaValues {
-
-// Stringify Scilla value @V of type @T.
-// @PrintType for each (sub) value printed.
-std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V);
-// Serialize Scilla value @V to a JSON
-Json::Value toJSON(const ScillaTypes::Typ *T, const void *V);
-// Deserialize JSON @J of Scilla type T to Scilla value.
-void *fromJSON(SAllocator &A, const ScillaTypes::Typ *T, const Json::Value &J);
-
-} // namespace ScillaValues
-} // namespace ScillaVM
+Json::Value parseJSONString(const std::string &JS);
+}

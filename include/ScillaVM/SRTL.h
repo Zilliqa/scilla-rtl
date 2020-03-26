@@ -17,11 +17,15 @@
 
 #pragma once
 
+#include <functional>
 #include <string>
 
 namespace ScillaVM {
 
 // A global that accummulates messages printed from the JIT'ed code.
 extern std::string ScillaStdout;
+
+// A memory allocator object.
+using SAllocator = std::function<void *(size_t)>;
 
 } // namespace ScillaVM
