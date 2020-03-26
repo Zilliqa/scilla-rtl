@@ -38,8 +38,8 @@ std::string rawToHex(const uint8_t *Data, int Len) {
 }
 
 // Convert hex string to binary, allocate memory if @Bin is nullptr.
-uint8_t *hex2Raw(SAllocator &A, uint8_t *Bin, int BinLen, const std::string &Hex,
-                 int &NBytes) {
+uint8_t *hex2Raw(SAllocator &A, uint8_t *Bin, int BinLen,
+                 const std::string &Hex, int &NBytes) {
   int HStart = 0, HLen = Hex.length();
   if (HLen % 2 != 0 || HLen == 0)
     CREATE_ERROR("Invalid hexadecimal string " + Hex);
