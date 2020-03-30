@@ -16,7 +16,6 @@
  */
 
 #include <functional>
-#include <unordered_map>
 
 #include "ScillaTypes.h"
 #include "ScillaVM/Errors.h"
@@ -198,7 +197,7 @@ const Typ *Typ::mapAccessType(const Typ *MT, int NumIdx) {
   case ADT_typ:
     CREATE_ERROR("Trying to access non Map value with indexing");
   case Map_typ:
-    return mapAccessType(MT->m_sub.m_mapt->m_valTyp, NumIdx-1);
+    return mapAccessType(MT->m_sub.m_mapt->m_valTyp, NumIdx - 1);
   }
 
   CREATE_ERROR("Unreachable executed");
@@ -214,26 +213,35 @@ const Typ *Typ::mapAccessType(const Typ *MT, int NumIdx) {
 namespace ScillaVM {
 namespace ScillaTypes {
 
-const Typ *Typ::fromString(const Typ *Ts[], int NT, const std::string &Input) {
+const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
+                           const std::string &Input) {
+
+  std::unique_ptr<TypParserPartialCache> TempTPPC;
+  if (!TPPC) {
+    TempTPPC = std::make_unique<TypParserPartialCache>();
+    TPPC = TempTPPC.get();
+  }
+  auto &PrimMap = TPPC->PrimMap;
+  auto &ADTMap = TPPC->ADTMap;
+  auto &MapList = TPPC->MapList;
+
   // Classify Ts into PrimTypes, ADTs and Map types.
-  // TODO: Cache this classification and re-use across invocations.
-  std::unordered_map<std::string, const Typ *> PrimMap;
-  std::unordered_map<std::string, std::vector<const Typ *>> ADTMap;
-  std::vector<const Typ *> MapList;
-  for (int i = 0; i < NT; i++) {
-    switch (Ts[i]->m_t) {
-    case Prim_typ:
-      // Direct mapping for prim types.
-      PrimMap[toString(Ts[i])] = Ts[i];
-      break;
-    case ADT_typ:
-      // List down all Typ objects for this ADT.
-      ADTMap[(std::string)Ts[i]->m_sub.m_spladt->m_parent->m_tName].push_back(
-          Ts[i]);
-      break;
-    case Map_typ:
-      MapList.push_back(Ts[i]);
-      break;
+  if (TPPC->empty()) {
+    for (int i = 0; i < NT; i++) {
+      switch (Ts[i]->m_t) {
+      case Prim_typ:
+        // Direct mapping for prim types.
+        PrimMap[toString(Ts[i])] = Ts[i];
+        break;
+      case ADT_typ:
+        // List down all Typ objects for this ADT.
+        ADTMap[(std::string)Ts[i]->m_sub.m_spladt->m_parent->m_tName].push_back(
+            Ts[i]);
+        break;
+      case Map_typ:
+        MapList.push_back(Ts[i]);
+        break;
+      }
     }
   }
 

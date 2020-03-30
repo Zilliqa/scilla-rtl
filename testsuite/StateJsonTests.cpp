@@ -26,6 +26,11 @@
 #include "Testsuite.h"
 #include "TypeDescrs.h"
 
+namespace {
+// Type parser partial cache for faster run across tests.
+ScillaVM::ScillaTypes::TypParserPartialCache TPPC;
+} // namespace
+
 // Parse a state JSON, Re-serialize back to JSON and compare.
 void testStateJson(const std::string &Testname) {
   using namespace ScillaVM;
@@ -65,8 +70,9 @@ void testStateJson(const std::string &Testname) {
         BOOST_FAIL(Filename + " invalid state JSON format");
       }
 
-      const auto *T = ScillaTypes::Typ::fromString(
-          TypeDescrs::AllTyDescrs, TypeDescrs::NTyDescrs, VTyp.asString());
+      const auto *T =
+          ScillaTypes::Typ::fromString(&TPPC, TypeDescrs::AllTyDescrs,
+                                       TypeDescrs::NTyDescrs, VTyp.asString());
       BOOST_REQUIRE_MESSAGE(T, "Parsing type " + VTyp.asString() + " failed");
       void *SVal = ScillaValues::fromJSON(Allocator, T, VVal);
       BOOST_TEST_CHECKPOINT(Filename + ": " + VName.asString() +

@@ -4,6 +4,12 @@
 #include "TypeDescrs.h"
 #include <ScillaVM/Errors.h>
 
+namespace {
+// Type parser partial cache for faster run across tests.
+ScillaVM::ScillaTypes::TypParserPartialCache TPPC;
+} // namespace
+
+
 BOOST_AUTO_TEST_SUITE(typ_parser)
 
 using namespace ScillaVM::ScillaTypes;
@@ -28,7 +34,7 @@ BOOST_AUTO_TEST_CASE(tydescrs_print) {
 void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
   using namespace TypeDescrs;
   try {
-    const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, Input);
+    const Typ *T = Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, Input);
     BOOST_REQUIRE(T && Typ::toString(T) == ExpectedO);
   } catch (const ScillaVM::ScillaError &E) {
     BOOST_FAIL(E.toString());
@@ -38,7 +44,7 @@ void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
 void parserTestFail(const std::string &Input) {
   using namespace TypeDescrs;
   try {
-    const Typ *T = Typ::fromString(AllTyDescrs, NTyDescrs, Input);
+    const Typ *T = Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, Input);
     BOOST_REQUIRE_MESSAGE(!T, "Type parser should have failed, but did not.");
   } catch (const ScillaVM::ScillaError &E) {
     BOOST_TEST_MESSAGE("\tCaught expected exception: " << E.toString());
