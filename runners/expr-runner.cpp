@@ -79,8 +79,6 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
   }
 }
 
-llvm::ExitOnError ExitOnErr;
-
 } // end of anonymous namespace
 
 int main(int argc, char *argv[]) {
@@ -90,17 +88,15 @@ int main(int argc, char *argv[]) {
 
   ScillaJIT::init();
 
-  auto InputFilename = VM["input-file"].as<std::string>();
-  auto SJ =
-      ExitOnErr(ScillaJIT::create(ScillaVM::ScillaParams(), InputFilename));
-  auto ScillaMainAddr = ExitOnErr(SJ->getAddressFor("scilla_main"));
-  auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
-
   ScillaStdout.clear();
   try {
+    auto InputFilename = VM["input-file"].as<std::string>();
+    auto SJ = ScillaJIT::create(ScillaVM::ScillaParams(), InputFilename);
+    auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
+    auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
     ScillaMain();
-  } catch (ScillaError &e) {
-    std::cerr << e.Msg << "\n";
+  } catch (const ScillaError &e) {
+    std::cerr << e.toString() << "\n";
     return EXIT_FAILURE;
   }
 

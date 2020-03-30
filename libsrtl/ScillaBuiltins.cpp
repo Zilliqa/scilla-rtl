@@ -25,7 +25,7 @@
 #include "ScillaVM/Errors.h"
 #include "ScillaVM/SRTL.h"
 #include "ScillaValue.h"
-#include "Utils.h"
+#include "ScillaVM/Utils.h"
 
 namespace ScillaVM {
 

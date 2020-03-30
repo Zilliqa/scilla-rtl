@@ -20,9 +20,9 @@
 
 #include <ScillaVM/Errors.h>
 #include <ScillaVM/SRTL.h>
+#include <ScillaVM/Utils.h>
 
 #include "../libsrtl/ScillaValue.h"
-#include "../libsrtl/Utils.h"
 #include "Testsuite.h"
 #include "TypeDescrs.h"
 

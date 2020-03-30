@@ -2,35 +2,32 @@
 #include <boost/test/unit_test.hpp>
 using boost::test_tools::output_test_stream;
 
+#include <ScillaVM/Errors.h>
 #include <ScillaVM/JITD.h>
 #include <ScillaVM/SRTL.h>
 
 #include "Testsuite.h"
 
+namespace {
 void testExecExpr(const std::string &Testname) {
   using namespace ScillaVM;
 
   auto Filename = Config::TestsuiteSrc + "/expr/" + Testname + ".ll";
 
   ScillaJIT::init();
+  // TODO: Pushing ScillaJIT::create into the try-catch below
+  // causes a segfault in the error. Is the LLVM we are linking
+  // to built with LLVM_ENABLE_EH? Is it necessary?
   auto SJ = ScillaJIT::create(ScillaVM::ScillaParams(), Filename);
-  if (!SJ) {
-    auto Err = SJ.takeError();
-    auto M = llvm::toString(std::move(Err));
-    BOOST_FAIL(M);
+  try {
+    auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
+    BOOST_TEST_CHECKPOINT(Filename + ": JIT compilation succeeded");
+    auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
+    ScillaStdout.clear();
+    ScillaMain();
+  } catch (const ScillaError &E) {
+    BOOST_FAIL(E.toString());
   }
-  auto ScillaMainAddr = (*SJ)->getAddressFor("scilla_main");
-  if (!ScillaMainAddr) {
-    auto Err = SJ.takeError();
-    auto M = llvm::toString(std::move(Err));
-    BOOST_FAIL(M);
-  }
-
-  BOOST_TEST_CHECKPOINT(Filename + ": JIT compilation succeeded");
-
-  auto ScillaMain = reinterpret_cast<void (*)()>(*ScillaMainAddr);
-  ScillaStdout.clear();
-  BOOST_REQUIRE_NO_THROW(ScillaMain());
 
   BOOST_TEST_CHECKPOINT(Filename + ": Execution succeeded");
 
@@ -46,7 +43,7 @@ void testExecExpr(const std::string &Testname) {
     ;
   }
 }
-
+} // namespace
 BOOST_AUTO_TEST_SUITE(expr_exec)
 
 BOOST_AUTO_TEST_CASE(adt_fun) { testExecExpr("adt-fun"); }

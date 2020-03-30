@@ -38,6 +38,7 @@
 #include <memory>
 
 #include "../libsrtl/ScillaBuiltins.h"
+#include "ScillaVM/Errors.h"
 #include "ScillaVM/JITD.h"
 
 using namespace llvm;
@@ -91,7 +92,7 @@ void ScillaJIT::init() {
   InitializeNativeTargetAsmPrinter();
 }
 
-Expected<std::unique_ptr<ScillaJIT>>
+std::unique_ptr<ScillaJIT>
 ScillaJIT::create(const ScillaParams &SPs, const std::string &Filename,
                   ObjectCache *OC) {
 
@@ -108,12 +109,12 @@ ScillaJIT::create(const ScillaParams &SPs, const std::string &Filename,
                    })
                .create();
 
-  if (!J)
-    return J.takeError();
+  if (auto Err = J.takeError())
+    CREATE_ERROR(llvm::toString(std::move(Err)));
 
   if (auto Err =
           addScillaBuiltins((*J)->getExecutionSession(), (*J)->getDataLayout()))
-    return std::move(Err);
+    CREATE_ERROR(llvm::toString(std::move(Err)));
 
   auto *THIS = new ScillaJIT(SPs, std::move(*J));
 
@@ -125,29 +126,26 @@ ScillaJIT::create(const ScillaParams &SPs, const std::string &Filename,
     raw_string_ostream OS(ErrMsg);
     Smd.print("scilla-vm", OS);
     auto Err = createStringError(inconvertibleErrorCode(), OS.str().c_str());
-    return std::move(Err);
+    CREATE_ERROR(llvm::toString(std::move(Err)));
   }
 
   ThreadSafeModule TSM(std::move(M), std::move(Ctx));
   if (auto Err = THIS->Jitter->addIRModule(std::move(TSM))) {
-    return std::move(Err);
+    CREATE_ERROR(llvm::toString(std::move(Err)));
   }
 
   // Set execptr in the generated code to THIS
   auto ExecPtr = THIS->getAddressFor("_execptr");
-  if (auto Err = ExecPtr.takeError()) {
-    return std::move(Err);
-  }
-  *reinterpret_cast<ScillaJIT **>(*ExecPtr) = THIS;
+  *reinterpret_cast<ScillaJIT **>(ExecPtr) = THIS;
 
   return std::unique_ptr<ScillaJIT>(THIS);
 }
 
-Expected<void *> ScillaJIT::getAddressFor(const std::string &Symbol) {
+void *ScillaJIT::getAddressFor(const std::string &Symbol) {
 
   auto SA = Jitter->lookup(Symbol);
   if (auto Err = SA.takeError()) {
-    return std::move(Err);
+    CREATE_ERROR(llvm::toString(std::move(Err)));
   }
 
   return reinterpret_cast<void *>((*SA).getAddress());

@@ -20,7 +20,6 @@
 #include "llvm/ADT/StringMap.h"
 #include "llvm/ExecutionEngine/ObjectCache.h"
 #include "llvm/ExecutionEngine/Orc/LLJIT.h"
-#include "llvm/Support/Error.h"
 #include "llvm/Support/MemoryBuffer.h"
 #include <functional>
 #include <string>
@@ -74,11 +73,11 @@ public:
   // One time initialization.
   static void init();
   // JIT Compile LLVM-IR @FileName. Optionally, a cache manager can be provided.
-  static llvm::Expected<std::unique_ptr<ScillaJIT>>
+  static std::unique_ptr<ScillaJIT>
   create(const ScillaParams &SPs, const std::string &FileName,
          llvm::ObjectCache * = nullptr);
   // Get address for @Symbol inside the compiled IR, ready to be used.
-  llvm::Expected<void *> getAddressFor(const std::string &Symbol);
+  void *getAddressFor(const std::string &Symbol);
 
   // Allocate and own the memory for code owned by this object.
   void *sAlloc(size_t Size);
