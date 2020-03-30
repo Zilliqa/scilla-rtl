@@ -91,7 +91,8 @@ int main(int argc, char *argv[]) {
   ScillaJIT::init();
 
   auto InputFilename = VM["input-file"].as<std::string>();
-  auto SJ = ExitOnErr(ScillaJIT::create(InputFilename));
+  auto SJ =
+      ExitOnErr(ScillaJIT::create(ScillaVM::ScillaParams(), InputFilename));
   auto ScillaMainAddr = ExitOnErr(SJ->getAddressFor("scilla_main"));
   auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
 

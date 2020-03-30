@@ -46,6 +46,19 @@ void _print_scilla_val(const ScillaVM::ScillaTypes::Typ *T, void *V);
 // Allocate memory for JIT code owned by @SJ
 void *_salloc(ScillaVM::ScillaJIT *SJ, size_t size);
 
+// Fetch field @Name whose type is @T. For map accesses, FetchVal can be false,
+// to indicate that the return value is a Scilla `Bool`, indicating found or
+// not.
+void *_fetch_field(ScillaVM::ScillaJIT *SJ, const char *Name,
+                   const ScillaVM::ScillaTypes::Typ *T, int32_t NumIdx,
+                   const uint8_t *Indices, int32_t FetchVal);
+
+// Update field @Name whose type is @T with value @Val. If Val is nullptr,
+// then this is a map update and the keys must be deleted.
+void _update_field(ScillaVM::ScillaJIT *SJ, const char *Name,
+                   const ScillaVM::ScillaTypes::Typ *, int32_t NumIdx,
+                   const uint8_t *Indices, void *Val);
+
 // Integer addition builtins
 ScillaVM::ScillaTypes::Int32 _add_Int32(ScillaVM::ScillaTypes::Int32,
                                         ScillaVM::ScillaTypes::Int32);

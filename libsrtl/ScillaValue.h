@@ -35,6 +35,16 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V);
 Json::Value toJSON(const ScillaTypes::Typ *T, const void *V);
 // Deserialize JSON @J of Scilla type T to Scilla value.
 void *fromJSON(SAllocator &A, const ScillaTypes::Typ *T, const Json::Value &J);
+// Same as @fromJSON, but uses @Mem as the memory destination.
+// Memory cannot be prealloted for non-boxed types.
+// ASSERT(MemSize == 0 || !ScillaTypes::Typ::isBoxed(T));
+// The function may still call @A for sub allocations.
+// If @Mem is null (and @MemSize 0), @A is used to allocate memory.
+// If @MemSize is not 0, it is asserted to be of the right size.
+// It is *always* possible and safer to use @fromJSON. So do that.
+// This function exists only as an optimization to avoid copies.
+void *fromJSONToMem(SAllocator &A, void *Mem, int MemSize,
+                    const ScillaTypes::Typ *T, const Json::Value &J);
 
 } // namespace ScillaValues
 } // namespace ScillaVM

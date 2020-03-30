@@ -22,6 +22,7 @@
 #include "llvm/ExecutionEngine/Orc/LLJIT.h"
 #include "llvm/Support/Error.h"
 #include "llvm/Support/MemoryBuffer.h"
+#include <functional>
 #include <string>
 
 namespace ScillaVM {
@@ -38,12 +39,34 @@ private:
   llvm::StringMap<std::unique_ptr<llvm::MemoryBuffer>> CachedObjects;
 };
 
+// Information that Scilla will need to execute contracts.
+struct ScillaParams {
+  struct StateQuery {
+    std::string Name;
+    int MapDepth;
+    std::vector<std::string> Indices;
+    bool IgnoreVal;
+  };
+  using FetchState_Type = std::function<bool(
+      const StateQuery &Query, std::string &RetVal, bool &found)>;
+  using UpdateState_Type =
+      std::function<bool(const StateQuery &Query, const std::string &Val)>;
+
+  FetchState_Type fetchStateValue;
+  UpdateState_Type updateStateValue;
+
+  ScillaParams() : fetchStateValue(nullptr), updateStateValue(nullptr){};
+  ScillaParams(FetchState_Type FS, UpdateState_Type US)
+      : fetchStateValue(FS), updateStateValue(US){};
+};
+
 // Each ScillaJIT object compiles an LLVM-IR module and provides access
 // to the symbols inside it.
 class ScillaJIT {
 private:
   // Use the Create method to build a ScillaJIT object.
-  ScillaJIT(std::unique_ptr<llvm::orc::LLJIT> J) : Jitter(std::move(J)) {}
+  ScillaJIT(const ScillaParams &SPs, std::unique_ptr<llvm::orc::LLJIT> J)
+      : Jitter(std::move(J)), SPs(SPs) {}
   std::unique_ptr<llvm::orc::LLJIT> Jitter;
   std::vector<uint8_t *> MAllocs;
 
@@ -52,14 +75,18 @@ public:
   static void init();
   // JIT Compile LLVM-IR @FileName. Optionally, a cache manager can be provided.
   static llvm::Expected<std::unique_ptr<ScillaJIT>>
-  create(const std::string &FileName, llvm::ObjectCache * = nullptr);
+  create(const ScillaParams &SPs, const std::string &FileName,
+         llvm::ObjectCache * = nullptr);
   // Get address for @Symbol inside the compiled IR, ready to be used.
   llvm::Expected<void *> getAddressFor(const std::string &Symbol);
 
   // Allocate and own the memory for code owned by this object.
-  void *sAlloc(size_t size);
+  void *sAlloc(size_t Size);
   // Free all memory allocated for code owned by this object.
   void sFreeAll();
+
+  // Scilla configuration parameters.
+  const ScillaParams SPs;
 
   ~ScillaJIT() { sFreeAll(); }
 };

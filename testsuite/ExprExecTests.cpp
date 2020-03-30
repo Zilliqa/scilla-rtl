@@ -13,7 +13,7 @@ void testExecExpr(const std::string &Testname) {
   auto Filename = Config::TestsuiteSrc + "/expr/" + Testname + ".ll";
 
   ScillaJIT::init();
-  auto SJ = ScillaJIT::create(Filename);
+  auto SJ = ScillaJIT::create(ScillaVM::ScillaParams(), Filename);
   if (!SJ) {
     auto Err = SJ.takeError();
     auto M = llvm::toString(std::move(Err));

@@ -25,11 +25,7 @@ namespace ScillaVM {
 
 namespace ScillaTypes {
 
-Bytes::operator ByteVec() const {
-  return ByteVec(m_buffer, m_buffer + m_length);
-}
-
-Bytes::operator std::string() const {
+String::operator std::string() const {
   return std::string(m_buffer, m_buffer + m_length);
 }
 
@@ -139,7 +135,7 @@ int ScillaTypes::Typ::sizeOf(const Typ *T) {
       }
     case PrimTyp::String_typ:
     case PrimTyp::Bystr_typ:
-      return sizeof(Bytes);
+      return sizeof(String);
     case PrimTyp::Bystrx_typ:
       return T->m_sub.m_primt->m_detail.m_bystX;
     case PrimTyp::Bnum_typ:
@@ -166,6 +162,45 @@ bool Typ::isBoxed(const Typ *T) {
   case Map_typ:
     return true;
   }
+  CREATE_ERROR("Unreachable executed");
+}
+
+int Typ::getMapDepth(const Typ *T) {
+  switch (T->m_t) {
+  case Prim_typ:
+  case ADT_typ:
+    return 0;
+  case Map_typ:
+    return 1 + getMapDepth(T->m_sub.m_mapt->m_valTyp);
+  }
+
+  CREATE_ERROR("Unreachable executed");
+}
+
+void Typ::getMapKeyTypes(const Typ *T, std::vector<const Typ *> Keys) {
+  switch (T->m_t) {
+  case Prim_typ:
+  case ADT_typ:
+    return;
+  case Map_typ:
+    Keys.push_back(T->m_sub.m_mapt->m_keyTyp);
+    getMapKeyTypes(T->m_sub.m_mapt->m_valTyp, Keys);
+  }
+}
+
+// The type of the value accessed in a map access.
+const Typ *Typ::mapAccessType(const Typ *MT, int NumIdx) {
+  if (NumIdx == 0) {
+    return MT;
+  }
+  switch (MT->m_t) {
+  case Prim_typ:
+  case ADT_typ:
+    CREATE_ERROR("Trying to access non Map value with indexing");
+  case Map_typ:
+    return mapAccessType(MT->m_sub.m_mapt->m_valTyp, NumIdx-1);
+  }
+
   CREATE_ERROR("Unreachable executed");
 }
 

@@ -19,9 +19,8 @@
 
 #include <cstdint>
 #include <string>
-#include <vector>
 
-using ByteVec = std::vector<uint8_t>;
+#include "ScillaVM/SRTL.h"
 
 namespace ScillaVM {
 
@@ -46,14 +45,20 @@ typedef RawInt<256> Uint256;
 // Equivalent of scilla_bytes_ty in the compiler code.
 // No constructor is provided because we want
 // to use this in a union, it must remain POD.
-struct Bytes {
+struct String {
   const uint8_t *m_buffer;
   int32_t m_length;
 
-  explicit operator ByteVec() const;
   explicit operator std::string() const;
 };
-using String = Bytes;
+
+// ADT tags, based on the definitions in Datatypes.ml.
+// TODO: Remove them and replace uses with actual type
+// descriptors from the compiled code.
+const uint8_t Option_Some_Tag = 1;
+const uint8_t Option_None_Tag = 0;
+const uint8_t Bool_True_Tag = 0;
+const uint8_t Bool_False_Tag = 1;
 
 struct PrimTyp {
 
@@ -156,6 +161,13 @@ struct Typ {
   // global array "_tydescr_table" with its length "_tydescr_table_length"
   static const Typ *fromString(const Typ *Ts[], int NT,
                                const std::string &input);
+
+  // Get the type of keys of a Map.
+  static void getMapKeyTypes (const Typ *T, std::vector<const Typ *> Keys);
+  // Map depth. 0 for non-Map types.
+  static int getMapDepth(const Typ *T);
+  // The type of the value accessed in a map access.
+  static const Typ *mapAccessType(const Typ *MT, int NumIdx);
 
   bool operator==(const Typ *RHS);
   bool operator!=(const Typ *RHS);

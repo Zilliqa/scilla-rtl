@@ -19,8 +19,11 @@
 
 #include <functional>
 #include <string>
+#include <vector>
 
 namespace ScillaVM {
+
+using ByteVec = std::vector<uint8_t>;
 
 // A global that accummulates messages printed from the JIT'ed code.
 extern std::string ScillaStdout;

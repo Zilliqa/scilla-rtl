@@ -92,7 +92,8 @@ void ScillaJIT::init() {
 }
 
 Expected<std::unique_ptr<ScillaJIT>>
-ScillaJIT::create(const std::string &Filename, ObjectCache *OC) {
+ScillaJIT::create(const ScillaParams &SPs, const std::string &Filename,
+                  ObjectCache *OC) {
 
   // Create an LLJIT instance with a custom CompileFunction.
   auto J = orc::LLJITBuilder()
@@ -114,7 +115,7 @@ ScillaJIT::create(const std::string &Filename, ObjectCache *OC) {
           addScillaBuiltins((*J)->getExecutionSession(), (*J)->getDataLayout()))
     return std::move(Err);
 
-  auto *THIS = new ScillaJIT(std::move(*J));
+  auto *THIS = new ScillaJIT(SPs, std::move(*J));
 
   auto Ctx = llvm::make_unique<LLVMContext>();
   SMDiagnostic Smd;
