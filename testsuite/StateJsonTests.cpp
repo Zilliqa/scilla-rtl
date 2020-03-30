@@ -43,7 +43,7 @@ void testStateJson(const std::string &Testname) {
 
   struct SAlloc {
     std::vector<uint8_t *> Allocs;
-    void *operator()(size_t Size) {
+    void *alloc(size_t Size) {
       auto P = new uint8_t[Size];
       Allocs.push_back(P);
       return reinterpret_cast<void *>(P);
@@ -55,7 +55,8 @@ void testStateJson(const std::string &Testname) {
       Allocs.clear();
     }
   };
-  SAllocator Allocator = SAlloc();
+  SAlloc SA;
+  SAllocator Allocator = std::bind(&SAlloc::alloc, &SA, std::placeholders::_1);
 
   Json::Value J = parseJSONString(FileStr);
   BOOST_TEST_CHECKPOINT(Filename + ": State JSON parsed");
