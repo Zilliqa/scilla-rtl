@@ -131,11 +131,13 @@ struct MapTyp {
   Typ *m_valTyp;
 };
 
+struct Typ;
+
 class TypParserPartialCache {
   std::unordered_map<std::string, const Typ *> PrimMap;
   std::unordered_map<std::string, std::vector<const Typ *>> ADTMap;
   std::vector<const Typ *> MapList;
-  friend class Typ;
+  friend struct Typ;
 
 public:
   void clear() {
