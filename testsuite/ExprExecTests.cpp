@@ -16,8 +16,9 @@ void testExecExpr(const std::string &Testname) {
 
   ScillaJIT::init();
   // TODO: Pushing ScillaJIT::create into the try-catch below
-  // causes a segfault in the error. Is the LLVM we are linking
-  // to built with LLVM_ENABLE_EH? Is it necessary?
+  // causes a segfault later. Likely related to the exception
+  // bug (and workaround) linked to right below.
+  // Linking to an LLVM build with LLVM_ENABLE_EH=On doesn't solve.
   auto SJ = ScillaJIT::create(ScillaVM::ScillaParams(), Filename);
   try {
     auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
