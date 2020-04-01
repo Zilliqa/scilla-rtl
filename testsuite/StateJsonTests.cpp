@@ -28,7 +28,6 @@
 namespace {
 // Type parser partial cache for faster run across tests.
 ScillaVM::ScillaTypes::TypParserPartialCache TPPC;
-} // namespace
 
 // Parse a state JSON, Re-serialize back to JSON and compare.
 void testStateJson(const std::string &Testname) {
@@ -87,6 +86,8 @@ void testStateJson(const std::string &Testname) {
   }
   BOOST_TEST_CHECKPOINT(Filename + ": test completed");
 }
+
+} // namespace
 
 BOOST_AUTO_TEST_SUITE(state_json_parse_print)
 

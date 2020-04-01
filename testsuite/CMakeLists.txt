@@ -2,6 +2,7 @@ set(TARGET_SCILLA_TESTS scilla-testsuite)
 
 add_executable(${TARGET_SCILLA_TESTS} 
   Testsuite.cpp
+  ContrTests.cpp
   ExprExecTests.cpp
   TypeParserTests.cpp
   TypeDescrs.cpp
