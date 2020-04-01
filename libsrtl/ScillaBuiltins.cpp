@@ -15,10 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <functional>
-#include <iostream>
-#include <string>
-
 #include "SafeInt.h"
 #include "ScillaBuiltins.h"
 #include "ScillaTypes.h"
@@ -172,7 +168,7 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
         *reinterpret_cast<void **>(Mem + 1) =
             ScillaValues::fromJSON(SA, ValT, ValJ);
       } else {
-        ScillaValues::fromJSONToMem(SA, (Mem + 1), 0, ValT, ValJ);
+        ScillaValues::fromJSONToMem(SA, (Mem + 1), MemSize - 1, ValT, ValJ);
       }
       return Mem;
     } else {

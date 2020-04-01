@@ -227,7 +227,7 @@ void MemStateServer::initFromJSON(const Json::Value &SJ,
             !Entry.isMember("val")) {
           CREATE_ERROR(VName + " has malformed map structure");
         }
-        auto &SubV = MapV[Entry["key"].asString()];
+        auto &SubV = MapV[Entry["key"].toStyledString()];
         jsonToSV(Depth - 1, SubV, Entry["val"]);
       }
     };

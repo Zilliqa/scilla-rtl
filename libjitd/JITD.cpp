@@ -242,7 +242,12 @@ void ScillaJIT::execMsg(Json::Value &Msg) {
   for (size_t I = 0, Off = 0; I < ParamTypes.size(); I++) {
     const ScillaTypes::Typ *T = ParamTypes[I];
     int Size = ScillaTypes::Typ::sizeOf(T);
-    ScillaValues::fromJSONToMem(SA, Mem + Off, Size, T, ParamValues[I]);
+    if (ScillaTypes::Typ::isBoxed(T)) {
+      *reinterpret_cast<void **>(Mem + Off) =
+          ScillaValues::fromJSON(SA, T, ParamValues[I]);
+    } else {
+      ScillaValues::fromJSONToMem(SA, Mem + Off, Size, T, ParamValues[I]);
+    }
     Off += Size;
   }
 

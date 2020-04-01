@@ -16,7 +16,6 @@
  */
 
 #include "ScillaVM/SRTL.h"
-#include "ScillaTypes.h"
 
 namespace ScillaVM {
 
