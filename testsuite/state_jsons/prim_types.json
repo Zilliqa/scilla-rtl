@@ -2,21 +2,21 @@
   {
     "vname" : "v_string_empty",
     "type" : "String",
-    "val" : ""
+    "value" : ""
   },
   {
     "vname" : "v_string_hello",
     "type" : "String",
-    "val" : "hello"
+    "value" : "hello"
   },
   {
     "vname" : "v_bystr20",
     "type" : "ByStr20",
-    "val" : "0xabfeccdc9012345678901234567890f777567890"
+    "value" : "0xabfeccdc9012345678901234567890f777567890"
   },
   {
     "vname" : "v_bystr",
     "type" : "ByStr",
-    "val" : "0xfe"
+    "value" : "0xfe"
   }
 ]

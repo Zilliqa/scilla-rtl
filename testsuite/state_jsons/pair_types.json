@@ -2,7 +2,7 @@
   {
     "vname": "v_empty_100",
     "type": "Pair (List Int32) Int64",
-    "val": {
+    "value": {
       "constructor": "Pair",
       "argtypes": [
         "List (Int32)",
@@ -23,7 +23,7 @@
   {
     "vname": "v_singleton_101",
     "type": "Pair (List Int32) Int64",
-    "val": {
+    "value": {
       "constructor": "Pair",
       "argtypes": [
         "List (Int32)",
@@ -53,7 +53,7 @@
   {
     "vname": "v_100_empty",
     "type": "Pair Int32 (List Int64)",
-    "val": {
+    "value": {
       "constructor": "Pair",
       "argtypes": [
         "Int32",
@@ -74,7 +74,7 @@
   {
     "vname": "v_101_singleton",
     "type": "Pair Int32 (List Int64)",
-    "val": {
+    "value": {
       "constructor": "Pair",
       "argtypes": [
         "Int32",

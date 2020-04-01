@@ -61,7 +61,7 @@ void testStateJson(const std::string &Testname) {
       Json::Value VName, VTyp, VVal;
       if ((VName = V.get("vname", Json::nullValue)) == Json::nullValue ||
           (VTyp = V.get("type", Json::nullValue)) == Json::nullValue ||
-          (VVal = V.get("val", Json::nullValue)) == Json::nullValue ||
+          (VVal = V.get("value", Json::nullValue)) == Json::nullValue ||
           !VName.isString() || !VTyp.isString()) {
         BOOST_FAIL(Filename + " invalid state JSON format");
       }

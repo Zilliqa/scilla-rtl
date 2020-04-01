@@ -2,7 +2,7 @@
   {
     "vname": "v_list_int32_empty",
     "type": "List Int32",
-    "val": {
+    "value": {
       "constructor": "Nil",
       "argtypes": [
         "Int32"
@@ -13,7 +13,7 @@
   {
     "vname": "v_list_int32_1",
     "type": "List Int32",
-    "val": {
+    "value": {
       "constructor": "Cons",
       "argtypes": [
         "Int32"
@@ -33,7 +33,7 @@
   {
     "vname": "v_list_int64_2",
     "type": "List Int64",
-    "val": {
+    "value": {
       "constructor": "Cons",
       "argtypes": [
         "Int64"
