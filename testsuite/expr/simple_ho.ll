@@ -99,6 +99,11 @@ declare i8* @_salloc(i8*, i64)
 
 declare %Int32 @_add_Int32(%Int32, %Int32)
 
+define void @_init_libs() {
+entry:
+  ret void
+}
+
 define internal %Int32 @"$scilla_expr_57"(i8*) {
 entry:
   %"$expr_3" = alloca %Int32

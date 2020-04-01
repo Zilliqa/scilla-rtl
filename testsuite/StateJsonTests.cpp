@@ -16,7 +16,6 @@
  */
 
 #include <boost/test/unit_test.hpp>
-#include <fstream>
 
 #include <ScillaVM/Errors.h>
 #include <ScillaVM/SRTL.h>
@@ -37,10 +36,6 @@ void testStateJson(const std::string &Testname) {
 
   auto Filename = Config::TestsuiteSrc + "/state_jsons/" + Testname + ".json";
 
-  std::ifstream IfsFile(Filename);
-  std::string FileStr((std::istreambuf_iterator<char>(IfsFile)),
-                      (std::istreambuf_iterator<char>()));
-
   struct SAlloc {
     std::vector<uint8_t *> Allocs;
     void *alloc(size_t Size) {
@@ -58,7 +53,7 @@ void testStateJson(const std::string &Testname) {
   SAlloc SA;
   SAllocator Allocator = std::bind(&SAlloc::alloc, &SA, std::placeholders::_1);
 
-  Json::Value J = parseJSONString(FileStr);
+  Json::Value J = parseJSONFile(Filename);
   BOOST_TEST_CHECKPOINT(Filename + ": State JSON parsed");
   BOOST_REQUIRE_MESSAGE(J.isArray(), "State JSON should be array of variables");
   try {

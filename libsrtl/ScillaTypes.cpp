@@ -176,7 +176,7 @@ int Typ::getMapDepth(const Typ *T) {
   CREATE_ERROR("Unreachable executed");
 }
 
-void Typ::getMapKeyTypes(const Typ *T, std::vector<const Typ *> Keys) {
+void Typ::getMapKeyTypes(const Typ *T, std::vector<const Typ *> &Keys) {
   switch (T->m_t) {
   case Prim_typ:
   case ADT_typ:

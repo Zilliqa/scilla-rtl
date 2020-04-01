@@ -21,7 +21,10 @@
 #include "llvm/ExecutionEngine/ObjectCache.h"
 #include "llvm/ExecutionEngine/Orc/LLJIT.h"
 #include "llvm/Support/MemoryBuffer.h"
+#include <any>
 #include <functional>
+#include <jsoncpp/json/json.h>
+#include <memory>
 #include <string>
 
 namespace ScillaVM {
@@ -38,6 +41,10 @@ private:
   llvm::StringMap<std::unique_ptr<llvm::MemoryBuffer>> CachedObjects;
 };
 
+namespace ScillaTypes {
+class TypParserPartialCache;
+}
+
 // Information that Scilla will need to execute contracts.
 struct ScillaParams {
   struct StateQuery {
@@ -46,10 +53,16 @@ struct ScillaParams {
     std::vector<std::string> Indices;
     bool IgnoreVal;
   };
-  using FetchState_Type = std::function<bool(
-      const StateQuery &Query, std::string &RetVal, bool &found)>;
+  // A Scilla state contains either std::string or a MapValueT
+  // We use std::any to capture this. Using std::variant is
+  // cumbersome because of the recursive type definition required.
+  // https://stackoverflow.com/questions/43309468/recursive-data-structure-with-variant
+  using MapValueT = std::unordered_map<std::string, std::any>;
+
+  using FetchState_Type = std::function<bool(const StateQuery &Query,
+                                             std::any &RetVal, bool &Found)>;
   using UpdateState_Type =
-      std::function<bool(const StateQuery &Query, const std::string &Val)>;
+      std::function<bool(const StateQuery &Query, const std::any &Val)>;
 
   FetchState_Type fetchStateValue;
   UpdateState_Type updateStateValue;
@@ -64,20 +77,23 @@ struct ScillaParams {
 class ScillaJIT {
 private:
   // Use the Create method to build a ScillaJIT object.
-  ScillaJIT(const ScillaParams &SPs, std::unique_ptr<llvm::orc::LLJIT> J)
-      : Jitter(std::move(J)), SPs(SPs) {}
+  ScillaJIT(const ScillaParams &SPs, std::unique_ptr<llvm::orc::LLJIT> J);
   std::unique_ptr<llvm::orc::LLJIT> Jitter;
   std::vector<uint8_t *> MAllocs;
+  // An opaque pointer to the type parser partial cache.
+  std::unique_ptr<ScillaTypes::TypParserPartialCache> TPPC;
 
 public:
   // One time initialization.
   static void init();
   // JIT Compile LLVM-IR @FileName. Optionally, a cache manager can be provided.
-  static std::unique_ptr<ScillaJIT>
-  create(const ScillaParams &SPs, const std::string &FileName,
-         llvm::ObjectCache * = nullptr);
+  static std::unique_ptr<ScillaJIT> create(const ScillaParams &SPs,
+                                           const std::string &FileName,
+                                           llvm::ObjectCache * = nullptr);
   // Get address for @Symbol inside the compiled IR, ready to be used.
   void *getAddressFor(const std::string &Symbol);
+  // Execute a message.
+  void execMsg(Json::Value &Msg);
 
   // Allocate and own the memory for code owned by this object.
   void *sAlloc(size_t Size);
@@ -87,7 +103,7 @@ public:
   // Scilla configuration parameters.
   const ScillaParams SPs;
 
-  ~ScillaJIT() { sFreeAll(); }
+  ~ScillaJIT();
 };
 
 } // namespace ScillaVM

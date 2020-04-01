@@ -96,6 +96,11 @@ entry:
   ret %Int32 %"$$retval_4_56"
 }
 
+define void @_init_libs() {
+entry:
+  ret void
+}
+
 define internal %Int32 @"$scilla_expr_57"(i8*) {
 entry:
   %"$expr_2" = alloca %Int32

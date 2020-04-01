@@ -1,0 +1,7 @@
+[
+    {
+        "vname" : "access_count",
+        "type" : "Map ByStr20 Int32",
+        "value" : []
+    }
+]

@@ -31,6 +31,11 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Bystr_21" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr_Prim_20" to i8*) }
 @"$stringlit_27" = unnamed_addr constant [11 x i8] c"hello world"
 
+define void @_init_libs() {
+entry:
+  ret void
+}
+
 define internal %String @"$scilla_expr_26"(i8*) {
 entry:
   %"$expr_0" = alloca %String

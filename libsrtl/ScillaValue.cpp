@@ -444,7 +444,7 @@ void *fromJSONToMem(SAllocator &A, void *MemV, int MemSize,
   } break;
   case ScillaTypes::Typ::Map_typ: {
     ASSERT_MSG(!Mem && MemSize == 0,
-              "Maps shouldn't have memory pre-allocated");
+               "Maps shouldn't have memory pre-allocated");
     CREATE_ERROR("Unimplemented");
   }
   }

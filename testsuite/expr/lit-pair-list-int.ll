@@ -82,6 +82,11 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Pair_ADTTyp_m_specls_57" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_22"*] [%"$TyDescrTy_ADTTyp_Specl_22"* @"$TyDescr_Pair_List_(Int32)_List_(Uint32)_ADTTyp_Specl_56"]
 @"$TyDescr_ADT_Pair_58" = unnamed_addr constant [4 x i8] c"Pair"
 
+define void @_init_libs() {
+entry:
+  ret void
+}
+
 define internal %"TName_Pair_List_(Int32)_List_(Uint32)"* @"$scilla_expr_59"(i8*) {
 entry:
   %"$expr_0" = alloca %"TName_Pair_List_(Int32)_List_(Uint32)"*

@@ -56,8 +56,8 @@ struct String {
 // ADT tags, based on the definitions in Datatypes.ml.
 // TODO: Remove them and replace uses with actual type
 // descriptors from the compiled code.
-const uint8_t Option_Some_Tag = 1;
-const uint8_t Option_None_Tag = 0;
+const uint8_t Option_Some_Tag = 0;
+const uint8_t Option_None_Tag = 1;
 const uint8_t Bool_True_Tag = 0;
 const uint8_t Bool_False_Tag = 1;
 
@@ -145,9 +145,7 @@ public:
     ADTMap.clear();
     MapList.clear();
   }
-  bool empty() {
-    return PrimMap.empty();
-  }
+  bool empty() { return PrimMap.empty(); }
 };
 
 // We don't model Scilla types with inheritance because values
@@ -184,10 +182,10 @@ struct Typ {
   //   - If the cache is not empty, it is used.
   // The cache must have been built using the same @Ts argument.
   static const Typ *fromString(TypParserPartialCache *TPPC, const Typ *Ts[],
-                               int NT, const std::string &input);
+                               int NT, const std::string &Input);
 
   // Get the type of keys of a Map.
-  static void getMapKeyTypes(const Typ *T, std::vector<const Typ *> Keys);
+  static void getMapKeyTypes(const Typ *T, std::vector<const Typ *> &Keys);
   // Map depth. 0 for non-Map types.
   static int getMapDepth(const Typ *T);
   // The type of the value accessed in a map access.

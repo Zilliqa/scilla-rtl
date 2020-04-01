@@ -62,7 +62,7 @@ struct ScillaError {
 #define ASSERT(EXPR)                                                           \
   if (EXPR) {                                                                  \
   } else {                                                                     \
-    CREATE_ERROR("");                                                          \
+    CREATE_ERROR("Assertion failure");                                         \
   }
 #define ASSERT_MSG(EXPR, MSG)                                                  \
   if (EXPR) {                                                                  \

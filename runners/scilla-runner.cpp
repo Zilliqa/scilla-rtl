@@ -15,9 +15,119 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <boost/program_options.hpp>
+#include <fstream>
 #include <iostream>
 
-int main() {
-  std::cout << "scilla-runner executed\n" << std::endl;
-  return 0;
+#include "ScillaVM/Errors.h"
+#include "ScillaVM/JITD.h"
+#include "ScillaVM/SRTL.h"
+#include "ScillaVM/Utils.h"
+
+using namespace ScillaVM;
+
+namespace {
+
+namespace po = boost::program_options;
+
+void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
+  auto UsageString = "Usage: " + std::string(argv[0]) +
+                     " [option...] -i input_contract.ll -m message.json -s "
+                     "state.json -c contract_info.json" +
+                     "\nSupported options";
+  po::options_description Desc(UsageString);
+
+  // clang-format off
+  Desc.add_options()
+    ("input-contract,i", po::value<std::string>(), "Specify compiled Scilla contract file")
+    ("message,m", po::value<std::string>(), "Specify the message JSON to be executed")
+    ("state,s", po::value<std::string>(), "Specify the JSON to use as initial state")
+    ("contract-info,c", po::value<std::string>(), "Specify the contract info JSON from checker")
+    ("output-file,o", po::value<std::string>(), "Specify output filename")
+    ("help,h", "Print help message")
+    ("version,v", "Print version")
+  ;
+  // clang-format on
+
+  try {
+    po::store(po::command_line_parser(argc, argv).options(Desc).run(), VM);
+    po::notify(VM);
+  } catch (std::exception &e) {
+    std::cerr << e.what() << "\n";
+    std::cerr << Desc << "\n";
+    exit(EXIT_FAILURE);
+  }
+
+  if (VM.count("help")) {
+    std::cerr << Desc << "\n";
+    exit(EXIT_SUCCESS);
+  }
+
+  // Ensure that an input file is provided.
+  if (!VM.count("input-contract") || !VM.count("message") ||
+      !VM.count("contract-info") || !VM.count("state")) {
+    std::cerr << "Missing mandatory command line arguments\n" << Desc << "\n";
+    exit(EXIT_FAILURE);
+  }
+}
+
+} // end of anonymous namespace
+
+int main(int argc, char *argv[]) {
+
+  po::variables_map VM;
+  parseCLIArgs(argc, argv, VM);
+
+  MemStateServer State;
+  namespace ph = std::placeholders;
+  ScillaParams::FetchState_Type fetchStateValue = std::bind(
+      &MemStateServer::fetchStateValue, &State, ph::_1, ph::_2, ph::_3);
+  ScillaParams::UpdateState_Type updateStateValue =
+      std::bind(&MemStateServer::updateStateValue, &State, ph::_1, ph::_2);
+  ScillaParams SP(fetchStateValue, updateStateValue);
+
+  ScillaJIT::init();
+
+  ScillaStdout.clear();
+  try {
+    // Prepare all inputs.
+    auto InputFilename = VM["input-contract"].as<std::string>();
+    auto MessageFilename = VM["message"].as<std::string>();
+    auto StateFilename = VM["state"].as<std::string>();
+    auto ContrInfoFilename = VM["contract-info"].as<std::string>();
+    auto MJ = parseJSONFile(MessageFilename);
+    auto SJ = parseJSONFile(StateFilename);
+    auto CIJ = parseJSONFile(ContrInfoFilename);
+    // Update our in-memory state table with the one from the JSONs.
+    State.initFromJSON(SJ, CIJ);
+
+    // Create a JIT engine and execute the message.
+    auto JE = ScillaJIT::create(SP, InputFilename);
+    JE->execMsg(MJ);
+
+    // Append output state to the Scilla output.
+    ScillaStdout += State.dumpToJSON().toStyledString();
+  } catch (const ScillaError &e) {
+    std::cerr << e.toString() << "\n";
+    return EXIT_FAILURE;
+  }
+
+  if (VM.count("output-file")) {
+    auto OutputFilename = VM["output-file"].as<std::string>();
+    std::ofstream OFile(OutputFilename);
+    if (!OFile) {
+      std::cerr << "Error opening output file " << OutputFilename << "\n";
+      return EXIT_FAILURE;
+    } else {
+      OFile << ScillaStdout;
+      if (OFile.bad()) {
+        std::cerr << "Error writing to output file " << OutputFilename << "\n";
+        return EXIT_FAILURE;
+      }
+    }
+  } else {
+    std::cout << ScillaStdout;
+  }
+
+  return EXIT_SUCCESS;
 }

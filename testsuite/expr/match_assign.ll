@@ -58,6 +58,11 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Bool_ADTTyp_m_specls_37" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_22"*] [%"$TyDescrTy_ADTTyp_Specl_22"* @"$TyDescr_Bool_ADTTyp_Specl_36"]
 @"$TyDescr_ADT_Bool_38" = unnamed_addr constant [4 x i8] c"Bool"
 
+define void @_init_libs() {
+entry:
+  ret void
+}
+
 define internal %Int32 @"$scilla_expr_39"(i8*) {
 entry:
   %"$expr_0" = alloca %Int32

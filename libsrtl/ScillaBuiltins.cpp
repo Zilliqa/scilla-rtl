@@ -24,8 +24,8 @@
 #include "ScillaTypes.h"
 #include "ScillaVM/Errors.h"
 #include "ScillaVM/SRTL.h"
-#include "ScillaValue.h"
 #include "ScillaVM/Utils.h"
+#include "ScillaValue.h"
 
 namespace ScillaVM {
 
@@ -42,6 +42,8 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_add_Uint64", (void *) _add_Uint64},
     {"_add_Uint128", (void *) _add_Uint128},
     {"_add_Uint256", (void *) _add_Uint256},
+    {"_fetch_field", (void *) _fetch_field},
+    {"_update_field", (void *) _update_field}
   };
   // clang-format on
 
@@ -56,16 +58,16 @@ namespace {
 
 // Serialize indices in a Scilla memory buffer.
 void prepareStateAccessIndices(
-    const std::vector<const ScillaTypes::Typ *> KeyTypes, int NumIdx,
-    const uint8_t *Indices, std::vector<std::string> SerializedIndices) {
+    const std::vector<const ScillaTypes::Typ *> &KeyTypes, int NumIdx,
+    const uint8_t *Indices, std::vector<std::string> &SerializedIndices) {
   for (int I = 0, Off = 0; I < NumIdx; I++) {
     auto *KT = KeyTypes[I];
     const void *VPtr;
     if (ScillaTypes::Typ::isBoxed(KT)) {
       ASSERT_MSG(false, "Key type must be primitive, cannot be boxed");
-      VPtr = *reinterpret_cast<void **>(Indices[Off]);
+      VPtr = *reinterpret_cast<void *const *>(Indices + Off);
     } else {
-      VPtr = reinterpret_cast<void *>(Indices[Off]);
+      VPtr = reinterpret_cast<const void *>(Indices + Off);
     }
     SerializedIndices.emplace_back(
         ScillaValues::toJSON(KT, VPtr).toStyledString());
@@ -132,11 +134,11 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
   ScillaParams::StateQuery SQ = {std::string(Name), (int)KeyTypes.size(),
                                  SerializedIndices, !FetchVal};
 
-  std::string Val;
+  std::any StringOrMapVal;
   bool Found;
   ASSERT_MSG(SJ->SPs.fetchStateValue,
              "Incorrect ScillaParams provided to ScillaJIT");
-  if (!SJ->SPs.fetchStateValue(SQ, Val, Found)) {
+  if (!SJ->SPs.fetchStateValue(SQ, StringOrMapVal, Found)) {
     CREATE_ERROR("State fetch query failed for " + SQ.Name);
   }
 
@@ -144,8 +146,10 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
   SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, _1));
 
   if (SerializedIndices.empty()) {
-    ASSERT_MSG(FetchVal, "Fetching full state variable, but FetchVal not set");
     // Full access of state variable. No indexing.
+    ASSERT_MSG(FetchVal, "Fetching full state variable, but FetchVal not set");
+    // TODO: Support Map values too.
+    auto Val = std::any_cast<std::string>(StringOrMapVal);
     Json::Value ValJ = parseJSONString(Val);
     return ScillaValues::fromJSON(SA, T, ValJ);
   }
@@ -154,7 +158,8 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
   if (FetchVal) {
     // Wrap with "Option".
     if (Found) {
-      // Wrap with "Some".
+      // Wrap with "Some". TODO: Support Map values too.
+      auto Val = std::any_cast<std::string>(StringOrMapVal);
       Json::Value ValJ = parseJSONString(Val);
       auto ValT = ScillaTypes::Typ::mapAccessType(T, NumIdx);
       // Allocate memory for "Some" = sizeOf (ValT) + 1 byte for Tag.
@@ -167,16 +172,15 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
         *reinterpret_cast<void **>(Mem + 1) =
             ScillaValues::fromJSON(SA, ValT, ValJ);
       } else {
-        ScillaValues::fromJSONToMem(SA, reinterpret_cast<void *>(Mem + 1), 0,
-                                    ValT, ValJ);
+        ScillaValues::fromJSONToMem(SA, (Mem + 1), 0, ValT, ValJ);
       }
-      return reinterpret_cast<void *>(Mem);
+      return Mem;
     } else {
       // Wrap with Scilla object "None", which has only a Tag.
       int MemSize = 1;
       auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
       *Mem = ScillaTypes::Option_None_Tag;
-      return reinterpret_cast<void *>(Mem);
+      return Mem;
     }
   } else {
     // We need to construct a Scilla Bool ADT based on "found".
@@ -187,7 +191,7 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
     } else {
       *Mem = ScillaTypes::Bool_False_Tag;
     }
-    return reinterpret_cast<void *>(Mem);
+    return Mem;
   }
 }
 
@@ -205,9 +209,11 @@ void _update_field(ScillaVM::ScillaJIT *SJ, const char *Name,
   ScillaParams::StateQuery SQ = {std::string(Name), (int)KeyTypes.size(),
                                  SerializedIndices, Val == nullptr};
 
+  // TODO: Support Map values too.
   std::string ValS;
   if (Val) {
-    ValS = ScillaValues::toJSON(T, Val).toStyledString();
+    auto ValT = ScillaTypes::Typ::mapAccessType(T, NumIdx);
+    ValS = ScillaValues::toJSON(ValT, Val).toStyledString();
   } else {
     ASSERT_MSG(!SerializedIndices.empty(),
                "Value deletion is possible only for indexed map access");

@@ -31,6 +31,11 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Bystr3_Prim_22" = global %"$TyDescrTy_PrimTyp_1" { i32 8, i32 3 }
 @"$TyDescr_Bystr3_23" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr3_Prim_22" to i8*) }
 
+define void @_init_libs() {
+entry:
+  ret void
+}
+
 define internal [3 x i8] @"$scilla_expr_28"(i8*) {
 entry:
   %"$expr_0" = alloca [3 x i8]

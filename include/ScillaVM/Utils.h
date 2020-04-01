@@ -15,9 +15,44 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <jsoncpp/json/value.h>
+#include <any>
 #include <string>
+#include <unordered_map>
+
+#include <jsoncpp/json/value.h>
+
+#include "JITD.h"
+
+namespace std {
+// Does an std::any hold a value of type T.
+template <typename T> bool has_type(const std::any &a);
+template <typename T> bool has_type(const std::any *a);
+
+} // namespace std
 
 namespace ScillaVM {
 Json::Value parseJSONString(const std::string &JS);
-}
+Json::Value parseJSONFile(const std::string &Filename);
+
+// A state server implementation with no persistence.
+class MemStateServer {
+  std::unordered_map<std::string, std::any> ContractState;
+  // We store the type (when initialized from JSON) for later printing to JSON.
+  std::unordered_map<std::string, std::string> FieldTypes;
+
+public:
+  // Fetch (part of) state variable. Returns false on error.
+  bool fetchStateValue(const ScillaParams::StateQuery &Query, std::any &RetVal,
+                       bool &Found);
+  // Update (part of) the state. Returns false on error.
+  bool updateStateValue(const ScillaParams::StateQuery &Query,
+                        const std::any &Value);
+
+  // Re-initialize the state from the provided state JSON.
+  // Requires the contract info JSON for knowing field types.
+  void initFromJSON(const Json::Value &SJ, const Json::Value &CIJ);
+  // Print the full state into a JSON.
+  Json::Value dumpToJSON();
+};
+
+} // namespace ScillaVM

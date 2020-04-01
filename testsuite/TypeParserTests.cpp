@@ -9,7 +9,6 @@ namespace {
 ScillaVM::ScillaTypes::TypParserPartialCache TPPC;
 } // namespace
 
-
 BOOST_AUTO_TEST_SUITE(typ_parser)
 
 using namespace ScillaVM::ScillaTypes;

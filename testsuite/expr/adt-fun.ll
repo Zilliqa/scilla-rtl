@@ -86,6 +86,11 @@ entry:
 
 declare i8* @_salloc(i8*, i64)
 
+define void @_init_libs() {
+entry:
+  ret void
+}
+
 define internal %TName_List_Int32* @"$scilla_expr_53"(i8*) {
 entry:
   %"$expr_1" = alloca %TName_List_Int32*
