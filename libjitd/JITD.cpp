@@ -77,14 +77,18 @@ void ScillaObjCache::notifyObjectCompiled(const Module *M,
 std::unique_ptr<MemoryBuffer> ScillaObjCache::getObject(const Module *M) {
   auto I = CachedObjects.find(M->getModuleIdentifier());
   if (I == CachedObjects.end()) {
-    dbgs() << "No object for " << M->getModuleIdentifier()
-           << " in cache. Compiling.\n";
+    DEBUG(dbglog << "No object for " << M->getModuleIdentifier()
+           << " in cache. Compiling.\n");
     return nullptr;
   }
 
-  dbgs() << "Object for " << M->getModuleIdentifier()
-         << " loaded from cache.\n";
-  return MemoryBuffer::getMemBuffer(I->second->getMemBufferRef());
+  DEBUG(dbglog << "Object for " << M->getModuleIdentifier()
+         << " loaded from cache.\n");
+  return MemoryBuffer::getMemBufferCopy(I->second->getBuffer());
+}
+
+bool ScillaObjCache::isModuleCached(const std::string &ModuleIdentifier) {
+  return CachedObjects.count(ModuleIdentifier);
 }
 
 using namespace orc;
@@ -96,7 +100,7 @@ void ScillaJIT::init() {
 
 std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
                                              const std::string &Filename,
-                                             ObjectCache *OC) {
+                                             ScillaObjCache *OC) {
 
   // Create an LLJIT instance with a custom CompileFunction.
   auto J = orc::LLJITBuilder()
@@ -119,16 +123,32 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
     CREATE_ERROR(llvm::toString(std::move(Err)));
 
   auto *THIS = new ScillaJIT(SPs, std::move(*J));
-
   auto Ctx = llvm::make_unique<LLVMContext>();
-  SMDiagnostic Smd;
-  auto M = parseIRFile(Filename, Smd, *Ctx);
-  if (!M) {
-    std::string ErrMsg;
-    raw_string_ostream OS(ErrMsg);
-    Smd.print("scilla-vm", OS);
-    auto Err = createStringError(inconvertibleErrorCode(), OS.str().c_str());
-    CREATE_ERROR(llvm::toString(std::move(Err)));
+  std::unique_ptr<llvm::Module> M;
+
+  // TODO: Make this work.
+  if (false && OC->isModuleCached(Filename)) {
+    // If this code is cached, we build an empty module with the same
+    // ModuleID so that its compiled object code will be directly used.
+    M = llvm::make_unique<Module>(Filename, *Ctx);
+    auto *Ty = Type::getInt8Ty(*Ctx)->getPointerTo();
+    new GlobalVariable(*M, Ty, false,
+                       GlobalValue::LinkageTypes::ExternalLinkage,
+                       ConstantPointerNull::get(Ty), "_execptr");
+    M->setDataLayout("e-m:e-i64:64-f80:128-n8:16:32:64-S128");
+    M->setTargetTriple("x86_64-pc-linux-gnu");
+    M->setSourceFileName(Filename);
+  } else {
+    SMDiagnostic Smd;
+    M = parseIRFile(Filename, Smd, *Ctx);
+    if (!M) {
+      std::string ErrMsg;
+      raw_string_ostream OS(ErrMsg);
+      Smd.print("scilla-vm", OS);
+      auto Err = createStringError(inconvertibleErrorCode(), OS.str().c_str());
+      CREATE_ERROR(llvm::toString(std::move(Err)));
+    }
+    M->setModuleIdentifier(Filename);
   }
 
   ThreadSafeModule TSM(std::move(M), std::move(Ctx));

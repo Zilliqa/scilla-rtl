@@ -27,6 +27,8 @@ using namespace ScillaVM;
 
 namespace {
 
+ScillaObjCache OCache;
+
 void testMessage(const std::string &ContrFilename,
                  const std::string &MessageFilename,
                  const std::string &ContrInfoFilename,
@@ -57,7 +59,7 @@ void testMessage(const std::string &ContrFilename,
   }
   // Create a JIT engine and execute the message.
   // TODO: Due to the below mentioned bug, this can't be in a try-catch block.
-  auto JE = ScillaJIT::create(SP, PathPrefix + ContrFilename);
+  auto JE = ScillaJIT::create(SP, PathPrefix + ContrFilename, &OCache);
   try {
     JE->execMsg(MessageJSON);
     // Append output state to the Scilla output.

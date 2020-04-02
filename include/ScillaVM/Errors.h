@@ -73,3 +73,12 @@ struct ScillaError {
 #define ASSERT(EXPR)
 #define ASSERT_MSG(EXPR, MSG)
 #endif
+
+// Provide DEBUG(dbglog << "debug message") in debug builds.
+#ifndef NDEBUG
+#define DEBUG(x) x
+#include <iostream>
+#define dbglog (std::cout << "dbglog@" << __FILE__ << ":" << __LINE__ << ": ")
+#else
+#define DEBUG(x)
+#endif

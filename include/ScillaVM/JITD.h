@@ -37,6 +37,8 @@ public:
 
   std::unique_ptr<llvm::MemoryBuffer> getObject(const llvm::Module *M) override;
 
+  bool isModuleCached(const std::string &ModuleIdentifier);
+
 private:
   llvm::StringMap<std::unique_ptr<llvm::MemoryBuffer>> CachedObjects;
 };
@@ -89,7 +91,7 @@ public:
   // JIT Compile LLVM-IR @FileName. Optionally, a cache manager can be provided.
   static std::unique_ptr<ScillaJIT> create(const ScillaParams &SPs,
                                            const std::string &FileName,
-                                           llvm::ObjectCache * = nullptr);
+                                           ScillaObjCache * = nullptr);
   // Get address for @Symbol inside the compiled IR, ready to be used.
   void *getAddressFor(const std::string &Symbol);
   // Execute a message.
