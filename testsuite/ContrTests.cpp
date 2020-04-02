@@ -57,11 +57,19 @@ void testMessage(const std::string &ContrFilename,
   } catch (const ScillaError &e) {
     BOOST_FAIL(e.toString());
   }
+
   // Create a JIT engine and execute the message.
   // TODO: Due to the below mentioned bug, this can't be in a try-catch block.
-  auto JE = ScillaJIT::create(SP, PathPrefix + ContrFilename, &OCache);
+  std::unique_ptr<ScillaVM::ScillaJIT> JE;
+  {
+    ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
+    JE = ScillaJIT::create(SP, PathPrefix + ContrFilename, &OCache);
+  }
   try {
-    JE->execMsg(MessageJSON);
+    {
+      ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
+      JE->execMsg(MessageJSON);
+    }
     // Append output state to the Scilla output.
     auto OJ = State.dumpToJSON();
     auto EOJ = parseJSONFile(PathPrefix + ExpectedOutputFilename);
