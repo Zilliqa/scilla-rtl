@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "SafeInt.h"
 #include "ScillaBuiltins.h"
+#include "SafeInt.h"
 #include "ScillaTypes.h"
 #include "ScillaVM/Errors.h"
 #include "ScillaVM/SRTL.h"

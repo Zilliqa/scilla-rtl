@@ -78,12 +78,12 @@ std::unique_ptr<MemoryBuffer> ScillaObjCache::getObject(const Module *M) {
   auto I = CachedObjects.find(M->getModuleIdentifier());
   if (I == CachedObjects.end()) {
     DEBUG(dbglog << "No object for " << M->getModuleIdentifier()
-           << " in cache. Compiling.\n");
+                 << " in cache. Compiling.\n");
     return nullptr;
   }
 
   DEBUG(dbglog << "Object for " << M->getModuleIdentifier()
-         << " loaded from cache.\n");
+               << " loaded from cache.\n");
   return MemoryBuffer::getMemBufferCopy(I->second->getBuffer());
 }
 
