@@ -80,7 +80,9 @@ A few other points to note
   in the Zilliqa network, do not `abort()`, `exit()` or `assert()`.
   Always use the provided `CREATE_ERROR` and `CREATE_ERROR_SLOC` macros.
   This throws an exception (with information on where it was thrown from)
-  and can be caught and handled by the blockchain.
+  and can be caught and handled by the blockchain. For assertions, use
+  `ASSERT` or `ASSERT_MSG`. These use `CREATE_ERROR` internally and are
+  defined to be no-op in release builds.
 
 To conform to the coding style and good programming practices, CMake targets `clang-format`
 and `clang-tidy` are provided, which when run as `make clang-format` and `make clang-tidy`
