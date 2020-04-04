@@ -15,6 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <memory>
+#include <numeric>
+
 #include "llvm/ADT/StringRef.h"
 #include "llvm/ExecutionEngine/JITSymbol.h"
 #include "llvm/ExecutionEngine/ObjectCache.h"
@@ -27,6 +30,8 @@
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/IRReader/IRReader.h"
+#include "llvm/Support/FileSystem.h"
+#include "llvm/Support/Path.h"
 #include "llvm/Support/SourceMgr.h"
 #include "llvm/Support/TargetSelect.h"
 #include "llvm/Support/raw_ostream.h"
@@ -34,9 +39,6 @@
 #include "llvm/Transforms/Scalar.h"
 #include "llvm/Transforms/Scalar/GVN.h"
 #include "llvm/Transforms/Utils.h"
-
-#include <memory>
-#include <numeric>
 
 #include "../libsrtl/ScillaBuiltins.h"
 #include "../libsrtl/ScillaTypes.h"
@@ -70,20 +72,60 @@ namespace ScillaVM {
 
 void ScillaObjCache::notifyObjectCompiled(const Module *M,
                                           MemoryBufferRef ObjBuffer) {
-  CachedObjects[M->getModuleIdentifier()] = MemoryBuffer::getMemBufferCopy(
+  auto ModuleID = M->getModuleIdentifier();
+
+  CachedObjects[ModuleID] = MemoryBuffer::getMemBufferCopy(
       ObjBuffer.getBuffer(), ObjBuffer.getBufferIdentifier());
+  DEBUG(dbglog << ModuleID << " added to memory cache\n");
+
+  // If there's a cache directory specified, write to disk.
+  if (!CacheDir.empty()) {
+    if (!sys::fs::exists(CacheDir) && sys::fs::create_directory(CacheDir)) {
+      CREATE_ERROR("Cache directory " + CacheDir +
+                   " does not exist and cannot be created");
+    }
+    SmallString<64> CacheFilename(CacheDir);
+    sys::path::append(CacheFilename, ModuleID);
+    std::error_code EC;
+    raw_fd_ostream ObjFile(CacheFilename.c_str(), EC);
+    if (EC) {
+      CREATE_ERROR(std::string("Cannot write to cache file ") +
+                   CacheFilename.c_str() + ": " + EC.message());
+    }
+    ObjFile << ObjBuffer.getBuffer();
+    DEBUG(dbglog << ModuleID << " added to disk cache " << CacheFilename.c_str()
+                 << "\n");
+  }
 }
 
 std::unique_ptr<MemoryBuffer>
-ScillaObjCache::getObject(const std::string &ModuleIdentifier) {
-  auto I = CachedObjects.find(ModuleIdentifier);
+ScillaObjCache::getObject(const std::string &ModuleID) {
+  auto I = CachedObjects.find(ModuleID);
   if (I == CachedObjects.end()) {
-    DEBUG(dbglog << "No object for " << ModuleIdentifier
-                 << " in cache. Compiling.\n");
+    DEBUG(dbglog << "Object file for " << ModuleID
+                 << " not cached in memory.\n");
+
+    if (CacheDir.empty())
+      return nullptr;
+
+    SmallString<64> CacheFilename(CacheDir);
+    sys::path::append(CacheFilename, ModuleID);
+    if (sys::fs::exists(CacheFilename)) {
+      auto MB = MemoryBuffer::getFile(CacheFilename);
+      if (auto Err = MB.getError()) {
+        DEBUG(dbglog << "Error loading object file from "
+                     << CacheFilename.c_str() << "\n");
+        return nullptr;
+      }
+      DEBUG(dbglog << "Loaded object file from file " << CacheFilename.c_str()
+                   << "\n");
+      return std::move(*MB);
+    }
+    DEBUG(dbglog << "Object file for " << ModuleID << " not cached on disk.\n");
     return nullptr;
   }
 
-  DEBUG(dbglog << "Object for " << ModuleIdentifier << " loaded from cache.\n");
+  DEBUG(dbglog << "Object for " << ModuleID << " loaded from memory cache.\n");
   return MemoryBuffer::getMemBufferCopy(I->second->getBuffer());
 }
 
@@ -125,7 +167,14 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
   auto *THIS = new ScillaJIT(SPs, std::move(*J));
   auto Ctx = llvm::make_unique<LLVMContext>();
 
-  std::unique_ptr<llvm::MemoryBuffer> Obj = OC->getObject(Filename);
+  // Let's build the ModuleID, which will be the filename without
+  // any path prefixes, but extension replace with ".scilla_cache".
+  SmallString<64> FNSS(Filename);
+  sys::path::replace_extension(FNSS, ".scilla_cache");
+  std::string ModuleID = sys::path::filename(FNSS.c_str());
+
+  std::unique_ptr<llvm::MemoryBuffer> Obj =
+      OC ? OC->getObject(ModuleID) : nullptr;
   if (Obj) {
     // We have the object file for this IR module in cache.
     if (auto Err = THIS->Jitter->addObjectFile(std::move(Obj))) {
@@ -142,7 +191,7 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
       auto Err = createStringError(inconvertibleErrorCode(), OS.str().c_str());
       CREATE_ERROR(llvm::toString(std::move(Err)));
     }
-    M->setModuleIdentifier(Filename);
+    M->setModuleIdentifier(ModuleID);
     ThreadSafeModule TSM(std::move(M), std::move(Ctx));
     if (auto Err = THIS->Jitter->addIRModule(std::move(TSM))) {
       CREATE_ERROR(llvm::toString(std::move(Err)));

@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <boost/filesystem.hpp>
 #include <boost/test/unit_test.hpp>
 
 #include <ScillaVM/Errors.h>
@@ -27,7 +28,10 @@ using namespace ScillaVM;
 
 namespace {
 
-ScillaObjCache OCache;
+const std::string CacheDir((boost::filesystem::temp_directory_path() /=
+                            "scilla_testsuite_cache")
+                               .native());
+ScillaObjCache OCache(CacheDir);
 
 void testMessage(const std::string &ContrFilename,
                  const std::string &MessageFilename,

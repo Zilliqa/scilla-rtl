@@ -32,14 +32,19 @@ namespace ScillaVM {
 // Caching mechanism for compiled files. Not thread safe.
 class ScillaObjCache : public llvm::ObjectCache {
 public:
+  // Constructor for memory + disk cache.
+  ScillaObjCache(const std::string &CacheDir) : CacheDir(CacheDir){};
+  // Constructor for memory only cache.
+  ScillaObjCache(){};
   void notifyObjectCompiled(const llvm::Module *M,
                             llvm::MemoryBufferRef ObjBuffer) override;
 
   std::unique_ptr<llvm::MemoryBuffer> getObject(const llvm::Module *M) override;
-  std::unique_ptr<llvm::MemoryBuffer> getObject(const std::string &ModuleIdentifier);
+  std::unique_ptr<llvm::MemoryBuffer> getObject(const std::string &ModuleID);
 
 private:
   llvm::StringMap<std::unique_ptr<llvm::MemoryBuffer>> CachedObjects;
+  const std::string CacheDir;
 };
 
 namespace ScillaTypes {
