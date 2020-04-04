@@ -36,8 +36,7 @@ public:
                             llvm::MemoryBufferRef ObjBuffer) override;
 
   std::unique_ptr<llvm::MemoryBuffer> getObject(const llvm::Module *M) override;
-
-  bool isModuleCached(const std::string &ModuleIdentifier);
+  std::unique_ptr<llvm::MemoryBuffer> getObject(const std::string &ModuleIdentifier);
 
 private:
   llvm::StringMap<std::unique_ptr<llvm::MemoryBuffer>> CachedObjects;

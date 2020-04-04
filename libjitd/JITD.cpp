@@ -74,21 +74,21 @@ void ScillaObjCache::notifyObjectCompiled(const Module *M,
       ObjBuffer.getBuffer(), ObjBuffer.getBufferIdentifier());
 }
 
-std::unique_ptr<MemoryBuffer> ScillaObjCache::getObject(const Module *M) {
-  auto I = CachedObjects.find(M->getModuleIdentifier());
+std::unique_ptr<MemoryBuffer>
+ScillaObjCache::getObject(const std::string &ModuleIdentifier) {
+  auto I = CachedObjects.find(ModuleIdentifier);
   if (I == CachedObjects.end()) {
-    DEBUG(dbglog << "No object for " << M->getModuleIdentifier()
+    DEBUG(dbglog << "No object for " << ModuleIdentifier
                  << " in cache. Compiling.\n");
     return nullptr;
   }
 
-  DEBUG(dbglog << "Object for " << M->getModuleIdentifier()
-               << " loaded from cache.\n");
+  DEBUG(dbglog << "Object for " << ModuleIdentifier << " loaded from cache.\n");
   return MemoryBuffer::getMemBufferCopy(I->second->getBuffer());
 }
 
-bool ScillaObjCache::isModuleCached(const std::string &ModuleIdentifier) {
-  return CachedObjects.count(ModuleIdentifier);
+std::unique_ptr<MemoryBuffer> ScillaObjCache::getObject(const Module *M) {
+  return getObject(M->getModuleIdentifier());
 }
 
 using namespace orc;
@@ -124,23 +124,17 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
 
   auto *THIS = new ScillaJIT(SPs, std::move(*J));
   auto Ctx = llvm::make_unique<LLVMContext>();
-  std::unique_ptr<llvm::Module> M;
 
-  // TODO: Make this work.
-  if (false && OC->isModuleCached(Filename)) {
-    // If this code is cached, we build an empty module with the same
-    // ModuleID so that its compiled object code will be directly used.
-    M = llvm::make_unique<Module>(Filename, *Ctx);
-    auto *Ty = Type::getInt8Ty(*Ctx)->getPointerTo();
-    new GlobalVariable(*M, Ty, false,
-                       GlobalValue::LinkageTypes::ExternalLinkage,
-                       ConstantPointerNull::get(Ty), "_execptr");
-    M->setDataLayout("e-m:e-i64:64-f80:128-n8:16:32:64-S128");
-    M->setTargetTriple("x86_64-pc-linux-gnu");
-    M->setSourceFileName(Filename);
+  std::unique_ptr<llvm::MemoryBuffer> Obj = OC->getObject(Filename);
+  if (Obj) {
+    // We have the object file for this IR module in cache.
+    if (auto Err = THIS->Jitter->addObjectFile(std::move(Obj))) {
+      CREATE_ERROR(llvm::toString(std::move(Err)));
+    }
   } else {
+    // IR module not in cache. Parse and compile it.
     SMDiagnostic Smd;
-    M = parseIRFile(Filename, Smd, *Ctx);
+    std::unique_ptr<llvm::Module> M = parseIRFile(Filename, Smd, *Ctx);
     if (!M) {
       std::string ErrMsg;
       raw_string_ostream OS(ErrMsg);
@@ -149,11 +143,10 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
       CREATE_ERROR(llvm::toString(std::move(Err)));
     }
     M->setModuleIdentifier(Filename);
-  }
-
-  ThreadSafeModule TSM(std::move(M), std::move(Ctx));
-  if (auto Err = THIS->Jitter->addIRModule(std::move(TSM))) {
-    CREATE_ERROR(llvm::toString(std::move(Err)));
+    ThreadSafeModule TSM(std::move(M), std::move(Ctx));
+    if (auto Err = THIS->Jitter->addIRModule(std::move(TSM))) {
+      CREATE_ERROR(llvm::toString(std::move(Err)));
+    }
   }
 
   // Create an empty type parser partial cache.
