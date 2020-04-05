@@ -8,7 +8,7 @@
             "type" : "Option Int32",
             "value" : {
                 "constructor" : "Some",
-                "argtypes" : "Int32",
+                "argtypes" : [ "Int32" ],
                 "arguments" : [ "21" ]
             }
         }
