@@ -17,15 +17,18 @@
 
 #pragma once
 
+#include <functional>
+#include <memory>
+#include <string>
+#include <unordered_map>
+
+#include <boost/any.hpp>
+#include <jsoncpp/json/json.h>
+
 #include "llvm/ADT/StringMap.h"
 #include "llvm/ExecutionEngine/ObjectCache.h"
 #include "llvm/ExecutionEngine/Orc/LLJIT.h"
 #include "llvm/Support/MemoryBuffer.h"
-#include <any>
-#include <functional>
-#include <jsoncpp/json/json.h>
-#include <memory>
-#include <string>
 
 namespace ScillaVM {
 
@@ -60,15 +63,15 @@ struct ScillaParams {
     bool IgnoreVal;
   };
   // A Scilla state contains either std::string or a MapValueT
-  // We use std::any to capture this. Using std::variant is
+  // We use boost::any to capture this. Using std::variant is
   // cumbersome because of the recursive type definition required.
   // https://stackoverflow.com/questions/43309468/recursive-data-structure-with-variant
-  using MapValueT = std::unordered_map<std::string, std::any>;
+  using MapValueT = std::unordered_map<std::string, boost::any>;
 
   using FetchState_Type = std::function<bool(const StateQuery &Query,
-                                             std::any &RetVal, bool &Found)>;
+                                             boost::any &RetVal, bool &Found)>;
   using UpdateState_Type =
-      std::function<bool(const StateQuery &Query, const std::any &Val)>;
+      std::function<bool(const StateQuery &Query, const boost::any &Val)>;
 
   FetchState_Type fetchStateValue;
   UpdateState_Type updateStateValue;

@@ -130,7 +130,7 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
   ScillaParams::StateQuery SQ = {std::string(Name), (int)KeyTypes.size(),
                                  SerializedIndices, !FetchVal};
 
-  std::any StringOrMapVal;
+  boost::any StringOrMapVal;
   bool Found;
   ASSERT_MSG(SJ->SPs.fetchStateValue,
              "Incorrect ScillaParams provided to ScillaJIT");
@@ -145,7 +145,7 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
     // Full access of state variable. No indexing.
     ASSERT_MSG(FetchVal, "Fetching full state variable, but FetchVal not set");
     // TODO: Support Map values too.
-    auto Val = std::any_cast<std::string>(StringOrMapVal);
+    auto Val = boost::any_cast<std::string>(StringOrMapVal);
     Json::Value ValJ = parseJSONString(Val);
     return ScillaValues::fromJSON(SA, T, ValJ);
   }
@@ -155,7 +155,7 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
     // Wrap with "Option".
     if (Found) {
       // Wrap with "Some". TODO: Support Map values too.
-      auto Val = std::any_cast<std::string>(StringOrMapVal);
+      auto Val = boost::any_cast<std::string>(StringOrMapVal);
       Json::Value ValJ = parseJSONString(Val);
       auto ValT = ScillaTypes::Typ::mapAccessType(T, NumIdx);
       // Allocate memory for "Some" = sizeOf (ValT) + 1 byte for Tag.
