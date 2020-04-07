@@ -150,7 +150,7 @@ bool MemStateServer::updateStateValue(const ScillaParams::StateQuery &Query,
   } else {
     // Not a map value.
     // ignoreval is only for map entries.
-    assert(!Query.IgnoreVal);
+    ASSERT(!Query.IgnoreVal);
     Field = boost::any_cast<std::string>(Value);
   }
 

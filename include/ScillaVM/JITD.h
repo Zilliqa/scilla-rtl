@@ -25,34 +25,35 @@
 #include <boost/any.hpp>
 #include <jsoncpp/json/json.h>
 
-#include "llvm/ADT/StringMap.h"
-#include "llvm/ExecutionEngine/ObjectCache.h"
-#include "llvm/ExecutionEngine/Orc/LLJIT.h"
-#include "llvm/Support/MemoryBuffer.h"
+// Forward declarations.
+namespace llvm {
+namespace orc {
+class LLJIT;
+}
+class MemoryBuffer;
+} // namespace llvm
 
 namespace ScillaVM {
 
-// Caching mechanism for compiled files. Not thread safe.
-class ScillaObjCache : public llvm::ObjectCache {
-public:
-  // Constructor for memory + disk cache.
-  ScillaObjCache(const std::string &CacheDir) : CacheDir(CacheDir){};
-  // Constructor for memory only cache.
-  ScillaObjCache(){};
-  void notifyObjectCompiled(const llvm::Module *M,
-                            llvm::MemoryBufferRef ObjBuffer) override;
-
-  std::unique_ptr<llvm::MemoryBuffer> getObject(const llvm::Module *M) override;
-  std::unique_ptr<llvm::MemoryBuffer> getObject(const std::string &ModuleID);
-
-private:
-  llvm::StringMap<std::unique_ptr<llvm::MemoryBuffer>> CachedObjects;
-  const std::string CacheDir;
-};
+class ScillaJIT;
+class ScillaObjCache;
 
 namespace ScillaTypes {
 class TypParserPartialCache;
 }
+
+// An opaque object for use from outside the ScillaJIT object.
+class ScillaCacheManager {
+  friend class ScillaJIT;
+  std::unique_ptr<ScillaObjCache> SOC;
+
+public:
+  // Constructor for memory + disk cache.
+  ScillaCacheManager(const std::string &CacheDir);
+  // Constructor for memory only cache.
+  ScillaCacheManager();
+  ~ScillaCacheManager();
+};
 
 // Information that Scilla will need to execute contracts.
 struct ScillaParams {
@@ -87,6 +88,13 @@ class ScillaJIT {
 private:
   // Use the Create method to build a ScillaJIT object.
   ScillaJIT(const ScillaParams &SPs, std::unique_ptr<llvm::orc::LLJIT> J);
+  // JIT Compile LLVM-IR from MemBuf, affixing @ModuleID to it.
+  // Optionally, a cache manager can be provided.
+  static std::unique_ptr<ScillaJIT> create(const ScillaParams &SPs,
+                                           llvm::MemoryBuffer *MemBuf,
+                                           const std::string &ModuleID,
+                                           ScillaCacheManager * = nullptr);
+
   std::unique_ptr<llvm::orc::LLJIT> Jitter;
   std::vector<uint8_t *> MAllocs;
   // An opaque pointer to the type parser partial cache.
@@ -95,10 +103,17 @@ private:
 public:
   // One time initialization.
   static void init();
-  // JIT Compile LLVM-IR @FileName. Optionally, a cache manager can be provided.
+  // JIT Compile LLVM-IR @FileName. ModuleID is derived from @FileName.
+  //  Optionally, a cache manager can be provided.
   static std::unique_ptr<ScillaJIT> create(const ScillaParams &SPs,
                                            const std::string &FileName,
-                                           ScillaObjCache * = nullptr);
+                                           ScillaCacheManager * = nullptr);
+  // JIT Compile LLVM-IR in @IR, affixing @ModuleID to it.
+  // Optionally, a cache manager can be provided.
+  static std::unique_ptr<ScillaJIT> create(const ScillaParams &SPs,
+                                           const std::string &IR,
+                                           const std::string &ModuleID,
+                                           ScillaCacheManager * = nullptr);
   // Get address for @Symbol inside the compiled IR, ready to be used.
   void *getAddressFor(const std::string &Symbol);
   // Execute a message.

@@ -31,7 +31,7 @@ namespace {
 const std::string CacheDir((boost::filesystem::temp_directory_path() /=
                             "scilla_testsuite_cache")
                                .native());
-ScillaObjCache OCache(CacheDir);
+ScillaCacheManager OCache(CacheDir);
 
 void testMessage(const std::string &ContrFilename,
                  const std::string &MessageFilename,

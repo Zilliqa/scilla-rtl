@@ -70,6 +70,25 @@ Error addScillaBuiltins(orc::ExecutionSession &ES, const DataLayout &DL) {
 
 namespace ScillaVM {
 
+// Caching mechanism for compiled files. Not thread safe.
+class ScillaObjCache : public llvm::ObjectCache {
+public:
+  // Constructor for memory + disk cache.
+  ScillaObjCache(const std::string &CacheDir) : CacheDir(CacheDir){};
+  // Constructor for memory only cache.
+  ScillaObjCache(){};
+  void notifyObjectCompiled(const llvm::Module *M,
+                            llvm::MemoryBufferRef ObjBuffer) override;
+
+  std::unique_ptr<llvm::MemoryBuffer> getObject(const llvm::Module *M) override;
+  std::unique_ptr<llvm::MemoryBuffer> getObject(const std::string &ModuleID);
+
+private:
+  llvm::StringMap<std::unique_ptr<llvm::MemoryBuffer>> CachedObjects;
+  const std::string CacheDir;
+};
+
+
 void ScillaObjCache::notifyObjectCompiled(const Module *M,
                                           MemoryBufferRef ObjBuffer) {
   auto ModuleID = M->getModuleIdentifier();
@@ -133,6 +152,14 @@ std::unique_ptr<MemoryBuffer> ScillaObjCache::getObject(const Module *M) {
   return getObject(M->getModuleIdentifier());
 }
 
+// Constructor for memory + disk cache.
+ScillaCacheManager::ScillaCacheManager(const std::string &CacheDir)
+    : SOC(std::make_unique<ScillaObjCache>(CacheDir)) {}
+// Constructor for memory only cache.
+ScillaCacheManager::ScillaCacheManager()
+    : SOC(std::make_unique<ScillaObjCache>()) {}
+ScillaCacheManager::~ScillaCacheManager() = default;
+
 using namespace orc;
 
 void ScillaJIT::init() {
@@ -141,11 +168,39 @@ void ScillaJIT::init() {
 }
 
 std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
-                                             const std::string &Filename,
-                                             ScillaObjCache *OC) {
+                                             const std::string &FileName,
+                                             ScillaCacheManager *OC) {
 
+  auto MemBuf = MemoryBuffer::getFile(FileName);
+  if (auto Err = MemBuf.getError()) {
+    CREATE_ERROR(Err.message());
+  }
+
+  // Let's build the ModuleID, which will be the filename without
+  // any path prefixes, but extension replace with ".scilla_cache".
+  SmallString<64> FNSS(FileName);
+  sys::path::replace_extension(FNSS, ".scilla_cache");
+  std::string ModuleID = sys::path::filename(FNSS.c_str());
+
+  return create(SPs, (*MemBuf).get(), ModuleID, OC);
+}
+
+std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
+                                             const std::string &IR,
+                                             const std::string &ModuleID,
+                                             ScillaCacheManager *OC) {
+  auto MemBuf = MemoryBuffer::getMemBuffer(IR);
+  return create(SPs, MemBuf.get(), ModuleID, OC);
+}
+
+std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
+                                             llvm::MemoryBuffer *MemBuf,
+                                             const std::string &ModuleID,
+                                             ScillaCacheManager *SCM) {
+
+  ScillaObjCache *OC = SCM ? SCM->SOC.get() : nullptr;
   // Create an LLJIT instance with a custom CompileFunction.
-  auto J = orc::LLJITBuilder()
+  auto J = LLJITBuilder()
                .setCompileFunctionCreator(
                    [&](JITTargetMachineBuilder JTMB)
                        -> Expected<IRCompileLayer::CompileFunction> {
@@ -167,12 +222,6 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
   auto *THIS = new ScillaJIT(SPs, std::move(*J));
   auto Ctx = llvm::make_unique<LLVMContext>();
 
-  // Let's build the ModuleID, which will be the filename without
-  // any path prefixes, but extension replace with ".scilla_cache".
-  SmallString<64> FNSS(Filename);
-  sys::path::replace_extension(FNSS, ".scilla_cache");
-  std::string ModuleID = sys::path::filename(FNSS.c_str());
-
   std::unique_ptr<llvm::MemoryBuffer> Obj =
       OC ? OC->getObject(ModuleID) : nullptr;
   if (Obj) {
@@ -183,7 +232,8 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
   } else {
     // IR module not in cache. Parse and compile it.
     SMDiagnostic Smd;
-    std::unique_ptr<llvm::Module> M = parseIRFile(Filename, Smd, *Ctx);
+    std::unique_ptr<llvm::Module> M =
+        parseIR(MemBuf->getMemBufferRef(), Smd, *Ctx);
     if (!M) {
       std::string ErrMsg;
       raw_string_ostream OS(ErrMsg);
@@ -235,8 +285,7 @@ void ScillaJIT::sFreeAll() {
   MAllocs.clear();
 }
 
-ScillaJIT::ScillaJIT(const ScillaParams &SPs,
-                     std::unique_ptr<llvm::orc::LLJIT> J)
+ScillaJIT::ScillaJIT(const ScillaParams &SPs, std::unique_ptr<LLJIT> J)
     : Jitter(std::move(J)), SPs(SPs) {}
 
 ScillaJIT::~ScillaJIT() { sFreeAll(); }
