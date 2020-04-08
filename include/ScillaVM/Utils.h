@@ -24,10 +24,13 @@
 #include "JITD.h"
 
 namespace boost {
-// Does an boost::any hold a value of type T.
-template <typename T> bool has_type(const boost::any &a);
-template <typename T> bool has_type(const boost::any *a);
-
+// Does a boost::any object hold a value of type T.
+template <typename T> bool has_type(const boost::any &a) {
+  return a.type() == typeid(T);
+}
+template <typename T> bool has_type(const boost::any *a) {
+  return a->type() == typeid(T);
+}
 } // namespace std
 
 namespace ScillaVM {

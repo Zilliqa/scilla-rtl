@@ -23,17 +23,6 @@
 #include "ScillaVM/Errors.h"
 #include "ScillaVM/Utils.h"
 
-namespace boost {
-
-template <typename T> bool has_type(const boost::any &a) {
-  return a.type() == typeid(T);
-}
-template <typename T> bool has_type(const boost::any *a) {
-  return a->type() == typeid(T);
-}
-
-} // namespace std
-
 namespace ScillaVM {
 
 Json::Value parseJSONString(const std::string &JS) {
