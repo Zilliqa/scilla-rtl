@@ -1,3 +1,6 @@
+
+
+; gas_remaining: 4002000
 ; ModuleID = 'SimpleMap'
 source_filename = "SimpleMap"
 target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
@@ -63,7 +66,7 @@ target triple = "x86_64-pc-linux-gnu"
 @"$access_count_109" = unnamed_addr constant [13 x i8] c"access_count\00"
 @"$access_count_126" = unnamed_addr constant [13 x i8] c"access_count\00"
 @"$access_count_135" = unnamed_addr constant [13 x i8] c"access_count\00"
-@_tydescr_table = constant [13 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Bystr20_26", %_TyDescrTy_Typ* @"$TyDescr_Int32_6", %_TyDescrTy_Typ* @"$TyDescr_Uint32_8", %_TyDescrTy_Typ* @"$TyDescr_Uint256_20", %_TyDescrTy_Typ* @"$TyDescr_Int64_10", %_TyDescrTy_Typ* @"$TyDescr_ADT_Option_Int32_30", %_TyDescrTy_Typ* @"$TyDescr_String_22", %_TyDescrTy_Typ* @"$TyDescr_Uint128_16", %_TyDescrTy_Typ* @"$TyDescr_Map_32", %_TyDescrTy_Typ* @"$TyDescr_Int256_18", %_TyDescrTy_Typ* @"$TyDescr_Int128_14", %_TyDescrTy_Typ* @"$TyDescr_Bystr_24", %_TyDescrTy_Typ* @"$TyDescr_Uint64_12"]
+@_tydescr_table = constant [13 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Int64_10", %_TyDescrTy_Typ* @"$TyDescr_Bystr20_26", %_TyDescrTy_Typ* @"$TyDescr_Uint256_20", %_TyDescrTy_Typ* @"$TyDescr_Uint32_8", %_TyDescrTy_Typ* @"$TyDescr_Uint64_12", %_TyDescrTy_Typ* @"$TyDescr_Uint128_16", %_TyDescrTy_Typ* @"$TyDescr_ADT_Option_Int32_30", %_TyDescrTy_Typ* @"$TyDescr_String_22", %_TyDescrTy_Typ* @"$TyDescr_Int256_18", %_TyDescrTy_Typ* @"$TyDescr_Int128_14", %_TyDescrTy_Typ* @"$TyDescr_Bystr_24", %_TyDescrTy_Typ* @"$TyDescr_Map_32", %_TyDescrTy_Typ* @"$TyDescr_Int32_6"]
 @_tydescr_table_length = constant i32 13
 
 define internal %Int32 @"$fundef_1"(%"$$fundef_1_env_46"*, %Int32) {
@@ -311,4 +314,3 @@ entry:
   call void @"$IncrementNOpt_138"(%Uint128 %_amount, [20 x i8]* %"$_sender_156", %TName_Option_Int32* %nopt)
   ret void
 }
-
