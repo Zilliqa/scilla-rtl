@@ -6,7 +6,7 @@
 ; f i
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
-target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_4" = type { i32, i32 }
@@ -36,7 +36,7 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Bystr_Prim_23" = global %"$TyDescrTy_PrimTyp_4" { i32 7, i32 0 }
 @"$TyDescr_Bystr_24" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_4"* @"$TyDescr_Bystr_Prim_23" to i8*) }
 
-define internal %Int32 @"$fundef_2"(%"$$fundef_2_env_29"*, %Int32) {
+define internal %Int32 @"$fundef_2"(%"$$fundef_2_env_29"* %0, %Int32 %1) {
 entry:
   %"$retval_3" = alloca %Int32
   store %Int32 %1, %Int32* %"$retval_3"
@@ -49,7 +49,7 @@ entry:
   ret void
 }
 
-define internal %Int32 @"$scilla_expr_31"(i8*) {
+define internal %Int32 @"$scilla_expr_31"(i8* %0) {
 entry:
   %"$expr_1" = alloca %Int32
   %f = alloca { %Int32 (i8*, %Int32)*, i8* }

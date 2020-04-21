@@ -3,7 +3,7 @@
 ; gas_remaining: 4002000
 ; ModuleID = 'SimpleMap'
 source_filename = "SimpleMap"
-target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_4" = type { i32, i32 }
@@ -69,7 +69,7 @@ target triple = "x86_64-pc-linux-gnu"
 @_tydescr_table = constant [13 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Int64_10", %_TyDescrTy_Typ* @"$TyDescr_Bystr20_26", %_TyDescrTy_Typ* @"$TyDescr_Uint256_20", %_TyDescrTy_Typ* @"$TyDescr_Uint32_8", %_TyDescrTy_Typ* @"$TyDescr_Uint64_12", %_TyDescrTy_Typ* @"$TyDescr_Uint128_16", %_TyDescrTy_Typ* @"$TyDescr_ADT_Option_Int32_30", %_TyDescrTy_Typ* @"$TyDescr_String_22", %_TyDescrTy_Typ* @"$TyDescr_Int256_18", %_TyDescrTy_Typ* @"$TyDescr_Int128_14", %_TyDescrTy_Typ* @"$TyDescr_Bystr_24", %_TyDescrTy_Typ* @"$TyDescr_Map_32", %_TyDescrTy_Typ* @"$TyDescr_Int32_6"]
 @_tydescr_table_length = constant i32 13
 
-define internal %Int32 @"$fundef_1"(%"$$fundef_1_env_46"*, %Int32) {
+define internal %Int32 @"$fundef_1"(%"$$fundef_1_env_46"* %0, %Int32 %1) {
 entry:
   %"$$fundef_1_env_one_47" = getelementptr inbounds %"$$fundef_1_env_46", %"$$fundef_1_env_46"* %0, i32 0, i32 0
   %"$one_envload_48" = load %Int32, %Int32* %"$$fundef_1_env_one_47"
@@ -186,7 +186,7 @@ declare i8* @_fetch_field(i8*, i8*, %_TyDescrTy_Typ*, i32, i8*, i32)
 
 declare void @_update_field(i8*, i8*, %_TyDescrTy_Typ*, i32, i8*, i8*)
 
-define void @Increment(i8*) {
+define void @Increment(i8* %0) {
 entry:
   %"$_amount_100" = getelementptr i8, i8* %0, i32 0
   %"$_amount_101" = bitcast i8* %"$_amount_100" to %Uint128*
@@ -301,7 +301,7 @@ entry:
   ret void
 }
 
-define void @IncrementNOpt(i8*) {
+define void @IncrementNOpt(i8* %0) {
 entry:
   %"$_amount_153" = getelementptr i8, i8* %0, i32 0
   %"$_amount_154" = bitcast i8* %"$_amount_153" to %Uint128*

@@ -7,7 +7,7 @@
 ; Pair {(List Int32) (List Uint32)} cons_int32 cons_uint32
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
-target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
@@ -87,7 +87,7 @@ entry:
   ret void
 }
 
-define internal %"TName_Pair_List_(Int32)_List_(Uint32)"* @"$scilla_expr_59"(i8*) {
+define internal %"TName_Pair_List_(Int32)_List_(Uint32)"* @"$scilla_expr_59"(i8* %0) {
 entry:
   %"$expr_0" = alloca %"TName_Pair_List_(Int32)_List_(Uint32)"*
   %nil_int32 = alloca %TName_List_Int32*

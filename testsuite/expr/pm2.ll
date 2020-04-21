@@ -13,7 +13,7 @@
 ; 
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
-target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_5" = type { i32, i32 }
@@ -76,7 +76,7 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Option_ADTTyp_m_specls_51" = unnamed_addr constant [2 x %"$TyDescrTy_ADTTyp_Specl_26"*] [%"$TyDescrTy_ADTTyp_Specl_26"* @"$TyDescr_Option_Int32_ADTTyp_Specl_41", %"$TyDescrTy_ADTTyp_Specl_26"* @"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_50"]
 @"$TyDescr_ADT_Option_52" = unnamed_addr constant [6 x i8] c"Option"
 
-define internal %Int32 @"$fundef_3"(%"$$fundef_3_env_53"*, %"TName_Option_Option_(Int32)"*) {
+define internal %Int32 @"$fundef_3"(%"$$fundef_3_env_53"* %0, %"TName_Option_Option_(Int32)"* %1) {
 entry:
   %"$$fundef_3_env_x_54" = getelementptr inbounds %"$$fundef_3_env_53", %"$$fundef_3_env_53"* %0, i32 0, i32 0
   %"$x_envload_55" = load %Int32, %Int32* %"$$fundef_3_env_x_54"
@@ -149,7 +149,7 @@ entry:
   ret void
 }
 
-define internal %Int32 @"$scilla_expr_83"(i8*) {
+define internal %Int32 @"$scilla_expr_83"(i8* %0) {
 entry:
   %"$expr_2" = alloca %Int32
   %x = alloca %Int32

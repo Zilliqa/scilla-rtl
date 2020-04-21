@@ -18,8 +18,8 @@
 #include <string>
 #include <unordered_map>
 
-#include <jsoncpp/json/value.h>
 #include <boost/any.hpp>
+#include <jsoncpp/json/value.h>
 
 #include "JITD.h"
 
@@ -31,7 +31,7 @@ template <typename T> bool has_type(const boost::any &a) {
 template <typename T> bool has_type(const boost::any *a) {
   return a->type() == typeid(T);
 }
-} // namespace std
+} // namespace boost
 
 namespace ScillaVM {
 Json::Value parseJSONString(const std::string &JS);
@@ -45,8 +45,8 @@ class MemStateServer {
 
 public:
   // Fetch (part of) state variable. Returns false on error.
-  bool fetchStateValue(const ScillaParams::StateQuery &Query, boost::any &RetVal,
-                       bool &Found);
+  bool fetchStateValue(const ScillaParams::StateQuery &Query,
+                       boost::any &RetVal, bool &Found);
   // Update (part of) the state. Returns false on error.
   bool updateStateValue(const ScillaParams::StateQuery &Query,
                         const boost::any &Value);

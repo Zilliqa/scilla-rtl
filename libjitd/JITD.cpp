@@ -50,9 +50,9 @@ using namespace llvm;
 namespace {
 
 // Add functions in SRTL that the JIT'ed code can access.
-Error addScillaBuiltins(orc::ExecutionSession &ES, const DataLayout &DL) {
+Error addScillaBuiltins(orc::LLJIT &LLJitter, const DataLayout &DL) {
   orc::SymbolMap M;
-  orc::MangleAndInterner Mangle(ES, DL);
+  orc::MangleAndInterner Mangle(LLJitter.getExecutionSession(), DL);
   // Register every symbol that can be accessed from the JIT'ed code.
   auto ScillaFuncs = ScillaVM::getAllScillaBuiltins();
   for (auto fa : ScillaFuncs) {
@@ -60,7 +60,7 @@ Error addScillaBuiltins(orc::ExecutionSession &ES, const DataLayout &DL) {
         pointerToJITTargetAddress(fa.FAddr), JITSymbolFlags());
   }
 
-  if (auto Err = (ES.getMainJITDylib().define(absoluteSymbols(M))))
+  if (auto Err = (LLJitter.getMainJITDylib().define(absoluteSymbols(M))))
     return Err;
 
   return Error::success();
@@ -87,7 +87,6 @@ private:
   llvm::StringMap<std::unique_ptr<llvm::MemoryBuffer>> CachedObjects;
   const std::string CacheDir;
 };
-
 
 void ScillaObjCache::notifyObjectCompiled(const Module *M,
                                           MemoryBufferRef ObjBuffer) {
@@ -200,27 +199,27 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
 
   ScillaObjCache *OC = SCM ? SCM->SOC.get() : nullptr;
   // Create an LLJIT instance with a custom CompileFunction.
-  auto J = LLJITBuilder()
-               .setCompileFunctionCreator(
-                   [&](JITTargetMachineBuilder JTMB)
-                       -> Expected<IRCompileLayer::CompileFunction> {
-                     auto TM = JTMB.createTargetMachine();
-                     if (!TM)
-                       return TM.takeError();
-                     return IRCompileLayer::CompileFunction(
-                         TMOwningSimpleCompiler(std::move(*TM), OC));
-                   })
-               .create();
+  auto J =
+      LLJITBuilder()
+          .setCompileFunctionCreator(
+              [&](JITTargetMachineBuilder JTMB)
+                  -> Expected<std::unique_ptr<IRCompileLayer::IRCompiler>> {
+                auto TM = JTMB.createTargetMachine();
+                if (!TM)
+                  return TM.takeError();
+                return std::make_unique<TMOwningSimpleCompiler>(std::move(*TM),
+                                                                OC);
+              })
+          .create();
 
   if (auto Err = J.takeError())
     CREATE_ERROR(llvm::toString(std::move(Err)));
 
-  if (auto Err =
-          addScillaBuiltins((*J)->getExecutionSession(), (*J)->getDataLayout()))
+  if (auto Err = addScillaBuiltins(*(*J), (*J)->getDataLayout()))
     CREATE_ERROR(llvm::toString(std::move(Err)));
 
   auto *THIS = new ScillaJIT(SPs, std::move(*J));
-  auto Ctx = llvm::make_unique<LLVMContext>();
+  auto Ctx = std::make_unique<LLVMContext>();
 
   std::unique_ptr<llvm::MemoryBuffer> Obj =
       OC ? OC->getObject(ModuleID) : nullptr;

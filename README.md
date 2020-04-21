@@ -16,8 +16,16 @@ are available.
 
 ## Build and install
 
-The following ubuntu packages must first be installed.
-    - `sudo apt-get install build-essential cmake llvm-9-dev libboost-dev libboost-test-dev libboost-test-dev libjsoncpp-dev `
+Add Ubuntu repository for LLVM-10. Below command line is for Ubuntu 18.04, change
+suitably for your OS (see the LLVM [apt page](https://apt.llvm.org/https://apt.llvm.org/))
+
+  ```
+  sudo add-apt-repository 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main' -y
+  wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+```
+
+Install these Ubuntu packages
+  - `sudo apt-get install build-essential cmake llvm-10-dev libboost-dev libboost-test-dev libboost-test-dev libjsoncpp-dev `
 
 We suggest building ScillaVM in a directory that is *not* the source directory.
   * `$git clone --recurse-submodules https://github.com/Zilliqa/scilla-vm.git`

@@ -1,7 +1,7 @@
 ; Nil {Int32}
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
-target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
@@ -55,7 +55,7 @@ entry:
   ret void
 }
 
-define internal %TName_List_Int32* @"$scilla_expr_39"(i8*) {
+define internal %TName_List_Int32* @"$scilla_expr_39"(i8* %0) {
 entry:
   %"$expr_0" = alloca %TName_List_Int32*
   %"$adtval_40_load" = load i8*, i8** @_execptr

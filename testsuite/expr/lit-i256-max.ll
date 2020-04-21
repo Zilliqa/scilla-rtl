@@ -1,7 +1,7 @@
 ; Int256 57896044618658097711785492504343953926634992332820282019728792003956564819967
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
-target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
@@ -35,7 +35,7 @@ entry:
   ret void
 }
 
-define internal void @"$scilla_expr_26"(i8*, %Int256*) {
+define internal void @"$scilla_expr_26"(i8* %0, %Int256* %1) {
 entry:
   %"$expr_0" = alloca %Int256
   store %Int256 { i256 57896044618658097711785492504343953926634992332820282019728792003956564819967 }, %Int256* %"$expr_0"

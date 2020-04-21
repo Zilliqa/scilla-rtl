@@ -7,7 +7,7 @@
 ; f i
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
-target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_4" = type { i32, i32 }
@@ -57,7 +57,7 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_List_ADTTyp_m_specls_40" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_25"*] [%"$TyDescrTy_ADTTyp_Specl_25"* @"$TyDescr_List_Int32_ADTTyp_Specl_39"]
 @"$TyDescr_ADT_List_41" = unnamed_addr constant [4 x i8] c"List"
 
-define internal %TName_List_Int32* @"$fundef_2"(%"$$fundef_2_env_42"*, %Int32) {
+define internal %TName_List_Int32* @"$fundef_2"(%"$$fundef_2_env_42"* %0, %Int32 %1) {
 entry:
   %"$retval_3" = alloca %TName_List_Int32*
   %n = alloca %TName_List_Int32*
@@ -91,7 +91,7 @@ entry:
   ret void
 }
 
-define internal %TName_List_Int32* @"$scilla_expr_53"(i8*) {
+define internal %TName_List_Int32* @"$scilla_expr_53"(i8* %0) {
 entry:
   %"$expr_1" = alloca %TName_List_Int32*
   %f = alloca { %TName_List_Int32* (i8*, %Int32)*, i8* }

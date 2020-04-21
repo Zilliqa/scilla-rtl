@@ -15,7 +15,7 @@
 ; 
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
-target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_10" = type { i32, i32 }
@@ -47,7 +47,7 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Bystr_Prim_29" = global %"$TyDescrTy_PrimTyp_10" { i32 7, i32 0 }
 @"$TyDescr_Bystr_30" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_10"* @"$TyDescr_Bystr_Prim_29" to i8*) }
 
-define internal %Int32 @"$fundef_8"(%"$$fundef_8_env_35"*, %Int32) {
+define internal %Int32 @"$fundef_8"(%"$$fundef_8_env_35"* %0, %Int32 %1) {
 entry:
   %"$retval_9" = alloca %Int32
   %b = alloca %Int32
@@ -59,7 +59,7 @@ entry:
   ret %Int32 %"$$retval_9_56"
 }
 
-define internal %Int32 @"$fundef_6"(%"$$fundef_6_env_36"*, %Int32) {
+define internal %Int32 @"$fundef_6"(%"$$fundef_6_env_36"* %0, %Int32 %1) {
 entry:
   %"$$fundef_6_env_h_46" = getelementptr inbounds %"$$fundef_6_env_36", %"$$fundef_6_env_36"* %0, i32 0, i32 0
   %"$h_envload_47" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* %"$$fundef_6_env_h_46"
@@ -78,7 +78,7 @@ entry:
   ret %Int32 %"$$retval_7_53"
 }
 
-define internal { %Int32 (i8*, %Int32)*, i8* } @"$fundef_4"(%"$$fundef_4_env_37"*, { %Int32 (i8*, %Int32)*, i8* }) {
+define internal { %Int32 (i8*, %Int32)*, i8* } @"$fundef_4"(%"$$fundef_4_env_37"* %0, { %Int32 (i8*, %Int32)*, i8* } %1) {
 entry:
   %"$retval_5" = alloca { %Int32 (i8*, %Int32)*, i8* }
   %"$$fundef_6_envp_38_load" = load i8*, i8** @_execptr
@@ -104,7 +104,7 @@ entry:
   ret void
 }
 
-define internal %Int32 @"$scilla_expr_57"(i8*) {
+define internal %Int32 @"$scilla_expr_57"(i8* %0) {
 entry:
   %"$expr_3" = alloca %Int32
   %ho = alloca { { %Int32 (i8*, %Int32)*, i8* } (i8*, { %Int32 (i8*, %Int32)*, i8* })*, i8* }
