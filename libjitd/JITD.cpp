@@ -137,6 +137,8 @@ ScillaObjCache::getObject(const std::string &ModuleID) {
       }
       DEBUG(dbglog << "Loaded object file from file " << CacheFilename.c_str()
                    << "\n");
+      CachedObjects[ModuleID] = MemoryBuffer::getMemBufferCopy(
+          (*MB)->getBuffer(), (*MB)->getBufferIdentifier());
       return std::move(*MB);
     }
     DEBUG(dbglog << "Object file for " << ModuleID << " not cached on disk.\n");
