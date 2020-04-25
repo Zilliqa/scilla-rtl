@@ -132,6 +132,7 @@ int ScillaTypes::Typ::sizeOf(const Typ *T) {
       case PrimTyp::Bits256:
         return 256 / 8;
       }
+      break;
     case PrimTyp::String_typ:
     case PrimTyp::Bystr_typ:
       return sizeof(String);

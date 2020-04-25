@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <boost/test/output_test_stream.hpp>
+#include <boost/test/tools/output_test_stream.hpp>
 #include <boost/test/unit_test.hpp>
 using boost::test_tools::output_test_stream;
 
