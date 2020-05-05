@@ -3,12 +3,13 @@
 A compiled execution backend for Scilla.
 
 The compiled execution backend is divided into two parts:
-  1. The JIT driver (JITD), which is responsible for invoking the
-    scilla-compiler to produce LLVM-IR from Scilla source, then JIT
+  1. The JIT driver (JITD): JIT compiles Scilla contracts translated to
+    LLVM-IR (see [scilla-compiler](https://github.com/Zilliqa/scilla-compiler)),
+    links it with the run-time library and executes transitions.
     compiling it to machine code, and finally executing it.
   2. Scilla run-time library (SRTL), which the contract code interacts
-    with for performing pre-compiled operations, such as interact with
-    the blockchain etc.
+    with for performing pre-compiled operations, such as interacting with
+    the blockchain, executing builtins etc.
 
 Design docs for the [VM architecture](https://github.com/Zilliqa/scilla-backend/wiki/Scilla-Backend-Design)
 and the planned [interaction with the blockchain](https://github.com/Zilliqa/scilla-backend/wiki/Interaction-of-State-Variables-with-Blockchain)
