@@ -26,7 +26,7 @@ suitably for your OS (see the LLVM [apt page](https://apt.llvm.org/https://apt.l
 ```
 
 Install these Ubuntu packages
-  - `sudo apt-get install build-essential cmake llvm-10-dev libboost-dev libboost-test-dev libboost-test-dev libjsoncpp-dev `
+  - `sudo apt-get install build-essential cmake llvm-10-dev libboost-dev libboost-test-dev libboost-test-dev libjsoncpp-dev libboost-filesystem-dev libboost-program-options-dev`
 
 We suggest building ScillaVM in a directory that is *not* the source directory.
   * `$git clone --recurse-submodules https://github.com/Zilliqa/scilla-vm.git`
