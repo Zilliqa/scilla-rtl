@@ -114,36 +114,32 @@ entry:
   %"$$fundef_3_envp_58" = bitcast i8* %"$$fundef_3_envp_58_salloc" to %"$$fundef_3_env_43"*
   %"$$fundef_3_env_voidp_60" = bitcast %"$$fundef_3_env_43"* %"$$fundef_3_envp_58" to i8*
   %"$$fundef_3_cloval_61" = insertvalue { %Int32 (i8*, %Bool*)*, i8* } { %Int32 (i8*, %Bool*)* bitcast (%Int32 (%"$$fundef_3_env_43"*, %Bool*)* @"$fundef_3" to %Int32 (i8*, %Bool*)*), i8* undef }, i8* %"$$fundef_3_env_voidp_60", 1
-  %"$$fundef_3_envp_62" = extractvalue { %Int32 (i8*, %Bool*)*, i8* } %"$$fundef_3_cloval_61", 1
-  %"$$fundef_3_envp_63" = bitcast i8* %"$$fundef_3_envp_62" to %"$$fundef_3_env_43"*
-  %"$$fundef_3_env_x_64" = getelementptr inbounds %"$$fundef_3_env_43", %"$$fundef_3_env_43"* %"$$fundef_3_envp_63", i32 0, i32 0
-  %"$x_65" = load %Int32, %Int32* %x
-  store %Int32 %"$x_65", %Int32* %"$$fundef_3_env_x_64"
-  %"$$fundef_3_envp_66" = extractvalue { %Int32 (i8*, %Bool*)*, i8* } %"$$fundef_3_cloval_61", 1
-  %"$$fundef_3_envp_67" = bitcast i8* %"$$fundef_3_envp_66" to %"$$fundef_3_env_43"*
-  %"$$fundef_3_env_y_68" = getelementptr inbounds %"$$fundef_3_env_43", %"$$fundef_3_env_43"* %"$$fundef_3_envp_67", i32 0, i32 1
-  %"$y_69" = load %Int32, %Int32* %y
-  store %Int32 %"$y_69", %Int32* %"$$fundef_3_env_y_68"
+  %"$$fundef_3_env_x_62" = getelementptr inbounds %"$$fundef_3_env_43", %"$$fundef_3_env_43"* %"$$fundef_3_envp_58", i32 0, i32 0
+  %"$x_63" = load %Int32, %Int32* %x
+  store %Int32 %"$x_63", %Int32* %"$$fundef_3_env_x_62"
+  %"$$fundef_3_env_y_64" = getelementptr inbounds %"$$fundef_3_env_43", %"$$fundef_3_env_43"* %"$$fundef_3_envp_58", i32 0, i32 1
+  %"$y_65" = load %Int32, %Int32* %y
+  store %Int32 %"$y_65", %Int32* %"$$fundef_3_env_y_64"
   store { %Int32 (i8*, %Bool*)*, i8* } %"$$fundef_3_cloval_61", { %Int32 (i8*, %Bool*)*, i8* }* %f
   %t = alloca %Bool*
-  %"$adtval_70_load" = load i8*, i8** @_execptr
-  %"$adtval_70_salloc" = call i8* @_salloc(i8* %"$adtval_70_load", i64 1)
-  %"$adtval_70" = bitcast i8* %"$adtval_70_salloc" to %True*
-  %"$adtgep_71" = getelementptr inbounds %True, %True* %"$adtval_70", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_71"
-  %"$adtptr_72" = bitcast %True* %"$adtval_70" to %Bool*
-  store %Bool* %"$adtptr_72", %Bool** %t
+  %"$adtval_66_load" = load i8*, i8** @_execptr
+  %"$adtval_66_salloc" = call i8* @_salloc(i8* %"$adtval_66_load", i64 1)
+  %"$adtval_66" = bitcast i8* %"$adtval_66_salloc" to %True*
+  %"$adtgep_67" = getelementptr inbounds %True, %True* %"$adtval_66", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_67"
+  %"$adtptr_68" = bitcast %True* %"$adtval_66" to %Bool*
+  store %Bool* %"$adtptr_68", %Bool** %t
   %"$f_1" = alloca %Int32
-  %"$f_73" = load { %Int32 (i8*, %Bool*)*, i8* }, { %Int32 (i8*, %Bool*)*, i8* }* %f
-  %"$f_fptr_74" = extractvalue { %Int32 (i8*, %Bool*)*, i8* } %"$f_73", 0
-  %"$f_envptr_75" = extractvalue { %Int32 (i8*, %Bool*)*, i8* } %"$f_73", 1
-  %"$t_76" = load %Bool*, %Bool** %t
-  %"$f_call_77" = call %Int32 %"$f_fptr_74"(i8* %"$f_envptr_75", %Bool* %"$t_76")
-  store %Int32 %"$f_call_77", %Int32* %"$f_1"
-  %"$$f_1_78" = load %Int32, %Int32* %"$f_1"
-  store %Int32 %"$$f_1_78", %Int32* %"$expr_2"
-  %"$$expr_2_79" = load %Int32, %Int32* %"$expr_2"
-  ret %Int32 %"$$expr_2_79"
+  %"$f_69" = load { %Int32 (i8*, %Bool*)*, i8* }, { %Int32 (i8*, %Bool*)*, i8* }* %f
+  %"$f_fptr_70" = extractvalue { %Int32 (i8*, %Bool*)*, i8* } %"$f_69", 0
+  %"$f_envptr_71" = extractvalue { %Int32 (i8*, %Bool*)*, i8* } %"$f_69", 1
+  %"$t_72" = load %Bool*, %Bool** %t
+  %"$f_call_73" = call %Int32 %"$f_fptr_70"(i8* %"$f_envptr_71", %Bool* %"$t_72")
+  store %Int32 %"$f_call_73", %Int32* %"$f_1"
+  %"$$f_1_74" = load %Int32, %Int32* %"$f_1"
+  store %Int32 %"$$f_1_74", %Int32* %"$expr_2"
+  %"$$expr_2_75" = load %Int32, %Int32* %"$expr_2"
+  ret %Int32 %"$$expr_2_75"
 }
 
 declare i8* @_salloc(i8*, i64)
@@ -152,10 +148,10 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_80" = call %Int32 @"$scilla_expr_57"(i8* null)
-  %"$pval_81" = alloca %Int32
-  %"$memvoidcast_82" = bitcast %Int32* %"$pval_81" to i8*
-  store %Int32 %"$exprval_80", %Int32* %"$pval_81"
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_7", i8* %"$memvoidcast_82")
+  %"$exprval_76" = call %Int32 @"$scilla_expr_57"(i8* null)
+  %"$pval_77" = alloca %Int32
+  %"$memvoidcast_78" = bitcast %Int32* %"$pval_77" to i8*
+  store %Int32 %"$exprval_76", %Int32* %"$pval_77"
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_7", i8* %"$memvoidcast_78")
   ret void
 }

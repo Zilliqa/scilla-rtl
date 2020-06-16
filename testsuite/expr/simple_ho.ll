@@ -52,30 +52,30 @@ entry:
   %"$retval_9" = alloca %Int32
   %b = alloca %Int32
   store %Int32 { i32 1 }, %Int32* %b
-  %"$b_54" = load %Int32, %Int32* %b
-  %"$add_call_55" = call %Int32 @_add_Int32(%Int32 %1, %Int32 %"$b_54")
-  store %Int32 %"$add_call_55", %Int32* %"$retval_9"
-  %"$$retval_9_56" = load %Int32, %Int32* %"$retval_9"
-  ret %Int32 %"$$retval_9_56"
+  %"$b_52" = load %Int32, %Int32* %b
+  %"$add_call_53" = call %Int32 @_add_Int32(%Int32 %1, %Int32 %"$b_52")
+  store %Int32 %"$add_call_53", %Int32* %"$retval_9"
+  %"$$retval_9_54" = load %Int32, %Int32* %"$retval_9"
+  ret %Int32 %"$$retval_9_54"
 }
 
 define internal %Int32 @"$fundef_6"(%"$$fundef_6_env_36"* %0, %Int32 %1) {
 entry:
-  %"$$fundef_6_env_h_46" = getelementptr inbounds %"$$fundef_6_env_36", %"$$fundef_6_env_36"* %0, i32 0, i32 0
-  %"$h_envload_47" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* %"$$fundef_6_env_h_46"
+  %"$$fundef_6_env_h_44" = getelementptr inbounds %"$$fundef_6_env_36", %"$$fundef_6_env_36"* %0, i32 0, i32 0
+  %"$h_envload_45" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* %"$$fundef_6_env_h_44"
   %h = alloca { %Int32 (i8*, %Int32)*, i8* }
-  store { %Int32 (i8*, %Int32)*, i8* } %"$h_envload_47", { %Int32 (i8*, %Int32)*, i8* }* %h
+  store { %Int32 (i8*, %Int32)*, i8* } %"$h_envload_45", { %Int32 (i8*, %Int32)*, i8* }* %h
   %"$retval_7" = alloca %Int32
   %"$h_0" = alloca %Int32
-  %"$h_48" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* %h
-  %"$h_fptr_49" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$h_48", 0
-  %"$h_envptr_50" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$h_48", 1
-  %"$h_call_51" = call %Int32 %"$h_fptr_49"(i8* %"$h_envptr_50", %Int32 %1)
-  store %Int32 %"$h_call_51", %Int32* %"$h_0"
-  %"$$h_0_52" = load %Int32, %Int32* %"$h_0"
-  store %Int32 %"$$h_0_52", %Int32* %"$retval_7"
-  %"$$retval_7_53" = load %Int32, %Int32* %"$retval_7"
-  ret %Int32 %"$$retval_7_53"
+  %"$h_46" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* %h
+  %"$h_fptr_47" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$h_46", 0
+  %"$h_envptr_48" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$h_46", 1
+  %"$h_call_49" = call %Int32 %"$h_fptr_47"(i8* %"$h_envptr_48", %Int32 %1)
+  store %Int32 %"$h_call_49", %Int32* %"$h_0"
+  %"$$h_0_50" = load %Int32, %Int32* %"$h_0"
+  store %Int32 %"$$h_0_50", %Int32* %"$retval_7"
+  %"$$retval_7_51" = load %Int32, %Int32* %"$retval_7"
+  ret %Int32 %"$$retval_7_51"
 }
 
 define internal { %Int32 (i8*, %Int32)*, i8* } @"$fundef_4"(%"$$fundef_4_env_37"* %0, { %Int32 (i8*, %Int32)*, i8* } %1) {
@@ -86,13 +86,11 @@ entry:
   %"$$fundef_6_envp_38" = bitcast i8* %"$$fundef_6_envp_38_salloc" to %"$$fundef_6_env_36"*
   %"$$fundef_6_env_voidp_40" = bitcast %"$$fundef_6_env_36"* %"$$fundef_6_envp_38" to i8*
   %"$$fundef_6_cloval_41" = insertvalue { %Int32 (i8*, %Int32)*, i8* } { %Int32 (i8*, %Int32)* bitcast (%Int32 (%"$$fundef_6_env_36"*, %Int32)* @"$fundef_6" to %Int32 (i8*, %Int32)*), i8* undef }, i8* %"$$fundef_6_env_voidp_40", 1
-  %"$$fundef_6_envp_42" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$$fundef_6_cloval_41", 1
-  %"$$fundef_6_envp_43" = bitcast i8* %"$$fundef_6_envp_42" to %"$$fundef_6_env_36"*
-  %"$$fundef_6_env_h_44" = getelementptr inbounds %"$$fundef_6_env_36", %"$$fundef_6_env_36"* %"$$fundef_6_envp_43", i32 0, i32 0
-  store { %Int32 (i8*, %Int32)*, i8* } %1, { %Int32 (i8*, %Int32)*, i8* }* %"$$fundef_6_env_h_44"
+  %"$$fundef_6_env_h_42" = getelementptr inbounds %"$$fundef_6_env_36", %"$$fundef_6_env_36"* %"$$fundef_6_envp_38", i32 0, i32 0
+  store { %Int32 (i8*, %Int32)*, i8* } %1, { %Int32 (i8*, %Int32)*, i8* }* %"$$fundef_6_env_h_42"
   store { %Int32 (i8*, %Int32)*, i8* } %"$$fundef_6_cloval_41", { %Int32 (i8*, %Int32)*, i8* }* %"$retval_5"
-  %"$$retval_5_45" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* %"$retval_5"
-  ret { %Int32 (i8*, %Int32)*, i8* } %"$$retval_5_45"
+  %"$$retval_5_43" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* %"$retval_5"
+  ret { %Int32 (i8*, %Int32)*, i8* } %"$$retval_5_43"
 }
 
 declare i8* @_salloc(i8*, i64)
@@ -104,7 +102,7 @@ entry:
   ret void
 }
 
-define internal %Int32 @"$scilla_expr_57"(i8* %0) {
+define internal %Int32 @"$scilla_expr_55"(i8* %0) {
 entry:
   %"$expr_3" = alloca %Int32
   %ho = alloca { { %Int32 (i8*, %Int32)*, i8* } (i8*, { %Int32 (i8*, %Int32)*, i8* })*, i8* }
@@ -114,33 +112,33 @@ entry:
   %hundred = alloca %Int32
   store %Int32 { i32 100 }, %Int32* %hundred
   %"$ho_1" = alloca { %Int32 (i8*, %Int32)*, i8* }
-  %"$ho_64" = load { { %Int32 (i8*, %Int32)*, i8* } (i8*, { %Int32 (i8*, %Int32)*, i8* })*, i8* }, { { %Int32 (i8*, %Int32)*, i8* } (i8*, { %Int32 (i8*, %Int32)*, i8* })*, i8* }* %ho
-  %"$ho_fptr_65" = extractvalue { { %Int32 (i8*, %Int32)*, i8* } (i8*, { %Int32 (i8*, %Int32)*, i8* })*, i8* } %"$ho_64", 0
-  %"$ho_envptr_66" = extractvalue { { %Int32 (i8*, %Int32)*, i8* } (i8*, { %Int32 (i8*, %Int32)*, i8* })*, i8* } %"$ho_64", 1
-  %"$inc_67" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* %inc
-  %"$ho_call_68" = call { %Int32 (i8*, %Int32)*, i8* } %"$ho_fptr_65"(i8* %"$ho_envptr_66", { %Int32 (i8*, %Int32)*, i8* } %"$inc_67")
-  store { %Int32 (i8*, %Int32)*, i8* } %"$ho_call_68", { %Int32 (i8*, %Int32)*, i8* }* %"$ho_1"
+  %"$ho_62" = load { { %Int32 (i8*, %Int32)*, i8* } (i8*, { %Int32 (i8*, %Int32)*, i8* })*, i8* }, { { %Int32 (i8*, %Int32)*, i8* } (i8*, { %Int32 (i8*, %Int32)*, i8* })*, i8* }* %ho
+  %"$ho_fptr_63" = extractvalue { { %Int32 (i8*, %Int32)*, i8* } (i8*, { %Int32 (i8*, %Int32)*, i8* })*, i8* } %"$ho_62", 0
+  %"$ho_envptr_64" = extractvalue { { %Int32 (i8*, %Int32)*, i8* } (i8*, { %Int32 (i8*, %Int32)*, i8* })*, i8* } %"$ho_62", 1
+  %"$inc_65" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* %inc
+  %"$ho_call_66" = call { %Int32 (i8*, %Int32)*, i8* } %"$ho_fptr_63"(i8* %"$ho_envptr_64", { %Int32 (i8*, %Int32)*, i8* } %"$inc_65")
+  store { %Int32 (i8*, %Int32)*, i8* } %"$ho_call_66", { %Int32 (i8*, %Int32)*, i8* }* %"$ho_1"
   %"$ho_2" = alloca %Int32
-  %"$$ho_1_69" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* %"$ho_1"
-  %"$$ho_1_fptr_70" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$$ho_1_69", 0
-  %"$$ho_1_envptr_71" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$$ho_1_69", 1
-  %"$hundred_72" = load %Int32, %Int32* %hundred
-  %"$$ho_1_call_73" = call %Int32 %"$$ho_1_fptr_70"(i8* %"$$ho_1_envptr_71", %Int32 %"$hundred_72")
-  store %Int32 %"$$ho_1_call_73", %Int32* %"$ho_2"
-  %"$$ho_2_74" = load %Int32, %Int32* %"$ho_2"
-  store %Int32 %"$$ho_2_74", %Int32* %"$expr_3"
-  %"$$expr_3_75" = load %Int32, %Int32* %"$expr_3"
-  ret %Int32 %"$$expr_3_75"
+  %"$$ho_1_67" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* %"$ho_1"
+  %"$$ho_1_fptr_68" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$$ho_1_67", 0
+  %"$$ho_1_envptr_69" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$$ho_1_67", 1
+  %"$hundred_70" = load %Int32, %Int32* %hundred
+  %"$$ho_1_call_71" = call %Int32 %"$$ho_1_fptr_68"(i8* %"$$ho_1_envptr_69", %Int32 %"$hundred_70")
+  store %Int32 %"$$ho_1_call_71", %Int32* %"$ho_2"
+  %"$$ho_2_72" = load %Int32, %Int32* %"$ho_2"
+  store %Int32 %"$$ho_2_72", %Int32* %"$expr_3"
+  %"$$expr_3_73" = load %Int32, %Int32* %"$expr_3"
+  ret %Int32 %"$$expr_3_73"
 }
 
 declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_76" = call %Int32 @"$scilla_expr_57"(i8* null)
-  %"$pval_77" = alloca %Int32
-  %"$memvoidcast_78" = bitcast %Int32* %"$pval_77" to i8*
-  store %Int32 %"$exprval_76", %Int32* %"$pval_77"
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_12", i8* %"$memvoidcast_78")
+  %"$exprval_74" = call %Int32 @"$scilla_expr_55"(i8* null)
+  %"$pval_75" = alloca %Int32
+  %"$memvoidcast_76" = bitcast %Int32* %"$pval_75" to i8*
+  store %Int32 %"$exprval_74", %Int32* %"$pval_75"
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_12", i8* %"$memvoidcast_76")
   ret void
 }
