@@ -89,5 +89,13 @@ BOOST_AUTO_TEST_CASE(lit_int32_1) { testExecExpr("lit-int32-1"); }
 BOOST_AUTO_TEST_CASE(simple_fun) { testExecExpr("simple-fun"); }
 BOOST_AUTO_TEST_CASE(simple_ho) { testExecExpr("simple_ho"); }
 BOOST_AUTO_TEST_CASE(match_assign) { testExecExpr("match_assign"); }
+BOOST_AUTO_TEST_CASE(fun_type_inst) { testExecExpr("fun-type-inst"); }
+BOOST_AUTO_TEST_CASE(multi_type_inst) { testExecExpr("multi-type-inst"); }
+BOOST_AUTO_TEST_CASE(nonprenex) { testExecExpr("nonprenex"); }
+BOOST_AUTO_TEST_CASE(tname_clash) { testExecExpr("tname_clash"); }
+BOOST_AUTO_TEST_CASE(typ_inst) { testExecExpr("typ-inst"); }
+BOOST_AUTO_TEST_CASE(typ1_inst) { testExecExpr("typ1-inst"); }
+BOOST_AUTO_TEST_CASE(typ2_inst) { testExecExpr("typ2-inst"); }
+BOOST_AUTO_TEST_CASE(typ3_inst) { testExecExpr("typ3-inst"); }
 
 BOOST_AUTO_TEST_SUITE_END()
