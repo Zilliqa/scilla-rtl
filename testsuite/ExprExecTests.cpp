@@ -97,5 +97,6 @@ BOOST_AUTO_TEST_CASE(typ_inst) { testExecExpr("typ-inst"); }
 BOOST_AUTO_TEST_CASE(typ1_inst) { testExecExpr("typ1-inst"); }
 BOOST_AUTO_TEST_CASE(typ2_inst) { testExecExpr("typ2-inst"); }
 BOOST_AUTO_TEST_CASE(typ3_inst) { testExecExpr("typ3-inst"); }
+BOOST_AUTO_TEST_CASE(fib) { testExecExpr("fib"); }
 
 BOOST_AUTO_TEST_SUITE_END()
