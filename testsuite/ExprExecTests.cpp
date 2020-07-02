@@ -98,5 +98,9 @@ BOOST_AUTO_TEST_CASE(typ1_inst) { testExecExpr("typ1-inst"); }
 BOOST_AUTO_TEST_CASE(typ2_inst) { testExecExpr("typ2-inst"); }
 BOOST_AUTO_TEST_CASE(typ3_inst) { testExecExpr("typ3-inst"); }
 BOOST_AUTO_TEST_CASE(fib) { testExecExpr("fib"); }
+BOOST_AUTO_TEST_CASE(lit_nat_zero) { testExecExpr("lit-nat_zero"); }
+BOOST_AUTO_TEST_CASE(lit_nat_two) { testExecExpr("lit-nat_two"); }
+BOOST_AUTO_TEST_CASE(builtin_to_nat) { testExecExpr("builtin_to_nat"); }
+BOOST_AUTO_TEST_CASE(ackermann) { testExecExpr("ackermann"); }
 
 BOOST_AUTO_TEST_SUITE_END()

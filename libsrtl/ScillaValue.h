@@ -36,7 +36,7 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V);
 // Deserialize JSON @J of Scilla type T to Scilla value.
 void *fromJSON(SAllocator &A, const ScillaTypes::Typ *T, const Json::Value &J);
 // Same as @fromJSON, but uses @Mem as the memory destination.
-// Memory cannot be prealloted for non-boxed types.
+// Memory cannot be prealloted for boxed types.
 // ASSERT(MemSize == 0 || !ScillaTypes::Typ::isBoxed(T));
 // The function may still call @A for sub allocations.
 // If @Mem is null (and @MemSize 0), @A is used to allocate memory.

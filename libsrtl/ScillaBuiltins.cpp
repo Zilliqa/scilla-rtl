@@ -39,7 +39,8 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_add_Uint128", (void *) _add_Uint128},
     {"_add_Uint256", (void *) _add_Uint256},
     {"_fetch_field", (void *) _fetch_field},
-    {"_update_field", (void *) _update_field}
+    {"_update_field", (void *) _update_field},
+    {"_to_nat", (void *) _to_nat}
   };
   // clang-format on
 
@@ -220,6 +221,25 @@ void _update_field(ScillaVM::ScillaJIT *SJ, const char *Name,
   if (!SJ->SPs.updateStateValue(SQ, ValS)) {
     CREATE_ERROR("State update query failed for " + SQ.Name);
   }
+}
+
+void *_to_nat(ScillaJIT *SJ, ScillaTypes::Uint32 UI) {
+
+  auto I = *reinterpret_cast<unsigned *>(&UI);
+  // A Zero object consists of only the i8 tag.
+  // A Succ object consists of an i8 tag followed by a pointer.
+  auto ElSize = 1 + sizeof(uint8_t *);
+  // We allocate all objects in one for (1) fast allocation (2) locality.
+  const auto Mem = reinterpret_cast<uint8_t *>(SJ->sAlloc(ElSize * (I + 1)));
+  *Mem = ScillaTypes::Nat_Zero_Tag;
+  uint8_t *MemPrev = Mem;
+  for (unsigned II = 1; II <= I; II++) {
+    auto MemCur = MemPrev + ElSize;
+    *MemCur = ScillaTypes::Nat_Succ_Tag;
+    *(reinterpret_cast<uint8_t **>(MemCur + 1)) = MemPrev;
+    MemPrev = MemCur;
+  }
+  return MemPrev;
 }
 
 } // end of extern "C".

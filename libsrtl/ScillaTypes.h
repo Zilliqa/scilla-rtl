@@ -60,6 +60,8 @@ const uint8_t Option_Some_Tag = 0;
 const uint8_t Option_None_Tag = 1;
 const uint8_t Bool_True_Tag = 0;
 const uint8_t Bool_False_Tag = 1;
+const uint8_t Nat_Zero_Tag = 0;
+const uint8_t Nat_Succ_Tag = 1;
 
 struct PrimTyp {
 
