@@ -31,30 +31,12 @@
 ; let uint2 = Uint32 2 in
 ; let uint3 = Uint32 3 in
 ; let uint4 = Uint32 4 in
-; let uint5 = Uint32 5 in
-; let uint6 = Uint32 6 in
-; let uint7 = Uint32 7 in
-; let uint9 = Uint32 9 in
-; let uint11 = Uint32 11 in
-; let uint13 = Uint32 13 in
-; let uint29 = Uint32 29 in
-; let uint61 = Uint32 61 in
-; let uint125 = Uint32 125 in
 ; 
 ; let n0 = builtin to_nat uint0 in
 ; let n1 = builtin to_nat uint1 in
 ; let n2 = builtin to_nat uint2 in
 ; let n3 = builtin to_nat uint3 in
 ; let n4 = builtin to_nat uint4 in
-; let n5 = builtin to_nat uint5 in
-; let n6 = builtin to_nat uint6 in
-; let n7 = builtin to_nat uint7 in
-; let n9 = builtin to_nat uint9 in
-; let n11 = builtin to_nat uint11 in
-; let n13 = builtin to_nat uint13 in
-; let n29 = builtin to_nat uint29 in
-; let n61 = builtin to_nat uint61 in
-; let n125 = builtin to_nat uint125 in
 ; 
 ; let ack00 = ackermann n0 n0 in
 ; let ack01 = ackermann n0 n1 in
