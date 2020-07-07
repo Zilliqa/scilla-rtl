@@ -19,6 +19,7 @@
 #include <numeric>
 
 #include "llvm/ADT/StringRef.h"
+#include "llvm/ExecutionEngine/JITEventListener.h"
 #include "llvm/ExecutionEngine/JITSymbol.h"
 #include "llvm/ExecutionEngine/ObjectCache.h"
 #include "llvm/ExecutionEngine/Orc/CompileUtils.h"
@@ -26,6 +27,8 @@
 #include "llvm/ExecutionEngine/Orc/ExecutionUtils.h"
 #include "llvm/ExecutionEngine/Orc/JITTargetMachineBuilder.h"
 #include "llvm/ExecutionEngine/Orc/LLJIT.h"
+#include "llvm/ExecutionEngine/Orc/RTDyldObjectLinkingLayer.h"
+#include "llvm/ExecutionEngine/SectionMemoryManager.h"
 #include "llvm/IR/DataLayout.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/LegacyPassManager.h"
@@ -200,7 +203,9 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
                                              ScillaCacheManager *SCM) {
 
   ScillaObjCache *OC = SCM ? SCM->SOC.get() : nullptr;
-  // Create an LLJIT instance with a custom CompileFunction.
+
+  // Create an LLJIT instance with a custom CompileFunction and
+  // ObjectLinkingLayer.
   auto J =
       LLJITBuilder()
           .setCompileFunctionCreator(
@@ -212,6 +217,29 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
                 return std::make_unique<TMOwningSimpleCompiler>(std::move(*TM),
                                                                 OC);
               })
+          .setObjectLinkingLayerCreator([&](ExecutionSession &ES,
+                                            const Triple &TT)
+                                            -> std::unique_ptr<ObjectLayer> {
+            // Except for the GDBListener registration, the rest of
+            // the code is taken from LLJIT.cpp.
+            auto GetMemMgr = []() {
+              return std::make_unique<SectionMemoryManager>();
+            };
+            auto ObjLinkingLayer = std::make_unique<RTDyldObjectLinkingLayer>(
+                ES, std::move(GetMemMgr));
+            if (TT.isOSBinFormatCOFF()) {
+              ObjLinkingLayer->setOverrideObjectFlagsWithResponsibilityFlags(
+                  true);
+              ObjLinkingLayer->setAutoClaimResponsibilityForObjectSymbols(true);
+            }
+            auto GDBListener =
+                JITEventListener::createGDBRegistrationListener();
+            using namespace std::placeholders;
+            ObjLinkingLayer->setNotifyLoaded(
+                std::bind(&JITEventListener::notifyObjectLoaded, GDBListener,
+                          _1, _2, _3));
+            return ObjLinkingLayer;
+          })
           .create();
 
   if (auto Err = J.takeError())
