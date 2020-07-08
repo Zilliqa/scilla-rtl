@@ -117,9 +117,7 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Nat_ADTTyp_m_specls_120" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_105"*] [%"$TyDescrTy_ADTTyp_Specl_105"* @"$TyDescr_Nat_ADTTyp_Specl_119"]
 @"$TyDescr_ADT_Nat_121" = unnamed_addr constant [3 x i8] c"Nat"
 @nat_fold = global { i8*, i8* }* null
-@"$dyndisp_659" = global [3 x { i8*, i8* }] zeroinitializer
 @nat_to_int = global { %Uint32 (i8*, %Nat*)*, i8* } zeroinitializer
-@"$dyndisp_678" = global [3 x { i8*, i8* }] zeroinitializer
 
 define internal { %Nat* (i8*, %Nat*)*, i8* } @"$fundef_82"(%"$$fundef_82_env_122"* %0, %Nat* %1) {
 entry:
@@ -1124,147 +1122,165 @@ entry:
 
 define internal %Uint32 @"$scilla_expr_649"(i8* %0) {
 entry:
-  store { { { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* } (i8*, { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* })*, i8* } (i8*)*, i8* } { { { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* } (i8*, { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* })*, i8* } (i8*)* bitcast ({ { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* } (i8*, { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* })*, i8* } (%"$$fundef_21_env_152"*)* @"$fundef_21" to { { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* } (i8*, { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* })*, i8* } (i8*)*), i8* null }, { { { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* } (i8*, { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* })*, i8* } (i8*)*, i8* }* bitcast ([3 x { i8*, i8* }]* @"$dyndisp_659" to { { { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* } (i8*, { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* })*, i8* } (i8*)*, i8* }*)
-  store { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* } { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)* bitcast ({ { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (%"$$fundef_29_env_148"*)* @"$fundef_29" to { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*), i8* null }, { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }* bitcast ({ i8*, i8* }* getelementptr inbounds ([3 x { i8*, i8* }], [3 x { i8*, i8* }]* @"$dyndisp_659", i32 0, i32 1) to { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }*)
-  store { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* } { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* })*, i8* } (i8*)* bitcast ({ { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* })*, i8* } (%"$$fundef_37_env_144"*)* @"$fundef_37" to { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* })*, i8* } (i8*)*), i8* null }, { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }* bitcast ({ i8*, i8* }* getelementptr inbounds ([3 x { i8*, i8* }], [3 x { i8*, i8* }]* @"$dyndisp_659", i32 0, i32 2) to { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }*)
-  store { i8*, i8* }* getelementptr inbounds ([3 x { i8*, i8* }], [3 x { i8*, i8* }]* @"$dyndisp_659", i32 0, i32 0), { i8*, i8* }** @nat_fold
-  %"$$fundef_45_envp_660_load" = load i8*, i8** @_execptr
-  %"$$fundef_45_envp_660_salloc" = call i8* @_salloc(i8* %"$$fundef_45_envp_660_load", i64 8)
-  %"$$fundef_45_envp_660" = bitcast i8* %"$$fundef_45_envp_660_salloc" to %"$$fundef_45_env_140"*
-  %"$$fundef_45_env_voidp_662" = bitcast %"$$fundef_45_env_140"* %"$$fundef_45_envp_660" to i8*
-  %"$$fundef_45_cloval_663" = insertvalue { %Uint32 (i8*, %Nat*)*, i8* } { %Uint32 (i8*, %Nat*)* bitcast (%Uint32 (%"$$fundef_45_env_140"*, %Nat*)* @"$fundef_45" to %Uint32 (i8*, %Nat*)*), i8* undef }, i8* %"$$fundef_45_env_voidp_662", 1
-  %"$$fundef_45_env_nat_fold_664" = getelementptr inbounds %"$$fundef_45_env_140", %"$$fundef_45_env_140"* %"$$fundef_45_envp_660", i32 0, i32 0
-  %"$nat_fold_665" = load { i8*, i8* }*, { i8*, i8* }** @nat_fold
-  store { i8*, i8* }* %"$nat_fold_665", { i8*, i8* }** %"$$fundef_45_env_nat_fold_664"
-  store { %Uint32 (i8*, %Nat*)*, i8* } %"$$fundef_45_cloval_663", { %Uint32 (i8*, %Nat*)*, i8* }* @nat_to_int
+  %"$dyndisp_table_659_salloc_load" = load i8*, i8** @_execptr
+  %"$dyndisp_table_659_salloc_salloc" = call i8* @_salloc(i8* %"$dyndisp_table_659_salloc_load", i64 48)
+  %"$dyndisp_table_659_salloc" = bitcast i8* %"$dyndisp_table_659_salloc_salloc" to [3 x { i8*, i8* }]*
+  %"$dyndisp_table_659" = bitcast [3 x { i8*, i8* }]* %"$dyndisp_table_659_salloc" to { i8*, i8* }*
+  %"$dyndisp_gep_660" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_659", i32 0
+  %"$dyndisp_pcast_661" = bitcast { i8*, i8* }* %"$dyndisp_gep_660" to { { { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* } (i8*, { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* })*, i8* } (i8*)*, i8* }*
+  store { { { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* } (i8*, { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* })*, i8* } (i8*)*, i8* } { { { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* } (i8*, { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* })*, i8* } (i8*)* bitcast ({ { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* } (i8*, { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* })*, i8* } (%"$$fundef_21_env_152"*)* @"$fundef_21" to { { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* } (i8*, { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* })*, i8* } (i8*)*), i8* null }, { { { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* } (i8*, { { %Uint32 (i8*, %Nat*)*, i8* } (i8*, %Uint32)*, i8* })*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_661"
+  %"$dyndisp_gep_662" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_659", i32 1
+  %"$dyndisp_pcast_663" = bitcast { i8*, i8* }* %"$dyndisp_gep_662" to { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }*
+  store { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* } { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)* bitcast ({ { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (%"$$fundef_29_env_148"*)* @"$fundef_29" to { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*), i8* null }, { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_663"
+  %"$dyndisp_gep_664" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_659", i32 2
+  %"$dyndisp_pcast_665" = bitcast { i8*, i8* }* %"$dyndisp_gep_664" to { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }*
+  store { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* } { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* })*, i8* } (i8*)* bitcast ({ { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* })*, i8* } (%"$$fundef_37_env_144"*)* @"$fundef_37" to { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* })*, i8* } (i8*)*), i8* null }, { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_665"
+  store { i8*, i8* }* %"$dyndisp_table_659", { i8*, i8* }** @nat_fold
+  %"$$fundef_45_envp_666_load" = load i8*, i8** @_execptr
+  %"$$fundef_45_envp_666_salloc" = call i8* @_salloc(i8* %"$$fundef_45_envp_666_load", i64 8)
+  %"$$fundef_45_envp_666" = bitcast i8* %"$$fundef_45_envp_666_salloc" to %"$$fundef_45_env_140"*
+  %"$$fundef_45_env_voidp_668" = bitcast %"$$fundef_45_env_140"* %"$$fundef_45_envp_666" to i8*
+  %"$$fundef_45_cloval_669" = insertvalue { %Uint32 (i8*, %Nat*)*, i8* } { %Uint32 (i8*, %Nat*)* bitcast (%Uint32 (%"$$fundef_45_env_140"*, %Nat*)* @"$fundef_45" to %Uint32 (i8*, %Nat*)*), i8* undef }, i8* %"$$fundef_45_env_voidp_668", 1
+  %"$$fundef_45_env_nat_fold_670" = getelementptr inbounds %"$$fundef_45_env_140", %"$$fundef_45_env_140"* %"$$fundef_45_envp_666", i32 0, i32 0
+  %"$nat_fold_671" = load { i8*, i8* }*, { i8*, i8* }** @nat_fold
+  store { i8*, i8* }* %"$nat_fold_671", { i8*, i8* }** %"$$fundef_45_env_nat_fold_670"
+  store { %Uint32 (i8*, %Nat*)*, i8* } %"$$fundef_45_cloval_669", { %Uint32 (i8*, %Nat*)*, i8* }* @nat_to_int
   %"$expr_51" = alloca %Uint32
   %nat_succ = alloca { %Nat* (i8*, %Nat*)*, i8* }
   store { %Nat* (i8*, %Nat*)*, i8* } { %Nat* (i8*, %Nat*)* bitcast (%Nat* (%"$$fundef_52_env_137"*, %Nat*)* @"$fundef_52" to %Nat* (i8*, %Nat*)*), i8* null }, { %Nat* (i8*, %Nat*)*, i8* }* %nat_succ
   %nat_iter = alloca { i8*, i8* }*
-  %"$$fundef_54_envp_669_load" = load i8*, i8** @_execptr
-  %"$$fundef_54_envp_669_salloc" = call i8* @_salloc(i8* %"$$fundef_54_envp_669_load", i64 8)
-  %"$$fundef_54_envp_669" = bitcast i8* %"$$fundef_54_envp_669_salloc" to %"$$fundef_54_env_136"*
-  %"$$fundef_54_env_voidp_671" = bitcast %"$$fundef_54_env_136"* %"$$fundef_54_envp_669" to i8*
-  %"$$fundef_54_cloval_672" = insertvalue { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* } { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)* bitcast ({ { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (%"$$fundef_54_env_136"*)* @"$fundef_54" to { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*), i8* undef }, i8* %"$$fundef_54_env_voidp_671", 1
-  %"$$fundef_54_env_nat_fold_673" = getelementptr inbounds %"$$fundef_54_env_136", %"$$fundef_54_env_136"* %"$$fundef_54_envp_669", i32 0, i32 0
-  %"$nat_fold_674" = load { i8*, i8* }*, { i8*, i8* }** @nat_fold
-  store { i8*, i8* }* %"$nat_fold_674", { i8*, i8* }** %"$$fundef_54_env_nat_fold_673"
-  %"$$fundef_66_env_voidp_676" = bitcast %"$$fundef_54_env_136"* %"$$fundef_54_envp_669" to i8*
-  %"$$fundef_66_cloval_677" = insertvalue { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* } { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)* bitcast ({ { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (%"$$fundef_66_env_130"*)* @"$fundef_66" to { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*), i8* undef }, i8* %"$$fundef_66_env_voidp_676", 1
-  store { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* } %"$$fundef_54_cloval_672", { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }* bitcast ({ i8*, i8* }* getelementptr inbounds ([3 x { i8*, i8* }], [3 x { i8*, i8* }]* @"$dyndisp_678", i32 0, i32 1) to { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }*)
-  store { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* } %"$$fundef_66_cloval_677", { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }* bitcast ({ i8*, i8* }* getelementptr inbounds ([3 x { i8*, i8* }], [3 x { i8*, i8* }]* @"$dyndisp_678", i32 0, i32 2) to { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }*)
-  store { i8*, i8* }* getelementptr inbounds ([3 x { i8*, i8* }], [3 x { i8*, i8* }]* @"$dyndisp_678", i32 0, i32 0), { i8*, i8* }** %nat_iter
+  %"$$fundef_54_envp_675_load" = load i8*, i8** @_execptr
+  %"$$fundef_54_envp_675_salloc" = call i8* @_salloc(i8* %"$$fundef_54_envp_675_load", i64 8)
+  %"$$fundef_54_envp_675" = bitcast i8* %"$$fundef_54_envp_675_salloc" to %"$$fundef_54_env_136"*
+  %"$$fundef_54_env_voidp_677" = bitcast %"$$fundef_54_env_136"* %"$$fundef_54_envp_675" to i8*
+  %"$$fundef_54_cloval_678" = insertvalue { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* } { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)* bitcast ({ { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (%"$$fundef_54_env_136"*)* @"$fundef_54" to { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*), i8* undef }, i8* %"$$fundef_54_env_voidp_677", 1
+  %"$$fundef_54_env_nat_fold_679" = getelementptr inbounds %"$$fundef_54_env_136", %"$$fundef_54_env_136"* %"$$fundef_54_envp_675", i32 0, i32 0
+  %"$nat_fold_680" = load { i8*, i8* }*, { i8*, i8* }** @nat_fold
+  store { i8*, i8* }* %"$nat_fold_680", { i8*, i8* }** %"$$fundef_54_env_nat_fold_679"
+  %"$$fundef_66_env_voidp_682" = bitcast %"$$fundef_54_env_136"* %"$$fundef_54_envp_675" to i8*
+  %"$$fundef_66_cloval_683" = insertvalue { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* } { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)* bitcast ({ { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (%"$$fundef_66_env_130"*)* @"$fundef_66" to { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*), i8* undef }, i8* %"$$fundef_66_env_voidp_682", 1
+  %"$dyndisp_table_684_salloc_load" = load i8*, i8** @_execptr
+  %"$dyndisp_table_684_salloc_salloc" = call i8* @_salloc(i8* %"$dyndisp_table_684_salloc_load", i64 48)
+  %"$dyndisp_table_684_salloc" = bitcast i8* %"$dyndisp_table_684_salloc_salloc" to [3 x { i8*, i8* }]*
+  %"$dyndisp_table_684" = bitcast [3 x { i8*, i8* }]* %"$dyndisp_table_684_salloc" to { i8*, i8* }*
+  %"$dyndisp_gep_685" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_684", i32 1
+  %"$dyndisp_pcast_686" = bitcast { i8*, i8* }* %"$dyndisp_gep_685" to { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }*
+  store { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* } %"$$fundef_54_cloval_678", { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_686"
+  %"$dyndisp_gep_687" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_684", i32 2
+  %"$dyndisp_pcast_688" = bitcast { i8*, i8* }* %"$dyndisp_gep_687" to { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }*
+  store { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* } %"$$fundef_66_cloval_683", { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_688"
+  store { i8*, i8* }* %"$dyndisp_table_684", { i8*, i8* }** %nat_iter
   %ackermann = alloca { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* }
   %iter_nat = alloca { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }
-  %"$nat_iter_679" = load { i8*, i8* }*, { i8*, i8* }** %nat_iter
-  %"$nat_iter_680" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$nat_iter_679", i32 2
-  %"$nat_iter_681" = bitcast { i8*, i8* }* %"$nat_iter_680" to { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }*
-  %"$nat_iter_682" = load { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }, { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }* %"$nat_iter_681"
-  %"$nat_iter_fptr_683" = extractvalue { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* } %"$nat_iter_682", 0
-  %"$nat_iter_envptr_684" = extractvalue { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* } %"$nat_iter_682", 1
-  %"$nat_iter_call_685" = call { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } %"$nat_iter_fptr_683"(i8* %"$nat_iter_envptr_684")
-  store { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } %"$nat_iter_call_685", { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }* %iter_nat
+  %"$nat_iter_689" = load { i8*, i8* }*, { i8*, i8* }** %nat_iter
+  %"$nat_iter_690" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$nat_iter_689", i32 2
+  %"$nat_iter_691" = bitcast { i8*, i8* }* %"$nat_iter_690" to { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }*
+  %"$nat_iter_692" = load { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }, { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* }* %"$nat_iter_691"
+  %"$nat_iter_fptr_693" = extractvalue { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* } %"$nat_iter_692", 0
+  %"$nat_iter_envptr_694" = extractvalue { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*)*, i8* } %"$nat_iter_692", 1
+  %"$nat_iter_call_695" = call { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } %"$nat_iter_fptr_693"(i8* %"$nat_iter_envptr_694")
+  store { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } %"$nat_iter_call_695", { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }* %iter_nat
   %iter_nat_nat = alloca { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* }
-  %"$nat_iter_686" = load { i8*, i8* }*, { i8*, i8* }** %nat_iter
-  %"$nat_iter_687" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$nat_iter_686", i32 1
-  %"$nat_iter_688" = bitcast { i8*, i8* }* %"$nat_iter_687" to { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }*
-  %"$nat_iter_689" = load { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }, { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }* %"$nat_iter_688"
-  %"$nat_iter_fptr_690" = extractvalue { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* } %"$nat_iter_689", 0
-  %"$nat_iter_envptr_691" = extractvalue { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* } %"$nat_iter_689", 1
-  %"$nat_iter_call_692" = call { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } %"$nat_iter_fptr_690"(i8* %"$nat_iter_envptr_691")
-  store { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } %"$nat_iter_call_692", { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* }* %iter_nat_nat
+  %"$nat_iter_696" = load { i8*, i8* }*, { i8*, i8* }** %nat_iter
+  %"$nat_iter_697" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$nat_iter_696", i32 1
+  %"$nat_iter_698" = bitcast { i8*, i8* }* %"$nat_iter_697" to { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }*
+  %"$nat_iter_699" = load { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }, { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* }* %"$nat_iter_698"
+  %"$nat_iter_fptr_700" = extractvalue { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* } %"$nat_iter_699", 0
+  %"$nat_iter_envptr_701" = extractvalue { { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } (i8*)*, i8* } %"$nat_iter_699", 1
+  %"$nat_iter_call_702" = call { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } %"$nat_iter_fptr_700"(i8* %"$nat_iter_envptr_701")
+  store { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } %"$nat_iter_call_702", { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* }* %iter_nat_nat
   %zero = alloca %Nat*
-  %"$adtval_693_load" = load i8*, i8** @_execptr
-  %"$adtval_693_salloc" = call i8* @_salloc(i8* %"$adtval_693_load", i64 1)
-  %"$adtval_693" = bitcast i8* %"$adtval_693_salloc" to %Zero*
-  %"$adtgep_694" = getelementptr inbounds %Zero, %Zero* %"$adtval_693", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_694"
-  %"$adtptr_695" = bitcast %Zero* %"$adtval_693" to %Nat*
-  store %Nat* %"$adtptr_695", %Nat** %zero
+  %"$adtval_703_load" = load i8*, i8** @_execptr
+  %"$adtval_703_salloc" = call i8* @_salloc(i8* %"$adtval_703_load", i64 1)
+  %"$adtval_703" = bitcast i8* %"$adtval_703_salloc" to %Zero*
+  %"$adtgep_704" = getelementptr inbounds %Zero, %Zero* %"$adtval_703", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_704"
+  %"$adtptr_705" = bitcast %Zero* %"$adtval_703" to %Nat*
+  store %Nat* %"$adtptr_705", %Nat** %zero
   %one = alloca %Nat*
-  %"$zero_696" = load %Nat*, %Nat** %zero
-  %"$adtval_697_load" = load i8*, i8** @_execptr
-  %"$adtval_697_salloc" = call i8* @_salloc(i8* %"$adtval_697_load", i64 9)
-  %"$adtval_697" = bitcast i8* %"$adtval_697_salloc" to %Succ*
-  %"$adtgep_698" = getelementptr inbounds %Succ, %Succ* %"$adtval_697", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_698"
-  %"$adtgep_699" = getelementptr inbounds %Succ, %Succ* %"$adtval_697", i32 0, i32 1
-  store %Nat* %"$zero_696", %Nat** %"$adtgep_699"
-  %"$adtptr_700" = bitcast %Succ* %"$adtval_697" to %Nat*
-  store %Nat* %"$adtptr_700", %Nat** %one
+  %"$zero_706" = load %Nat*, %Nat** %zero
+  %"$adtval_707_load" = load i8*, i8** @_execptr
+  %"$adtval_707_salloc" = call i8* @_salloc(i8* %"$adtval_707_load", i64 9)
+  %"$adtval_707" = bitcast i8* %"$adtval_707_salloc" to %Succ*
+  %"$adtgep_708" = getelementptr inbounds %Succ, %Succ* %"$adtval_707", i32 0, i32 0
+  store i8 1, i8* %"$adtgep_708"
+  %"$adtgep_709" = getelementptr inbounds %Succ, %Succ* %"$adtval_707", i32 0, i32 1
+  store %Nat* %"$zero_706", %Nat** %"$adtgep_709"
+  %"$adtptr_710" = bitcast %Succ* %"$adtval_707" to %Nat*
+  store %Nat* %"$adtptr_710", %Nat** %one
   %f = alloca { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }
-  %"$$fundef_78_envp_701_load" = load i8*, i8** @_execptr
-  %"$$fundef_78_envp_701_salloc" = call i8* @_salloc(i8* %"$$fundef_78_envp_701_load", i64 24)
-  %"$$fundef_78_envp_701" = bitcast i8* %"$$fundef_78_envp_701_salloc" to %"$$fundef_78_env_124"*
-  %"$$fundef_78_env_voidp_703" = bitcast %"$$fundef_78_env_124"* %"$$fundef_78_envp_701" to i8*
-  %"$$fundef_78_cloval_704" = insertvalue { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })* bitcast ({ %Nat* (i8*, %Nat*)*, i8* } (%"$$fundef_78_env_124"*, { %Nat* (i8*, %Nat*)*, i8* })* @"$fundef_78" to { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*), i8* undef }, i8* %"$$fundef_78_env_voidp_703", 1
-  %"$$fundef_78_env_iter_nat_705" = getelementptr inbounds %"$$fundef_78_env_124", %"$$fundef_78_env_124"* %"$$fundef_78_envp_701", i32 0, i32 0
-  %"$iter_nat_706" = load { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }* %iter_nat
-  store { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } %"$iter_nat_706", { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }* %"$$fundef_78_env_iter_nat_705"
-  %"$$fundef_78_env_one_707" = getelementptr inbounds %"$$fundef_78_env_124", %"$$fundef_78_env_124"* %"$$fundef_78_envp_701", i32 0, i32 1
-  %"$one_708" = load %Nat*, %Nat** %one
-  store %Nat* %"$one_708", %Nat** %"$$fundef_78_env_one_707"
-  store { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } %"$$fundef_78_cloval_704", { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }* %f
-  %"$$fundef_82_envp_709_load" = load i8*, i8** @_execptr
-  %"$$fundef_82_envp_709_salloc" = call i8* @_salloc(i8* %"$$fundef_82_envp_709_load", i64 48)
-  %"$$fundef_82_envp_709" = bitcast i8* %"$$fundef_82_envp_709_salloc" to %"$$fundef_82_env_122"*
-  %"$$fundef_82_env_voidp_711" = bitcast %"$$fundef_82_env_122"* %"$$fundef_82_envp_709" to i8*
-  %"$$fundef_82_cloval_712" = insertvalue { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)* bitcast ({ %Nat* (i8*, %Nat*)*, i8* } (%"$$fundef_82_env_122"*, %Nat*)* @"$fundef_82" to { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*), i8* undef }, i8* %"$$fundef_82_env_voidp_711", 1
-  %"$$fundef_82_env_f_713" = getelementptr inbounds %"$$fundef_82_env_122", %"$$fundef_82_env_122"* %"$$fundef_82_envp_709", i32 0, i32 0
-  %"$f_714" = load { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }* %f
-  store { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } %"$f_714", { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }* %"$$fundef_82_env_f_713"
-  %"$$fundef_82_env_iter_nat_nat_715" = getelementptr inbounds %"$$fundef_82_env_122", %"$$fundef_82_env_122"* %"$$fundef_82_envp_709", i32 0, i32 1
-  %"$iter_nat_nat_716" = load { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* }, { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* }* %iter_nat_nat
-  store { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } %"$iter_nat_nat_716", { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* }* %"$$fundef_82_env_iter_nat_nat_715"
-  %"$$fundef_82_env_nat_succ_717" = getelementptr inbounds %"$$fundef_82_env_122", %"$$fundef_82_env_122"* %"$$fundef_82_envp_709", i32 0, i32 2
-  %"$nat_succ_718" = load { %Nat* (i8*, %Nat*)*, i8* }, { %Nat* (i8*, %Nat*)*, i8* }* %nat_succ
-  store { %Nat* (i8*, %Nat*)*, i8* } %"$nat_succ_718", { %Nat* (i8*, %Nat*)*, i8* }* %"$$fundef_82_env_nat_succ_717"
-  store { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } %"$$fundef_82_cloval_712", { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* }* %ackermann
+  %"$$fundef_78_envp_711_load" = load i8*, i8** @_execptr
+  %"$$fundef_78_envp_711_salloc" = call i8* @_salloc(i8* %"$$fundef_78_envp_711_load", i64 24)
+  %"$$fundef_78_envp_711" = bitcast i8* %"$$fundef_78_envp_711_salloc" to %"$$fundef_78_env_124"*
+  %"$$fundef_78_env_voidp_713" = bitcast %"$$fundef_78_env_124"* %"$$fundef_78_envp_711" to i8*
+  %"$$fundef_78_cloval_714" = insertvalue { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })* bitcast ({ %Nat* (i8*, %Nat*)*, i8* } (%"$$fundef_78_env_124"*, { %Nat* (i8*, %Nat*)*, i8* })* @"$fundef_78" to { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*), i8* undef }, i8* %"$$fundef_78_env_voidp_713", 1
+  %"$$fundef_78_env_iter_nat_715" = getelementptr inbounds %"$$fundef_78_env_124", %"$$fundef_78_env_124"* %"$$fundef_78_envp_711", i32 0, i32 0
+  %"$iter_nat_716" = load { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }, { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }* %iter_nat
+  store { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } %"$iter_nat_716", { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }* %"$$fundef_78_env_iter_nat_715"
+  %"$$fundef_78_env_one_717" = getelementptr inbounds %"$$fundef_78_env_124", %"$$fundef_78_env_124"* %"$$fundef_78_envp_711", i32 0, i32 1
+  %"$one_718" = load %Nat*, %Nat** %one
+  store %Nat* %"$one_718", %Nat** %"$$fundef_78_env_one_717"
+  store { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } %"$$fundef_78_cloval_714", { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }* %f
+  %"$$fundef_82_envp_719_load" = load i8*, i8** @_execptr
+  %"$$fundef_82_envp_719_salloc" = call i8* @_salloc(i8* %"$$fundef_82_envp_719_load", i64 48)
+  %"$$fundef_82_envp_719" = bitcast i8* %"$$fundef_82_envp_719_salloc" to %"$$fundef_82_env_122"*
+  %"$$fundef_82_env_voidp_721" = bitcast %"$$fundef_82_env_122"* %"$$fundef_82_envp_719" to i8*
+  %"$$fundef_82_cloval_722" = insertvalue { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)* bitcast ({ %Nat* (i8*, %Nat*)*, i8* } (%"$$fundef_82_env_122"*, %Nat*)* @"$fundef_82" to { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*), i8* undef }, i8* %"$$fundef_82_env_voidp_721", 1
+  %"$$fundef_82_env_f_723" = getelementptr inbounds %"$$fundef_82_env_122", %"$$fundef_82_env_122"* %"$$fundef_82_envp_719", i32 0, i32 0
+  %"$f_724" = load { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }* %f
+  store { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } %"$f_724", { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* }* %"$$fundef_82_env_f_723"
+  %"$$fundef_82_env_iter_nat_nat_725" = getelementptr inbounds %"$$fundef_82_env_122", %"$$fundef_82_env_122"* %"$$fundef_82_envp_719", i32 0, i32 1
+  %"$iter_nat_nat_726" = load { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* }, { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* }* %iter_nat_nat
+  store { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* } %"$iter_nat_nat_726", { { { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* } (i8*, %Nat*)*, i8* } (i8*, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, { %Nat* (i8*, %Nat*)*, i8* })*, i8* })*, i8* }* %"$$fundef_82_env_iter_nat_nat_725"
+  %"$$fundef_82_env_nat_succ_727" = getelementptr inbounds %"$$fundef_82_env_122", %"$$fundef_82_env_122"* %"$$fundef_82_envp_719", i32 0, i32 2
+  %"$nat_succ_728" = load { %Nat* (i8*, %Nat*)*, i8* }, { %Nat* (i8*, %Nat*)*, i8* }* %nat_succ
+  store { %Nat* (i8*, %Nat*)*, i8* } %"$nat_succ_728", { %Nat* (i8*, %Nat*)*, i8* }* %"$$fundef_82_env_nat_succ_727"
+  store { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } %"$$fundef_82_cloval_722", { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* }* %ackermann
   %uintM = alloca %Uint32
   store %Uint32 { i32 3 }, %Uint32* %uintM
   %uintN = alloca %Uint32
   store %Uint32 { i32 7 }, %Uint32* %uintN
   %m = alloca %Nat*
-  %"$to_nat_load_719" = load i8*, i8** @_execptr
-  %"$uintM_720" = load %Uint32, %Uint32* %uintM
-  %"$to_nat_call_721" = call %Nat* @_to_nat(i8* %"$to_nat_load_719", %Uint32 %"$uintM_720")
-  store %Nat* %"$to_nat_call_721", %Nat** %m
+  %"$to_nat_load_729" = load i8*, i8** @_execptr
+  %"$uintM_730" = load %Uint32, %Uint32* %uintM
+  %"$to_nat_call_731" = call %Nat* @_to_nat(i8* %"$to_nat_load_729", %Uint32 %"$uintM_730")
+  store %Nat* %"$to_nat_call_731", %Nat** %m
   %n = alloca %Nat*
-  %"$to_nat_load_722" = load i8*, i8** @_execptr
-  %"$uintN_723" = load %Uint32, %Uint32* %uintN
-  %"$to_nat_call_724" = call %Nat* @_to_nat(i8* %"$to_nat_load_722", %Uint32 %"$uintN_723")
-  store %Nat* %"$to_nat_call_724", %Nat** %n
+  %"$to_nat_load_732" = load i8*, i8** @_execptr
+  %"$uintN_733" = load %Uint32, %Uint32* %uintN
+  %"$to_nat_call_734" = call %Nat* @_to_nat(i8* %"$to_nat_load_732", %Uint32 %"$uintN_733")
+  store %Nat* %"$to_nat_call_734", %Nat** %n
   %ack00 = alloca %Nat*
   %"$ackermann_18" = alloca { %Nat* (i8*, %Nat*)*, i8* }
-  %"$ackermann_725" = load { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* }, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* }* %ackermann
-  %"$ackermann_fptr_726" = extractvalue { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } %"$ackermann_725", 0
-  %"$ackermann_envptr_727" = extractvalue { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } %"$ackermann_725", 1
-  %"$m_728" = load %Nat*, %Nat** %m
-  %"$ackermann_call_729" = call { %Nat* (i8*, %Nat*)*, i8* } %"$ackermann_fptr_726"(i8* %"$ackermann_envptr_727", %Nat* %"$m_728")
-  store { %Nat* (i8*, %Nat*)*, i8* } %"$ackermann_call_729", { %Nat* (i8*, %Nat*)*, i8* }* %"$ackermann_18"
+  %"$ackermann_735" = load { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* }, { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* }* %ackermann
+  %"$ackermann_fptr_736" = extractvalue { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } %"$ackermann_735", 0
+  %"$ackermann_envptr_737" = extractvalue { { %Nat* (i8*, %Nat*)*, i8* } (i8*, %Nat*)*, i8* } %"$ackermann_735", 1
+  %"$m_738" = load %Nat*, %Nat** %m
+  %"$ackermann_call_739" = call { %Nat* (i8*, %Nat*)*, i8* } %"$ackermann_fptr_736"(i8* %"$ackermann_envptr_737", %Nat* %"$m_738")
+  store { %Nat* (i8*, %Nat*)*, i8* } %"$ackermann_call_739", { %Nat* (i8*, %Nat*)*, i8* }* %"$ackermann_18"
   %"$ackermann_19" = alloca %Nat*
-  %"$$ackermann_18_730" = load { %Nat* (i8*, %Nat*)*, i8* }, { %Nat* (i8*, %Nat*)*, i8* }* %"$ackermann_18"
-  %"$$ackermann_18_fptr_731" = extractvalue { %Nat* (i8*, %Nat*)*, i8* } %"$$ackermann_18_730", 0
-  %"$$ackermann_18_envptr_732" = extractvalue { %Nat* (i8*, %Nat*)*, i8* } %"$$ackermann_18_730", 1
-  %"$n_733" = load %Nat*, %Nat** %n
-  %"$$ackermann_18_call_734" = call %Nat* %"$$ackermann_18_fptr_731"(i8* %"$$ackermann_18_envptr_732", %Nat* %"$n_733")
-  store %Nat* %"$$ackermann_18_call_734", %Nat** %"$ackermann_19"
-  %"$$ackermann_19_735" = load %Nat*, %Nat** %"$ackermann_19"
-  store %Nat* %"$$ackermann_19_735", %Nat** %ack00
+  %"$$ackermann_18_740" = load { %Nat* (i8*, %Nat*)*, i8* }, { %Nat* (i8*, %Nat*)*, i8* }* %"$ackermann_18"
+  %"$$ackermann_18_fptr_741" = extractvalue { %Nat* (i8*, %Nat*)*, i8* } %"$$ackermann_18_740", 0
+  %"$$ackermann_18_envptr_742" = extractvalue { %Nat* (i8*, %Nat*)*, i8* } %"$$ackermann_18_740", 1
+  %"$n_743" = load %Nat*, %Nat** %n
+  %"$$ackermann_18_call_744" = call %Nat* %"$$ackermann_18_fptr_741"(i8* %"$$ackermann_18_envptr_742", %Nat* %"$n_743")
+  store %Nat* %"$$ackermann_18_call_744", %Nat** %"$ackermann_19"
+  %"$$ackermann_19_745" = load %Nat*, %Nat** %"$ackermann_19"
+  store %Nat* %"$$ackermann_19_745", %Nat** %ack00
   %int01 = alloca %Uint32
   %"$nat_to_int_20" = alloca %Uint32
-  %"$nat_to_int_736" = load { %Uint32 (i8*, %Nat*)*, i8* }, { %Uint32 (i8*, %Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_737" = extractvalue { %Uint32 (i8*, %Nat*)*, i8* } %"$nat_to_int_736", 0
-  %"$nat_to_int_envptr_738" = extractvalue { %Uint32 (i8*, %Nat*)*, i8* } %"$nat_to_int_736", 1
-  %"$ack00_739" = load %Nat*, %Nat** %ack00
-  %"$nat_to_int_call_740" = call %Uint32 %"$nat_to_int_fptr_737"(i8* %"$nat_to_int_envptr_738", %Nat* %"$ack00_739")
-  store %Uint32 %"$nat_to_int_call_740", %Uint32* %"$nat_to_int_20"
-  %"$$nat_to_int_20_741" = load %Uint32, %Uint32* %"$nat_to_int_20"
-  store %Uint32 %"$$nat_to_int_20_741", %Uint32* %int01
-  %"$int01_742" = load %Uint32, %Uint32* %int01
-  store %Uint32 %"$int01_742", %Uint32* %"$expr_51"
-  %"$$expr_51_743" = load %Uint32, %Uint32* %"$expr_51"
-  ret %Uint32 %"$$expr_51_743"
+  %"$nat_to_int_746" = load { %Uint32 (i8*, %Nat*)*, i8* }, { %Uint32 (i8*, %Nat*)*, i8* }* @nat_to_int
+  %"$nat_to_int_fptr_747" = extractvalue { %Uint32 (i8*, %Nat*)*, i8* } %"$nat_to_int_746", 0
+  %"$nat_to_int_envptr_748" = extractvalue { %Uint32 (i8*, %Nat*)*, i8* } %"$nat_to_int_746", 1
+  %"$ack00_749" = load %Nat*, %Nat** %ack00
+  %"$nat_to_int_call_750" = call %Uint32 %"$nat_to_int_fptr_747"(i8* %"$nat_to_int_envptr_748", %Nat* %"$ack00_749")
+  store %Uint32 %"$nat_to_int_call_750", %Uint32* %"$nat_to_int_20"
+  %"$$nat_to_int_20_751" = load %Uint32, %Uint32* %"$nat_to_int_20"
+  store %Uint32 %"$$nat_to_int_20_751", %Uint32* %int01
+  %"$int01_752" = load %Uint32, %Uint32* %int01
+  store %Uint32 %"$int01_752", %Uint32* %"$expr_51"
+  %"$$expr_51_753" = load %Uint32, %Uint32* %"$expr_51"
+  ret %Uint32 %"$$expr_51_753"
 }
 
 declare %Nat* @_to_nat(i8*, %Uint32)
@@ -1273,10 +1289,10 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_744" = call %Uint32 @"$scilla_expr_649"(i8* null)
-  %"$pval_745" = alloca %Uint32
-  %"$memvoidcast_746" = bitcast %Uint32* %"$pval_745" to i8*
-  store %Uint32 %"$exprval_744", %Uint32* %"$pval_745"
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Uint32_88", i8* %"$memvoidcast_746")
+  %"$exprval_754" = call %Uint32 @"$scilla_expr_649"(i8* null)
+  %"$pval_755" = alloca %Uint32
+  %"$memvoidcast_756" = bitcast %Uint32* %"$pval_755" to i8*
+  store %Uint32 %"$exprval_754", %Uint32* %"$pval_755"
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Uint32_88", i8* %"$memvoidcast_756")
   ret void
 }

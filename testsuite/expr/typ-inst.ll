@@ -39,7 +39,6 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_String_24" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_6"* @"$TyDescr_String_Prim_23" to i8*) }
 @"$TyDescr_Bystr_Prim_25" = global %"$TyDescrTy_PrimTyp_6" { i32 7, i32 0 }
 @"$TyDescr_Bystr_26" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_6"* @"$TyDescr_Bystr_Prim_25" to i8*) }
-@"$dyndisp_42" = global [1 x { i8*, i8* }] zeroinitializer
 
 define internal %Uint32 @"$fundef_4"(%"$$fundef_4_env_31"* %0, %Uint32 %1) {
 entry:
@@ -66,40 +65,48 @@ define internal %Uint32 @"$scilla_expr_38"(i8* %0) {
 entry:
   %"$expr_1" = alloca %Uint32
   %tf = alloca { i8*, i8* }*
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* } { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)* bitcast ({ %Uint32 (i8*, %Uint32)*, i8* } (%"$$fundef_2_env_32"*)* @"$fundef_2" to { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*), i8* null }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* }* bitcast ([1 x { i8*, i8* }]* @"$dyndisp_42" to { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* }*)
-  store { i8*, i8* }* getelementptr inbounds ([1 x { i8*, i8* }], [1 x { i8*, i8* }]* @"$dyndisp_42", i32 0, i32 0), { i8*, i8* }** %tf
+  %"$dyndisp_table_42_salloc_load" = load i8*, i8** @_execptr
+  %"$dyndisp_table_42_salloc_salloc" = call i8* @_salloc(i8* %"$dyndisp_table_42_salloc_load", i64 16)
+  %"$dyndisp_table_42_salloc" = bitcast i8* %"$dyndisp_table_42_salloc_salloc" to [1 x { i8*, i8* }]*
+  %"$dyndisp_table_42" = bitcast [1 x { i8*, i8* }]* %"$dyndisp_table_42_salloc" to { i8*, i8* }*
+  %"$dyndisp_gep_43" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_42", i32 0
+  %"$dyndisp_pcast_44" = bitcast { i8*, i8* }* %"$dyndisp_gep_43" to { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* }*
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* } { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)* bitcast ({ %Uint32 (i8*, %Uint32)*, i8* } (%"$$fundef_2_env_32"*)* @"$fundef_2" to { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*), i8* null }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_44"
+  store { i8*, i8* }* %"$dyndisp_table_42", { i8*, i8* }** %tf
   %t = alloca { %Uint32 (i8*, %Uint32)*, i8* }
-  %"$tf_43" = load { i8*, i8* }*, { i8*, i8* }** %tf
-  %"$tf_44" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$tf_43", i32 0
-  %"$tf_45" = bitcast { i8*, i8* }* %"$tf_44" to { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* }*
-  %"$tf_46" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* }* %"$tf_45"
-  %"$tf_fptr_47" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* } %"$tf_46", 0
-  %"$tf_envptr_48" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* } %"$tf_46", 1
-  %"$tf_call_49" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$tf_fptr_47"(i8* %"$tf_envptr_48")
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$tf_call_49", { %Uint32 (i8*, %Uint32)*, i8* }* %t
+  %"$tf_45" = load { i8*, i8* }*, { i8*, i8* }** %tf
+  %"$tf_46" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$tf_45", i32 0
+  %"$tf_47" = bitcast { i8*, i8* }* %"$tf_46" to { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* }*
+  %"$tf_48" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* }* %"$tf_47"
+  %"$tf_fptr_49" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* } %"$tf_48", 0
+  %"$tf_envptr_50" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*)*, i8* } %"$tf_48", 1
+  %"$tf_call_51" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$tf_fptr_49"(i8* %"$tf_envptr_50")
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$tf_call_51", { %Uint32 (i8*, %Uint32)*, i8* }* %t
   %one = alloca %Uint32
   store %Uint32 { i32 1 }, %Uint32* %one
   %"$t_0" = alloca %Uint32
-  %"$t_50" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %t
-  %"$t_fptr_51" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$t_50", 0
-  %"$t_envptr_52" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$t_50", 1
-  %"$one_53" = load %Uint32, %Uint32* %one
-  %"$t_call_54" = call %Uint32 %"$t_fptr_51"(i8* %"$t_envptr_52", %Uint32 %"$one_53")
-  store %Uint32 %"$t_call_54", %Uint32* %"$t_0"
-  %"$$t_0_55" = load %Uint32, %Uint32* %"$t_0"
-  store %Uint32 %"$$t_0_55", %Uint32* %"$expr_1"
-  %"$$expr_1_56" = load %Uint32, %Uint32* %"$expr_1"
-  ret %Uint32 %"$$expr_1_56"
+  %"$t_52" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %t
+  %"$t_fptr_53" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$t_52", 0
+  %"$t_envptr_54" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$t_52", 1
+  %"$one_55" = load %Uint32, %Uint32* %one
+  %"$t_call_56" = call %Uint32 %"$t_fptr_53"(i8* %"$t_envptr_54", %Uint32 %"$one_55")
+  store %Uint32 %"$t_call_56", %Uint32* %"$t_0"
+  %"$$t_0_57" = load %Uint32, %Uint32* %"$t_0"
+  store %Uint32 %"$$t_0_57", %Uint32* %"$expr_1"
+  %"$$expr_1_58" = load %Uint32, %Uint32* %"$expr_1"
+  ret %Uint32 %"$$expr_1_58"
 }
+
+declare i8* @_salloc(i8*, i64)
 
 declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_57" = call %Uint32 @"$scilla_expr_38"(i8* null)
-  %"$pval_58" = alloca %Uint32
-  %"$memvoidcast_59" = bitcast %Uint32* %"$pval_58" to i8*
-  store %Uint32 %"$exprval_57", %Uint32* %"$pval_58"
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Uint32_10", i8* %"$memvoidcast_59")
+  %"$exprval_59" = call %Uint32 @"$scilla_expr_38"(i8* null)
+  %"$pval_60" = alloca %Uint32
+  %"$memvoidcast_61" = bitcast %Uint32* %"$pval_60" to i8*
+  store %Uint32 %"$exprval_59", %Uint32* %"$pval_60"
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Uint32_10", i8* %"$memvoidcast_61")
   ret void
 }

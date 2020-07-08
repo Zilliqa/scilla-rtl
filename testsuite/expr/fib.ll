@@ -100,7 +100,6 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Pair_ADTTyp_m_specls_72" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_47"*] [%"$TyDescrTy_ADTTyp_Specl_47"* @"$TyDescr_Pair_Int32_Int32_ADTTyp_Specl_71"]
 @"$TyDescr_ADT_Pair_73" = unnamed_addr constant [4 x i8] c"Pair"
 @nat_fold = global { i8*, i8* }* null
-@"$dyndisp_230" = global [1 x { i8*, i8* }] zeroinitializer
 
 define internal %TName_Pair_Int32_Int32* @"$fundef_24"(%"$$fundef_24_env_74"* %0, %Nat* %1) {
 entry:
@@ -406,125 +405,131 @@ entry:
 
 define internal %Int32 @"$scilla_expr_226"(i8* %0) {
 entry:
-  store { { { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*, i8* } { { { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)* bitcast ({ { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (%"$$fundef_11_env_80"*)* @"$fundef_11" to { { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*), i8* null }, { { { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*, i8* }* bitcast ([1 x { i8*, i8* }]* @"$dyndisp_230" to { { { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*, i8* }*)
-  store { i8*, i8* }* getelementptr inbounds ([1 x { i8*, i8* }], [1 x { i8*, i8* }]* @"$dyndisp_230", i32 0, i32 0), { i8*, i8* }** @nat_fold
+  %"$dyndisp_table_230_salloc_load" = load i8*, i8** @_execptr
+  %"$dyndisp_table_230_salloc_salloc" = call i8* @_salloc(i8* %"$dyndisp_table_230_salloc_load", i64 16)
+  %"$dyndisp_table_230_salloc" = bitcast i8* %"$dyndisp_table_230_salloc_salloc" to [1 x { i8*, i8* }]*
+  %"$dyndisp_table_230" = bitcast [1 x { i8*, i8* }]* %"$dyndisp_table_230_salloc" to { i8*, i8* }*
+  %"$dyndisp_gep_231" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_230", i32 0
+  %"$dyndisp_pcast_232" = bitcast { i8*, i8* }* %"$dyndisp_gep_231" to { { { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*, i8* }*
+  store { { { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*, i8* } { { { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)* bitcast ({ { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (%"$$fundef_11_env_80"*)* @"$fundef_11" to { { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*), i8* null }, { { { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_232"
+  store { i8*, i8* }* %"$dyndisp_table_230", { i8*, i8* }** @nat_fold
   %"$expr_19" = alloca %Int32
   %zero = alloca %Nat*
-  %"$adtval_231_load" = load i8*, i8** @_execptr
-  %"$adtval_231_salloc" = call i8* @_salloc(i8* %"$adtval_231_load", i64 1)
-  %"$adtval_231" = bitcast i8* %"$adtval_231_salloc" to %Zero*
-  %"$adtgep_232" = getelementptr inbounds %Zero, %Zero* %"$adtval_231", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_232"
-  %"$adtptr_233" = bitcast %Zero* %"$adtval_231" to %Nat*
-  store %Nat* %"$adtptr_233", %Nat** %zero
+  %"$adtval_233_load" = load i8*, i8** @_execptr
+  %"$adtval_233_salloc" = call i8* @_salloc(i8* %"$adtval_233_load", i64 1)
+  %"$adtval_233" = bitcast i8* %"$adtval_233_salloc" to %Zero*
+  %"$adtgep_234" = getelementptr inbounds %Zero, %Zero* %"$adtval_233", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_234"
+  %"$adtptr_235" = bitcast %Zero* %"$adtval_233" to %Nat*
+  store %Nat* %"$adtptr_235", %Nat** %zero
   %one = alloca %Nat*
-  %"$zero_234" = load %Nat*, %Nat** %zero
-  %"$adtval_235_load" = load i8*, i8** @_execptr
-  %"$adtval_235_salloc" = call i8* @_salloc(i8* %"$adtval_235_load", i64 9)
-  %"$adtval_235" = bitcast i8* %"$adtval_235_salloc" to %Succ*
-  %"$adtgep_236" = getelementptr inbounds %Succ, %Succ* %"$adtval_235", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_236"
-  %"$adtgep_237" = getelementptr inbounds %Succ, %Succ* %"$adtval_235", i32 0, i32 1
-  store %Nat* %"$zero_234", %Nat** %"$adtgep_237"
-  %"$adtptr_238" = bitcast %Succ* %"$adtval_235" to %Nat*
-  store %Nat* %"$adtptr_238", %Nat** %one
+  %"$zero_236" = load %Nat*, %Nat** %zero
+  %"$adtval_237_load" = load i8*, i8** @_execptr
+  %"$adtval_237_salloc" = call i8* @_salloc(i8* %"$adtval_237_load", i64 9)
+  %"$adtval_237" = bitcast i8* %"$adtval_237_salloc" to %Succ*
+  %"$adtgep_238" = getelementptr inbounds %Succ, %Succ* %"$adtval_237", i32 0, i32 0
+  store i8 1, i8* %"$adtgep_238"
+  %"$adtgep_239" = getelementptr inbounds %Succ, %Succ* %"$adtval_237", i32 0, i32 1
+  store %Nat* %"$zero_236", %Nat** %"$adtgep_239"
+  %"$adtptr_240" = bitcast %Succ* %"$adtval_237" to %Nat*
+  store %Nat* %"$adtptr_240", %Nat** %one
   %two = alloca %Nat*
-  %"$one_239" = load %Nat*, %Nat** %one
-  %"$adtval_240_load" = load i8*, i8** @_execptr
-  %"$adtval_240_salloc" = call i8* @_salloc(i8* %"$adtval_240_load", i64 9)
-  %"$adtval_240" = bitcast i8* %"$adtval_240_salloc" to %Succ*
-  %"$adtgep_241" = getelementptr inbounds %Succ, %Succ* %"$adtval_240", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_241"
-  %"$adtgep_242" = getelementptr inbounds %Succ, %Succ* %"$adtval_240", i32 0, i32 1
-  store %Nat* %"$one_239", %Nat** %"$adtgep_242"
-  %"$adtptr_243" = bitcast %Succ* %"$adtval_240" to %Nat*
-  store %Nat* %"$adtptr_243", %Nat** %two
+  %"$one_241" = load %Nat*, %Nat** %one
+  %"$adtval_242_load" = load i8*, i8** @_execptr
+  %"$adtval_242_salloc" = call i8* @_salloc(i8* %"$adtval_242_load", i64 9)
+  %"$adtval_242" = bitcast i8* %"$adtval_242_salloc" to %Succ*
+  %"$adtgep_243" = getelementptr inbounds %Succ, %Succ* %"$adtval_242", i32 0, i32 0
+  store i8 1, i8* %"$adtgep_243"
+  %"$adtgep_244" = getelementptr inbounds %Succ, %Succ* %"$adtval_242", i32 0, i32 1
+  store %Nat* %"$one_241", %Nat** %"$adtgep_244"
+  %"$adtptr_245" = bitcast %Succ* %"$adtval_242" to %Nat*
+  store %Nat* %"$adtptr_245", %Nat** %two
   %three = alloca %Nat*
-  %"$two_244" = load %Nat*, %Nat** %two
-  %"$adtval_245_load" = load i8*, i8** @_execptr
-  %"$adtval_245_salloc" = call i8* @_salloc(i8* %"$adtval_245_load", i64 9)
-  %"$adtval_245" = bitcast i8* %"$adtval_245_salloc" to %Succ*
-  %"$adtgep_246" = getelementptr inbounds %Succ, %Succ* %"$adtval_245", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_246"
-  %"$adtgep_247" = getelementptr inbounds %Succ, %Succ* %"$adtval_245", i32 0, i32 1
-  store %Nat* %"$two_244", %Nat** %"$adtgep_247"
-  %"$adtptr_248" = bitcast %Succ* %"$adtval_245" to %Nat*
-  store %Nat* %"$adtptr_248", %Nat** %three
+  %"$two_246" = load %Nat*, %Nat** %two
+  %"$adtval_247_load" = load i8*, i8** @_execptr
+  %"$adtval_247_salloc" = call i8* @_salloc(i8* %"$adtval_247_load", i64 9)
+  %"$adtval_247" = bitcast i8* %"$adtval_247_salloc" to %Succ*
+  %"$adtgep_248" = getelementptr inbounds %Succ, %Succ* %"$adtval_247", i32 0, i32 0
+  store i8 1, i8* %"$adtgep_248"
+  %"$adtgep_249" = getelementptr inbounds %Succ, %Succ* %"$adtval_247", i32 0, i32 1
+  store %Nat* %"$two_246", %Nat** %"$adtgep_249"
+  %"$adtptr_250" = bitcast %Succ* %"$adtval_247" to %Nat*
+  store %Nat* %"$adtptr_250", %Nat** %three
   %four = alloca %Nat*
-  %"$three_249" = load %Nat*, %Nat** %three
-  %"$adtval_250_load" = load i8*, i8** @_execptr
-  %"$adtval_250_salloc" = call i8* @_salloc(i8* %"$adtval_250_load", i64 9)
-  %"$adtval_250" = bitcast i8* %"$adtval_250_salloc" to %Succ*
-  %"$adtgep_251" = getelementptr inbounds %Succ, %Succ* %"$adtval_250", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_251"
-  %"$adtgep_252" = getelementptr inbounds %Succ, %Succ* %"$adtval_250", i32 0, i32 1
-  store %Nat* %"$three_249", %Nat** %"$adtgep_252"
-  %"$adtptr_253" = bitcast %Succ* %"$adtval_250" to %Nat*
-  store %Nat* %"$adtptr_253", %Nat** %four
+  %"$three_251" = load %Nat*, %Nat** %three
+  %"$adtval_252_load" = load i8*, i8** @_execptr
+  %"$adtval_252_salloc" = call i8* @_salloc(i8* %"$adtval_252_load", i64 9)
+  %"$adtval_252" = bitcast i8* %"$adtval_252_salloc" to %Succ*
+  %"$adtgep_253" = getelementptr inbounds %Succ, %Succ* %"$adtval_252", i32 0, i32 0
+  store i8 1, i8* %"$adtgep_253"
+  %"$adtgep_254" = getelementptr inbounds %Succ, %Succ* %"$adtval_252", i32 0, i32 1
+  store %Nat* %"$three_251", %Nat** %"$adtgep_254"
+  %"$adtptr_255" = bitcast %Succ* %"$adtval_252" to %Nat*
+  store %Nat* %"$adtptr_255", %Nat** %four
   %five = alloca %Nat*
-  %"$four_254" = load %Nat*, %Nat** %four
-  %"$adtval_255_load" = load i8*, i8** @_execptr
-  %"$adtval_255_salloc" = call i8* @_salloc(i8* %"$adtval_255_load", i64 9)
-  %"$adtval_255" = bitcast i8* %"$adtval_255_salloc" to %Succ*
-  %"$adtgep_256" = getelementptr inbounds %Succ, %Succ* %"$adtval_255", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_256"
-  %"$adtgep_257" = getelementptr inbounds %Succ, %Succ* %"$adtval_255", i32 0, i32 1
-  store %Nat* %"$four_254", %Nat** %"$adtgep_257"
-  %"$adtptr_258" = bitcast %Succ* %"$adtval_255" to %Nat*
-  store %Nat* %"$adtptr_258", %Nat** %five
+  %"$four_256" = load %Nat*, %Nat** %four
+  %"$adtval_257_load" = load i8*, i8** @_execptr
+  %"$adtval_257_salloc" = call i8* @_salloc(i8* %"$adtval_257_load", i64 9)
+  %"$adtval_257" = bitcast i8* %"$adtval_257_salloc" to %Succ*
+  %"$adtgep_258" = getelementptr inbounds %Succ, %Succ* %"$adtval_257", i32 0, i32 0
+  store i8 1, i8* %"$adtgep_258"
+  %"$adtgep_259" = getelementptr inbounds %Succ, %Succ* %"$adtval_257", i32 0, i32 1
+  store %Nat* %"$four_256", %Nat** %"$adtgep_259"
+  %"$adtptr_260" = bitcast %Succ* %"$adtval_257" to %Nat*
+  store %Nat* %"$adtptr_260", %Nat** %five
   %six = alloca %Nat*
-  %"$five_259" = load %Nat*, %Nat** %five
-  %"$adtval_260_load" = load i8*, i8** @_execptr
-  %"$adtval_260_salloc" = call i8* @_salloc(i8* %"$adtval_260_load", i64 9)
-  %"$adtval_260" = bitcast i8* %"$adtval_260_salloc" to %Succ*
-  %"$adtgep_261" = getelementptr inbounds %Succ, %Succ* %"$adtval_260", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_261"
-  %"$adtgep_262" = getelementptr inbounds %Succ, %Succ* %"$adtval_260", i32 0, i32 1
-  store %Nat* %"$five_259", %Nat** %"$adtgep_262"
-  %"$adtptr_263" = bitcast %Succ* %"$adtval_260" to %Nat*
-  store %Nat* %"$adtptr_263", %Nat** %six
+  %"$five_261" = load %Nat*, %Nat** %five
+  %"$adtval_262_load" = load i8*, i8** @_execptr
+  %"$adtval_262_salloc" = call i8* @_salloc(i8* %"$adtval_262_load", i64 9)
+  %"$adtval_262" = bitcast i8* %"$adtval_262_salloc" to %Succ*
+  %"$adtgep_263" = getelementptr inbounds %Succ, %Succ* %"$adtval_262", i32 0, i32 0
+  store i8 1, i8* %"$adtgep_263"
+  %"$adtgep_264" = getelementptr inbounds %Succ, %Succ* %"$adtval_262", i32 0, i32 1
+  store %Nat* %"$five_261", %Nat** %"$adtgep_264"
+  %"$adtptr_265" = bitcast %Succ* %"$adtval_262" to %Nat*
+  store %Nat* %"$adtptr_265", %Nat** %six
   %seven = alloca %Nat*
-  %"$six_264" = load %Nat*, %Nat** %six
-  %"$adtval_265_load" = load i8*, i8** @_execptr
-  %"$adtval_265_salloc" = call i8* @_salloc(i8* %"$adtval_265_load", i64 9)
-  %"$adtval_265" = bitcast i8* %"$adtval_265_salloc" to %Succ*
-  %"$adtgep_266" = getelementptr inbounds %Succ, %Succ* %"$adtval_265", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_266"
-  %"$adtgep_267" = getelementptr inbounds %Succ, %Succ* %"$adtval_265", i32 0, i32 1
-  store %Nat* %"$six_264", %Nat** %"$adtgep_267"
-  %"$adtptr_268" = bitcast %Succ* %"$adtval_265" to %Nat*
-  store %Nat* %"$adtptr_268", %Nat** %seven
+  %"$six_266" = load %Nat*, %Nat** %six
+  %"$adtval_267_load" = load i8*, i8** @_execptr
+  %"$adtval_267_salloc" = call i8* @_salloc(i8* %"$adtval_267_load", i64 9)
+  %"$adtval_267" = bitcast i8* %"$adtval_267_salloc" to %Succ*
+  %"$adtgep_268" = getelementptr inbounds %Succ, %Succ* %"$adtval_267", i32 0, i32 0
+  store i8 1, i8* %"$adtgep_268"
+  %"$adtgep_269" = getelementptr inbounds %Succ, %Succ* %"$adtval_267", i32 0, i32 1
+  store %Nat* %"$six_266", %Nat** %"$adtgep_269"
+  %"$adtptr_270" = bitcast %Succ* %"$adtval_267" to %Nat*
+  store %Nat* %"$adtptr_270", %Nat** %seven
   %fib = alloca { %Int32 (i8*, %Nat*)*, i8* }
-  %"$$fundef_20_envp_269_load" = load i8*, i8** @_execptr
-  %"$$fundef_20_envp_269_salloc" = call i8* @_salloc(i8* %"$$fundef_20_envp_269_load", i64 8)
-  %"$$fundef_20_envp_269" = bitcast i8* %"$$fundef_20_envp_269_salloc" to %"$$fundef_20_env_76"*
-  %"$$fundef_20_env_voidp_271" = bitcast %"$$fundef_20_env_76"* %"$$fundef_20_envp_269" to i8*
-  %"$$fundef_20_cloval_272" = insertvalue { %Int32 (i8*, %Nat*)*, i8* } { %Int32 (i8*, %Nat*)* bitcast (%Int32 (%"$$fundef_20_env_76"*, %Nat*)* @"$fundef_20" to %Int32 (i8*, %Nat*)*), i8* undef }, i8* %"$$fundef_20_env_voidp_271", 1
-  %"$$fundef_20_env_nat_fold_273" = getelementptr inbounds %"$$fundef_20_env_76", %"$$fundef_20_env_76"* %"$$fundef_20_envp_269", i32 0, i32 0
-  %"$nat_fold_274" = load { i8*, i8* }*, { i8*, i8* }** @nat_fold
-  store { i8*, i8* }* %"$nat_fold_274", { i8*, i8* }** %"$$fundef_20_env_nat_fold_273"
-  store { %Int32 (i8*, %Nat*)*, i8* } %"$$fundef_20_cloval_272", { %Int32 (i8*, %Nat*)*, i8* }* %fib
+  %"$$fundef_20_envp_271_load" = load i8*, i8** @_execptr
+  %"$$fundef_20_envp_271_salloc" = call i8* @_salloc(i8* %"$$fundef_20_envp_271_load", i64 8)
+  %"$$fundef_20_envp_271" = bitcast i8* %"$$fundef_20_envp_271_salloc" to %"$$fundef_20_env_76"*
+  %"$$fundef_20_env_voidp_273" = bitcast %"$$fundef_20_env_76"* %"$$fundef_20_envp_271" to i8*
+  %"$$fundef_20_cloval_274" = insertvalue { %Int32 (i8*, %Nat*)*, i8* } { %Int32 (i8*, %Nat*)* bitcast (%Int32 (%"$$fundef_20_env_76"*, %Nat*)* @"$fundef_20" to %Int32 (i8*, %Nat*)*), i8* undef }, i8* %"$$fundef_20_env_voidp_273", 1
+  %"$$fundef_20_env_nat_fold_275" = getelementptr inbounds %"$$fundef_20_env_76", %"$$fundef_20_env_76"* %"$$fundef_20_envp_271", i32 0, i32 0
+  %"$nat_fold_276" = load { i8*, i8* }*, { i8*, i8* }** @nat_fold
+  store { i8*, i8* }* %"$nat_fold_276", { i8*, i8* }** %"$$fundef_20_env_nat_fold_275"
+  store { %Int32 (i8*, %Nat*)*, i8* } %"$$fundef_20_cloval_274", { %Int32 (i8*, %Nat*)*, i8* }* %fib
   %"$fib_10" = alloca %Int32
-  %"$fib_275" = load { %Int32 (i8*, %Nat*)*, i8* }, { %Int32 (i8*, %Nat*)*, i8* }* %fib
-  %"$fib_fptr_276" = extractvalue { %Int32 (i8*, %Nat*)*, i8* } %"$fib_275", 0
-  %"$fib_envptr_277" = extractvalue { %Int32 (i8*, %Nat*)*, i8* } %"$fib_275", 1
-  %"$seven_278" = load %Nat*, %Nat** %seven
-  %"$fib_call_279" = call %Int32 %"$fib_fptr_276"(i8* %"$fib_envptr_277", %Nat* %"$seven_278")
-  store %Int32 %"$fib_call_279", %Int32* %"$fib_10"
-  %"$$fib_10_280" = load %Int32, %Int32* %"$fib_10"
-  store %Int32 %"$$fib_10_280", %Int32* %"$expr_19"
-  %"$$expr_19_281" = load %Int32, %Int32* %"$expr_19"
-  ret %Int32 %"$$expr_19_281"
+  %"$fib_277" = load { %Int32 (i8*, %Nat*)*, i8* }, { %Int32 (i8*, %Nat*)*, i8* }* %fib
+  %"$fib_fptr_278" = extractvalue { %Int32 (i8*, %Nat*)*, i8* } %"$fib_277", 0
+  %"$fib_envptr_279" = extractvalue { %Int32 (i8*, %Nat*)*, i8* } %"$fib_277", 1
+  %"$seven_280" = load %Nat*, %Nat** %seven
+  %"$fib_call_281" = call %Int32 %"$fib_fptr_278"(i8* %"$fib_envptr_279", %Nat* %"$seven_280")
+  store %Int32 %"$fib_call_281", %Int32* %"$fib_10"
+  %"$$fib_10_282" = load %Int32, %Int32* %"$fib_10"
+  store %Int32 %"$$fib_10_282", %Int32* %"$expr_19"
+  %"$$expr_19_283" = load %Int32, %Int32* %"$expr_19"
+  ret %Int32 %"$$expr_19_283"
 }
 
 declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_282" = call %Int32 @"$scilla_expr_226"(i8* null)
-  %"$pval_283" = alloca %Int32
-  %"$memvoidcast_284" = bitcast %Int32* %"$pval_283" to i8*
-  store %Int32 %"$exprval_282", %Int32* %"$pval_283"
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_28", i8* %"$memvoidcast_284")
+  %"$exprval_284" = call %Int32 @"$scilla_expr_226"(i8* null)
+  %"$pval_285" = alloca %Int32
+  %"$memvoidcast_286" = bitcast %Int32* %"$pval_285" to i8*
+  store %Int32 %"$exprval_284", %Int32* %"$pval_285"
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_28", i8* %"$memvoidcast_286")
   ret void
 }

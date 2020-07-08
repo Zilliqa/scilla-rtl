@@ -104,5 +104,6 @@ BOOST_AUTO_TEST_CASE(builtin_to_nat) { testExecExpr("builtin_to_nat"); }
 BOOST_AUTO_TEST_CASE(ackermann) { testExecExpr("ackermann"); }
 BOOST_AUTO_TEST_CASE(ackermann_3_7) { testExecExpr("ackermann_3_7"); }
 BOOST_AUTO_TEST_CASE(church_nat_stlc) { testExecExpr("church_nat_stlc"); }
+BOOST_AUTO_TEST_CASE(cn) { testExecExpr("cn"); }
 
 BOOST_AUTO_TEST_SUITE_END()
