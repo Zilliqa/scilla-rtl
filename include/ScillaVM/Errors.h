@@ -22,11 +22,15 @@ namespace ScillaVM {
 struct SourceLoc {
   std::string File;
   int Line, Column;
-  SourceLoc(){};
+  SourceLoc() : File(), Line(), Column() {};
   SourceLoc(const std::string &File, int Line)
       : File(File), Line(Line), Column(){};
   SourceLoc(const std::string &File, int Line, int Column)
       : File(File), Line(Line), Column(Column){};
+  bool operator==(const SourceLoc &Rhs) const {
+    return File == Rhs.File && Line == Rhs.Line && Column == Rhs.Column;
+  }
+  bool operator!=(const SourceLoc &Rhs) const { return !operator==(Rhs); }
 };
 
 struct ScillaError {
@@ -41,8 +45,12 @@ struct ScillaError {
               const SourceLoc &ScillaSrcLoc)
       : Msg(Msg), ThrowLoc(ThrowLoc), ScillaSrcLoc(ScillaSrcLoc) {}
   std::string toString() const {
-    return ThrowLoc.File + "(" + std::to_string(ThrowLoc.Line) +
-           "): error: " + Msg;
+    if (ThrowLoc != SourceLoc()) {
+      return ThrowLoc.File + "(" + std::to_string(ThrowLoc.Line) +
+             "): error: " + Msg;
+    } else {
+      return Msg;
+    }
   }
 };
 
@@ -56,6 +64,9 @@ struct ScillaError {
 // source location
 #define CREATE_ERROR_SLOC(MSG, SCILLA_LOC)                                     \
   throw(MSG, SourceLoc(__FILE__, __LINE__), SCILLA_LOC)
+
+// Used when the Scilla program throws an error. No VM source location attached.
+#define SCILLA_EXCEPTION(MSG) throw ScillaError(MSG, SourceLoc(), SourceLoc())
 
 // Assert EXPR. If false, CREATE_ERROR with MSG. Turned off in release builds.
 #ifndef NDEBUG

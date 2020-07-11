@@ -49,9 +49,9 @@ void testExecExpr(const std::string &Testname) {
 
   BOOST_TEST_CHECKPOINT(Filename + ": Execution succeeded");
 
-  output_test_stream output(Filename + ".result", !Config::UpdateResults);
-  output << ScillaStdout;
-  BOOST_TEST(output.match_pattern());
+  output_test_stream Output(Filename + ".result", !Config::UpdateResults);
+  Output << ScillaStdout;
+  BOOST_TEST(Output.match_pattern());
   BOOST_TEST_CHECKPOINT(Filename + ": Output matched");
 
   // https://github.com/boostorg/boost/issues/379

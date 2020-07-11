@@ -249,7 +249,7 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
           Name = "_eventname";
           break;
         case ScillaTypes::PrimTyp::Exception_typ:
-          Name = "_exceptions";
+          Name = "_exception";
           break;
         default:
           CREATE_ERROR("Unreachable");

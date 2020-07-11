@@ -16,7 +16,9 @@
  */
 
 #include <boost/filesystem.hpp>
+#include <boost/test/tools/output_test_stream.hpp>
 #include <boost/test/unit_test.hpp>
+using boost::test_tools::output_test_stream;
 
 #include <ScillaVM/Errors.h>
 #include <ScillaVM/SRTL.h>
@@ -87,8 +89,8 @@ void testMessage(const std::string &ContrFilename,
     BOOST_REQUIRE_MESSAGE(EOJ == OJ, "Comparison failed:\n" +
                                          EOJ.toStyledString() + "\nvs\n" +
                                          OJ.toStyledString());
-  } catch (const ScillaError &e) {
-    BOOST_FAIL(e.toString());
+  } catch (const ScillaError &E) {
+    BOOST_FAIL(E.toString());
   }
 
   // https://github.com/boostorg/boost/issues/379
@@ -98,6 +100,67 @@ void testMessage(const std::string &ContrFilename,
     ;
   }
 }
+
+void testMessageFail(const std::string &ContrFilename,
+                     const std::string &MessageFilename,
+                     const std::string &ContrInfoFilename,
+                     const std::string &StateFilename,
+                     const std::string &ExpectedOutputFilename) {
+  MemStateServer State;
+  namespace ph = std::placeholders;
+  ScillaParams::FetchState_Type fetchStateValue = std::bind(
+      &MemStateServer::fetchStateValue, &State, ph::_1, ph::_2, ph::_3);
+  ScillaParams::UpdateState_Type updateStateValue =
+      std::bind(&MemStateServer::updateStateValue, &State, ph::_1, ph::_2);
+  ScillaParams SP(fetchStateValue, updateStateValue);
+
+  std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
+
+  ScillaJIT::init();
+
+  Json::Value MessageJSON;
+  try {
+    // Prepare all inputs.
+    MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
+    auto SJ = parseJSONFile(PathPrefix + StateFilename);
+    auto CIJ = parseJSONFile(PathPrefix + ContrInfoFilename);
+    // Update our in-memory state table with the one from the JSONs.
+    State.initFromJSON(SJ, CIJ);
+  } catch (const ScillaError &e) {
+    BOOST_FAIL(e.toString());
+  }
+
+  // Create a JIT engine and execute the message.
+  // TODO: Due to the below mentioned bug, this can't be in a try-catch block.
+  std::unique_ptr<ScillaVM::ScillaJIT> JE;
+  {
+    ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
+    JE = ScillaJIT::create(SP, PathPrefix + ContrFilename, &OCache);
+  }
+
+  bool CaughtException = false;
+  try {
+    ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
+    JE->execMsg(MessageJSON);
+  } catch (const ScillaError &E) {
+    output_test_stream Output(PathPrefix + ExpectedOutputFilename,
+                              !Config::UpdateResults);
+    Output << E.toString();
+    BOOST_TEST(Output.match_pattern());
+    CaughtException = true;
+    BOOST_TEST_CHECKPOINT(ContrFilename + ": Output matched");
+  }
+
+  BOOST_CHECK_MESSAGE(CaughtException, "Did not catch expected error");
+
+  // https://github.com/boostorg/boost/issues/379
+  try {
+    throw std::exception();
+  } catch (std::exception &) {
+    ;
+  }
+}
+
 } // namespace
 
 BOOST_AUTO_TEST_SUITE(contr_exec)
@@ -150,5 +213,19 @@ BOOST_AUTO_TEST_CASE(state_message_SendMsg2) {
               "send.output_SendMsg2.json");
 }
 BOOST_AUTO_TEST_SUITE_END() // send
+
+BOOST_AUTO_TEST_SUITE(sthrow)
+
+BOOST_AUTO_TEST_CASE(state_message_ThrowObj) {
+  testMessageFail("throw.ll", "throw.message_ThrowObj.json",
+                  "throw.contrinfo.json", "throw.state.json",
+                  "throw.output_ThrowObj.txt");
+}
+BOOST_AUTO_TEST_CASE(state_message_ThrowEmpty) {
+  testMessageFail("throw.ll", "throw.message_ThrowEmpty.json",
+                  "throw.contrinfo.json", "throw.state.json",
+                  "throw.output_ThrowEmpty.txt");
+}
+BOOST_AUTO_TEST_SUITE_END() // throw
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

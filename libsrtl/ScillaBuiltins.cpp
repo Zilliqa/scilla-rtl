@@ -307,7 +307,7 @@ void _event(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
 void _throw(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
   (void)SJ;
   auto J = ScillaValues::toJSON(T, V);
-  CREATE_ERROR("Exception thrown: " + J.toStyledString());
+  SCILLA_EXCEPTION("Exception thrown: " + J.toStyledString());
 }
 
 } // end of extern "C".
