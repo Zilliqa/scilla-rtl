@@ -82,5 +82,11 @@ void _add_Uint256(ScillaVM::ScillaTypes::Uint256 *,
 
 void *_to_nat(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Uint32 UI);
 
+void _send(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T, void *V);
+
+void _event(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T, void *V);
+
+void _throw(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T, void *V);
+
 } // extern "C"
 #pragma clang diagnostic pop

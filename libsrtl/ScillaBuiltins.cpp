@@ -40,12 +40,41 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_add_Uint256", (void *) _add_Uint256},
     {"_fetch_field", (void *) _fetch_field},
     {"_update_field", (void *) _update_field},
-    {"_to_nat", (void *) _to_nat}
+    {"_to_nat", (void *) _to_nat},
+    {"_send", (void *) _send},
+    {"_event", (void *) _event},
+    {"_throw", (void *) _throw}
   };
   // clang-format on
 
   return std::vector<ScillaFunctionsMap>(std::begin(m), std::end(m));
 }
+
+class ScillaOutputProcessor {
+private:
+  static void process(std::string OutType, ScillaJIT *SJ, Json::Value &M) {
+    Json::Value &OutJ = SJ->OutJ;
+    if (OutJ.empty()) {
+      OutJ[OutType] = Json::arrayValue;
+    }
+    
+    if (!OutJ.isObject())
+      CREATE_ERROR("Incorrect format of Output JSON");
+
+    Json::Value &Arr = OutJ[OutType];
+    ASSERT (Arr.isNull() || Arr.isArray());
+    OutJ[OutType].append(M);
+  }
+
+public:
+  static void processSend(ScillaJIT *SJ, Json::Value &M) {
+    process("messages", SJ, M);
+  }
+  static void processEvent(ScillaJIT *SJ, Json::Value &M) {
+    process("events", SJ, M);
+  }
+};
+
 
 } // namespace ScillaVM
 
@@ -240,6 +269,45 @@ void *_to_nat(ScillaJIT *SJ, ScillaTypes::Uint32 UI) {
     MemPrev = MemCur;
   }
   return MemPrev;
+}
+
+void _send(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
+  auto J = ScillaValues::toJSON(T, V);
+  // J is a Scilla list of Messages. Form a JSON array instead.
+  // TODO: Consider having a Scilla List -> std::vector and calling
+  //       that before toJSON is called above.
+  auto *JJ = &J;
+  auto ErrMsg = "Invalid JSON constructed from send";
+  while (true) {
+    if (!JJ->isObject())
+      CREATE_ERROR(ErrMsg);
+    auto *JConstr = &(JJ->operator[]("constructor"));
+    if (!JConstr->isString())
+      CREATE_ERROR(ErrMsg);
+    auto CName = JConstr->asString();
+    if (CName == "Cons") {
+      auto *JArgs = &(JJ->operator[]("arguments"));
+      if (!JArgs->isArray() || JArgs->size() != 2)
+        CREATE_ERROR(ErrMsg);
+      ScillaOutputProcessor::processSend(SJ, JArgs->operator[](0));
+      JJ = &(JArgs->operator[](1));
+    } else if (CName == "Nil") {
+      break;
+    } else {
+      CREATE_ERROR(ErrMsg);
+    }
+  }
+}
+
+void _event(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
+  auto J = ScillaValues::toJSON(T, V);
+  ScillaOutputProcessor::processEvent(SJ, J);
+}
+
+void _throw(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
+  (void)SJ;
+  auto J = ScillaValues::toJSON(T, V);
+  CREATE_ERROR("Exception thrown: " + J.toStyledString());
 }
 
 } // end of extern "C".

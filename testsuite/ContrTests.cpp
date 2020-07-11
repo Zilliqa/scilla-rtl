@@ -37,6 +37,7 @@ void testMessage(const std::string &ContrFilename,
                  const std::string &MessageFilename,
                  const std::string &ContrInfoFilename,
                  const std::string &StateFilename,
+                 const std::string &ExpectedStateFilename,
                  const std::string &ExpectedOutputFilename) {
   MemStateServer State;
   namespace ph = std::placeholders;
@@ -69,13 +70,19 @@ void testMessage(const std::string &ContrFilename,
     ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
     JE = ScillaJIT::create(SP, PathPrefix + ContrFilename, &OCache);
   }
+  Json::Value OJ;
   try {
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
-      JE->execMsg(MessageJSON);
+      OJ = JE->execMsg(MessageJSON);
     }
-    // Append output state to the Scilla output.
-    auto OJ = State.dumpToJSON();
+    // Compare output state to expected output state.
+    auto OSJ = State.dumpToJSON();
+    auto ESJ = parseJSONFile(PathPrefix + ExpectedStateFilename);
+    BOOST_REQUIRE_MESSAGE(ESJ == OSJ, "Comparison failed:\n" +
+                                          ESJ.toStyledString() + "\nvs\n" +
+                                          OSJ.toStyledString());
+    // Compare output to expected output.
     auto EOJ = parseJSONFile(PathPrefix + ExpectedOutputFilename);
     BOOST_REQUIRE_MESSAGE(EOJ == OJ, "Comparison failed:\n" +
                                          EOJ.toStyledString() + "\nvs\n" +
@@ -100,27 +107,48 @@ BOOST_AUTO_TEST_SUITE(simple_map)
 BOOST_AUTO_TEST_CASE(state_00_message_Increment) {
   testMessage("simple-map.ll", "simple-map.message_Increment.json",
               "simple-map.contrinfo.json", "simple-map.state_00.json",
-              "simple-map.state_02.json");
+              "simple-map.state_02.json", "simple-map.output.json");
 }
 
 BOOST_AUTO_TEST_CASE(state_01_message_Increment) {
   testMessage("simple-map.ll", "simple-map.message_Increment.json",
               "simple-map.contrinfo.json", "simple-map.state_01.json",
-              "simple-map.state_03.json");
+              "simple-map.state_03.json", "simple-map.output.json");
 }
 
 BOOST_AUTO_TEST_CASE(state_00_message_IncrementN_1) {
   testMessage("simple-map.ll", "simple-map.message_IncrementN_1.json",
               "simple-map.contrinfo.json", "simple-map.state_00.json",
-              "simple-map.state_04.json");
+              "simple-map.state_04.json", "simple-map.output.json");
 }
 
 BOOST_AUTO_TEST_CASE(state_01_message_IncrementN_1) {
   testMessage("simple-map.ll", "simple-map.message_IncrementN_1.json",
               "simple-map.contrinfo.json", "simple-map.state_01.json",
-              "simple-map.state_05.json");
+              "simple-map.state_05.json", "simple-map.output.json");
 }
 
 BOOST_AUTO_TEST_SUITE_END() // simple_map
+
+BOOST_AUTO_TEST_SUITE(event)
+
+BOOST_AUTO_TEST_CASE(state_message_CreateEvent) {
+  testMessage("event.ll", "event.message.json", "event.contrinfo.json",
+              "event.state.json", "event.state.json", "event.output.json");
+}
+BOOST_AUTO_TEST_SUITE_END() // event
+
+BOOST_AUTO_TEST_SUITE(send)
+
+BOOST_AUTO_TEST_CASE(state_message_SendMsg) {
+  testMessage("send.ll", "send.message_SendMsg.json", "send.contrinfo.json",
+              "send.state.json", "send.state.json", "send.output_SendMsg.json");
+}
+BOOST_AUTO_TEST_CASE(state_message_SendMsg2) {
+  testMessage("send.ll", "send.message_SendMsg2.json", "send.contrinfo.json",
+              "send.state.json", "send.state.json",
+              "send.output_SendMsg2.json");
+}
+BOOST_AUTO_TEST_SUITE_END() // send
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec
