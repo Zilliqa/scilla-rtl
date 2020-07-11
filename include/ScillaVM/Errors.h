@@ -22,7 +22,7 @@ namespace ScillaVM {
 struct SourceLoc {
   std::string File;
   int Line, Column;
-  SourceLoc() : File(), Line(), Column() {};
+  SourceLoc() : File(), Line(), Column(){};
   SourceLoc(const std::string &File, int Line)
       : File(File), Line(Line), Column(){};
   SourceLoc(const std::string &File, int Line, int Column)

@@ -57,12 +57,12 @@ private:
     if (OutJ.empty()) {
       OutJ[OutType] = Json::arrayValue;
     }
-    
+
     if (!OutJ.isObject())
       CREATE_ERROR("Incorrect format of Output JSON");
 
     Json::Value &Arr = OutJ[OutType];
-    ASSERT (Arr.isNull() || Arr.isArray());
+    ASSERT(Arr.isNull() || Arr.isArray());
     OutJ[OutType].append(M);
   }
 
@@ -74,7 +74,6 @@ public:
     process("events", SJ, M);
   }
 };
-
 
 } // namespace ScillaVM
 

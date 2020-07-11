@@ -145,7 +145,6 @@ int ScillaTypes::Typ::sizeOf(const Typ *T) {
     case PrimTyp::Exception_typ:
       // MsgObjs are boxed. So just a pointer.
       return sizeof(void *);
-
     }
   } break;
   case Typ::ADT_typ:
@@ -161,12 +160,12 @@ bool Typ::isBoxed(const Typ *T) {
   switch (T->m_t) {
   case Prim_typ:
     switch (T->m_sub.m_primt->m_pt) {
-      case PrimTyp::Msg_typ:
-      case PrimTyp::Event_typ:
-      case PrimTyp::Exception_typ:
-        return true;
-      default:
-        return false;
+    case PrimTyp::Msg_typ:
+    case PrimTyp::Event_typ:
+    case PrimTyp::Exception_typ:
+      return true;
+    default:
+      return false;
     }
   case ADT_typ:
   case Map_typ:
