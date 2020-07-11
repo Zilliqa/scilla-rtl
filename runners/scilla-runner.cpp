@@ -103,10 +103,10 @@ int main(int argc, char *argv[]) {
 
     // Create a JIT engine and execute the message.
     auto JE = ScillaJIT::create(SP, InputFilename);
-    JE->execMsg(MJ);
-
-    // Append output state to the Scilla output.
-    ScillaStdout += State.dumpToJSON().toStyledString();
+    auto OutJ = JE->execMsg(MJ);
+    OutJ["states"] = State.dumpToJSON();
+    // Append output to the Scilla output object for printing later.
+    ScillaStdout += OutJ.toStyledString();
   } catch (const ScillaError &e) {
     std::cerr << e.toString() << "\n";
     return EXIT_FAILURE;

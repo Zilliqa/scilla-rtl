@@ -1,0 +1,14 @@
+{
+   "events" : [
+      {
+         "_eventname" : "Hello",
+         "params" : [
+            {
+               "type" : "String",
+               "value" : "World",
+               "vname" : "msg"
+            }
+         ]
+      }
+   ]
+}

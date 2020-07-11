@@ -25,6 +25,13 @@
 
 namespace ScillaVM {
 
+std::string readFile(const std::string &Filename) {
+  std::ifstream IfsFile(Filename);
+  std::string FileStr((std::istreambuf_iterator<char>(IfsFile)),
+                      (std::istreambuf_iterator<char>()));
+  return FileStr;
+}
+
 Json::Value parseJSONString(const std::string &JS) {
   Json::Value Ret;
   Json::CharReaderBuilder ReadBuilder;
@@ -40,10 +47,8 @@ Json::Value parseJSONString(const std::string &JS) {
 }
 
 Json::Value parseJSONFile(const std::string &Filename) {
-  std::ifstream IfsFile(Filename);
-  std::string FileStr((std::istreambuf_iterator<char>(IfsFile)),
-                      (std::istreambuf_iterator<char>()));
-  return parseJSONString(FileStr);
+
+  return parseJSONString(readFile(Filename));
 }
 
 bool MemStateServer::fetchStateValue(const ScillaParams::StateQuery &Query,

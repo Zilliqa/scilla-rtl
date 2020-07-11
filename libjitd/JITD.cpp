@@ -319,7 +319,7 @@ ScillaJIT::ScillaJIT(const ScillaParams &SPs, std::unique_ptr<LLJIT> J)
 
 ScillaJIT::~ScillaJIT() { sFreeAll(); }
 
-void ScillaJIT::execMsg(Json::Value &Msg) {
+Json::Value ScillaJIT::execMsg(Json::Value &Msg) {
   Json::Value TransNameJ = Msg.get("_tag", Json::nullValue);
   Json::Value ParamsJ = Msg.get("params", Json::nullValue);
   Json::Value SenderJ = Msg.get("_sender", Json::nullValue);
@@ -391,7 +391,9 @@ void ScillaJIT::execMsg(Json::Value &Msg) {
     Off += Size;
   }
 
+  OutJ = Json::objectValue;
   Transition(Mem);
+  return OutJ;
 }
 
 } // namespace ScillaVM

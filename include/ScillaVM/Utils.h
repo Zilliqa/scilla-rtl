@@ -34,6 +34,7 @@ template <typename T> bool has_type(const boost::any *a) {
 } // namespace boost
 
 namespace ScillaVM {
+std::string readFile(const std::string &Filename);
 Json::Value parseJSONString(const std::string &JS);
 Json::Value parseJSONFile(const std::string &Filename);
 

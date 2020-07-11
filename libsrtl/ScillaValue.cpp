@@ -234,10 +234,62 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
       } break;
       case ScillaTypes::PrimTyp::Msg_typ:
       case ScillaTypes::PrimTyp::Event_typ:
-      case ScillaTypes::PrimTyp::Exception_typ:
-        CREATE_ERROR("Unhandled PrimTyp values");
+      case ScillaTypes::PrimTyp::Exception_typ: {
+        if (!V) {
+          ASSERT(T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Exception_typ);
+          Out = Json::Value("error");
+          break;
+        }
+        std::string Name;
+        switch (T->m_sub.m_primt->m_pt) {
+        case ScillaTypes::PrimTyp::Msg_typ:
+          Name = "_tag";
+          break;
+        case ScillaTypes::PrimTyp::Event_typ:
+          Name = "_eventname";
+          break;
+        case ScillaTypes::PrimTyp::Exception_typ:
+          Name = "_exception";
+          break;
+        default:
+          CREATE_ERROR("Unreachable");
+        }
+        auto V_UC = reinterpret_cast<const uint8_t *>(V);
+        int NFields = *(V_UC++);
+
+        for (int I = 0; I < NFields; I++) {
+          // 1. Field's name.
+          auto *FNameP = reinterpret_cast<const ScillaTypes::String *>(V_UC);
+          auto FName = FNameP->operator std::string();
+          V_UC += sizeof(ScillaTypes::String);
+          // 2. Type descriptor for the value.
+          auto *TD = *reinterpret_cast<const ScillaTypes::Typ *const *>(V_UC);
+          V_UC += sizeof(const ScillaTypes::Typ *);
+          // 3. The value itself.
+          Json::Value VJ;
+          if (ScillaTypes::Typ::isBoxed(TD)) {
+            recurser(TD, *reinterpret_cast<const void *const *>(V_UC), VJ);
+          } else {
+            recurser(TD, V_UC, VJ);
+          }
+          V_UC += ScillaTypes::Typ::sizeOf(TD);
+          // Bundle all the data into E.
+          if (FName == Name || (Name == "_tag" && (FName == "_recipient" ||
+                                                   FName == "_amount"))) {
+            Out[FName] = VJ;
+          } else {
+            Json::Value VV;
+            VV["vname"] = FName;
+            VV["type"] = ScillaTypes::Typ::toString(TD);
+            VV["value"] = VJ;
+            Out["params"].append(VV);
+          }
+        }
+        break;
       }
-    } break;
+      }
+      break;
+    }
     case ScillaTypes::Typ::ADT_typ: {
       auto Tag = *reinterpret_cast<const uint8_t *>(V);
       auto SpeclP = T->m_sub.m_spladt;
