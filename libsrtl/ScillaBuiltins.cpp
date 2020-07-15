@@ -402,9 +402,9 @@ ScillaTypes::String _to_bystr(ScillaJIT *SJ, int X, uint8_t *Buf) {
   SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
   ScillaTypes::String Ret;
   auto Mem = SA(X);
-  std::memcpy (Mem, Buf, X);
+  std::memcpy(Mem, Buf, X);
   Ret.m_length = X;
-  Ret.m_buffer = reinterpret_cast<uint8_t*>(Mem);
+  Ret.m_buffer = reinterpret_cast<uint8_t *>(Mem);
   return Ret;
 }
 
