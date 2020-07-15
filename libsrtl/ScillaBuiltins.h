@@ -80,6 +80,32 @@ void _add_Uint256(ScillaVM::ScillaTypes::Uint256 *,
                   ScillaVM::ScillaTypes::Uint256 *,
                   ScillaVM::ScillaTypes::Uint256 *);
 
+uint8_t *_eq_Int32(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Int32 Lhs,
+                   ScillaVM::ScillaTypes::Int32 Rhs);
+
+uint8_t *_eq_Int64(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Int64 Lhs,
+                   ScillaVM::ScillaTypes::Int64 Rhs);
+
+uint8_t *_eq_Int128(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Int128 Lhs,
+                    ScillaVM::ScillaTypes::Int128 Rhs);
+
+uint8_t *_eq_Int256(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Int256 *Lhs,
+                    ScillaVM::ScillaTypes::Int256 *Rhs);
+
+uint8_t *_eq_Uint32(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Uint32 Lhs,
+                    ScillaVM::ScillaTypes::Uint32 Rhs);
+
+uint8_t *_eq_Uint64(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Uint64 Lhs,
+                    ScillaVM::ScillaTypes::Uint64 Rhs);
+
+uint8_t *_eq_Uint128(ScillaVM::ScillaJIT *SJ,
+                     ScillaVM::ScillaTypes::Uint128 Lhs,
+                     ScillaVM::ScillaTypes::Uint128 Rhs);
+
+uint8_t *_eq_Uint256(ScillaVM::ScillaJIT *SJ,
+                     ScillaVM::ScillaTypes::Uint256 *Lhs,
+                     ScillaVM::ScillaTypes::Uint256 *Rhs);
+
 void *_to_nat(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Uint32 UI);
 
 void _send(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
@@ -90,6 +116,17 @@ void _event(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
 
 void _throw(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
             void *V);
+
+uint8_t *_eq_String(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::String Lhs,
+                    ScillaVM::ScillaTypes::String Rhs);
+
+uint8_t *_eq_ByStr(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::String Lhs,
+                   ScillaVM::ScillaTypes::String Rhs);
+
+uint8_t *_eq_ByStrX(ScillaVM::ScillaJIT *SJ, int X, uint8_t *Lhs, uint8_t *Rhs);
+
+ScillaVM::ScillaTypes::String _to_bystr(ScillaVM::ScillaJIT *SJ, int X,
+                                        uint8_t *Buf);
 
 } // extern "C"
 #pragma clang diagnostic pop

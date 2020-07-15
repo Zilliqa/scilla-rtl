@@ -47,8 +47,9 @@ public:
   // Convert to RawInt
   operator ScillaTypes::RawInt<Bits>() const;
 
+  bool operator==(const SafeInt &Rhs) const;
   // Safe operations: over/underflows will cause an error.
-  SafeInt operator+(const SafeInt &rhs) const;
+  SafeInt operator+(const SafeInt &Rhs) const;
 
 private:
   // Initialize from raw bytes
