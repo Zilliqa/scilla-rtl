@@ -125,5 +125,8 @@ uint8_t *_eq_ByStr(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::String Lhs,
 
 uint8_t *_eq_ByStrX(ScillaVM::ScillaJIT *SJ, int X, uint8_t *Lhs, uint8_t *Rhs);
 
+ScillaVM::ScillaTypes::String _to_bystr(ScillaVM::ScillaJIT *SJ, int X,
+                                        uint8_t *Buf);
+
 } // extern "C"
 #pragma clang diagnostic pop

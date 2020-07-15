@@ -54,7 +54,8 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_eq_Uint256", (void *) _eq_Uint256},
     {"_eq_String", (void *) _eq_String},
     {"_eq_ByStr", (void *) _eq_ByStr},
-    {"_eq_ByStrX", (void *) _eq_ByStrX}
+    {"_eq_ByStrX", (void *) _eq_ByStrX},
+    {"_to_bystr", (void *) _to_bystr}
   };
   // clang-format on
 
@@ -395,6 +396,16 @@ uint8_t *_eq_ByStrX(ScillaJIT *SJ, int X, uint8_t *Lhs, uint8_t *Rhs) {
   SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
   auto B = (std::memcmp(Lhs, Rhs, X) == 0);
   return toScillaBool(SA, B);
+}
+
+ScillaTypes::String _to_bystr(ScillaJIT *SJ, int X, uint8_t *Buf) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  ScillaTypes::String Ret;
+  auto Mem = SA(X);
+  std::memcpy (Mem, Buf, X);
+  Ret.m_length = X;
+  Ret.m_buffer = reinterpret_cast<uint8_t*>(Mem);
+  return Ret;
 }
 
 } // end of extern "C".
