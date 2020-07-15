@@ -65,10 +65,17 @@ SafeInt<Bits, Signedness>::operator RawInt<Bits>() const {
 
 template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator+(
-    const SafeInt<Bits, Signedness> &rhs) const {
+    const SafeInt<Bits, Signedness> &Rhs) const {
   // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(this->Container + rhs.Container);
+  SafeInt<Bits, Signedness> Result(this->Container + Rhs.Container);
   return Result;
+}
+
+template <unsigned Bits, SafeIntKind Signedness>
+bool SafeInt<Bits, Signedness>::operator==(
+    const SafeInt<Bits, Signedness> &Rhs) const {
+
+  return Container.op_eq(Rhs.Container);
 }
 
 // Let's instantiate for all widths that we want.

@@ -43,7 +43,18 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_to_nat", (void *) _to_nat},
     {"_send", (void *) _send},
     {"_event", (void *) _event},
-    {"_throw", (void *) _throw}
+    {"_throw", (void *) _throw},
+    {"_eq_Int32", (void *) _eq_Int32},
+    {"_eq_Int64", (void *) _eq_Int64},
+    {"_eq_Int128", (void *) _eq_Int128},
+    {"_eq_Int256", (void *) _eq_Int256},
+    {"_eq_Uint32", (void *) _eq_Uint32},
+    {"_eq_Uint64", (void *) _eq_Uint64},
+    {"_eq_Uint128", (void *) _eq_Uint128},
+    {"_eq_Uint256", (void *) _eq_Uint256},
+    {"_eq_String", (void *) _eq_String},
+    {"_eq_ByStr", (void *) _eq_ByStr},
+    {"_eq_ByStrX", (void *) _eq_ByStrX}
   };
   // clang-format on
 
@@ -99,7 +110,21 @@ void prepareStateAccessIndices(
     Off += ScillaTypes::Typ::sizeOf(KT);
   }
 }
+
+uint8_t *toScillaBool(SAllocator &SA, bool B) {
+  int MemSize = 1;
+  auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
+  if (B) {
+    *Mem = ScillaTypes::Bool_True_Tag;
+  } else {
+    *Mem = ScillaTypes::Bool_False_Tag;
+  }
+  return Mem;
+}
+
 } // namespace
+
+namespace ph = std::placeholders;
 
 extern "C" {
 
@@ -147,6 +172,54 @@ void _add_Uint256(ScillaTypes::Uint256 *Result, ScillaTypes::Uint256 *Lhs,
   *Result = SafeUint256(Lhs) + SafeUint256(Rhs);
 }
 
+uint8_t *_eq_Int32(ScillaJIT *SJ, ScillaTypes::Int32 Lhs,
+                   ScillaTypes::Int32 Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  return toScillaBool(SA, SafeInt32(&Lhs) == SafeInt32(&Rhs));
+}
+
+uint8_t *_eq_Int64(ScillaJIT *SJ, ScillaTypes::Int64 Lhs,
+                   ScillaTypes::Int64 Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  return toScillaBool(SA, SafeInt64(&Lhs) == SafeInt64(&Rhs));
+}
+
+uint8_t *_eq_Int128(ScillaJIT *SJ, ScillaTypes::Int128 Lhs,
+                    ScillaTypes::Int128 Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  return toScillaBool(SA, SafeInt128(&Lhs) == SafeInt128(&Rhs));
+}
+
+uint8_t *_eq_Int256(ScillaJIT *SJ, ScillaTypes::Int256 *Lhs,
+                    ScillaTypes::Int256 *Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  return toScillaBool(SA, SafeInt256(Lhs) == SafeInt256(Rhs));
+}
+
+uint8_t *_eq_Uint32(ScillaJIT *SJ, ScillaTypes::Uint32 Lhs,
+                    ScillaTypes::Uint32 Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  return toScillaBool(SA, SafeUint32(&Lhs) == SafeUint32(&Rhs));
+}
+
+uint8_t *_eq_Uint64(ScillaJIT *SJ, ScillaTypes::Uint64 Lhs,
+                    ScillaTypes::Uint64 Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  return toScillaBool(SA, SafeUint64(&Lhs) == SafeUint64(&Rhs));
+}
+
+uint8_t *_eq_Uint128(ScillaJIT *SJ, ScillaTypes::Uint128 Lhs,
+                     ScillaTypes::Uint128 Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  return toScillaBool(SA, SafeUint128(&Lhs) == SafeUint128(&Rhs));
+}
+
+uint8_t *_eq_Uint256(ScillaJIT *SJ, ScillaTypes::Uint256 *Lhs,
+                     ScillaTypes::Uint256 *Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  return toScillaBool(SA, SafeUint256(Lhs) == SafeUint256(Rhs));
+}
+
 void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
                    int32_t NumIdx, const uint8_t *Indices, int32_t FetchVal) {
   std::vector<const ScillaTypes::Typ *> KeyTypes;
@@ -167,8 +240,7 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
     CREATE_ERROR("State fetch query failed for " + SQ.Name);
   }
 
-  using namespace std::placeholders;
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, _1));
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
 
   if (SerializedIndices.empty()) {
     // Full access of state variable. No indexing.
@@ -209,13 +281,7 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
     }
   } else {
     // We need to construct a Scilla Bool ADT based on "found".
-    int MemSize = 1;
-    auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
-    if (Found) {
-      *Mem = ScillaTypes::Bool_True_Tag;
-    } else {
-      *Mem = ScillaTypes::Bool_False_Tag;
-    }
+    auto Mem = toScillaBool(SA, Found);
     return Mem;
   }
 }
@@ -307,6 +373,28 @@ void _throw(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
   (void)SJ;
   auto J = ScillaValues::toJSON(T, V);
   SCILLA_EXCEPTION("Exception thrown: " + J.toStyledString());
+}
+
+uint8_t *_eq_String(ScillaJIT *SJ, ScillaTypes::String Lhs,
+                    ScillaTypes::String Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto B = (Lhs.m_length == Rhs.m_length) &&
+           (std::memcmp(Lhs.m_buffer, Rhs.m_buffer, Lhs.m_length) == 0);
+  return toScillaBool(SA, B);
+}
+
+uint8_t *_eq_ByStr(ScillaJIT *SJ, ScillaTypes::String Lhs,
+                   ScillaTypes::String Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto B = (Lhs.m_length == Rhs.m_length) &&
+           (std::memcmp(Lhs.m_buffer, Rhs.m_buffer, Lhs.m_length) == 0);
+  return toScillaBool(SA, B);
+}
+
+uint8_t *_eq_ByStrX(ScillaJIT *SJ, int X, uint8_t *Lhs, uint8_t *Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto B = (std::memcmp(Lhs, Rhs, X) == 0);
+  return toScillaBool(SA, B);
 }
 
 } // end of extern "C".
