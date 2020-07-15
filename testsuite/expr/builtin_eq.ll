@@ -1,3 +1,55 @@
+; let i32a = Int32 0 in
+; let i32b = Int32 1 in
+; let i32aa = Int32 0 in
+; let b1 = builtin eq i32a i32aa in
+; let b2 = builtin eq i32a i32b in
+; 
+; let i128a = Uint128 11 in
+; let i128b = Uint128 12 in
+; let i128aa = Uint128 11 in
+; let b3 = builtin eq i128a i128b in
+; let b4 = builtin eq i128a i128a in
+; let b5 = andb b1 b2 in
+; let b6 = orb b3 b4 in
+; let b7 = andb b5 b6 in
+; 
+; let ui256a = Uint128 11 in
+; let ui256b = Uint128 12 in
+; let ui256aa = Uint128 11 in
+; let b8 = builtin eq ui256a ui256b in
+; let b9 = builtin eq ui256a ui256a in
+; let b10 = andb b7 b8 in
+; let b11 = orb b10 b9 in
+; 
+; let s1 = "Hello" in
+; let s2 = "World" in
+; let s11 = "Hello" in
+; let b12 = builtin eq s1 s2 in
+; let b13 = builtin eq s1 s11 in
+; let b14 = andb b9 b12 in
+; let b15 = orb b13 b14 in
+; 
+; let bs1 = 0x00ff in
+; let bs2 = 0xff00 in
+; let bs11 = 0x00ff in
+; let b16 = builtin eq bs1 bs2 in
+; let b17 = builtin eq bs1 bs11 in
+; let b18 = orb b16 b17 in
+; let b19 = andb b18 b15 in
+; 
+; let bs3 = 0x0f0f0f in
+; let bs4 = 0x0f0f0e in
+; let b20 = builtin eq bs3 bs4 in
+; let b21 = negb b20 in
+; let b22 = andb b19 b21 in
+; 
+; let bs11 = builtin to_bystr bs1 in
+; let bs22 = builtin to_bystr bs2 in
+; let b23 = builtin eq bs11 bs22 in
+; let b24 = negb b23 in
+; let b25 = andb b22 b24 in
+; 
+; b25
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"

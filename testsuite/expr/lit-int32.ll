@@ -27,30 +27,38 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Uint256_17" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Uint256_Prim_16" to i8*) }
 @"$TyDescr_String_Prim_18" = global %"$TyDescrTy_PrimTyp_1" { i32 2, i32 0 }
 @"$TyDescr_String_19" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_String_Prim_18" to i8*) }
-@"$TyDescr_Bystr_Prim_20" = global %"$TyDescrTy_PrimTyp_1" { i32 7, i32 0 }
-@"$TyDescr_Bystr_21" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr_Prim_20" to i8*) }
+@"$TyDescr_Bnum_Prim_20" = global %"$TyDescrTy_PrimTyp_1" { i32 3, i32 0 }
+@"$TyDescr_Bnum_21" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bnum_Prim_20" to i8*) }
+@"$TyDescr_Message_Prim_22" = global %"$TyDescrTy_PrimTyp_1" { i32 4, i32 0 }
+@"$TyDescr_Message_23" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Message_Prim_22" to i8*) }
+@"$TyDescr_Event_Prim_24" = global %"$TyDescrTy_PrimTyp_1" { i32 5, i32 0 }
+@"$TyDescr_Event_25" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Event_Prim_24" to i8*) }
+@"$TyDescr_Exception_Prim_26" = global %"$TyDescrTy_PrimTyp_1" { i32 6, i32 0 }
+@"$TyDescr_Exception_27" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Exception_Prim_26" to i8*) }
+@"$TyDescr_Bystr_Prim_28" = global %"$TyDescrTy_PrimTyp_1" { i32 7, i32 0 }
+@"$TyDescr_Bystr_29" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr_Prim_28" to i8*) }
 
 define void @_init_libs() {
 entry:
   ret void
 }
 
-define internal %Int32 @"$scilla_expr_26"(i8* %0) {
+define internal %Int32 @"$scilla_expr_34"(i8* %0) {
 entry:
   %"$expr_0" = alloca %Int32
   store %Int32 { i32 4 }, %Int32* %"$expr_0"
-  %"$$expr_0_27" = load %Int32, %Int32* %"$expr_0"
-  ret %Int32 %"$$expr_0_27"
+  %"$$expr_0_35" = load %Int32, %Int32* %"$expr_0"
+  ret %Int32 %"$$expr_0_35"
 }
 
 declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_28" = call %Int32 @"$scilla_expr_26"(i8* null)
-  %"$pval_29" = alloca %Int32
-  %"$memvoidcast_30" = bitcast %Int32* %"$pval_29" to i8*
-  store %Int32 %"$exprval_28", %Int32* %"$pval_29"
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_3", i8* %"$memvoidcast_30")
+  %"$exprval_36" = call %Int32 @"$scilla_expr_34"(i8* null)
+  %"$pval_37" = alloca %Int32
+  %"$memvoidcast_38" = bitcast %Int32* %"$pval_37" to i8*
+  store %Int32 %"$exprval_36", %Int32* %"$pval_37"
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_3", i8* %"$memvoidcast_38")
   ret void
 }

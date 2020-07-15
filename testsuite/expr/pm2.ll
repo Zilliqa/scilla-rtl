@@ -18,12 +18,12 @@ target triple = "x86_64-pc-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_5" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
-%"$TyDescrTy_ADTTyp_27" = type { %TyDescrString, i32, i32, i32, %"$TyDescrTy_ADTTyp_Specl_26"** }
+%"$TyDescrTy_ADTTyp_35" = type { %TyDescrString, i32, i32, i32, %"$TyDescrTy_ADTTyp_Specl_34"** }
 %TyDescrString = type { i8*, i32 }
-%"$TyDescrTy_ADTTyp_Specl_26" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_28"**, %"$TyDescrTy_ADTTyp_27"* }
-%"$TyDescrTy_ADTTyp_Constr_28" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
+%"$TyDescrTy_ADTTyp_Specl_34" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_36"**, %"$TyDescrTy_ADTTyp_35"* }
+%"$TyDescrTy_ADTTyp_Constr_36" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
 %Int32 = type { i32 }
-%"$$fundef_3_env_53" = type { %Int32, %Int32 }
+%"$$fundef_3_env_61" = type { %Int32, %Int32 }
 %"TName_Option_Option_(Int32)" = type { i8, %"CName_Some_Option_(Int32)"*, %"CName_None_Option_(Int32)"* }
 %"CName_Some_Option_(Int32)" = type <{ i8, %TName_Option_Int32* }>
 %TName_Option_Int32 = type { i8, %CName_Some_Int32*, %CName_None_Int32* }
@@ -50,98 +50,106 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Uint256_21" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_Uint256_Prim_20" to i8*) }
 @"$TyDescr_String_Prim_22" = global %"$TyDescrTy_PrimTyp_5" { i32 2, i32 0 }
 @"$TyDescr_String_23" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_String_Prim_22" to i8*) }
-@"$TyDescr_Bystr_Prim_24" = global %"$TyDescrTy_PrimTyp_5" { i32 7, i32 0 }
-@"$TyDescr_Bystr_25" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_Bystr_Prim_24" to i8*) }
-@"$TyDescr_ADT_Option_Int32_29" = unnamed_addr constant %_TyDescrTy_Typ { i32 1, i8* bitcast (%"$TyDescrTy_ADTTyp_Specl_26"* @"$TyDescr_Option_Int32_ADTTyp_Specl_41" to i8*) }
-@"$TyDescr_ADT_Option_Option_(Int32)_30" = unnamed_addr constant %_TyDescrTy_Typ { i32 1, i8* bitcast (%"$TyDescrTy_ADTTyp_Specl_26"* @"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_50" to i8*) }
-@"$TyDescr_Option_ADTTyp_32" = unnamed_addr constant %"$TyDescrTy_ADTTyp_27" { %TyDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$TyDescr_ADT_Option_52", i32 0, i32 0), i32 6 }, i32 1, i32 2, i32 2, %"$TyDescrTy_ADTTyp_Specl_26"** getelementptr inbounds ([2 x %"$TyDescrTy_ADTTyp_Specl_26"*], [2 x %"$TyDescrTy_ADTTyp_Specl_26"*]* @"$TyDescr_Option_ADTTyp_m_specls_51", i32 0, i32 0) }
-@"$TyDescr_Option_Some_Int32_Constr_m_args_33" = unnamed_addr constant [1 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Int32_7"]
-@"$TyDescr_ADT_Some_34" = unnamed_addr constant [4 x i8] c"Some"
-@"$TyDescr_Option_Some_Int32_ADTTyp_Constr_35" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Constr_28" { %TyDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$TyDescr_ADT_Some_34", i32 0, i32 0), i32 4 }, i32 1, %_TyDescrTy_Typ** getelementptr inbounds ([1 x %_TyDescrTy_Typ*], [1 x %_TyDescrTy_Typ*]* @"$TyDescr_Option_Some_Int32_Constr_m_args_33", i32 0, i32 0) }
-@"$TyDescr_Option_None_Int32_Constr_m_args_36" = unnamed_addr constant [0 x %_TyDescrTy_Typ*] zeroinitializer
-@"$TyDescr_ADT_None_37" = unnamed_addr constant [4 x i8] c"None"
-@"$TyDescr_Option_None_Int32_ADTTyp_Constr_38" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Constr_28" { %TyDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$TyDescr_ADT_None_37", i32 0, i32 0), i32 4 }, i32 0, %_TyDescrTy_Typ** getelementptr inbounds ([0 x %_TyDescrTy_Typ*], [0 x %_TyDescrTy_Typ*]* @"$TyDescr_Option_None_Int32_Constr_m_args_36", i32 0, i32 0) }
-@"$TyDescr_Option_Int32_ADTTyp_Specl_m_constrs_39" = unnamed_addr constant [2 x %"$TyDescrTy_ADTTyp_Constr_28"*] [%"$TyDescrTy_ADTTyp_Constr_28"* @"$TyDescr_Option_Some_Int32_ADTTyp_Constr_35", %"$TyDescrTy_ADTTyp_Constr_28"* @"$TyDescr_Option_None_Int32_ADTTyp_Constr_38"]
-@"$TyDescr_Option_Int32_ADTTyp_Specl_m_TArgs_40" = unnamed_addr constant [1 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Int32_7"]
-@"$TyDescr_Option_Int32_ADTTyp_Specl_41" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Specl_26" { %_TyDescrTy_Typ** getelementptr inbounds ([1 x %_TyDescrTy_Typ*], [1 x %_TyDescrTy_Typ*]* @"$TyDescr_Option_Int32_ADTTyp_Specl_m_TArgs_40", i32 0, i32 0), %"$TyDescrTy_ADTTyp_Constr_28"** getelementptr inbounds ([2 x %"$TyDescrTy_ADTTyp_Constr_28"*], [2 x %"$TyDescrTy_ADTTyp_Constr_28"*]* @"$TyDescr_Option_Int32_ADTTyp_Specl_m_constrs_39", i32 0, i32 0), %"$TyDescrTy_ADTTyp_27"* @"$TyDescr_Option_ADTTyp_32" }
-@"$TyDescr_Option_Some_Option_(Int32)_Constr_m_args_42" = unnamed_addr constant [1 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_ADT_Option_Int32_29"]
-@"$TyDescr_ADT_Some_43" = unnamed_addr constant [4 x i8] c"Some"
-@"$TyDescr_Option_Some_Option_(Int32)_ADTTyp_Constr_44" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Constr_28" { %TyDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$TyDescr_ADT_Some_43", i32 0, i32 0), i32 4 }, i32 1, %_TyDescrTy_Typ** getelementptr inbounds ([1 x %_TyDescrTy_Typ*], [1 x %_TyDescrTy_Typ*]* @"$TyDescr_Option_Some_Option_(Int32)_Constr_m_args_42", i32 0, i32 0) }
-@"$TyDescr_Option_None_Option_(Int32)_Constr_m_args_45" = unnamed_addr constant [0 x %_TyDescrTy_Typ*] zeroinitializer
-@"$TyDescr_ADT_None_46" = unnamed_addr constant [4 x i8] c"None"
-@"$TyDescr_Option_None_Option_(Int32)_ADTTyp_Constr_47" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Constr_28" { %TyDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$TyDescr_ADT_None_46", i32 0, i32 0), i32 4 }, i32 0, %_TyDescrTy_Typ** getelementptr inbounds ([0 x %_TyDescrTy_Typ*], [0 x %_TyDescrTy_Typ*]* @"$TyDescr_Option_None_Option_(Int32)_Constr_m_args_45", i32 0, i32 0) }
-@"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_m_constrs_48" = unnamed_addr constant [2 x %"$TyDescrTy_ADTTyp_Constr_28"*] [%"$TyDescrTy_ADTTyp_Constr_28"* @"$TyDescr_Option_Some_Option_(Int32)_ADTTyp_Constr_44", %"$TyDescrTy_ADTTyp_Constr_28"* @"$TyDescr_Option_None_Option_(Int32)_ADTTyp_Constr_47"]
-@"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_m_TArgs_49" = unnamed_addr constant [1 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_ADT_Option_Int32_29"]
-@"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_50" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Specl_26" { %_TyDescrTy_Typ** getelementptr inbounds ([1 x %_TyDescrTy_Typ*], [1 x %_TyDescrTy_Typ*]* @"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_m_TArgs_49", i32 0, i32 0), %"$TyDescrTy_ADTTyp_Constr_28"** getelementptr inbounds ([2 x %"$TyDescrTy_ADTTyp_Constr_28"*], [2 x %"$TyDescrTy_ADTTyp_Constr_28"*]* @"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_m_constrs_48", i32 0, i32 0), %"$TyDescrTy_ADTTyp_27"* @"$TyDescr_Option_ADTTyp_32" }
-@"$TyDescr_Option_ADTTyp_m_specls_51" = unnamed_addr constant [2 x %"$TyDescrTy_ADTTyp_Specl_26"*] [%"$TyDescrTy_ADTTyp_Specl_26"* @"$TyDescr_Option_Int32_ADTTyp_Specl_41", %"$TyDescrTy_ADTTyp_Specl_26"* @"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_50"]
-@"$TyDescr_ADT_Option_52" = unnamed_addr constant [6 x i8] c"Option"
+@"$TyDescr_Bnum_Prim_24" = global %"$TyDescrTy_PrimTyp_5" { i32 3, i32 0 }
+@"$TyDescr_Bnum_25" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_Bnum_Prim_24" to i8*) }
+@"$TyDescr_Message_Prim_26" = global %"$TyDescrTy_PrimTyp_5" { i32 4, i32 0 }
+@"$TyDescr_Message_27" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_Message_Prim_26" to i8*) }
+@"$TyDescr_Event_Prim_28" = global %"$TyDescrTy_PrimTyp_5" { i32 5, i32 0 }
+@"$TyDescr_Event_29" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_Event_Prim_28" to i8*) }
+@"$TyDescr_Exception_Prim_30" = global %"$TyDescrTy_PrimTyp_5" { i32 6, i32 0 }
+@"$TyDescr_Exception_31" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_Exception_Prim_30" to i8*) }
+@"$TyDescr_Bystr_Prim_32" = global %"$TyDescrTy_PrimTyp_5" { i32 7, i32 0 }
+@"$TyDescr_Bystr_33" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_Bystr_Prim_32" to i8*) }
+@"$TyDescr_ADT_Option_Int32_37" = unnamed_addr constant %_TyDescrTy_Typ { i32 1, i8* bitcast (%"$TyDescrTy_ADTTyp_Specl_34"* @"$TyDescr_Option_Int32_ADTTyp_Specl_49" to i8*) }
+@"$TyDescr_ADT_Option_Option_(Int32)_38" = unnamed_addr constant %_TyDescrTy_Typ { i32 1, i8* bitcast (%"$TyDescrTy_ADTTyp_Specl_34"* @"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_58" to i8*) }
+@"$TyDescr_Option_ADTTyp_40" = unnamed_addr constant %"$TyDescrTy_ADTTyp_35" { %TyDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$TyDescr_ADT_Option_60", i32 0, i32 0), i32 6 }, i32 1, i32 2, i32 2, %"$TyDescrTy_ADTTyp_Specl_34"** getelementptr inbounds ([2 x %"$TyDescrTy_ADTTyp_Specl_34"*], [2 x %"$TyDescrTy_ADTTyp_Specl_34"*]* @"$TyDescr_Option_ADTTyp_m_specls_59", i32 0, i32 0) }
+@"$TyDescr_Option_Some_Int32_Constr_m_args_41" = unnamed_addr constant [1 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Int32_7"]
+@"$TyDescr_ADT_Some_42" = unnamed_addr constant [4 x i8] c"Some"
+@"$TyDescr_Option_Some_Int32_ADTTyp_Constr_43" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Constr_36" { %TyDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$TyDescr_ADT_Some_42", i32 0, i32 0), i32 4 }, i32 1, %_TyDescrTy_Typ** getelementptr inbounds ([1 x %_TyDescrTy_Typ*], [1 x %_TyDescrTy_Typ*]* @"$TyDescr_Option_Some_Int32_Constr_m_args_41", i32 0, i32 0) }
+@"$TyDescr_Option_None_Int32_Constr_m_args_44" = unnamed_addr constant [0 x %_TyDescrTy_Typ*] zeroinitializer
+@"$TyDescr_ADT_None_45" = unnamed_addr constant [4 x i8] c"None"
+@"$TyDescr_Option_None_Int32_ADTTyp_Constr_46" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Constr_36" { %TyDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$TyDescr_ADT_None_45", i32 0, i32 0), i32 4 }, i32 0, %_TyDescrTy_Typ** getelementptr inbounds ([0 x %_TyDescrTy_Typ*], [0 x %_TyDescrTy_Typ*]* @"$TyDescr_Option_None_Int32_Constr_m_args_44", i32 0, i32 0) }
+@"$TyDescr_Option_Int32_ADTTyp_Specl_m_constrs_47" = unnamed_addr constant [2 x %"$TyDescrTy_ADTTyp_Constr_36"*] [%"$TyDescrTy_ADTTyp_Constr_36"* @"$TyDescr_Option_Some_Int32_ADTTyp_Constr_43", %"$TyDescrTy_ADTTyp_Constr_36"* @"$TyDescr_Option_None_Int32_ADTTyp_Constr_46"]
+@"$TyDescr_Option_Int32_ADTTyp_Specl_m_TArgs_48" = unnamed_addr constant [1 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Int32_7"]
+@"$TyDescr_Option_Int32_ADTTyp_Specl_49" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Specl_34" { %_TyDescrTy_Typ** getelementptr inbounds ([1 x %_TyDescrTy_Typ*], [1 x %_TyDescrTy_Typ*]* @"$TyDescr_Option_Int32_ADTTyp_Specl_m_TArgs_48", i32 0, i32 0), %"$TyDescrTy_ADTTyp_Constr_36"** getelementptr inbounds ([2 x %"$TyDescrTy_ADTTyp_Constr_36"*], [2 x %"$TyDescrTy_ADTTyp_Constr_36"*]* @"$TyDescr_Option_Int32_ADTTyp_Specl_m_constrs_47", i32 0, i32 0), %"$TyDescrTy_ADTTyp_35"* @"$TyDescr_Option_ADTTyp_40" }
+@"$TyDescr_Option_Some_Option_(Int32)_Constr_m_args_50" = unnamed_addr constant [1 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_ADT_Option_Int32_37"]
+@"$TyDescr_ADT_Some_51" = unnamed_addr constant [4 x i8] c"Some"
+@"$TyDescr_Option_Some_Option_(Int32)_ADTTyp_Constr_52" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Constr_36" { %TyDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$TyDescr_ADT_Some_51", i32 0, i32 0), i32 4 }, i32 1, %_TyDescrTy_Typ** getelementptr inbounds ([1 x %_TyDescrTy_Typ*], [1 x %_TyDescrTy_Typ*]* @"$TyDescr_Option_Some_Option_(Int32)_Constr_m_args_50", i32 0, i32 0) }
+@"$TyDescr_Option_None_Option_(Int32)_Constr_m_args_53" = unnamed_addr constant [0 x %_TyDescrTy_Typ*] zeroinitializer
+@"$TyDescr_ADT_None_54" = unnamed_addr constant [4 x i8] c"None"
+@"$TyDescr_Option_None_Option_(Int32)_ADTTyp_Constr_55" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Constr_36" { %TyDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$TyDescr_ADT_None_54", i32 0, i32 0), i32 4 }, i32 0, %_TyDescrTy_Typ** getelementptr inbounds ([0 x %_TyDescrTy_Typ*], [0 x %_TyDescrTy_Typ*]* @"$TyDescr_Option_None_Option_(Int32)_Constr_m_args_53", i32 0, i32 0) }
+@"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_m_constrs_56" = unnamed_addr constant [2 x %"$TyDescrTy_ADTTyp_Constr_36"*] [%"$TyDescrTy_ADTTyp_Constr_36"* @"$TyDescr_Option_Some_Option_(Int32)_ADTTyp_Constr_52", %"$TyDescrTy_ADTTyp_Constr_36"* @"$TyDescr_Option_None_Option_(Int32)_ADTTyp_Constr_55"]
+@"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_m_TArgs_57" = unnamed_addr constant [1 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_ADT_Option_Int32_37"]
+@"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_58" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Specl_34" { %_TyDescrTy_Typ** getelementptr inbounds ([1 x %_TyDescrTy_Typ*], [1 x %_TyDescrTy_Typ*]* @"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_m_TArgs_57", i32 0, i32 0), %"$TyDescrTy_ADTTyp_Constr_36"** getelementptr inbounds ([2 x %"$TyDescrTy_ADTTyp_Constr_36"*], [2 x %"$TyDescrTy_ADTTyp_Constr_36"*]* @"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_m_constrs_56", i32 0, i32 0), %"$TyDescrTy_ADTTyp_35"* @"$TyDescr_Option_ADTTyp_40" }
+@"$TyDescr_Option_ADTTyp_m_specls_59" = unnamed_addr constant [2 x %"$TyDescrTy_ADTTyp_Specl_34"*] [%"$TyDescrTy_ADTTyp_Specl_34"* @"$TyDescr_Option_Int32_ADTTyp_Specl_49", %"$TyDescrTy_ADTTyp_Specl_34"* @"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_58"]
+@"$TyDescr_ADT_Option_60" = unnamed_addr constant [6 x i8] c"Option"
 
-define internal %Int32 @"$fundef_3"(%"$$fundef_3_env_53"* %0, %"TName_Option_Option_(Int32)"* %1) {
+define internal %Int32 @"$fundef_3"(%"$$fundef_3_env_61"* %0, %"TName_Option_Option_(Int32)"* %1) {
 entry:
-  %"$$fundef_3_env_x_54" = getelementptr inbounds %"$$fundef_3_env_53", %"$$fundef_3_env_53"* %0, i32 0, i32 0
-  %"$x_envload_55" = load %Int32, %Int32* %"$$fundef_3_env_x_54"
+  %"$$fundef_3_env_x_62" = getelementptr inbounds %"$$fundef_3_env_61", %"$$fundef_3_env_61"* %0, i32 0, i32 0
+  %"$x_envload_63" = load %Int32, %Int32* %"$$fundef_3_env_x_62"
   %x = alloca %Int32
-  store %Int32 %"$x_envload_55", %Int32* %x
-  %"$$fundef_3_env_y_56" = getelementptr inbounds %"$$fundef_3_env_53", %"$$fundef_3_env_53"* %0, i32 0, i32 1
-  %"$y_envload_57" = load %Int32, %Int32* %"$$fundef_3_env_y_56"
+  store %Int32 %"$x_envload_63", %Int32* %x
+  %"$$fundef_3_env_y_64" = getelementptr inbounds %"$$fundef_3_env_61", %"$$fundef_3_env_61"* %0, i32 0, i32 1
+  %"$y_envload_65" = load %Int32, %Int32* %"$$fundef_3_env_y_64"
   %y = alloca %Int32
-  store %Int32 %"$y_envload_57", %Int32* %y
+  store %Int32 %"$y_envload_65", %Int32* %y
   %"$retval_4" = alloca %Int32
-  %"$o_tag_59" = getelementptr inbounds %"TName_Option_Option_(Int32)", %"TName_Option_Option_(Int32)"* %1, i32 0, i32 0
-  %"$o_tag_60" = load i8, i8* %"$o_tag_59"
-  switch i8 %"$o_tag_60", label %"$empty_default_61" [
-    i8 1, label %"$None_62"
-    i8 0, label %"$Some_65"
+  %"$o_tag_67" = getelementptr inbounds %"TName_Option_Option_(Int32)", %"TName_Option_Option_(Int32)"* %1, i32 0, i32 0
+  %"$o_tag_68" = load i8, i8* %"$o_tag_67"
+  switch i8 %"$o_tag_68", label %"$empty_default_69" [
+    i8 1, label %"$None_70"
+    i8 0, label %"$Some_73"
   ]
 
-"$None_62":                                       ; preds = %entry
-  %"$o_63" = bitcast %"TName_Option_Option_(Int32)"* %1 to %"CName_None_Option_(Int32)"*
-  %"$x_64" = load %Int32, %Int32* %x
-  store %Int32 %"$x_64", %Int32* %"$retval_4"
-  br label %"$matchsucc_58"
+"$None_70":                                       ; preds = %entry
+  %"$o_71" = bitcast %"TName_Option_Option_(Int32)"* %1 to %"CName_None_Option_(Int32)"*
+  %"$x_72" = load %Int32, %Int32* %x
+  store %Int32 %"$x_72", %Int32* %"$retval_4"
+  br label %"$matchsucc_66"
 
-"$Some_65":                                       ; preds = %entry
-  %"$o_66" = bitcast %"TName_Option_Option_(Int32)"* %1 to %"CName_Some_Option_(Int32)"*
-  %"$$o_0_gep_67" = getelementptr inbounds %"CName_Some_Option_(Int32)", %"CName_Some_Option_(Int32)"* %"$o_66", i32 0, i32 1
-  %"$$o_0_load_68" = load %TName_Option_Int32*, %TName_Option_Int32** %"$$o_0_gep_67"
+"$Some_73":                                       ; preds = %entry
+  %"$o_74" = bitcast %"TName_Option_Option_(Int32)"* %1 to %"CName_Some_Option_(Int32)"*
+  %"$$o_0_gep_75" = getelementptr inbounds %"CName_Some_Option_(Int32)", %"CName_Some_Option_(Int32)"* %"$o_74", i32 0, i32 1
+  %"$$o_0_load_76" = load %TName_Option_Int32*, %TName_Option_Int32** %"$$o_0_gep_75"
   %"$o_0" = alloca %TName_Option_Int32*
-  store %TName_Option_Int32* %"$$o_0_load_68", %TName_Option_Int32** %"$o_0"
-  %"$$o_0_70" = load %TName_Option_Int32*, %TName_Option_Int32** %"$o_0"
-  %"$$o_0_tag_71" = getelementptr inbounds %TName_Option_Int32, %TName_Option_Int32* %"$$o_0_70", i32 0, i32 0
-  %"$$o_0_tag_72" = load i8, i8* %"$$o_0_tag_71"
-  switch i8 %"$$o_0_tag_72", label %"$empty_default_73" [
-    i8 1, label %"$None_74"
-    i8 0, label %"$Some_77"
+  store %TName_Option_Int32* %"$$o_0_load_76", %TName_Option_Int32** %"$o_0"
+  %"$$o_0_78" = load %TName_Option_Int32*, %TName_Option_Int32** %"$o_0"
+  %"$$o_0_tag_79" = getelementptr inbounds %TName_Option_Int32, %TName_Option_Int32* %"$$o_0_78", i32 0, i32 0
+  %"$$o_0_tag_80" = load i8, i8* %"$$o_0_tag_79"
+  switch i8 %"$$o_0_tag_80", label %"$empty_default_81" [
+    i8 1, label %"$None_82"
+    i8 0, label %"$Some_85"
   ]
 
-"$None_74":                                       ; preds = %"$Some_65"
-  %"$$o_0_75" = bitcast %TName_Option_Int32* %"$$o_0_70" to %CName_None_Int32*
-  %"$y_76" = load %Int32, %Int32* %y
-  store %Int32 %"$y_76", %Int32* %"$retval_4"
-  br label %"$matchsucc_69"
+"$None_82":                                       ; preds = %"$Some_73"
+  %"$$o_0_83" = bitcast %TName_Option_Int32* %"$$o_0_78" to %CName_None_Int32*
+  %"$y_84" = load %Int32, %Int32* %y
+  store %Int32 %"$y_84", %Int32* %"$retval_4"
+  br label %"$matchsucc_77"
 
-"$Some_77":                                       ; preds = %"$Some_65"
-  %"$$o_0_78" = bitcast %TName_Option_Int32* %"$$o_0_70" to %CName_Some_Int32*
-  %"$z_gep_79" = getelementptr inbounds %CName_Some_Int32, %CName_Some_Int32* %"$$o_0_78", i32 0, i32 1
-  %"$z_load_80" = load %Int32, %Int32* %"$z_gep_79"
+"$Some_85":                                       ; preds = %"$Some_73"
+  %"$$o_0_86" = bitcast %TName_Option_Int32* %"$$o_0_78" to %CName_Some_Int32*
+  %"$z_gep_87" = getelementptr inbounds %CName_Some_Int32, %CName_Some_Int32* %"$$o_0_86", i32 0, i32 1
+  %"$z_load_88" = load %Int32, %Int32* %"$z_gep_87"
   %z = alloca %Int32
-  store %Int32 %"$z_load_80", %Int32* %z
-  %"$z_81" = load %Int32, %Int32* %z
-  store %Int32 %"$z_81", %Int32* %"$retval_4"
-  br label %"$matchsucc_69"
+  store %Int32 %"$z_load_88", %Int32* %z
+  %"$z_89" = load %Int32, %Int32* %z
+  store %Int32 %"$z_89", %Int32* %"$retval_4"
+  br label %"$matchsucc_77"
 
-"$empty_default_73":                              ; preds = %"$Some_65"
-  br label %"$matchsucc_69"
+"$empty_default_81":                              ; preds = %"$Some_73"
+  br label %"$matchsucc_77"
 
-"$matchsucc_69":                                  ; preds = %"$Some_77", %"$None_74", %"$empty_default_73"
-  br label %"$matchsucc_58"
+"$matchsucc_77":                                  ; preds = %"$Some_85", %"$None_82", %"$empty_default_81"
+  br label %"$matchsucc_66"
 
-"$empty_default_61":                              ; preds = %entry
-  br label %"$matchsucc_58"
+"$empty_default_69":                              ; preds = %entry
+  br label %"$matchsucc_66"
 
-"$matchsucc_58":                                  ; preds = %"$matchsucc_69", %"$None_62", %"$empty_default_61"
-  %"$$retval_4_82" = load %Int32, %Int32* %"$retval_4"
-  ret %Int32 %"$$retval_4_82"
+"$matchsucc_66":                                  ; preds = %"$matchsucc_77", %"$None_70", %"$empty_default_69"
+  %"$$retval_4_90" = load %Int32, %Int32* %"$retval_4"
+  ret %Int32 %"$$retval_4_90"
 }
 
 define void @_init_libs() {
@@ -149,7 +157,7 @@ entry:
   ret void
 }
 
-define internal %Int32 @"$scilla_expr_83"(i8* %0) {
+define internal %Int32 @"$scilla_expr_91"(i8* %0) {
 entry:
   %"$expr_2" = alloca %Int32
   %x = alloca %Int32
@@ -157,51 +165,51 @@ entry:
   %y = alloca %Int32
   store %Int32 { i32 41 }, %Int32* %y
   %f = alloca { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* }
-  %"$$fundef_3_envp_84_load" = load i8*, i8** @_execptr
-  %"$$fundef_3_envp_84_salloc" = call i8* @_salloc(i8* %"$$fundef_3_envp_84_load", i64 8)
-  %"$$fundef_3_envp_84" = bitcast i8* %"$$fundef_3_envp_84_salloc" to %"$$fundef_3_env_53"*
-  %"$$fundef_3_env_voidp_86" = bitcast %"$$fundef_3_env_53"* %"$$fundef_3_envp_84" to i8*
-  %"$$fundef_3_cloval_87" = insertvalue { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)* bitcast (%Int32 (%"$$fundef_3_env_53"*, %"TName_Option_Option_(Int32)"*)* @"$fundef_3" to %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*), i8* undef }, i8* %"$$fundef_3_env_voidp_86", 1
-  %"$$fundef_3_env_x_88" = getelementptr inbounds %"$$fundef_3_env_53", %"$$fundef_3_env_53"* %"$$fundef_3_envp_84", i32 0, i32 0
-  %"$x_89" = load %Int32, %Int32* %x
-  store %Int32 %"$x_89", %Int32* %"$$fundef_3_env_x_88"
-  %"$$fundef_3_env_y_90" = getelementptr inbounds %"$$fundef_3_env_53", %"$$fundef_3_env_53"* %"$$fundef_3_envp_84", i32 0, i32 1
-  %"$y_91" = load %Int32, %Int32* %y
-  store %Int32 %"$y_91", %Int32* %"$$fundef_3_env_y_90"
-  store { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } %"$$fundef_3_cloval_87", { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* }* %f
+  %"$$fundef_3_envp_92_load" = load i8*, i8** @_execptr
+  %"$$fundef_3_envp_92_salloc" = call i8* @_salloc(i8* %"$$fundef_3_envp_92_load", i64 8)
+  %"$$fundef_3_envp_92" = bitcast i8* %"$$fundef_3_envp_92_salloc" to %"$$fundef_3_env_61"*
+  %"$$fundef_3_env_voidp_94" = bitcast %"$$fundef_3_env_61"* %"$$fundef_3_envp_92" to i8*
+  %"$$fundef_3_cloval_95" = insertvalue { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)* bitcast (%Int32 (%"$$fundef_3_env_61"*, %"TName_Option_Option_(Int32)"*)* @"$fundef_3" to %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*), i8* undef }, i8* %"$$fundef_3_env_voidp_94", 1
+  %"$$fundef_3_env_x_96" = getelementptr inbounds %"$$fundef_3_env_61", %"$$fundef_3_env_61"* %"$$fundef_3_envp_92", i32 0, i32 0
+  %"$x_97" = load %Int32, %Int32* %x
+  store %Int32 %"$x_97", %Int32* %"$$fundef_3_env_x_96"
+  %"$$fundef_3_env_y_98" = getelementptr inbounds %"$$fundef_3_env_61", %"$$fundef_3_env_61"* %"$$fundef_3_envp_92", i32 0, i32 1
+  %"$y_99" = load %Int32, %Int32* %y
+  store %Int32 %"$y_99", %Int32* %"$$fundef_3_env_y_98"
+  store { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } %"$$fundef_3_cloval_95", { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* }* %f
   %o1 = alloca %TName_Option_Int32*
-  %"$x_92" = load %Int32, %Int32* %x
-  %"$adtval_93_load" = load i8*, i8** @_execptr
-  %"$adtval_93_salloc" = call i8* @_salloc(i8* %"$adtval_93_load", i64 5)
-  %"$adtval_93" = bitcast i8* %"$adtval_93_salloc" to %CName_Some_Int32*
-  %"$adtgep_94" = getelementptr inbounds %CName_Some_Int32, %CName_Some_Int32* %"$adtval_93", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_94"
-  %"$adtgep_95" = getelementptr inbounds %CName_Some_Int32, %CName_Some_Int32* %"$adtval_93", i32 0, i32 1
-  store %Int32 %"$x_92", %Int32* %"$adtgep_95"
-  %"$adtptr_96" = bitcast %CName_Some_Int32* %"$adtval_93" to %TName_Option_Int32*
-  store %TName_Option_Int32* %"$adtptr_96", %TName_Option_Int32** %o1
+  %"$x_100" = load %Int32, %Int32* %x
+  %"$adtval_101_load" = load i8*, i8** @_execptr
+  %"$adtval_101_salloc" = call i8* @_salloc(i8* %"$adtval_101_load", i64 5)
+  %"$adtval_101" = bitcast i8* %"$adtval_101_salloc" to %CName_Some_Int32*
+  %"$adtgep_102" = getelementptr inbounds %CName_Some_Int32, %CName_Some_Int32* %"$adtval_101", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_102"
+  %"$adtgep_103" = getelementptr inbounds %CName_Some_Int32, %CName_Some_Int32* %"$adtval_101", i32 0, i32 1
+  store %Int32 %"$x_100", %Int32* %"$adtgep_103"
+  %"$adtptr_104" = bitcast %CName_Some_Int32* %"$adtval_101" to %TName_Option_Int32*
+  store %TName_Option_Int32* %"$adtptr_104", %TName_Option_Int32** %o1
   %o2 = alloca %"TName_Option_Option_(Int32)"*
-  %"$o1_97" = load %TName_Option_Int32*, %TName_Option_Int32** %o1
-  %"$adtval_98_load" = load i8*, i8** @_execptr
-  %"$adtval_98_salloc" = call i8* @_salloc(i8* %"$adtval_98_load", i64 9)
-  %"$adtval_98" = bitcast i8* %"$adtval_98_salloc" to %"CName_Some_Option_(Int32)"*
-  %"$adtgep_99" = getelementptr inbounds %"CName_Some_Option_(Int32)", %"CName_Some_Option_(Int32)"* %"$adtval_98", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_99"
-  %"$adtgep_100" = getelementptr inbounds %"CName_Some_Option_(Int32)", %"CName_Some_Option_(Int32)"* %"$adtval_98", i32 0, i32 1
-  store %TName_Option_Int32* %"$o1_97", %TName_Option_Int32** %"$adtgep_100"
-  %"$adtptr_101" = bitcast %"CName_Some_Option_(Int32)"* %"$adtval_98" to %"TName_Option_Option_(Int32)"*
-  store %"TName_Option_Option_(Int32)"* %"$adtptr_101", %"TName_Option_Option_(Int32)"** %o2
+  %"$o1_105" = load %TName_Option_Int32*, %TName_Option_Int32** %o1
+  %"$adtval_106_load" = load i8*, i8** @_execptr
+  %"$adtval_106_salloc" = call i8* @_salloc(i8* %"$adtval_106_load", i64 9)
+  %"$adtval_106" = bitcast i8* %"$adtval_106_salloc" to %"CName_Some_Option_(Int32)"*
+  %"$adtgep_107" = getelementptr inbounds %"CName_Some_Option_(Int32)", %"CName_Some_Option_(Int32)"* %"$adtval_106", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_107"
+  %"$adtgep_108" = getelementptr inbounds %"CName_Some_Option_(Int32)", %"CName_Some_Option_(Int32)"* %"$adtval_106", i32 0, i32 1
+  store %TName_Option_Int32* %"$o1_105", %TName_Option_Int32** %"$adtgep_108"
+  %"$adtptr_109" = bitcast %"CName_Some_Option_(Int32)"* %"$adtval_106" to %"TName_Option_Option_(Int32)"*
+  store %"TName_Option_Option_(Int32)"* %"$adtptr_109", %"TName_Option_Option_(Int32)"** %o2
   %"$f_1" = alloca %Int32
-  %"$f_102" = load { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* }, { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* }* %f
-  %"$f_fptr_103" = extractvalue { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } %"$f_102", 0
-  %"$f_envptr_104" = extractvalue { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } %"$f_102", 1
-  %"$o2_105" = load %"TName_Option_Option_(Int32)"*, %"TName_Option_Option_(Int32)"** %o2
-  %"$f_call_106" = call %Int32 %"$f_fptr_103"(i8* %"$f_envptr_104", %"TName_Option_Option_(Int32)"* %"$o2_105")
-  store %Int32 %"$f_call_106", %Int32* %"$f_1"
-  %"$$f_1_107" = load %Int32, %Int32* %"$f_1"
-  store %Int32 %"$$f_1_107", %Int32* %"$expr_2"
-  %"$$expr_2_108" = load %Int32, %Int32* %"$expr_2"
-  ret %Int32 %"$$expr_2_108"
+  %"$f_110" = load { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* }, { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* }* %f
+  %"$f_fptr_111" = extractvalue { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } %"$f_110", 0
+  %"$f_envptr_112" = extractvalue { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } %"$f_110", 1
+  %"$o2_113" = load %"TName_Option_Option_(Int32)"*, %"TName_Option_Option_(Int32)"** %o2
+  %"$f_call_114" = call %Int32 %"$f_fptr_111"(i8* %"$f_envptr_112", %"TName_Option_Option_(Int32)"* %"$o2_113")
+  store %Int32 %"$f_call_114", %Int32* %"$f_1"
+  %"$$f_1_115" = load %Int32, %Int32* %"$f_1"
+  store %Int32 %"$$f_1_115", %Int32* %"$expr_2"
+  %"$$expr_2_116" = load %Int32, %Int32* %"$expr_2"
+  ret %Int32 %"$$expr_2_116"
 }
 
 declare i8* @_salloc(i8*, i64)
@@ -210,10 +218,10 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_109" = call %Int32 @"$scilla_expr_83"(i8* null)
-  %"$pval_110" = alloca %Int32
-  %"$memvoidcast_111" = bitcast %Int32* %"$pval_110" to i8*
-  store %Int32 %"$exprval_109", %Int32* %"$pval_110"
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_7", i8* %"$memvoidcast_111")
+  %"$exprval_117" = call %Int32 @"$scilla_expr_91"(i8* null)
+  %"$pval_118" = alloca %Int32
+  %"$memvoidcast_119" = bitcast %Int32* %"$pval_118" to i8*
+  store %Int32 %"$exprval_117", %Int32* %"$pval_118"
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_7", i8* %"$memvoidcast_119")
   ret void
 }
