@@ -36,7 +36,8 @@ void testExecExpr(const std::string &Testname) {
   // causes a segfault later. Likely related to the exception
   // bug (and workaround) linked to right below.
   // Linking to an LLVM build with LLVM_ENABLE_EH=On doesn't solve.
-  auto SJ = ScillaJIT::create(ScillaVM::ScillaParams(), Filename);
+  auto SJ =
+      ScillaJIT::create(ScillaVM::ScillaParams(), Filename, Json::arrayValue);
   try {
     auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
     BOOST_TEST_CHECKPOINT(Filename + ": JIT compilation succeeded");

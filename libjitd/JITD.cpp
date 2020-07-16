@@ -49,6 +49,7 @@
 #include "ScillaVM/JITD.h"
 
 using namespace llvm;
+namespace ph = std::placeholders;
 
 namespace {
 
@@ -173,6 +174,7 @@ void ScillaJIT::init() {
 
 std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
                                              const std::string &FileName,
+                                             const Json::Value &ContrParams,
                                              ScillaCacheManager *OC) {
 
   auto MemBuf = MemoryBuffer::getFile(FileName);
@@ -186,20 +188,22 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
   sys::path::replace_extension(FNSS, ".scilla_cache");
   std::string ModuleID = sys::path::filename(FNSS.c_str());
 
-  return create(SPs, (*MemBuf).get(), ModuleID, OC);
+  return create(SPs, (*MemBuf).get(), ModuleID, ContrParams, OC);
 }
 
 std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
                                              const std::string &IR,
                                              const std::string &ModuleID,
+                                             const Json::Value &ContrParams,
                                              ScillaCacheManager *OC) {
   auto MemBuf = MemoryBuffer::getMemBuffer(IR);
-  return create(SPs, MemBuf.get(), ModuleID, OC);
+  return create(SPs, MemBuf.get(), ModuleID, ContrParams, OC);
 }
 
 std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
                                              llvm::MemoryBuffer *MemBuf,
                                              const std::string &ModuleID,
+                                             const Json::Value &ContrParams,
                                              ScillaCacheManager *SCM) {
 
   ScillaObjCache *OC = SCM ? SCM->SOC.get() : nullptr;
@@ -287,8 +291,56 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
   auto initLibs =
       reinterpret_cast<void (*)()>(THIS->getAddressFor("_init_libs"));
   initLibs();
+  // Initialize contract parameters.
+  THIS->initContrParams(ContrParams);
 
   return std::unique_ptr<ScillaJIT>(THIS);
+}
+
+// We assume that the init JSON is "correct" and has all
+// implicit and explicitly defined parameters with right types.
+void ScillaJIT::initContrParams(const Json::Value &CP) {
+  if (CP.empty()) {
+    // Executing pure expressions won't have an init.json.
+    return;
+  }
+
+  auto ErrMsg = "Invalid init JSON when initializing contract parameters";
+  if (!CP.isArray()) {
+    CREATE_ERROR(ErrMsg);
+  }
+  auto AllTyDescrs = reinterpret_cast<const ScillaTypes::Typ **>(
+      getAddressFor("_tydescr_table"));
+  auto TyDescrsLen =
+      *reinterpret_cast<int *>(getAddressFor("_tydescr_table_length"));
+
+  for (Json::Value::const_iterator PJ = CP.begin(); PJ != CP.end(); PJ++) {
+    if (!PJ->isObject()) {
+      CREATE_ERROR(ErrMsg);
+    }
+    auto &VName = (*PJ)["vname"];
+    auto &Type = (*PJ)["type"];
+    auto &Value = (*PJ)["value"];
+    if (!VName.isString() || !Type.isString() || Value.isNull()) {
+      CREATE_ERROR(ErrMsg);
+    }
+
+    // TODO: The compiler doesn't set support BNum types.
+    if (VName.asString() == "_creation_block")
+      continue;
+
+    auto *T = ScillaTypes::Typ::fromString(TPPC.get(), AllTyDescrs, TyDescrsLen,
+                                           Type.asString());
+    SAllocator SA = std::bind(&ScillaJIT::sAlloc, this, ph::_1);
+    void *P = (getAddressFor(VName.asString()));
+    if (ScillaTypes::Typ::isBoxed(T)) {
+      // Boxed types are just pointers.
+      *reinterpret_cast<void **>(P) = ScillaValues::fromJSON(SA, T, Value);
+    } else {
+      // We create the ScillaValue in place.
+      ScillaValues::fromJSONToMem(SA, P, ScillaTypes::Typ::sizeOf(T), T, Value);
+    }
+  }
 }
 
 void *ScillaJIT::getAddressFor(const std::string &Symbol) {
@@ -378,7 +430,7 @@ Json::Value ScillaJIT::execMsg(Json::Value &Msg) {
 
   ASSERT(MemSize > 0);
   auto *Mem = reinterpret_cast<uint8_t *>(sAlloc(MemSize));
-  SAllocator SA = std::bind(&ScillaJIT::sAlloc, this, std::placeholders::_1);
+  SAllocator SA = std::bind(&ScillaJIT::sAlloc, this, ph::_1);
   for (size_t I = 0, Off = 0; I < ParamTypes.size(); I++) {
     const ScillaTypes::Typ *T = ParamTypes[I];
     int Size = ScillaTypes::Typ::sizeOf(T);

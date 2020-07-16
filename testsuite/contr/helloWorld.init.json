@@ -1,0 +1,67 @@
+[
+    {
+        "vname" : "_scilla_version",
+        "type" : "Uint32",
+        "value" : "0"
+    },
+    {
+        "vname" : "_this_address",
+        "type" : "ByStr20",
+        "value" : "0xabfeccdc9012345678901234567890f777567890"
+    },
+    {
+        "vname" : "_creation_block",
+        "type" : "BNum",
+        "value" : "1"
+    },
+    {
+        "vname" : "owner",
+        "type" : "ByStr20",
+        "value" : "0x1234567890123456789012345678901234567890"
+    },
+    {
+        "vname" : "name",
+        "type" : "String",
+        "value" : "Zilliqa"
+    },
+    {  
+        "vname" : "uint256",
+        "type" : "Uint256",
+        "value" : "4099"
+    },
+    {
+        "vname" : "int32",
+        "type" : "Int32",
+        "value" : "101"
+    },
+    {
+        "vname" : "bstr",
+        "type" : "ByStr",
+        "value" : "0xeeff"
+    },
+    {
+        "vname" : "all_names",
+        "type" : "List String",
+        "value" : {
+            "constructor" : "Cons",
+            "argtypes" : ["String"],
+            "arguments" : [
+                "Anquan",
+                {
+                    "constructor" : "Nil",
+                    "argtypes" : ["String"],
+                    "arguments" : []
+                }
+            ]
+        }
+    },
+    {
+        "vname" : "pear",
+        "type" : "Pair Int128 String",
+        "value" : {
+            "constructor" : "Pair",
+            "argtypes" : ["Int128", "String"],
+            "arguments" : [ "333", "Aqilliz"]
+        }
+    }
+]

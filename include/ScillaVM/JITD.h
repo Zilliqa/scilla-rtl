@@ -94,8 +94,10 @@ private:
   static std::unique_ptr<ScillaJIT> create(const ScillaParams &SPs,
                                            llvm::MemoryBuffer *MemBuf,
                                            const std::string &ModuleID,
+                                           const Json::Value &ContrParams,
                                            ScillaCacheManager * = nullptr);
 
+  void initContrParams(const Json::Value &CP);
   std::unique_ptr<llvm::orc::LLJIT> Jitter;
   std::vector<uint8_t *> MAllocs;
   // An opaque pointer to the type parser partial cache.
@@ -112,12 +114,14 @@ public:
   //  Optionally, a cache manager can be provided.
   static std::unique_ptr<ScillaJIT> create(const ScillaParams &SPs,
                                            const std::string &FileName,
+                                           const Json::Value &ContrParams,
                                            ScillaCacheManager * = nullptr);
   // JIT Compile LLVM-IR in @IR, affixing @ModuleID to it.
   // Optionally, a cache manager can be provided.
   static std::unique_ptr<ScillaJIT> create(const ScillaParams &SPs,
                                            const std::string &IR,
                                            const std::string &ModuleID,
+                                           const Json::Value &ContrParams,
                                            ScillaCacheManager * = nullptr);
   // Get address for @Symbol inside the compiled IR, ready to be used.
   void *getAddressFor(const std::string &Symbol);

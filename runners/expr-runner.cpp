@@ -91,7 +91,8 @@ int main(int argc, char *argv[]) {
   ScillaStdout.clear();
   try {
     auto InputFilename = VM["input-file"].as<std::string>();
-    auto SJ = ScillaJIT::create(ScillaParams(), InputFilename);
+    auto SJ =
+        ScillaJIT::create(ScillaParams(), InputFilename, Json::arrayValue);
     auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
     auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
     ScillaMain();

@@ -1,0 +1,7 @@
+[
+    {
+        "vname" : "welcome_msg",
+        "type" : "String",
+        "value" : "Hello world"
+    }
+]

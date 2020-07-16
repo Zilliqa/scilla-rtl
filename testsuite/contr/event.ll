@@ -1,10 +1,14 @@
-; ModuleID = './event.ll'
+
+
+; gas_remaining: 4002000
+; ModuleID = 'Event'
 source_filename = "Event"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_0" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
+%Uint32 = type { i32 }
 %Uint128 = type { i128 }
 %String = type { i8*, i32 }
 
@@ -39,6 +43,8 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Bystr_28" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_0"* @"$TyDescr_Bystr_Prim_27" to i8*) }
 @"$TyDescr_Bystr20_Prim_29" = global %"$TyDescrTy_PrimTyp_0" { i32 8, i32 20 }
 @"$TyDescr_Bystr20_30" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_0"* @"$TyDescr_Bystr20_Prim_29" to i8*) }
+@_scilla_version = global %Uint32 zeroinitializer
+@_this_address = global [20 x i8] zeroinitializer
 @"$stringlit_38" = unnamed_addr constant [10 x i8] c"_eventname"
 @"$stringlit_43" = unnamed_addr constant [5 x i8] c"Hello"
 @"$stringlit_46" = unnamed_addr constant [3 x i8] c"msg"

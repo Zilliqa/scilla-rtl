@@ -1,6 +1,6 @@
 
 
-; gas_remaining: 10000
+; gas_remaining: 4002000
 ; ModuleID = 'Send'
 source_filename = "Send"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
@@ -15,6 +15,7 @@ target triple = "x86_64-pc-linux-gnu"
 %TName_List_Message = type { i8, %CName_Cons_Message*, %CName_Nil_Message* }
 %CName_Cons_Message = type <{ i8, i8*, %TName_List_Message* }>
 %CName_Nil_Message = type <{ i8 }>
+%Uint32 = type { i32 }
 %"$$fundef_2_env_52" = type {}
 %Uint128 = type { i128 }
 %String = type { i8*, i32 }
@@ -64,6 +65,8 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_List_ADTTyp_m_specls_50" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_35"*] [%"$TyDescrTy_ADTTyp_Specl_35"* @"$TyDescr_List_Message_ADTTyp_Specl_49"]
 @"$TyDescr_ADT_List_51" = unnamed_addr constant [4 x i8] c"List"
 @one_msg = global { %TName_List_Message* (i8*, i8*)*, i8* } zeroinitializer
+@_scilla_version = global %Uint32 zeroinitializer
+@_this_address = global [20 x i8] zeroinitializer
 @"$stringlit_69" = unnamed_addr constant [4 x i8] c"_tag"
 @"$stringlit_74" = unnamed_addr constant [0 x i8] zeroinitializer
 @"$stringlit_77" = unnamed_addr constant [10 x i8] c"_recipient"

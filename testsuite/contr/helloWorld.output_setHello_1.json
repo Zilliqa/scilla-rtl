@@ -1,0 +1,14 @@
+{
+   "events" : [
+      {
+         "_eventname" : "setHello()",
+         "params" : [
+            {
+               "type" : "Int32",
+               "value" : "2",
+               "vname" : "code"
+            }
+         ]
+      }
+   ]
+}

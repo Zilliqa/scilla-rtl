@@ -34,12 +34,14 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
   auto UsageString = "Usage: " + std::string(argv[0]) +
                      " [option...] -i input_contract.ll -m message.json -s "
                      "state.json -c contract_info.json" +
+                     " -n init.json"
                      "\nSupported options";
   po::options_description Desc(UsageString);
 
   // clang-format off
   Desc.add_options()
     ("input-contract,i", po::value<std::string>(), "Specify compiled Scilla contract file")
+    ("init,n", po::value<std::string>(), "Specify init JSON to initialize contract parameters")
     ("message,m", po::value<std::string>(), "Specify the message JSON to be executed")
     ("state,s", po::value<std::string>(), "Specify the JSON to use as initial state")
     ("contract-info,c", po::value<std::string>(), "Specify the contract info JSON from checker")
@@ -65,7 +67,7 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
 
   // Ensure that an input file is provided.
   if (!VM.count("input-contract") || !VM.count("message") ||
-      !VM.count("contract-info") || !VM.count("state")) {
+      !VM.count("init") || !VM.count("contract-info") || !VM.count("state")) {
     std::cerr << "Missing mandatory command line arguments\n" << Desc << "\n";
     exit(EXIT_FAILURE);
   }
@@ -92,17 +94,19 @@ int main(int argc, char *argv[]) {
   try {
     // Prepare all inputs.
     auto InputFilename = VM["input-contract"].as<std::string>();
+    auto InitFilename = VM["init"].as<std::string>();
     auto MessageFilename = VM["message"].as<std::string>();
     auto StateFilename = VM["state"].as<std::string>();
     auto ContrInfoFilename = VM["contract-info"].as<std::string>();
     auto MJ = parseJSONFile(MessageFilename);
+    auto IJ = parseJSONFile(InitFilename);
     auto SJ = parseJSONFile(StateFilename);
     auto CIJ = parseJSONFile(ContrInfoFilename);
     // Update our in-memory state table with the one from the JSONs.
     State.initFromJSON(SJ, CIJ);
 
     // Create a JIT engine and execute the message.
-    auto JE = ScillaJIT::create(SP, InputFilename);
+    auto JE = ScillaJIT::create(SP, InputFilename, IJ);
     auto OutJ = JE->execMsg(MJ);
     OutJ["states"] = State.dumpToJSON();
     // Append output to the Scilla output object for printing later.
