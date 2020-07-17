@@ -4,7 +4,10 @@
     "vname": "Send",
     "params": [],
     "fields": [],
-    "transitions": [ { "vname": "SendMsg", "params": [] } ],
+    "transitions": [
+      { "vname": "SendMsg", "params": [] },
+      { "vname": "SendMsg2", "params": [] }
+    ],
     "procedures": [],
     "events": [],
     "ADTs": [
