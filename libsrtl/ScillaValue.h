@@ -46,5 +46,9 @@ void *fromJSON(SAllocator &A, const ScillaTypes::Typ *T, const Json::Value &J);
 void *fromJSONToMem(SAllocator &A, void *Mem, int MemSize,
                     const ScillaTypes::Typ *T, const Json::Value &J);
 
+// Serialize a Scilla value into a byte sequence ready for hashing.
+void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
+                         const void *V);
+
 } // namespace ScillaValues
 } // namespace ScillaVM

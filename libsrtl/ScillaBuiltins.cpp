@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "ScillaBuiltins.h"
+#include <openssl/sha.h>
+
 #include "SafeInt.h"
+#include "ScillaBuiltins.h"
 #include "ScillaTypes.h"
 #include "ScillaVM/Errors.h"
 #include "ScillaVM/SRTL.h"
@@ -55,7 +57,8 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_eq_String", (void *) _eq_String},
     {"_eq_ByStr", (void *) _eq_ByStr},
     {"_eq_ByStrX", (void *) _eq_ByStrX},
-    {"_to_bystr", (void *) _to_bystr}
+    {"_to_bystr", (void *) _to_bystr},
+    {"_sha256hash", (void *) _sha256hash}
   };
   // clang-format on
 
@@ -406,6 +409,13 @@ ScillaTypes::String _to_bystr(ScillaJIT *SJ, int X, uint8_t *Buf) {
   Ret.m_length = X;
   Ret.m_buffer = reinterpret_cast<uint8_t *>(Mem);
   return Ret;
+}
+
+void _sha256hash(uint8_t *Ret, const ScillaTypes::Typ *T, void *V) {
+
+  ByteVec Serialized;
+  ScillaValues::serializeForHashing(Serialized, T, V);
+  SHA256(Serialized.data(), Serialized.size(), Ret);
 }
 
 } // end of extern "C".

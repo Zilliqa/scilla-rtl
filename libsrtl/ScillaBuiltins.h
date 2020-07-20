@@ -128,5 +128,7 @@ uint8_t *_eq_ByStrX(ScillaVM::ScillaJIT *SJ, int X, uint8_t *Lhs, uint8_t *Rhs);
 ScillaVM::ScillaTypes::String _to_bystr(ScillaVM::ScillaJIT *SJ, int X,
                                         uint8_t *Buf);
 
+void _sha256hash(uint8_t *Ret, const ScillaVM::ScillaTypes::Typ *T, void *V);
+
 } // extern "C"
 #pragma clang diagnostic pop

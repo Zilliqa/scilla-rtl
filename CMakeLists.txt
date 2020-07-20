@@ -13,6 +13,7 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 #
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(jsoncpp REQUIRED jsoncpp)
+find_package(OpenSSL REQUIRED)
 message(STATUS "Found jsoncpp ${jsoncpp_VERSION} at ${jsoncpp_INCLUDE_DIRS}")
 # LLVM stuff
 find_package(LLVM 10 REQUIRED CONFIG)

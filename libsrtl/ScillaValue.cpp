@@ -15,9 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "ScillaValue.h"
+#include <boost/predef.h>
+
 #include "SafeInt.h"
 #include "ScillaVM/Errors.h"
+#include "ScillaValue.h"
 
 namespace ScillaVM {
 
@@ -96,6 +98,16 @@ uint8_t *hex2Raw(SAllocator &A, uint8_t *Bin, int BinLen,
 
   return Bin;
 }
+
+// Little-endian <-> Big-endian
+void swapEndian(uint8_t *Buf, int Len) {
+  for (int I = 0; I < Len / 2; I++) {
+    auto T = Buf[I];
+    Buf[I] = Buf[Len - I - 1];
+    Buf[Len - I - 1] = T;
+  }
+}
+
 } // namespace
 
 namespace ScillaValues {
@@ -506,6 +518,70 @@ void *fromJSONToMem(SAllocator &A, void *MemV, int MemSize,
 
 void *fromJSON(SAllocator &A, const ScillaTypes::Typ *T, const Json::Value &J) {
   return fromJSONToMem(A, nullptr, 0, T, J);
+}
+
+void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
+                         const void *VV) {
+
+  auto V = reinterpret_cast<const uint8_t *>(VV);
+
+  switch (T->m_t) {
+  case ScillaTypes::Typ::Prim_typ: {
+    switch (T->m_sub.m_primt->m_pt) {
+    case ScillaTypes::PrimTyp::Int_typ:
+    case ScillaTypes::PrimTyp::Uint_typ: {
+      auto Len = ScillaTypes::Typ::sizeOf(T);
+      Ret.insert(Ret.end(), V, V + Len);
+#if BOOST_ENDIAN_LITTLE_BYTE
+      // Native integer is little-endian. Convert it to big-endian.
+      swapEndian(Ret.data() + Ret.size() - Len, Len);
+#endif
+    } break;
+    case ScillaTypes::PrimTyp::String_typ:
+    case ScillaTypes::PrimTyp::Bystr_typ: {
+      auto *VS = reinterpret_cast<const ScillaTypes::String *>(V);
+      Ret.insert(Ret.end(), VS->m_buffer, VS->m_buffer + VS->m_length);
+    } break;
+    case ScillaTypes::PrimTyp::Bystrx_typ: {
+      auto X = T->m_sub.m_primt->m_detail.m_bystX;
+      Ret.insert(Ret.end(), V, V + X);
+    } break;
+    case ScillaTypes::PrimTyp::Bnum_typ:
+    case ScillaTypes::PrimTyp::Msg_typ:
+    case ScillaTypes::PrimTyp::Event_typ:
+    case ScillaTypes::PrimTyp::Exception_typ: {
+      CREATE_ERROR("Unhandled PrimTyp values");
+    }
+    }
+  } break;
+  case ScillaTypes::Typ::ADT_typ: {
+    auto Tag = *reinterpret_cast<const uint8_t *>(V);
+    auto SpeclP = T->m_sub.m_spladt;
+    auto ConstrP = SpeclP->m_constrs[Tag];
+    // Append the constructor name.
+    Ret.insert(Ret.end(), ConstrP->m_cName.m_buffer,
+               ConstrP->m_cName.m_buffer + ConstrP->m_cName.m_length);
+    // Now append each argument.
+    auto VP = reinterpret_cast<const uint8_t *>(V);
+    // Increment VP once to go past the Tag.
+    VP++;
+    for (int I = 0; I < ConstrP->m_numArgs; I++) {
+      auto ArgT = ConstrP->m_args[I];
+      if (ScillaTypes::Typ::isBoxed(ArgT))
+        serializeForHashing(Ret, ArgT,
+                            *reinterpret_cast<const void *const *>(VP));
+      else
+        serializeForHashing(Ret, ArgT, reinterpret_cast<const void *>(VP));
+      // Increment our data pointer equal to the size we just finised.
+      // structs containing ADTs are packed, so that we don't have to
+      // worry about padding here.
+      VP += ScillaTypes::Typ::sizeOf(ArgT);
+    }
+  } break;
+  case ScillaTypes::Typ::Map_typ: {
+    CREATE_ERROR("Unimplemented");
+  }
+  }
 }
 
 } // namespace ScillaValues
