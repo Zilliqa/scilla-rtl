@@ -1249,14 +1249,14 @@ entry:
   %uintN = alloca %Uint32
   store %Uint32 { i32 7 }, %Uint32* %uintN
   %m = alloca %Nat*
-  %"$to_nat_load_737" = load i8*, i8** @_execptr
+  %"$execptr_load_737" = load i8*, i8** @_execptr
   %"$uintM_738" = load %Uint32, %Uint32* %uintM
-  %"$to_nat_call_739" = call %Nat* @_to_nat(i8* %"$to_nat_load_737", %Uint32 %"$uintM_738")
+  %"$to_nat_call_739" = call %Nat* @_to_nat(i8* %"$execptr_load_737", %Uint32 %"$uintM_738")
   store %Nat* %"$to_nat_call_739", %Nat** %m
   %n = alloca %Nat*
-  %"$to_nat_load_740" = load i8*, i8** @_execptr
+  %"$execptr_load_740" = load i8*, i8** @_execptr
   %"$uintN_741" = load %Uint32, %Uint32* %uintN
-  %"$to_nat_call_742" = call %Nat* @_to_nat(i8* %"$to_nat_load_740", %Uint32 %"$uintN_741")
+  %"$to_nat_call_742" = call %Nat* @_to_nat(i8* %"$execptr_load_740", %Uint32 %"$uintN_741")
   store %Nat* %"$to_nat_call_742", %Nat** %n
   %ack00 = alloca %Nat*
   %"$ackermann_18" = alloca { %Nat* (i8*, %Nat*)*, i8* }

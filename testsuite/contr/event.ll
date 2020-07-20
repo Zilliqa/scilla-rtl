@@ -85,9 +85,9 @@ entry:
   %"$msgobj_v_53" = bitcast i8* %"$msgobj_v_52" to %String*
   store %String { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$stringlit_51", i32 0, i32 0), i32 5 }, %String* %"$msgobj_v_53"
   store i8* %"$msgobj_37", i8** %e
-  %"$to_nat_load_55" = load i8*, i8** @_execptr
+  %"$execptr_load_55" = load i8*, i8** @_execptr
   %"$e_56" = load i8*, i8** %e
-  call void @_event(i8* %"$to_nat_load_55", %_TyDescrTy_Typ* @"$TyDescr_Event_24", i8* %"$e_56")
+  call void @_event(i8* %"$execptr_load_55", %_TyDescrTy_Typ* @"$TyDescr_Event_24", i8* %"$e_56")
   ret void
 }
 

@@ -58,8 +58,8 @@ entry:
 define internal void @"$ThrowEmpty_35"(%Uint128 %_amount, [20 x i8]* %"$_sender_36") {
 entry:
   %_sender = load [20 x i8], [20 x i8]* %"$_sender_36"
-  %"$to_nat_load_37" = load i8*, i8** @_execptr
-  call void @_throw(i8* %"$to_nat_load_37", %_TyDescrTy_Typ* @"$TyDescr_Exception_26", i8* null)
+  %"$execptr_load_37" = load i8*, i8** @_execptr
+  call void @_throw(i8* %"$execptr_load_37", %_TyDescrTy_Typ* @"$TyDescr_Exception_26", i8* null)
   ret void
 }
 
@@ -95,9 +95,9 @@ entry:
   %"$msgobj_v_53" = bitcast i8* %"$msgobj_v_52" to %String*
   store %String { i8* getelementptr inbounds ([3 x i8], [3 x i8]* @"$stringlit_51", i32 0, i32 0), i32 3 }, %String* %"$msgobj_v_53"
   store i8* %"$msgobj_45", i8** %t
-  %"$to_nat_load_55" = load i8*, i8** @_execptr
+  %"$execptr_load_55" = load i8*, i8** @_execptr
   %"$t_56" = load i8*, i8** %t
-  call void @_throw(i8* %"$to_nat_load_55", %_TyDescrTy_Typ* @"$TyDescr_Exception_26", i8* %"$t_56")
+  call void @_throw(i8* %"$execptr_load_55", %_TyDescrTy_Typ* @"$TyDescr_Exception_26", i8* %"$t_56")
   ret void
 }
 

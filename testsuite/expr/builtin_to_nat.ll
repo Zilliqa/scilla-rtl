@@ -68,9 +68,9 @@ entry:
   %"$expr_0" = alloca %Nat*
   %two = alloca %Uint32
   store %Uint32 { i32 2 }, %Uint32* %two
-  %"$to_nat_load_48" = load i8*, i8** @_execptr
+  %"$execptr_load_48" = load i8*, i8** @_execptr
   %"$two_49" = load %Uint32, %Uint32* %two
-  %"$to_nat_call_50" = call %Nat* @_to_nat(i8* %"$to_nat_load_48", %Uint32 %"$two_49")
+  %"$to_nat_call_50" = call %Nat* @_to_nat(i8* %"$execptr_load_48", %Uint32 %"$two_49")
   store %Nat* %"$to_nat_call_50", %Nat** %"$expr_0"
   %"$$expr_0_51" = load %Nat*, %Nat** %"$expr_0"
   ret %Nat* %"$$expr_0_51"

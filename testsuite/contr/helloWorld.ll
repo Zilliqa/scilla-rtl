@@ -196,7 +196,7 @@ define internal void @"$setHello_99"(%Uint128 %_amount, [20 x i8]* %"$_sender_10
 entry:
   %_sender = load [20 x i8], [20 x i8]* %"$_sender_100"
   %is_owner = alloca %Bool*
-  %"$to_nat_load_101" = load i8*, i8** @_execptr
+  %"$execptr_load_101" = load i8*, i8** @_execptr
   %"$eq_owner_102" = alloca [20 x i8]
   %"$owner_103" = load [20 x i8], [20 x i8]* @owner
   store [20 x i8] %"$owner_103", [20 x i8]* %"$eq_owner_102"
@@ -204,7 +204,7 @@ entry:
   %"$eq__sender_105" = alloca [20 x i8]
   store [20 x i8] %_sender, [20 x i8]* %"$eq__sender_105"
   %"$$eq__sender_105_106" = bitcast [20 x i8]* %"$eq__sender_105" to i8*
-  %"$eq_call_107" = call %Bool* @_eq_ByStrX(i8* %"$to_nat_load_101", i32 20, i8* %"$$eq_owner_102_104", i8* %"$$eq__sender_105_106")
+  %"$eq_call_107" = call %Bool* @_eq_ByStrX(i8* %"$execptr_load_101", i32 20, i8* %"$$eq_owner_102_104", i8* %"$$eq__sender_105_106")
   store %Bool* %"$eq_call_107", %Bool** %is_owner
   %"$is_owner_109" = load %Bool*, %Bool** %is_owner
   %"$is_owner_tag_110" = getelementptr inbounds %Bool, %Bool* %"$is_owner_109", i32 0, i32 0
@@ -242,18 +242,18 @@ entry:
   %"$msgobj_v_131" = bitcast i8* %"$msgobj_v_130" to %Int32*
   store %Int32 %"$not_owner_code_129", %Int32* %"$msgobj_v_131"
   store i8* %"$msgobj_115", i8** %e
-  %"$to_nat_load_133" = load i8*, i8** @_execptr
+  %"$execptr_load_133" = load i8*, i8** @_execptr
   %"$e_134" = load i8*, i8** %e
-  call void @_event(i8* %"$to_nat_load_133", %_TyDescrTy_Typ* @"$TyDescr_Event_28", i8* %"$e_134")
+  call void @_event(i8* %"$execptr_load_133", %_TyDescrTy_Typ* @"$TyDescr_Event_28", i8* %"$e_134")
   br label %"$matchsucc_108"
 
 "$True_135":                                      ; preds = %entry
   %"$is_owner_136" = bitcast %Bool* %"$is_owner_109" to %True*
-  %"$to_nat_load_137" = load i8*, i8** @_execptr
+  %"$execptr_load_137" = load i8*, i8** @_execptr
   %"$update_value_139" = alloca %String
   store %String %msg, %String* %"$update_value_139"
   %"$update_value_140" = bitcast %String* %"$update_value_139" to i8*
-  call void @_update_field(i8* %"$to_nat_load_137", i8* getelementptr inbounds ([12 x i8], [12 x i8]* @"$welcome_msg_138", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_String_22", i32 0, i8* null, i8* %"$update_value_140")
+  call void @_update_field(i8* %"$execptr_load_137", i8* getelementptr inbounds ([12 x i8], [12 x i8]* @"$welcome_msg_138", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_String_22", i32 0, i8* null, i8* %"$update_value_140")
   %e1 = alloca i8*
   %"$msgobj_141_salloc_load" = load i8*, i8** @_execptr
   %"$msgobj_141_salloc_salloc" = call i8* @_salloc(i8* %"$msgobj_141_salloc_load", i64 69)
@@ -280,9 +280,9 @@ entry:
   %"$msgobj_v_157" = bitcast i8* %"$msgobj_v_156" to %Int32*
   store %Int32 %"$set_hello_code_155", %Int32* %"$msgobj_v_157"
   store i8* %"$msgobj_141", i8** %e1
-  %"$to_nat_load_159" = load i8*, i8** @_execptr
+  %"$execptr_load_159" = load i8*, i8** @_execptr
   %"$e_160" = load i8*, i8** %e1
-  call void @_event(i8* %"$to_nat_load_159", %_TyDescrTy_Typ* @"$TyDescr_Event_28", i8* %"$e_160")
+  call void @_event(i8* %"$execptr_load_159", %_TyDescrTy_Typ* @"$TyDescr_Event_28", i8* %"$e_160")
   br label %"$matchsucc_108"
 
 "$empty_default_112":                             ; preds = %entry
@@ -316,8 +316,8 @@ define internal void @"$getHello_168"(%Uint128 %_amount, [20 x i8]* %"$_sender_1
 entry:
   %_sender = load [20 x i8], [20 x i8]* %"$_sender_169"
   %r = alloca %String
-  %"$to_nat_load_170" = load i8*, i8** @_execptr
-  %"$r_172" = call i8* @_fetch_field(i8* %"$to_nat_load_170", i8* getelementptr inbounds ([12 x i8], [12 x i8]* @"$welcome_msg_171", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_String_22", i32 0, i8* null, i32 1)
+  %"$execptr_load_170" = load i8*, i8** @_execptr
+  %"$r_172" = call i8* @_fetch_field(i8* %"$execptr_load_170", i8* getelementptr inbounds ([12 x i8], [12 x i8]* @"$welcome_msg_171", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_String_22", i32 0, i8* null, i32 1)
   %"$r_173" = bitcast i8* %"$r_172" to %String*
   %"$r_174" = load %String, %String* %"$r_173"
   store %String %"$r_174", %String* %r
@@ -347,9 +347,9 @@ entry:
   %"$msgobj_v_191" = bitcast i8* %"$msgobj_v_190" to %String*
   store %String %"$r_189", %String* %"$msgobj_v_191"
   store i8* %"$msgobj_175", i8** %e
-  %"$to_nat_load_193" = load i8*, i8** @_execptr
+  %"$execptr_load_193" = load i8*, i8** @_execptr
   %"$e_194" = load i8*, i8** %e
-  call void @_event(i8* %"$to_nat_load_193", %_TyDescrTy_Typ* @"$TyDescr_Event_28", i8* %"$e_194")
+  call void @_event(i8* %"$execptr_load_193", %_TyDescrTy_Typ* @"$TyDescr_Event_28", i8* %"$e_194")
   ret void
 }
 
@@ -461,9 +461,9 @@ entry:
   store %TName_List_Message* %"$msgs1_257", %TName_List_Message** %"$adtgep_261"
   %"$adtptr_262" = bitcast %CName_Cons_Message* %"$adtval_258" to %TName_List_Message*
   store %TName_List_Message* %"$adtptr_262", %TName_List_Message** %msgs2
-  %"$to_nat_load_263" = load i8*, i8** @_execptr
+  %"$execptr_load_263" = load i8*, i8** @_execptr
   %"$msgs2_264" = load %TName_List_Message*, %TName_List_Message** %msgs2
-  call void @_send(i8* %"$to_nat_load_263", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_41", %TName_List_Message* %"$msgs2_264")
+  call void @_send(i8* %"$execptr_load_263", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_41", %TName_List_Message* %"$msgs2_264")
   ret void
 }
 
@@ -509,9 +509,9 @@ entry:
   %"$msgobj_v_288" = bitcast i8* %"$msgobj_v_287" to [20 x i8]*
   store [20 x i8] %"$_this_address_286", [20 x i8]* %"$msgobj_v_288"
   store i8* %"$msgobj_272", i8** %msg1
-  %"$to_nat_load_290" = load i8*, i8** @_execptr
+  %"$execptr_load_290" = load i8*, i8** @_execptr
   %"$msg1_291" = load i8*, i8** %msg1
-  call void @_event(i8* %"$to_nat_load_290", %_TyDescrTy_Typ* @"$TyDescr_Event_28", i8* %"$msg1_291")
+  call void @_event(i8* %"$execptr_load_290", %_TyDescrTy_Typ* @"$TyDescr_Event_28", i8* %"$msg1_291")
   ret void
 }
 
@@ -615,9 +615,9 @@ entry:
   %"$msgobj_v_363" = bitcast i8* %"$msgobj_v_362" to %TName_Pair_Int128_String**
   store %TName_Pair_Int128_String* %"$pear_361", %TName_Pair_Int128_String** %"$msgobj_v_363"
   store i8* %"$msgobj_299", i8** %e
-  %"$to_nat_load_365" = load i8*, i8** @_execptr
+  %"$execptr_load_365" = load i8*, i8** @_execptr
   %"$e_366" = load i8*, i8** %e
-  call void @_event(i8* %"$to_nat_load_365", %_TyDescrTy_Typ* @"$TyDescr_Event_28", i8* %"$e_366")
+  call void @_event(i8* %"$execptr_load_365", %_TyDescrTy_Typ* @"$TyDescr_Event_28", i8* %"$e_366")
   ret void
 }
 

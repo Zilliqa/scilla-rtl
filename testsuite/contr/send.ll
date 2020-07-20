@@ -164,9 +164,9 @@ entry:
   store %TName_List_Message* %"$one_msg_call_96", %TName_List_Message** %"$one_msg_0"
   %"$$one_msg_0_97" = load %TName_List_Message*, %TName_List_Message** %"$one_msg_0"
   store %TName_List_Message* %"$$one_msg_0_97", %TName_List_Message** %msgs1
-  %"$to_nat_load_98" = load i8*, i8** @_execptr
+  %"$execptr_load_98" = load i8*, i8** @_execptr
   %"$msgs1_99" = load %TName_List_Message*, %TName_List_Message** %msgs1
-  call void @_send(i8* %"$to_nat_load_98", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_38", %TName_List_Message* %"$msgs1_99")
+  call void @_send(i8* %"$execptr_load_98", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_38", %TName_List_Message* %"$msgs1_99")
   ret void
 }
 
@@ -278,9 +278,9 @@ entry:
   store %TName_List_Message* %"$msgs1_162", %TName_List_Message** %"$adtgep_166"
   %"$adtptr_167" = bitcast %CName_Cons_Message* %"$adtval_163" to %TName_List_Message*
   store %TName_List_Message* %"$adtptr_167", %TName_List_Message** %msgs2
-  %"$to_nat_load_168" = load i8*, i8** @_execptr
+  %"$execptr_load_168" = load i8*, i8** @_execptr
   %"$msgs2_169" = load %TName_List_Message*, %TName_List_Message** %msgs2
-  call void @_send(i8* %"$to_nat_load_168", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_38", %TName_List_Message* %"$msgs2_169")
+  call void @_send(i8* %"$execptr_load_168", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_38", %TName_List_Message* %"$msgs2_169")
   ret void
 }
 

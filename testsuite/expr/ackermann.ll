@@ -1322,29 +1322,29 @@ entry:
   %uint4 = alloca %Uint32
   store %Uint32 { i32 4 }, %Uint32* %uint4
   %n0 = alloca %Nat*
-  %"$to_nat_load_810" = load i8*, i8** @_execptr
+  %"$execptr_load_810" = load i8*, i8** @_execptr
   %"$uint0_811" = load %Uint32, %Uint32* %uint0
-  %"$to_nat_call_812" = call %Nat* @_to_nat(i8* %"$to_nat_load_810", %Uint32 %"$uint0_811")
+  %"$to_nat_call_812" = call %Nat* @_to_nat(i8* %"$execptr_load_810", %Uint32 %"$uint0_811")
   store %Nat* %"$to_nat_call_812", %Nat** %n0
   %n1 = alloca %Nat*
-  %"$to_nat_load_813" = load i8*, i8** @_execptr
+  %"$execptr_load_813" = load i8*, i8** @_execptr
   %"$uint1_814" = load %Uint32, %Uint32* %uint1
-  %"$to_nat_call_815" = call %Nat* @_to_nat(i8* %"$to_nat_load_813", %Uint32 %"$uint1_814")
+  %"$to_nat_call_815" = call %Nat* @_to_nat(i8* %"$execptr_load_813", %Uint32 %"$uint1_814")
   store %Nat* %"$to_nat_call_815", %Nat** %n1
   %n2 = alloca %Nat*
-  %"$to_nat_load_816" = load i8*, i8** @_execptr
+  %"$execptr_load_816" = load i8*, i8** @_execptr
   %"$uint2_817" = load %Uint32, %Uint32* %uint2
-  %"$to_nat_call_818" = call %Nat* @_to_nat(i8* %"$to_nat_load_816", %Uint32 %"$uint2_817")
+  %"$to_nat_call_818" = call %Nat* @_to_nat(i8* %"$execptr_load_816", %Uint32 %"$uint2_817")
   store %Nat* %"$to_nat_call_818", %Nat** %n2
   %n3 = alloca %Nat*
-  %"$to_nat_load_819" = load i8*, i8** @_execptr
+  %"$execptr_load_819" = load i8*, i8** @_execptr
   %"$uint3_820" = load %Uint32, %Uint32* %uint3
-  %"$to_nat_call_821" = call %Nat* @_to_nat(i8* %"$to_nat_load_819", %Uint32 %"$uint3_820")
+  %"$to_nat_call_821" = call %Nat* @_to_nat(i8* %"$execptr_load_819", %Uint32 %"$uint3_820")
   store %Nat* %"$to_nat_call_821", %Nat** %n3
   %n4 = alloca %Nat*
-  %"$to_nat_load_822" = load i8*, i8** @_execptr
+  %"$execptr_load_822" = load i8*, i8** @_execptr
   %"$uint4_823" = load %Uint32, %Uint32* %uint4
-  %"$to_nat_call_824" = call %Nat* @_to_nat(i8* %"$to_nat_load_822", %Uint32 %"$uint4_823")
+  %"$to_nat_call_824" = call %Nat* @_to_nat(i8* %"$execptr_load_822", %Uint32 %"$uint4_823")
   store %Nat* %"$to_nat_call_824", %Nat** %n4
   %ack00 = alloca %Nat*
   %"$ackermann_36" = alloca { %Nat* (i8*, %Nat*)*, i8* }

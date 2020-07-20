@@ -124,8 +124,8 @@ entry:
   %"$indices_gep_69" = getelementptr i8, i8* %"$indices_buf_68", i32 0
   %indices_cast = bitcast i8* %"$indices_gep_69" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %indices_cast
-  %"$to_nat_load_70" = load i8*, i8** @_execptr
-  %"$cur_72" = call i8* @_fetch_field(i8* %"$to_nat_load_70", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_71", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_68", i32 1)
+  %"$execptr_load_70" = load i8*, i8** @_execptr
+  %"$cur_72" = call i8* @_fetch_field(i8* %"$execptr_load_70", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_71", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_68", i32 1)
   %"$cur_73" = bitcast i8* %"$cur_72" to %TName_Option_Int32*
   store %TName_Option_Int32* %"$cur_73", %TName_Option_Int32** %cur
   %"$cur_75" = load %TName_Option_Int32*, %TName_Option_Int32** %cur
@@ -159,12 +159,12 @@ entry:
   %"$indices_gep_90" = getelementptr i8, i8* %"$indices_buf_89", i32 0
   %indices_cast1 = bitcast i8* %"$indices_gep_90" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %indices_cast1
-  %"$to_nat_load_91" = load i8*, i8** @_execptr
+  %"$execptr_load_91" = load i8*, i8** @_execptr
   %"$j_93" = load %Int32, %Int32* %j
   %"$update_value_94" = alloca %Int32
   store %Int32 %"$j_93", %Int32* %"$update_value_94"
   %"$update_value_95" = bitcast %Int32* %"$update_value_94" to i8*
-  call void @_update_field(i8* %"$to_nat_load_91", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_92", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_89", i8* %"$update_value_95")
+  call void @_update_field(i8* %"$execptr_load_91", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_92", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_89", i8* %"$update_value_95")
   br label %"$matchsucc_74"
 
 "$None_96":                                       ; preds = %entry
@@ -176,12 +176,12 @@ entry:
   %"$indices_gep_99" = getelementptr i8, i8* %"$indices_buf_98", i32 0
   %indices_cast2 = bitcast i8* %"$indices_gep_99" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %indices_cast2
-  %"$to_nat_load_100" = load i8*, i8** @_execptr
+  %"$execptr_load_100" = load i8*, i8** @_execptr
   %"$one_102" = load %Int32, %Int32* @one
   %"$update_value_103" = alloca %Int32
   store %Int32 %"$one_102", %Int32* %"$update_value_103"
   %"$update_value_104" = bitcast %Int32* %"$update_value_103" to i8*
-  call void @_update_field(i8* %"$to_nat_load_100", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_101", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_98", i8* %"$update_value_104")
+  call void @_update_field(i8* %"$execptr_load_100", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_101", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_98", i8* %"$update_value_104")
   br label %"$matchsucc_74"
 
 "$empty_default_78":                              ; preds = %entry
@@ -217,8 +217,8 @@ entry:
   %"$indices_gep_113" = getelementptr i8, i8* %"$indices_buf_112", i32 0
   %indices_cast = bitcast i8* %"$indices_gep_113" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %indices_cast
-  %"$to_nat_load_114" = load i8*, i8** @_execptr
-  %"$cur_116" = call i8* @_fetch_field(i8* %"$to_nat_load_114", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_115", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_112", i32 1)
+  %"$execptr_load_114" = load i8*, i8** @_execptr
+  %"$cur_116" = call i8* @_fetch_field(i8* %"$execptr_load_114", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_115", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_112", i32 1)
   %"$cur_117" = bitcast i8* %"$cur_116" to %TName_Option_Int32*
   store %TName_Option_Int32* %"$cur_117", %TName_Option_Int32** %cur
   %"$cur_119" = load %TName_Option_Int32*, %TName_Option_Int32** %cur
@@ -246,12 +246,12 @@ entry:
   %"$indices_gep_130" = getelementptr i8, i8* %"$indices_buf_129", i32 0
   %indices_cast1 = bitcast i8* %"$indices_gep_130" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %indices_cast1
-  %"$to_nat_load_131" = load i8*, i8** @_execptr
+  %"$execptr_load_131" = load i8*, i8** @_execptr
   %"$j_133" = load %Int32, %Int32* %j
   %"$update_value_134" = alloca %Int32
   store %Int32 %"$j_133", %Int32* %"$update_value_134"
   %"$update_value_135" = bitcast %Int32* %"$update_value_134" to i8*
-  call void @_update_field(i8* %"$to_nat_load_131", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_132", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_129", i8* %"$update_value_135")
+  call void @_update_field(i8* %"$execptr_load_131", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_132", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_129", i8* %"$update_value_135")
   br label %"$matchsucc_118"
 
 "$None_136":                                      ; preds = %entry
@@ -263,11 +263,11 @@ entry:
   %"$indices_gep_139" = getelementptr i8, i8* %"$indices_buf_138", i32 0
   %indices_cast2 = bitcast i8* %"$indices_gep_139" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %indices_cast2
-  %"$to_nat_load_140" = load i8*, i8** @_execptr
+  %"$execptr_load_140" = load i8*, i8** @_execptr
   %"$update_value_142" = alloca %Int32
   store %Int32 %n, %Int32* %"$update_value_142"
   %"$update_value_143" = bitcast %Int32* %"$update_value_142" to i8*
-  call void @_update_field(i8* %"$to_nat_load_140", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_141", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_138", i8* %"$update_value_143")
+  call void @_update_field(i8* %"$execptr_load_140", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_141", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_138", i8* %"$update_value_143")
   br label %"$matchsucc_118"
 
 "$empty_default_122":                             ; preds = %entry

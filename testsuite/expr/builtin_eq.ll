@@ -290,10 +290,10 @@ entry:
   %ui256a = alloca %Uint128
   store %Uint128 { i128 11 }, %Uint128* %ui256a
   %b9 = alloca %Bool*
-  %"$to_nat_load_148" = load i8*, i8** @_execptr
+  %"$execptr_load_148" = load i8*, i8** @_execptr
   %"$ui256a_149" = load %Uint128, %Uint128* %ui256a
   %"$ui256a_150" = load %Uint128, %Uint128* %ui256a
-  %"$eq_call_151" = call %Bool* @_eq_Uint128(i8* %"$to_nat_load_148", %Uint128 %"$ui256a_149", %Uint128 %"$ui256a_150")
+  %"$eq_call_151" = call %Bool* @_eq_Uint128(i8* %"$execptr_load_148", %Uint128 %"$ui256a_149", %Uint128 %"$ui256a_150")
   store %Bool* %"$eq_call_151", %Bool** %b9
   %s1 = alloca %String
   store %String { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$stringlit_152", i32 0, i32 0), i32 5 }, %String* %s1
@@ -302,16 +302,16 @@ entry:
   %s11 = alloca %String
   store %String { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$stringlit_154", i32 0, i32 0), i32 5 }, %String* %s11
   %b12 = alloca %Bool*
-  %"$to_nat_load_155" = load i8*, i8** @_execptr
+  %"$execptr_load_155" = load i8*, i8** @_execptr
   %"$s1_156" = load %String, %String* %s1
   %"$s2_157" = load %String, %String* %s2
-  %"$eq_call_158" = call %Bool* @_eq_String(i8* %"$to_nat_load_155", %String %"$s1_156", %String %"$s2_157")
+  %"$eq_call_158" = call %Bool* @_eq_String(i8* %"$execptr_load_155", %String %"$s1_156", %String %"$s2_157")
   store %Bool* %"$eq_call_158", %Bool** %b12
   %b13 = alloca %Bool*
-  %"$to_nat_load_159" = load i8*, i8** @_execptr
+  %"$execptr_load_159" = load i8*, i8** @_execptr
   %"$s1_160" = load %String, %String* %s1
   %"$s11_161" = load %String, %String* %s11
-  %"$eq_call_162" = call %Bool* @_eq_String(i8* %"$to_nat_load_159", %String %"$s1_160", %String %"$s11_161")
+  %"$eq_call_162" = call %Bool* @_eq_String(i8* %"$execptr_load_159", %String %"$s1_160", %String %"$s11_161")
   store %Bool* %"$eq_call_162", %Bool** %b13
   %b14 = alloca %Bool*
   %"$andb_1" = alloca { %Bool* (i8*, %Bool*)*, i8* }
@@ -354,7 +354,7 @@ entry:
   %bs11 = alloca [2 x i8]
   store [2 x i8] c"\00\FF", [2 x i8]* %bs11
   %b16 = alloca %Bool*
-  %"$to_nat_load_185" = load i8*, i8** @_execptr
+  %"$execptr_load_185" = load i8*, i8** @_execptr
   %"$eq_bs1_186" = alloca [2 x i8]
   %"$bs1_187" = load [2 x i8], [2 x i8]* %bs1
   store [2 x i8] %"$bs1_187", [2 x i8]* %"$eq_bs1_186"
@@ -363,10 +363,10 @@ entry:
   %"$bs2_190" = load [2 x i8], [2 x i8]* %bs2
   store [2 x i8] %"$bs2_190", [2 x i8]* %"$eq_bs2_189"
   %"$$eq_bs2_189_191" = bitcast [2 x i8]* %"$eq_bs2_189" to i8*
-  %"$eq_call_192" = call %Bool* @_eq_ByStrX(i8* %"$to_nat_load_185", i32 2, i8* %"$$eq_bs1_186_188", i8* %"$$eq_bs2_189_191")
+  %"$eq_call_192" = call %Bool* @_eq_ByStrX(i8* %"$execptr_load_185", i32 2, i8* %"$$eq_bs1_186_188", i8* %"$$eq_bs2_189_191")
   store %Bool* %"$eq_call_192", %Bool** %b16
   %b17 = alloca %Bool*
-  %"$to_nat_load_193" = load i8*, i8** @_execptr
+  %"$execptr_load_193" = load i8*, i8** @_execptr
   %"$eq_bs1_194" = alloca [2 x i8]
   %"$bs1_195" = load [2 x i8], [2 x i8]* %bs1
   store [2 x i8] %"$bs1_195", [2 x i8]* %"$eq_bs1_194"
@@ -375,7 +375,7 @@ entry:
   %"$bs11_198" = load [2 x i8], [2 x i8]* %bs11
   store [2 x i8] %"$bs11_198", [2 x i8]* %"$eq_bs11_197"
   %"$$eq_bs11_197_199" = bitcast [2 x i8]* %"$eq_bs11_197" to i8*
-  %"$eq_call_200" = call %Bool* @_eq_ByStrX(i8* %"$to_nat_load_193", i32 2, i8* %"$$eq_bs1_194_196", i8* %"$$eq_bs11_197_199")
+  %"$eq_call_200" = call %Bool* @_eq_ByStrX(i8* %"$execptr_load_193", i32 2, i8* %"$$eq_bs1_194_196", i8* %"$$eq_bs11_197_199")
   store %Bool* %"$eq_call_200", %Bool** %b17
   %b18 = alloca %Bool*
   %"$orb_5" = alloca { %Bool* (i8*, %Bool*)*, i8* }
@@ -416,7 +416,7 @@ entry:
   %bs4 = alloca [3 x i8]
   store [3 x i8] c"\0F\0F\0E", [3 x i8]* %bs4
   %b20 = alloca %Bool*
-  %"$to_nat_load_223" = load i8*, i8** @_execptr
+  %"$execptr_load_223" = load i8*, i8** @_execptr
   %"$eq_bs3_224" = alloca [3 x i8]
   %"$bs3_225" = load [3 x i8], [3 x i8]* %bs3
   store [3 x i8] %"$bs3_225", [3 x i8]* %"$eq_bs3_224"
@@ -425,7 +425,7 @@ entry:
   %"$bs4_228" = load [3 x i8], [3 x i8]* %bs4
   store [3 x i8] %"$bs4_228", [3 x i8]* %"$eq_bs4_227"
   %"$$eq_bs4_227_229" = bitcast [3 x i8]* %"$eq_bs4_227" to i8*
-  %"$eq_call_230" = call %Bool* @_eq_ByStrX(i8* %"$to_nat_load_223", i32 3, i8* %"$$eq_bs3_224_226", i8* %"$$eq_bs4_227_229")
+  %"$eq_call_230" = call %Bool* @_eq_ByStrX(i8* %"$execptr_load_223", i32 3, i8* %"$$eq_bs3_224_226", i8* %"$$eq_bs4_227_229")
   store %Bool* %"$eq_call_230", %Bool** %b20
   %b21 = alloca %Bool*
   %"$negb_9" = alloca %Bool*
@@ -455,26 +455,26 @@ entry:
   %"$$andb_11_247" = load %Bool*, %Bool** %"$andb_11"
   store %Bool* %"$$andb_11_247", %Bool** %b22
   %"$bs11_0" = alloca %Bystr
-  %"$to_nat_load_248" = load i8*, i8** @_execptr
+  %"$execptr_load_248" = load i8*, i8** @_execptr
   %"$to_bystr_bs1_249" = alloca [2 x i8]
   %"$bs1_250" = load [2 x i8], [2 x i8]* %bs1
   store [2 x i8] %"$bs1_250", [2 x i8]* %"$to_bystr_bs1_249"
   %"$$to_bystr_bs1_249_251" = bitcast [2 x i8]* %"$to_bystr_bs1_249" to i8*
-  %"$to_bystr_call_252" = call %Bystr @_to_bystr(i8* %"$to_nat_load_248", i32 2, i8* %"$$to_bystr_bs1_249_251")
+  %"$to_bystr_call_252" = call %Bystr @_to_bystr(i8* %"$execptr_load_248", i32 2, i8* %"$$to_bystr_bs1_249_251")
   store %Bystr %"$to_bystr_call_252", %Bystr* %"$bs11_0"
   %bs22 = alloca %Bystr
-  %"$to_nat_load_253" = load i8*, i8** @_execptr
+  %"$execptr_load_253" = load i8*, i8** @_execptr
   %"$to_bystr_bs2_254" = alloca [2 x i8]
   %"$bs2_255" = load [2 x i8], [2 x i8]* %bs2
   store [2 x i8] %"$bs2_255", [2 x i8]* %"$to_bystr_bs2_254"
   %"$$to_bystr_bs2_254_256" = bitcast [2 x i8]* %"$to_bystr_bs2_254" to i8*
-  %"$to_bystr_call_257" = call %Bystr @_to_bystr(i8* %"$to_nat_load_253", i32 2, i8* %"$$to_bystr_bs2_254_256")
+  %"$to_bystr_call_257" = call %Bystr @_to_bystr(i8* %"$execptr_load_253", i32 2, i8* %"$$to_bystr_bs2_254_256")
   store %Bystr %"$to_bystr_call_257", %Bystr* %bs22
   %b23 = alloca %Bool*
-  %"$to_nat_load_258" = load i8*, i8** @_execptr
+  %"$execptr_load_258" = load i8*, i8** @_execptr
   %"$$bs11_0_259" = load %Bystr, %Bystr* %"$bs11_0"
   %"$bs22_260" = load %Bystr, %Bystr* %bs22
-  %"$eq_call_261" = call %Bool* @_eq_ByStr(i8* %"$to_nat_load_258", %Bystr %"$$bs11_0_259", %Bystr %"$bs22_260")
+  %"$eq_call_261" = call %Bool* @_eq_ByStr(i8* %"$execptr_load_258", %Bystr %"$$bs11_0_259", %Bystr %"$bs22_260")
   store %Bool* %"$eq_call_261", %Bool** %b23
   %b24 = alloca %Bool*
   %"$negb_12" = alloca %Bool*
