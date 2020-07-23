@@ -28,9 +28,9 @@ target triple = "x86_64-pc-linux-gnu"
 %Int128 = type { i128 }
 %"$$fundef_1_env_85" = type {}
 %Uint128 = type { i128 }
-%Bool = type { i8, %True*, %False* }
-%True = type <{ i8 }>
-%False = type <{ i8 }>
+%TName_Bool = type { i8, %CName_True*, %CName_False* }
+%CName_True = type <{ i8 }>
+%CName_False = type <{ i8 }>
 
 @_execptr = global i8* null
 @"$TyDescr_Int32_Prim_5" = global %"$TyDescrTy_PrimTyp_4" zeroinitializer
@@ -195,7 +195,7 @@ entry:
 define internal void @"$setHello_99"(%Uint128 %_amount, [20 x i8]* %"$_sender_100", %String %msg) {
 entry:
   %_sender = load [20 x i8], [20 x i8]* %"$_sender_100"
-  %is_owner = alloca %Bool*
+  %is_owner = alloca %TName_Bool*
   %"$execptr_load_101" = load i8*, i8** @_execptr
   %"$eq_owner_102" = alloca [20 x i8]
   %"$owner_103" = load [20 x i8], [20 x i8]* @owner
@@ -204,10 +204,10 @@ entry:
   %"$eq__sender_105" = alloca [20 x i8]
   store [20 x i8] %_sender, [20 x i8]* %"$eq__sender_105"
   %"$$eq__sender_105_106" = bitcast [20 x i8]* %"$eq__sender_105" to i8*
-  %"$eq_call_107" = call %Bool* @_eq_ByStrX(i8* %"$execptr_load_101", i32 20, i8* %"$$eq_owner_102_104", i8* %"$$eq__sender_105_106")
-  store %Bool* %"$eq_call_107", %Bool** %is_owner
-  %"$is_owner_109" = load %Bool*, %Bool** %is_owner
-  %"$is_owner_tag_110" = getelementptr inbounds %Bool, %Bool* %"$is_owner_109", i32 0, i32 0
+  %"$eq_call_107" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_101", i32 20, i8* %"$$eq_owner_102_104", i8* %"$$eq__sender_105_106")
+  store %TName_Bool* %"$eq_call_107", %TName_Bool** %is_owner
+  %"$is_owner_109" = load %TName_Bool*, %TName_Bool** %is_owner
+  %"$is_owner_tag_110" = getelementptr inbounds %TName_Bool, %TName_Bool* %"$is_owner_109", i32 0, i32 0
   %"$is_owner_tag_111" = load i8, i8* %"$is_owner_tag_110"
   switch i8 %"$is_owner_tag_111", label %"$empty_default_112" [
     i8 1, label %"$False_113"
@@ -215,7 +215,7 @@ entry:
   ]
 
 "$False_113":                                     ; preds = %entry
-  %"$is_owner_114" = bitcast %Bool* %"$is_owner_109" to %False*
+  %"$is_owner_114" = bitcast %TName_Bool* %"$is_owner_109" to %CName_False*
   %e = alloca i8*
   %"$msgobj_115_salloc_load" = load i8*, i8** @_execptr
   %"$msgobj_115_salloc_salloc" = call i8* @_salloc(i8* %"$msgobj_115_salloc_load", i64 69)
@@ -248,7 +248,7 @@ entry:
   br label %"$matchsucc_108"
 
 "$True_135":                                      ; preds = %entry
-  %"$is_owner_136" = bitcast %Bool* %"$is_owner_109" to %True*
+  %"$is_owner_136" = bitcast %TName_Bool* %"$is_owner_109" to %CName_True*
   %"$execptr_load_137" = load i8*, i8** @_execptr
   %"$update_value_139" = alloca %String
   store %String %msg, %String* %"$update_value_139"
@@ -292,7 +292,7 @@ entry:
   ret void
 }
 
-declare %Bool* @_eq_ByStrX(i8*, i32, i8*, i8*)
+declare %TName_Bool* @_eq_ByStrX(i8*, i32, i8*, i8*)
 
 declare void @_event(i8*, %_TyDescrTy_Typ*, i8*)
 

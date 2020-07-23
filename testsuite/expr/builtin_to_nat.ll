@@ -10,9 +10,9 @@ target triple = "x86_64-pc-linux-gnu"
 %TyDescrString = type { i8*, i32 }
 %"$TyDescrTy_ADTTyp_Specl_30" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_32"**, %"$TyDescrTy_ADTTyp_31"* }
 %"$TyDescrTy_ADTTyp_Constr_32" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
-%Nat = type { i8, %Zero*, %Succ* }
-%Zero = type <{ i8 }>
-%Succ = type <{ i8, %Nat* }>
+%TName_Nat = type { i8, %CName_Zero*, %CName_Succ* }
+%CName_Zero = type <{ i8 }>
+%CName_Succ = type <{ i8, %TName_Nat* }>
 %Uint32 = type { i32 }
 
 @_execptr = global i8* null
@@ -63,27 +63,27 @@ entry:
   ret void
 }
 
-define internal %Nat* @"$scilla_expr_47"(i8* %0) {
+define internal %TName_Nat* @"$scilla_expr_47"(i8* %0) {
 entry:
-  %"$expr_0" = alloca %Nat*
+  %"$expr_0" = alloca %TName_Nat*
   %two = alloca %Uint32
   store %Uint32 { i32 2 }, %Uint32* %two
   %"$execptr_load_48" = load i8*, i8** @_execptr
   %"$two_49" = load %Uint32, %Uint32* %two
-  %"$to_nat_call_50" = call %Nat* @_to_nat(i8* %"$execptr_load_48", %Uint32 %"$two_49")
-  store %Nat* %"$to_nat_call_50", %Nat** %"$expr_0"
-  %"$$expr_0_51" = load %Nat*, %Nat** %"$expr_0"
-  ret %Nat* %"$$expr_0_51"
+  %"$to_nat_call_50" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_48", %Uint32 %"$two_49")
+  store %TName_Nat* %"$to_nat_call_50", %TName_Nat** %"$expr_0"
+  %"$$expr_0_51" = load %TName_Nat*, %TName_Nat** %"$expr_0"
+  ret %TName_Nat* %"$$expr_0_51"
 }
 
-declare %Nat* @_to_nat(i8*, %Uint32)
+declare %TName_Nat* @_to_nat(i8*, %Uint32)
 
 declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_52" = call %Nat* @"$scilla_expr_47"(i8* null)
-  %"$memvoidcast_53" = bitcast %Nat* %"$exprval_52" to i8*
+  %"$exprval_52" = call %TName_Nat* @"$scilla_expr_47"(i8* null)
+  %"$memvoidcast_53" = bitcast %TName_Nat* %"$exprval_52" to i8*
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33", i8* %"$memvoidcast_53")
   ret void
 }

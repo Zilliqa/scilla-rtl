@@ -19,9 +19,9 @@ target triple = "x86_64-pc-linux-gnu"
 %"$TyDescrTy_ADTTyp_Specl_30" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_32"**, %"$TyDescrTy_ADTTyp_31"* }
 %"$TyDescrTy_ADTTyp_Constr_32" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
 %Int32 = type { i32 }
-%Bool = type { i8, %True*, %False* }
-%True = type <{ i8 }>
-%False = type <{ i8 }>
+%TName_Bool = type { i8, %CName_True*, %CName_False* }
+%CName_True = type <{ i8 }>
+%CName_False = type <{ i8 }>
 
 @_execptr = global i8* null
 @"$TyDescr_Int32_Prim_2" = global %"$TyDescrTy_PrimTyp_1" zeroinitializer
@@ -74,16 +74,16 @@ entry:
 define internal %Int32 @"$scilla_expr_47"(i8* %0) {
 entry:
   %"$expr_0" = alloca %Int32
-  %b = alloca %Bool*
+  %b = alloca %TName_Bool*
   %"$adtval_48_load" = load i8*, i8** @_execptr
   %"$adtval_48_salloc" = call i8* @_salloc(i8* %"$adtval_48_load", i64 1)
-  %"$adtval_48" = bitcast i8* %"$adtval_48_salloc" to %False*
-  %"$adtgep_49" = getelementptr inbounds %False, %False* %"$adtval_48", i32 0, i32 0
+  %"$adtval_48" = bitcast i8* %"$adtval_48_salloc" to %CName_False*
+  %"$adtgep_49" = getelementptr inbounds %CName_False, %CName_False* %"$adtval_48", i32 0, i32 0
   store i8 1, i8* %"$adtgep_49"
-  %"$adtptr_50" = bitcast %False* %"$adtval_48" to %Bool*
-  store %Bool* %"$adtptr_50", %Bool** %b
-  %"$b_52" = load %Bool*, %Bool** %b
-  %"$b_tag_53" = getelementptr inbounds %Bool, %Bool* %"$b_52", i32 0, i32 0
+  %"$adtptr_50" = bitcast %CName_False* %"$adtval_48" to %TName_Bool*
+  store %TName_Bool* %"$adtptr_50", %TName_Bool** %b
+  %"$b_52" = load %TName_Bool*, %TName_Bool** %b
+  %"$b_tag_53" = getelementptr inbounds %TName_Bool, %TName_Bool* %"$b_52", i32 0, i32 0
   %"$b_tag_54" = load i8, i8* %"$b_tag_53"
   switch i8 %"$b_tag_54", label %"$empty_default_55" [
     i8 0, label %"$True_56"
@@ -91,7 +91,7 @@ entry:
   ]
 
 "$True_56":                                       ; preds = %entry
-  %"$b_57" = bitcast %Bool* %"$b_52" to %True*
+  %"$b_57" = bitcast %TName_Bool* %"$b_52" to %CName_True*
   %x = alloca %Int32
   store %Int32 { i32 1 }, %Int32* %x
   %"$x_58" = load %Int32, %Int32* %x
@@ -99,7 +99,7 @@ entry:
   br label %"$matchsucc_51"
 
 "$False_59":                                      ; preds = %entry
-  %"$b_60" = bitcast %Bool* %"$b_52" to %False*
+  %"$b_60" = bitcast %TName_Bool* %"$b_52" to %CName_False*
   %x1 = alloca %Int32
   store %Int32 { i32 2 }, %Int32* %x1
   %"$x_61" = load %Int32, %Int32* %x1

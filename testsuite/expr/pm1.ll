@@ -21,9 +21,9 @@ target triple = "x86_64-pc-linux-gnu"
 %"$TyDescrTy_ADTTyp_Constr_36" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
 %Int32 = type { i32 }
 %"$$fundef_3_env_51" = type { %Int32, %Int32 }
-%Bool = type { i8, %True*, %False* }
-%True = type <{ i8 }>
-%False = type <{ i8 }>
+%TName_Bool = type { i8, %CName_True*, %CName_False* }
+%CName_True = type <{ i8 }>
+%CName_False = type <{ i8 }>
 
 @_execptr = global i8* null
 @"$TyDescr_Int32_Prim_6" = global %"$TyDescrTy_PrimTyp_5" zeroinitializer
@@ -68,7 +68,7 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Bool_ADTTyp_m_specls_49" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_34"*] [%"$TyDescrTy_ADTTyp_Specl_34"* @"$TyDescr_Bool_ADTTyp_Specl_48"]
 @"$TyDescr_ADT_Bool_50" = unnamed_addr constant [4 x i8] c"Bool"
 
-define internal %Int32 @"$fundef_3"(%"$$fundef_3_env_51"* %0, %Bool* %1) {
+define internal %Int32 @"$fundef_3"(%"$$fundef_3_env_51"* %0, %TName_Bool* %1) {
 entry:
   %"$$fundef_3_env_x_52" = getelementptr inbounds %"$$fundef_3_env_51", %"$$fundef_3_env_51"* %0, i32 0, i32 0
   %"$x_envload_53" = load %Int32, %Int32* %"$$fundef_3_env_x_52"
@@ -79,14 +79,14 @@ entry:
   %y = alloca %Int32
   store %Int32 %"$y_envload_55", %Int32* %y
   %"$retval_4" = alloca %Int32
-  %"$c_tag_58" = getelementptr inbounds %Bool, %Bool* %1, i32 0, i32 0
+  %"$c_tag_58" = getelementptr inbounds %TName_Bool, %TName_Bool* %1, i32 0, i32 0
   %"$c_tag_59" = load i8, i8* %"$c_tag_58"
   switch i8 %"$c_tag_59", label %"$default_60" [
     i8 0, label %"$True_61"
   ]
 
 "$True_61":                                       ; preds = %entry
-  %"$c_62" = bitcast %Bool* %1 to %True*
+  %"$c_62" = bitcast %TName_Bool* %1 to %CName_True*
   %"$x_63" = load %Int32, %Int32* %x
   store %Int32 %"$x_63", %Int32* %"$retval_4"
   br label %"$matchsucc_56"
@@ -116,33 +116,33 @@ entry:
   store %Int32 { i32 42 }, %Int32* %x
   %y = alloca %Int32
   store %Int32 { i32 41 }, %Int32* %y
-  %f = alloca { %Int32 (i8*, %Bool*)*, i8* }
+  %f = alloca { %Int32 (i8*, %TName_Bool*)*, i8* }
   %"$$fundef_3_envp_66_load" = load i8*, i8** @_execptr
   %"$$fundef_3_envp_66_salloc" = call i8* @_salloc(i8* %"$$fundef_3_envp_66_load", i64 8)
   %"$$fundef_3_envp_66" = bitcast i8* %"$$fundef_3_envp_66_salloc" to %"$$fundef_3_env_51"*
   %"$$fundef_3_env_voidp_68" = bitcast %"$$fundef_3_env_51"* %"$$fundef_3_envp_66" to i8*
-  %"$$fundef_3_cloval_69" = insertvalue { %Int32 (i8*, %Bool*)*, i8* } { %Int32 (i8*, %Bool*)* bitcast (%Int32 (%"$$fundef_3_env_51"*, %Bool*)* @"$fundef_3" to %Int32 (i8*, %Bool*)*), i8* undef }, i8* %"$$fundef_3_env_voidp_68", 1
+  %"$$fundef_3_cloval_69" = insertvalue { %Int32 (i8*, %TName_Bool*)*, i8* } { %Int32 (i8*, %TName_Bool*)* bitcast (%Int32 (%"$$fundef_3_env_51"*, %TName_Bool*)* @"$fundef_3" to %Int32 (i8*, %TName_Bool*)*), i8* undef }, i8* %"$$fundef_3_env_voidp_68", 1
   %"$$fundef_3_env_x_70" = getelementptr inbounds %"$$fundef_3_env_51", %"$$fundef_3_env_51"* %"$$fundef_3_envp_66", i32 0, i32 0
   %"$x_71" = load %Int32, %Int32* %x
   store %Int32 %"$x_71", %Int32* %"$$fundef_3_env_x_70"
   %"$$fundef_3_env_y_72" = getelementptr inbounds %"$$fundef_3_env_51", %"$$fundef_3_env_51"* %"$$fundef_3_envp_66", i32 0, i32 1
   %"$y_73" = load %Int32, %Int32* %y
   store %Int32 %"$y_73", %Int32* %"$$fundef_3_env_y_72"
-  store { %Int32 (i8*, %Bool*)*, i8* } %"$$fundef_3_cloval_69", { %Int32 (i8*, %Bool*)*, i8* }* %f
-  %t = alloca %Bool*
+  store { %Int32 (i8*, %TName_Bool*)*, i8* } %"$$fundef_3_cloval_69", { %Int32 (i8*, %TName_Bool*)*, i8* }* %f
+  %t = alloca %TName_Bool*
   %"$adtval_74_load" = load i8*, i8** @_execptr
   %"$adtval_74_salloc" = call i8* @_salloc(i8* %"$adtval_74_load", i64 1)
-  %"$adtval_74" = bitcast i8* %"$adtval_74_salloc" to %True*
-  %"$adtgep_75" = getelementptr inbounds %True, %True* %"$adtval_74", i32 0, i32 0
+  %"$adtval_74" = bitcast i8* %"$adtval_74_salloc" to %CName_True*
+  %"$adtgep_75" = getelementptr inbounds %CName_True, %CName_True* %"$adtval_74", i32 0, i32 0
   store i8 0, i8* %"$adtgep_75"
-  %"$adtptr_76" = bitcast %True* %"$adtval_74" to %Bool*
-  store %Bool* %"$adtptr_76", %Bool** %t
+  %"$adtptr_76" = bitcast %CName_True* %"$adtval_74" to %TName_Bool*
+  store %TName_Bool* %"$adtptr_76", %TName_Bool** %t
   %"$f_1" = alloca %Int32
-  %"$f_77" = load { %Int32 (i8*, %Bool*)*, i8* }, { %Int32 (i8*, %Bool*)*, i8* }* %f
-  %"$f_fptr_78" = extractvalue { %Int32 (i8*, %Bool*)*, i8* } %"$f_77", 0
-  %"$f_envptr_79" = extractvalue { %Int32 (i8*, %Bool*)*, i8* } %"$f_77", 1
-  %"$t_80" = load %Bool*, %Bool** %t
-  %"$f_call_81" = call %Int32 %"$f_fptr_78"(i8* %"$f_envptr_79", %Bool* %"$t_80")
+  %"$f_77" = load { %Int32 (i8*, %TName_Bool*)*, i8* }, { %Int32 (i8*, %TName_Bool*)*, i8* }* %f
+  %"$f_fptr_78" = extractvalue { %Int32 (i8*, %TName_Bool*)*, i8* } %"$f_77", 0
+  %"$f_envptr_79" = extractvalue { %Int32 (i8*, %TName_Bool*)*, i8* } %"$f_77", 1
+  %"$t_80" = load %TName_Bool*, %TName_Bool** %t
+  %"$f_call_81" = call %Int32 %"$f_fptr_78"(i8* %"$f_envptr_79", %TName_Bool* %"$t_80")
   store %Int32 %"$f_call_81", %Int32* %"$f_1"
   %"$$f_1_82" = load %Int32, %Int32* %"$f_1"
   store %Int32 %"$$f_1_82", %Int32* %"$expr_2"

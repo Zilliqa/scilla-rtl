@@ -84,9 +84,9 @@ target triple = "x86_64-pc-linux-gnu"
 %"$$fundef_16_env_163" = type {}
 %"$$fundef_14_env_164" = type {}
 %"$$fundef_12_env_165" = type {}
-%Bool = type { i8, %True*, %False* }
-%True = type <{ i8 }>
-%False = type <{ i8 }>
+%TName_Bool = type { i8, %CName_True*, %CName_False* }
+%CName_True = type <{ i8 }>
+%CName_False = type <{ i8 }>
 
 @_execptr = global i8* null
 @"$TyDescr_Int32_Prim_70" = global %"$TyDescrTy_PrimTyp_69" zeroinitializer
@@ -948,16 +948,16 @@ entry:
   %"$dyndisp_pcast_568" = bitcast { i8*, i8* }* %"$dyndisp_gep_567" to { { { %TName_List_Int64* (i8*, %Int64)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*)*, i8* }*
   store { { { %TName_List_Int64* (i8*, %Int64)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*)*, i8* } { { { %TName_List_Int64* (i8*, %Int64)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*)* bitcast ({ { %TName_List_Int64* (i8*, %Int64)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (%"$$fundef_65_env_139"*)* @"$fundef_65" to { { %TName_List_Int64* (i8*, %Int64)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*)*), i8* null }, { { { %TName_List_Int64* (i8*, %Int64)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_568"
   store { i8*, i8* }* %"$dyndisp_table_564", { i8*, i8* }** %t
-  %some_bool = alloca %Bool*
+  %some_bool = alloca %TName_Bool*
   %"$adtval_569_load" = load i8*, i8** @_execptr
   %"$adtval_569_salloc" = call i8* @_salloc(i8* %"$adtval_569_load", i64 1)
-  %"$adtval_569" = bitcast i8* %"$adtval_569_salloc" to %False*
-  %"$adtgep_570" = getelementptr inbounds %False, %False* %"$adtval_569", i32 0, i32 0
+  %"$adtval_569" = bitcast i8* %"$adtval_569_salloc" to %CName_False*
+  %"$adtgep_570" = getelementptr inbounds %CName_False, %CName_False* %"$adtval_569", i32 0, i32 0
   store i8 1, i8* %"$adtgep_570"
-  %"$adtptr_571" = bitcast %False* %"$adtval_569" to %Bool*
-  store %Bool* %"$adtptr_571", %Bool** %some_bool
-  %"$some_bool_573" = load %Bool*, %Bool** %some_bool
-  %"$some_bool_tag_574" = getelementptr inbounds %Bool, %Bool* %"$some_bool_573", i32 0, i32 0
+  %"$adtptr_571" = bitcast %CName_False* %"$adtval_569" to %TName_Bool*
+  store %TName_Bool* %"$adtptr_571", %TName_Bool** %some_bool
+  %"$some_bool_573" = load %TName_Bool*, %TName_Bool** %some_bool
+  %"$some_bool_tag_574" = getelementptr inbounds %TName_Bool, %TName_Bool* %"$some_bool_573", i32 0, i32 0
   %"$some_bool_tag_575" = load i8, i8* %"$some_bool_tag_574"
   switch i8 %"$some_bool_tag_575", label %"$empty_default_576" [
     i8 0, label %"$True_577"
@@ -965,7 +965,7 @@ entry:
   ]
 
 "$True_577":                                      ; preds = %entry
-  %"$some_bool_578" = bitcast %Bool* %"$some_bool_573" to %True*
+  %"$some_bool_578" = bitcast %TName_Bool* %"$some_bool_573" to %CName_True*
   %f11 = alloca { { %TName_List_Int32* (i8*, %Int32)*, i8* } (i8*, { i8*, i8* }*)*, i8* }
   %"$t_579" = load { i8*, i8* }*, { i8*, i8* }** %t
   %"$t_580" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$t_579", i32 0
@@ -1018,7 +1018,7 @@ entry:
   br label %"$matchsucc_572"
 
 "$False_611":                                     ; preds = %entry
-  %"$some_bool_612" = bitcast %Bool* %"$some_bool_573" to %False*
+  %"$some_bool_612" = bitcast %TName_Bool* %"$some_bool_573" to %CName_False*
   %f22 = alloca { { %TName_List_Int64* (i8*, %Int64)*, i8* } (i8*, { i8*, i8* }*)*, i8* }
   %"$t_613" = load { i8*, i8* }*, { i8*, i8* }** %t
   %"$t_614" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$t_613", i32 2

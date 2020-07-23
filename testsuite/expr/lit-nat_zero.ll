@@ -10,9 +10,9 @@ target triple = "x86_64-pc-linux-gnu"
 %TyDescrString = type { i8*, i32 }
 %"$TyDescrTy_ADTTyp_Specl_30" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_32"**, %"$TyDescrTy_ADTTyp_31"* }
 %"$TyDescrTy_ADTTyp_Constr_32" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
-%Nat = type { i8, %Zero*, %Succ* }
-%Zero = type <{ i8 }>
-%Succ = type <{ i8, %Nat* }>
+%TName_Nat = type { i8, %CName_Zero*, %CName_Succ* }
+%CName_Zero = type <{ i8 }>
+%CName_Succ = type <{ i8, %TName_Nat* }>
 
 @_execptr = global i8* null
 @"$TyDescr_Int32_Prim_2" = global %"$TyDescrTy_PrimTyp_1" zeroinitializer
@@ -62,18 +62,18 @@ entry:
   ret void
 }
 
-define internal %Nat* @"$scilla_expr_47"(i8* %0) {
+define internal %TName_Nat* @"$scilla_expr_47"(i8* %0) {
 entry:
-  %"$expr_0" = alloca %Nat*
+  %"$expr_0" = alloca %TName_Nat*
   %"$adtval_48_load" = load i8*, i8** @_execptr
   %"$adtval_48_salloc" = call i8* @_salloc(i8* %"$adtval_48_load", i64 1)
-  %"$adtval_48" = bitcast i8* %"$adtval_48_salloc" to %Zero*
-  %"$adtgep_49" = getelementptr inbounds %Zero, %Zero* %"$adtval_48", i32 0, i32 0
+  %"$adtval_48" = bitcast i8* %"$adtval_48_salloc" to %CName_Zero*
+  %"$adtgep_49" = getelementptr inbounds %CName_Zero, %CName_Zero* %"$adtval_48", i32 0, i32 0
   store i8 0, i8* %"$adtgep_49"
-  %"$adtptr_50" = bitcast %Zero* %"$adtval_48" to %Nat*
-  store %Nat* %"$adtptr_50", %Nat** %"$expr_0"
-  %"$$expr_0_51" = load %Nat*, %Nat** %"$expr_0"
-  ret %Nat* %"$$expr_0_51"
+  %"$adtptr_50" = bitcast %CName_Zero* %"$adtval_48" to %TName_Nat*
+  store %TName_Nat* %"$adtptr_50", %TName_Nat** %"$expr_0"
+  %"$$expr_0_51" = load %TName_Nat*, %TName_Nat** %"$expr_0"
+  ret %TName_Nat* %"$$expr_0_51"
 }
 
 declare i8* @_salloc(i8*, i64)
@@ -82,8 +82,8 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_52" = call %Nat* @"$scilla_expr_47"(i8* null)
-  %"$memvoidcast_53" = bitcast %Nat* %"$exprval_52" to i8*
+  %"$exprval_52" = call %TName_Nat* @"$scilla_expr_47"(i8* null)
+  %"$memvoidcast_53" = bitcast %TName_Nat* %"$exprval_52" to i8*
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33", i8* %"$memvoidcast_53")
   ret void
 }

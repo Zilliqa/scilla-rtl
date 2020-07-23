@@ -13,9 +13,9 @@ target triple = "x86_64-pc-linux-gnu"
 %TyDescrString = type { i8*, i32 }
 %"$TyDescrTy_ADTTyp_Specl_30" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_32"**, %"$TyDescrTy_ADTTyp_31"* }
 %"$TyDescrTy_ADTTyp_Constr_32" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
-%Nat = type { i8, %Zero*, %Succ* }
-%Zero = type <{ i8 }>
-%Succ = type <{ i8, %Nat* }>
+%TName_Nat = type { i8, %CName_Zero*, %CName_Succ* }
+%CName_Zero = type <{ i8 }>
+%CName_Succ = type <{ i8, %TName_Nat* }>
 
 @_execptr = global i8* null
 @"$TyDescr_Int32_Prim_2" = global %"$TyDescrTy_PrimTyp_1" zeroinitializer
@@ -65,43 +65,43 @@ entry:
   ret void
 }
 
-define internal %Nat* @"$scilla_expr_47"(i8* %0) {
+define internal %TName_Nat* @"$scilla_expr_47"(i8* %0) {
 entry:
-  %"$expr_0" = alloca %Nat*
-  %zero = alloca %Nat*
+  %"$expr_0" = alloca %TName_Nat*
+  %zero = alloca %TName_Nat*
   %"$adtval_48_load" = load i8*, i8** @_execptr
   %"$adtval_48_salloc" = call i8* @_salloc(i8* %"$adtval_48_load", i64 1)
-  %"$adtval_48" = bitcast i8* %"$adtval_48_salloc" to %Zero*
-  %"$adtgep_49" = getelementptr inbounds %Zero, %Zero* %"$adtval_48", i32 0, i32 0
+  %"$adtval_48" = bitcast i8* %"$adtval_48_salloc" to %CName_Zero*
+  %"$adtgep_49" = getelementptr inbounds %CName_Zero, %CName_Zero* %"$adtval_48", i32 0, i32 0
   store i8 0, i8* %"$adtgep_49"
-  %"$adtptr_50" = bitcast %Zero* %"$adtval_48" to %Nat*
-  store %Nat* %"$adtptr_50", %Nat** %zero
-  %one = alloca %Nat*
-  %"$zero_51" = load %Nat*, %Nat** %zero
+  %"$adtptr_50" = bitcast %CName_Zero* %"$adtval_48" to %TName_Nat*
+  store %TName_Nat* %"$adtptr_50", %TName_Nat** %zero
+  %one = alloca %TName_Nat*
+  %"$zero_51" = load %TName_Nat*, %TName_Nat** %zero
   %"$adtval_52_load" = load i8*, i8** @_execptr
   %"$adtval_52_salloc" = call i8* @_salloc(i8* %"$adtval_52_load", i64 9)
-  %"$adtval_52" = bitcast i8* %"$adtval_52_salloc" to %Succ*
-  %"$adtgep_53" = getelementptr inbounds %Succ, %Succ* %"$adtval_52", i32 0, i32 0
+  %"$adtval_52" = bitcast i8* %"$adtval_52_salloc" to %CName_Succ*
+  %"$adtgep_53" = getelementptr inbounds %CName_Succ, %CName_Succ* %"$adtval_52", i32 0, i32 0
   store i8 1, i8* %"$adtgep_53"
-  %"$adtgep_54" = getelementptr inbounds %Succ, %Succ* %"$adtval_52", i32 0, i32 1
-  store %Nat* %"$zero_51", %Nat** %"$adtgep_54"
-  %"$adtptr_55" = bitcast %Succ* %"$adtval_52" to %Nat*
-  store %Nat* %"$adtptr_55", %Nat** %one
-  %two = alloca %Nat*
-  %"$one_56" = load %Nat*, %Nat** %one
+  %"$adtgep_54" = getelementptr inbounds %CName_Succ, %CName_Succ* %"$adtval_52", i32 0, i32 1
+  store %TName_Nat* %"$zero_51", %TName_Nat** %"$adtgep_54"
+  %"$adtptr_55" = bitcast %CName_Succ* %"$adtval_52" to %TName_Nat*
+  store %TName_Nat* %"$adtptr_55", %TName_Nat** %one
+  %two = alloca %TName_Nat*
+  %"$one_56" = load %TName_Nat*, %TName_Nat** %one
   %"$adtval_57_load" = load i8*, i8** @_execptr
   %"$adtval_57_salloc" = call i8* @_salloc(i8* %"$adtval_57_load", i64 9)
-  %"$adtval_57" = bitcast i8* %"$adtval_57_salloc" to %Succ*
-  %"$adtgep_58" = getelementptr inbounds %Succ, %Succ* %"$adtval_57", i32 0, i32 0
+  %"$adtval_57" = bitcast i8* %"$adtval_57_salloc" to %CName_Succ*
+  %"$adtgep_58" = getelementptr inbounds %CName_Succ, %CName_Succ* %"$adtval_57", i32 0, i32 0
   store i8 1, i8* %"$adtgep_58"
-  %"$adtgep_59" = getelementptr inbounds %Succ, %Succ* %"$adtval_57", i32 0, i32 1
-  store %Nat* %"$one_56", %Nat** %"$adtgep_59"
-  %"$adtptr_60" = bitcast %Succ* %"$adtval_57" to %Nat*
-  store %Nat* %"$adtptr_60", %Nat** %two
-  %"$two_61" = load %Nat*, %Nat** %two
-  store %Nat* %"$two_61", %Nat** %"$expr_0"
-  %"$$expr_0_62" = load %Nat*, %Nat** %"$expr_0"
-  ret %Nat* %"$$expr_0_62"
+  %"$adtgep_59" = getelementptr inbounds %CName_Succ, %CName_Succ* %"$adtval_57", i32 0, i32 1
+  store %TName_Nat* %"$one_56", %TName_Nat** %"$adtgep_59"
+  %"$adtptr_60" = bitcast %CName_Succ* %"$adtval_57" to %TName_Nat*
+  store %TName_Nat* %"$adtptr_60", %TName_Nat** %two
+  %"$two_61" = load %TName_Nat*, %TName_Nat** %two
+  store %TName_Nat* %"$two_61", %TName_Nat** %"$expr_0"
+  %"$$expr_0_62" = load %TName_Nat*, %TName_Nat** %"$expr_0"
+  ret %TName_Nat* %"$$expr_0_62"
 }
 
 declare i8* @_salloc(i8*, i64)
@@ -110,8 +110,8 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_63" = call %Nat* @"$scilla_expr_47"(i8* null)
-  %"$memvoidcast_64" = bitcast %Nat* %"$exprval_63" to i8*
+  %"$exprval_63" = call %TName_Nat* @"$scilla_expr_47"(i8* null)
+  %"$memvoidcast_64" = bitcast %TName_Nat* %"$exprval_63" to i8*
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33", i8* %"$memvoidcast_64")
   ret void
 }

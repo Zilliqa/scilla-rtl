@@ -41,11 +41,11 @@ target triple = "x86_64-pc-linux-gnu"
 %TyDescrString = type { i8*, i32 }
 %"$TyDescrTy_ADTTyp_Specl_90" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_92"**, %"$TyDescrTy_ADTTyp_91"* }
 %"$TyDescrTy_ADTTyp_Constr_92" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
-%"$$fundef_57_env_130" = type { %Bool*, { i8*, i8* }* }
-%Bool = type { i8, %True*, %False* }
-%True = type <{ i8 }>
-%False = type <{ i8 }>
-%"$$fundef_55_env_131" = type { %Bool* }
+%"$$fundef_57_env_130" = type { %TName_Bool*, { i8*, i8* }* }
+%TName_Bool = type { i8, %CName_True*, %CName_False* }
+%CName_True = type <{ i8 }>
+%CName_False = type <{ i8 }>
+%"$$fundef_55_env_131" = type { %TName_Bool* }
 %"$$fundef_53_env_132" = type {}
 %Uint32 = type { i32 }
 %"$$fundef_51_env_133" = type { { i8*, i8* }* }
@@ -149,16 +149,16 @@ target triple = "x86_64-pc-linux-gnu"
 define internal { i8*, i8* }* @"$fundef_57"(%"$$fundef_57_env_130"* %0, { i8*, i8* }* %1) {
 entry:
   %"$$fundef_57_env_b_478" = getelementptr inbounds %"$$fundef_57_env_130", %"$$fundef_57_env_130"* %0, i32 0, i32 0
-  %"$b_envload_479" = load %Bool*, %Bool** %"$$fundef_57_env_b_478"
-  %b = alloca %Bool*
-  store %Bool* %"$b_envload_479", %Bool** %b
+  %"$b_envload_479" = load %TName_Bool*, %TName_Bool** %"$$fundef_57_env_b_478"
+  %b = alloca %TName_Bool*
+  store %TName_Bool* %"$b_envload_479", %TName_Bool** %b
   %"$$fundef_57_env_f_480" = getelementptr inbounds %"$$fundef_57_env_130", %"$$fundef_57_env_130"* %0, i32 0, i32 1
   %"$f_envload_481" = load { i8*, i8* }*, { i8*, i8* }** %"$$fundef_57_env_f_480"
   %f = alloca { i8*, i8* }*
   store { i8*, i8* }* %"$f_envload_481", { i8*, i8* }** %f
   %"$retval_58" = alloca { i8*, i8* }*
-  %"$b_483" = load %Bool*, %Bool** %b
-  %"$b_tag_484" = getelementptr inbounds %Bool, %Bool* %"$b_483", i32 0, i32 0
+  %"$b_483" = load %TName_Bool*, %TName_Bool** %b
+  %"$b_tag_484" = getelementptr inbounds %TName_Bool, %TName_Bool* %"$b_483", i32 0, i32 0
   %"$b_tag_485" = load i8, i8* %"$b_tag_484"
   switch i8 %"$b_tag_485", label %"$empty_default_486" [
     i8 0, label %"$True_487"
@@ -166,12 +166,12 @@ entry:
   ]
 
 "$True_487":                                      ; preds = %entry
-  %"$b_488" = bitcast %Bool* %"$b_483" to %True*
+  %"$b_488" = bitcast %TName_Bool* %"$b_483" to %CName_True*
   store { i8*, i8* }* %1, { i8*, i8* }** %"$retval_58"
   br label %"$matchsucc_482"
 
 "$False_489":                                     ; preds = %entry
-  %"$b_490" = bitcast %Bool* %"$b_483" to %False*
+  %"$b_490" = bitcast %TName_Bool* %"$b_483" to %CName_False*
   %"$f_491" = load { i8*, i8* }*, { i8*, i8* }** %f
   store { i8*, i8* }* %"$f_491", { i8*, i8* }** %"$retval_58"
   br label %"$matchsucc_482"
@@ -187,9 +187,9 @@ entry:
 define internal { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } @"$fundef_55"(%"$$fundef_55_env_131"* %0, { i8*, i8* }* %1) {
 entry:
   %"$$fundef_55_env_b_468" = getelementptr inbounds %"$$fundef_55_env_131", %"$$fundef_55_env_131"* %0, i32 0, i32 0
-  %"$b_envload_469" = load %Bool*, %Bool** %"$$fundef_55_env_b_468"
-  %b = alloca %Bool*
-  store %Bool* %"$b_envload_469", %Bool** %b
+  %"$b_envload_469" = load %TName_Bool*, %TName_Bool** %"$$fundef_55_env_b_468"
+  %b = alloca %TName_Bool*
+  store %TName_Bool* %"$b_envload_469", %TName_Bool** %b
   %"$retval_56" = alloca { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* }
   %"$$fundef_57_envp_470_load" = load i8*, i8** @_execptr
   %"$$fundef_57_envp_470_salloc" = call i8* @_salloc(i8* %"$$fundef_57_envp_470_load", i64 16)
@@ -197,8 +197,8 @@ entry:
   %"$$fundef_57_env_voidp_472" = bitcast %"$$fundef_57_env_130"* %"$$fundef_57_envp_470" to i8*
   %"$$fundef_57_cloval_473" = insertvalue { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } { { i8*, i8* }* (i8*, { i8*, i8* }*)* bitcast ({ i8*, i8* }* (%"$$fundef_57_env_130"*, { i8*, i8* }*)* @"$fundef_57" to { i8*, i8* }* (i8*, { i8*, i8* }*)*), i8* undef }, i8* %"$$fundef_57_env_voidp_472", 1
   %"$$fundef_57_env_b_474" = getelementptr inbounds %"$$fundef_57_env_130", %"$$fundef_57_env_130"* %"$$fundef_57_envp_470", i32 0, i32 0
-  %"$b_475" = load %Bool*, %Bool** %b
-  store %Bool* %"$b_475", %Bool** %"$$fundef_57_env_b_474"
+  %"$b_475" = load %TName_Bool*, %TName_Bool** %b
+  store %TName_Bool* %"$b_475", %TName_Bool** %"$$fundef_57_env_b_474"
   %"$$fundef_57_env_f_476" = getelementptr inbounds %"$$fundef_57_env_130", %"$$fundef_57_env_130"* %"$$fundef_57_envp_470", i32 0, i32 1
   store { i8*, i8* }* %1, { i8*, i8* }** %"$$fundef_57_env_f_476"
   store { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } %"$$fundef_57_cloval_473", { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* }* %"$retval_56"
@@ -206,7 +206,7 @@ entry:
   ret { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } %"$$retval_56_477"
 }
 
-define internal { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } @"$fundef_53"(%"$$fundef_53_env_132"* %0, %Bool* %1) {
+define internal { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } @"$fundef_53"(%"$$fundef_53_env_132"* %0, %TName_Bool* %1) {
 entry:
   %"$retval_54" = alloca { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* }
   %"$$fundef_55_envp_462_load" = load i8*, i8** @_execptr
@@ -215,7 +215,7 @@ entry:
   %"$$fundef_55_env_voidp_464" = bitcast %"$$fundef_55_env_131"* %"$$fundef_55_envp_462" to i8*
   %"$$fundef_55_cloval_465" = insertvalue { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)* bitcast ({ { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (%"$$fundef_55_env_131"*, { i8*, i8* }*)* @"$fundef_55" to { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*), i8* undef }, i8* %"$$fundef_55_env_voidp_464", 1
   %"$$fundef_55_env_b_466" = getelementptr inbounds %"$$fundef_55_env_131", %"$$fundef_55_env_131"* %"$$fundef_55_envp_462", i32 0, i32 0
-  store %Bool* %1, %Bool** %"$$fundef_55_env_b_466"
+  store %TName_Bool* %1, %TName_Bool** %"$$fundef_55_env_b_466"
   store { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } %"$$fundef_55_cloval_465", { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* }* %"$retval_54"
   %"$$retval_54_467" = load { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* }, { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* }* %"$retval_54"
   ret { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } %"$$retval_54_467"
@@ -902,23 +902,23 @@ entry:
   %"$dyndisp_pcast_532" = bitcast { i8*, i8* }* %"$dyndisp_gep_531" to { { %Uint32 (i8*, %TName_List_ByStr20*)*, i8* } (i8*)*, i8* }*
   store { { %Uint32 (i8*, %TName_List_ByStr20*)*, i8* } (i8*)*, i8* } %"$$fundef_49_cloval_527", { { %Uint32 (i8*, %TName_List_ByStr20*)*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_532"
   store { i8*, i8* }* %"$dyndisp_table_528", { i8*, i8* }** %list_length2
-  %t = alloca { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %Bool*)*, i8* }
-  store { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %Bool*)*, i8* } { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %Bool*)* bitcast ({ { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (%"$$fundef_53_env_132"*, %Bool*)* @"$fundef_53" to { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %Bool*)*), i8* null }, { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %Bool*)*, i8* }* %t
-  %true = alloca %Bool*
+  %t = alloca { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %TName_Bool*)*, i8* }
+  store { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (%"$$fundef_53_env_132"*, %TName_Bool*)* @"$fundef_53" to { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %t
+  %true = alloca %TName_Bool*
   %"$adtval_536_load" = load i8*, i8** @_execptr
   %"$adtval_536_salloc" = call i8* @_salloc(i8* %"$adtval_536_load", i64 1)
-  %"$adtval_536" = bitcast i8* %"$adtval_536_salloc" to %True*
-  %"$adtgep_537" = getelementptr inbounds %True, %True* %"$adtval_536", i32 0, i32 0
+  %"$adtval_536" = bitcast i8* %"$adtval_536_salloc" to %CName_True*
+  %"$adtgep_537" = getelementptr inbounds %CName_True, %CName_True* %"$adtval_536", i32 0, i32 0
   store i8 0, i8* %"$adtgep_537"
-  %"$adtptr_538" = bitcast %True* %"$adtval_536" to %Bool*
-  store %Bool* %"$adtptr_538", %Bool** %true
+  %"$adtptr_538" = bitcast %CName_True* %"$adtval_536" to %TName_Bool*
+  store %TName_Bool* %"$adtptr_538", %TName_Bool** %true
   %f = alloca { i8*, i8* }*
   %"$t_7" = alloca { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* }
-  %"$t_539" = load { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %Bool*)*, i8* }, { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %Bool*)*, i8* }* %t
-  %"$t_fptr_540" = extractvalue { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %Bool*)*, i8* } %"$t_539", 0
-  %"$t_envptr_541" = extractvalue { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %Bool*)*, i8* } %"$t_539", 1
-  %"$true_542" = load %Bool*, %Bool** %true
-  %"$t_call_543" = call { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } %"$t_fptr_540"(i8* %"$t_envptr_541", %Bool* %"$true_542")
+  %"$t_539" = load { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %t
+  %"$t_fptr_540" = extractvalue { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$t_539", 0
+  %"$t_envptr_541" = extractvalue { { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$t_539", 1
+  %"$true_542" = load %TName_Bool*, %TName_Bool** %true
+  %"$t_call_543" = call { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } %"$t_fptr_540"(i8* %"$t_envptr_541", %TName_Bool* %"$true_542")
   store { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* } %"$t_call_543", { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* }* %"$t_7"
   %"$t_8" = alloca { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* }
   %"$$t_7_544" = load { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* }, { { { i8*, i8* }* (i8*, { i8*, i8* }*)*, i8* } (i8*, { i8*, i8* }*)*, i8* }* %"$t_7"
