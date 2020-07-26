@@ -58,7 +58,9 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_eq_ByStr", (void *) _eq_ByStr},
     {"_eq_ByStrX", (void *) _eq_ByStrX},
     {"_to_bystr", (void *) _to_bystr},
-    {"_sha256hash", (void *) _sha256hash}
+    {"_sha256hash", (void *) _sha256hash},
+    {"_concat_String", (void *) _concat_String},
+    {"_concat_ByStrX", (void *) _concat_ByStrX},
   };
   // clang-format on
 
@@ -412,10 +414,26 @@ ScillaTypes::String _to_bystr(ScillaJIT *SJ, int X, uint8_t *Buf) {
 }
 
 void _sha256hash(uint8_t *Ret, const ScillaTypes::Typ *T, void *V) {
-
   ByteVec Serialized;
   ScillaValues::serializeForHashing(Serialized, T, V);
   SHA256(Serialized.data(), Serialized.size(), Ret);
+}
+
+ScillaTypes::String _concat_String(ScillaJIT *SJ, ScillaTypes::String Lhs,
+                                   ScillaTypes::String Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  ScillaTypes::String Ret;
+  Ret.m_length = Lhs.m_length + Rhs.m_length;
+  auto Buf = reinterpret_cast<uint8_t *>(SA(Ret.m_length));
+  std::memcpy(Buf, Lhs.m_buffer, Lhs.m_length);
+  std::memcpy(Buf + Lhs.m_length, Rhs.m_buffer, Rhs.m_length);
+  Ret.m_buffer = Buf;
+  return Ret;
+}
+
+void _concat_ByStrX(uint8_t *SRet, int X1, uint8_t *Lhs, int X2, uint8_t *Rhs) {
+  std::memcpy(SRet, Lhs, X1);
+  std::memcpy(SRet + X1, Rhs, X2);
 }
 
 } // end of extern "C".

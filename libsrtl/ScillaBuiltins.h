@@ -130,5 +130,11 @@ ScillaVM::ScillaTypes::String _to_bystr(ScillaVM::ScillaJIT *SJ, int X,
 
 void _sha256hash(uint8_t *Ret, const ScillaVM::ScillaTypes::Typ *T, void *V);
 
+ScillaVM::ScillaTypes::String _concat_String(ScillaVM::ScillaJIT *SJ,
+                                             ScillaVM::ScillaTypes::String Lhs,
+                                             ScillaVM::ScillaTypes::String Rhs);
+
+void _concat_ByStrX(uint8_t *SRet, int X1, uint8_t *Lhs, int X2, uint8_t *Rhs);
+
 } // extern "C"
 #pragma clang diagnostic pop
