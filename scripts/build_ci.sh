@@ -1,3 +1,3 @@
-cmake -B build -S .
+cmake -Bbuild -H.
 cmake --build build --target runtests
 
