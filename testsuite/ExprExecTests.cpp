@@ -109,5 +109,6 @@ BOOST_AUTO_TEST_CASE(cn) { testExecExpr("cn"); }
 BOOST_AUTO_TEST_CASE(church_nat) { testExecExpr("church_nat"); }
 BOOST_AUTO_TEST_CASE(builtin_eq) { testExecExpr("builtin_eq"); }
 BOOST_AUTO_TEST_CASE(builtin_sha256hash) { testExecExpr("builtin_sha256hash"); }
+BOOST_AUTO_TEST_CASE(builtin_concat) { testExecExpr("builtin_concat"); }
 
 BOOST_AUTO_TEST_SUITE_END()
