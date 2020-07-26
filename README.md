@@ -1,5 +1,8 @@
 # Scilla Virtual Machine
 
+[![Build Status](https://travis-ci.com/Zilliqa/scilla-vm.svg?branch=master)](https://travis-ci.com/Zilliqa/scilla-vm)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/Zilliqa/scilla/blob/master/LICENSE)
+
 A compiled execution backend for Scilla.
 
 The compiled execution backend is divided into two parts:
@@ -26,7 +29,7 @@ suitably for your OS (see the LLVM [apt page](https://apt.llvm.org/https://apt.l
 ```
 
 Install these Ubuntu packages
-  - `sudo apt-get install build-essential cmake llvm-10-dev libboost-dev libboost-test-dev libboost-test-dev libjsoncpp-dev libboost-filesystem-dev libboost-program-options-dev`
+  - `sudo apt-get install build-essential cmake llvm-10-dev libboost-dev libboost-test-dev libjsoncpp-dev libboost-filesystem-dev libboost-program-options-dev`
 
 We suggest building ScillaVM in a directory that is *not* the source directory.
   * `$git clone --recurse-submodules https://github.com/Zilliqa/scilla-vm.git`
