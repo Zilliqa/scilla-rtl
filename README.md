@@ -1,5 +1,8 @@
 # Scilla Virtual Machine
 
+[![Build Status](https://travis-ci.com/Zilliqa/scilla-vm.svg?branch=master)](https://travis-ci.com/Zilliqa/scilla-vm)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/Zilliqa/scilla/blob/master/LICENSE)
+
 A compiled execution backend for Scilla.
 
 The compiled execution backend is divided into two parts:
