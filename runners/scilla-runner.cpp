@@ -103,12 +103,16 @@ int main(int argc, char *argv[]) {
     auto SJ = parseJSONFile(StateFilename);
     auto CIJ = parseJSONFile(ContrInfoFilename);
     // Update our in-memory state table with the one from the JSONs.
-    State.initFromJSON(SJ, CIJ);
+    auto Balance = State.initFromJSON(SJ, CIJ);
 
     // Create a JIT engine and execute the message.
     auto JE = ScillaJIT::create(SP, InputFilename, IJ);
-    auto OutJ = JE->execMsg(MJ);
-    OutJ["states"] = State.dumpToJSON();
+    auto OutJ = JE->execMsg(Balance, 0, MJ);
+    auto OSJ = State.dumpToJSON();
+    // Append states to our main output.
+    for (auto &S : OSJ)
+      OutJ["states"].append(S);
+
     // Append output to the Scilla output object for printing later.
     ScillaStdout += OutJ.toStyledString();
   } catch (const ScillaError &e) {

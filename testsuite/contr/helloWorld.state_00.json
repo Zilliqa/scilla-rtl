@@ -1,7 +1,12 @@
 [
-    {
-        "vname" : "welcome_msg",
-        "type" : "String",
-        "value" : ""
-    }
+   {
+      "type" : "String",
+      "value" : "",
+      "vname" : "welcome_msg"
+   },
+   {
+      "type" : "Uint128",
+      "value" : "0",
+      "vname" : "_balance"
+   }
 ]

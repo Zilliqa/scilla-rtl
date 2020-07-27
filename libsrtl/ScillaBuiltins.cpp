@@ -67,30 +67,72 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
   return std::vector<ScillaFunctionsMap>(std::begin(m), std::end(m));
 }
 
-class ScillaOutputProcessor {
-private:
-  static void process(std::string OutType, ScillaJIT *SJ, Json::Value &M) {
-    Json::Value &OutJ = SJ->OutJ;
-    if (OutJ.empty()) {
-      OutJ[OutType] = Json::arrayValue;
+void TransitionState::processMessage(std::string OutType, Json::Value &M) {
+  if (OutJ.empty()) {
+    OutJ[OutType] = Json::arrayValue;
+  }
+
+  if (!OutJ.isObject())
+    CREATE_ERROR("Incorrect format of Output JSON");
+
+  Json::Value &Arr = OutJ[OutType];
+  ASSERT(Arr.isNull() || Arr.isArray());
+  OutJ[OutType].append(M);
+}
+
+void TransitionState::processSend(Json::Value &M) {
+  processMessage("messages", M);
+}
+
+void TransitionState::processEvent(Json::Value &M) {
+  processMessage("events", M);
+}
+
+void TransitionState::processAccept(void) {
+  if (!Accepted) {
+    Balance = Balance + InAmount;
+    Accepted = true;
+  }
+}
+
+Json::Value TransitionState::finalize(void) {
+  // 1. Process all outgoing "_amount"s and subtract from Balance.
+  Json::Value &Ms = OutJ["messages"];
+  if (Ms.isArray()) {
+    for (const Json::Value &M : Ms) {
+      auto Amount = M["_amount"];
+      ASSERT(Amount.isString());
+      SafeUint128 AmountSUI(Amount.asString());
+      if (AmountSUI > Balance) {
+        CREATE_ERROR("Not enough balance to send _amount in all messages");
+      }
+      Balance = Balance - AmountSUI;
     }
-
-    if (!OutJ.isObject())
-      CREATE_ERROR("Incorrect format of Output JSON");
-
-    Json::Value &Arr = OutJ[OutType];
-    ASSERT(Arr.isNull() || Arr.isArray());
-    OutJ[OutType].append(M);
+  } else {
+    Ms = Json::arrayValue;
   }
 
-public:
-  static void processSend(ScillaJIT *SJ, Json::Value &M) {
-    process("messages", SJ, M);
-  }
-  static void processEvent(ScillaJIT *SJ, Json::Value &M) {
-    process("events", SJ, M);
-  }
-};
+  // 2. If there are no events, set an empty array.
+  Json::Value &Es = OutJ["events"];
+  if (!Es.isArray())
+    Es = Json::arrayValue;
+
+  // 3. Fill in other fields.
+  OutJ["gas_remaining"] = std::to_string(GasRemaining);
+  OutJ["_accepted"] = Accepted ? "true" : "false";
+  OutJ["scilla_major_version"] = "0";
+
+  // The states field is not very useful because the blockchain
+  // can always calculate it based on "_accepted" and message amounts.
+  // It's there because it's always been there ¯\_(ツ)_/¯
+  Json::Value BalJ;
+  BalJ["vname"] = "_balance";
+  BalJ["type"] = "Uint128";
+  BalJ["value"] = Balance.toString();
+  OutJ["states"].append(BalJ);
+
+  return OutJ;
+}
 
 } // namespace ScillaVM
 
@@ -360,7 +402,7 @@ void _send(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
       auto *JArgs = &(JJ->operator[]("arguments"));
       if (!JArgs->isArray() || JArgs->size() != 2)
         CREATE_ERROR(ErrMsg);
-      ScillaOutputProcessor::processSend(SJ, JArgs->operator[](0));
+      SJ->TS->processSend(JArgs->operator[](0));
       JJ = &(JArgs->operator[](1));
     } else if (CName == "Nil") {
       break;
@@ -372,7 +414,7 @@ void _send(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
 
 void _event(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
   auto J = ScillaValues::toJSON(T, V);
-  ScillaOutputProcessor::processEvent(SJ, J);
+  SJ->TS->processEvent(J);
 }
 
 void _throw(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
@@ -435,5 +477,7 @@ void _concat_ByStrX(uint8_t *SRet, int X1, uint8_t *Lhs, int X2, uint8_t *Rhs) {
   std::memcpy(SRet, Lhs, X1);
   std::memcpy(SRet + X1, Rhs, X2);
 }
+
+void _accept(ScillaJIT *SJ) { SJ->TS->processAccept(); }
 
 } // end of extern "C".

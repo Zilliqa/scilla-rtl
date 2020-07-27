@@ -21,6 +21,7 @@
  * Scilla contract. It is not intended to be called from other C++
  * code, and is therefore not a public header. */
 
+#include "SafeInt.h"
 #include "ScillaTypes.h"
 #include "ScillaVM/JITD.h"
 #include "ScillaValue.h"
@@ -32,6 +33,31 @@ struct ScillaFunctionsMap {
   const void *FAddr;
 };
 std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void);
+
+// Values that begin with a transition and change as it executes.
+class TransitionState {
+  SafeUint128 Balance;
+  SafeUint128 InAmount;
+  uint64_t GasRemaining;
+  bool Accepted;
+  // Contains the output messages of executing a transition.
+  Json::Value OutJ;
+
+  void processMessage(std::string OutType, Json::Value &M);
+
+public:
+  TransitionState(std::string Balance_P, std::string InAmount_P,
+                  uint64_t GasLimit_P)
+      : Balance(Balance_P), InAmount(InAmount_P), GasRemaining(GasLimit_P),
+        Accepted(false), OutJ(Json::objectValue){};
+
+  void processSend(Json::Value &M);
+  void processEvent(Json::Value &M);
+  void processAccept();
+
+  // Returns the output of the transition execution. Destroys *this*.
+  Json::Value finalize();
+};
 
 } // end of namespace ScillaVM
 
@@ -135,6 +161,8 @@ ScillaVM::ScillaTypes::String _concat_String(ScillaVM::ScillaJIT *SJ,
                                              ScillaVM::ScillaTypes::String Rhs);
 
 void _concat_ByStrX(uint8_t *SRet, int X1, uint8_t *Lhs, int X2, uint8_t *Rhs);
+
+void _accept(ScillaVM::ScillaJIT *SJ);
 
 } // extern "C"
 #pragma clang diagnostic pop

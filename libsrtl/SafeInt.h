@@ -15,6 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#pragma once
+
 #include <string>
 
 #include <wideint.h>
@@ -48,8 +50,15 @@ public:
   operator ScillaTypes::RawInt<Bits>() const;
 
   bool operator==(const SafeInt &Rhs) const;
+  bool operator!=(const SafeInt &Rhs) const;
+  bool operator>(const SafeInt &Rhs) const;
+  bool operator>=(const SafeInt &Rhs) const;
+  bool operator<(const SafeInt &Rhs) const;
+  bool operator<=(const SafeInt &Rhs) const;
+
   // Safe operations: over/underflows will cause an error.
   SafeInt operator+(const SafeInt &Rhs) const;
+  SafeInt operator-(const SafeInt &Rhs) const;
 
 private:
   // Initialize from raw bytes

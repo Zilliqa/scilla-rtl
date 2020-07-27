@@ -151,8 +151,10 @@ bool MemStateServer::updateStateValue(const ScillaParams::StateQuery &Query,
   return true;
 }
 
-void MemStateServer::initFromJSON(const Json::Value &SJ,
-                                  const Json::Value &CIJ) {
+std::string MemStateServer::initFromJSON(const Json::Value &SJ,
+                                         const Json::Value &CIJ) {
+
+  std::string Balance = "0";
   // Let's note down the map depth for each field.
   if (!CIJ.isMember("contract_info") ||
       !CIJ["contract_info"].isMember("fields") ||
@@ -188,8 +190,10 @@ void MemStateServer::initFromJSON(const Json::Value &SJ,
     }
     std::string VName = VNameJ.asString();
 
-    if (VName == "_balance")
+    if (VName == "_balance") {
+      Balance = VValJ.asString();
       continue;
+    }
 
     auto DepthItr = FieldDepths.find(VName);
     if (DepthItr == FieldDepths.end()) {
@@ -232,6 +236,8 @@ void MemStateServer::initFromJSON(const Json::Value &SJ,
     updateStateValue(Query, V);
     FieldTypes[VName] = VTypJ.asString();
   }
+
+  return Balance;
 }
 
 Json::Value MemStateServer::dumpToJSON() {

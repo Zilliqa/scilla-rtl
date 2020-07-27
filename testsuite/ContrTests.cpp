@@ -55,6 +55,7 @@ void testMessage(const std::string &ContrFilename,
   ScillaJIT::init();
 
   Json::Value MessageJSON, InitJSON;
+  std::string Balance;
   try {
     // Prepare all inputs.
     MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
@@ -62,7 +63,7 @@ void testMessage(const std::string &ContrFilename,
     auto SJ = parseJSONFile(PathPrefix + StateFilename);
     auto CIJ = parseJSONFile(PathPrefix + ContrInfoFilename);
     // Update our in-memory state table with the one from the JSONs.
-    State.initFromJSON(SJ, CIJ);
+    Balance = State.initFromJSON(SJ, CIJ);
   } catch (const ScillaError &e) {
     BOOST_FAIL(e.toString());
   }
@@ -78,16 +79,33 @@ void testMessage(const std::string &ContrFilename,
   try {
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
-      OJ = JE->execMsg(MessageJSON);
+      OJ = JE->execMsg(Balance, 0, MessageJSON);
     }
-    // Compare output state to expected output state.
     auto OSJ = State.dumpToJSON();
+    // OJ will contain ["states"]._balance. Move that to state JSON.
+    Json::Value &OJStates = OJ["states"];
+    for (Json::Value &OJS : OJStates)
+      OSJ.append(OJS);
+    OJ.removeMember("state");
+    // Update results if specified
+    if (Config::UpdateResults) {
+      std::ofstream Out(PathPrefix + ExpectedStateFilename);
+      Out << OSJ.toStyledString();
+      Out.close();
+    }
     auto ESJ = parseJSONFile(PathPrefix + ExpectedStateFilename);
+    // Compare output state to expected output state.
     BOOST_REQUIRE_MESSAGE(ESJ == OSJ, "Comparison failed:\nExpected:\n" +
                                           ESJ.toStyledString() + "\nGot:\n" +
                                           OSJ.toStyledString());
-    // Compare output to expected output.
+    // Update results if specified
+    if (Config::UpdateResults) {
+      std::ofstream Out(PathPrefix + ExpectedOutputFilename);
+      Out << OJ.toStyledString();
+      Out.close();
+    }
     auto EOJ = parseJSONFile(PathPrefix + ExpectedOutputFilename);
+    // Compare output to expected output.
     BOOST_REQUIRE_MESSAGE(EOJ == OJ, "Comparison failed:\nExpected:\n" +
                                          EOJ.toStyledString() + "\nGot:\n" +
                                          OJ.toStyledString());
@@ -122,6 +140,7 @@ void testMessageFail(const std::string &ContrFilename,
   ScillaJIT::init();
 
   Json::Value MessageJSON, InitJSON;
+  std::string Balance;
   try {
     // Prepare all inputs.
     MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
@@ -129,7 +148,7 @@ void testMessageFail(const std::string &ContrFilename,
     auto SJ = parseJSONFile(PathPrefix + StateFilename);
     auto CIJ = parseJSONFile(PathPrefix + ContrInfoFilename);
     // Update our in-memory state table with the one from the JSONs.
-    State.initFromJSON(SJ, CIJ);
+    Balance = State.initFromJSON(SJ, CIJ);
   } catch (const ScillaError &e) {
     BOOST_FAIL(e.toString());
   }
@@ -145,7 +164,7 @@ void testMessageFail(const std::string &ContrFilename,
   bool CaughtException = false;
   try {
     ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
-    JE->execMsg(MessageJSON);
+    JE->execMsg(Balance, 0, MessageJSON);
   } catch (const ScillaError &E) {
     output_test_stream Output(PathPrefix + ExpectedOutputFilename,
                               !Config::UpdateResults);
@@ -214,12 +233,12 @@ BOOST_AUTO_TEST_SUITE(send)
 
 BOOST_AUTO_TEST_CASE(state_message_SendMsg) {
   testMessage("send.ll", "send.message_SendMsg.json", "empty_init.json",
-              "send.contrinfo.json", "send.state.json", "send.state.json",
+              "send.contrinfo.json", "send.state_00.json", "send.state_00.json",
               "send.output_SendMsg.json");
 }
 BOOST_AUTO_TEST_CASE(state_message_SendMsg2) {
   testMessage("send.ll", "send.message_SendMsg2.json", "empty_init.json",
-              "send.contrinfo.json", "send.state.json", "send.state.json",
+              "send.contrinfo.json", "send.state_01.json", "send.state_00.json",
               "send.output_SendMsg2.json");
 }
 BOOST_AUTO_TEST_SUITE_END() // send

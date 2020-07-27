@@ -37,7 +37,7 @@ namespace ScillaVM {
 
 class ScillaJIT;
 class ScillaObjCache;
-class ScillaOutputProcessor;
+class TransitionState;
 
 namespace ScillaTypes {
 class TypParserPartialCache;
@@ -102,10 +102,6 @@ private:
   std::vector<uint8_t *> MAllocs;
   // An opaque pointer to the type parser partial cache.
   std::unique_ptr<ScillaTypes::TypParserPartialCache> TPPC;
-  // Contains the output of executing a transition. Cleared every time.
-  Json::Value OutJ;
-  // So that OutJ can be accessed from the VM.
-  friend ScillaVM::ScillaOutputProcessor;
 
 public:
   // One time initialization.
@@ -126,7 +122,8 @@ public:
   // Get address for @Symbol inside the compiled IR, ready to be used.
   void *getAddressFor(const std::string &Symbol);
   // Execute a message.
-  Json::Value execMsg(Json::Value &Msg);
+  Json::Value execMsg(std::string &Balance, uint64_t GasLimit,
+                      Json::Value &Msg);
 
   // Allocate and own the memory for code owned by this object.
   void *sAlloc(size_t Size);
@@ -135,6 +132,8 @@ public:
 
   // Scilla configuration parameters.
   const ScillaParams SPs;
+  // The state of execution specific to a transition.
+  std::unique_ptr<TransitionState> TS;
 
   ~ScillaJIT();
 };
