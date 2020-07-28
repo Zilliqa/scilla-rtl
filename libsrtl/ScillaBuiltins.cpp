@@ -61,6 +61,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_sha256hash", (void *) _sha256hash},
     {"_concat_String", (void *) _concat_String},
     {"_concat_ByStrX", (void *) _concat_ByStrX},
+    {"_accept", (void *) _accept},
   };
   // clang-format on
 
@@ -104,7 +105,7 @@ Json::Value TransitionState::finalize(void) {
       ASSERT(Amount.isString());
       SafeUint128 AmountSUI(Amount.asString());
       if (AmountSUI > Balance) {
-        CREATE_ERROR("Not enough balance to send _amount in all messages");
+        SCILLA_EXCEPTION("Not enough balance to send _amount in all messages");
       }
       Balance = Balance - AmountSUI;
     }

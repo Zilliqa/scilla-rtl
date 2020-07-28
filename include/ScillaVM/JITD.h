@@ -122,7 +122,7 @@ public:
   // Get address for @Symbol inside the compiled IR, ready to be used.
   void *getAddressFor(const std::string &Symbol);
   // Execute a message.
-  Json::Value execMsg(std::string &Balance, uint64_t GasLimit,
+  Json::Value execMsg(const std::string &Balance, uint64_t GasLimit,
                       Json::Value &Msg);
 
   // Allocate and own the memory for code owned by this object.

@@ -298,4 +298,30 @@ BOOST_AUTO_TEST_CASE(state_00_message_printContrParams) {
 
 BOOST_AUTO_TEST_SUITE_END() // helloWorld
 
+BOOST_AUTO_TEST_SUITE(accept)
+
+BOOST_AUTO_TEST_CASE(state_00_message_Accept1) {
+  testMessage("accept.ll", "accept.message_Accept1.json", "accept.init.json",
+              "accept.contrinfo.json", "accept.state_00.json",
+              "accept.state_01.json", "accept.output_Accept1.json");
+}
+BOOST_AUTO_TEST_CASE(state_00_message_Accept2) {
+  testMessage("accept.ll", "accept.message_Accept2.json", "accept.init.json",
+              "accept.contrinfo.json", "accept.state_00.json",
+              "accept.state_00.json", "accept.output_Accept2.json");
+}
+BOOST_AUTO_TEST_CASE(state_00_message_Accept3_succ) {
+  testMessage("accept.ll", "accept.message_Accept3.json", "accept.init.json",
+              "accept.contrinfo.json", "accept.state_01.json",
+              "accept.state_00.json", "accept.output_Accept3_succ.json");
+}
+
+BOOST_AUTO_TEST_CASE(state_00_message_Accept3_fail) {
+  testMessageFail("accept.ll", "accept.message_Accept3.json",
+                  "accept.init.json", "accept.contrinfo.json",
+                  "accept.state_00.json", "accept.output_Accept3_fail.txt");
+}
+
+BOOST_AUTO_TEST_SUITE_END() // accept
+
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

@@ -371,7 +371,7 @@ ScillaJIT::ScillaJIT(const ScillaParams &SPs, std::unique_ptr<LLJIT> J)
 
 ScillaJIT::~ScillaJIT() { sFreeAll(); }
 
-Json::Value ScillaJIT::execMsg(std::string &Balance, uint64_t GasLimit,
+Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
                                Json::Value &Msg) {
   Json::Value TransNameJ = Msg.get("_tag", Json::nullValue);
   Json::Value ParamsJ = Msg.get("params", Json::nullValue);
