@@ -35,6 +35,33 @@ const std::string CacheDir((boost::filesystem::temp_directory_path() /=
                                .native());
 ScillaCacheManager OCache(CacheDir);
 
+// Sort state variables (as their order is not important) and compare 1-1.
+void compareStateJson(const Json::Value &Expected, const Json::Value &Got) {
+
+  BOOST_ASSERT_MSG(Expected.isArray() && Got.isArray() &&
+                       Expected.size() == Got.size(),
+                   "State JSON size mismatch");
+
+  auto StateVarCmp = [](const Json::Value &A, const Json::Value &B) -> bool {
+    std::greater<std::string> StrCmp;
+    return StrCmp(A["vname"].asString(), B["vname"].asString());
+  };
+
+  std::vector<Json::Value> ExpectedArr(Expected.begin(), Expected.end());
+  std::vector<Json::Value> GotArr(Got.begin(), Got.end());
+
+  std::sort(ExpectedArr.begin(), ExpectedArr.end(), StateVarCmp);
+  std::sort(GotArr.begin(), GotArr.end(), StateVarCmp);
+
+  for (Json::Value::ArrayIndex I = 0; I < ExpectedArr.size(); I++) {
+    const auto &ESJ = ExpectedArr[I];
+    const auto &OSJ = GotArr[I];
+    BOOST_REQUIRE_MESSAGE(ESJ == OSJ, "Comparison failed:\nExpected:\n" +
+                                          ESJ.toStyledString() + "\nGot:\n" +
+                                          OSJ.toStyledString());
+  }
+}
+
 void testMessage(const std::string &ContrFilename,
                  const std::string &MessageFilename,
                  const std::string &InitFilename,
@@ -94,10 +121,8 @@ void testMessage(const std::string &ContrFilename,
       Out.close();
     }
     auto ESJ = parseJSONFile(PathPrefix + ExpectedStateFilename);
-    // Compare output state to expected output state.
-    BOOST_REQUIRE_MESSAGE(ESJ == OSJ, "Comparison failed:\nExpected:\n" +
-                                          ESJ.toStyledString() + "\nGot:\n" +
-                                          OSJ.toStyledString());
+    compareStateJson(ESJ, OSJ);
+
     // Update results if specified
     if (Config::UpdateResults) {
       std::ofstream Out(PathPrefix + ExpectedOutputFilename);
