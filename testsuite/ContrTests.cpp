@@ -324,4 +324,36 @@ BOOST_AUTO_TEST_CASE(state_00_message_Accept3_fail) {
 
 BOOST_AUTO_TEST_SUITE_END() // accept
 
+BOOST_AUTO_TEST_SUITE(ud)
+
+BOOST_AUTO_TEST_CASE(registry_state_00_message_setRegistrar) {
+  testMessage("ud-registry.ll", "ud-registry.message_setRegistrar.json",
+              "ud-registry.init.json", "ud-registry.contrinfo.json",
+              "ud-registry.state_00.json", "ud-registry.state_01.json",
+              "ud-registry.output_setRegistrar.json");
+}
+
+BOOST_AUTO_TEST_CASE(registry_state_01_message_setAdmin) {
+  testMessage("ud-registry.ll", "ud-registry.message_setAdmin.json",
+              "ud-registry.init.json", "ud-registry.contrinfo.json",
+              "ud-registry.state_01.json", "ud-registry.state_02.json",
+              "ud-registry.output_setAdmin.json");
+}
+
+BOOST_AUTO_TEST_CASE(proxy_state_00_message_setAdmin) {
+  testMessage("ud-proxy.ll", "ud-proxy.message_bestow.json",
+              "ud-proxy.init.json", "ud-proxy.contrinfo.json",
+              "ud-proxy.state_00.json", "ud-proxy.state_00.json",
+              "ud-proxy.output_bestow.json");
+}
+
+BOOST_AUTO_TEST_CASE(registry_state_02_message_bestow) {
+  testMessage("ud-registry.ll", "ud-registry.message_bestow.json",
+              "ud-registry.init.json", "ud-registry.contrinfo.json",
+              "ud-registry.state_02.json", "ud-registry.state_03.json",
+              "ud-registry.output_bestow.json");
+}
+
+BOOST_AUTO_TEST_SUITE_END() // ud
+
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

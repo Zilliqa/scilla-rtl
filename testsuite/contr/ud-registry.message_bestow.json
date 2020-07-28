@@ -1,0 +1,22 @@
+{
+    "_tag" : "bestow",
+    "_amount": "0",
+    "_sender" : "0xfefeccdc9012345678901234567890f777567895",
+    "params" : [
+        {
+            "vname" : "label",
+            "type" : "String",
+            "value" : "www.zilliqa.zil"
+        },
+        {
+            "vname" : "owner",
+            "type" : "ByStr20",
+            "value" : "0x0011ccdc9012345678901234567890f777567895"
+        },
+        {
+            "vname" : "resolver",
+            "type" : "ByStr20",
+            "value" : "0x1100ccdc9012345678901234567890f777567895"
+        }
+    ]
+}

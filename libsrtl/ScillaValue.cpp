@@ -444,20 +444,44 @@ void *fromJSONToMem(SAllocator &A, void *MemV, int MemSize,
   case ScillaTypes::Typ::ADT_typ: {
     ASSERT_MSG(!Mem && MemSize == 0,
                "ADTs shouldn't have memory pre-allocated");
+
+    auto SpeclP = T->m_sub.m_spladt;
+    auto ADTP = SpeclP->m_parent;
+
+    Json::Value JCanon;
     if (!J.isObject()) {
-      // TODO: JSON can be array for Lists.
-      CREATE_ERROR("Expected ADT to be encoded as JSON object");
+      // For user convenience, we allow writing Lists as JSON lists.
+      // So convert them to canonical (Scilla like) lists.
+      if (static_cast<std::string>(ADTP->m_tName) != "List" || !J.isArray())
+        CREATE_ERROR("Expected ADT to be encoded as JSON object");
+      auto TArg = ScillaTypes::Typ::toString(SpeclP->m_TArgs[0]);
+      Json::Value Nil;
+      Nil["constructor"] = "Nil";
+      Nil["arguments"] = Json::arrayValue;
+      Nil["argtypes"].append(TArg);
+      // Build a canonical List JSON.
+      JCanon = Nil;
+      for (int I = J.size() - 1; I >= 0; I--) {
+        Json::Value V;
+        V["constructor"] = "Cons";
+        V["argtypes"].append(TArg);
+        V["arguments"].append(J[I]);
+        V["arguments"].append(JCanon);
+        JCanon = V;
+      }
+    } else {
+      JCanon = J;
     }
+
     Json::Value CnstJ, ArgsJ;
-    if ((CnstJ = J.get("constructor", Json::nullValue)) == Json::nullValue ||
-        (ArgsJ = J.get("arguments", Json::nullValue)) == Json::nullValue ||
+    if ((CnstJ = JCanon.get("constructor", Json::nullValue)) ==
+            Json::nullValue ||
+        (ArgsJ = JCanon.get("arguments", Json::nullValue)) == Json::nullValue ||
         !CnstJ.isString() || !ArgsJ.isArray()) {
       CREATE_ERROR("Invalid JSON serialization of ADT. Missing or incorrect "
                    "format member");
     }
     std::string CnstS = CnstJ.asString();
-    auto SpeclP = T->m_sub.m_spladt;
-    auto ADTP = SpeclP->m_parent;
     // Let's search for this constructor in our type descriptor.
     uint8_t Tag;
     int I;

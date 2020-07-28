@@ -1,0 +1,37 @@
+{
+   "_accepted" : "false",
+   "events" : [],
+   "gas_remaining" : "0",
+   "messages" : [
+      {
+         "_amount" : "0",
+         "_recipient" : "0xeefeccdc9012345678901234567890f777567895",
+         "_tag" : "bestow",
+         "params" : [
+            {
+               "type" : "String",
+               "value" : "www.zilliqa.zil",
+               "vname" : "label"
+            },
+            {
+               "type" : "ByStr20",
+               "value" : "0x0011ccdc9012345678901234567890f777567895",
+               "vname" : "owner"
+            },
+            {
+               "type" : "ByStr20",
+               "value" : "0x1100ccdc9012345678901234567890f777567895",
+               "vname" : "resolver"
+            }
+         ]
+      }
+   ],
+   "scilla_major_version" : "0",
+   "states" : [
+      {
+         "type" : "Uint128",
+         "value" : "0",
+         "vname" : "_balance"
+      }
+   ]
+}

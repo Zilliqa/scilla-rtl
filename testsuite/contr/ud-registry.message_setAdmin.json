@@ -1,0 +1,22 @@
+{
+    "_tag" : "setAdmin",
+    "_amount": "0",
+    "_sender" : "0xaafeccdc9012345678901234567890f777567895",
+    "params" : [
+        {
+            "vname" : "address",
+            "type" : "ByStr20",
+            "value" : "0xfefeccdc9012345678901234567890f777567895"
+        },
+        {
+            "vname" : "isApproved",
+            "type" : "Bool",
+            "value" : {
+                "constructor" : "True",
+                "argtypes" : [],
+                "arguments" : []
+            }
+        }
+
+    ]
+}

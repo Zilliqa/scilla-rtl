@@ -1,0 +1,27 @@
+[
+    { 
+        "vname" : "_scilla_version",
+        "type" : "Uint32",
+        "value" : "0"
+    },
+    {
+        "vname" : "_this_address",
+        "type" : "ByStr20",
+        "value" : "0xeefeccdc9012345678901234567890f777567895"
+    },
+    {
+        "vname" : "_creation_block",
+        "type" : "BNum",
+        "value" : "1"
+    },
+    {
+        "vname" : "initialOwner",
+        "type" : "ByStr20",
+        "value" : "0xaafeccdc9012345678901234567890f777567895"
+    },
+    {
+        "vname" : "rootNode",
+        "type" : "ByStr32",
+        "value" : "0xffffffffffffffffaaaaaaaaaaaaaa0000000000000000000011111111111111"
+    }
+]
