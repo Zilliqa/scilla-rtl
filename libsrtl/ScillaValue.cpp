@@ -243,11 +243,11 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
             auto &ValJS = boost::any_cast<const std::string &>(Itr.second);
             Json::Value ValJ = parseJSONString(ValJS);
             auto *ValV = ScillaValues::fromJSON(SA, ValT, ValJ);
-            recurser(ValT, Tab, ValV);
+            recurser(ValT, Tab + OneTab, ValV);
           }
           }
         }
-        Out += "\n" + Tab + "}\n";
+        Out += "\n" + Tab + "}";
       }
     }
 
@@ -593,7 +593,34 @@ void *fromJSONToMem(SAllocator &A, void *MemV, int MemSize,
   case ScillaTypes::Typ::Map_typ: {
     ASSERT_MSG(!Mem && MemSize == 0,
                "Maps shouldn't have memory pre-allocated");
-    CREATE_ERROR("Unimplemented");
+    if (!J.isArray()) {
+      CREATE_ERROR("Map JSON must be an array");
+    }
+    auto *MMem = A(sizeof(ScillaParams::MapValueT));
+    auto M = new (MMem) ScillaParams::MapValueT;
+    for (auto &Entry : J) {
+      if (!Entry.isObject()) {
+        CREATE_ERROR("Each entry in Map JSON must be an associative JSON");
+      }
+      auto &KeyJ = Entry["key"];
+      auto &ValJ = Entry["val"];
+      if (KeyJ.isNull() || ValJ.isNull()) {
+        CREATE_ERROR("Map JSON entry does not contain key/val entry");
+      }
+      auto KeyS = KeyJ.toStyledString();
+      auto *ValT = T->m_sub.m_mapt->m_valTyp;
+      switch (ValT->m_t) {
+      case ScillaTypes::Typ::Map_typ: {
+        auto SubM = reinterpret_cast<ScillaParams::MapValueT *>(
+            fromJSONToMem(A, nullptr, 0, ValT, ValJ));
+        M->emplace(KeyS, std::move(*SubM));
+      } break;
+      default:
+        M->emplace(KeyS, ValJ.toStyledString());
+        break;
+      }
+    }
+    return M;
   }
   }
 
