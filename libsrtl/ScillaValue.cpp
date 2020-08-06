@@ -19,6 +19,8 @@
 
 #include "SafeInt.h"
 #include "ScillaVM/Errors.h"
+#include "ScillaVM/JITD.h"
+#include "ScillaVM/Utils.h"
 #include "ScillaValue.h"
 
 namespace ScillaVM {
@@ -117,9 +119,10 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
   std::string Out;
   // Do the work in a lambda to avoid generating new strings and
   // concatening it to Out. This saves a cop
-  std::function<void(const ScillaTypes::Typ *T, const void *V)> recurser =
-      [&recurser, &Out, &PrintType](const ScillaTypes::Typ *T,
-                                    const void *V) -> void {
+  std::function<void(const ScillaTypes::Typ *T, std::string Tab, const void *V)>
+      recurser = [&recurser, &Out, &PrintType](const ScillaTypes::Typ *T,
+                                               std::string Tab,
+                                               const void *V) -> void {
     switch (T->m_t) {
     case ScillaTypes::Typ::Prim_typ: {
       switch (T->m_sub.m_primt->m_pt) {
@@ -201,9 +204,9 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
         auto ArgT = ConstrP->m_args[I];
         Out += "(";
         if (ScillaTypes::Typ::isBoxed(ArgT))
-          recurser(ArgT, *reinterpret_cast<const void *const *>(VP));
+          recurser(ArgT, Tab, *reinterpret_cast<const void *const *>(VP));
         else
-          recurser(ArgT, reinterpret_cast<const void *>(VP));
+          recurser(ArgT, Tab, reinterpret_cast<const void *>(VP));
         Out += ")";
         // Increment our data pointer equal to the size we just finised.
         // structs containing ADTs are packed, so that we don't have to
@@ -212,14 +215,46 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
       }
     } break;
     case ScillaTypes::Typ::Map_typ:
-      CREATE_ERROR("Unimplemented");
+      auto KeyT = T->m_sub.m_mapt->m_keyTyp;
+      auto ValT = T->m_sub.m_mapt->m_valTyp;
+      auto M = reinterpret_cast<const ScillaParams::MapValueT *>(V);
+      if (M->empty()) {
+        Out += "Emp";
+      } else {
+        Out += "\n" + Tab + "{\n";
+        MemoryAllocator MA;
+        SAllocator SA(
+            std::bind(&MemoryAllocator::mAlloc, &MA, std::placeholders::_1));
+        for (auto &Itr : *M) {
+          Out += Tab;
+          Json::Value KeyJ = parseJSONString(Itr.first);
+          auto *KeyV = ScillaValues::fromJSON(SA, KeyT, KeyJ);
+          recurser(KeyT, Tab, KeyV);
+          Out += " : ";
+          switch (ValT->m_t) {
+          case ScillaTypes::Typ::Map_typ: {
+            auto &ValJS =
+                boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+            recurser(ValT, Tab + "\t", &ValJS);
+            break;
+          }
+          default: {
+            auto &ValJS = boost::any_cast<const std::string &>(Itr.second);
+            Json::Value ValJ = parseJSONString(ValJS);
+            auto *ValV = ScillaValues::fromJSON(SA, ValT, ValJ);
+            recurser(ValT, Tab, ValV);
+          }
+          }
+        }
+        Out += "\n" + Tab + "}\n";
+      }
     }
 
     if (PrintType)
       Out += " : " + ScillaTypes::Typ::toString(T);
   };
 
-  recurser(T, V);
+  recurser(T, "", V);
 
   return Out;
 }
@@ -333,7 +368,31 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
       }
     } break;
     case ScillaTypes::Typ::Map_typ:
-      CREATE_ERROR("Unimplemented");
+      auto ValT = T->m_sub.m_mapt->m_valTyp;
+      auto M = reinterpret_cast<const ScillaParams::MapValueT *>(V);
+      MemoryAllocator MA;
+      SAllocator SA(
+          std::bind(&MemoryAllocator::mAlloc, &MA, std::placeholders::_1));
+      for (auto &Itr : *M) {
+        Json::Value KeyJ = parseJSONString(Itr.first);
+        Json::Value ValJ;
+        switch (ValT->m_t) {
+        case ScillaTypes::Typ::Map_typ: {
+          auto &ValJS =
+              boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+          recurser(ValT, &ValJS, ValJ);
+          break;
+        }
+        default: {
+          auto &ValJS = boost::any_cast<const std::string &>(Itr.second);
+          ValJ = parseJSONString(ValJS);
+        }
+        }
+        Json::Value Assoc;
+        Assoc["key"] = KeyJ;
+        Assoc["val"] = ValJ;
+        Out.append(Assoc);
+      }
     }
   };
 

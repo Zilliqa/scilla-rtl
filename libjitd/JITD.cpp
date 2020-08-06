@@ -353,23 +353,29 @@ void *ScillaJIT::getAddressFor(const std::string &Symbol) {
   return reinterpret_cast<void *>((*SA).getAddress());
 }
 
-void *ScillaJIT::sAlloc(size_t size) {
+void *MemoryAllocator::mAlloc(size_t size) {
   auto P = new uint8_t[size];
   MAllocs.push_back(P);
   return reinterpret_cast<void *>(P);
 }
 
-void ScillaJIT::sFreeAll() {
+void MemoryAllocator::mFreeAll() {
   for (auto *P : MAllocs) {
     delete[] P;
   }
   MAllocs.clear();
 }
 
+MemoryAllocator::~MemoryAllocator() { mFreeAll(); }
+
+void *ScillaJIT::sAlloc(size_t size) { return MA.mAlloc(size); }
+
+void ScillaJIT::sFreeAll() { MA.mFreeAll(); }
+
 ScillaJIT::ScillaJIT(const ScillaParams &SPs, std::unique_ptr<LLJIT> J)
     : Jitter(std::move(J)), SPs(SPs) {}
 
-ScillaJIT::~ScillaJIT() { sFreeAll(); }
+ScillaJIT::~ScillaJIT() {}
 
 Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
                                Json::Value &Msg) {

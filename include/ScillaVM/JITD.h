@@ -56,6 +56,17 @@ public:
   ~ScillaCacheManager();
 };
 
+class MemoryAllocator {
+  std::vector<uint8_t *> MAllocs;
+
+public:
+  // Allocate and own the memory for code owned by this object.
+  void *mAlloc(size_t Size);
+  // Free all memory allocated for code owned by this object.
+  void mFreeAll();
+  ~MemoryAllocator();
+};
+
 // Information that Scilla will need to execute contracts.
 struct ScillaParams {
   struct StateQuery {
@@ -99,7 +110,7 @@ private:
 
   void initContrParams(const Json::Value &CP);
   std::unique_ptr<llvm::orc::LLJIT> Jitter;
-  std::vector<uint8_t *> MAllocs;
+  MemoryAllocator MA;
   // An opaque pointer to the type parser partial cache.
   std::unique_ptr<ScillaTypes::TypParserPartialCache> TPPC;
 

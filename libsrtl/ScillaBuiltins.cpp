@@ -62,6 +62,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_concat_String", (void *) _concat_String},
     {"_concat_ByStrX", (void *) _concat_ByStrX},
     {"_accept", (void *) _accept},
+    {"_new_empty_map", (void *) _new_empty_map},
   };
   // clang-format on
 
@@ -480,5 +481,11 @@ void _concat_ByStrX(uint8_t *SRet, int X1, uint8_t *Lhs, int X2, uint8_t *Rhs) {
 }
 
 void _accept(ScillaJIT *SJ) { SJ->TS->processAccept(); }
+
+ScillaParams::MapValueT *_new_empty_map(ScillaJIT *SJ) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto Buf = SA(sizeof(ScillaParams::MapValueT));
+  return new (Buf) ScillaParams::MapValueT;
+}
 
 } // end of extern "C".
