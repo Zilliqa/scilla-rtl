@@ -221,21 +221,22 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
       if (M->empty()) {
         Out += "Emp";
       } else {
+        auto OneTab = "  ";
         Out += "\n" + Tab + "{\n";
         MemoryAllocator MA;
         SAllocator SA(
             std::bind(&MemoryAllocator::mAlloc, &MA, std::placeholders::_1));
         for (auto &Itr : *M) {
-          Out += Tab;
+          Out += Tab + OneTab;
           Json::Value KeyJ = parseJSONString(Itr.first);
           auto *KeyV = ScillaValues::fromJSON(SA, KeyT, KeyJ);
           recurser(KeyT, Tab, KeyV);
-          Out += " : ";
+          Out += " => ";
           switch (ValT->m_t) {
           case ScillaTypes::Typ::Map_typ: {
             auto &ValJS =
                 boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
-            recurser(ValT, Tab + "\t", &ValJS);
+            recurser(ValT, Tab + OneTab, &ValJS);
             break;
           }
           default: {

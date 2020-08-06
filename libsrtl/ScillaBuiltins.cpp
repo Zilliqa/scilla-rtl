@@ -63,6 +63,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_concat_ByStrX", (void *) _concat_ByStrX},
     {"_accept", (void *) _accept},
     {"_new_empty_map", (void *) _new_empty_map},
+    {"_put", (void *) _put},
   };
   // clang-format on
 
@@ -486,6 +487,38 @@ ScillaParams::MapValueT *_new_empty_map(ScillaJIT *SJ) {
   SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
   auto Buf = SA(sizeof(ScillaParams::MapValueT));
   return new (Buf) ScillaParams::MapValueT;
+}
+
+ScillaParams::MapValueT *_put(ScillaJIT *SJ, const ScillaTypes::Typ *T,
+                              ScillaParams::MapValueT *M, void *K, void *V) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto Buf = SA(sizeof(ScillaParams::MapValueT));
+  auto NewM = new (Buf) ScillaParams::MapValueT(*M);
+
+  switch (T->m_t) {
+  case ScillaTypes::Typ::Map_typ: {
+    auto KT = T->m_sub.m_mapt->m_keyTyp;
+    Json::Value KeyJ = ScillaValues::toJSON(KT, K);
+    auto KeyS = KeyJ.toStyledString();
+
+    auto VT = T->m_sub.m_mapt->m_valTyp;
+    switch (VT->m_t) {
+    case ScillaTypes::Typ::Map_typ:
+      NewM->operator[](KeyS) = *reinterpret_cast<ScillaParams::MapValueT *>(V);
+      break;
+    default: {
+      Json::Value ValJ = ScillaValues::toJSON(VT, V);
+      NewM->operator[](KeyS) = ValJ.toStyledString();
+      break;
+    }
+    }
+    break;
+  }
+  default:
+    CREATE_ERROR("MapType value expected as argument to _put");
+  }
+
+  return NewM;
 }
 
 } // end of extern "C".
