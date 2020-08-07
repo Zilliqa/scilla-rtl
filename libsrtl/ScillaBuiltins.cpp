@@ -65,6 +65,9 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_new_empty_map", (void *) _new_empty_map},
     {"_put", (void *) _put},
     {"_get", (void *) _get},
+    {"_contains", (void *) _contains},
+    {"_remove", (void *) _remove},
+    {"_size", (void *) _size},
   };
   // clang-format on
 
@@ -571,6 +574,36 @@ void *_get(ScillaJIT *SJ, const ScillaTypes::Typ *T,
   const boost::any &Val = Found ? Itr->second : Dummy;
   // Wrap with "Option".
   return wrapMapAccessResult(SA, Found, Val, ValT);
+}
+
+void *_contains(ScillaJIT *SJ, const ScillaTypes::Typ *T,
+                const ScillaParams::MapValueT *M, const void *K) {
+  ASSERT(T->m_t == ScillaTypes::Typ::Map_typ);
+  auto *KeyT = T->m_sub.m_mapt->m_keyTyp;
+  auto KeyS = ScillaValues::toJSON(KeyT, K).toStyledString();
+  auto Itr = M->find(KeyS);
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  return toScillaBool(SA, Itr != M->end());
+}
+
+void *_remove(ScillaJIT *SJ, const ScillaTypes::Typ *T,
+                const ScillaParams::MapValueT *M, const void *K) {
+  ASSERT(T->m_t == ScillaTypes::Typ::Map_typ);
+  auto *KeyT = T->m_sub.m_mapt->m_keyTyp;
+  auto KeyS = ScillaValues::toJSON(KeyT, K).toStyledString();
+
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto Buf = SA(sizeof(ScillaParams::MapValueT));
+  auto NewM = new (Buf) ScillaParams::MapValueT(*M);
+
+  NewM->erase(KeyS);
+  return NewM;
+}
+
+ScillaTypes::Uint32 _size(const ScillaParams::MapValueT *M) {
+  // Converting the size to string and then to SafeUint32
+  // is the safest and simplest, but not the most efficient.
+  return SafeUint32(std::to_string(M->size()));
 }
 
 } // end of extern "C".

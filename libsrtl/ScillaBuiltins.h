@@ -171,6 +171,12 @@ ScillaVM::ScillaParams::MapValueT *_put(ScillaVM::ScillaJIT *SJ,
                                         void *K, void *V);
 void *_get(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
            const ScillaVM::ScillaParams::MapValueT *M, const void *K);
+void *_contains(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+                const ScillaVM::ScillaParams::MapValueT *M, const void *K);
+
+void *_remove(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+              const ScillaVM::ScillaParams::MapValueT *M, const void *K);
+ScillaVM::ScillaTypes::Uint32 _size(const ScillaVM::ScillaParams::MapValueT *M);
 
 } // extern "C"
 #pragma clang diagnostic pop
