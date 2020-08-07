@@ -278,6 +278,9 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
 
   ScillaTypes::Typ::getMapKeyTypes(T, KeyTypes);
   ASSERT((int)KeyTypes.size() >= NumIdx);
+  // If the number of indices provided is fewer than max possible,
+  // then the result of this access is a map value.
+  unsigned MapValueAccess = NumIdx < (int)KeyTypes.size();
   prepareStateAccessIndices(KeyTypes, NumIdx, Indices, SerializedIndices);
 
   ScillaParams::StateQuery SQ = {std::string(Name), (int)KeyTypes.size(),
@@ -296,19 +299,24 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
   if (SerializedIndices.empty()) {
     // Full access of state variable. No indexing.
     ASSERT_MSG(FetchVal, "Fetching full state variable, but FetchVal not set");
-    // TODO: Support Map values too.
-    auto Val = boost::any_cast<std::string>(StringOrMapVal);
-    Json::Value ValJ = parseJSONString(Val);
-    return ScillaValues::fromJSON(SA, T, ValJ);
+    if (MapValueAccess) {
+      ASSERT(ScillaTypes::Typ::mapAccessType(T, NumIdx)->m_t ==
+             ScillaTypes::Typ::Map_typ);
+      auto &MapVal = boost::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
+      auto Buf = SA(sizeof(ScillaParams::MapValueT));
+      return new (Buf) ScillaParams::MapValueT(std::move(MapVal));
+    } else {
+      auto Val = boost::any_cast<std::string>(StringOrMapVal);
+      Json::Value ValJ = parseJSONString(Val);
+      return ScillaValues::fromJSON(SA, T, ValJ);
+    }
   }
 
   // Map access. Returned value must be wrapped with Option / Bool.
   if (FetchVal) {
     // Wrap with "Option".
     if (Found) {
-      // Wrap with "Some". TODO: Support Map values too.
-      auto Val = boost::any_cast<std::string>(StringOrMapVal);
-      Json::Value ValJ = parseJSONString(Val);
+      // Wrap with "Some".
       auto ValT = ScillaTypes::Typ::mapAccessType(T, NumIdx);
       // Allocate memory for "Some" = sizeOf (ValT) + 1 byte for Tag.
       int MemSize = ScillaTypes::Typ::sizeOf(ValT) + 1;
@@ -317,9 +325,22 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
       // Create Scilla value from JSON and place it in Mem + 1.
       // i.e., We are constructing a Scilla "Some" object overall.
       if (ScillaTypes::Typ::isBoxed(ValT)) {
-        *reinterpret_cast<void **>(Mem + 1) =
-            ScillaValues::fromJSON(SA, ValT, ValJ);
+        if (MapValueAccess) {
+          ASSERT(ValT->m_t == ScillaTypes::Typ::Map_typ);
+          auto &MapVal =
+              boost::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
+          auto Buf = SA(sizeof(ScillaParams::MapValueT));
+          *reinterpret_cast<void **>(Mem + 1) =
+              new (Buf) ScillaParams::MapValueT(std::move(MapVal));
+        } else {
+          auto StringVal = boost::any_cast<std::string>(StringOrMapVal);
+          Json::Value ValJ = parseJSONString(StringVal);
+          *reinterpret_cast<void **>(Mem + 1) =
+              ScillaValues::fromJSON(SA, ValT, ValJ);
+        }
       } else {
+        auto StringVal = boost::any_cast<std::string>(StringOrMapVal);
+        Json::Value ValJ = parseJSONString(StringVal);
         ScillaValues::fromJSONToMem(SA, (Mem + 1), MemSize - 1, ValT, ValJ);
       }
       return Mem;
@@ -346,25 +367,33 @@ void _update_field(ScillaVM::ScillaJIT *SJ, const char *Name,
 
   ScillaTypes::Typ::getMapKeyTypes(T, KeyTypes);
   ASSERT((int)KeyTypes.size() >= NumIdx);
+  // If the number of indices provided is fewer than max possible,
+  // then the result of this access is a map value.
+  unsigned MapValueAccess = NumIdx < (int)KeyTypes.size();
   prepareStateAccessIndices(KeyTypes, NumIdx, Indices, SerializedIndices);
 
   ScillaParams::StateQuery SQ = {std::string(Name), (int)KeyTypes.size(),
                                  SerializedIndices, Val == nullptr};
 
-  // TODO: Support Map values too.
-  std::string ValS;
   if (Val) {
+    ASSERT_MSG(SJ->SPs.updateStateValue,
+               "Incorrect ScillaParams provided to ScillaJIT");
     auto ValT = ScillaTypes::Typ::mapAccessType(T, NumIdx);
-    ValS = ScillaValues::toJSON(ValT, Val).toStyledString();
+    if (MapValueAccess) {
+      ASSERT(ValT->m_t == ScillaTypes::Typ::Map_typ);
+      auto &ValM = *reinterpret_cast<ScillaParams::MapValueT *>(Val);
+      if (!SJ->SPs.updateStateValue(SQ, ValM)) {
+        CREATE_ERROR("State update query failed for " + SQ.Name);
+      }
+    } else {
+      auto ValS = ScillaValues::toJSON(ValT, Val).toStyledString();
+      if (!SJ->SPs.updateStateValue(SQ, ValS)) {
+        CREATE_ERROR("State update query failed for " + SQ.Name);
+      }
+    }
   } else {
     ASSERT_MSG(!SerializedIndices.empty(),
                "Value deletion is possible only for indexed map access");
-  }
-
-  ASSERT_MSG(SJ->SPs.updateStateValue,
-             "Incorrect ScillaParams provided to ScillaJIT");
-  if (!SJ->SPs.updateStateValue(SQ, ValS)) {
-    CREATE_ERROR("State update query failed for " + SQ.Name);
   }
 }
 
