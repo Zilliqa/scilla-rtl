@@ -52,30 +52,30 @@ entry:
   store %Int256 { i256 -1 }, %Int256* %one
   %two = alloca %Int256
   store %Int256 { i256 2 }, %Int256* %two
-  %"$add_one_35" = alloca %Int256
-  %"$one_36" = load %Int256, %Int256* %one
-  store %Int256 %"$one_36", %Int256* %"$add_one_35"
-  %"$add_two_37" = alloca %Int256
-  %"$two_38" = load %Int256, %Int256* %two
-  store %Int256 %"$two_38", %Int256* %"$add_two_37"
-  %"$add_retalloca_39" = alloca %Int256
-  call void @_add_Int256(%Int256* %"$add_retalloca_39", %Int256* %"$add_one_35", %Int256* %"$add_two_37")
-  %"$add_ret_40" = load %Int256, %Int256* %"$add_retalloca_39"
-  store %Int256 %"$add_ret_40", %Int256* %"$expr_0"
-  %"$$expr_0_41" = load %Int256, %Int256* %"$expr_0"
-  store %Int256 %"$$expr_0_41", %Int256* %1
+  %"$execptr_load_35" = load i8*, i8** @_execptr
+  %"$add_one_36" = alloca %Int256
+  %"$one_37" = load %Int256, %Int256* %one
+  store %Int256 %"$one_37", %Int256* %"$add_one_36"
+  %"$add_two_38" = alloca %Int256
+  %"$two_39" = load %Int256, %Int256* %two
+  store %Int256 %"$two_39", %Int256* %"$add_two_38"
+  %"$add_call_40" = call %Int256* @_add_Int256(i8* %"$execptr_load_35", %Int256* %"$add_one_36", %Int256* %"$add_two_38")
+  %"$add_41" = load %Int256, %Int256* %"$add_call_40"
+  store %Int256 %"$add_41", %Int256* %"$expr_0"
+  %"$$expr_0_42" = load %Int256, %Int256* %"$expr_0"
+  store %Int256 %"$$expr_0_42", %Int256* %1
   ret void
 }
 
-declare void @_add_Int256(%Int256*, %Int256*, %Int256*)
+declare %Int256* @_add_Int256(i8*, %Int256*, %Int256*)
 
 declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$mainval_42" = alloca %Int256
-  %"$memvoidcast_43" = bitcast %Int256* %"$mainval_42" to i8*
-  call void @"$scilla_expr_34"(i8* null, %Int256* %"$mainval_42")
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int256_15", i8* %"$memvoidcast_43")
+  %"$mainval_43" = alloca %Int256
+  %"$memvoidcast_44" = bitcast %Int256* %"$mainval_43" to i8*
+  call void @"$scilla_expr_34"(i8* null, %Int256* %"$mainval_43")
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int256_15", i8* %"$memvoidcast_44")
   ret void
 }

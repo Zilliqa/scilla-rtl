@@ -87,80 +87,80 @@ entry:
   %s = alloca %String
   store %String { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$stringlit_54", i32 0, i32 0), i32 5 }, %String* %s
   %h1 = alloca [32 x i8]
-  %"$sha256hash_s_55" = alloca %String
-  %"$s_56" = load %String, %String* %s
-  store %String %"$s_56", %String* %"$sha256hash_s_55"
-  %"$$sha256hash_s_55_57" = bitcast %String* %"$sha256hash_s_55" to i8*
-  %"$sha256hash_retalloca_58" = alloca [32 x i8]
-  call void @_sha256hash([32 x i8]* %"$sha256hash_retalloca_58", %_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$$sha256hash_s_55_57")
-  %"$sha256hash_ret_59" = load [32 x i8], [32 x i8]* %"$sha256hash_retalloca_58"
-  store [32 x i8] %"$sha256hash_ret_59", [32 x i8]* %h1
+  %"$execptr_load_55" = load i8*, i8** @_execptr
+  %"$sha256hash_s_56" = alloca %String
+  %"$s_57" = load %String, %String* %s
+  store %String %"$s_57", %String* %"$sha256hash_s_56"
+  %"$$sha256hash_s_56_58" = bitcast %String* %"$sha256hash_s_56" to i8*
+  %"$sha256hash_call_59" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_55", %_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$$sha256hash_s_56_58")
+  %"$sha256hash_60" = load [32 x i8], [32 x i8]* %"$sha256hash_call_59"
+  store [32 x i8] %"$sha256hash_60", [32 x i8]* %h1
   %h2 = alloca [32 x i8]
-  %"$sha256hash_h1_60" = alloca [32 x i8]
-  %"$h1_61" = load [32 x i8], [32 x i8]* %h1
-  store [32 x i8] %"$h1_61", [32 x i8]* %"$sha256hash_h1_60"
-  %"$$sha256hash_h1_60_62" = bitcast [32 x i8]* %"$sha256hash_h1_60" to i8*
-  %"$sha256hash_retalloca_63" = alloca [32 x i8]
-  call void @_sha256hash([32 x i8]* %"$sha256hash_retalloca_63", %_TyDescrTy_Typ* @"$TyDescr_Bystr32_31", i8* %"$$sha256hash_h1_60_62")
-  %"$sha256hash_ret_64" = load [32 x i8], [32 x i8]* %"$sha256hash_retalloca_63"
-  store [32 x i8] %"$sha256hash_ret_64", [32 x i8]* %h2
+  %"$execptr_load_61" = load i8*, i8** @_execptr
+  %"$sha256hash_h1_62" = alloca [32 x i8]
+  %"$h1_63" = load [32 x i8], [32 x i8]* %h1
+  store [32 x i8] %"$h1_63", [32 x i8]* %"$sha256hash_h1_62"
+  %"$$sha256hash_h1_62_64" = bitcast [32 x i8]* %"$sha256hash_h1_62" to i8*
+  %"$sha256hash_call_65" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_61", %_TyDescrTy_Typ* @"$TyDescr_Bystr32_31", i8* %"$$sha256hash_h1_62_64")
+  %"$sha256hash_66" = load [32 x i8], [32 x i8]* %"$sha256hash_call_65"
+  store [32 x i8] %"$sha256hash_66", [32 x i8]* %h2
   %sh = alloca %TName_Pair_String_ByStr32*
-  %"$s_65" = load %String, %String* %s
-  %"$h2_66" = load [32 x i8], [32 x i8]* %h2
-  %"$adtval_67_load" = load i8*, i8** @_execptr
-  %"$adtval_67_salloc" = call i8* @_salloc(i8* %"$adtval_67_load", i64 49)
-  %"$adtval_67" = bitcast i8* %"$adtval_67_salloc" to %CName_Pair_String_ByStr32*
-  %"$adtgep_68" = getelementptr inbounds %CName_Pair_String_ByStr32, %CName_Pair_String_ByStr32* %"$adtval_67", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_68"
-  %"$adtgep_69" = getelementptr inbounds %CName_Pair_String_ByStr32, %CName_Pair_String_ByStr32* %"$adtval_67", i32 0, i32 1
-  store %String %"$s_65", %String* %"$adtgep_69"
-  %"$adtgep_70" = getelementptr inbounds %CName_Pair_String_ByStr32, %CName_Pair_String_ByStr32* %"$adtval_67", i32 0, i32 2
-  store [32 x i8] %"$h2_66", [32 x i8]* %"$adtgep_70"
-  %"$adtptr_71" = bitcast %CName_Pair_String_ByStr32* %"$adtval_67" to %TName_Pair_String_ByStr32*
-  store %TName_Pair_String_ByStr32* %"$adtptr_71", %TName_Pair_String_ByStr32** %sh
+  %"$s_67" = load %String, %String* %s
+  %"$h2_68" = load [32 x i8], [32 x i8]* %h2
+  %"$adtval_69_load" = load i8*, i8** @_execptr
+  %"$adtval_69_salloc" = call i8* @_salloc(i8* %"$adtval_69_load", i64 49)
+  %"$adtval_69" = bitcast i8* %"$adtval_69_salloc" to %CName_Pair_String_ByStr32*
+  %"$adtgep_70" = getelementptr inbounds %CName_Pair_String_ByStr32, %CName_Pair_String_ByStr32* %"$adtval_69", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_70"
+  %"$adtgep_71" = getelementptr inbounds %CName_Pair_String_ByStr32, %CName_Pair_String_ByStr32* %"$adtval_69", i32 0, i32 1
+  store %String %"$s_67", %String* %"$adtgep_71"
+  %"$adtgep_72" = getelementptr inbounds %CName_Pair_String_ByStr32, %CName_Pair_String_ByStr32* %"$adtval_69", i32 0, i32 2
+  store [32 x i8] %"$h2_68", [32 x i8]* %"$adtgep_72"
+  %"$adtptr_73" = bitcast %CName_Pair_String_ByStr32* %"$adtval_69" to %TName_Pair_String_ByStr32*
+  store %TName_Pair_String_ByStr32* %"$adtptr_73", %TName_Pair_String_ByStr32** %sh
   %sh2 = alloca [32 x i8]
-  %"$sh_72" = load %TName_Pair_String_ByStr32*, %TName_Pair_String_ByStr32** %sh
-  %"$$sh_72_73" = bitcast %TName_Pair_String_ByStr32* %"$sh_72" to i8*
-  %"$sha256hash_retalloca_74" = alloca [32 x i8]
-  call void @_sha256hash([32 x i8]* %"$sha256hash_retalloca_74", %_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_String_ByStr32_36", i8* %"$$sh_72_73")
-  %"$sha256hash_ret_75" = load [32 x i8], [32 x i8]* %"$sha256hash_retalloca_74"
-  store [32 x i8] %"$sha256hash_ret_75", [32 x i8]* %sh2
+  %"$execptr_load_74" = load i8*, i8** @_execptr
+  %"$sh_75" = load %TName_Pair_String_ByStr32*, %TName_Pair_String_ByStr32** %sh
+  %"$$sh_75_76" = bitcast %TName_Pair_String_ByStr32* %"$sh_75" to i8*
+  %"$sha256hash_call_77" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_74", %_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_String_ByStr32_36", i8* %"$$sh_75_76")
+  %"$sha256hash_78" = load [32 x i8], [32 x i8]* %"$sha256hash_call_77"
+  store [32 x i8] %"$sha256hash_78", [32 x i8]* %sh2
   %bystr1 = alloca %Bystr
-  %"$execptr_load_76" = load i8*, i8** @_execptr
-  %"$to_bystr_sh2_77" = alloca [32 x i8]
-  %"$sh2_78" = load [32 x i8], [32 x i8]* %sh2
-  store [32 x i8] %"$sh2_78", [32 x i8]* %"$to_bystr_sh2_77"
-  %"$$to_bystr_sh2_77_79" = bitcast [32 x i8]* %"$to_bystr_sh2_77" to i8*
-  %"$to_bystr_call_80" = call %Bystr @_to_bystr(i8* %"$execptr_load_76", i32 32, i8* %"$$to_bystr_sh2_77_79")
-  store %Bystr %"$to_bystr_call_80", %Bystr* %bystr1
+  %"$execptr_load_79" = load i8*, i8** @_execptr
+  %"$to_bystr_sh2_80" = alloca [32 x i8]
+  %"$sh2_81" = load [32 x i8], [32 x i8]* %sh2
+  store [32 x i8] %"$sh2_81", [32 x i8]* %"$to_bystr_sh2_80"
+  %"$$to_bystr_sh2_80_82" = bitcast [32 x i8]* %"$to_bystr_sh2_80" to i8*
+  %"$to_bystr_call_83" = call %Bystr @_to_bystr(i8* %"$execptr_load_79", i32 32, i8* %"$$to_bystr_sh2_80_82")
+  store %Bystr %"$to_bystr_call_83", %Bystr* %bystr1
   %i4 = alloca %Int32
   store %Int32 { i32 4 }, %Int32* %i4
   %p2 = alloca %TName_Pair_ByStr_Int32*
-  %"$bystr1_81" = load %Bystr, %Bystr* %bystr1
-  %"$i4_82" = load %Int32, %Int32* %i4
-  %"$adtval_83_load" = load i8*, i8** @_execptr
-  %"$adtval_83_salloc" = call i8* @_salloc(i8* %"$adtval_83_load", i64 21)
-  %"$adtval_83" = bitcast i8* %"$adtval_83_salloc" to %CName_Pair_ByStr_Int32*
-  %"$adtgep_84" = getelementptr inbounds %CName_Pair_ByStr_Int32, %CName_Pair_ByStr_Int32* %"$adtval_83", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_84"
-  %"$adtgep_85" = getelementptr inbounds %CName_Pair_ByStr_Int32, %CName_Pair_ByStr_Int32* %"$adtval_83", i32 0, i32 1
-  store %Bystr %"$bystr1_81", %Bystr* %"$adtgep_85"
-  %"$adtgep_86" = getelementptr inbounds %CName_Pair_ByStr_Int32, %CName_Pair_ByStr_Int32* %"$adtval_83", i32 0, i32 2
-  store %Int32 %"$i4_82", %Int32* %"$adtgep_86"
-  %"$adtptr_87" = bitcast %CName_Pair_ByStr_Int32* %"$adtval_83" to %TName_Pair_ByStr_Int32*
-  store %TName_Pair_ByStr_Int32* %"$adtptr_87", %TName_Pair_ByStr_Int32** %p2
-  %"$p2_88" = load %TName_Pair_ByStr_Int32*, %TName_Pair_ByStr_Int32** %p2
-  %"$$p2_88_89" = bitcast %TName_Pair_ByStr_Int32* %"$p2_88" to i8*
-  %"$sha256hash_retalloca_90" = alloca [32 x i8]
-  call void @_sha256hash([32 x i8]* %"$sha256hash_retalloca_90", %_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_ByStr_Int32_35", i8* %"$$p2_88_89")
-  %"$sha256hash_ret_91" = load [32 x i8], [32 x i8]* %"$sha256hash_retalloca_90"
-  store [32 x i8] %"$sha256hash_ret_91", [32 x i8]* %"$expr_0"
-  %"$$expr_0_92" = load [32 x i8], [32 x i8]* %"$expr_0"
-  store [32 x i8] %"$$expr_0_92", [32 x i8]* %1
+  %"$bystr1_84" = load %Bystr, %Bystr* %bystr1
+  %"$i4_85" = load %Int32, %Int32* %i4
+  %"$adtval_86_load" = load i8*, i8** @_execptr
+  %"$adtval_86_salloc" = call i8* @_salloc(i8* %"$adtval_86_load", i64 21)
+  %"$adtval_86" = bitcast i8* %"$adtval_86_salloc" to %CName_Pair_ByStr_Int32*
+  %"$adtgep_87" = getelementptr inbounds %CName_Pair_ByStr_Int32, %CName_Pair_ByStr_Int32* %"$adtval_86", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_87"
+  %"$adtgep_88" = getelementptr inbounds %CName_Pair_ByStr_Int32, %CName_Pair_ByStr_Int32* %"$adtval_86", i32 0, i32 1
+  store %Bystr %"$bystr1_84", %Bystr* %"$adtgep_88"
+  %"$adtgep_89" = getelementptr inbounds %CName_Pair_ByStr_Int32, %CName_Pair_ByStr_Int32* %"$adtval_86", i32 0, i32 2
+  store %Int32 %"$i4_85", %Int32* %"$adtgep_89"
+  %"$adtptr_90" = bitcast %CName_Pair_ByStr_Int32* %"$adtval_86" to %TName_Pair_ByStr_Int32*
+  store %TName_Pair_ByStr_Int32* %"$adtptr_90", %TName_Pair_ByStr_Int32** %p2
+  %"$execptr_load_91" = load i8*, i8** @_execptr
+  %"$p2_92" = load %TName_Pair_ByStr_Int32*, %TName_Pair_ByStr_Int32** %p2
+  %"$$p2_92_93" = bitcast %TName_Pair_ByStr_Int32* %"$p2_92" to i8*
+  %"$sha256hash_call_94" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_91", %_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_ByStr_Int32_35", i8* %"$$p2_92_93")
+  %"$sha256hash_95" = load [32 x i8], [32 x i8]* %"$sha256hash_call_94"
+  store [32 x i8] %"$sha256hash_95", [32 x i8]* %"$expr_0"
+  %"$$expr_0_96" = load [32 x i8], [32 x i8]* %"$expr_0"
+  store [32 x i8] %"$$expr_0_96", [32 x i8]* %1
   ret void
 }
 
-declare void @_sha256hash([32 x i8]*, %_TyDescrTy_Typ*, i8*)
+declare [32 x i8]* @_sha256hash(i8*, %_TyDescrTy_Typ*, i8*)
 
 declare i8* @_salloc(i8*, i64)
 
@@ -170,9 +170,9 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$mainval_93" = alloca [32 x i8]
-  %"$memvoidcast_94" = bitcast [32 x i8]* %"$mainval_93" to i8*
-  call void @"$scilla_expr_53"(i8* null, [32 x i8]* %"$mainval_93")
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Bystr32_31", i8* %"$memvoidcast_94")
+  %"$mainval_97" = alloca [32 x i8]
+  %"$memvoidcast_98" = bitcast [32 x i8]* %"$mainval_97" to i8*
+  call void @"$scilla_expr_53"(i8* null, [32 x i8]* %"$mainval_97")
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Bystr32_31", i8* %"$memvoidcast_98")
   ret void
 }

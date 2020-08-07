@@ -112,7 +112,9 @@ BOOST_AUTO_TEST_CASE(builtin_sha256hash) { testExecExpr("builtin_sha256hash"); }
 BOOST_AUTO_TEST_CASE(builtin_concat) { testExecExpr("builtin_concat"); }
 BOOST_AUTO_TEST_CASE(builtin_map) { testExecExpr("builtin_map"); }
 BOOST_AUTO_TEST_CASE(lit_emp_i32_i32) { testExecExpr("lit-emp_i32_i32"); }
-BOOST_AUTO_TEST_CASE(lit_emp_i32_list_string) { testExecExpr("lit-emp_i32_list_string"); }
+BOOST_AUTO_TEST_CASE(lit_emp_i32_list_string) {
+  testExecExpr("lit-emp_i32_list_string");
+}
 BOOST_AUTO_TEST_CASE(map1) { testExecExpr("map1"); }
 
 BOOST_AUTO_TEST_SUITE_END()

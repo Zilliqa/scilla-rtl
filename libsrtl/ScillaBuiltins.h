@@ -92,9 +92,9 @@ ScillaVM::ScillaTypes::Int64 _add_Int64(ScillaVM::ScillaTypes::Int64,
                                         ScillaVM::ScillaTypes::Int64);
 ScillaVM::ScillaTypes::Int128 _add_Int128(ScillaVM::ScillaTypes::Int128,
                                           ScillaVM::ScillaTypes::Int128);
-void _add_Int256(ScillaVM::ScillaTypes::Int256 *,
-                 ScillaVM::ScillaTypes::Int256 *,
-                 ScillaVM::ScillaTypes::Int256 *);
+ScillaVM::ScillaTypes::Int256 *_add_Int256(ScillaVM::ScillaJIT *SJ,
+                                           ScillaVM::ScillaTypes::Int256 *Lhs,
+                                           ScillaVM::ScillaTypes::Int256 *Rhs);
 
 ScillaVM::ScillaTypes::Uint32 _add_Uint32(ScillaVM::ScillaTypes::Uint32,
                                           ScillaVM::ScillaTypes::Uint32);
@@ -102,9 +102,9 @@ ScillaVM::ScillaTypes::Uint64 _add_Uint64(ScillaVM::ScillaTypes::Uint64,
                                           ScillaVM::ScillaTypes::Uint64);
 ScillaVM::ScillaTypes::Uint128 _add_Uint128(ScillaVM::ScillaTypes::Uint128,
                                             ScillaVM::ScillaTypes::Uint128);
-void _add_Uint256(ScillaVM::ScillaTypes::Uint256 *,
-                  ScillaVM::ScillaTypes::Uint256 *,
-                  ScillaVM::ScillaTypes::Uint256 *);
+ScillaVM::ScillaTypes::Uint256 *
+_add_Uint256(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Uint256 *Lhs,
+             ScillaVM::ScillaTypes::Uint256 *Rhs);
 
 uint8_t *_eq_Int32(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Int32 Lhs,
                    ScillaVM::ScillaTypes::Int32 Rhs);
@@ -154,13 +154,15 @@ uint8_t *_eq_ByStrX(ScillaVM::ScillaJIT *SJ, int X, uint8_t *Lhs, uint8_t *Rhs);
 ScillaVM::ScillaTypes::String _to_bystr(ScillaVM::ScillaJIT *SJ, int X,
                                         uint8_t *Buf);
 
-void _sha256hash(uint8_t *Ret, const ScillaVM::ScillaTypes::Typ *T, void *V);
+void *_sha256hash(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+                  void *V);
 
 ScillaVM::ScillaTypes::String _concat_String(ScillaVM::ScillaJIT *SJ,
                                              ScillaVM::ScillaTypes::String Lhs,
                                              ScillaVM::ScillaTypes::String Rhs);
 
-void _concat_ByStrX(uint8_t *SRet, int X1, uint8_t *Lhs, int X2, uint8_t *Rhs);
+void *_concat_ByStrX(ScillaVM::ScillaJIT *SJ, int X1, uint8_t *Lhs, int X2,
+                     uint8_t *Rhs);
 
 void _accept(ScillaVM::ScillaJIT *SJ);
 

@@ -98,50 +98,50 @@ entry:
   %y = alloca [2 x i8]
   store [2 x i8] c"\FF\11", [2 x i8]* %y
   %z = alloca [4 x i8]
-  %"$concat_x_59" = alloca [2 x i8]
-  %"$x_60" = load [2 x i8], [2 x i8]* %x
-  store [2 x i8] %"$x_60", [2 x i8]* %"$concat_x_59"
-  %"$$concat_x_59_61" = bitcast [2 x i8]* %"$concat_x_59" to i8*
-  %"$concat_y_62" = alloca [2 x i8]
-  %"$y_63" = load [2 x i8], [2 x i8]* %y
-  store [2 x i8] %"$y_63", [2 x i8]* %"$concat_y_62"
-  %"$$concat_y_62_64" = bitcast [2 x i8]* %"$concat_y_62" to i8*
-  %"$concat_retalloca_65" = alloca [4 x i8]
-  %"$concat_retalloca_65_voidp" = bitcast [4 x i8]* %"$concat_retalloca_65" to i8*
-  %1 = call i8* @_concat_ByStrX(i8* %"$concat_retalloca_65_voidp", i32 2, i8* %"$$concat_x_59_61", i32 2, i8* %"$$concat_y_62_64")
-  %"$concat_ret_66" = load [4 x i8], [4 x i8]* %"$concat_retalloca_65"
-  store [4 x i8] %"$concat_ret_66", [4 x i8]* %z
+  %"$execptr_load_59" = load i8*, i8** @_execptr
+  %"$concat_x_60" = alloca [2 x i8]
+  %"$x_61" = load [2 x i8], [2 x i8]* %x
+  store [2 x i8] %"$x_61", [2 x i8]* %"$concat_x_60"
+  %"$$concat_x_60_62" = bitcast [2 x i8]* %"$concat_x_60" to i8*
+  %"$concat_y_63" = alloca [2 x i8]
+  %"$y_64" = load [2 x i8], [2 x i8]* %y
+  store [2 x i8] %"$y_64", [2 x i8]* %"$concat_y_63"
+  %"$$concat_y_63_65" = bitcast [2 x i8]* %"$concat_y_63" to i8*
+  %"$concat_call_66" = call i8* @_concat_ByStrX(i8* %"$execptr_load_59", i32 2, i8* %"$$concat_x_60_62", i32 2, i8* %"$$concat_y_63_65")
+  %"$concat_67" = bitcast i8* %"$concat_call_66" to [4 x i8]*
+  %"$concat_68" = load [4 x i8], [4 x i8]* %"$concat_67"
+  store [4 x i8] %"$concat_68", [4 x i8]* %z
   %w = alloca [18 x i8]
   store [18 x i8] c"\00\11\00\11\00\11\00\11\00\11\00\11\00\11\00\11\00\11", [18 x i8]* %w
   %bystrx = alloca [22 x i8]
-  %"$concat_w_67" = alloca [18 x i8]
-  %"$w_68" = load [18 x i8], [18 x i8]* %w
-  store [18 x i8] %"$w_68", [18 x i8]* %"$concat_w_67"
-  %"$$concat_w_67_69" = bitcast [18 x i8]* %"$concat_w_67" to i8*
-  %"$concat_z_70" = alloca [4 x i8]
-  %"$z_71" = load [4 x i8], [4 x i8]* %z
-  store [4 x i8] %"$z_71", [4 x i8]* %"$concat_z_70"
-  %"$$concat_z_70_72" = bitcast [4 x i8]* %"$concat_z_70" to i8*
-  %"$concat_retalloca_73" = alloca [22 x i8]
-  %"$concat_retalloca_73_voidp" = bitcast [22 x i8]* %"$concat_retalloca_73" to i8*
-  %2 = call i8* @_concat_ByStrX(i8* %"$concat_retalloca_73_voidp", i32 18, i8* %"$$concat_w_67_69", i32 4, i8* %"$$concat_z_70_72")
-  %"$concat_ret_74" = load [22 x i8], [22 x i8]* %"$concat_retalloca_73"
-  store [22 x i8] %"$concat_ret_74", [22 x i8]* %bystrx
-  %"$str_75" = load %String, %String* %str
-  %"$bystrx_76" = load [22 x i8], [22 x i8]* %bystrx
-  %"$adtval_77_load" = load i8*, i8** @_execptr
-  %"$adtval_77_salloc" = call i8* @_salloc(i8* %"$adtval_77_load", i64 39)
-  %"$adtval_77" = bitcast i8* %"$adtval_77_salloc" to %CName_Pair_String_ByStr22*
-  %"$adtgep_78" = getelementptr inbounds %CName_Pair_String_ByStr22, %CName_Pair_String_ByStr22* %"$adtval_77", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_78"
-  %"$adtgep_79" = getelementptr inbounds %CName_Pair_String_ByStr22, %CName_Pair_String_ByStr22* %"$adtval_77", i32 0, i32 1
-  store %String %"$str_75", %String* %"$adtgep_79"
-  %"$adtgep_80" = getelementptr inbounds %CName_Pair_String_ByStr22, %CName_Pair_String_ByStr22* %"$adtval_77", i32 0, i32 2
-  store [22 x i8] %"$bystrx_76", [22 x i8]* %"$adtgep_80"
-  %"$adtptr_81" = bitcast %CName_Pair_String_ByStr22* %"$adtval_77" to %TName_Pair_String_ByStr22*
-  store %TName_Pair_String_ByStr22* %"$adtptr_81", %TName_Pair_String_ByStr22** %"$expr_0"
-  %"$$expr_0_82" = load %TName_Pair_String_ByStr22*, %TName_Pair_String_ByStr22** %"$expr_0"
-  ret %TName_Pair_String_ByStr22* %"$$expr_0_82"
+  %"$execptr_load_69" = load i8*, i8** @_execptr
+  %"$concat_w_70" = alloca [18 x i8]
+  %"$w_71" = load [18 x i8], [18 x i8]* %w
+  store [18 x i8] %"$w_71", [18 x i8]* %"$concat_w_70"
+  %"$$concat_w_70_72" = bitcast [18 x i8]* %"$concat_w_70" to i8*
+  %"$concat_z_73" = alloca [4 x i8]
+  %"$z_74" = load [4 x i8], [4 x i8]* %z
+  store [4 x i8] %"$z_74", [4 x i8]* %"$concat_z_73"
+  %"$$concat_z_73_75" = bitcast [4 x i8]* %"$concat_z_73" to i8*
+  %"$concat_call_76" = call i8* @_concat_ByStrX(i8* %"$execptr_load_69", i32 18, i8* %"$$concat_w_70_72", i32 4, i8* %"$$concat_z_73_75")
+  %"$concat_77" = bitcast i8* %"$concat_call_76" to [22 x i8]*
+  %"$concat_78" = load [22 x i8], [22 x i8]* %"$concat_77"
+  store [22 x i8] %"$concat_78", [22 x i8]* %bystrx
+  %"$str_79" = load %String, %String* %str
+  %"$bystrx_80" = load [22 x i8], [22 x i8]* %bystrx
+  %"$adtval_81_load" = load i8*, i8** @_execptr
+  %"$adtval_81_salloc" = call i8* @_salloc(i8* %"$adtval_81_load", i64 39)
+  %"$adtval_81" = bitcast i8* %"$adtval_81_salloc" to %CName_Pair_String_ByStr22*
+  %"$adtgep_82" = getelementptr inbounds %CName_Pair_String_ByStr22, %CName_Pair_String_ByStr22* %"$adtval_81", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_82"
+  %"$adtgep_83" = getelementptr inbounds %CName_Pair_String_ByStr22, %CName_Pair_String_ByStr22* %"$adtval_81", i32 0, i32 1
+  store %String %"$str_79", %String* %"$adtgep_83"
+  %"$adtgep_84" = getelementptr inbounds %CName_Pair_String_ByStr22, %CName_Pair_String_ByStr22* %"$adtval_81", i32 0, i32 2
+  store [22 x i8] %"$bystrx_80", [22 x i8]* %"$adtgep_84"
+  %"$adtptr_85" = bitcast %CName_Pair_String_ByStr22* %"$adtval_81" to %TName_Pair_String_ByStr22*
+  store %TName_Pair_String_ByStr22* %"$adtptr_85", %TName_Pair_String_ByStr22** %"$expr_0"
+  %"$$expr_0_86" = load %TName_Pair_String_ByStr22*, %TName_Pair_String_ByStr22** %"$expr_0"
+  ret %TName_Pair_String_ByStr22* %"$$expr_0_86"
 }
 
 declare %String @_concat_String(i8*, %String, %String)
@@ -154,8 +154,8 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_83" = call %TName_Pair_String_ByStr22* @"$scilla_expr_52"(i8* null)
-  %"$memvoidcast_84" = bitcast %TName_Pair_String_ByStr22* %"$exprval_83" to i8*
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_String_ByStr22_41", i8* %"$memvoidcast_84")
+  %"$exprval_87" = call %TName_Pair_String_ByStr22* @"$scilla_expr_52"(i8* null)
+  %"$memvoidcast_88" = bitcast %TName_Pair_String_ByStr22* %"$exprval_87" to i8*
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_String_ByStr22_41", i8* %"$memvoidcast_88")
   ret void
 }

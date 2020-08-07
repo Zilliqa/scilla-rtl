@@ -242,9 +242,11 @@ ScillaTypes::Int128 _add_Int128(ScillaTypes::Int128 Lhs,
   return SafeInt128(&Lhs) + SafeInt128(&Rhs);
 }
 
-void _add_Int256(ScillaTypes::Int256 *Result, ScillaTypes::Int256 *Lhs,
-                 ScillaTypes::Int256 *Rhs) {
-  *Result = SafeInt256(Lhs) + SafeInt256(Rhs);
+ScillaTypes::Int256 *_add_Int256(ScillaJIT *SJ, ScillaTypes::Int256 *Lhs,
+                                 ScillaTypes::Int256 *Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto *Buf = SA(sizeof(ScillaTypes::Int256));
+  return new (Buf) ScillaTypes::Int256(SafeInt256(Lhs) + SafeInt256(Rhs));
 }
 
 ScillaTypes::Uint32 _add_Uint32(ScillaTypes::Uint32 Lhs,
@@ -262,9 +264,11 @@ ScillaTypes::Uint128 _add_Uint128(ScillaTypes::Uint128 Lhs,
   return SafeUint128(&Lhs) + SafeUint128(&Rhs);
 }
 
-void _add_Uint256(ScillaTypes::Uint256 *Result, ScillaTypes::Uint256 *Lhs,
-                  ScillaTypes::Uint256 *Rhs) {
-  *Result = SafeUint256(Lhs) + SafeUint256(Rhs);
+ScillaTypes::Uint256 *_add_Uint256(ScillaJIT *SJ, ScillaTypes::Uint256 *Lhs,
+                                   ScillaTypes::Uint256 *Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto *Buf = SA(sizeof(ScillaTypes::Uint256));
+  return new (Buf) ScillaTypes::Uint256(SafeUint256(Lhs) + SafeUint256(Rhs));
 }
 
 uint8_t *_eq_Int32(ScillaJIT *SJ, ScillaTypes::Int32 Lhs,
@@ -496,10 +500,13 @@ ScillaTypes::String _to_bystr(ScillaJIT *SJ, int X, uint8_t *Buf) {
   return Ret;
 }
 
-void _sha256hash(uint8_t *Ret, const ScillaTypes::Typ *T, void *V) {
+void *_sha256hash(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
   ByteVec Serialized;
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto *Buf = reinterpret_cast<uint8_t *>(SA(SHA256_DIGEST_LENGTH));
   ScillaValues::serializeForHashing(Serialized, T, V);
-  SHA256(Serialized.data(), Serialized.size(), Ret);
+  SHA256(Serialized.data(), Serialized.size(), Buf);
+  return Buf;
 }
 
 ScillaTypes::String _concat_String(ScillaJIT *SJ, ScillaTypes::String Lhs,
@@ -514,9 +521,13 @@ ScillaTypes::String _concat_String(ScillaJIT *SJ, ScillaTypes::String Lhs,
   return Ret;
 }
 
-void _concat_ByStrX(uint8_t *SRet, int X1, uint8_t *Lhs, int X2, uint8_t *Rhs) {
-  std::memcpy(SRet, Lhs, X1);
-  std::memcpy(SRet + X1, Rhs, X2);
+void *_concat_ByStrX(ScillaJIT *SJ, int X1, uint8_t *Lhs, int X2,
+                     uint8_t *Rhs) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto *Buf = reinterpret_cast<uint8_t *>(SA(X1 + X2));
+  std::memcpy(Buf, Lhs, X1);
+  std::memcpy(Buf + X1, Rhs, X2);
+  return Buf;
 }
 
 void _accept(ScillaJIT *SJ) { SJ->TS->processAccept(); }
@@ -587,7 +598,7 @@ void *_contains(ScillaJIT *SJ, const ScillaTypes::Typ *T,
 }
 
 void *_remove(ScillaJIT *SJ, const ScillaTypes::Typ *T,
-                const ScillaParams::MapValueT *M, const void *K) {
+              const ScillaParams::MapValueT *M, const void *K) {
   ASSERT(T->m_t == ScillaTypes::Typ::Map_typ);
   auto *KeyT = T->m_sub.m_mapt->m_keyTyp;
   auto KeyS = ScillaValues::toJSON(KeyT, K).toStyledString();
