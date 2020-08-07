@@ -62,6 +62,12 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_concat_String", (void *) _concat_String},
     {"_concat_ByStrX", (void *) _concat_ByStrX},
     {"_accept", (void *) _accept},
+    {"_new_empty_map", (void *) _new_empty_map},
+    {"_put", (void *) _put},
+    {"_get", (void *) _get},
+    {"_contains", (void *) _contains},
+    {"_remove", (void *) _remove},
+    {"_size", (void *) _size},
   };
   // clang-format on
 
@@ -171,6 +177,46 @@ uint8_t *toScillaBool(SAllocator &SA, bool B) {
   return Mem;
 }
 
+// Wrap the result of a map acess with Scilla Option type.
+uint8_t *wrapMapAccessResult(SAllocator &SA, bool Found,
+                             const boost::any &StringOrMapVal,
+                             const ScillaTypes::Typ *ValT) {
+  if (Found) {
+    // Wrap with "Some".
+    // Allocate memory for "Some" = sizeOf (ValT) + 1 byte for Tag.
+    int MemSize = ScillaTypes::Typ::sizeOf(ValT) + 1;
+    auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
+    *Mem = ScillaTypes::Option_Some_Tag;
+    // Create Scilla value from JSON and place it in Mem + 1.
+    // i.e., We are constructing a Scilla "Some" object overall.
+    if (ScillaTypes::Typ::isBoxed(ValT)) {
+      if (ValT->m_t == ScillaTypes::Typ::Map_typ) {
+        auto &MapVal =
+            boost::any_cast<const ScillaParams::MapValueT &>(StringOrMapVal);
+        auto Buf = SA(sizeof(ScillaParams::MapValueT));
+        *reinterpret_cast<void **>(Mem + 1) =
+            new (Buf) ScillaParams::MapValueT(std::move(MapVal));
+      } else {
+        auto StringVal = boost::any_cast<std::string>(StringOrMapVal);
+        Json::Value ValJ = parseJSONString(StringVal);
+        *reinterpret_cast<void **>(Mem + 1) =
+            ScillaValues::fromJSON(SA, ValT, ValJ);
+      }
+    } else {
+      auto StringVal = boost::any_cast<std::string>(StringOrMapVal);
+      Json::Value ValJ = parseJSONString(StringVal);
+      ScillaValues::fromJSONToMem(SA, (Mem + 1), MemSize - 1, ValT, ValJ);
+    }
+    return Mem;
+  } else {
+    // Wrap with Scilla object "None", which has only a Tag.
+    int MemSize = 1;
+    auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
+    *Mem = ScillaTypes::Option_None_Tag;
+    return Mem;
+  }
+}
+
 } // namespace
 
 namespace ph = std::placeholders;
@@ -276,6 +322,9 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
 
   ScillaTypes::Typ::getMapKeyTypes(T, KeyTypes);
   ASSERT((int)KeyTypes.size() >= NumIdx);
+  // If the number of indices provided is fewer than max possible,
+  // then the result of this access is a map value.
+  unsigned MapValueAccess = NumIdx < (int)KeyTypes.size();
   prepareStateAccessIndices(KeyTypes, NumIdx, Indices, SerializedIndices);
 
   ScillaParams::StateQuery SQ = {std::string(Name), (int)KeyTypes.size(),
@@ -294,40 +343,23 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
   if (SerializedIndices.empty()) {
     // Full access of state variable. No indexing.
     ASSERT_MSG(FetchVal, "Fetching full state variable, but FetchVal not set");
-    // TODO: Support Map values too.
-    auto Val = boost::any_cast<std::string>(StringOrMapVal);
-    Json::Value ValJ = parseJSONString(Val);
-    return ScillaValues::fromJSON(SA, T, ValJ);
+    if (MapValueAccess) {
+      ASSERT(ScillaTypes::Typ::mapAccessType(T, NumIdx)->m_t ==
+             ScillaTypes::Typ::Map_typ);
+      auto &MapVal = boost::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
+      auto Buf = SA(sizeof(ScillaParams::MapValueT));
+      return new (Buf) ScillaParams::MapValueT(std::move(MapVal));
+    } else {
+      auto Val = boost::any_cast<std::string>(StringOrMapVal);
+      Json::Value ValJ = parseJSONString(Val);
+      return ScillaValues::fromJSON(SA, T, ValJ);
+    }
   }
 
   // Map access. Returned value must be wrapped with Option / Bool.
+  auto ValT = ScillaTypes::Typ::mapAccessType(T, NumIdx);
   if (FetchVal) {
-    // Wrap with "Option".
-    if (Found) {
-      // Wrap with "Some". TODO: Support Map values too.
-      auto Val = boost::any_cast<std::string>(StringOrMapVal);
-      Json::Value ValJ = parseJSONString(Val);
-      auto ValT = ScillaTypes::Typ::mapAccessType(T, NumIdx);
-      // Allocate memory for "Some" = sizeOf (ValT) + 1 byte for Tag.
-      int MemSize = ScillaTypes::Typ::sizeOf(ValT) + 1;
-      auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
-      *Mem = ScillaTypes::Option_Some_Tag;
-      // Create Scilla value from JSON and place it in Mem + 1.
-      // i.e., We are constructing a Scilla "Some" object overall.
-      if (ScillaTypes::Typ::isBoxed(ValT)) {
-        *reinterpret_cast<void **>(Mem + 1) =
-            ScillaValues::fromJSON(SA, ValT, ValJ);
-      } else {
-        ScillaValues::fromJSONToMem(SA, (Mem + 1), MemSize - 1, ValT, ValJ);
-      }
-      return Mem;
-    } else {
-      // Wrap with Scilla object "None", which has only a Tag.
-      int MemSize = 1;
-      auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
-      *Mem = ScillaTypes::Option_None_Tag;
-      return Mem;
-    }
+    return wrapMapAccessResult(SA, Found, StringOrMapVal, ValT);
   } else {
     // We need to construct a Scilla Bool ADT based on "found".
     auto Mem = toScillaBool(SA, Found);
@@ -344,25 +376,33 @@ void _update_field(ScillaVM::ScillaJIT *SJ, const char *Name,
 
   ScillaTypes::Typ::getMapKeyTypes(T, KeyTypes);
   ASSERT((int)KeyTypes.size() >= NumIdx);
+  // If the number of indices provided is fewer than max possible,
+  // then the result of this access is a map value.
+  unsigned MapValueAccess = NumIdx < (int)KeyTypes.size();
   prepareStateAccessIndices(KeyTypes, NumIdx, Indices, SerializedIndices);
 
   ScillaParams::StateQuery SQ = {std::string(Name), (int)KeyTypes.size(),
                                  SerializedIndices, Val == nullptr};
 
-  // TODO: Support Map values too.
-  std::string ValS;
   if (Val) {
+    ASSERT_MSG(SJ->SPs.updateStateValue,
+               "Incorrect ScillaParams provided to ScillaJIT");
     auto ValT = ScillaTypes::Typ::mapAccessType(T, NumIdx);
-    ValS = ScillaValues::toJSON(ValT, Val).toStyledString();
+    if (MapValueAccess) {
+      ASSERT(ValT->m_t == ScillaTypes::Typ::Map_typ);
+      auto &ValM = *reinterpret_cast<ScillaParams::MapValueT *>(Val);
+      if (!SJ->SPs.updateStateValue(SQ, ValM)) {
+        CREATE_ERROR("State update query failed for " + SQ.Name);
+      }
+    } else {
+      auto ValS = ScillaValues::toJSON(ValT, Val).toStyledString();
+      if (!SJ->SPs.updateStateValue(SQ, ValS)) {
+        CREATE_ERROR("State update query failed for " + SQ.Name);
+      }
+    }
   } else {
     ASSERT_MSG(!SerializedIndices.empty(),
                "Value deletion is possible only for indexed map access");
-  }
-
-  ASSERT_MSG(SJ->SPs.updateStateValue,
-             "Incorrect ScillaParams provided to ScillaJIT");
-  if (!SJ->SPs.updateStateValue(SQ, ValS)) {
-    CREATE_ERROR("State update query failed for " + SQ.Name);
   }
 }
 
@@ -480,5 +520,90 @@ void _concat_ByStrX(uint8_t *SRet, int X1, uint8_t *Lhs, int X2, uint8_t *Rhs) {
 }
 
 void _accept(ScillaJIT *SJ) { SJ->TS->processAccept(); }
+
+ScillaParams::MapValueT *_new_empty_map(ScillaJIT *SJ) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto Buf = SA(sizeof(ScillaParams::MapValueT));
+  return new (Buf) ScillaParams::MapValueT;
+}
+
+ScillaParams::MapValueT *_put(ScillaJIT *SJ, const ScillaTypes::Typ *T,
+                              ScillaParams::MapValueT *M, void *K, void *V) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto Buf = SA(sizeof(ScillaParams::MapValueT));
+  auto NewM = new (Buf) ScillaParams::MapValueT(*M);
+
+  switch (T->m_t) {
+  case ScillaTypes::Typ::Map_typ: {
+    auto KT = T->m_sub.m_mapt->m_keyTyp;
+    Json::Value KeyJ = ScillaValues::toJSON(KT, K);
+    auto KeyS = KeyJ.toStyledString();
+
+    auto VT = T->m_sub.m_mapt->m_valTyp;
+    switch (VT->m_t) {
+    case ScillaTypes::Typ::Map_typ:
+      NewM->operator[](KeyS) = *reinterpret_cast<ScillaParams::MapValueT *>(V);
+      break;
+    default: {
+      Json::Value ValJ = ScillaValues::toJSON(VT, V);
+      NewM->operator[](KeyS) = ValJ.toStyledString();
+      break;
+    }
+    }
+    break;
+  }
+  default:
+    CREATE_ERROR("MapType value expected as argument to _put");
+  }
+
+  return NewM;
+}
+
+void *_get(ScillaJIT *SJ, const ScillaTypes::Typ *T,
+           const ScillaParams::MapValueT *M, const void *K) {
+
+  ASSERT(T->m_t == ScillaTypes::Typ::Map_typ);
+  auto *KeyT = T->m_sub.m_mapt->m_keyTyp;
+  auto *ValT = T->m_sub.m_mapt->m_valTyp;
+  auto KeyS = ScillaValues::toJSON(KeyT, K).toStyledString();
+  auto Itr = M->find(KeyS);
+
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  bool Found = Itr != M->end();
+  const boost::any Dummy;
+  const boost::any &Val = Found ? Itr->second : Dummy;
+  // Wrap with "Option".
+  return wrapMapAccessResult(SA, Found, Val, ValT);
+}
+
+void *_contains(ScillaJIT *SJ, const ScillaTypes::Typ *T,
+                const ScillaParams::MapValueT *M, const void *K) {
+  ASSERT(T->m_t == ScillaTypes::Typ::Map_typ);
+  auto *KeyT = T->m_sub.m_mapt->m_keyTyp;
+  auto KeyS = ScillaValues::toJSON(KeyT, K).toStyledString();
+  auto Itr = M->find(KeyS);
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  return toScillaBool(SA, Itr != M->end());
+}
+
+void *_remove(ScillaJIT *SJ, const ScillaTypes::Typ *T,
+                const ScillaParams::MapValueT *M, const void *K) {
+  ASSERT(T->m_t == ScillaTypes::Typ::Map_typ);
+  auto *KeyT = T->m_sub.m_mapt->m_keyTyp;
+  auto KeyS = ScillaValues::toJSON(KeyT, K).toStyledString();
+
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto Buf = SA(sizeof(ScillaParams::MapValueT));
+  auto NewM = new (Buf) ScillaParams::MapValueT(*M);
+
+  NewM->erase(KeyS);
+  return NewM;
+}
+
+ScillaTypes::Uint32 _size(const ScillaParams::MapValueT *M) {
+  // Converting the size to string and then to SafeUint32
+  // is the safest and simplest, but not the most efficient.
+  return SafeUint32(std::to_string(M->size()));
+}
 
 } // end of extern "C".

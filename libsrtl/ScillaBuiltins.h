@@ -164,5 +164,19 @@ void _concat_ByStrX(uint8_t *SRet, int X1, uint8_t *Lhs, int X2, uint8_t *Rhs);
 
 void _accept(ScillaVM::ScillaJIT *SJ);
 
+ScillaVM::ScillaParams::MapValueT *_new_empty_map(ScillaVM::ScillaJIT *SJ);
+ScillaVM::ScillaParams::MapValueT *_put(ScillaVM::ScillaJIT *SJ,
+                                        const ScillaVM::ScillaTypes::Typ *T,
+                                        ScillaVM::ScillaParams::MapValueT *M,
+                                        void *K, void *V);
+void *_get(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+           const ScillaVM::ScillaParams::MapValueT *M, const void *K);
+void *_contains(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+                const ScillaVM::ScillaParams::MapValueT *M, const void *K);
+
+void *_remove(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+              const ScillaVM::ScillaParams::MapValueT *M, const void *K);
+ScillaVM::ScillaTypes::Uint32 _size(const ScillaVM::ScillaParams::MapValueT *M);
+
 } // extern "C"
 #pragma clang diagnostic pop
