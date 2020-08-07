@@ -169,6 +169,8 @@ ScillaVM::ScillaParams::MapValueT *_put(ScillaVM::ScillaJIT *SJ,
                                         const ScillaVM::ScillaTypes::Typ *T,
                                         ScillaVM::ScillaParams::MapValueT *M,
                                         void *K, void *V);
+void *_get(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+           const ScillaVM::ScillaParams::MapValueT *M, const void *K);
 
 } // extern "C"
 #pragma clang diagnostic pop
