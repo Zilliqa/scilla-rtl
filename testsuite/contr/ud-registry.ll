@@ -1,4 +1,7 @@
-; ModuleID = './ud-registry.ll'
+
+
+; gas_remaining: 4001329
+; ModuleID = 'Registry'
 source_filename = "Registry"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
@@ -446,7 +449,7 @@ entry:
 "$empty_default_1559":                            ; preds = %entry
   br label %"$matchsucc_1555"
 
-"$matchsucc_1555":                                ; preds = %"$empty_default_1559", %"$Some_1565", %"$None_1560"
+"$matchsucc_1555":                                ; preds = %"$Some_1565", %"$None_1560", %"$empty_default_1559"
   %isOperator = alloca %TName_Bool*
   %"$maybeOperators_tag_1578" = getelementptr inbounds %"TName_Option_List_(ByStr20)", %"TName_Option_List_(ByStr20)"* %1, i32 0, i32 0
   %"$maybeOperators_tag_1579" = load i8, i8* %"$maybeOperators_tag_1578"
@@ -495,7 +498,7 @@ entry:
 "$empty_default_1580":                            ; preds = %"$matchsucc_1555"
   br label %"$matchsucc_1577"
 
-"$matchsucc_1577":                                ; preds = %"$empty_default_1580", %"$Some_1586", %"$None_1581"
+"$matchsucc_1577":                                ; preds = %"$Some_1586", %"$None_1581", %"$empty_default_1580"
   %b1 = alloca %TName_Bool*
   %"$orb_41" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
   %"$orb_1602" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %orb
@@ -751,13 +754,13 @@ entry:
 "$empty_default_1444":                            ; preds = %"$Some_1436"
   br label %"$matchsucc_1440"
 
-"$matchsucc_1440":                                ; preds = %"$empty_default_1444", %"$Record_1445"
+"$matchsucc_1440":                                ; preds = %"$Record_1445", %"$empty_default_1444"
   br label %"$matchsucc_1429"
 
 "$empty_default_1432":                            ; preds = %entry
   br label %"$matchsucc_1429"
 
-"$matchsucc_1429":                                ; preds = %"$empty_default_1432", %"$matchsucc_1440", %"$None_1433"
+"$matchsucc_1429":                                ; preds = %"$matchsucc_1440", %"$None_1433", %"$empty_default_1432"
   %"$$retval_221_1452" = load [20 x i8], [20 x i8]* %"$retval_221"
   store [20 x i8] %"$$retval_221_1452", [20 x i8]* %1
   ret void
@@ -1226,7 +1229,7 @@ entry:
 "$empty_default_1169":                            ; preds = %"$True_1164"
   br label %"$matchsucc_1166"
 
-"$matchsucc_1166":                                ; preds = %"$empty_default_1169", %"$False_1175", %"$True_1170"
+"$matchsucc_1166":                                ; preds = %"$False_1175", %"$True_1170", %"$empty_default_1169"
   br label %"$matchsucc_1159"
 
 "$False_1180":                                    ; preds = %entry
@@ -1263,13 +1266,13 @@ entry:
 "$empty_default_1185":                            ; preds = %"$False_1180"
   br label %"$matchsucc_1182"
 
-"$matchsucc_1182":                                ; preds = %"$empty_default_1185", %"$False_1191", %"$True_1186"
+"$matchsucc_1182":                                ; preds = %"$False_1191", %"$True_1186", %"$empty_default_1185"
   br label %"$matchsucc_1159"
 
 "$empty_default_1163":                            ; preds = %entry
   br label %"$matchsucc_1159"
 
-"$matchsucc_1159":                                ; preds = %"$empty_default_1163", %"$matchsucc_1182", %"$matchsucc_1166"
+"$matchsucc_1159":                                ; preds = %"$matchsucc_1182", %"$matchsucc_1166", %"$empty_default_1163"
   %"$$retval_251_1196" = load %TName_Bool*, %TName_Bool** %"$retval_251"
   ret %TName_Bool* %"$$retval_251_1196"
 }
@@ -1790,7 +1793,7 @@ entry:
 "$empty_default_923":                             ; preds = %entry
   br label %"$matchsucc_919"
 
-"$matchsucc_919":                                 ; preds = %"$empty_default_923", %"$None_931", %"$Some_924"
+"$matchsucc_919":                                 ; preds = %"$None_931", %"$Some_924", %"$empty_default_923"
   %"$$retval_189_936" = load %TName_Bool*, %TName_Bool** %"$retval_189"
   ret %TName_Bool* %"$$retval_189_936"
 }
@@ -1901,7 +1904,7 @@ entry:
 "$empty_default_863":                             ; preds = %entry
   br label %"$matchsucc_859"
 
-"$matchsucc_859":                                 ; preds = %"$empty_default_863", %"$False_871", %"$True_864"
+"$matchsucc_859":                                 ; preds = %"$False_871", %"$True_864", %"$empty_default_863"
   %"$$retval_199_878" = load %TName_Option_ByStr20*, %TName_Option_ByStr20** %"$retval_199"
   ret %TName_Option_ByStr20* %"$$retval_199_878"
 }
@@ -2100,7 +2103,7 @@ entry:
 "$empty_default_761":                             ; preds = %entry
   br label %"$matchsucc_757"
 
-"$matchsucc_757":                                 ; preds = %"$empty_default_761", %"$False_770", %"$True_762"
+"$matchsucc_757":                                 ; preds = %"$False_770", %"$True_762", %"$empty_default_761"
   %"$$retval_207_772" = load %TName_List_ByStr20*, %TName_List_ByStr20** %"$retval_207"
   ret %TName_List_ByStr20* %"$$retval_207_772"
 }
@@ -2242,7 +2245,7 @@ entry:
 "$empty_default_680":                             ; preds = %entry
   br label %"$matchsucc_677"
 
-"$matchsucc_677":                                 ; preds = %"$empty_default_680", %"$False_686", %"$True_681"
+"$matchsucc_677":                                 ; preds = %"$False_686", %"$True_681", %"$empty_default_680"
   %"$$retval_169_691" = load %TName_Bool*, %TName_Bool** %"$retval_169"
   ret %TName_Bool* %"$$retval_169_691"
 }
@@ -2281,7 +2284,7 @@ entry:
 "$empty_default_668":                             ; preds = %entry
   br label %"$matchsucc_664"
 
-"$matchsucc_664":                                 ; preds = %"$empty_default_668", %"$False_674", %"$True_669"
+"$matchsucc_664":                                 ; preds = %"$False_674", %"$True_669", %"$empty_default_668"
   %"$$retval_173_676" = load %TName_Bool*, %TName_Bool** %"$retval_173"
   ret %TName_Bool* %"$$retval_173_676"
 }
@@ -2335,7 +2338,7 @@ entry:
 "$empty_default_647":                             ; preds = %entry
   br label %"$matchsucc_643"
 
-"$matchsucc_643":                                 ; preds = %"$empty_default_647", %"$True_653", %"$False_648"
+"$matchsucc_643":                                 ; preds = %"$True_653", %"$False_648", %"$empty_default_647"
   %"$$retval_177_655" = load %TName_Bool*, %TName_Bool** %"$retval_177"
   ret %TName_Bool* %"$$retval_177_655"
 }
@@ -2466,7 +2469,7 @@ entry:
 "$empty_default_584":                             ; preds = %entry
   br label %"$matchsucc_581"
 
-"$matchsucc_581":                                 ; preds = %"$empty_default_584", %"$Nil_616", %"$Cons_585"
+"$matchsucc_581":                                 ; preds = %"$Nil_616", %"$Cons_585", %"$empty_default_584"
   %"$$retval_155_619" = load %TName_Option_ByStr20*, %TName_Option_ByStr20** %"$retval_155"
   ret %TName_Option_ByStr20* %"$$retval_155_619"
 }
@@ -2622,7 +2625,7 @@ entry:
 "$empty_default_507":                             ; preds = %entry
   br label %"$matchsucc_504"
 
-"$matchsucc_504":                                 ; preds = %"$empty_default_507", %"$Nil_537", %"$Cons_508"
+"$matchsucc_504":                                 ; preds = %"$Nil_537", %"$Cons_508", %"$empty_default_507"
   %"$$retval_167_540" = load %TName_List_ByStr20*, %TName_List_ByStr20** %"$retval_167"
   ret %TName_List_ByStr20* %"$$retval_167_540"
 }
@@ -3015,7 +3018,7 @@ entry:
 "$empty_default_1818":                            ; preds = %"$True_1813"
   br label %"$matchsucc_1815"
 
-"$matchsucc_1815":                                ; preds = %"$empty_default_1818", %"$False_1827", %"$True_1819"
+"$matchsucc_1815":                                ; preds = %"$False_1827", %"$True_1819", %"$empty_default_1818"
   %"$execptr_load_1840" = load i8*, i8** @_execptr
   %"$newAdmins_1842" = load %TName_List_ByStr20*, %TName_List_ByStr20** %newAdmins
   %"$update_value_1843" = bitcast %TName_List_ByStr20* %"$newAdmins_1842" to i8*
@@ -3048,7 +3051,7 @@ entry:
 "$joinp_4":                                       ; preds = %"$default_1812"
   br label %"$matchsucc_1808"
 
-"$matchsucc_1808":                                ; preds = %"$joinp_4", %"$matchsucc_1815"
+"$matchsucc_1808":                                ; preds = %"$matchsucc_1815", %"$joinp_4"
   br label %"$matchsucc_1780"
 
 "$False_1856":                                    ; preds = %entry
@@ -3073,7 +3076,7 @@ entry:
 "$empty_default_1784":                            ; preds = %entry
   br label %"$matchsucc_1780"
 
-"$matchsucc_1780":                                ; preds = %"$empty_default_1784", %"$False_1856", %"$matchsucc_1808"
+"$matchsucc_1780":                                ; preds = %"$False_1856", %"$matchsucc_1808", %"$empty_default_1784"
   ret void
 }
 
@@ -3189,7 +3192,7 @@ entry:
 "$empty_default_1917":                            ; preds = %"$True_1905"
   br label %"$matchsucc_1913"
 
-"$matchsucc_1913":                                ; preds = %"$empty_default_1917", %"$Some_1921", %"$None_1918"
+"$matchsucc_1913":                                ; preds = %"$Some_1921", %"$None_1918", %"$empty_default_1917"
   %needsToChange = alloca %TName_Bool*
   %b = alloca %TName_Bool*
   %"$execptr_load_1926" = load i8*, i8** @_execptr
@@ -3254,7 +3257,7 @@ entry:
 "$joinp_5":                                       ; preds = %"$default_1943"
   br label %"$matchsucc_1939"
 
-"$matchsucc_1939":                                ; preds = %"$joinp_5", %"$True_1944"
+"$matchsucc_1939":                                ; preds = %"$True_1944", %"$joinp_5"
   br label %"$matchsucc_1900"
 
 "$False_1960":                                    ; preds = %entry
@@ -3279,7 +3282,7 @@ entry:
 "$empty_default_1904":                            ; preds = %entry
   br label %"$matchsucc_1900"
 
-"$matchsucc_1900":                                ; preds = %"$empty_default_1904", %"$False_1960", %"$matchsucc_1939"
+"$matchsucc_1900":                                ; preds = %"$False_1960", %"$matchsucc_1939", %"$empty_default_1904"
   ret void
 }
 
@@ -3342,7 +3345,7 @@ entry:
 "$empty_default_1993":                            ; preds = %entry
   br label %"$matchsucc_1989"
 
-"$matchsucc_1989":                                ; preds = %"$empty_default_1993", %"$Some_1997", %"$None_1994"
+"$matchsucc_1989":                                ; preds = %"$Some_1997", %"$None_1994", %"$empty_default_1993"
   %needsToChange = alloca %TName_Bool*
   %b = alloca %TName_Bool*
   %"$listByStr20Excludes_65" = alloca { %TName_Bool* (i8*, [20 x i8]*)*, i8* }
@@ -3434,7 +3437,7 @@ entry:
 "$empty_default_2033":                            ; preds = %"$True_2028"
   br label %"$matchsucc_2030"
 
-"$matchsucc_2030":                                ; preds = %"$empty_default_2033", %"$False_2042", %"$True_2034"
+"$matchsucc_2030":                                ; preds = %"$False_2042", %"$True_2034", %"$empty_default_2033"
   %"$indices_buf_2055_salloc_load" = load i8*, i8** @_execptr
   %"$indices_buf_2055_salloc_salloc" = call i8* @_salloc(i8* %"$indices_buf_2055_salloc_load", i64 20)
   %"$indices_buf_2055_salloc" = bitcast i8* %"$indices_buf_2055_salloc_salloc" to [20 x i8]*
@@ -3482,7 +3485,7 @@ entry:
 "$joinp_6":                                       ; preds = %"$default_2027"
   br label %"$matchsucc_2023"
 
-"$matchsucc_2023":                                ; preds = %"$joinp_6", %"$matchsucc_2030"
+"$matchsucc_2023":                                ; preds = %"$matchsucc_2030", %"$joinp_6"
   ret void
 }
 
@@ -3809,7 +3812,7 @@ entry:
 "$empty_default_2144":                            ; preds = %entry
   br label %"$matchsucc_2140"
 
-"$matchsucc_2140":                                ; preds = %"$empty_default_2144", %"$False_2222", %"$True_2145"
+"$matchsucc_2140":                                ; preds = %"$False_2222", %"$True_2145", %"$empty_default_2144"
   ret void
 }
 
@@ -4009,7 +4012,7 @@ entry:
 "$empty_default_2347":                            ; preds = %entry
   br label %"$matchsucc_2343"
 
-"$matchsucc_2343":                                ; preds = %"$empty_default_2347", %"$False_2381", %"$True_2348"
+"$matchsucc_2343":                                ; preds = %"$False_2381", %"$True_2348", %"$empty_default_2347"
   ret void
 }
 
@@ -4344,7 +4347,7 @@ entry:
 "$empty_default_2457":                            ; preds = %entry
   br label %"$matchsucc_2453"
 
-"$matchsucc_2453":                                ; preds = %"$empty_default_2457", %"$False_2541", %"$True_2458"
+"$matchsucc_2453":                                ; preds = %"$False_2541", %"$True_2458", %"$empty_default_2457"
   ret void
 }
 
@@ -4530,7 +4533,7 @@ entry:
 "$joinp_7":                                       ; preds = %"$default_2688"
   br label %"$matchsucc_2684"
 
-"$matchsucc_2684":                                ; preds = %"$joinp_7", %"$False_2689"
+"$matchsucc_2684":                                ; preds = %"$False_2689", %"$joinp_7"
   %"$indices_buf_2703_salloc_load" = load i8*, i8** @_execptr
   %"$indices_buf_2703_salloc_salloc" = call i8* @_salloc(i8* %"$indices_buf_2703_salloc_load", i64 32)
   %"$indices_buf_2703_salloc" = bitcast i8* %"$indices_buf_2703_salloc_salloc" to [32 x i8]*
@@ -4771,7 +4774,7 @@ entry:
 "$empty_default_2663":                            ; preds = %entry
   br label %"$matchsucc_2659"
 
-"$matchsucc_2659":                                ; preds = %"$empty_default_2663", %"$False_2794", %"$matchsucc_2684"
+"$matchsucc_2659":                                ; preds = %"$False_2794", %"$matchsucc_2684", %"$empty_default_2663"
   ret void
 }
 
@@ -5036,7 +5039,7 @@ entry:
 "$joinp_8":                                       ; preds = %"$default_3005"
   br label %"$matchsucc_3001"
 
-"$matchsucc_3001":                                ; preds = %"$joinp_8", %"$False_3006"
+"$matchsucc_3001":                                ; preds = %"$False_3006", %"$joinp_8"
   %newRecord = alloca %TName_Record*
   %"$adtval_3021_load" = load i8*, i8** @_execptr
   %"$adtval_3021_salloc" = call i8* @_salloc(i8* %"$adtval_3021_load", i64 41)
@@ -5116,7 +5119,7 @@ entry:
 "$empty_default_2998":                            ; preds = %entry
   br label %"$matchsucc_2994"
 
-"$matchsucc_2994":                                ; preds = %"$empty_default_2998", %"$False_3052", %"$matchsucc_3001"
+"$matchsucc_2994":                                ; preds = %"$False_3052", %"$matchsucc_3001", %"$empty_default_2998"
   ret void
 }
 
@@ -5201,7 +5204,7 @@ entry:
 "$joinp_9":                                       ; preds = %"$default_3096"
   br label %"$matchsucc_3092"
 
-"$matchsucc_3092":                                ; preds = %"$joinp_9", %"$True_3097"
+"$matchsucc_3092":                                ; preds = %"$True_3097", %"$joinp_9"
   ret void
 }
 
@@ -5307,7 +5310,7 @@ entry:
 "$empty_default_3157":                            ; preds = %entry
   br label %"$matchsucc_3153"
 
-"$matchsucc_3153":                                ; preds = %"$empty_default_3157", %"$Some_3161", %"$None_3158"
+"$matchsucc_3153":                                ; preds = %"$Some_3161", %"$None_3158", %"$empty_default_3157"
   %currentRegistrar = alloca [20 x i8]
   %"$execptr_load_3166" = load i8*, i8** @_execptr
   %"$currentRegistrar_3168" = call i8* @_fetch_field(i8* %"$execptr_load_3166", i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$registrar_3167", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Bystr20_311", i32 0, i8* null, i32 1)
@@ -5461,7 +5464,7 @@ entry:
 "$empty_default_3202":                            ; preds = %"$matchsucc_3153"
   br label %"$matchsucc_3198"
 
-"$matchsucc_3198":                                ; preds = %"$empty_default_3202", %"$False_3268", %"$True_3203"
+"$matchsucc_3198":                                ; preds = %"$False_3268", %"$True_3203", %"$empty_default_3202"
   ret void
 }
 
@@ -5596,19 +5599,19 @@ entry:
 "$empty_default_3321":                            ; preds = %"$Record_3304"
   br label %"$matchsucc_3317"
 
-"$matchsucc_3317":                                ; preds = %"$empty_default_3321", %"$False_3344", %"$True_3322"
+"$matchsucc_3317":                                ; preds = %"$False_3344", %"$True_3322", %"$empty_default_3321"
   br label %"$matchsucc_3299"
 
 "$empty_default_3303":                            ; preds = %"$Some_3295"
   br label %"$matchsucc_3299"
 
-"$matchsucc_3299":                                ; preds = %"$empty_default_3303", %"$matchsucc_3317"
+"$matchsucc_3299":                                ; preds = %"$matchsucc_3317", %"$empty_default_3303"
   br label %"$matchsucc_3288"
 
 "$empty_default_3292":                            ; preds = %entry
   br label %"$matchsucc_3288"
 
-"$matchsucc_3288":                                ; preds = %"$empty_default_3292", %"$matchsucc_3299", %"$None_3293"
+"$matchsucc_3288":                                ; preds = %"$matchsucc_3299", %"$None_3293", %"$empty_default_3292"
   ret void
 }
 

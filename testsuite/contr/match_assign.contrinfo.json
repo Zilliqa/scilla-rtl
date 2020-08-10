@@ -1,0 +1,90 @@
+{
+  "contract_info": {
+    "scilla_major_version": "0",
+    "vname": "PM1",
+    "params": [],
+    "fields": [],
+    "transitions": [
+      { "vname": "t1", "params": [ { "vname": "c", "type": "Bool" } ] }
+    ],
+    "procedures": [
+      {
+        "vname": "create_event",
+        "params": [ { "vname": "m", "type": "Int32" } ]
+      }
+    ],
+    "events": [
+      {
+        "vname": "test",
+        "params": [ { "vname": "message", "type": "Int32" } ]
+      }
+    ],
+    "ADTs": [
+      {
+        "tname": "Option",
+        "tparams": [ "'A" ],
+        "tmap": [
+          { "cname": "Some", "argtypes": [ "'A" ] },
+          { "cname": "None", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Bool",
+        "tparams": [],
+        "tmap": [
+          { "cname": "True", "argtypes": [] },
+          { "cname": "False", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Nat",
+        "tparams": [],
+        "tmap": [
+          { "cname": "Zero", "argtypes": [] },
+          { "cname": "Succ", "argtypes": [ "Nat" ] }
+        ]
+      },
+      {
+        "tname": "List",
+        "tparams": [ "'A" ],
+        "tmap": [
+          { "cname": "Cons", "argtypes": [ "'A", "List ('A)" ] },
+          { "cname": "Nil", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Pair",
+        "tparams": [ "'A", "'B" ],
+        "tmap": [ { "cname": "Pair", "argtypes": [ "'A", "'B" ] } ]
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "warning_message":
+        "y is a new variable. It does not reassign the previously defined variable.",
+      "start_location": {
+        "file":
+          "/media/data/scilla-compiler//tests/codegen/contr/match_assign.scilla",
+        "line": 26,
+        "column": 5
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 2
+    },
+    {
+      "warning_message":
+        "y is a new variable. It does not reassign the previously defined variable.",
+      "start_location": {
+        "file":
+          "/media/data/scilla-compiler//tests/codegen/contr/match_assign.scilla",
+        "line": 23,
+        "column": 5
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 2
+    }
+  ],
+  "gas_remaining": "10000"
+}
+

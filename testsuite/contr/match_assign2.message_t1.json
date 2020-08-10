@@ -1,0 +1,23 @@
+{
+    "_tag" : "t1",
+    "_amount": "0",
+    "_sender" : "0xaafeccdc9012345678901234567890f777567895",
+    "params" : [
+        {
+            "vname" : "p",
+            "type" : "Pair (List Int32) Int32",
+            "value" : {
+                "constructor" : "Pair",
+                "argtypes" : ["List Int32", "Int32"],
+                "arguments" : [
+                    {
+                        "constructor" : "Nil",
+                        "argtypes" : ["Int32"],
+                        "arguments" : []
+                    },
+                    "122"
+                ]
+            }
+        }
+    ]
+}

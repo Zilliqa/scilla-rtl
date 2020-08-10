@@ -1,0 +1,68 @@
+{
+  "contract_info": {
+    "scilla_major_version": "0",
+    "vname": "PM1",
+    "params": [],
+    "fields": [],
+    "transitions": [
+      {
+        "vname": "t1",
+        "params": [ { "vname": "p", "type": "Pair (List (Int32)) (Int32)" } ]
+      }
+    ],
+    "procedures": [
+      {
+        "vname": "create_event",
+        "params": [ { "vname": "m", "type": "Int32" } ]
+      }
+    ],
+    "events": [
+      {
+        "vname": "test",
+        "params": [ { "vname": "message", "type": "Int32" } ]
+      }
+    ],
+    "ADTs": [
+      {
+        "tname": "Option",
+        "tparams": [ "'A" ],
+        "tmap": [
+          { "cname": "Some", "argtypes": [ "'A" ] },
+          { "cname": "None", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Bool",
+        "tparams": [],
+        "tmap": [
+          { "cname": "True", "argtypes": [] },
+          { "cname": "False", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Nat",
+        "tparams": [],
+        "tmap": [
+          { "cname": "Zero", "argtypes": [] },
+          { "cname": "Succ", "argtypes": [ "Nat" ] }
+        ]
+      },
+      {
+        "tname": "List",
+        "tparams": [ "'A" ],
+        "tmap": [
+          { "cname": "Cons", "argtypes": [ "'A", "List ('A)" ] },
+          { "cname": "Nil", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Pair",
+        "tparams": [ "'A", "'B" ],
+        "tmap": [ { "cname": "Pair", "argtypes": [ "'A", "'B" ] } ]
+      }
+    ]
+  },
+  "warnings": [],
+  "gas_remaining": "10000"
+}
+

@@ -1,0 +1,25 @@
+{                            
+   "_accepted" : "false",
+   "events" : [
+      {
+         "_eventname" : "test",
+         "params" : [
+            {                                                                                            
+               "type" : "Int32",                                                                         
+               "value" : "2",                                                                            
+               "vname" : "message"                                                                       
+            }                             
+         ]                                                                                               
+      }
+   ],
+   "gas_remaining" : "0",
+   "messages" : [],
+   "scilla_major_version" : "0",
+   "states" : [
+      {
+         "type" : "Uint128",
+         "value" : "0",
+         "vname" : "_balance"
+      }
+   ]
+}
