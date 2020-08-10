@@ -384,78 +384,77 @@ BOOST_AUTO_TEST_SUITE_END() // ud
 BOOST_AUTO_TEST_SUITE(pattern_match)
 
 BOOST_AUTO_TEST_CASE(pm_empty_state_00_message_t1_true) {
-  testMessage("pm-empty.ll", "pm-empty.message_t1_true.json",
-              "pm-empty.init.json", "pm-empty.contrinfo.json",
-              "pm-empty.state_00.json", "pm-empty.state_00.json",
-              "pm-empty.output_t1_true.json");
+  testMessage("pm-empty.ll", "pm-empty.message_t1_true.json", "empty_init.json",
+              "pm-empty.contrinfo.json", "pm-empty.state_00.json",
+              "pm-empty.state_00.json", "pm-empty.output_t1_true.json");
 }
 
 BOOST_AUTO_TEST_CASE(pm_empty_state_00_message_t1_false) {
   testMessage("pm-empty.ll", "pm-empty.message_t1_false.json",
-              "pm-empty.init.json", "pm-empty.contrinfo.json",
+              "empty_init.json", "pm-empty.contrinfo.json",
               "pm-empty.state_00.json", "pm-empty.state_00.json",
               "pm-empty.output_t1_false.json");
 }
 
 BOOST_AUTO_TEST_CASE(match_assign_state_00_message_t1_true) {
   testMessage("match_assign.ll", "match_assign.message_t1_true.json",
-              "match_assign.init.json", "match_assign.contrinfo.json",
+              "empty_init.json", "match_assign.contrinfo.json",
               "match_assign.state_00.json", "match_assign.state_00.json",
               "match_assign.output_t1_true.json");
 }
 
 BOOST_AUTO_TEST_CASE(match_assign_state_00_message_t1_false) {
   testMessage("match_assign.ll", "match_assign.message_t1_false.json",
-              "match_assign.init.json", "match_assign.contrinfo.json",
+              "empty_init.json", "match_assign.contrinfo.json",
               "match_assign.state_00.json", "match_assign.state_00.json",
               "match_assign.output_t1_false.json");
 }
 
 BOOST_AUTO_TEST_CASE(match_assign2_state_00_message_t1) {
   testMessage("match_assign2.ll", "match_assign2.message_t1.json",
-              "match_assign2.init.json", "match_assign2.contrinfo.json",
+              "empty_init.json", "match_assign2.contrinfo.json",
               "match_assign2.state_00.json", "match_assign2.state_00.json",
               "match_assign2.output_t1.json");
 }
 
 BOOST_AUTO_TEST_CASE(match_assign3_state_00_message_t1_true) {
   testMessage("match_assign3.ll", "match_assign3.message_t1_true.json",
-              "match_assign3.init.json", "match_assign3.contrinfo.json",
+              "empty_init.json", "match_assign3.contrinfo.json",
               "match_assign3.state_00.json", "match_assign3.state_00.json",
               "match_assign3.output_t1_true.json");
 }
 
 BOOST_AUTO_TEST_CASE(match_assign3_state_00_message_t1_false) {
   testMessage("match_assign3.ll", "match_assign3.message_t1_false.json",
-              "match_assign3.init.json", "match_assign3.contrinfo.json",
+              "empty_init.json", "match_assign3.contrinfo.json",
               "match_assign3.state_00.json", "match_assign3.state_00.json",
               "match_assign3.output_t1_false.json");
 }
 
 BOOST_AUTO_TEST_CASE(name_clash1_state_00_message_t1_true) {
   testMessage("name_clash1.ll", "name_clash1.message_t1_true.json",
-              "name_clash1.init.json", "name_clash1.contrinfo.json",
+              "empty_init.json", "name_clash1.contrinfo.json",
               "name_clash1.state_00.json", "name_clash1.state_00.json",
               "name_clash1.output_t1_true.json");
 }
 
 BOOST_AUTO_TEST_CASE(name_clash1_state_00_message_t1_false) {
   testMessage("name_clash1.ll", "name_clash1.message_t1_false.json",
-              "name_clash1.init.json", "name_clash1.contrinfo.json",
+              "empty_init.json", "name_clash1.contrinfo.json",
               "name_clash1.state_00.json", "name_clash1.state_00.json",
               "name_clash1.output_t1_false.json");
 }
 
 BOOST_AUTO_TEST_CASE(name_clash2_state_00_message_t1_true) {
   testMessage("name_clash2.ll", "name_clash2.message_t1_true.json",
-              "name_clash2.init.json", "name_clash2.contrinfo.json",
+              "empty_init.json", "name_clash2.contrinfo.json",
               "name_clash2.state_00.json", "name_clash2.state_00.json",
               "name_clash2.output_t1_true.json");
 }
 
 BOOST_AUTO_TEST_CASE(name_clash2_state_00_message_t1_false) {
   testMessage("name_clash2.ll", "name_clash2.message_t1_false.json",
-              "name_clash2.init.json", "name_clash2.contrinfo.json",
+              "empty_init.json", "name_clash2.contrinfo.json",
               "name_clash2.state_00.json", "name_clash2.state_00.json",
               "name_clash2.output_t1_false.json");
 }
