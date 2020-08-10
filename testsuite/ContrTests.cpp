@@ -43,7 +43,7 @@ void compareStateJson(const Json::Value &Expected, const Json::Value &Got) {
                    "State JSON size mismatch");
 
   auto StateVarCmp = [](const Json::Value &A, const Json::Value &B) -> bool {
-    std::greater<std::string> StrCmp;
+    std::less<std::string> StrCmp;
     return StrCmp(A["vname"].asString(), B["vname"].asString());
   };
 

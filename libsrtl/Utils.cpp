@@ -250,15 +250,27 @@ Json::Value MemStateServer::dumpToJSON() {
       if (boost::has_type<std::string>(SV)) {
         return parseJSONString(boost::any_cast<std::string>(SV));
       } else {
-        Json::Value MapVal(Json::arrayValue);
+        std::vector<Json::Value> MapVal;
         auto &SVMap = boost::any_cast<ScillaParams::MapValueT &>(SV);
         for (auto &KV : SVMap) {
           Json::Value KVJ(Json::objectValue);
           KVJ["key"] = parseJSONString(KV.first);
           KVJ["val"] = svToJSON(KV.second);
-          MapVal.append(KVJ);
+          MapVal.push_back(KVJ);
         }
-        return MapVal;
+
+        // Let's sort the map, so that result comparison in tests work.
+        auto KeyCmp = [](const Json::Value &A, const Json::Value &B) -> bool {
+          std::less<std::string> StrCmp;
+          return StrCmp(A["key"].asString(), B["key"].asString());
+        };
+        std::sort(MapVal.begin(), MapVal.end(), KeyCmp);
+
+        // Put the sorted map into an array JSON.
+        Json::Value MapValJ(Json::arrayValue);
+        for (auto &J : MapVal)
+          MapValJ.append(J);
+        return MapValJ;
       }
     };
     auto Value = svToJSON(Field.second);

@@ -56,7 +56,7 @@ public:
   // Requires the contract info JSON for knowing field types.
   // Returns "_balance" as a string.
   std::string initFromJSON(const Json::Value &SJ, const Json::Value &CIJ);
-  // Print the full state into a JSON.
+  // Print the full state into a JSON. Sorts Scilla Map entries.
   Json::Value dumpToJSON();
 };
 

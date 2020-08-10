@@ -18,24 +18,24 @@
         "type" : "Map String (Map String String)",
         "value" : [
             {
-                "key" : "key1b",
-                "val" : [
-                    {
-                        "key" : "key2c",
-                        "val" : "841"
-                    },
-                    {
-                        "key" : "key2b",
-                        "val" : "840"
-                    }
-                ]
-            },
-            {
                 "key" : "key1a",
                 "val" : [
                     {
                         "key" : "key2a",
                         "val" : "420"
+                    }
+                ]
+            },
+            {
+                "key" : "key1b",
+                "val" : [
+                    {
+                        "key" : "key2b",
+                        "val" : "840"
+                    },
+                    {
+                        "key" : "key2c",
+                        "val" : "841"
                     }
                 ]
             }
