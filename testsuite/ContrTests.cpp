@@ -461,4 +461,22 @@ BOOST_AUTO_TEST_CASE(name_clash2_state_00_message_t1_false) {
 
 BOOST_AUTO_TEST_SUITE_END() // pattern_match
 
+BOOST_AUTO_TEST_CASE(map_corners_test) {
+  for (int I = 1; I <= 18; I++) {
+    auto Msg = "map_corners_test.message_t" + std::to_string(I) + ".json";
+    auto StatePrint = [](int I) {
+      return (I < 10 ? "map_corners_test.state_0" : "map_corners_test.state_") +
+             std::to_string(I) + ".json";
+    };
+    auto StartState = StatePrint(I - 1);
+    auto FinishState = StatePrint(I);
+
+    testMessage("map_corners_test.ll", Msg, "empty_init.json",
+                "map_corners_test.contrinfo.json", StartState, FinishState,
+                "map_corners_test.output.json");
+
+    BOOST_TEST_CHECKPOINT("map_corners_test: " << I << " successful.");
+  }
+}
+
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

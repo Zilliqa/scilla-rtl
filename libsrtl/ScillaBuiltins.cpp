@@ -407,6 +407,10 @@ void _update_field(ScillaVM::ScillaJIT *SJ, const char *Name,
   } else {
     ASSERT_MSG(!SerializedIndices.empty(),
                "Value deletion is possible only for indexed map access");
+    boost::any EmptyVal;
+    if (!SJ->SPs.updateStateValue(SQ, EmptyVal)) {
+      CREATE_ERROR("State update query failed for " + SQ.Name);
+    }
   }
 }
 
