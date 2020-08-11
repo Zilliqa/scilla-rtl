@@ -91,7 +91,7 @@ void testMessage(const std::string &ContrFilename,
     for (Json::Value &OJS : OJStates)
       OSJ.append(OJS);
     // We don't need "states" in the output JSON anymore.
-    OJ.removeMember("state");
+    OJ.removeMember("states");
     // Sort the output state JSON.
     OSJ = canonicalizeStateVariables(OSJ);
 

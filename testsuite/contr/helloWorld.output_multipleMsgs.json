@@ -14,12 +14,5 @@
          "_tag" : ""
       }
    ],
-   "scilla_major_version" : "0",
-   "states" : [
-      {
-         "type" : "Uint128",
-         "value" : "0",
-         "vname" : "_balance"
-      }
-   ]
+   "scilla_major_version" : "0"
 }
