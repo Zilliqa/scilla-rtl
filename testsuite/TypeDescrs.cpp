@@ -151,6 +151,10 @@ MapTyp Map_int64_pair_int32_list_int64_MapTyp = {&Int64_typ,
                                                  &Pair_int32_list_int64_typ};
 Typ Map_int64_pair_int32_list_int64_typ =
     buildTyp_Map(&Map_int64_pair_int32_list_int64_MapTyp);
+// Map Int32 (Map Int32 String)
+MapTyp Map_int32_map_int32_string_MapTyp = {&Int32_typ, &Map_int32_string_typ};
+Typ Map_int32_map_int32_string_typ =
+    buildTyp_Map(&Map_int32_map_int32_string_MapTyp);
 
 // clang-format off
 const Typ* AllTyDescrs[] = {
@@ -159,7 +163,7 @@ const Typ* AllTyDescrs[] = {
   &String_typ, &BNum_typ, &List_int32_typ, &List_int64_typ,
   &Pair_list_int32_int64_typ, &Pair_int32_list_int64_typ,
   &Map_int32_string_typ, &Map_int64_pair_int32_list_int64_typ,
-  &ByStr_typ, &ByStr20_typ
+  &Map_int32_map_int32_string_typ, &ByStr_typ, &ByStr20_typ
 };
 size_t NTyDescrs = sizeof(AllTyDescrs) / sizeof(const Typ *);
 

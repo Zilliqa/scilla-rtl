@@ -1,0 +1,90 @@
+[
+  {
+    "vname": "m1",
+    "type": "Map Int32 String",
+    "value": []
+  },
+  {
+    "vname": "m2",
+    "type": "Map Int32 String",
+    "value": [
+      {
+        "key": "1",
+        "val": "foo"
+      }
+    ]
+  },
+  {
+    "vname": "m3",
+    "type": "Map Int32 String",
+    "value": [
+      {
+        "key": "1",
+        "val": "foo"
+      },
+      {
+        "key": "2",
+        "val": "bar"
+      }
+    ]
+  },
+  {
+    "vname": "m4",
+    "type": "Map Int64 (Pair Int32 (List Int64))",
+    "value": []
+  },
+  {
+    "vname": "m5",
+    "type": "Map Int64 (Pair Int32 (List Int64))",
+    "value": [
+      {
+        "key": "100",
+        "val": {
+          "constructor": "Pair",
+          "argtypes": [
+            "Int32",
+            "List (Int64)"
+          ],
+          "arguments": [
+            "100",
+            {
+              "constructor": "Nil",
+              "argtypes": [
+                "Int64"
+              ],
+              "arguments": []
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "vname" : "m6",
+    "type" : "Map Int32 (Map Int32 String)",
+    "value" : []
+  },
+  {
+    "vname" : "m7",
+    "type" : "Map Int32 (Map Int32 String)",
+    "value" : [
+      {
+        "key" : "1",
+        "val" : []
+      },
+      {
+        "key" : "2",
+        "val" : [
+          {
+            "key" : "3",
+            "val" : "foo"
+          },
+          {
+            "key" : "4",
+            "val" : "bar"
+          }
+        ]
+      }
+    ]
+  }
+]

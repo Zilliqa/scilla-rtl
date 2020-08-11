@@ -22,6 +22,7 @@
 #include <ScillaVM/Utils.h>
 
 #include "../libsrtl/ScillaValue.h"
+#include "StateJsonUtils.h"
 #include "Testsuite.h"
 #include "TypeDescrs.h"
 
@@ -75,6 +76,8 @@ void testStateJson(const std::string &Testname) {
       Json::Value VValR = ScillaValues::toJSON(T, SVal);
       BOOST_TEST_CHECKPOINT(Filename + ": " + VName.asString() +
                             " printed back successfully");
+      canonicalizeStateValue(VVal);
+      canonicalizeStateValue(VValR);
       BOOST_REQUIRE_MESSAGE(VValR == VVal,
                             "Comparison failed:\n" + VVal.toStyledString() +
                                 "\nvs\n" + VValR.toStyledString());
@@ -96,5 +99,6 @@ BOOST_AUTO_TEST_CASE(uint_types) { testStateJson("uint_types"); }
 BOOST_AUTO_TEST_CASE(prim_types) { testStateJson("prim_types"); }
 BOOST_AUTO_TEST_CASE(list_types) { testStateJson("list_types"); }
 BOOST_AUTO_TEST_CASE(pair_types) { testStateJson("pair_types"); }
+BOOST_AUTO_TEST_CASE(map_types) { testStateJson("map_types"); }
 
 BOOST_AUTO_TEST_SUITE_END()
