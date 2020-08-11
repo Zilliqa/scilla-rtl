@@ -28,6 +28,7 @@ using boost::test_tools::output_test_stream;
 namespace {
 void testExecExpr(const std::string &Testname) {
   using namespace ScillaVM;
+  using namespace ScillaTestsuite;
 
   auto Filename = Config::TestsuiteSrc + "/expr/" + Testname + ".ll";
 

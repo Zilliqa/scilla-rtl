@@ -28,6 +28,7 @@ using boost::test_tools::output_test_stream;
 #include "Testsuite.h"
 
 using namespace ScillaVM;
+using namespace ScillaTestsuite;
 
 namespace {
 

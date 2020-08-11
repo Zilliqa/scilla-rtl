@@ -19,7 +19,7 @@
 #include <boost/test/unit_test.hpp>
 #include <jsoncpp/json/value.h>
 
-namespace ScillaVM {
+namespace ScillaTestsuite {
 
 void checkEqStateVariables(const Json::Value &Expected,
                            const Json::Value &Got) {
@@ -88,4 +88,4 @@ Json::Value canonicalizeStateVariables(const Json::Value &J) {
   return Ret;
 }
 
-} // namespace ScillaVM
+} // namespace ScillaTestsuite

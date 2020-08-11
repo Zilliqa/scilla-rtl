@@ -2,7 +2,7 @@
 #include <chrono>
 #include <string>
 
-namespace ScillaVM {
+namespace ScillaTestsuite {
 
 namespace Config {
 // Overwrites the expected result instead of comparing with it.
@@ -30,4 +30,4 @@ private:
   std::chrono::_V2::system_clock::time_point ConstructedTime;
 };
 
-} // namespace ScillaVM
+} // namespace ScillaTestsuite

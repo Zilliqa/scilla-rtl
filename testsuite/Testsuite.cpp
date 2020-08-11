@@ -82,7 +82,7 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
 }
 } // namespace
 
-namespace ScillaVM {
+namespace ScillaTestsuite {
 
 namespace Config {
 // Overwrites the expected result instead of comparing with it.
@@ -119,4 +119,4 @@ struct CommandLineInit {
 
 BOOST_TEST_GLOBAL_FIXTURE(CommandLineInit);
 
-} // namespace ScillaVM
+} // namespace ScillaTestsuite

@@ -17,7 +17,7 @@
 
 #include <jsoncpp/json/value.h>
 
-namespace ScillaVM {
+namespace ScillaTestsuite {
 // Goes deep and sorts map entries, all in-place.
 void canonicalizeStateValue(Json::Value &Value);
 // Element-wise check that each state variable has same value.
@@ -25,4 +25,4 @@ void canonicalizeStateValue(Json::Value &Value);
 void checkEqStateVariables(const Json::Value &Expected, const Json::Value &Got);
 // Sorts the state variables, and canonicalizes the value of each.
 Json::Value canonicalizeStateVariables(const Json::Value &J);
-} // namespace ScillaVM
+} // namespace ScillaTestsuite

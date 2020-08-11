@@ -33,6 +33,7 @@ ScillaVM::ScillaTypes::TypParserPartialCache TPPC;
 // Parse a state JSON, Re-serialize back to JSON and compare.
 void testStateJson(const std::string &Testname) {
   using namespace ScillaVM;
+  using namespace ScillaTestsuite;
 
   auto Filename = Config::TestsuiteSrc + "/state_jsons/" + Testname + ".json";
 
