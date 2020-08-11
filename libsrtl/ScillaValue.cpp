@@ -374,6 +374,8 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
       MemoryAllocator MA;
       SAllocator SA(
           std::bind(&MemoryAllocator::mAlloc, &MA, std::placeholders::_1));
+
+      Out = Json::arrayValue;
       for (auto &Itr : *M) {
         Json::Value KeyJ = parseJSONString(Itr.first);
         Json::Value ValJ;

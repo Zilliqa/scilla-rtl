@@ -24,6 +24,7 @@ using boost::test_tools::output_test_stream;
 #include <ScillaVM/SRTL.h>
 #include <ScillaVM/Utils.h>
 
+#include "StateJsonUtils.h"
 #include "Testsuite.h"
 
 using namespace ScillaVM;
@@ -34,33 +35,6 @@ const std::string CacheDir((boost::filesystem::temp_directory_path() /=
                             "scilla_testsuite_cache")
                                .native());
 ScillaCacheManager OCache(CacheDir);
-
-// Sort state variables (as their order is not important) and compare 1-1.
-void compareStateJson(const Json::Value &Expected, const Json::Value &Got) {
-
-  BOOST_ASSERT_MSG(Expected.isArray() && Got.isArray() &&
-                       Expected.size() == Got.size(),
-                   "State JSON size mismatch");
-
-  auto StateVarCmp = [](const Json::Value &A, const Json::Value &B) -> bool {
-    std::less<std::string> StrCmp;
-    return StrCmp(A["vname"].asString(), B["vname"].asString());
-  };
-
-  std::vector<Json::Value> ExpectedArr(Expected.begin(), Expected.end());
-  std::vector<Json::Value> GotArr(Got.begin(), Got.end());
-
-  std::sort(ExpectedArr.begin(), ExpectedArr.end(), StateVarCmp);
-  std::sort(GotArr.begin(), GotArr.end(), StateVarCmp);
-
-  for (Json::Value::ArrayIndex I = 0; I < ExpectedArr.size(); I++) {
-    const auto &ESJ = ExpectedArr[I];
-    const auto &OSJ = GotArr[I];
-    BOOST_REQUIRE_MESSAGE(ESJ == OSJ, "Comparison failed:\nExpected:\n" +
-                                          ESJ.toStyledString() + "\nGot:\n" +
-                                          OSJ.toStyledString());
-  }
-}
 
 void testMessage(const std::string &ContrFilename,
                  const std::string &MessageFilename,
@@ -108,20 +82,32 @@ void testMessage(const std::string &ContrFilename,
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
       OJ = JE->execMsg(Balance, 0, MessageJSON);
     }
+
+    /////////// Output State //////////////////////////////////////////
+
     auto OSJ = State.dumpToJSON();
     // OJ will contain ["states"]._balance. Move that to state JSON.
     Json::Value &OJStates = OJ["states"];
     for (Json::Value &OJS : OJStates)
       OSJ.append(OJS);
+    // We don't need "states" in the output JSON anymore.
     OJ.removeMember("state");
+    // Sort the output state JSON.
+    OSJ = canonicalizeStateVariables(OSJ);
+
     // Update results if specified
     if (Config::UpdateResults) {
       std::ofstream Out(PathPrefix + ExpectedStateFilename);
-      Out << sortStateJson(OSJ).toStyledString();
+      Out << OSJ.toStyledString();
       Out.close();
     }
     auto ESJ = parseJSONFile(PathPrefix + ExpectedStateFilename);
-    compareStateJson(ESJ, OSJ);
+    ESJ = canonicalizeStateVariables(ESJ);
+
+    // Compare element-wise, the output state JSON and the expected state JSON.
+    checkEqStateVariables(ESJ, OSJ);
+
+    ///////////// Transition Output ///////////////////////////////////
 
     // Update results if specified
     if (Config::UpdateResults) {

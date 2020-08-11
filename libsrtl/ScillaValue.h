@@ -20,7 +20,7 @@
 #include <string>
 
 #include <boost/multiprecision/cpp_int.hpp>
-#include <jsoncpp/json/json.h>
+#include <jsoncpp/json/value.h>
 
 #include "ScillaTypes.h"
 #include "ScillaVM/SRTL.h"

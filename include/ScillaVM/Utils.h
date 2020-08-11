@@ -37,8 +37,6 @@ namespace ScillaVM {
 std::string readFile(const std::string &Filename);
 Json::Value parseJSONString(const std::string &JS);
 Json::Value parseJSONFile(const std::string &Filename);
-// Sort a state JSON according to "vname" fields.
-Json::Value sortStateJson(const Json::Value &J);
 
 // A state server implementation with no persistence.
 class MemStateServer {
@@ -58,7 +56,7 @@ public:
   // Requires the contract info JSON for knowing field types.
   // Returns "_balance" as a string.
   std::string initFromJSON(const Json::Value &SJ, const Json::Value &CIJ);
-  // Print the full state into a JSON. Sorts Scilla Map entries.
+  // Print the full state into a JSON.
   Json::Value dumpToJSON();
 };
 
