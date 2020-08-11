@@ -109,7 +109,7 @@ They can also be manually run from the command line:
 The testsuite, built by default (but not installed), is based on `boost_unit_framework`
 and can be run from the project root as
 ```bash
-build/testsuite/scilla-testsuite -- --testsuite_src testsuite
+build/testsuite/scilla-testsuite -- testsuite_dir
 ```
 
 A few command line options are provided below for quick reference.
@@ -120,9 +120,8 @@ See `--help` for all options provided by `boost`. These options must all be prov
   [here](https://www.boost.org/doc/libs/1_72_0/libs/test/doc/html/boost_test/runtime_config/test_unit_filtering.html)
   - `--log_level=all`: To enable the full log to be printed.
 
-The `--testsuite_src` option following `--` is a [custom argument](https://www.boost.org/doc/libs/1_70_0/libs/test/doc/html/boost_test/runtime_config/custom_command_line_arguments.html)
-who's argument tells the testsuite where to find the test inputs. The test
-inputs are present in the `testsuite` directory of the project source.
+The `testsuite_dir` argument following `--` is a [custom argument](https://www.boost.org/doc/libs/1_70_0/libs/test/doc/html/boost_test/runtime_config/custom_command_line_arguments.html)
+that tells the testsuite where to find the tests and their inputs.
 
 For convenience a `CMake` target `runtests` has been provided to run the testsuite. This can be
 executed as `make runtests` in the build directory.
