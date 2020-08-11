@@ -1,31 +1,32 @@
 [
-    {
-        "type" : "Uint128",
-        "value" : "0",
-        "vname" : "_balance"
-    },
-    {
-        "vname" : "f_s1",
-        "type" : "String",
-        "value" : "421"
-    },
-    {
-        "type" : "Map String String",
-        "value" : [],
-        "vname" : "f_m1"
-    },
-    {
-        "type" : "Map String (Map String String)",
-        "value" : [],
-        "vname" : "f_m2"
-    },    {
-        "vname" : "f_m3",
-        "type" : "Map String (Map String (Map String String))",
-        "value" : []
-    },
-    {
-        "vname" : "f_m",
-        "type" : "Map String (Map String String)",
-        "value" : []
-    }
+   {
+      "type" : "Uint128",
+      "value" : "0",
+      "vname" : "_balance"
+   },
+   {
+      "type" : "Map String (Map String String)",
+      "value" : [],
+      "vname" : "f_m"
+   },
+   {
+      "type" : "Map String String",
+      "value" : [],
+      "vname" : "f_m1"
+   },
+   {
+      "type" : "Map String (Map String String)",
+      "value" : [],
+      "vname" : "f_m2"
+   },
+   {
+      "type" : "Map String (Map String (Map String String))",
+      "value" : [],
+      "vname" : "f_m3"
+   },
+   {
+      "type" : "String",
+      "value" : "421",
+      "vname" : "f_s1"
+   }
 ]

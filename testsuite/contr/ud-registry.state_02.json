@@ -1,61 +1,52 @@
 [
-  {
-    "type": "Map ByStr32 Record",
-    "value": [
-      {
-        "key": "0xffffffffffffffffaaaaaaaaaaaaaa0000000000000000000011111111111111",
-        "val": {
-          "constructor": "Record",
-          "argtypes": [
-            "ByStr20",
-            "ByStr20"
-          ],
-          "arguments": [
-            "0xaafeccdc9012345678901234567890f777567895",
-            "0x0000000000000000000000000000000000000000"
-          ]
-        }
-      }
-    ],
-    "vname": "records"
-  },
-  {
-    "type": "ByStr20",
-    "value": "0x1234567890123456789012345678901234567890",
-    "vname": "registrar"
-  },
-  {
-    "type": "List ByStr20",
-    "value": {
-      "argtypes": [
-        "ByStr20"
-      ],
-      "arguments": [
-        "0xfefeccdc9012345678901234567890f777567895",
-        {
-          "argtypes": [
-            "ByStr20"
-          ],
-          "arguments": [
-            "0xaafeccdc9012345678901234567890f777567895",
+   {
+      "type" : "Uint128",
+      "value" : "0",
+      "vname" : "_balance"
+   },
+   {
+      "type" : "List ByStr20",
+      "value" : {
+         "argtypes" : [ "ByStr20" ],
+         "arguments" : [
+            "0xfefeccdc9012345678901234567890f777567895",
             {
-              "argtypes": [
-                "ByStr20"
-              ],
-              "arguments": [],
-              "constructor": "Nil"
+               "argtypes" : [ "ByStr20" ],
+               "arguments" : [
+                  "0xaafeccdc9012345678901234567890f777567895",
+                  {
+                     "argtypes" : [ "ByStr20" ],
+                     "arguments" : [],
+                     "constructor" : "Nil"
+                  }
+               ],
+               "constructor" : "Cons"
             }
-          ],
-          "constructor": "Cons"
-        }
+         ],
+         "constructor" : "Cons"
+      },
+      "vname" : "admins"
+   },
+   {
+      "type" : "Map ByStr32 Record",
+      "value" : [
+         {
+            "key" : "0xffffffffffffffffaaaaaaaaaaaaaa0000000000000000000011111111111111",
+            "val" : {
+               "argtypes" : [ "ByStr20", "ByStr20" ],
+               "arguments" : [
+                  "0xaafeccdc9012345678901234567890f777567895",
+                  "0x0000000000000000000000000000000000000000"
+               ],
+               "constructor" : "Record"
+            }
+         }
       ],
-      "constructor": "Cons"
-    },
-    "vname": "admins"
-  },
-  {
-    "type": "Uint128",
-    "value": "0",
-    "vname": "_balance"
-  }
+      "vname" : "records"
+   },
+   {
+      "type" : "ByStr20",
+      "value" : "0x1234567890123456789012345678901234567890",
+      "vname" : "registrar"
+   }
 ]

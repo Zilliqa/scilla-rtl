@@ -1,15 +1,15 @@
-{                            
+{
    "_accepted" : "false",
    "events" : [
       {
          "_eventname" : "test",
          "params" : [
-            {                                                                                            
-               "type" : "Int32",                                                                         
-               "value" : "2",                                                                            
-               "vname" : "message"                                                                       
-            }                             
-         ]                                                                                               
+            {
+               "type" : "Int32",
+               "value" : "2",
+               "vname" : "message"
+            }
+         ]
       }
    ],
    "gas_remaining" : "0",

@@ -286,4 +286,21 @@ Json::Value MemStateServer::dumpToJSON() {
   return RetVal;
 }
 
+Json::Value sortStateJson(const Json::Value &J) {
+
+  auto StateVarCmp = [](const Json::Value &A, const Json::Value &B) -> bool {
+    std::less<std::string> StrCmp;
+    return StrCmp(A["vname"].asString(), B["vname"].asString());
+  };
+
+  std::vector<Json::Value> AArr(J.begin(), J.end());
+  std::sort(AArr.begin(), AArr.end(), StateVarCmp);
+
+  Json::Value Ret;
+  for (auto &E : AArr)
+    Ret.append(E);
+
+  return Ret;
+}
+
 } // namespace ScillaVM

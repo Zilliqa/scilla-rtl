@@ -117,7 +117,7 @@ void testMessage(const std::string &ContrFilename,
     // Update results if specified
     if (Config::UpdateResults) {
       std::ofstream Out(PathPrefix + ExpectedStateFilename);
-      Out << OSJ.toStyledString();
+      Out << sortStateJson(OSJ).toStyledString();
       Out.close();
     }
     auto ESJ = parseJSONFile(PathPrefix + ExpectedStateFilename);

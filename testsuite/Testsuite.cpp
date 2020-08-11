@@ -40,6 +40,7 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
     ("debug-only",
          po::value<std::vector<std::string> >(),
          "DEBUG_TYPE to activate for logging (debug builds only")
+    ("update-result", "Update expected results of all executed tests")
   ;
 
   po::options_description Hidden("Hidden options");
@@ -107,6 +108,9 @@ struct CommandLineInit {
       for (auto &DT : DTs) {
         ScillaVM::addToCurrentDebugTypes(DT);
       }
+    }
+    if (VM.count("update-result")) {
+      Config::UpdateResults = true;
     }
     BOOST_TEST_MESSAGE("Using testsuite inputs from " << Config::TestsuiteSrc);
   }

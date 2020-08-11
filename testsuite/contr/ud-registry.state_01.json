@@ -1,34 +1,34 @@
 [
-    {
-        "type" : "List ByStr20",
-        "value" : ["0xaafeccdc9012345678901234567890f777567895"],
-        "vname" : "admins"
-    },
-    {
-        "type" : "ByStr20",
-        "value" : "0x1234567890123456789012345678901234567890",
-        "vname" : "registrar"
-    },
-    {
-        "type" : "Map ByStr32 Record",
-        "value" : [
-            {
-                "key" : "0xffffffffffffffffaaaaaaaaaaaaaa0000000000000000000011111111111111",
-                "val" : {
-                    "constructor" : "Record",
-                    "argtypes" : ["ByStr20", "ByStr20"],
-                    "arguments" : [
-                        "0xaafeccdc9012345678901234567890f777567895",
-                        "0x0000000000000000000000000000000000000000"
-                    ]
-                }
+   {
+      "type" : "Uint128",
+      "value" : "0",
+      "vname" : "_balance"
+   },
+   {
+      "type" : "List ByStr20",
+      "value" : [ "0xaafeccdc9012345678901234567890f777567895" ],
+      "vname" : "admins"
+   },
+   {
+      "type" : "Map ByStr32 Record",
+      "value" : [
+         {
+            "key" : "0xffffffffffffffffaaaaaaaaaaaaaa0000000000000000000011111111111111",
+            "val" : {
+               "argtypes" : [ "ByStr20", "ByStr20" ],
+               "arguments" : [
+                  "0xaafeccdc9012345678901234567890f777567895",
+                  "0x0000000000000000000000000000000000000000"
+               ],
+               "constructor" : "Record"
             }
-        ],
-        "vname" : "records"
-    },
-    {
-        "type" : "Uint128",
-        "value" : "0",
-        "vname" : "_balance"
-    }
+         }
+      ],
+      "vname" : "records"
+   },
+   {
+      "type" : "ByStr20",
+      "value" : "0x1234567890123456789012345678901234567890",
+      "vname" : "registrar"
+   }
 ]
