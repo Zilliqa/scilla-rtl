@@ -45,6 +45,7 @@
 
 #include "../libsrtl/ScillaBuiltins.h"
 #include "../libsrtl/ScillaTypes.h"
+#include "ScillaVM/Debug.h"
 #include "ScillaVM/Errors.h"
 #include "ScillaVM/JITD.h"
 
@@ -74,6 +75,8 @@ Error addScillaBuiltins(orc::LLJIT &LLJitter, const DataLayout &DL) {
 
 namespace ScillaVM {
 
+#define DEBUG_TYPE "obj_cache"
+
 // Caching mechanism for compiled files. Not thread safe.
 class ScillaObjCache : public llvm::ObjectCache {
 public:
@@ -98,7 +101,7 @@ void ScillaObjCache::notifyObjectCompiled(const Module *M,
 
   CachedObjects[ModuleID] = MemoryBuffer::getMemBufferCopy(
       ObjBuffer.getBuffer(), ObjBuffer.getBufferIdentifier());
-  DEBUG(dbglog << ModuleID << " added to memory cache\n");
+  SVM_DEBUG(dbgs() << ModuleID << " added to memory cache\n");
 
   // If there's a cache directory specified, write to disk.
   if (!CacheDir.empty()) {
@@ -115,8 +118,8 @@ void ScillaObjCache::notifyObjectCompiled(const Module *M,
                    CacheFilename.c_str() + ": " + EC.message());
     }
     ObjFile << ObjBuffer.getBuffer();
-    DEBUG(dbglog << ModuleID << " added to disk cache " << CacheFilename.c_str()
-                 << "\n");
+    SVM_DEBUG(dbgs() << ModuleID << " added to disk cache "
+                     << CacheFilename.c_str() << "\n");
   }
 }
 
@@ -124,8 +127,8 @@ std::unique_ptr<MemoryBuffer>
 ScillaObjCache::getObject(const std::string &ModuleID) {
   auto I = CachedObjects.find(ModuleID);
   if (I == CachedObjects.end()) {
-    DEBUG(dbglog << "Object file for " << ModuleID
-                 << " not cached in memory.\n");
+    SVM_DEBUG(dbgs() << "Object file for " << ModuleID
+                     << " not cached in memory.\n");
 
     if (CacheDir.empty())
       return nullptr;
@@ -135,27 +138,31 @@ ScillaObjCache::getObject(const std::string &ModuleID) {
     if (sys::fs::exists(CacheFilename)) {
       auto MB = MemoryBuffer::getFile(CacheFilename);
       if (auto Err = MB.getError()) {
-        DEBUG(dbglog << "Error loading object file from "
-                     << CacheFilename.c_str() << "\n");
+        SVM_DEBUG(dbgs() << "Error loading object file from "
+                         << CacheFilename.c_str() << "\n");
         return nullptr;
       }
-      DEBUG(dbglog << "Loaded object file from file " << CacheFilename.c_str()
-                   << "\n");
+      SVM_DEBUG(dbgs() << "Loaded object file from file "
+                       << CacheFilename.c_str() << "\n");
       CachedObjects[ModuleID] = MemoryBuffer::getMemBufferCopy(
           (*MB)->getBuffer(), (*MB)->getBufferIdentifier());
       return std::move(*MB);
     }
-    DEBUG(dbglog << "Object file for " << ModuleID << " not cached on disk.\n");
+    SVM_DEBUG(dbgs() << "Object file for " << ModuleID
+                     << " not cached on disk.\n");
     return nullptr;
   }
 
-  DEBUG(dbglog << "Object for " << ModuleID << " loaded from memory cache.\n");
+  SVM_DEBUG(dbgs() << "Object for " << ModuleID
+                   << " loaded from memory cache.\n");
   return MemoryBuffer::getMemBufferCopy(I->second->getBuffer());
 }
 
 std::unique_ptr<MemoryBuffer> ScillaObjCache::getObject(const Module *M) {
   return getObject(M->getModuleIdentifier());
 }
+
+#undef DEBUG_TYPE
 
 // Constructor for memory + disk cache.
 ScillaCacheManager::ScillaCacheManager(const std::string &CacheDir)

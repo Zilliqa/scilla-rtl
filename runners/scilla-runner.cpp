@@ -19,6 +19,7 @@
 #include <fstream>
 #include <iostream>
 
+#include "ScillaVM/Debug.h"
 #include "ScillaVM/Errors.h"
 #include "ScillaVM/JITD.h"
 #include "ScillaVM/SRTL.h"
@@ -46,6 +47,10 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
     ("state,s", po::value<std::string>(), "Specify the JSON to use as initial state")
     ("contract-info,c", po::value<std::string>(), "Specify the contract info JSON from checker")
     ("output-file,o", po::value<std::string>(), "Specify output filename")
+    ("debug", "Debug builds only: Enable all logs")
+    ("debug-only",
+         po::value<std::vector<std::string> >(),
+         "Debug builds only: DEBUG_TYPE to activate for logging")
     ("help,h", "Print help message")
     ("version,v", "Print version")
   ;
@@ -79,6 +84,15 @@ int main(int argc, char *argv[]) {
 
   po::variables_map VM;
   parseCLIArgs(argc, argv, VM);
+
+  if (VM.count("debug")) {
+    ScillaVM::enableAllDebugTypes();
+  } else if (VM.count("debug-only")) {
+    auto &DTs = VM["debug-only"].as<std::vector<std::string>>();
+    for (auto &DT : DTs) {
+      ScillaVM::addToCurrentDebugTypes(DT);
+    }
+  }
 
   MemStateServer State;
   namespace ph = std::placeholders;

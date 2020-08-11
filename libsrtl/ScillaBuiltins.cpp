@@ -82,8 +82,7 @@ void TransitionState::processMessage(std::string OutType, Json::Value &M) {
   if (!OutJ.isObject())
     CREATE_ERROR("Incorrect format of Output JSON");
 
-  Json::Value &Arr = OutJ[OutType];
-  ASSERT(Arr.isNull() || Arr.isArray());
+  ASSERT(OutJ[OutType].isNull() || OutJ[OutType].isArray());
   OutJ[OutType].append(M);
 }
 

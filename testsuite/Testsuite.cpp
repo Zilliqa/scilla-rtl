@@ -19,7 +19,67 @@
 #define BOOST_TEST_MODULE scilla_testsuite
 
 #include <boost/filesystem.hpp>
+#include <boost/program_options.hpp>
 #include <boost/test/unit_test.hpp>
+
+#include <ScillaVM/Debug.h>
+
+namespace {
+namespace po = boost::program_options;
+
+void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
+  auto UsageString = "Usage: [Boost.Test argument]... -- " +
+                     std::string(argv[0]) + " [option...] testsuite_dir" +
+                     "\nSupported options";
+  po::options_description Desc(UsageString);
+
+  // clang-format off
+  Desc.add_options()
+    ("help,h", "Print help message")
+    ("debug", "Debug builds only: Enable all logs")
+    ("debug-only",
+         po::value<std::vector<std::string> >(),
+         "Debug builds only: DEBUG_TYPE to activate for logging")
+  ;
+
+  po::options_description Hidden("Hidden options");
+  Hidden.add_options()
+    ("testsuite-dir", po::value<std::string>(), "Specify input file")
+  ;
+  // clang-format on
+
+  // Gather all options.
+  po::options_description AllOptions;
+  AllOptions.add(Desc).add(Hidden);
+
+  // Mark "testsuite-dir" as a positional argument.
+  po::positional_options_description P;
+  P.add("testsuite-dir", 1);
+  try {
+    po::store(po::command_line_parser(argc, argv)
+                  .options(AllOptions)
+                  .positional(P)
+                  .run(),
+              VM);
+    po::notify(VM);
+  } catch (std::exception &e) {
+    std::cerr << e.what() << "\n";
+    std::cerr << Desc << "\n";
+    exit(EXIT_FAILURE);
+  }
+
+  if (VM.count("help")) {
+    std::cerr << Desc << "\n";
+    exit(EXIT_SUCCESS);
+  }
+
+  // Ensure that an input file is provided.
+  if (!VM.count("testsuite-dir")) {
+    std::cerr << "Testsuite directory not provided\n" << Desc << "\n";
+    exit(EXIT_FAILURE);
+  }
+}
+} // namespace
 
 namespace ScillaVM {
 
@@ -32,19 +92,21 @@ std::string TestsuiteSrc;
 struct CommandLineInit {
   CommandLineInit() {
     using namespace boost::unit_test;
+    po::variables_map VM;
     // Check if there's a testsuite source directory provided as argument.
-    if (framework::master_test_suite().argc == 3) {
-      // This is the only named argument we support at the moment.
-      // TODO: Use boost::program_options and support UpdateResult too.
-      BOOST_TEST_REQUIRE(framework::master_test_suite().argv[1] ==
-                         "--testsuite_src");
-      auto Dir = framework::master_test_suite().argv[2];
-      BOOST_TEST_REQUIRE(boost::filesystem::is_directory(Dir));
-      Config::TestsuiteSrc = Dir;
-    } else {
-      BOOST_FAIL("\nUsage: " << framework::master_test_suite().argv[0]
-                             << " [Boost.Test argument]... -- --testsuite_src "
-                                "/path/to/scilla-vm/testsuite");
+    parseCLIArgs(framework::master_test_suite().argc,
+                 framework::master_test_suite().argv, VM);
+
+    auto Dir = VM["testsuite-dir"].as<std::string>();
+    BOOST_TEST_REQUIRE(boost::filesystem::is_directory(Dir));
+    Config::TestsuiteSrc = Dir;
+    if (VM.count("debug")) {
+      ScillaVM::enableAllDebugTypes();
+    } else if (VM.count("debug-only")) {
+      auto &DTs = VM["debug-only"].as<std::vector<std::string>>();
+      for (auto &DT : DTs) {
+        ScillaVM::addToCurrentDebugTypes(DT);
+      }
     }
     BOOST_TEST_MESSAGE("Using testsuite inputs from " << Config::TestsuiteSrc);
   }
