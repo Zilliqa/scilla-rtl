@@ -47,10 +47,10 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
     ("state,s", po::value<std::string>(), "Specify the JSON to use as initial state")
     ("contract-info,c", po::value<std::string>(), "Specify the contract info JSON from checker")
     ("output-file,o", po::value<std::string>(), "Specify output filename")
-    ("debug", "Debug builds only: Enable all logs")
+    ("debug", "Enable full logging (debug builds only)")
     ("debug-only",
          po::value<std::vector<std::string> >(),
-         "Debug builds only: DEBUG_TYPE to activate for logging")
+         "DEBUG_TYPE to activate for logging (debug builds only")
     ("help,h", "Print help message")
     ("version,v", "Print version")
   ;

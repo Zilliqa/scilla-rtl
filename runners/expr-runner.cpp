@@ -39,10 +39,10 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
   Desc.add_options()
     ("output-file,o", po::value<std::string>(), "Specify output filename")
     ("help,h", "Print help message")
-    ("debug", "Debug builds only: Enable all logs")
+    ("debug", "Enable full logging (debug builds only)")
     ("debug-only",
          po::value<std::vector<std::string> >(),
-         "Debug builds only: DEBUG_TYPE to activate for logging")
+         "DEBUG_TYPE to activate for logging (debug builds only")
     ("version,v", "Print version")
   ;
 

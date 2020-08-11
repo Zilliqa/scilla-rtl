@@ -36,10 +36,10 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
   // clang-format off
   Desc.add_options()
     ("help,h", "Print help message")
-    ("debug", "Debug builds only: Enable all logs")
+    ("debug", "Enable full logging (debug builds only)")
     ("debug-only",
          po::value<std::vector<std::string> >(),
-         "Debug builds only: DEBUG_TYPE to activate for logging")
+         "DEBUG_TYPE to activate for logging (debug builds only")
   ;
 
   po::options_description Hidden("Hidden options");
