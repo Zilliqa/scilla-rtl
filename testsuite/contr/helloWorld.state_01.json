@@ -6,6 +6,11 @@
    },
    {
       "type" : "String",
+      "value" : "get lost",
+      "vname" : "sendoff_msg"
+   },
+   {
+      "type" : "String",
       "value" : "Hello world",
       "vname" : "welcome_msg"
    }
