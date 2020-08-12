@@ -45,7 +45,7 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
 
   po::options_description Hidden("Hidden options");
   Hidden.add_options()
-    ("testsuite-dir", po::value<std::string>(), "Specify input file")
+    ("testsuite-dir", po::value<std::string>(), "Specify testsuite directory")
   ;
   // clang-format on
 
