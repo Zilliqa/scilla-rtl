@@ -77,6 +77,11 @@ entry:
   ret void
 }
 
+define void @_init_state() {
+entry:
+  ret void
+}
+
 define internal void @"$create_event_48"(%Uint128 %_amount, [20 x i8]* %"$_sender_49", %Int32 %m) {
 entry:
   %_sender = load [20 x i8], [20 x i8]* %"$_sender_49"

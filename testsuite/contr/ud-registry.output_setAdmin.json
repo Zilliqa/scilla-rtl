@@ -12,6 +12,7 @@
             {
                "type" : "Bool",
                "value" : {
+                  "argtypes" : [],
                   "arguments" : [],
                   "constructor" : "True"
                },

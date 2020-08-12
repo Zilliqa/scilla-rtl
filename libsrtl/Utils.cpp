@@ -163,7 +163,8 @@ std::string MemStateServer::initFromJSON(const Json::Value &SJ,
   }
 
   std::unordered_map<std::string, int> FieldDepths;
-  for (auto &Field : CIJ["contract_info"]["fields"]) {
+  auto &Fields = CIJ["contract_info"]["fields"];
+  for (auto &Field : Fields) {
     if (!Field.isObject() || !Field.isMember("vname") ||
         !Field.isMember("type") || !Field.isMember("depth")) {
       CREATE_ERROR("Incorrect field format in contract info");
@@ -172,6 +173,12 @@ std::string MemStateServer::initFromJSON(const Json::Value &SJ,
       if (FieldName == "_balance")
         continue;
       FieldDepths[FieldName] = Field["depth"].asInt();
+      if (SJ.empty()) {
+        // State JSON is empty. So this must be a deployment.
+        // We'll have to get the type from contract-info.
+        auto FieldType = Field["type"].asString();
+        FieldTypes[FieldName] = FieldType;
+      }
     }
   }
 

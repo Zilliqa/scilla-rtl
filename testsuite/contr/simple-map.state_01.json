@@ -1,5 +1,10 @@
 [
     {
+        "type" : "Uint128",
+        "value" : "0",
+        "vname" : "_balance"
+    },
+    {
         "vname" : "access_count",
         "type" : "Map ByStr20 Int32",
         "value" :

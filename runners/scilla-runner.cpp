@@ -33,9 +33,8 @@ namespace po = boost::program_options;
 
 void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
   auto UsageString = "Usage: " + std::string(argv[0]) +
-                     " [option...] -i input_contract.ll -m message.json -s "
-                     "state.json -c contract_info.json" +
-                     " -n init.json"
+                     " [option...] -i input_contract.ll -c contract_info.json "
+                     "-n init.json [-m message.json] [-s state.json]"
                      "\nSupported options";
   po::options_description Desc(UsageString);
 
@@ -71,9 +70,17 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
   }
 
   // Ensure that an input file is provided.
-  if (!VM.count("input-contract") || !VM.count("message") ||
-      !VM.count("init") || !VM.count("contract-info") || !VM.count("state")) {
+  if (!VM.count("input-contract") || !VM.count("init") ||
+      !VM.count("contract-info")) {
     std::cerr << "Missing mandatory command line arguments\n" << Desc << "\n";
+    exit(EXIT_FAILURE);
+  }
+
+  // Absence of message and input state indicates deployment.
+  if ((VM.count("message") && !VM.count("state")) ||
+      (!VM.count("message") && VM.count("state"))) {
+    std::cerr << "Provide both message and initial state for transition "
+                 "execution. Provide neither for deployment\n";
     exit(EXIT_FAILURE);
   }
 }
@@ -109,19 +116,29 @@ int main(int argc, char *argv[]) {
     // Prepare all inputs.
     auto InputFilename = VM["input-contract"].as<std::string>();
     auto InitFilename = VM["init"].as<std::string>();
-    auto MessageFilename = VM["message"].as<std::string>();
-    auto StateFilename = VM["state"].as<std::string>();
     auto ContrInfoFilename = VM["contract-info"].as<std::string>();
-    auto MJ = parseJSONFile(MessageFilename);
     auto IJ = parseJSONFile(InitFilename);
-    auto SJ = parseJSONFile(StateFilename);
     auto CIJ = parseJSONFile(ContrInfoFilename);
-    // Update our in-memory state table with the one from the JSONs.
-    auto Balance = State.initFromJSON(SJ, CIJ);
-
-    // Create a JIT engine and execute the message.
+    // Create JIT engine.
     auto JE = ScillaJIT::create(SP, InputFilename, IJ);
-    auto OutJ = JE->execMsg(Balance, 0, MJ);
+    Json::Value OutJ;
+
+    if (VM.count("message")) {
+      // Transition execution
+      auto MessageFilename = VM["message"].as<std::string>();
+      auto StateFilename = VM["state"].as<std::string>();
+      auto MJ = parseJSONFile(MessageFilename);
+      auto SJ = parseJSONFile(StateFilename);
+      // Update our in-memory state table with the one from the JSONs.
+      auto Balance = State.initFromJSON(SJ, CIJ);
+      // Execute message
+      OutJ = JE->execMsg(Balance, 0, MJ);
+    } else {
+      // Deployment
+      State.initFromJSON(Json::arrayValue, CIJ);
+      OutJ = JE->initState(0);
+    }
+
     auto OSJ = State.dumpToJSON();
     // Append states to our main output.
     for (auto &S : OSJ)
