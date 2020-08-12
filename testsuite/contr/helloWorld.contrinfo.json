@@ -11,7 +11,10 @@
       { "vname": "all_names", "type": "List (String)" },
       { "vname": "pear", "type": "Pair (Int128) (String)" }
     ],
-    "fields": [ { "vname": "welcome_msg", "type": "String", "depth": 0 } ],
+    "fields": [
+      { "vname": "welcome_msg", "type": "String", "depth": 0 },
+      { "vname": "sendoff_msg", "type": "String", "depth": 0 }
+    ],
     "transitions": [
       {
         "vname": "setHello",

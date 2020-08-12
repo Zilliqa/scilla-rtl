@@ -6,7 +6,12 @@
    },
    {
       "type" : "String",
-      "value" : "",
+      "value" : "get lost",
+      "vname" : "sendoff_msg"
+   },
+   {
+      "type" : "String",
+      "value" : "Zilliqa",
       "vname" : "welcome_msg"
    }
 ]

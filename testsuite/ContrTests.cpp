@@ -37,6 +37,7 @@ const std::string CacheDir((boost::filesystem::temp_directory_path() /=
                                .native());
 ScillaCacheManager OCache(CacheDir);
 
+// MessageFilename.empty() => stateInit
 void testMessage(const std::string &ContrFilename,
                  const std::string &MessageFilename,
                  const std::string &InitFilename,
@@ -58,14 +59,20 @@ void testMessage(const std::string &ContrFilename,
 
   Json::Value MessageJSON, InitJSON;
   std::string Balance;
+  bool isStateInit = MessageFilename.empty();
   try {
     // Prepare all inputs.
-    MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
+    Json::Value StateJSON;
+    if (!isStateInit) {
+      MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
+      StateJSON = parseJSONFile(PathPrefix + StateFilename);
+    } else {
+      StateJSON = Json::arrayValue;
+    }
     InitJSON = parseJSONFile(PathPrefix + InitFilename);
-    auto SJ = parseJSONFile(PathPrefix + StateFilename);
     auto CIJ = parseJSONFile(PathPrefix + ContrInfoFilename);
     // Update our in-memory state table with the one from the JSONs.
-    Balance = State.initFromJSON(SJ, CIJ);
+    Balance = State.initFromJSON(StateJSON, CIJ);
   } catch (const ScillaError &e) {
     BOOST_FAIL(e.toString());
   }
@@ -81,7 +88,11 @@ void testMessage(const std::string &ContrFilename,
   try {
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
-      OJ = JE->execMsg(Balance, 0, MessageJSON);
+      if (isStateInit) {
+        OJ = JE->initState(0);
+      } else {
+        OJ = JE->execMsg(Balance, 0, MessageJSON);
+      }
     }
 
     /////////// Output State //////////////////////////////////////////
@@ -202,6 +213,12 @@ BOOST_AUTO_TEST_SUITE(contr_exec)
 
 BOOST_AUTO_TEST_SUITE(simple_map)
 
+BOOST_AUTO_TEST_CASE(state_init) {
+  testMessage("simple-map.ll", "", "empty_init.json",
+              "simple-map.contrinfo.json", "", "simple-map.state_00.json",
+              "init_output.json");
+}
+
 BOOST_AUTO_TEST_CASE(state_00_message_Increment) {
   testMessage("simple-map.ll", "simple-map.message_Increment.json",
               "empty_init.json", "simple-map.contrinfo.json",
@@ -271,6 +288,12 @@ BOOST_AUTO_TEST_SUITE_END() // throw
 
 BOOST_AUTO_TEST_SUITE(helloWorld)
 
+BOOST_AUTO_TEST_CASE(helloWorld_state_init) {
+  testMessage("helloWorld.ll", "", "helloWorld.init.json",
+              "helloWorld.contrinfo.json", "", "helloWorld.state_00.json",
+              "init_output.json");
+}
+
 BOOST_AUTO_TEST_CASE(state_00_message_setHello_1) {
   testMessage("helloWorld.ll", "helloWorld.message_setHello_1.json",
               "helloWorld.init.json", "helloWorld.contrinfo.json",
@@ -337,6 +360,12 @@ BOOST_AUTO_TEST_CASE(state_00_message_Accept3_fail) {
 BOOST_AUTO_TEST_SUITE_END() // accept
 
 BOOST_AUTO_TEST_SUITE(ud)
+
+BOOST_AUTO_TEST_CASE(registry_state_init) {
+  testMessage("ud-registry.ll", "", "ud-registry.init.json",
+              "ud-registry.contrinfo.json", "", "ud-registry.state_00.json",
+              "init_output.json");
+}
 
 BOOST_AUTO_TEST_CASE(registry_state_00_message_setRegistrar) {
   testMessage("ud-registry.ll", "ud-registry.message_setRegistrar.json",
@@ -448,7 +477,15 @@ BOOST_AUTO_TEST_CASE(name_clash2_state_00_message_t1_false) {
 
 BOOST_AUTO_TEST_SUITE_END() // pattern_match
 
-BOOST_AUTO_TEST_CASE(map_corners_test) {
+BOOST_AUTO_TEST_SUITE(map_corners_test)
+
+BOOST_AUTO_TEST_CASE(map_corners_state_init) {
+  testMessage("map_corners_test.ll", "", "empty_init.json",
+              "map_corners_test.contrinfo.json", "",
+              "map_corners_test.state_00.json", "init_output.json");
+}
+
+BOOST_AUTO_TEST_CASE(map_corners_test_exec) {
   for (int I = 1; I <= 18; I++) {
     auto Msg = "map_corners_test.message_t" + std::to_string(I) + ".json";
     auto StatePrint = [](int I) {
@@ -465,5 +502,7 @@ BOOST_AUTO_TEST_CASE(map_corners_test) {
     BOOST_TEST_CHECKPOINT("map_corners_test: " << I << " successful.");
   }
 }
+
+BOOST_AUTO_TEST_SUITE_END() // map_corners_test
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

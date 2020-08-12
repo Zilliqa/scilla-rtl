@@ -5,22 +5,22 @@
       "vname" : "_balance"
    },
    {
-      "type" : "Map String (Map String String)",
+      "type" : "Map (String) (Map (String) (String))",
       "value" : [],
       "vname" : "f_m"
    },
    {
-      "type" : "Map String String",
+      "type" : "Map (String) (String)",
       "value" : [],
       "vname" : "f_m1"
    },
    {
-      "type" : "Map String (Map String String)",
+      "type" : "Map (String) (Map (String) (String))",
       "value" : [],
       "vname" : "f_m2"
    },
    {
-      "type" : "Map String (Map String (Map String String))",
+      "type" : "Map (String) (Map (String) (Map (String) (String)))",
       "value" : [],
       "vname" : "f_m3"
    },

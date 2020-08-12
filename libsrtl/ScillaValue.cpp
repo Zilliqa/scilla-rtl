@@ -345,6 +345,7 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
       auto ADTP = SpeclP->m_parent;
       // Print the constructor name.
       Out["constructor"] = Json::Value(std::string(ConstrP->m_cName));
+      Out["argtypes"] = Json::arrayValue;
       for (int i = 0; i < ADTP->m_numTArgs; i++) {
         Out["argtypes"].append(
             Json::Value(ScillaTypes::Typ::toString(SpeclP->m_TArgs[i])));
@@ -354,6 +355,7 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
       auto VP = reinterpret_cast<const uint8_t *>(V);
       // Increment VP once to go past the Tag.
       VP++;
+      Out["arguments"] = Json::arrayValue;
       for (int I = 0; I < ConstrP->m_numArgs; I++) {
         auto ArgT = ConstrP->m_args[I];
         Json::Value Arg;

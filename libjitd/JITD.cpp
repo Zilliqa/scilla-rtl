@@ -350,6 +350,14 @@ void ScillaJIT::initContrParams(const Json::Value &CP) {
   }
 }
 
+Json::Value ScillaJIT::initState(uint64_t GasLimit) {
+  // Let's setup the TransitionState for this transition.
+  TS = std::make_unique<TransitionState>("0", "0", GasLimit);
+  auto fIS = reinterpret_cast<void (*)(void)>(getAddressFor("_init_state"));
+  fIS();
+  return TS->finalize();
+}
+
 void *ScillaJIT::getAddressFor(const std::string &Symbol) {
 
   auto SA = Jitter->lookup(Symbol);

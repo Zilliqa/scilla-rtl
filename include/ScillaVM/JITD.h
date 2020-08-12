@@ -135,6 +135,9 @@ public:
   // Execute a message.
   Json::Value execMsg(const std::string &Balance, uint64_t GasLimit,
                       Json::Value &Msg);
+  // Initialize the contract state to field initialization values in the source.
+  // This is to be called only during deployment of the contract. Never again.
+  Json::Value initState(uint64_t GasLimit);
 
   // Allocate and own the memory for code owned by this object.
   void *sAlloc(size_t Size);
