@@ -334,7 +334,7 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
                                  SerializedIndices, !FetchVal};
 
   boost::any StringOrMapVal;
-  bool Found;
+  bool Found = false;
   ASSERT_MSG(SJ->SPs.fetchStateValue,
              "Incorrect ScillaParams provided to ScillaJIT");
   if (!SJ->SPs.fetchStateValue(SQ, StringOrMapVal, Found)) {
