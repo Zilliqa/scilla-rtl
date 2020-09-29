@@ -63,7 +63,7 @@ struct ScillaError {
 // Throws a ScillaError object, attaching the location of error and a Scilla
 // source location
 #define CREATE_ERROR_SLOC(MSG, SCILLA_LOC)                                     \
-  throw(MSG, SourceLoc(__FILE__, __LINE__), SCILLA_LOC)
+  throw ScillaError(MSG, SourceLoc(__FILE__, __LINE__), SCILLA_LOC)
 
 // Used when the Scilla program throws an error. No VM source location attached.
 #define SCILLA_EXCEPTION(MSG) throw ScillaError(MSG, SourceLoc(), SourceLoc())
