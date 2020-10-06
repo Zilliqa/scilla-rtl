@@ -32,12 +32,14 @@ namespace po = boost::program_options;
 
 void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
   auto UsageString = "Usage: " + std::string(argv[0]) +
-                     " [option...] input-file" + "\nSupported options";
+                     " -g gaslimit [option...] input-file" +
+                     "\nSupported options";
   po::options_description Desc(UsageString);
 
   // clang-format off
   Desc.add_options()
     ("output-file,o", po::value<std::string>(), "Specify output filename")
+    ("gaslimit,g", po::value<uint64_t>(), "Gas limit")
     ("help,h", "Print help message")
     ("debug", "Enable full logging (debug builds only)")
     ("debug-only",
@@ -82,6 +84,12 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
     std::cerr << "No input file provided\n" << Desc << "\n";
     exit(EXIT_FAILURE);
   }
+
+  // Ensure gas limit provided.
+  if (!VM.count("gaslimit")) {
+    std::cerr << "No gaslimit provided\n" << Desc << "\n";
+    exit(EXIT_FAILURE);
+  }
 }
 
 } // end of anonymous namespace
@@ -105,11 +113,18 @@ int main(int argc, char *argv[]) {
   ScillaStdout.clear();
   try {
     auto InputFilename = VM["input-file"].as<std::string>();
+    auto GasLimit = VM["gaslimit"].as<uint64_t>();
     auto SJ =
         ScillaJIT::create(ScillaParams(), InputFilename, Json::arrayValue);
     auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
     auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
+    // Set the remaining gas inside the LLVM-IR for the expression.
+    auto GasRemPtr = reinterpret_cast<uint64_t *>(SJ->getAddressFor("_gasrem"));
+    *GasRemPtr = GasLimit;
+    // Execute ...
     ScillaMain();
+    // Collect and print the remaining gas.
+    ScillaStdout += "Gas remaining: " + std::to_string(*GasRemPtr) + "\n";
   } catch (const ScillaError &e) {
     std::cerr << e.toString() << "\n";
     return EXIT_FAILURE;

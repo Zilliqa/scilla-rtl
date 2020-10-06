@@ -89,9 +89,9 @@ void testMessage(const std::string &ContrFilename,
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
       if (isStateInit) {
-        OJ = JE->initState(0);
+        OJ = JE->initState(Config::GasLimit);
       } else {
-        OJ = JE->execMsg(Balance, 0, MessageJSON);
+        OJ = JE->execMsg(Balance, Config::GasLimit, MessageJSON);
       }
     }
 
@@ -187,7 +187,7 @@ void testMessageFail(const std::string &ContrFilename,
   bool CaughtException = false;
   try {
     ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
-    JE->execMsg(Balance, 0, MessageJSON);
+    JE->execMsg(Balance, Config::GasLimit, MessageJSON);
   } catch (const ScillaError &E) {
     output_test_stream Output(PathPrefix + ExpectedOutputFilename,
                               !Config::UpdateResults);

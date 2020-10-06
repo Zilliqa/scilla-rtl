@@ -9,6 +9,7 @@ target triple = "x86_64-pc-linux-gnu"
 %Int32 = type { i32 }
 
 @_execptr = global i8* null
+@_gasrem = global i64 0
 @"$TyDescr_Int32_Prim_2" = global %"$TyDescrTy_PrimTyp_1" zeroinitializer
 @"$TyDescr_Int32_3" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Int32_Prim_2" to i8*) }
 @"$TyDescr_Uint32_Prim_4" = global %"$TyDescrTy_PrimTyp_1" { i32 1, i32 0 }
@@ -46,19 +47,32 @@ entry:
 define internal %Int32 @"$scilla_expr_34"(i8* %0) {
 entry:
   %"$expr_0" = alloca %Int32
+  %"$gasrem_35" = load i64, i64* @_gasrem
+  %"$gascmp_36" = icmp ugt i64 1, %"$gasrem_35"
+  br i1 %"$gascmp_36", label %"$out_of_gas_37", label %"$have_gas_38"
+
+"$out_of_gas_37":                                 ; preds = %entry
+  call void @_out_of_gas()
+  br label %"$have_gas_38"
+
+"$have_gas_38":                                   ; preds = %"$out_of_gas_37", %entry
+  %"$consume_39" = sub i64 %"$gasrem_35", 1
+  store i64 %"$consume_39", i64* @_gasrem
   store %Int32 { i32 4 }, %Int32* %"$expr_0"
-  %"$$expr_0_35" = load %Int32, %Int32* %"$expr_0"
-  ret %Int32 %"$$expr_0_35"
+  %"$$expr_0_40" = load %Int32, %Int32* %"$expr_0"
+  ret %Int32 %"$$expr_0_40"
 }
+
+declare void @_out_of_gas()
 
 declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_36" = call %Int32 @"$scilla_expr_34"(i8* null)
-  %"$pval_37" = alloca %Int32
-  %"$memvoidcast_38" = bitcast %Int32* %"$pval_37" to i8*
-  store %Int32 %"$exprval_36", %Int32* %"$pval_37"
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_3", i8* %"$memvoidcast_38")
+  %"$exprval_41" = call %Int32 @"$scilla_expr_34"(i8* null)
+  %"$pval_42" = alloca %Int32
+  %"$memvoidcast_43" = bitcast %Int32* %"$pval_42" to i8*
+  store %Int32 %"$exprval_41", %Int32* %"$pval_42"
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_3", i8* %"$memvoidcast_43")
   ret void
 }

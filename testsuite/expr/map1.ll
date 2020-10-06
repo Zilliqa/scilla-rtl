@@ -25,6 +25,7 @@ target triple = "x86_64-pc-linux-gnu"
 %"CName_Nil_Map_(Int32)_(Map_(String)_(Int32))" = type <{ i8 }>
 
 @_execptr = global i8* null
+@_gasrem = global i64 0
 @"$TyDescr_Int32_Prim_2" = global %"$TyDescrTy_PrimTyp_1" zeroinitializer
 @"$TyDescr_Int32_3" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Int32_Prim_2" to i8*) }
 @"$TyDescr_Uint32_Prim_4" = global %"$TyDescrTy_PrimTyp_1" { i32 1, i32 0 }
@@ -81,13 +82,59 @@ entry:
 define internal %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* @"$scilla_expr_53"(i8* %0) {
 entry:
   %"$expr_0" = alloca %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"*
-  %"$execptr_load_54" = load i8*, i8** @_execptr
-  %"$_new_empty_map_call_55" = call i8* @_new_empty_map(i8* %"$execptr_load_54")
-  %"$Emp_56" = bitcast i8* %"$_new_empty_map_call_55" to %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"*
-  store %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* %"$Emp_56", %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"** %"$expr_0"
-  %"$$expr_0_57" = load %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"*, %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"** %"$expr_0"
-  ret %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* %"$$expr_0_57"
+  %"$gasrem_54" = load i64, i64* @_gasrem
+  %"$gascmp_55" = icmp ugt i64 1, %"$gasrem_54"
+  br i1 %"$gascmp_55", label %"$out_of_gas_56", label %"$have_gas_57"
+
+"$out_of_gas_56":                                 ; preds = %entry
+  call void @_out_of_gas()
+  br label %"$have_gas_57"
+
+"$have_gas_57":                                   ; preds = %"$out_of_gas_56", %entry
+  %"$consume_58" = sub i64 %"$gasrem_54", 1
+  store i64 %"$consume_58", i64* @_gasrem
+  %"$gasrem_59" = load i64, i64* @_gasrem
+  %"$gascmp_60" = icmp ugt i64 1, %"$gasrem_59"
+  br i1 %"$gascmp_60", label %"$out_of_gas_61", label %"$have_gas_62"
+
+"$out_of_gas_61":                                 ; preds = %"$have_gas_57"
+  call void @_out_of_gas()
+  br label %"$have_gas_62"
+
+"$have_gas_62":                                   ; preds = %"$out_of_gas_61", %"$have_gas_57"
+  %"$consume_63" = sub i64 %"$gasrem_59", 1
+  store i64 %"$consume_63", i64* @_gasrem
+  %"$gasrem_64" = load i64, i64* @_gasrem
+  %"$gascmp_65" = icmp ugt i64 1, %"$gasrem_64"
+  br i1 %"$gascmp_65", label %"$out_of_gas_66", label %"$have_gas_67"
+
+"$out_of_gas_66":                                 ; preds = %"$have_gas_62"
+  call void @_out_of_gas()
+  br label %"$have_gas_67"
+
+"$have_gas_67":                                   ; preds = %"$out_of_gas_66", %"$have_gas_62"
+  %"$consume_68" = sub i64 %"$gasrem_64", 1
+  store i64 %"$consume_68", i64* @_gasrem
+  %"$gasrem_69" = load i64, i64* @_gasrem
+  %"$gascmp_70" = icmp ugt i64 1, %"$gasrem_69"
+  br i1 %"$gascmp_70", label %"$out_of_gas_71", label %"$have_gas_72"
+
+"$out_of_gas_71":                                 ; preds = %"$have_gas_67"
+  call void @_out_of_gas()
+  br label %"$have_gas_72"
+
+"$have_gas_72":                                   ; preds = %"$out_of_gas_71", %"$have_gas_67"
+  %"$consume_73" = sub i64 %"$gasrem_69", 1
+  store i64 %"$consume_73", i64* @_gasrem
+  %"$execptr_load_74" = load i8*, i8** @_execptr
+  %"$_new_empty_map_call_75" = call i8* @_new_empty_map(i8* %"$execptr_load_74")
+  %"$Emp_76" = bitcast i8* %"$_new_empty_map_call_75" to %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"*
+  store %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* %"$Emp_76", %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"** %"$expr_0"
+  %"$$expr_0_77" = load %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"*, %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"** %"$expr_0"
+  ret %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* %"$$expr_0_77"
 }
+
+declare void @_out_of_gas()
 
 declare i8* @_new_empty_map(i8*)
 
@@ -95,8 +142,8 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_58" = call %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* @"$scilla_expr_53"(i8* null)
-  %"$memvoidcast_59" = bitcast %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* %"$exprval_58" to i8*
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Map_37", i8* %"$memvoidcast_59")
+  %"$exprval_78" = call %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* @"$scilla_expr_53"(i8* null)
+  %"$memvoidcast_79" = bitcast %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* %"$exprval_78" to i8*
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Map_37", i8* %"$memvoidcast_79")
   ret void
 }

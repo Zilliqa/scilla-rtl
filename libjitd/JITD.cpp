@@ -351,8 +351,11 @@ void ScillaJIT::initContrParams(const Json::Value &CP) {
 }
 
 Json::Value ScillaJIT::initState(uint64_t GasLimit) {
+  // Set gas limit in the contract module.
+  auto GasRemPtr = reinterpret_cast<uint64_t *>(getAddressFor("_gasrem"));
+  *GasRemPtr = GasLimit;
   // Let's setup the TransitionState for this transition.
-  TS = std::make_unique<TransitionState>("0", "0", GasLimit);
+  TS = std::make_unique<TransitionState>("0", "0", GasRemPtr);
   auto fIS = reinterpret_cast<void (*)(void)>(getAddressFor("_init_state"));
   fIS();
   return TS->finalize();
@@ -402,8 +405,13 @@ Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
       !AmountJ.isString())
     CREATE_ERROR("Invalid Message");
 
+  // Set gas limit in the contract module.
+  auto GasRemPtr = reinterpret_cast<uint64_t *>(getAddressFor("_gasrem"));
+  *GasRemPtr = GasLimit;
+
   // Let's setup the TransitionState for this transition.
-  TS = std::make_unique<TransitionState>(Balance, AmountJ.asString(), GasLimit);
+  TS =
+      std::make_unique<TransitionState>(Balance, AmountJ.asString(), GasRemPtr);
 
   // Amount and Sender need to be prepended to the parameter list.
   Json::Value AmountParam;

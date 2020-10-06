@@ -32,10 +32,11 @@ namespace {
 namespace po = boost::program_options;
 
 void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
-  auto UsageString = "Usage: " + std::string(argv[0]) +
-                     " [option...] -i input_contract.ll -c contract_info.json "
-                     "-n init.json [-m message.json] [-s state.json]"
-                     "\nSupported options";
+  auto UsageString =
+      "Usage: " + std::string(argv[0]) +
+      " [option...] -i input_contract.ll -c contract_info.json "
+      "-n init.json -g gaslimit [-m message.json] [-s state.json]"
+      "\nSupported options";
   po::options_description Desc(UsageString);
 
   // clang-format off
@@ -44,6 +45,7 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
     ("init,n", po::value<std::string>(), "Specify init JSON to initialize contract parameters")
     ("message,m", po::value<std::string>(), "Specify the message JSON to be executed")
     ("state,s", po::value<std::string>(), "Specify the JSON to use as initial state")
+    ("gaslimit,g", po::value<uint64_t>(), "Gas limit")
     ("contract-info,c", po::value<std::string>(), "Specify the contract info JSON from checker")
     ("output-file,o", po::value<std::string>(), "Specify output filename")
     ("debug", "Enable full logging (debug builds only)")
@@ -71,7 +73,7 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
 
   // Ensure that an input file is provided.
   if (!VM.count("input-contract") || !VM.count("init") ||
-      !VM.count("contract-info")) {
+      !VM.count("contract-info") || !VM.count("gaslimit")) {
     std::cerr << "Missing mandatory command line arguments\n" << Desc << "\n";
     exit(EXIT_FAILURE);
   }
@@ -117,6 +119,7 @@ int main(int argc, char *argv[]) {
     auto InputFilename = VM["input-contract"].as<std::string>();
     auto InitFilename = VM["init"].as<std::string>();
     auto ContrInfoFilename = VM["contract-info"].as<std::string>();
+    auto GasLimit = VM["gaslimit"].as<uint64_t>();
     auto IJ = parseJSONFile(InitFilename);
     auto CIJ = parseJSONFile(ContrInfoFilename);
     // Create JIT engine.
@@ -132,11 +135,11 @@ int main(int argc, char *argv[]) {
       // Update our in-memory state table with the one from the JSONs.
       auto Balance = State.initFromJSON(SJ, CIJ);
       // Execute message
-      OutJ = JE->execMsg(Balance, 0, MJ);
+      OutJ = JE->execMsg(Balance, GasLimit, MJ);
     } else {
       // Deployment
       State.initFromJSON(Json::arrayValue, CIJ);
-      OutJ = JE->initState(0);
+      OutJ = JE->initState(GasLimit);
     }
 
     auto OSJ = State.dumpToJSON();

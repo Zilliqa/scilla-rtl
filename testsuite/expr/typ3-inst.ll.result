@@ -1,1 +1,2 @@
 Pair(Pair(1 : Uint32)(2 : Uint64) : Pair (Uint32) (Uint64))(Pair(0xaa : ByStr1)(0xaabb : ByStr2) : Pair (ByStr1) (ByStr2)) : Pair (Pair (Uint32) (Uint64)) (Pair (ByStr1) (ByStr2))
+Gas remaining: 9999967

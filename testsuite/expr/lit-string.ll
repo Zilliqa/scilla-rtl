@@ -9,6 +9,7 @@ target triple = "x86_64-pc-linux-gnu"
 %String = type { i8*, i32 }
 
 @_execptr = global i8* null
+@_gasrem = global i64 0
 @"$TyDescr_Int32_Prim_2" = global %"$TyDescrTy_PrimTyp_1" zeroinitializer
 @"$TyDescr_Int32_3" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Int32_Prim_2" to i8*) }
 @"$TyDescr_Uint32_Prim_4" = global %"$TyDescrTy_PrimTyp_1" { i32 1, i32 0 }
@@ -37,7 +38,7 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Exception_27" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Exception_Prim_26" to i8*) }
 @"$TyDescr_Bystr_Prim_28" = global %"$TyDescrTy_PrimTyp_1" { i32 7, i32 0 }
 @"$TyDescr_Bystr_29" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr_Prim_28" to i8*) }
-@"$stringlit_35" = unnamed_addr constant [11 x i8] c"hello world"
+@"$stringlit_40" = unnamed_addr constant [11 x i8] c"hello world"
 
 define void @_init_libs() {
 entry:
@@ -47,19 +48,32 @@ entry:
 define internal %String @"$scilla_expr_34"(i8* %0) {
 entry:
   %"$expr_0" = alloca %String
-  store %String { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$stringlit_35", i32 0, i32 0), i32 11 }, %String* %"$expr_0"
-  %"$$expr_0_36" = load %String, %String* %"$expr_0"
-  ret %String %"$$expr_0_36"
+  %"$gasrem_35" = load i64, i64* @_gasrem
+  %"$gascmp_36" = icmp ugt i64 1, %"$gasrem_35"
+  br i1 %"$gascmp_36", label %"$out_of_gas_37", label %"$have_gas_38"
+
+"$out_of_gas_37":                                 ; preds = %entry
+  call void @_out_of_gas()
+  br label %"$have_gas_38"
+
+"$have_gas_38":                                   ; preds = %"$out_of_gas_37", %entry
+  %"$consume_39" = sub i64 %"$gasrem_35", 1
+  store i64 %"$consume_39", i64* @_gasrem
+  store %String { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$stringlit_40", i32 0, i32 0), i32 11 }, %String* %"$expr_0"
+  %"$$expr_0_41" = load %String, %String* %"$expr_0"
+  ret %String %"$$expr_0_41"
 }
+
+declare void @_out_of_gas()
 
 declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_37" = call %String @"$scilla_expr_34"(i8* null)
-  %"$pval_38" = alloca %String
-  %"$memvoidcast_39" = bitcast %String* %"$pval_38" to i8*
-  store %String %"$exprval_37", %String* %"$pval_38"
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_39")
+  %"$exprval_42" = call %String @"$scilla_expr_34"(i8* null)
+  %"$pval_43" = alloca %String
+  %"$memvoidcast_44" = bitcast %String* %"$pval_43" to i8*
+  store %String %"$exprval_42", %String* %"$pval_43"
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_44")
   ret void
 }

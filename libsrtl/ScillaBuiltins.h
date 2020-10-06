@@ -38,7 +38,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void);
 class TransitionState {
   SafeUint128 Balance;
   SafeUint128 InAmount;
-  uint64_t GasRemaining;
+  uint64_t *GasRemPtr;
   bool Accepted;
   // Contains the output messages of executing a transition.
   Json::Value OutJ;
@@ -47,8 +47,8 @@ class TransitionState {
 
 public:
   TransitionState(std::string Balance_P, std::string InAmount_P,
-                  uint64_t GasLimit_P)
-      : Balance(Balance_P), InAmount(InAmount_P), GasRemaining(GasLimit_P),
+                  uint64_t *GasRemPtr_P)
+      : Balance(Balance_P), InAmount(InAmount_P), GasRemPtr(GasRemPtr_P),
         Accepted(false), OutJ(Json::objectValue){};
 
   void processSend(Json::Value &M);
@@ -71,6 +71,9 @@ void _print_scilla_val(const ScillaVM::ScillaTypes::Typ *T, void *V);
 
 // Allocate memory for JIT code owned by @SJ
 void *_salloc(ScillaVM::ScillaJIT *SJ, size_t size);
+
+// Handler for out-of-gas during execution
+void _out_of_gas();
 
 // Fetch field @Name whose type is @T. For map accesses, FetchVal can be false,
 // to indicate that the return value is a Scilla `Bool`, indicating found or
