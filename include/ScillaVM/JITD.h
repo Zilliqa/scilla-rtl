@@ -95,7 +95,8 @@ struct ScillaParams {
 };
 
 // Each ScillaJIT object compiles an LLVM-IR module and provides access
-// to the symbols inside it.
+// to the symbols inside it. It is recommended use ScillaJIT_Safe,
+// which hides many private methods in this class and makes it safer.
 class ScillaJIT {
 private:
   // Use the Create method to build a ScillaJIT object.
@@ -132,12 +133,19 @@ public:
                                            ScillaCacheManager * = nullptr);
   // Get address for @Symbol inside the compiled IR, ready to be used.
   void *getAddressFor(const std::string &Symbol);
+
+  // Initialize gas-remaining field in the code and initialize libraries.
+  uint64_t *initGasAndLibs(uint64_t GasRem);
   // Execute a message.
   Json::Value execMsg(const std::string &Balance, uint64_t GasLimit,
                       Json::Value &Msg);
   // Initialize the contract state to field initialization values in the source.
   // This is to be called only during deployment of the contract. Never again.
   Json::Value initState(uint64_t GasLimit);
+  // What's the gas remaining from previous execution (initState / execMsg).
+  // Useful if execution was interrupted due to an exception.
+  // Use with care if you don't want to end up with a stale value.
+  uint64_t getGasRem();
 
   // Allocate and own the memory for code owned by this object.
   void *sAlloc(size_t Size);
@@ -150,6 +158,53 @@ public:
   std::unique_ptr<TransitionState> TS;
 
   ~ScillaJIT();
+};
+
+// Typical usage:
+//   ScillaJIT_Safe::init(); : One time ever
+//   1. auto SJ = ScillaJIT_Safe::create(...);
+//   2. (a) Deployment (b) Transition execution
+//      a. auto Output = ScillaJIT_Safe::initState(...);
+//        OR
+//      b. auto Output = ScillaJIT_Safe::execMsg(...);
+//   3. If ScillaError exception, check remaining gas with getGasRem().
+class ScillaJIT_Safe : private ScillaJIT {
+public:
+  // One time initialization.
+  static void init() { ScillaJIT::init(); }
+  // JIT Compile LLVM-IR @FileName. ModuleID is derived from @FileName.
+  //  Optionally, a cache manager can be provided.
+  static std::unique_ptr<ScillaJIT_Safe>
+  create(const ScillaParams &SPs, const std::string &FileName,
+         const Json::Value &ContrParams, ScillaCacheManager *SCM = nullptr) {
+    ScillaJIT *Ptr =
+        ScillaJIT::create(SPs, FileName, ContrParams, SCM).release();
+    return std::unique_ptr<ScillaJIT_Safe>(static_cast<ScillaJIT_Safe *>(Ptr));
+  }
+  // JIT Compile LLVM-IR in @IR, affixing @ModuleID to it.
+  // Optionally, a cache manager can be provided.
+  static std::unique_ptr<ScillaJIT_Safe>
+  create(const ScillaParams &SPs, const std::string &IR,
+         const std::string &ModuleID, const Json::Value &ContrParams,
+         ScillaCacheManager *SCM = nullptr) {
+    ScillaJIT *Ptr =
+        ScillaJIT::create(SPs, IR, ModuleID, ContrParams, SCM).release();
+    return std::unique_ptr<ScillaJIT_Safe>(static_cast<ScillaJIT_Safe *>(Ptr));
+  }
+  // Execute a message.
+  Json::Value execMsg(const std::string &Balance, uint64_t GasLimit,
+                      Json::Value &Msg) {
+    return ScillaJIT::execMsg(Balance, GasLimit, Msg);
+  }
+  // Initialize the contract state to field initialization values in the source.
+  // This is to be called only during deployment of the contract. Never again.
+  Json::Value initState(uint64_t GasLimit) {
+    return ScillaJIT::initState(GasLimit);
+  }
+  // What's the gas remaining from previous execution (initState / execMsg).
+  // Useful if execution was interrupted due to an exception.
+  // Use with care if you don't want to end up with a stale value.
+  uint64_t getGasRem() { return ScillaJIT::getGasRem(); }
 };
 
 } // namespace ScillaVM

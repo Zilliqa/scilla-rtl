@@ -118,13 +118,14 @@ int main(int argc, char *argv[]) {
         ScillaJIT::create(ScillaParams(), InputFilename, Json::arrayValue);
     auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
     auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
-    // Set the remaining gas inside the LLVM-IR for the expression.
-    auto GasRemPtr = reinterpret_cast<uint64_t *>(SJ->getAddressFor("_gasrem"));
-    *GasRemPtr = GasLimit;
+
+    // Set gas available in the JIT'ed code and then initialize libraries.
+    SJ->initGasAndLibs(GasLimit);
+
     // Execute ...
     ScillaMain();
     // Collect and print the remaining gas.
-    ScillaStdout += "Gas remaining: " + std::to_string(*GasRemPtr) + "\n";
+    ScillaStdout += "Gas remaining: " + std::to_string(SJ->getGasRem()) + "\n";
   } catch (const ScillaError &e) {
     std::cerr << e.toString() << "\n";
     return EXIT_FAILURE;

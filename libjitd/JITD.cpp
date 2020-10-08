@@ -294,10 +294,7 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
   // Set execptr in the generated code to THIS
   auto ExecPtr = THIS->getAddressFor("_execptr");
   *reinterpret_cast<ScillaJIT **>(ExecPtr) = THIS;
-  // Call the library initialisation function
-  auto initLibs =
-      reinterpret_cast<void (*)()>(THIS->getAddressFor("_init_libs"));
-  initLibs();
+
   // Initialize contract parameters.
   THIS->initContrParams(ContrParams);
 
@@ -350,15 +347,32 @@ void ScillaJIT::initContrParams(const Json::Value &CP) {
   }
 }
 
-Json::Value ScillaJIT::initState(uint64_t GasLimit) {
-  // Set gas limit in the contract module.
+uint64_t *ScillaJIT::initGasAndLibs(uint64_t GasLimit) {
+  // Set gas limit in the JIT'ed code module.
   auto GasRemPtr = reinterpret_cast<uint64_t *>(getAddressFor("_gasrem"));
   *GasRemPtr = GasLimit;
+
+  // Call the library initialisation function.
+  auto initLibs =
+      reinterpret_cast<void (*)()>(getAddressFor("_init_libs"));
+  initLibs();
+
+  return GasRemPtr;
+}
+
+Json::Value ScillaJIT::initState(uint64_t GasLimit) {
+
+  auto GasRemPtr = initGasAndLibs(GasLimit);
+
   // Let's setup the TransitionState for this transition.
   TS = std::make_unique<TransitionState>("0", "0", GasRemPtr);
   auto fIS = reinterpret_cast<void (*)(void)>(getAddressFor("_init_state"));
   fIS();
   return TS->finalize();
+}
+
+uint64_t ScillaJIT::getGasRem() {
+  return *reinterpret_cast<uint64_t *>(getAddressFor("_gasrem"));
 }
 
 void *ScillaJIT::getAddressFor(const std::string &Symbol) {
@@ -405,9 +419,7 @@ Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
       !AmountJ.isString())
     CREATE_ERROR("Invalid Message");
 
-  // Set gas limit in the contract module.
-  auto GasRemPtr = reinterpret_cast<uint64_t *>(getAddressFor("_gasrem"));
-  *GasRemPtr = GasLimit;
+  auto GasRemPtr = initGasAndLibs(GasLimit);
 
   // Let's setup the TransitionState for this transition.
   TS =

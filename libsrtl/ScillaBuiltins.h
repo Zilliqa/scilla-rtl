@@ -138,13 +138,13 @@ uint8_t *_eq_Uint256(ScillaVM::ScillaJIT *SJ,
 void *_to_nat(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Uint32 UI);
 
 void _send(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
-           void *V);
+           const void *V);
 
 void _event(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
-            void *V);
+            const void *V);
 
 void _throw(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
-            void *V);
+            const void *V);
 
 uint8_t *_eq_String(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::String Lhs,
                     ScillaVM::ScillaTypes::String Rhs);
@@ -181,7 +181,12 @@ void *_contains(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
 
 void *_remove(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
               const ScillaVM::ScillaParams::MapValueT *M, const void *K);
+
+// Scilla builtin _size : The size of a map.
 ScillaVM::ScillaTypes::Uint32 _size(const ScillaVM::ScillaParams::MapValueT *M);
+
+uint64_t _literal_cost (const ScillaVM::ScillaTypes::Typ *T, const void *V);
+uint64_t _mapsortcost (const ScillaVM::ScillaParams::MapValueT *M);
 
 } // extern "C"
 #pragma clang diagnostic pop

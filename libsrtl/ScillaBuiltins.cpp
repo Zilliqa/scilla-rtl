@@ -69,6 +69,8 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_contains", (void *) _contains},
     {"_remove", (void *) _remove},
     {"_size", (void *) _size},
+    {"_literal_cost", (void *) _literal_cost},
+    {"_mapsortcost", (void *) _mapsortcost},
   };
   // clang-format on
 
@@ -435,7 +437,7 @@ void *_to_nat(ScillaJIT *SJ, ScillaTypes::Uint32 UI) {
   return MemPrev;
 }
 
-void _send(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
+void _send(ScillaJIT *SJ, const ScillaTypes::Typ *T, const void *V) {
   auto J = ScillaValues::toJSON(T, V);
   // J is a Scilla list of Messages. Form a JSON array instead.
   // TODO: Consider having a Scilla List -> std::vector and calling
@@ -463,12 +465,39 @@ void _send(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
   }
 }
 
-void _event(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
+uint64_t _literal_cost (const ScillaTypes::Typ *T, const void *V) {
+  return ScillaValues::literalCost(T, V);
+}
+
+uint64_t _mapsortcost (const ScillaParams::MapValueT *M) {
+  uint64_t Cost = 0;
+
+  // First calculate cost for sub-maps (if any).
+  for (auto &Itr : *M) {
+    if (boost::has_type<std::string>(Itr.second)) {
+      break;
+    }
+    ASSERT(boost::has_type<ScillaParams::MapValueT>(Itr.second));
+    auto *SubM = &boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+    Cost += _mapsortcost(SubM);
+  }
+  
+  // Cost of sorting *this* map.
+  auto Len = M->size();
+  if (Len > 0) {
+    auto LogLen = static_cast<int>(log(static_cast<float>(Len)));
+    Cost += (Len * LogLen);
+  }
+
+  return Cost;
+}
+
+void _event(ScillaJIT *SJ, const ScillaTypes::Typ *T, const void *V) {
   auto J = ScillaValues::toJSON(T, V);
   SJ->TS->processEvent(J);
 }
 
-void _throw(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
+void _throw(ScillaJIT *SJ, const ScillaTypes::Typ *T, const void *V) {
   (void)SJ;
   auto J = ScillaValues::toJSON(T, V);
   SCILLA_EXCEPTION("Exception thrown: " + J.toStyledString());

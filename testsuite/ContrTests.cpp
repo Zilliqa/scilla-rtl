@@ -55,7 +55,7 @@ void testMessage(const std::string &ContrFilename,
 
   std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
 
-  ScillaJIT::init();
+  ScillaJIT_Safe::init();
 
   Json::Value MessageJSON, InitJSON;
   std::string Balance;
@@ -79,10 +79,10 @@ void testMessage(const std::string &ContrFilename,
 
   // Create a JIT engine and execute the message.
   // TODO: Due to the below mentioned bug, this can't be in a try-catch block.
-  std::unique_ptr<ScillaVM::ScillaJIT> JE;
+  std::unique_ptr<ScillaVM::ScillaJIT_Safe> JE;
   {
     ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
-    JE = ScillaJIT::create(SP, PathPrefix + ContrFilename, InitJSON, &OCache);
+    JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON, &OCache);
   }
   Json::Value OJ;
   try {
@@ -160,7 +160,7 @@ void testMessageFail(const std::string &ContrFilename,
 
   std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
 
-  ScillaJIT::init();
+  ScillaJIT_Safe::init();
 
   Json::Value MessageJSON, InitJSON;
   std::string Balance;
@@ -178,10 +178,10 @@ void testMessageFail(const std::string &ContrFilename,
 
   // Create a JIT engine and execute the message.
   // TODO: Due to the below mentioned bug, this can't be in a try-catch block.
-  std::unique_ptr<ScillaVM::ScillaJIT> JE;
+  std::unique_ptr<ScillaVM::ScillaJIT_Safe> JE;
   {
     ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
-    JE = ScillaJIT::create(SP, PathPrefix + ContrFilename, InitJSON, &OCache);
+    JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON, &OCache);
   }
 
   bool CaughtException = false;
@@ -216,35 +216,35 @@ BOOST_AUTO_TEST_SUITE(simple_map)
 BOOST_AUTO_TEST_CASE(state_init) {
   testMessage("simple-map.ll", "", "empty_init.json",
               "simple-map.contrinfo.json", "", "simple-map.state_00.json",
-              "init_output.json");
+              "simple-map.init_output.json");
 }
 
 BOOST_AUTO_TEST_CASE(state_00_message_Increment) {
   testMessage("simple-map.ll", "simple-map.message_Increment.json",
               "empty_init.json", "simple-map.contrinfo.json",
               "simple-map.state_00.json", "simple-map.state_02.json",
-              "simple-map.output.json");
+              "simple-map.output_00_0.json");
 }
 
 BOOST_AUTO_TEST_CASE(state_01_message_Increment) {
   testMessage("simple-map.ll", "simple-map.message_Increment.json",
               "empty_init.json", "simple-map.contrinfo.json",
               "simple-map.state_01.json", "simple-map.state_03.json",
-              "simple-map.output.json");
+              "simple-map.output_01_0.json");
 }
 
 BOOST_AUTO_TEST_CASE(state_00_message_IncrementN_1) {
   testMessage("simple-map.ll", "simple-map.message_IncrementN_1.json",
               "empty_init.json", "simple-map.contrinfo.json",
               "simple-map.state_00.json", "simple-map.state_04.json",
-              "simple-map.output.json");
+              "simple-map.output_00_1.json");
 }
 
 BOOST_AUTO_TEST_CASE(state_01_message_IncrementN_1) {
   testMessage("simple-map.ll", "simple-map.message_IncrementN_1.json",
               "empty_init.json", "simple-map.contrinfo.json",
               "simple-map.state_01.json", "simple-map.state_05.json",
-              "simple-map.output.json");
+              "simple-map.output_01_1.json");
 }
 
 BOOST_AUTO_TEST_SUITE_END() // simple_map
@@ -291,7 +291,7 @@ BOOST_AUTO_TEST_SUITE(helloWorld)
 BOOST_AUTO_TEST_CASE(helloWorld_state_init) {
   testMessage("helloWorld.ll", "", "helloWorld.init.json",
               "helloWorld.contrinfo.json", "", "helloWorld.state_00.json",
-              "init_output.json");
+              "helloWorld.init_output.json");
 }
 
 BOOST_AUTO_TEST_CASE(state_00_message_setHello_1) {
@@ -364,7 +364,7 @@ BOOST_AUTO_TEST_SUITE(ud)
 BOOST_AUTO_TEST_CASE(registry_state_init) {
   testMessage("ud-registry.ll", "", "ud-registry.init.json",
               "ud-registry.contrinfo.json", "", "ud-registry.state_00.json",
-              "init_output.json");
+              "ud-registry.init_output.json");
 }
 
 BOOST_AUTO_TEST_CASE(registry_state_00_message_setRegistrar) {
@@ -482,7 +482,7 @@ BOOST_AUTO_TEST_SUITE(map_corners_test)
 BOOST_AUTO_TEST_CASE(map_corners_state_init) {
   testMessage("map_corners_test.ll", "", "empty_init.json",
               "map_corners_test.contrinfo.json", "",
-              "map_corners_test.state_00.json", "init_output.json");
+              "map_corners_test.state_00.json", "map_corners.init_output.json");
 }
 
 BOOST_AUTO_TEST_CASE(map_corners_test_exec) {
@@ -497,7 +497,7 @@ BOOST_AUTO_TEST_CASE(map_corners_test_exec) {
 
     testMessage("map_corners_test.ll", Msg, "empty_init.json",
                 "map_corners_test.contrinfo.json", StartState, FinishState,
-                "map_corners_test.output.json");
+                "map_corners_test.output_" + std::to_string(I) + ".json");
 
     BOOST_TEST_CHECKPOINT("map_corners_test: " << I << " successful.");
   }
