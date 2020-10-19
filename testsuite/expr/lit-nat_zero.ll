@@ -15,6 +15,7 @@ target triple = "x86_64-pc-linux-gnu"
 %CName_Succ = type <{ i8, %TName_Nat* }>
 
 @_execptr = global i8* null
+@_gasrem = global i64 0
 @"$TyDescr_Int32_Prim_2" = global %"$TyDescrTy_PrimTyp_1" zeroinitializer
 @"$TyDescr_Int32_3" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Int32_Prim_2" to i8*) }
 @"$TyDescr_Uint32_Prim_4" = global %"$TyDescrTy_PrimTyp_1" { i32 1, i32 0 }
@@ -65,16 +66,29 @@ entry:
 define internal %TName_Nat* @"$scilla_expr_47"(i8* %0) {
 entry:
   %"$expr_0" = alloca %TName_Nat*
-  %"$adtval_48_load" = load i8*, i8** @_execptr
-  %"$adtval_48_salloc" = call i8* @_salloc(i8* %"$adtval_48_load", i64 1)
-  %"$adtval_48" = bitcast i8* %"$adtval_48_salloc" to %CName_Zero*
-  %"$adtgep_49" = getelementptr inbounds %CName_Zero, %CName_Zero* %"$adtval_48", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_49"
-  %"$adtptr_50" = bitcast %CName_Zero* %"$adtval_48" to %TName_Nat*
-  store %TName_Nat* %"$adtptr_50", %TName_Nat** %"$expr_0"
-  %"$$expr_0_51" = load %TName_Nat*, %TName_Nat** %"$expr_0"
-  ret %TName_Nat* %"$$expr_0_51"
+  %"$gasrem_48" = load i64, i64* @_gasrem
+  %"$gascmp_49" = icmp ugt i64 1, %"$gasrem_48"
+  br i1 %"$gascmp_49", label %"$out_of_gas_50", label %"$have_gas_51"
+
+"$out_of_gas_50":                                 ; preds = %entry
+  call void @_out_of_gas()
+  br label %"$have_gas_51"
+
+"$have_gas_51":                                   ; preds = %"$out_of_gas_50", %entry
+  %"$consume_52" = sub i64 %"$gasrem_48", 1
+  store i64 %"$consume_52", i64* @_gasrem
+  %"$adtval_53_load" = load i8*, i8** @_execptr
+  %"$adtval_53_salloc" = call i8* @_salloc(i8* %"$adtval_53_load", i64 1)
+  %"$adtval_53" = bitcast i8* %"$adtval_53_salloc" to %CName_Zero*
+  %"$adtgep_54" = getelementptr inbounds %CName_Zero, %CName_Zero* %"$adtval_53", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_54"
+  %"$adtptr_55" = bitcast %CName_Zero* %"$adtval_53" to %TName_Nat*
+  store %TName_Nat* %"$adtptr_55", %TName_Nat** %"$expr_0"
+  %"$$expr_0_56" = load %TName_Nat*, %TName_Nat** %"$expr_0"
+  ret %TName_Nat* %"$$expr_0_56"
 }
+
+declare void @_out_of_gas()
 
 declare i8* @_salloc(i8*, i64)
 
@@ -82,8 +96,8 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_52" = call %TName_Nat* @"$scilla_expr_47"(i8* null)
-  %"$memvoidcast_53" = bitcast %TName_Nat* %"$exprval_52" to i8*
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33", i8* %"$memvoidcast_53")
+  %"$exprval_57" = call %TName_Nat* @"$scilla_expr_47"(i8* null)
+  %"$memvoidcast_58" = bitcast %TName_Nat* %"$exprval_57" to i8*
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33", i8* %"$memvoidcast_58")
   ret void
 }

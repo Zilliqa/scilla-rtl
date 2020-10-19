@@ -699,5 +699,120 @@ void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
   }
 }
 
+uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
+
+  // StringLits have fixed cost till a certain length
+  // and linear cost growth after that.
+  auto stringLengthNormalize = [](uint64_t l) -> uint64_t {
+    if (l <= 20)
+      return 20;
+    else
+      return l;
+  };
+
+  switch (T->m_t) {
+  case ScillaTypes::Typ::Prim_typ: {
+    switch (T->m_sub.m_primt->m_pt) {
+    case ScillaTypes::PrimTyp::Int_typ:
+    case ScillaTypes::PrimTyp::Uint_typ:
+    case ScillaTypes::PrimTyp::Bystrx_typ:
+      return ScillaTypes::Typ::sizeOf(T);
+    case ScillaTypes::PrimTyp::String_typ: {
+      auto SP = reinterpret_cast<const ScillaTypes::String *>(V);
+      return stringLengthNormalize(SP->m_length);
+    }
+    case ScillaTypes::PrimTyp::Bystr_typ: {
+      auto SP = reinterpret_cast<const ScillaTypes::String *>(V);
+      return SP->m_length;
+    }
+    case ScillaTypes::PrimTyp::Bnum_typ: {
+      return 64;
+    } break;
+    case ScillaTypes::PrimTyp::Msg_typ:
+    case ScillaTypes::PrimTyp::Event_typ:
+    case ScillaTypes::PrimTyp::Exception_typ: {
+      if (!V) {
+        ASSERT(T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Exception_typ);
+        return 0;
+      }
+
+      auto V_UC = reinterpret_cast<const uint8_t *>(V);
+      int NFields = *(V_UC++);
+
+      uint64_t Acc = 0;
+      for (int I = 0; I < NFields; I++) {
+        // 1. Field's name.
+        auto *FNameP = reinterpret_cast<const ScillaTypes::String *>(V_UC);
+        Acc += stringLengthNormalize(FNameP->m_length);
+        V_UC += sizeof(ScillaTypes::String);
+        // 2. Type descriptor for the value.
+        auto *TD = *reinterpret_cast<const ScillaTypes::Typ *const *>(V_UC);
+        V_UC += sizeof(const ScillaTypes::Typ *);
+        // 3. The value itself.
+        if (ScillaTypes::Typ::isBoxed(TD)) {
+          Acc += literalCost(TD, *reinterpret_cast<const void *const *>(V_UC));
+        } else {
+          Acc += literalCost(TD, V_UC);
+        }
+        V_UC += ScillaTypes::Typ::sizeOf(TD);
+      }
+      return Acc;
+    }
+    }
+    break;
+  }
+  case ScillaTypes::Typ::ADT_typ: {
+    uint64_t Acc = 0;
+    auto Tag = *reinterpret_cast<const uint8_t *>(V);
+    auto SpeclP = T->m_sub.m_spladt;
+    auto ConstrP = SpeclP->m_constrs[Tag];
+    auto VP = reinterpret_cast<const uint8_t *>(V);
+    // Increment VP once to go past the Tag.
+    VP++;
+    for (int I = 0; I < ConstrP->m_numArgs; I++) {
+      auto ArgT = ConstrP->m_args[I];
+      if (ScillaTypes::Typ::isBoxed(ArgT))
+        Acc += literalCost(ArgT, *reinterpret_cast<const void *const *>(VP));
+      else
+        Acc += literalCost(ArgT, reinterpret_cast<const void *>(VP));
+      // Increment our data pointer equal to the size we just finised.
+      // structs containing ADTs are packed, so that we don't have to
+      // worry about padding here.
+      VP += ScillaTypes::Typ::sizeOf(ArgT);
+    }
+    return Acc;
+  };
+  case ScillaTypes::Typ::Map_typ:
+    auto ValT = T->m_sub.m_mapt->m_valTyp;
+    auto M = reinterpret_cast<const ScillaParams::MapValueT *>(V);
+    MemoryAllocator MA;
+    SAllocator SA(
+        std::bind(&MemoryAllocator::mAlloc, &MA, std::placeholders::_1));
+
+    uint64_t Acc = 0;
+    for (auto &Itr : *M) {
+      Json::Value KeyJ = parseJSONString(Itr.first);
+      Acc += stringLengthNormalize(KeyJ.asString().size());
+      switch (ValT->m_t) {
+      case ScillaTypes::Typ::Map_typ: {
+        auto &ValV =
+            boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+        Acc += literalCost(ValT, &ValV);
+        break;
+      }
+      default: {
+        auto &ValJS = boost::any_cast<const std::string &>(Itr.second);
+        auto ValJ = parseJSONString(ValJS);
+        auto *ValV = fromJSON(SA, ValT, ValJ);
+        Acc += literalCost(ValT, ValV);
+      }
+      }
+    }
+    return Acc;
+  }
+
+  CREATE_ERROR("Unreachable");
+}
+
 } // namespace ScillaValues
 } // namespace ScillaVM

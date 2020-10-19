@@ -1,7 +1,7 @@
 {
    "_accepted" : "false",
    "events" : [],
-   "gas_remaining" : "0",
+   "gas_remaining" : "9999747",
    "messages" : [
       {
          "_amount" : "0",

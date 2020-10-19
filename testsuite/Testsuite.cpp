@@ -28,9 +28,9 @@ namespace {
 namespace po = boost::program_options;
 
 void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
-  auto UsageString = "Usage: [Boost.Test argument]... -- " +
-                     std::string(argv[0]) + " [option...] testsuite_dir" +
-                     "\nSupported options";
+  auto UsageString = "Usage: " + std::string(argv[0]) +
+                     " [Boost.Test argument]..." + " -- " +
+                     " [option...] testsuite_dir" + "\nSupported options";
   po::options_description Desc(UsageString);
 
   // clang-format off
@@ -88,6 +88,8 @@ namespace Config {
 // Overwrites the expected result instead of comparing with it.
 bool UpdateResults = false;
 std::string TestsuiteSrc;
+uint64_t GasLimit = 10000000;
+
 } // namespace Config
 
 struct CommandLineInit {

@@ -8,6 +8,7 @@ namespace Config {
 // Overwrites the expected result instead of comparing with it.
 extern bool UpdateResults;
 extern std::string TestsuiteSrc;
+extern uint64_t GasLimit;
 } // namespace Config
 
 // A class that calls BOOST_TEST_MESSAGE with the duration of its existance.

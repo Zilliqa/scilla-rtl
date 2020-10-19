@@ -44,7 +44,15 @@ void testExecExpr(const std::string &Testname) {
     BOOST_TEST_CHECKPOINT(Filename + ": JIT compilation succeeded");
     auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
     ScillaStdout.clear();
+    // Set the remaining gas inside the LLVM-IR for the expression.
+    auto GasRemPtr = reinterpret_cast<uint64_t *>(SJ->getAddressFor("_gasrem"));
+    *GasRemPtr = Config::GasLimit;
+
+    // Execute expression.
     ScillaMain();
+
+    // Collect and print the remaining gas.
+    ScillaStdout += "Gas remaining: " + std::to_string(*GasRemPtr) + "\n";
   } catch (const ScillaError &E) {
     BOOST_FAIL(E.toString());
   }

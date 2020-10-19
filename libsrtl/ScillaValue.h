@@ -50,5 +50,9 @@ void *fromJSONToMem(SAllocator &A, void *Mem, int MemSize,
 void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
                          const void *V);
 
+// Computs the cost of (memory occupied by) a Scilla value.
+// Compatible with literal_cost in Gas.ml in Scilla_base.
+uint64_t literalCost (const ScillaTypes::Typ *T, const void *V);
+
 } // namespace ScillaValues
 } // namespace ScillaVM

@@ -12,7 +12,7 @@
          ]
       }
    ],
-   "gas_remaining" : "0",
+   "gas_remaining" : "9999923",
    "messages" : [],
    "scilla_major_version" : "0"
 }
