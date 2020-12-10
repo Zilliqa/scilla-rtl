@@ -64,7 +64,7 @@
       "warning_message": "Name x shadows a field declaration.",
       "start_location": {
         "file":
-          "/media/data/scilla-compiler//tests/codegen/contr/name_clash2.scilla",
+          "../../scilla-compiler//tests/codegen/contr/name_clash2.scilla",
         "line": 15,
         "column": 9
       },
@@ -75,7 +75,7 @@
       "warning_message": "Name x shadows a field declaration.",
       "start_location": {
         "file":
-          "/media/data/scilla-compiler//tests/codegen/contr/name_clash2.scilla",
+          "../../scilla-compiler//tests/codegen/contr/name_clash2.scilla",
         "line": 13,
         "column": 3
       },

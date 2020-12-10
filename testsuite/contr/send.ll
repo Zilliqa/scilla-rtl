@@ -65,7 +65,7 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_List_Message_ADTTyp_Specl_49" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Specl_35" { %_TyDescrTy_Typ** getelementptr inbounds ([1 x %_TyDescrTy_Typ*], [1 x %_TyDescrTy_Typ*]* @"$TyDescr_List_Message_ADTTyp_Specl_m_TArgs_48", i32 0, i32 0), %"$TyDescrTy_ADTTyp_Constr_37"** getelementptr inbounds ([2 x %"$TyDescrTy_ADTTyp_Constr_37"*], [2 x %"$TyDescrTy_ADTTyp_Constr_37"*]* @"$TyDescr_List_Message_ADTTyp_Specl_m_constrs_47", i32 0, i32 0), %"$TyDescrTy_ADTTyp_36"* @"$TyDescr_List_ADTTyp_40" }
 @"$TyDescr_List_ADTTyp_m_specls_50" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_35"*] [%"$TyDescrTy_ADTTyp_Specl_35"* @"$TyDescr_List_Message_ADTTyp_Specl_49"]
 @"$TyDescr_ADT_List_51" = unnamed_addr constant [4 x i8] c"List"
-@one_msg = global { %TName_List_Message* (i8*, i8*)*, i8* } zeroinitializer
+@send.one_msg = global { %TName_List_Message* (i8*, i8*)*, i8* } zeroinitializer
 @_scilla_version = global %Uint32 zeroinitializer
 @_this_address = global [20 x i8] zeroinitializer
 @"$stringlit_99" = unnamed_addr constant [4 x i8] c"_tag"
@@ -160,7 +160,7 @@ entry:
 "$have_gas_81":                                   ; preds = %"$out_of_gas_80", %entry
   %"$consume_82" = sub i64 %"$gasrem_78", 1
   store i64 %"$consume_82", i64* @_gasrem
-  store { %TName_List_Message* (i8*, i8*)*, i8* } { %TName_List_Message* (i8*, i8*)* bitcast (%TName_List_Message* (%"$$fundef_2_env_52"*, i8*)* @"$fundef_2" to %TName_List_Message* (i8*, i8*)*), i8* null }, { %TName_List_Message* (i8*, i8*)*, i8* }* @one_msg
+  store { %TName_List_Message* (i8*, i8*)*, i8* } { %TName_List_Message* (i8*, i8*)* bitcast (%TName_List_Message* (%"$$fundef_2_env_52"*, i8*)* @"$fundef_2" to %TName_List_Message* (i8*, i8*)*), i8* null }, { %TName_List_Message* (i8*, i8*)*, i8* }* @send.one_msg
   ret void
 }
 
@@ -251,15 +251,15 @@ entry:
 "$have_gas_130":                                  ; preds = %"$out_of_gas_129", %"$have_gas_125"
   %"$consume_131" = sub i64 %"$gasrem_127", 1
   store i64 %"$consume_131", i64* @_gasrem
-  %"$one_msg_0" = alloca %TName_List_Message*
-  %"$one_msg_132" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @one_msg
-  %"$one_msg_fptr_133" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$one_msg_132", 0
-  %"$one_msg_envptr_134" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$one_msg_132", 1
+  %"$send.one_msg_0" = alloca %TName_List_Message*
+  %"$send.one_msg_132" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @send.one_msg
+  %"$send.one_msg_fptr_133" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$send.one_msg_132", 0
+  %"$send.one_msg_envptr_134" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$send.one_msg_132", 1
   %"$msg1_135" = load i8*, i8** %msg1
-  %"$one_msg_call_136" = call %TName_List_Message* %"$one_msg_fptr_133"(i8* %"$one_msg_envptr_134", i8* %"$msg1_135")
-  store %TName_List_Message* %"$one_msg_call_136", %TName_List_Message** %"$one_msg_0"
-  %"$$one_msg_0_137" = load %TName_List_Message*, %TName_List_Message** %"$one_msg_0"
-  store %TName_List_Message* %"$$one_msg_0_137", %TName_List_Message** %msgs1
+  %"$send.one_msg_call_136" = call %TName_List_Message* %"$send.one_msg_fptr_133"(i8* %"$send.one_msg_envptr_134", i8* %"$msg1_135")
+  store %TName_List_Message* %"$send.one_msg_call_136", %TName_List_Message** %"$send.one_msg_0"
+  %"$$send.one_msg_0_137" = load %TName_List_Message*, %TName_List_Message** %"$send.one_msg_0"
+  store %TName_List_Message* %"$$send.one_msg_0_137", %TName_List_Message** %msgs1
   %"$msgs1_138" = load %TName_List_Message*, %TName_List_Message** %msgs1
   %"$$msgs1_138_139" = bitcast %TName_List_Message* %"$msgs1_138" to i8*
   %"$_literal_cost_call_140" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_38", i8* %"$$msgs1_138_139")
@@ -433,15 +433,15 @@ entry:
 "$have_gas_231":                                  ; preds = %"$out_of_gas_230", %"$have_gas_226"
   %"$consume_232" = sub i64 %"$gasrem_228", 1
   store i64 %"$consume_232", i64* @_gasrem
-  %"$one_msg_1" = alloca %TName_List_Message*
-  %"$one_msg_233" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @one_msg
-  %"$one_msg_fptr_234" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$one_msg_233", 0
-  %"$one_msg_envptr_235" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$one_msg_233", 1
+  %"$send.one_msg_1" = alloca %TName_List_Message*
+  %"$send.one_msg_233" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @send.one_msg
+  %"$send.one_msg_fptr_234" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$send.one_msg_233", 0
+  %"$send.one_msg_envptr_235" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$send.one_msg_233", 1
   %"$msg1_236" = load i8*, i8** %msg1
-  %"$one_msg_call_237" = call %TName_List_Message* %"$one_msg_fptr_234"(i8* %"$one_msg_envptr_235", i8* %"$msg1_236")
-  store %TName_List_Message* %"$one_msg_call_237", %TName_List_Message** %"$one_msg_1"
-  %"$$one_msg_1_238" = load %TName_List_Message*, %TName_List_Message** %"$one_msg_1"
-  store %TName_List_Message* %"$$one_msg_1_238", %TName_List_Message** %msgs1
+  %"$send.one_msg_call_237" = call %TName_List_Message* %"$send.one_msg_fptr_234"(i8* %"$send.one_msg_envptr_235", i8* %"$msg1_236")
+  store %TName_List_Message* %"$send.one_msg_call_237", %TName_List_Message** %"$send.one_msg_1"
+  %"$$send.one_msg_1_238" = load %TName_List_Message*, %TName_List_Message** %"$send.one_msg_1"
+  store %TName_List_Message* %"$$send.one_msg_1_238", %TName_List_Message** %msgs1
   %"$gasrem_239" = load i64, i64* @_gasrem
   %"$gascmp_240" = icmp ugt i64 1, %"$gasrem_239"
   br i1 %"$gascmp_240", label %"$out_of_gas_241", label %"$have_gas_242"

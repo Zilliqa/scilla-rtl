@@ -110,10 +110,10 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_List_Message_ADTTyp_Specl_83" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Specl_36" { %_TyDescrTy_Typ** getelementptr inbounds ([1 x %_TyDescrTy_Typ*], [1 x %_TyDescrTy_Typ*]* @"$TyDescr_List_Message_ADTTyp_Specl_m_TArgs_82", i32 0, i32 0), %"$TyDescrTy_ADTTyp_Constr_38"** getelementptr inbounds ([2 x %"$TyDescrTy_ADTTyp_Constr_38"*], [2 x %"$TyDescrTy_ADTTyp_Constr_38"*]* @"$TyDescr_List_Message_ADTTyp_Specl_m_constrs_81", i32 0, i32 0), %"$TyDescrTy_ADTTyp_37"* @"$TyDescr_List_ADTTyp_65" }
 @"$TyDescr_List_ADTTyp_m_specls_84" = unnamed_addr constant [2 x %"$TyDescrTy_ADTTyp_Specl_36"*] [%"$TyDescrTy_ADTTyp_Specl_36"* @"$TyDescr_List_String_ADTTyp_Specl_74", %"$TyDescrTy_ADTTyp_Specl_36"* @"$TyDescr_List_Message_ADTTyp_Specl_83"]
 @"$TyDescr_ADT_List_85" = unnamed_addr constant [4 x i8] c"List"
-@one_msg = global { %TName_List_Message* (i8*, i8*)*, i8* } zeroinitializer
-@not_owner_code = global %Int32 zeroinitializer
-@set_hello_code = global %Int32 zeroinitializer
-@smsg = global %String zeroinitializer
+@helloWorld.one_msg = global { %TName_List_Message* (i8*, i8*)*, i8* } zeroinitializer
+@helloWorld.not_owner_code = global %Int32 zeroinitializer
+@helloWorld.set_hello_code = global %Int32 zeroinitializer
+@helloWorld.smsg = global %String zeroinitializer
 @"$stringlit_135" = unnamed_addr constant [8 x i8] c"get lost"
 @_scilla_version = global %Uint32 zeroinitializer
 @_this_address = global [20 x i8] zeroinitializer
@@ -237,7 +237,7 @@ entry:
 "$have_gas_115":                                  ; preds = %"$out_of_gas_114", %entry
   %"$consume_116" = sub i64 %"$gasrem_112", 1
   store i64 %"$consume_116", i64* @_gasrem
-  store { %TName_List_Message* (i8*, i8*)*, i8* } { %TName_List_Message* (i8*, i8*)* bitcast (%TName_List_Message* (%"$$fundef_1_env_86"*, i8*)* @"$fundef_1" to %TName_List_Message* (i8*, i8*)*), i8* null }, { %TName_List_Message* (i8*, i8*)*, i8* }* @one_msg
+  store { %TName_List_Message* (i8*, i8*)*, i8* } { %TName_List_Message* (i8*, i8*)* bitcast (%TName_List_Message* (%"$$fundef_1_env_86"*, i8*)* @"$fundef_1" to %TName_List_Message* (i8*, i8*)*), i8* null }, { %TName_List_Message* (i8*, i8*)*, i8* }* @helloWorld.one_msg
   %"$gasrem_120" = load i64, i64* @_gasrem
   %"$gascmp_121" = icmp ugt i64 1, %"$gasrem_120"
   br i1 %"$gascmp_121", label %"$out_of_gas_122", label %"$have_gas_123"
@@ -249,7 +249,7 @@ entry:
 "$have_gas_123":                                  ; preds = %"$out_of_gas_122", %"$have_gas_115"
   %"$consume_124" = sub i64 %"$gasrem_120", 1
   store i64 %"$consume_124", i64* @_gasrem
-  store %Int32 { i32 1 }, %Int32* @not_owner_code
+  store %Int32 { i32 1 }, %Int32* @helloWorld.not_owner_code
   %"$gasrem_125" = load i64, i64* @_gasrem
   %"$gascmp_126" = icmp ugt i64 1, %"$gasrem_125"
   br i1 %"$gascmp_126", label %"$out_of_gas_127", label %"$have_gas_128"
@@ -261,7 +261,7 @@ entry:
 "$have_gas_128":                                  ; preds = %"$out_of_gas_127", %"$have_gas_123"
   %"$consume_129" = sub i64 %"$gasrem_125", 1
   store i64 %"$consume_129", i64* @_gasrem
-  store %Int32 { i32 2 }, %Int32* @set_hello_code
+  store %Int32 { i32 2 }, %Int32* @helloWorld.set_hello_code
   %"$gasrem_130" = load i64, i64* @_gasrem
   %"$gascmp_131" = icmp ugt i64 1, %"$gasrem_130"
   br i1 %"$gascmp_131", label %"$out_of_gas_132", label %"$have_gas_133"
@@ -273,7 +273,7 @@ entry:
 "$have_gas_133":                                  ; preds = %"$out_of_gas_132", %"$have_gas_128"
   %"$consume_134" = sub i64 %"$gasrem_130", 1
   store i64 %"$consume_134", i64* @_gasrem
-  store %String { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$stringlit_135", i32 0, i32 0), i32 8 }, %String* @smsg
+  store %String { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$stringlit_135", i32 0, i32 0), i32 8 }, %String* @helloWorld.smsg
   ret void
 }
 
@@ -311,8 +311,8 @@ entry:
 "$have_gas_150":                                  ; preds = %"$out_of_gas_149", %"$have_gas_139"
   %"$consume_151" = sub i64 %"$gasrem_147", 1
   store i64 %"$consume_151", i64* @_gasrem
-  %"$smsg_152" = load %String, %String* @smsg
-  store %String %"$smsg_152", %String* %"$sendoff_msg_4"
+  %"$helloWorld.smsg_152" = load %String, %String* @helloWorld.smsg
+  store %String %"$helloWorld.smsg_152", %String* %"$sendoff_msg_4"
   %"$execptr_load_153" = load i8*, i8** @_execptr
   %"$$sendoff_msg_4_155" = load %String, %String* %"$sendoff_msg_4"
   %"$update_value_156" = alloca %String
@@ -413,10 +413,10 @@ entry:
   %"$msgobj_td_206" = getelementptr i8, i8* %"$msgobj_194", i32 57
   %"$msgobj_td_207" = bitcast i8* %"$msgobj_td_206" to %_TyDescrTy_Typ**
   store %_TyDescrTy_Typ* @"$TyDescr_Int32_7", %_TyDescrTy_Typ** %"$msgobj_td_207"
-  %"$not_owner_code_208" = load %Int32, %Int32* @not_owner_code
+  %"$helloWorld.not_owner_code_208" = load %Int32, %Int32* @helloWorld.not_owner_code
   %"$msgobj_v_209" = getelementptr i8, i8* %"$msgobj_194", i32 65
   %"$msgobj_v_210" = bitcast i8* %"$msgobj_v_209" to %Int32*
-  store %Int32 %"$not_owner_code_208", %Int32* %"$msgobj_v_210"
+  store %Int32 %"$helloWorld.not_owner_code_208", %Int32* %"$msgobj_v_210"
   store i8* %"$msgobj_194", i8** %e
   %"$e_212" = load i8*, i8** %e
   %"$_literal_cost_call_214" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Event_29", i8* %"$e_212")
@@ -501,10 +501,10 @@ entry:
   %"$msgobj_td_258" = getelementptr i8, i8* %"$msgobj_246", i32 57
   %"$msgobj_td_259" = bitcast i8* %"$msgobj_td_258" to %_TyDescrTy_Typ**
   store %_TyDescrTy_Typ* @"$TyDescr_Int32_7", %_TyDescrTy_Typ** %"$msgobj_td_259"
-  %"$set_hello_code_260" = load %Int32, %Int32* @set_hello_code
+  %"$helloWorld.set_hello_code_260" = load %Int32, %Int32* @helloWorld.set_hello_code
   %"$msgobj_v_261" = getelementptr i8, i8* %"$msgobj_246", i32 65
   %"$msgobj_v_262" = bitcast i8* %"$msgobj_v_261" to %Int32*
-  store %Int32 %"$set_hello_code_260", %Int32* %"$msgobj_v_262"
+  store %Int32 %"$helloWorld.set_hello_code_260", %Int32* %"$msgobj_v_262"
   store i8* %"$msgobj_246", i8** %e1
   %"$e_264" = load i8*, i8** %e1
   %"$_literal_cost_call_266" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Event_29", i8* %"$e_264")
@@ -795,15 +795,15 @@ entry:
 "$have_gas_419":                                  ; preds = %"$out_of_gas_418", %"$have_gas_414"
   %"$consume_420" = sub i64 %"$gasrem_416", 1
   store i64 %"$consume_420", i64* @_gasrem
-  %"$one_msg_0" = alloca %TName_List_Message*
-  %"$one_msg_421" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @one_msg
-  %"$one_msg_fptr_422" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$one_msg_421", 0
-  %"$one_msg_envptr_423" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$one_msg_421", 1
+  %"$helloWorld.one_msg_0" = alloca %TName_List_Message*
+  %"$helloWorld.one_msg_421" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @helloWorld.one_msg
+  %"$helloWorld.one_msg_fptr_422" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$helloWorld.one_msg_421", 0
+  %"$helloWorld.one_msg_envptr_423" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$helloWorld.one_msg_421", 1
   %"$msg1_424" = load i8*, i8** %msg1
-  %"$one_msg_call_425" = call %TName_List_Message* %"$one_msg_fptr_422"(i8* %"$one_msg_envptr_423", i8* %"$msg1_424")
-  store %TName_List_Message* %"$one_msg_call_425", %TName_List_Message** %"$one_msg_0"
-  %"$$one_msg_0_426" = load %TName_List_Message*, %TName_List_Message** %"$one_msg_0"
-  store %TName_List_Message* %"$$one_msg_0_426", %TName_List_Message** %msgs1
+  %"$helloWorld.one_msg_call_425" = call %TName_List_Message* %"$helloWorld.one_msg_fptr_422"(i8* %"$helloWorld.one_msg_envptr_423", i8* %"$msg1_424")
+  store %TName_List_Message* %"$helloWorld.one_msg_call_425", %TName_List_Message** %"$helloWorld.one_msg_0"
+  %"$$helloWorld.one_msg_0_426" = load %TName_List_Message*, %TName_List_Message** %"$helloWorld.one_msg_0"
+  store %TName_List_Message* %"$$helloWorld.one_msg_0_426", %TName_List_Message** %msgs1
   %"$gasrem_427" = load i64, i64* @_gasrem
   %"$gascmp_428" = icmp ugt i64 1, %"$gasrem_427"
   br i1 %"$gascmp_428", label %"$out_of_gas_429", label %"$have_gas_430"

@@ -69,8 +69,8 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Option_ADTTyp_m_specls_51" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_35"*] [%"$TyDescrTy_ADTTyp_Specl_35"* @"$TyDescr_Option_Int32_ADTTyp_Specl_50"]
 @"$TyDescr_ADT_Option_52" = unnamed_addr constant [6 x i8] c"Option"
 @"$TyDescr_MapTyp_53" = unnamed_addr constant %"$TyDescr_MapTyp_39" { %_TyDescrTy_Typ* @"$TyDescr_Bystr20_34", %_TyDescrTy_Typ* @"$TyDescr_Int32_6" }
-@one = global %Int32 zeroinitializer
-@inc = global { %Int32 (i8*, %Int32)*, i8* } zeroinitializer
+@simple-map.one = global %Int32 zeroinitializer
+@simple-map.inc = global { %Int32 (i8*, %Int32)*, i8* } zeroinitializer
 @_scilla_version = global %Uint32 zeroinitializer
 @_this_address = global [20 x i8] zeroinitializer
 @"$access_count_85" = unnamed_addr constant [13 x i8] c"access_count\00"
@@ -85,13 +85,13 @@ target triple = "x86_64-pc-linux-gnu"
 
 define internal %Int32 @"$fundef_1"(%"$$fundef_1_env_54"* %0, %Int32 %1) {
 entry:
-  %"$$fundef_1_env_one_55" = getelementptr inbounds %"$$fundef_1_env_54", %"$$fundef_1_env_54"* %0, i32 0, i32 0
-  %"$one_envload_56" = load %Int32, %Int32* %"$$fundef_1_env_one_55"
-  %one = alloca %Int32
-  store %Int32 %"$one_envload_56", %Int32* %one
+  %"$$fundef_1_env_simple-map.one_55" = getelementptr inbounds %"$$fundef_1_env_54", %"$$fundef_1_env_54"* %0, i32 0, i32 0
+  %"$simple-map.one_envload_56" = load %Int32, %Int32* %"$$fundef_1_env_simple-map.one_55"
+  %simple-map.one = alloca %Int32
+  store %Int32 %"$simple-map.one_envload_56", %Int32* %simple-map.one
   %"$retval_2" = alloca %Int32
-  %"$one_57" = load %Int32, %Int32* %one
-  %"$add_call_58" = call %Int32 @_add_Int32(%Int32 %1, %Int32 %"$one_57")
+  %"$simple-map.one_57" = load %Int32, %Int32* %simple-map.one
+  %"$add_call_58" = call %Int32 @_add_Int32(%Int32 %1, %Int32 %"$simple-map.one_57")
   store %Int32 %"$add_call_58", %Int32* %"$retval_2"
   %"$$retval_2_59" = load %Int32, %Int32* %"$retval_2"
   ret %Int32 %"$$retval_2_59"
@@ -112,7 +112,7 @@ entry:
 "$have_gas_63":                                   ; preds = %"$out_of_gas_62", %entry
   %"$consume_64" = sub i64 %"$gasrem_60", 1
   store i64 %"$consume_64", i64* @_gasrem
-  store %Int32 { i32 1 }, %Int32* @one
+  store %Int32 { i32 1 }, %Int32* @simple-map.one
   %"$gasrem_65" = load i64, i64* @_gasrem
   %"$gascmp_66" = icmp ugt i64 1, %"$gasrem_65"
   br i1 %"$gascmp_66", label %"$out_of_gas_67", label %"$have_gas_68"
@@ -129,10 +129,10 @@ entry:
   %"$$fundef_1_envp_70" = bitcast i8* %"$$fundef_1_envp_70_salloc" to %"$$fundef_1_env_54"*
   %"$$fundef_1_env_voidp_72" = bitcast %"$$fundef_1_env_54"* %"$$fundef_1_envp_70" to i8*
   %"$$fundef_1_cloval_73" = insertvalue { %Int32 (i8*, %Int32)*, i8* } { %Int32 (i8*, %Int32)* bitcast (%Int32 (%"$$fundef_1_env_54"*, %Int32)* @"$fundef_1" to %Int32 (i8*, %Int32)*), i8* undef }, i8* %"$$fundef_1_env_voidp_72", 1
-  %"$$fundef_1_env_one_74" = getelementptr inbounds %"$$fundef_1_env_54", %"$$fundef_1_env_54"* %"$$fundef_1_envp_70", i32 0, i32 0
-  %"$one_75" = load %Int32, %Int32* @one
-  store %Int32 %"$one_75", %Int32* %"$$fundef_1_env_one_74"
-  store { %Int32 (i8*, %Int32)*, i8* } %"$$fundef_1_cloval_73", { %Int32 (i8*, %Int32)*, i8* }* @inc
+  %"$$fundef_1_env_simple-map.one_74" = getelementptr inbounds %"$$fundef_1_env_54", %"$$fundef_1_env_54"* %"$$fundef_1_envp_70", i32 0, i32 0
+  %"$simple-map.one_75" = load %Int32, %Int32* @simple-map.one
+  store %Int32 %"$simple-map.one_75", %Int32* %"$$fundef_1_env_simple-map.one_74"
+  store { %Int32 (i8*, %Int32)*, i8* } %"$$fundef_1_cloval_73", { %Int32 (i8*, %Int32)*, i8* }* @simple-map.inc
   ret void
 }
 
@@ -248,15 +248,15 @@ entry:
 "$have_gas_128":                                  ; preds = %"$out_of_gas_127", %"$have_gas_123"
   %"$consume_129" = sub i64 %"$gasrem_125", 1
   store i64 %"$consume_129", i64* @_gasrem
-  %"$inc_0" = alloca %Int32
-  %"$inc_130" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* @inc
-  %"$inc_fptr_131" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$inc_130", 0
-  %"$inc_envptr_132" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$inc_130", 1
+  %"$simple-map.inc_0" = alloca %Int32
+  %"$simple-map.inc_130" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* @simple-map.inc
+  %"$simple-map.inc_fptr_131" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$simple-map.inc_130", 0
+  %"$simple-map.inc_envptr_132" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$simple-map.inc_130", 1
   %"$i_133" = load %Int32, %Int32* %i
-  %"$inc_call_134" = call %Int32 %"$inc_fptr_131"(i8* %"$inc_envptr_132", %Int32 %"$i_133")
-  store %Int32 %"$inc_call_134", %Int32* %"$inc_0"
-  %"$$inc_0_135" = load %Int32, %Int32* %"$inc_0"
-  store %Int32 %"$$inc_0_135", %Int32* %j
+  %"$simple-map.inc_call_134" = call %Int32 %"$simple-map.inc_fptr_131"(i8* %"$simple-map.inc_envptr_132", %Int32 %"$i_133")
+  store %Int32 %"$simple-map.inc_call_134", %Int32* %"$simple-map.inc_0"
+  %"$$simple-map.inc_0_135" = load %Int32, %Int32* %"$simple-map.inc_0"
+  store %Int32 %"$$simple-map.inc_0_135", %Int32* %j
   %"$_literal_cost_j_136" = alloca %Int32
   %"$j_137" = load %Int32, %Int32* %j
   store %Int32 %"$j_137", %Int32* %"$_literal_cost_j_136"
@@ -291,11 +291,11 @@ entry:
 
 "$None_153":                                      ; preds = %"$have_gas_109"
   %"$cur_154" = bitcast %TName_Option_Int32* %"$cur_112" to %CName_None_Int32*
-  %"$_literal_cost_one_155" = alloca %Int32
-  %"$one_156" = load %Int32, %Int32* @one
-  store %Int32 %"$one_156", %Int32* %"$_literal_cost_one_155"
-  %"$$_literal_cost_one_155_157" = bitcast %Int32* %"$_literal_cost_one_155" to i8*
-  %"$_literal_cost_call_158" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Int32_6", i8* %"$$_literal_cost_one_155_157")
+  %"$_literal_cost_simple-map.one_155" = alloca %Int32
+  %"$simple-map.one_156" = load %Int32, %Int32* @simple-map.one
+  store %Int32 %"$simple-map.one_156", %Int32* %"$_literal_cost_simple-map.one_155"
+  %"$$_literal_cost_simple-map.one_155_157" = bitcast %Int32* %"$_literal_cost_simple-map.one_155" to i8*
+  %"$_literal_cost_call_158" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Int32_6", i8* %"$$_literal_cost_simple-map.one_155_157")
   %"$gasadd_159" = add i64 %"$_literal_cost_call_158", 1
   %"$gasrem_160" = load i64, i64* @_gasrem
   %"$gascmp_161" = icmp ugt i64 %"$gasadd_159", %"$gasrem_160"
@@ -316,9 +316,9 @@ entry:
   %indices_cast2 = bitcast i8* %"$indices_gep_166" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %indices_cast2
   %"$execptr_load_167" = load i8*, i8** @_execptr
-  %"$one_169" = load %Int32, %Int32* @one
+  %"$simple-map.one_169" = load %Int32, %Int32* @simple-map.one
   %"$update_value_170" = alloca %Int32
-  store %Int32 %"$one_169", %Int32* %"$update_value_170"
+  store %Int32 %"$simple-map.one_169", %Int32* %"$update_value_170"
   %"$update_value_171" = bitcast %Int32* %"$update_value_170" to i8*
   call void @_update_field(i8* %"$execptr_load_167", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_168", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_40", i32 1, i8* %"$indices_buf_165", i8* %"$update_value_171")
   br label %"$matchsucc_111"

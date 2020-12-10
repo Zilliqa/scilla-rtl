@@ -38,7 +38,7 @@
       "vname" : "operators"
    },
    {
-      "type" : "Map (ByStr32) (Record)",
+      "type" : "Map (ByStr32) (ud-registry.Record)",
       "value" : [
          {
             "key" : "0x8115be476848996aa7170097336d99102f920161a13988a3edc1fd2a58677338",
@@ -48,7 +48,7 @@
                   "0x0011ccdc9012345678901234567890f777567895",
                   "0x1100ccdc9012345678901234567890f777567895"
                ],
-               "constructor" : "Record"
+               "constructor" : "ud-registry.Record"
             }
          },
          {
@@ -59,7 +59,7 @@
                   "0xaafeccdc9012345678901234567890f777567895",
                   "0x0000000000000000000000000000000000000000"
                ],
-               "constructor" : "Record"
+               "constructor" : "ud-registry.Record"
             }
          }
       ],

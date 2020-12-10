@@ -38,7 +38,7 @@
       "vname" : "operators"
    },
    {
-      "type" : "Map (ByStr32) (Record)",
+      "type" : "Map (ByStr32) (ud-registry.Record)",
       "value" : [
          {
             "key" : "0xffffffffffffffffaaaaaaaaaaaaaa0000000000000000000011111111111111",
@@ -48,7 +48,7 @@
                   "0xaafeccdc9012345678901234567890f777567895",
                   "0x0000000000000000000000000000000000000000"
                ],
-               "constructor" : "Record"
+               "constructor" : "ud-registry.Record"
             }
          }
       ],

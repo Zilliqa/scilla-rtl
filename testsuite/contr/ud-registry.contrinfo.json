@@ -7,7 +7,11 @@
       { "vname": "rootNode", "type": "ByStr32" }
     ],
     "fields": [
-      { "vname": "records", "type": "Map (ByStr32) (Record)", "depth": 1 },
+      {
+        "vname": "records",
+        "type": "Map (ByStr32) (ud-registry.Record)",
+        "depth": 1
+      },
       { "vname": "registrar", "type": "ByStr20", "depth": 0 },
       { "vname": "approvals", "type": "Map (ByStr32) (ByStr20)", "depth": 1 },
       {
@@ -140,10 +144,13 @@
     ],
     "ADTs": [
       {
-        "tname": "Record",
+        "tname": "ud-registry.Record",
         "tparams": [],
         "tmap": [
-          { "cname": "Record", "argtypes": [ "ByStr20", "ByStr20" ] }
+          {
+            "cname": "ud-registry.Record",
+            "argtypes": [ "ByStr20", "ByStr20" ]
+          }
         ]
       },
       {
