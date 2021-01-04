@@ -120,9 +120,9 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Bool_ADTTyp_Specl_73" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Specl_59" { %_TyDescrTy_Typ** getelementptr inbounds ([0 x %_TyDescrTy_Typ*], [0 x %_TyDescrTy_Typ*]* @"$TyDescr_Bool_ADTTyp_Specl_m_TArgs_72", i32 0, i32 0), %"$TyDescrTy_ADTTyp_Constr_61"** getelementptr inbounds ([2 x %"$TyDescrTy_ADTTyp_Constr_61"*], [2 x %"$TyDescrTy_ADTTyp_Constr_61"*]* @"$TyDescr_Bool_ADTTyp_Specl_m_constrs_71", i32 0, i32 0), %"$TyDescrTy_ADTTyp_60"* @"$TyDescr_Bool_ADTTyp_64" }
 @"$TyDescr_Bool_ADTTyp_m_specls_74" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_59"*] [%"$TyDescrTy_ADTTyp_Specl_59"* @"$TyDescr_Bool_ADTTyp_Specl_73"]
 @"$TyDescr_ADT_Bool_75" = unnamed_addr constant [4 x i8] c"Bool"
-@andb = global { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } zeroinitializer
-@orb = global { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } zeroinitializer
-@negb = global { %TName_Bool* (i8*, %TName_Bool*)*, i8* } zeroinitializer
+@BoolUtils.andb = global { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } zeroinitializer
+@BoolUtils.orb = global { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } zeroinitializer
+@BoolUtils.negb = global { %TName_Bool* (i8*, %TName_Bool*)*, i8* } zeroinitializer
 @"$stringlit_337" = unnamed_addr constant [5 x i8] c"Hello"
 @"$stringlit_348" = unnamed_addr constant [5 x i8] c"World"
 @"$stringlit_359" = unnamed_addr constant [5 x i8] c"Hello"
@@ -418,7 +418,7 @@ entry:
 "$have_gas_197":                                  ; preds = %"$out_of_gas_196", %entry
   %"$consume_198" = sub i64 %"$gasrem_194", 1
   store i64 %"$consume_198", i64* @_gasrem
-  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_21_env_80"*, %TName_Bool*)* @"$fundef_21" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @andb
+  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_21_env_80"*, %TName_Bool*)* @"$fundef_21" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb
   %"$gasrem_202" = load i64, i64* @_gasrem
   %"$gascmp_203" = icmp ugt i64 1, %"$gasrem_202"
   br i1 %"$gascmp_203", label %"$out_of_gas_204", label %"$have_gas_205"
@@ -430,7 +430,7 @@ entry:
 "$have_gas_205":                                  ; preds = %"$out_of_gas_204", %"$have_gas_197"
   %"$consume_206" = sub i64 %"$gasrem_202", 1
   store i64 %"$consume_206", i64* @_gasrem
-  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_17_env_78"*, %TName_Bool*)* @"$fundef_17" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @orb
+  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_17_env_78"*, %TName_Bool*)* @"$fundef_17" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.orb
   %"$gasrem_210" = load i64, i64* @_gasrem
   %"$gascmp_211" = icmp ugt i64 1, %"$gasrem_210"
   br i1 %"$gascmp_211", label %"$out_of_gas_212", label %"$have_gas_213"
@@ -442,7 +442,7 @@ entry:
 "$have_gas_213":                                  ; preds = %"$out_of_gas_212", %"$have_gas_205"
   %"$consume_214" = sub i64 %"$gasrem_210", 1
   store i64 %"$consume_214", i64* @_gasrem
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } { %TName_Bool* (i8*, %TName_Bool*)* bitcast (%TName_Bool* (%"$$fundef_15_env_76"*, %TName_Bool*)* @"$fundef_15" to %TName_Bool* (i8*, %TName_Bool*)*), i8* null }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* @negb
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } { %TName_Bool* (i8*, %TName_Bool*)* bitcast (%TName_Bool* (%"$$fundef_15_env_76"*, %TName_Bool*)* @"$fundef_15" to %TName_Bool* (i8*, %TName_Bool*)*), i8* null }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* @BoolUtils.negb
   %"$expr_25" = alloca %TName_Bool*
   %"$gasrem_218" = load i64, i64* @_gasrem
   %"$gascmp_219" = icmp ugt i64 1, %"$gasrem_218"
@@ -812,22 +812,22 @@ entry:
 "$have_gas_386":                                  ; preds = %"$out_of_gas_385", %"$have_gas_381"
   %"$consume_387" = sub i64 %"$gasrem_383", 1
   store i64 %"$consume_387", i64* @_gasrem
-  %"$andb_1" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
-  %"$andb_388" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @andb
-  %"$andb_fptr_389" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$andb_388", 0
-  %"$andb_envptr_390" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$andb_388", 1
+  %"$BoolUtils.andb_1" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
+  %"$BoolUtils.andb_388" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb
+  %"$BoolUtils.andb_fptr_389" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_388", 0
+  %"$BoolUtils.andb_envptr_390" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_388", 1
   %"$b9_391" = load %TName_Bool*, %TName_Bool** %b9
-  %"$andb_call_392" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$andb_fptr_389"(i8* %"$andb_envptr_390", %TName_Bool* %"$b9_391")
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$andb_call_392", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$andb_1"
-  %"$andb_2" = alloca %TName_Bool*
-  %"$$andb_1_393" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$andb_1"
-  %"$$andb_1_fptr_394" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$andb_1_393", 0
-  %"$$andb_1_envptr_395" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$andb_1_393", 1
+  %"$BoolUtils.andb_call_392" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_389"(i8* %"$BoolUtils.andb_envptr_390", %TName_Bool* %"$b9_391")
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_392", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_1"
+  %"$BoolUtils.andb_2" = alloca %TName_Bool*
+  %"$$BoolUtils.andb_1_393" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_1"
+  %"$$BoolUtils.andb_1_fptr_394" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_1_393", 0
+  %"$$BoolUtils.andb_1_envptr_395" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_1_393", 1
   %"$b12_396" = load %TName_Bool*, %TName_Bool** %b12
-  %"$$andb_1_call_397" = call %TName_Bool* %"$$andb_1_fptr_394"(i8* %"$$andb_1_envptr_395", %TName_Bool* %"$b12_396")
-  store %TName_Bool* %"$$andb_1_call_397", %TName_Bool** %"$andb_2"
-  %"$$andb_2_398" = load %TName_Bool*, %TName_Bool** %"$andb_2"
-  store %TName_Bool* %"$$andb_2_398", %TName_Bool** %b14
+  %"$$BoolUtils.andb_1_call_397" = call %TName_Bool* %"$$BoolUtils.andb_1_fptr_394"(i8* %"$$BoolUtils.andb_1_envptr_395", %TName_Bool* %"$b12_396")
+  store %TName_Bool* %"$$BoolUtils.andb_1_call_397", %TName_Bool** %"$BoolUtils.andb_2"
+  %"$$BoolUtils.andb_2_398" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_2"
+  store %TName_Bool* %"$$BoolUtils.andb_2_398", %TName_Bool** %b14
   %"$gasrem_399" = load i64, i64* @_gasrem
   %"$gascmp_400" = icmp ugt i64 1, %"$gasrem_399"
   br i1 %"$gascmp_400", label %"$out_of_gas_401", label %"$have_gas_402"
@@ -851,22 +851,22 @@ entry:
 "$have_gas_407":                                  ; preds = %"$out_of_gas_406", %"$have_gas_402"
   %"$consume_408" = sub i64 %"$gasrem_404", 1
   store i64 %"$consume_408", i64* @_gasrem
-  %"$orb_3" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
-  %"$orb_409" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @orb
-  %"$orb_fptr_410" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$orb_409", 0
-  %"$orb_envptr_411" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$orb_409", 1
+  %"$BoolUtils.orb_3" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
+  %"$BoolUtils.orb_409" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.orb
+  %"$BoolUtils.orb_fptr_410" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.orb_409", 0
+  %"$BoolUtils.orb_envptr_411" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.orb_409", 1
   %"$b13_412" = load %TName_Bool*, %TName_Bool** %b13
-  %"$orb_call_413" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$orb_fptr_410"(i8* %"$orb_envptr_411", %TName_Bool* %"$b13_412")
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$orb_call_413", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$orb_3"
-  %"$orb_4" = alloca %TName_Bool*
-  %"$$orb_3_414" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$orb_3"
-  %"$$orb_3_fptr_415" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$orb_3_414", 0
-  %"$$orb_3_envptr_416" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$orb_3_414", 1
+  %"$BoolUtils.orb_call_413" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.orb_fptr_410"(i8* %"$BoolUtils.orb_envptr_411", %TName_Bool* %"$b13_412")
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.orb_call_413", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.orb_3"
+  %"$BoolUtils.orb_4" = alloca %TName_Bool*
+  %"$$BoolUtils.orb_3_414" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.orb_3"
+  %"$$BoolUtils.orb_3_fptr_415" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.orb_3_414", 0
+  %"$$BoolUtils.orb_3_envptr_416" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.orb_3_414", 1
   %"$b14_417" = load %TName_Bool*, %TName_Bool** %b14
-  %"$$orb_3_call_418" = call %TName_Bool* %"$$orb_3_fptr_415"(i8* %"$$orb_3_envptr_416", %TName_Bool* %"$b14_417")
-  store %TName_Bool* %"$$orb_3_call_418", %TName_Bool** %"$orb_4"
-  %"$$orb_4_419" = load %TName_Bool*, %TName_Bool** %"$orb_4"
-  store %TName_Bool* %"$$orb_4_419", %TName_Bool** %b15
+  %"$$BoolUtils.orb_3_call_418" = call %TName_Bool* %"$$BoolUtils.orb_3_fptr_415"(i8* %"$$BoolUtils.orb_3_envptr_416", %TName_Bool* %"$b14_417")
+  store %TName_Bool* %"$$BoolUtils.orb_3_call_418", %TName_Bool** %"$BoolUtils.orb_4"
+  %"$$BoolUtils.orb_4_419" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.orb_4"
+  store %TName_Bool* %"$$BoolUtils.orb_4_419", %TName_Bool** %b15
   %"$gasrem_420" = load i64, i64* @_gasrem
   %"$gascmp_421" = icmp ugt i64 1, %"$gasrem_420"
   br i1 %"$gascmp_421", label %"$out_of_gas_422", label %"$have_gas_423"
@@ -1008,22 +1008,22 @@ entry:
 "$have_gas_484":                                  ; preds = %"$out_of_gas_483", %"$have_gas_479"
   %"$consume_485" = sub i64 %"$gasrem_481", 1
   store i64 %"$consume_485", i64* @_gasrem
-  %"$orb_5" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
-  %"$orb_486" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @orb
-  %"$orb_fptr_487" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$orb_486", 0
-  %"$orb_envptr_488" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$orb_486", 1
+  %"$BoolUtils.orb_5" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
+  %"$BoolUtils.orb_486" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.orb
+  %"$BoolUtils.orb_fptr_487" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.orb_486", 0
+  %"$BoolUtils.orb_envptr_488" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.orb_486", 1
   %"$b16_489" = load %TName_Bool*, %TName_Bool** %b16
-  %"$orb_call_490" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$orb_fptr_487"(i8* %"$orb_envptr_488", %TName_Bool* %"$b16_489")
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$orb_call_490", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$orb_5"
-  %"$orb_6" = alloca %TName_Bool*
-  %"$$orb_5_491" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$orb_5"
-  %"$$orb_5_fptr_492" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$orb_5_491", 0
-  %"$$orb_5_envptr_493" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$orb_5_491", 1
+  %"$BoolUtils.orb_call_490" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.orb_fptr_487"(i8* %"$BoolUtils.orb_envptr_488", %TName_Bool* %"$b16_489")
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.orb_call_490", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.orb_5"
+  %"$BoolUtils.orb_6" = alloca %TName_Bool*
+  %"$$BoolUtils.orb_5_491" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.orb_5"
+  %"$$BoolUtils.orb_5_fptr_492" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.orb_5_491", 0
+  %"$$BoolUtils.orb_5_envptr_493" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.orb_5_491", 1
   %"$b17_494" = load %TName_Bool*, %TName_Bool** %b17
-  %"$$orb_5_call_495" = call %TName_Bool* %"$$orb_5_fptr_492"(i8* %"$$orb_5_envptr_493", %TName_Bool* %"$b17_494")
-  store %TName_Bool* %"$$orb_5_call_495", %TName_Bool** %"$orb_6"
-  %"$$orb_6_496" = load %TName_Bool*, %TName_Bool** %"$orb_6"
-  store %TName_Bool* %"$$orb_6_496", %TName_Bool** %b18
+  %"$$BoolUtils.orb_5_call_495" = call %TName_Bool* %"$$BoolUtils.orb_5_fptr_492"(i8* %"$$BoolUtils.orb_5_envptr_493", %TName_Bool* %"$b17_494")
+  store %TName_Bool* %"$$BoolUtils.orb_5_call_495", %TName_Bool** %"$BoolUtils.orb_6"
+  %"$$BoolUtils.orb_6_496" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.orb_6"
+  store %TName_Bool* %"$$BoolUtils.orb_6_496", %TName_Bool** %b18
   %"$gasrem_497" = load i64, i64* @_gasrem
   %"$gascmp_498" = icmp ugt i64 1, %"$gasrem_497"
   br i1 %"$gascmp_498", label %"$out_of_gas_499", label %"$have_gas_500"
@@ -1047,22 +1047,22 @@ entry:
 "$have_gas_505":                                  ; preds = %"$out_of_gas_504", %"$have_gas_500"
   %"$consume_506" = sub i64 %"$gasrem_502", 1
   store i64 %"$consume_506", i64* @_gasrem
-  %"$andb_7" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
-  %"$andb_507" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @andb
-  %"$andb_fptr_508" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$andb_507", 0
-  %"$andb_envptr_509" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$andb_507", 1
+  %"$BoolUtils.andb_7" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
+  %"$BoolUtils.andb_507" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb
+  %"$BoolUtils.andb_fptr_508" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_507", 0
+  %"$BoolUtils.andb_envptr_509" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_507", 1
   %"$b18_510" = load %TName_Bool*, %TName_Bool** %b18
-  %"$andb_call_511" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$andb_fptr_508"(i8* %"$andb_envptr_509", %TName_Bool* %"$b18_510")
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$andb_call_511", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$andb_7"
-  %"$andb_8" = alloca %TName_Bool*
-  %"$$andb_7_512" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$andb_7"
-  %"$$andb_7_fptr_513" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$andb_7_512", 0
-  %"$$andb_7_envptr_514" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$andb_7_512", 1
+  %"$BoolUtils.andb_call_511" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_508"(i8* %"$BoolUtils.andb_envptr_509", %TName_Bool* %"$b18_510")
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_511", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_7"
+  %"$BoolUtils.andb_8" = alloca %TName_Bool*
+  %"$$BoolUtils.andb_7_512" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_7"
+  %"$$BoolUtils.andb_7_fptr_513" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_7_512", 0
+  %"$$BoolUtils.andb_7_envptr_514" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_7_512", 1
   %"$b15_515" = load %TName_Bool*, %TName_Bool** %b15
-  %"$$andb_7_call_516" = call %TName_Bool* %"$$andb_7_fptr_513"(i8* %"$$andb_7_envptr_514", %TName_Bool* %"$b15_515")
-  store %TName_Bool* %"$$andb_7_call_516", %TName_Bool** %"$andb_8"
-  %"$$andb_8_517" = load %TName_Bool*, %TName_Bool** %"$andb_8"
-  store %TName_Bool* %"$$andb_8_517", %TName_Bool** %b19
+  %"$$BoolUtils.andb_7_call_516" = call %TName_Bool* %"$$BoolUtils.andb_7_fptr_513"(i8* %"$$BoolUtils.andb_7_envptr_514", %TName_Bool* %"$b15_515")
+  store %TName_Bool* %"$$BoolUtils.andb_7_call_516", %TName_Bool** %"$BoolUtils.andb_8"
+  %"$$BoolUtils.andb_8_517" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_8"
+  store %TName_Bool* %"$$BoolUtils.andb_8_517", %TName_Bool** %b19
   %"$gasrem_518" = load i64, i64* @_gasrem
   %"$gascmp_519" = icmp ugt i64 1, %"$gasrem_518"
   br i1 %"$gascmp_519", label %"$out_of_gas_520", label %"$have_gas_521"
@@ -1157,15 +1157,15 @@ entry:
 "$have_gas_559":                                  ; preds = %"$out_of_gas_558", %"$have_gas_554"
   %"$consume_560" = sub i64 %"$gasrem_556", 1
   store i64 %"$consume_560", i64* @_gasrem
-  %"$negb_9" = alloca %TName_Bool*
-  %"$negb_561" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* @negb
-  %"$negb_fptr_562" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$negb_561", 0
-  %"$negb_envptr_563" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$negb_561", 1
+  %"$BoolUtils.negb_9" = alloca %TName_Bool*
+  %"$BoolUtils.negb_561" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* @BoolUtils.negb
+  %"$BoolUtils.negb_fptr_562" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.negb_561", 0
+  %"$BoolUtils.negb_envptr_563" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.negb_561", 1
   %"$b20_564" = load %TName_Bool*, %TName_Bool** %b20
-  %"$negb_call_565" = call %TName_Bool* %"$negb_fptr_562"(i8* %"$negb_envptr_563", %TName_Bool* %"$b20_564")
-  store %TName_Bool* %"$negb_call_565", %TName_Bool** %"$negb_9"
-  %"$$negb_9_566" = load %TName_Bool*, %TName_Bool** %"$negb_9"
-  store %TName_Bool* %"$$negb_9_566", %TName_Bool** %b21
+  %"$BoolUtils.negb_call_565" = call %TName_Bool* %"$BoolUtils.negb_fptr_562"(i8* %"$BoolUtils.negb_envptr_563", %TName_Bool* %"$b20_564")
+  store %TName_Bool* %"$BoolUtils.negb_call_565", %TName_Bool** %"$BoolUtils.negb_9"
+  %"$$BoolUtils.negb_9_566" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.negb_9"
+  store %TName_Bool* %"$$BoolUtils.negb_9_566", %TName_Bool** %b21
   %"$gasrem_567" = load i64, i64* @_gasrem
   %"$gascmp_568" = icmp ugt i64 1, %"$gasrem_567"
   br i1 %"$gascmp_568", label %"$out_of_gas_569", label %"$have_gas_570"
@@ -1189,22 +1189,22 @@ entry:
 "$have_gas_575":                                  ; preds = %"$out_of_gas_574", %"$have_gas_570"
   %"$consume_576" = sub i64 %"$gasrem_572", 1
   store i64 %"$consume_576", i64* @_gasrem
-  %"$andb_10" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
-  %"$andb_577" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @andb
-  %"$andb_fptr_578" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$andb_577", 0
-  %"$andb_envptr_579" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$andb_577", 1
+  %"$BoolUtils.andb_10" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
+  %"$BoolUtils.andb_577" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb
+  %"$BoolUtils.andb_fptr_578" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_577", 0
+  %"$BoolUtils.andb_envptr_579" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_577", 1
   %"$b19_580" = load %TName_Bool*, %TName_Bool** %b19
-  %"$andb_call_581" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$andb_fptr_578"(i8* %"$andb_envptr_579", %TName_Bool* %"$b19_580")
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$andb_call_581", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$andb_10"
-  %"$andb_11" = alloca %TName_Bool*
-  %"$$andb_10_582" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$andb_10"
-  %"$$andb_10_fptr_583" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$andb_10_582", 0
-  %"$$andb_10_envptr_584" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$andb_10_582", 1
+  %"$BoolUtils.andb_call_581" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_578"(i8* %"$BoolUtils.andb_envptr_579", %TName_Bool* %"$b19_580")
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_581", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_10"
+  %"$BoolUtils.andb_11" = alloca %TName_Bool*
+  %"$$BoolUtils.andb_10_582" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_10"
+  %"$$BoolUtils.andb_10_fptr_583" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_10_582", 0
+  %"$$BoolUtils.andb_10_envptr_584" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_10_582", 1
   %"$b21_585" = load %TName_Bool*, %TName_Bool** %b21
-  %"$$andb_10_call_586" = call %TName_Bool* %"$$andb_10_fptr_583"(i8* %"$$andb_10_envptr_584", %TName_Bool* %"$b21_585")
-  store %TName_Bool* %"$$andb_10_call_586", %TName_Bool** %"$andb_11"
-  %"$$andb_11_587" = load %TName_Bool*, %TName_Bool** %"$andb_11"
-  store %TName_Bool* %"$$andb_11_587", %TName_Bool** %b22
+  %"$$BoolUtils.andb_10_call_586" = call %TName_Bool* %"$$BoolUtils.andb_10_fptr_583"(i8* %"$$BoolUtils.andb_10_envptr_584", %TName_Bool* %"$b21_585")
+  store %TName_Bool* %"$$BoolUtils.andb_10_call_586", %TName_Bool** %"$BoolUtils.andb_11"
+  %"$$BoolUtils.andb_11_587" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_11"
+  store %TName_Bool* %"$$BoolUtils.andb_11_587", %TName_Bool** %b22
   %"$gasrem_588" = load i64, i64* @_gasrem
   %"$gascmp_589" = icmp ugt i64 1, %"$gasrem_588"
   br i1 %"$gascmp_589", label %"$out_of_gas_590", label %"$have_gas_591"
@@ -1283,15 +1283,15 @@ entry:
 "$have_gas_625":                                  ; preds = %"$out_of_gas_624", %"$have_gas_620"
   %"$consume_626" = sub i64 %"$gasrem_622", 1
   store i64 %"$consume_626", i64* @_gasrem
-  %"$negb_12" = alloca %TName_Bool*
-  %"$negb_627" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* @negb
-  %"$negb_fptr_628" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$negb_627", 0
-  %"$negb_envptr_629" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$negb_627", 1
+  %"$BoolUtils.negb_12" = alloca %TName_Bool*
+  %"$BoolUtils.negb_627" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* @BoolUtils.negb
+  %"$BoolUtils.negb_fptr_628" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.negb_627", 0
+  %"$BoolUtils.negb_envptr_629" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.negb_627", 1
   %"$b23_630" = load %TName_Bool*, %TName_Bool** %b23
-  %"$negb_call_631" = call %TName_Bool* %"$negb_fptr_628"(i8* %"$negb_envptr_629", %TName_Bool* %"$b23_630")
-  store %TName_Bool* %"$negb_call_631", %TName_Bool** %"$negb_12"
-  %"$$negb_12_632" = load %TName_Bool*, %TName_Bool** %"$negb_12"
-  store %TName_Bool* %"$$negb_12_632", %TName_Bool** %b24
+  %"$BoolUtils.negb_call_631" = call %TName_Bool* %"$BoolUtils.negb_fptr_628"(i8* %"$BoolUtils.negb_envptr_629", %TName_Bool* %"$b23_630")
+  store %TName_Bool* %"$BoolUtils.negb_call_631", %TName_Bool** %"$BoolUtils.negb_12"
+  %"$$BoolUtils.negb_12_632" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.negb_12"
+  store %TName_Bool* %"$$BoolUtils.negb_12_632", %TName_Bool** %b24
   %"$gasrem_633" = load i64, i64* @_gasrem
   %"$gascmp_634" = icmp ugt i64 1, %"$gasrem_633"
   br i1 %"$gascmp_634", label %"$out_of_gas_635", label %"$have_gas_636"
@@ -1315,22 +1315,22 @@ entry:
 "$have_gas_641":                                  ; preds = %"$out_of_gas_640", %"$have_gas_636"
   %"$consume_642" = sub i64 %"$gasrem_638", 1
   store i64 %"$consume_642", i64* @_gasrem
-  %"$andb_13" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
-  %"$andb_643" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @andb
-  %"$andb_fptr_644" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$andb_643", 0
-  %"$andb_envptr_645" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$andb_643", 1
+  %"$BoolUtils.andb_13" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }
+  %"$BoolUtils.andb_643" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb
+  %"$BoolUtils.andb_fptr_644" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_643", 0
+  %"$BoolUtils.andb_envptr_645" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_643", 1
   %"$b22_646" = load %TName_Bool*, %TName_Bool** %b22
-  %"$andb_call_647" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$andb_fptr_644"(i8* %"$andb_envptr_645", %TName_Bool* %"$b22_646")
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$andb_call_647", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$andb_13"
-  %"$andb_14" = alloca %TName_Bool*
-  %"$$andb_13_648" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$andb_13"
-  %"$$andb_13_fptr_649" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$andb_13_648", 0
-  %"$$andb_13_envptr_650" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$andb_13_648", 1
+  %"$BoolUtils.andb_call_647" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_644"(i8* %"$BoolUtils.andb_envptr_645", %TName_Bool* %"$b22_646")
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_647", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_13"
+  %"$BoolUtils.andb_14" = alloca %TName_Bool*
+  %"$$BoolUtils.andb_13_648" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_13"
+  %"$$BoolUtils.andb_13_fptr_649" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_13_648", 0
+  %"$$BoolUtils.andb_13_envptr_650" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_13_648", 1
   %"$b24_651" = load %TName_Bool*, %TName_Bool** %b24
-  %"$$andb_13_call_652" = call %TName_Bool* %"$$andb_13_fptr_649"(i8* %"$$andb_13_envptr_650", %TName_Bool* %"$b24_651")
-  store %TName_Bool* %"$$andb_13_call_652", %TName_Bool** %"$andb_14"
-  %"$$andb_14_653" = load %TName_Bool*, %TName_Bool** %"$andb_14"
-  store %TName_Bool* %"$$andb_14_653", %TName_Bool** %b25
+  %"$$BoolUtils.andb_13_call_652" = call %TName_Bool* %"$$BoolUtils.andb_13_fptr_649"(i8* %"$$BoolUtils.andb_13_envptr_650", %TName_Bool* %"$b24_651")
+  store %TName_Bool* %"$$BoolUtils.andb_13_call_652", %TName_Bool** %"$BoolUtils.andb_14"
+  %"$$BoolUtils.andb_14_653" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_14"
+  store %TName_Bool* %"$$BoolUtils.andb_14_653", %TName_Bool** %b25
   %"$gasrem_654" = load i64, i64* @_gasrem
   %"$gascmp_655" = icmp ugt i64 1, %"$gasrem_654"
   br i1 %"$gascmp_655", label %"$out_of_gas_656", label %"$have_gas_657"

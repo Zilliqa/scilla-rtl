@@ -126,7 +126,7 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Nat_ADTTyp_m_specls_128" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_113"*] [%"$TyDescrTy_ADTTyp_Specl_113"* @"$TyDescr_Nat_ADTTyp_Specl_127"]
 @"$TyDescr_ADT_Nat_129" = unnamed_addr constant [3 x i8] c"Nat"
 @nat_fold = global { i8*, i8* }* null
-@nat_to_int = global { %Uint32 (i8*, %TName_Nat*)*, i8* } zeroinitializer
+@NatUtils.nat_to_int = global { %Uint32 (i8*, %TName_Nat*)*, i8* } zeroinitializer
 
 define internal { %TName_Nat* (i8*, %TName_Nat*)*, i8* } @"$fundef_82"(%"$$fundef_82_env_130"* %0, %TName_Nat* %1) {
 entry:
@@ -1870,7 +1870,7 @@ entry:
   %"$$fundef_45_env_nat_fold_1003" = getelementptr inbounds %"$$fundef_45_env_148", %"$$fundef_45_env_148"* %"$$fundef_45_envp_999", i32 0, i32 0
   %"$nat_fold_1004" = load { i8*, i8* }*, { i8*, i8* }** @nat_fold
   store { i8*, i8* }* %"$nat_fold_1004", { i8*, i8* }** %"$$fundef_45_env_nat_fold_1003"
-  store { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$$fundef_45_cloval_1002", { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
+  store { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$$fundef_45_cloval_1002", { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
   %"$expr_51" = alloca %Uint32
   %"$gasrem_1005" = load i64, i64* @_gasrem
   %"$gascmp_1006" = icmp ugt i64 1, %"$gasrem_1005"
@@ -2280,15 +2280,15 @@ entry:
 "$have_gas_1207":                                 ; preds = %"$out_of_gas_1206", %"$have_gas_1202"
   %"$consume_1208" = sub i64 %"$gasrem_1204", 1
   store i64 %"$consume_1208", i64* @_gasrem
-  %"$nat_to_int_20" = alloca %Uint32
-  %"$nat_to_int_1209" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1210" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1209", 0
-  %"$nat_to_int_envptr_1211" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1209", 1
+  %"$NatUtils.nat_to_int_20" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1209" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1210" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1209", 0
+  %"$NatUtils.nat_to_int_envptr_1211" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1209", 1
   %"$ack00_1212" = load %TName_Nat*, %TName_Nat** %ack00
-  %"$nat_to_int_call_1213" = call %Uint32 %"$nat_to_int_fptr_1210"(i8* %"$nat_to_int_envptr_1211", %TName_Nat* %"$ack00_1212")
-  store %Uint32 %"$nat_to_int_call_1213", %Uint32* %"$nat_to_int_20"
-  %"$$nat_to_int_20_1214" = load %Uint32, %Uint32* %"$nat_to_int_20"
-  store %Uint32 %"$$nat_to_int_20_1214", %Uint32* %int01
+  %"$NatUtils.nat_to_int_call_1213" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1210"(i8* %"$NatUtils.nat_to_int_envptr_1211", %TName_Nat* %"$ack00_1212")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1213", %Uint32* %"$NatUtils.nat_to_int_20"
+  %"$$NatUtils.nat_to_int_20_1214" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_20"
+  store %Uint32 %"$$NatUtils.nat_to_int_20_1214", %Uint32* %int01
   %"$gasrem_1215" = load i64, i64* @_gasrem
   %"$gascmp_1216" = icmp ugt i64 1, %"$gasrem_1215"
   br i1 %"$gascmp_1216", label %"$out_of_gas_1217", label %"$have_gas_1218"

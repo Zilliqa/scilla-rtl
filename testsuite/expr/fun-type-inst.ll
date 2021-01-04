@@ -155,7 +155,7 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_List_ADTTyp_m_specls_136" = unnamed_addr constant [2 x %"$TyDescrTy_ADTTyp_Specl_98"*] [%"$TyDescrTy_ADTTyp_Specl_98"* @"$TyDescr_List_Int64_ADTTyp_Specl_126", %"$TyDescrTy_ADTTyp_Specl_98"* @"$TyDescr_List_Int32_ADTTyp_Specl_135"]
 @"$TyDescr_ADT_List_137" = unnamed_addr constant [4 x i8] c"List"
 @list_foldl = global { i8*, i8* }* null
-@list_length = global { i8*, i8* }* null
+@ListUtils.list_length = global { i8*, i8* }* null
 
 define internal { %TName_List_Int64* (i8*, %Int64)*, i8* } @"$fundef_67"(%"$$fundef_67_env_138"* %0, { i8*, i8* }* %1) {
 entry:
@@ -1639,7 +1639,7 @@ entry:
   %"$dyndisp_gep_864" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_861", i32 2
   %"$dyndisp_pcast_865" = bitcast { i8*, i8* }* %"$dyndisp_gep_864" to { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* }*
   store { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* } %"$$fundef_38_cloval_860", { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_865"
-  store { i8*, i8* }* %"$dyndisp_table_861", { i8*, i8* }** @list_length
+  store { i8*, i8* }* %"$dyndisp_table_861", { i8*, i8* }** @ListUtils.list_length
   %"$expr_44" = alloca %Uint32
   %"$gasrem_866" = load i64, i64* @_gasrem
   %"$gascmp_867" = icmp ugt i64 1, %"$gasrem_866"
@@ -1880,14 +1880,14 @@ entry:
 "$have_gas_995":                                  ; preds = %"$out_of_gas_994", %"$have_gas_990"
   %"$consume_996" = sub i64 %"$gasrem_992", 1
   store i64 %"$consume_996", i64* @_gasrem
-  %"$list_length_997" = load { i8*, i8* }*, { i8*, i8* }** @list_length
-  %"$list_length_998" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$list_length_997", i32 0
-  %"$list_length_999" = bitcast { i8*, i8* }* %"$list_length_998" to { { %Uint32 (i8*, %TName_List_Int32*)*, i8* } (i8*)*, i8* }*
-  %"$list_length_1000" = load { { %Uint32 (i8*, %TName_List_Int32*)*, i8* } (i8*)*, i8* }, { { %Uint32 (i8*, %TName_List_Int32*)*, i8* } (i8*)*, i8* }* %"$list_length_999"
-  %"$list_length_fptr_1001" = extractvalue { { %Uint32 (i8*, %TName_List_Int32*)*, i8* } (i8*)*, i8* } %"$list_length_1000", 0
-  %"$list_length_envptr_1002" = extractvalue { { %Uint32 (i8*, %TName_List_Int32*)*, i8* } (i8*)*, i8* } %"$list_length_1000", 1
-  %"$list_length_call_1003" = call { %Uint32 (i8*, %TName_List_Int32*)*, i8* } %"$list_length_fptr_1001"(i8* %"$list_length_envptr_1002")
-  store { %Uint32 (i8*, %TName_List_Int32*)*, i8* } %"$list_length_call_1003", { %Uint32 (i8*, %TName_List_Int32*)*, i8* }* %len
+  %"$ListUtils.list_length_997" = load { i8*, i8* }*, { i8*, i8* }** @ListUtils.list_length
+  %"$ListUtils.list_length_998" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$ListUtils.list_length_997", i32 0
+  %"$ListUtils.list_length_999" = bitcast { i8*, i8* }* %"$ListUtils.list_length_998" to { { %Uint32 (i8*, %TName_List_Int32*)*, i8* } (i8*)*, i8* }*
+  %"$ListUtils.list_length_1000" = load { { %Uint32 (i8*, %TName_List_Int32*)*, i8* } (i8*)*, i8* }, { { %Uint32 (i8*, %TName_List_Int32*)*, i8* } (i8*)*, i8* }* %"$ListUtils.list_length_999"
+  %"$ListUtils.list_length_fptr_1001" = extractvalue { { %Uint32 (i8*, %TName_List_Int32*)*, i8* } (i8*)*, i8* } %"$ListUtils.list_length_1000", 0
+  %"$ListUtils.list_length_envptr_1002" = extractvalue { { %Uint32 (i8*, %TName_List_Int32*)*, i8* } (i8*)*, i8* } %"$ListUtils.list_length_1000", 1
+  %"$ListUtils.list_length_call_1003" = call { %Uint32 (i8*, %TName_List_Int32*)*, i8* } %"$ListUtils.list_length_fptr_1001"(i8* %"$ListUtils.list_length_envptr_1002")
+  store { %Uint32 (i8*, %TName_List_Int32*)*, i8* } %"$ListUtils.list_length_call_1003", { %Uint32 (i8*, %TName_List_Int32*)*, i8* }* %len
   %"$gasrem_1004" = load i64, i64* @_gasrem
   %"$gascmp_1005" = icmp ugt i64 1, %"$gasrem_1004"
   br i1 %"$gascmp_1005", label %"$out_of_gas_1006", label %"$have_gas_1007"
@@ -2054,14 +2054,14 @@ entry:
 "$have_gas_1084":                                 ; preds = %"$out_of_gas_1083", %"$have_gas_1079"
   %"$consume_1085" = sub i64 %"$gasrem_1081", 1
   store i64 %"$consume_1085", i64* @_gasrem
-  %"$list_length_1086" = load { i8*, i8* }*, { i8*, i8* }** @list_length
-  %"$list_length_1087" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$list_length_1086", i32 2
-  %"$list_length_1088" = bitcast { i8*, i8* }* %"$list_length_1087" to { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* }*
-  %"$list_length_1089" = load { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* }, { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* }* %"$list_length_1088"
-  %"$list_length_fptr_1090" = extractvalue { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* } %"$list_length_1089", 0
-  %"$list_length_envptr_1091" = extractvalue { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* } %"$list_length_1089", 1
-  %"$list_length_call_1092" = call { %Uint32 (i8*, %TName_List_Int64*)*, i8* } %"$list_length_fptr_1090"(i8* %"$list_length_envptr_1091")
-  store { %Uint32 (i8*, %TName_List_Int64*)*, i8* } %"$list_length_call_1092", { %Uint32 (i8*, %TName_List_Int64*)*, i8* }* %len1
+  %"$ListUtils.list_length_1086" = load { i8*, i8* }*, { i8*, i8* }** @ListUtils.list_length
+  %"$ListUtils.list_length_1087" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$ListUtils.list_length_1086", i32 2
+  %"$ListUtils.list_length_1088" = bitcast { i8*, i8* }* %"$ListUtils.list_length_1087" to { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* }*
+  %"$ListUtils.list_length_1089" = load { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* }, { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* }* %"$ListUtils.list_length_1088"
+  %"$ListUtils.list_length_fptr_1090" = extractvalue { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* } %"$ListUtils.list_length_1089", 0
+  %"$ListUtils.list_length_envptr_1091" = extractvalue { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* } %"$ListUtils.list_length_1089", 1
+  %"$ListUtils.list_length_call_1092" = call { %Uint32 (i8*, %TName_List_Int64*)*, i8* } %"$ListUtils.list_length_fptr_1090"(i8* %"$ListUtils.list_length_envptr_1091")
+  store { %Uint32 (i8*, %TName_List_Int64*)*, i8* } %"$ListUtils.list_length_call_1092", { %Uint32 (i8*, %TName_List_Int64*)*, i8* }* %len1
   %"$gasrem_1093" = load i64, i64* @_gasrem
   %"$gascmp_1094" = icmp ugt i64 1, %"$gasrem_1093"
   br i1 %"$gascmp_1094", label %"$out_of_gas_1095", label %"$have_gas_1096"

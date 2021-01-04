@@ -61,6 +61,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_to_bystr", (void *) _to_bystr},
     {"_sha256hash", (void *) _sha256hash},
     {"_concat_String", (void *) _concat_String},
+    {"_concat_ByStr", (void *) _concat_ByStr},
     {"_concat_ByStrX", (void *) _concat_ByStrX},
     {"_accept", (void *) _accept},
     {"_new_empty_map", (void *) _new_empty_map},
@@ -554,6 +555,11 @@ ScillaTypes::String _concat_String(ScillaJIT *SJ, ScillaTypes::String Lhs,
   std::memcpy(Buf + Lhs.m_length, Rhs.m_buffer, Rhs.m_length);
   Ret.m_buffer = Buf;
   return Ret;
+}
+
+ScillaTypes::String _concat_ByStr(ScillaJIT *SJ, ScillaTypes::String Lhs,
+                                   ScillaTypes::String Rhs) {
+  return _concat_String(SJ, Lhs, Rhs);
 }
 
 void *_concat_ByStrX(ScillaJIT *SJ, int X1, uint8_t *Lhs, int X2,

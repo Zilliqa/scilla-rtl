@@ -193,7 +193,7 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Nat_ADTTyp_m_specls_201" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_186"*] [%"$TyDescrTy_ADTTyp_Specl_186"* @"$TyDescr_Nat_ADTTyp_Specl_200"]
 @"$TyDescr_ADT_Nat_202" = unnamed_addr constant [3 x i8] c"Nat"
 @nat_fold = global { i8*, i8* }* null
-@nat_to_int = global { %Uint32 (i8*, %TName_Nat*)*, i8* } zeroinitializer
+@NatUtils.nat_to_int = global { %Uint32 (i8*, %TName_Nat*)*, i8* } zeroinitializer
 
 define internal { %TName_Nat* (i8*, %TName_Nat*)*, i8* } @"$fundef_155"(%"$$fundef_155_env_203"* %0, %TName_Nat* %1) {
 entry:
@@ -1937,7 +1937,7 @@ entry:
   %"$$fundef_118_env_nat_fold_1076" = getelementptr inbounds %"$$fundef_118_env_221", %"$$fundef_118_env_221"* %"$$fundef_118_envp_1072", i32 0, i32 0
   %"$nat_fold_1077" = load { i8*, i8* }*, { i8*, i8* }** @nat_fold
   store { i8*, i8* }* %"$nat_fold_1077", { i8*, i8* }** %"$$fundef_118_env_nat_fold_1076"
-  store { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$$fundef_118_cloval_1075", { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
+  store { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$$fundef_118_cloval_1075", { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
   %"$expr_124" = alloca %Uint32
   %"$gasrem_1078" = load i64, i64* @_gasrem
   %"$gascmp_1079" = icmp ugt i64 1, %"$gasrem_1078"
@@ -3191,15 +3191,15 @@ entry:
 "$have_gas_1722":                                 ; preds = %"$out_of_gas_1721", %"$have_gas_1717"
   %"$consume_1723" = sub i64 %"$gasrem_1719", 1
   store i64 %"$consume_1723", i64* @_gasrem
-  %"$nat_to_int_74" = alloca %Uint32
-  %"$nat_to_int_1724" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1725" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1724", 0
-  %"$nat_to_int_envptr_1726" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1724", 1
+  %"$NatUtils.nat_to_int_74" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1724" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1725" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1724", 0
+  %"$NatUtils.nat_to_int_envptr_1726" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1724", 1
   %"$ack00_1727" = load %TName_Nat*, %TName_Nat** %ack00
-  %"$nat_to_int_call_1728" = call %Uint32 %"$nat_to_int_fptr_1725"(i8* %"$nat_to_int_envptr_1726", %TName_Nat* %"$ack00_1727")
-  store %Uint32 %"$nat_to_int_call_1728", %Uint32* %"$nat_to_int_74"
-  %"$$nat_to_int_74_1729" = load %Uint32, %Uint32* %"$nat_to_int_74"
-  store %Uint32 %"$$nat_to_int_74_1729", %Uint32* %int01
+  %"$NatUtils.nat_to_int_call_1728" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1725"(i8* %"$NatUtils.nat_to_int_envptr_1726", %TName_Nat* %"$ack00_1727")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1728", %Uint32* %"$NatUtils.nat_to_int_74"
+  %"$$NatUtils.nat_to_int_74_1729" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_74"
+  store %Uint32 %"$$NatUtils.nat_to_int_74_1729", %Uint32* %int01
   %"$gasrem_1730" = load i64, i64* @_gasrem
   %"$gascmp_1731" = icmp ugt i64 1, %"$gasrem_1730"
   br i1 %"$gascmp_1731", label %"$out_of_gas_1732", label %"$have_gas_1733"
@@ -3223,15 +3223,15 @@ entry:
 "$have_gas_1738":                                 ; preds = %"$out_of_gas_1737", %"$have_gas_1733"
   %"$consume_1739" = sub i64 %"$gasrem_1735", 1
   store i64 %"$consume_1739", i64* @_gasrem
-  %"$nat_to_int_75" = alloca %Uint32
-  %"$nat_to_int_1740" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1741" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1740", 0
-  %"$nat_to_int_envptr_1742" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1740", 1
+  %"$NatUtils.nat_to_int_75" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1740" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1741" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1740", 0
+  %"$NatUtils.nat_to_int_envptr_1742" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1740", 1
   %"$ack02_1743" = load %TName_Nat*, %TName_Nat** %ack02
-  %"$nat_to_int_call_1744" = call %Uint32 %"$nat_to_int_fptr_1741"(i8* %"$nat_to_int_envptr_1742", %TName_Nat* %"$ack02_1743")
-  store %Uint32 %"$nat_to_int_call_1744", %Uint32* %"$nat_to_int_75"
-  %"$$nat_to_int_75_1745" = load %Uint32, %Uint32* %"$nat_to_int_75"
-  store %Uint32 %"$$nat_to_int_75_1745", %Uint32* %int02
+  %"$NatUtils.nat_to_int_call_1744" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1741"(i8* %"$NatUtils.nat_to_int_envptr_1742", %TName_Nat* %"$ack02_1743")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1744", %Uint32* %"$NatUtils.nat_to_int_75"
+  %"$$NatUtils.nat_to_int_75_1745" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_75"
+  store %Uint32 %"$$NatUtils.nat_to_int_75_1745", %Uint32* %int02
   %"$gasrem_1746" = load i64, i64* @_gasrem
   %"$gascmp_1747" = icmp ugt i64 1, %"$gasrem_1746"
   br i1 %"$gascmp_1747", label %"$out_of_gas_1748", label %"$have_gas_1749"
@@ -3255,15 +3255,15 @@ entry:
 "$have_gas_1754":                                 ; preds = %"$out_of_gas_1753", %"$have_gas_1749"
   %"$consume_1755" = sub i64 %"$gasrem_1751", 1
   store i64 %"$consume_1755", i64* @_gasrem
-  %"$nat_to_int_76" = alloca %Uint32
-  %"$nat_to_int_1756" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1757" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1756", 0
-  %"$nat_to_int_envptr_1758" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1756", 1
+  %"$NatUtils.nat_to_int_76" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1756" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1757" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1756", 0
+  %"$NatUtils.nat_to_int_envptr_1758" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1756", 1
   %"$ack03_1759" = load %TName_Nat*, %TName_Nat** %ack03
-  %"$nat_to_int_call_1760" = call %Uint32 %"$nat_to_int_fptr_1757"(i8* %"$nat_to_int_envptr_1758", %TName_Nat* %"$ack03_1759")
-  store %Uint32 %"$nat_to_int_call_1760", %Uint32* %"$nat_to_int_76"
-  %"$$nat_to_int_76_1761" = load %Uint32, %Uint32* %"$nat_to_int_76"
-  store %Uint32 %"$$nat_to_int_76_1761", %Uint32* %int03
+  %"$NatUtils.nat_to_int_call_1760" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1757"(i8* %"$NatUtils.nat_to_int_envptr_1758", %TName_Nat* %"$ack03_1759")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1760", %Uint32* %"$NatUtils.nat_to_int_76"
+  %"$$NatUtils.nat_to_int_76_1761" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_76"
+  store %Uint32 %"$$NatUtils.nat_to_int_76_1761", %Uint32* %int03
   %"$gasrem_1762" = load i64, i64* @_gasrem
   %"$gascmp_1763" = icmp ugt i64 1, %"$gasrem_1762"
   br i1 %"$gascmp_1763", label %"$out_of_gas_1764", label %"$have_gas_1765"
@@ -3287,15 +3287,15 @@ entry:
 "$have_gas_1770":                                 ; preds = %"$out_of_gas_1769", %"$have_gas_1765"
   %"$consume_1771" = sub i64 %"$gasrem_1767", 1
   store i64 %"$consume_1771", i64* @_gasrem
-  %"$nat_to_int_77" = alloca %Uint32
-  %"$nat_to_int_1772" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1773" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1772", 0
-  %"$nat_to_int_envptr_1774" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1772", 1
+  %"$NatUtils.nat_to_int_77" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1772" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1773" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1772", 0
+  %"$NatUtils.nat_to_int_envptr_1774" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1772", 1
   %"$ack04_1775" = load %TName_Nat*, %TName_Nat** %ack04
-  %"$nat_to_int_call_1776" = call %Uint32 %"$nat_to_int_fptr_1773"(i8* %"$nat_to_int_envptr_1774", %TName_Nat* %"$ack04_1775")
-  store %Uint32 %"$nat_to_int_call_1776", %Uint32* %"$nat_to_int_77"
-  %"$$nat_to_int_77_1777" = load %Uint32, %Uint32* %"$nat_to_int_77"
-  store %Uint32 %"$$nat_to_int_77_1777", %Uint32* %int04
+  %"$NatUtils.nat_to_int_call_1776" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1773"(i8* %"$NatUtils.nat_to_int_envptr_1774", %TName_Nat* %"$ack04_1775")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1776", %Uint32* %"$NatUtils.nat_to_int_77"
+  %"$$NatUtils.nat_to_int_77_1777" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_77"
+  store %Uint32 %"$$NatUtils.nat_to_int_77_1777", %Uint32* %int04
   %"$gasrem_1778" = load i64, i64* @_gasrem
   %"$gascmp_1779" = icmp ugt i64 1, %"$gasrem_1778"
   br i1 %"$gascmp_1779", label %"$out_of_gas_1780", label %"$have_gas_1781"
@@ -3319,15 +3319,15 @@ entry:
 "$have_gas_1786":                                 ; preds = %"$out_of_gas_1785", %"$have_gas_1781"
   %"$consume_1787" = sub i64 %"$gasrem_1783", 1
   store i64 %"$consume_1787", i64* @_gasrem
-  %"$nat_to_int_78" = alloca %Uint32
-  %"$nat_to_int_1788" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1789" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1788", 0
-  %"$nat_to_int_envptr_1790" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1788", 1
+  %"$NatUtils.nat_to_int_78" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1788" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1789" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1788", 0
+  %"$NatUtils.nat_to_int_envptr_1790" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1788", 1
   %"$ack10_1791" = load %TName_Nat*, %TName_Nat** %ack10
-  %"$nat_to_int_call_1792" = call %Uint32 %"$nat_to_int_fptr_1789"(i8* %"$nat_to_int_envptr_1790", %TName_Nat* %"$ack10_1791")
-  store %Uint32 %"$nat_to_int_call_1792", %Uint32* %"$nat_to_int_78"
-  %"$$nat_to_int_78_1793" = load %Uint32, %Uint32* %"$nat_to_int_78"
-  store %Uint32 %"$$nat_to_int_78_1793", %Uint32* %int10
+  %"$NatUtils.nat_to_int_call_1792" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1789"(i8* %"$NatUtils.nat_to_int_envptr_1790", %TName_Nat* %"$ack10_1791")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1792", %Uint32* %"$NatUtils.nat_to_int_78"
+  %"$$NatUtils.nat_to_int_78_1793" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_78"
+  store %Uint32 %"$$NatUtils.nat_to_int_78_1793", %Uint32* %int10
   %"$gasrem_1794" = load i64, i64* @_gasrem
   %"$gascmp_1795" = icmp ugt i64 1, %"$gasrem_1794"
   br i1 %"$gascmp_1795", label %"$out_of_gas_1796", label %"$have_gas_1797"
@@ -3351,15 +3351,15 @@ entry:
 "$have_gas_1802":                                 ; preds = %"$out_of_gas_1801", %"$have_gas_1797"
   %"$consume_1803" = sub i64 %"$gasrem_1799", 1
   store i64 %"$consume_1803", i64* @_gasrem
-  %"$nat_to_int_79" = alloca %Uint32
-  %"$nat_to_int_1804" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1805" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1804", 0
-  %"$nat_to_int_envptr_1806" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1804", 1
+  %"$NatUtils.nat_to_int_79" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1804" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1805" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1804", 0
+  %"$NatUtils.nat_to_int_envptr_1806" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1804", 1
   %"$ack11_1807" = load %TName_Nat*, %TName_Nat** %ack11
-  %"$nat_to_int_call_1808" = call %Uint32 %"$nat_to_int_fptr_1805"(i8* %"$nat_to_int_envptr_1806", %TName_Nat* %"$ack11_1807")
-  store %Uint32 %"$nat_to_int_call_1808", %Uint32* %"$nat_to_int_79"
-  %"$$nat_to_int_79_1809" = load %Uint32, %Uint32* %"$nat_to_int_79"
-  store %Uint32 %"$$nat_to_int_79_1809", %Uint32* %int11
+  %"$NatUtils.nat_to_int_call_1808" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1805"(i8* %"$NatUtils.nat_to_int_envptr_1806", %TName_Nat* %"$ack11_1807")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1808", %Uint32* %"$NatUtils.nat_to_int_79"
+  %"$$NatUtils.nat_to_int_79_1809" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_79"
+  store %Uint32 %"$$NatUtils.nat_to_int_79_1809", %Uint32* %int11
   %"$gasrem_1810" = load i64, i64* @_gasrem
   %"$gascmp_1811" = icmp ugt i64 1, %"$gasrem_1810"
   br i1 %"$gascmp_1811", label %"$out_of_gas_1812", label %"$have_gas_1813"
@@ -3383,15 +3383,15 @@ entry:
 "$have_gas_1818":                                 ; preds = %"$out_of_gas_1817", %"$have_gas_1813"
   %"$consume_1819" = sub i64 %"$gasrem_1815", 1
   store i64 %"$consume_1819", i64* @_gasrem
-  %"$nat_to_int_80" = alloca %Uint32
-  %"$nat_to_int_1820" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1821" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1820", 0
-  %"$nat_to_int_envptr_1822" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1820", 1
+  %"$NatUtils.nat_to_int_80" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1820" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1821" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1820", 0
+  %"$NatUtils.nat_to_int_envptr_1822" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1820", 1
   %"$ack12_1823" = load %TName_Nat*, %TName_Nat** %ack12
-  %"$nat_to_int_call_1824" = call %Uint32 %"$nat_to_int_fptr_1821"(i8* %"$nat_to_int_envptr_1822", %TName_Nat* %"$ack12_1823")
-  store %Uint32 %"$nat_to_int_call_1824", %Uint32* %"$nat_to_int_80"
-  %"$$nat_to_int_80_1825" = load %Uint32, %Uint32* %"$nat_to_int_80"
-  store %Uint32 %"$$nat_to_int_80_1825", %Uint32* %int12
+  %"$NatUtils.nat_to_int_call_1824" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1821"(i8* %"$NatUtils.nat_to_int_envptr_1822", %TName_Nat* %"$ack12_1823")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1824", %Uint32* %"$NatUtils.nat_to_int_80"
+  %"$$NatUtils.nat_to_int_80_1825" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_80"
+  store %Uint32 %"$$NatUtils.nat_to_int_80_1825", %Uint32* %int12
   %"$gasrem_1826" = load i64, i64* @_gasrem
   %"$gascmp_1827" = icmp ugt i64 1, %"$gasrem_1826"
   br i1 %"$gascmp_1827", label %"$out_of_gas_1828", label %"$have_gas_1829"
@@ -3415,15 +3415,15 @@ entry:
 "$have_gas_1834":                                 ; preds = %"$out_of_gas_1833", %"$have_gas_1829"
   %"$consume_1835" = sub i64 %"$gasrem_1831", 1
   store i64 %"$consume_1835", i64* @_gasrem
-  %"$nat_to_int_81" = alloca %Uint32
-  %"$nat_to_int_1836" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1837" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1836", 0
-  %"$nat_to_int_envptr_1838" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1836", 1
+  %"$NatUtils.nat_to_int_81" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1836" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1837" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1836", 0
+  %"$NatUtils.nat_to_int_envptr_1838" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1836", 1
   %"$ack13_1839" = load %TName_Nat*, %TName_Nat** %ack13
-  %"$nat_to_int_call_1840" = call %Uint32 %"$nat_to_int_fptr_1837"(i8* %"$nat_to_int_envptr_1838", %TName_Nat* %"$ack13_1839")
-  store %Uint32 %"$nat_to_int_call_1840", %Uint32* %"$nat_to_int_81"
-  %"$$nat_to_int_81_1841" = load %Uint32, %Uint32* %"$nat_to_int_81"
-  store %Uint32 %"$$nat_to_int_81_1841", %Uint32* %int13
+  %"$NatUtils.nat_to_int_call_1840" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1837"(i8* %"$NatUtils.nat_to_int_envptr_1838", %TName_Nat* %"$ack13_1839")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1840", %Uint32* %"$NatUtils.nat_to_int_81"
+  %"$$NatUtils.nat_to_int_81_1841" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_81"
+  store %Uint32 %"$$NatUtils.nat_to_int_81_1841", %Uint32* %int13
   %"$gasrem_1842" = load i64, i64* @_gasrem
   %"$gascmp_1843" = icmp ugt i64 1, %"$gasrem_1842"
   br i1 %"$gascmp_1843", label %"$out_of_gas_1844", label %"$have_gas_1845"
@@ -3447,15 +3447,15 @@ entry:
 "$have_gas_1850":                                 ; preds = %"$out_of_gas_1849", %"$have_gas_1845"
   %"$consume_1851" = sub i64 %"$gasrem_1847", 1
   store i64 %"$consume_1851", i64* @_gasrem
-  %"$nat_to_int_82" = alloca %Uint32
-  %"$nat_to_int_1852" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1853" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1852", 0
-  %"$nat_to_int_envptr_1854" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1852", 1
+  %"$NatUtils.nat_to_int_82" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1852" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1853" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1852", 0
+  %"$NatUtils.nat_to_int_envptr_1854" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1852", 1
   %"$ack14_1855" = load %TName_Nat*, %TName_Nat** %ack14
-  %"$nat_to_int_call_1856" = call %Uint32 %"$nat_to_int_fptr_1853"(i8* %"$nat_to_int_envptr_1854", %TName_Nat* %"$ack14_1855")
-  store %Uint32 %"$nat_to_int_call_1856", %Uint32* %"$nat_to_int_82"
-  %"$$nat_to_int_82_1857" = load %Uint32, %Uint32* %"$nat_to_int_82"
-  store %Uint32 %"$$nat_to_int_82_1857", %Uint32* %int14
+  %"$NatUtils.nat_to_int_call_1856" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1853"(i8* %"$NatUtils.nat_to_int_envptr_1854", %TName_Nat* %"$ack14_1855")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1856", %Uint32* %"$NatUtils.nat_to_int_82"
+  %"$$NatUtils.nat_to_int_82_1857" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_82"
+  store %Uint32 %"$$NatUtils.nat_to_int_82_1857", %Uint32* %int14
   %"$gasrem_1858" = load i64, i64* @_gasrem
   %"$gascmp_1859" = icmp ugt i64 1, %"$gasrem_1858"
   br i1 %"$gascmp_1859", label %"$out_of_gas_1860", label %"$have_gas_1861"
@@ -3479,15 +3479,15 @@ entry:
 "$have_gas_1866":                                 ; preds = %"$out_of_gas_1865", %"$have_gas_1861"
   %"$consume_1867" = sub i64 %"$gasrem_1863", 1
   store i64 %"$consume_1867", i64* @_gasrem
-  %"$nat_to_int_83" = alloca %Uint32
-  %"$nat_to_int_1868" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1869" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1868", 0
-  %"$nat_to_int_envptr_1870" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1868", 1
+  %"$NatUtils.nat_to_int_83" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1868" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1869" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1868", 0
+  %"$NatUtils.nat_to_int_envptr_1870" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1868", 1
   %"$ack20_1871" = load %TName_Nat*, %TName_Nat** %ack20
-  %"$nat_to_int_call_1872" = call %Uint32 %"$nat_to_int_fptr_1869"(i8* %"$nat_to_int_envptr_1870", %TName_Nat* %"$ack20_1871")
-  store %Uint32 %"$nat_to_int_call_1872", %Uint32* %"$nat_to_int_83"
-  %"$$nat_to_int_83_1873" = load %Uint32, %Uint32* %"$nat_to_int_83"
-  store %Uint32 %"$$nat_to_int_83_1873", %Uint32* %int20
+  %"$NatUtils.nat_to_int_call_1872" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1869"(i8* %"$NatUtils.nat_to_int_envptr_1870", %TName_Nat* %"$ack20_1871")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1872", %Uint32* %"$NatUtils.nat_to_int_83"
+  %"$$NatUtils.nat_to_int_83_1873" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_83"
+  store %Uint32 %"$$NatUtils.nat_to_int_83_1873", %Uint32* %int20
   %"$gasrem_1874" = load i64, i64* @_gasrem
   %"$gascmp_1875" = icmp ugt i64 1, %"$gasrem_1874"
   br i1 %"$gascmp_1875", label %"$out_of_gas_1876", label %"$have_gas_1877"
@@ -3511,15 +3511,15 @@ entry:
 "$have_gas_1882":                                 ; preds = %"$out_of_gas_1881", %"$have_gas_1877"
   %"$consume_1883" = sub i64 %"$gasrem_1879", 1
   store i64 %"$consume_1883", i64* @_gasrem
-  %"$nat_to_int_84" = alloca %Uint32
-  %"$nat_to_int_1884" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1885" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1884", 0
-  %"$nat_to_int_envptr_1886" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1884", 1
+  %"$NatUtils.nat_to_int_84" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1884" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1885" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1884", 0
+  %"$NatUtils.nat_to_int_envptr_1886" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1884", 1
   %"$ack21_1887" = load %TName_Nat*, %TName_Nat** %ack21
-  %"$nat_to_int_call_1888" = call %Uint32 %"$nat_to_int_fptr_1885"(i8* %"$nat_to_int_envptr_1886", %TName_Nat* %"$ack21_1887")
-  store %Uint32 %"$nat_to_int_call_1888", %Uint32* %"$nat_to_int_84"
-  %"$$nat_to_int_84_1889" = load %Uint32, %Uint32* %"$nat_to_int_84"
-  store %Uint32 %"$$nat_to_int_84_1889", %Uint32* %int21
+  %"$NatUtils.nat_to_int_call_1888" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1885"(i8* %"$NatUtils.nat_to_int_envptr_1886", %TName_Nat* %"$ack21_1887")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1888", %Uint32* %"$NatUtils.nat_to_int_84"
+  %"$$NatUtils.nat_to_int_84_1889" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_84"
+  store %Uint32 %"$$NatUtils.nat_to_int_84_1889", %Uint32* %int21
   %"$gasrem_1890" = load i64, i64* @_gasrem
   %"$gascmp_1891" = icmp ugt i64 1, %"$gasrem_1890"
   br i1 %"$gascmp_1891", label %"$out_of_gas_1892", label %"$have_gas_1893"
@@ -3543,15 +3543,15 @@ entry:
 "$have_gas_1898":                                 ; preds = %"$out_of_gas_1897", %"$have_gas_1893"
   %"$consume_1899" = sub i64 %"$gasrem_1895", 1
   store i64 %"$consume_1899", i64* @_gasrem
-  %"$nat_to_int_85" = alloca %Uint32
-  %"$nat_to_int_1900" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1901" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1900", 0
-  %"$nat_to_int_envptr_1902" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1900", 1
+  %"$NatUtils.nat_to_int_85" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1900" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1901" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1900", 0
+  %"$NatUtils.nat_to_int_envptr_1902" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1900", 1
   %"$ack22_1903" = load %TName_Nat*, %TName_Nat** %ack22
-  %"$nat_to_int_call_1904" = call %Uint32 %"$nat_to_int_fptr_1901"(i8* %"$nat_to_int_envptr_1902", %TName_Nat* %"$ack22_1903")
-  store %Uint32 %"$nat_to_int_call_1904", %Uint32* %"$nat_to_int_85"
-  %"$$nat_to_int_85_1905" = load %Uint32, %Uint32* %"$nat_to_int_85"
-  store %Uint32 %"$$nat_to_int_85_1905", %Uint32* %int22
+  %"$NatUtils.nat_to_int_call_1904" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1901"(i8* %"$NatUtils.nat_to_int_envptr_1902", %TName_Nat* %"$ack22_1903")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1904", %Uint32* %"$NatUtils.nat_to_int_85"
+  %"$$NatUtils.nat_to_int_85_1905" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_85"
+  store %Uint32 %"$$NatUtils.nat_to_int_85_1905", %Uint32* %int22
   %"$gasrem_1906" = load i64, i64* @_gasrem
   %"$gascmp_1907" = icmp ugt i64 1, %"$gasrem_1906"
   br i1 %"$gascmp_1907", label %"$out_of_gas_1908", label %"$have_gas_1909"
@@ -3575,15 +3575,15 @@ entry:
 "$have_gas_1914":                                 ; preds = %"$out_of_gas_1913", %"$have_gas_1909"
   %"$consume_1915" = sub i64 %"$gasrem_1911", 1
   store i64 %"$consume_1915", i64* @_gasrem
-  %"$nat_to_int_86" = alloca %Uint32
-  %"$nat_to_int_1916" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1917" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1916", 0
-  %"$nat_to_int_envptr_1918" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1916", 1
+  %"$NatUtils.nat_to_int_86" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1916" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1917" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1916", 0
+  %"$NatUtils.nat_to_int_envptr_1918" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1916", 1
   %"$ack23_1919" = load %TName_Nat*, %TName_Nat** %ack23
-  %"$nat_to_int_call_1920" = call %Uint32 %"$nat_to_int_fptr_1917"(i8* %"$nat_to_int_envptr_1918", %TName_Nat* %"$ack23_1919")
-  store %Uint32 %"$nat_to_int_call_1920", %Uint32* %"$nat_to_int_86"
-  %"$$nat_to_int_86_1921" = load %Uint32, %Uint32* %"$nat_to_int_86"
-  store %Uint32 %"$$nat_to_int_86_1921", %Uint32* %int23
+  %"$NatUtils.nat_to_int_call_1920" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1917"(i8* %"$NatUtils.nat_to_int_envptr_1918", %TName_Nat* %"$ack23_1919")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1920", %Uint32* %"$NatUtils.nat_to_int_86"
+  %"$$NatUtils.nat_to_int_86_1921" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_86"
+  store %Uint32 %"$$NatUtils.nat_to_int_86_1921", %Uint32* %int23
   %"$gasrem_1922" = load i64, i64* @_gasrem
   %"$gascmp_1923" = icmp ugt i64 1, %"$gasrem_1922"
   br i1 %"$gascmp_1923", label %"$out_of_gas_1924", label %"$have_gas_1925"
@@ -3607,15 +3607,15 @@ entry:
 "$have_gas_1930":                                 ; preds = %"$out_of_gas_1929", %"$have_gas_1925"
   %"$consume_1931" = sub i64 %"$gasrem_1927", 1
   store i64 %"$consume_1931", i64* @_gasrem
-  %"$nat_to_int_87" = alloca %Uint32
-  %"$nat_to_int_1932" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1933" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1932", 0
-  %"$nat_to_int_envptr_1934" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1932", 1
+  %"$NatUtils.nat_to_int_87" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1932" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1933" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1932", 0
+  %"$NatUtils.nat_to_int_envptr_1934" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1932", 1
   %"$ack23_1935" = load %TName_Nat*, %TName_Nat** %ack23
-  %"$nat_to_int_call_1936" = call %Uint32 %"$nat_to_int_fptr_1933"(i8* %"$nat_to_int_envptr_1934", %TName_Nat* %"$ack23_1935")
-  store %Uint32 %"$nat_to_int_call_1936", %Uint32* %"$nat_to_int_87"
-  %"$$nat_to_int_87_1937" = load %Uint32, %Uint32* %"$nat_to_int_87"
-  store %Uint32 %"$$nat_to_int_87_1937", %Uint32* %int24
+  %"$NatUtils.nat_to_int_call_1936" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1933"(i8* %"$NatUtils.nat_to_int_envptr_1934", %TName_Nat* %"$ack23_1935")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1936", %Uint32* %"$NatUtils.nat_to_int_87"
+  %"$$NatUtils.nat_to_int_87_1937" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_87"
+  store %Uint32 %"$$NatUtils.nat_to_int_87_1937", %Uint32* %int24
   %"$gasrem_1938" = load i64, i64* @_gasrem
   %"$gascmp_1939" = icmp ugt i64 1, %"$gasrem_1938"
   br i1 %"$gascmp_1939", label %"$out_of_gas_1940", label %"$have_gas_1941"
@@ -3639,15 +3639,15 @@ entry:
 "$have_gas_1946":                                 ; preds = %"$out_of_gas_1945", %"$have_gas_1941"
   %"$consume_1947" = sub i64 %"$gasrem_1943", 1
   store i64 %"$consume_1947", i64* @_gasrem
-  %"$nat_to_int_88" = alloca %Uint32
-  %"$nat_to_int_1948" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1949" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1948", 0
-  %"$nat_to_int_envptr_1950" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1948", 1
+  %"$NatUtils.nat_to_int_88" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1948" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1949" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1948", 0
+  %"$NatUtils.nat_to_int_envptr_1950" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1948", 1
   %"$ack30_1951" = load %TName_Nat*, %TName_Nat** %ack30
-  %"$nat_to_int_call_1952" = call %Uint32 %"$nat_to_int_fptr_1949"(i8* %"$nat_to_int_envptr_1950", %TName_Nat* %"$ack30_1951")
-  store %Uint32 %"$nat_to_int_call_1952", %Uint32* %"$nat_to_int_88"
-  %"$$nat_to_int_88_1953" = load %Uint32, %Uint32* %"$nat_to_int_88"
-  store %Uint32 %"$$nat_to_int_88_1953", %Uint32* %int30
+  %"$NatUtils.nat_to_int_call_1952" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1949"(i8* %"$NatUtils.nat_to_int_envptr_1950", %TName_Nat* %"$ack30_1951")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1952", %Uint32* %"$NatUtils.nat_to_int_88"
+  %"$$NatUtils.nat_to_int_88_1953" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_88"
+  store %Uint32 %"$$NatUtils.nat_to_int_88_1953", %Uint32* %int30
   %"$gasrem_1954" = load i64, i64* @_gasrem
   %"$gascmp_1955" = icmp ugt i64 1, %"$gasrem_1954"
   br i1 %"$gascmp_1955", label %"$out_of_gas_1956", label %"$have_gas_1957"
@@ -3671,15 +3671,15 @@ entry:
 "$have_gas_1962":                                 ; preds = %"$out_of_gas_1961", %"$have_gas_1957"
   %"$consume_1963" = sub i64 %"$gasrem_1959", 1
   store i64 %"$consume_1963", i64* @_gasrem
-  %"$nat_to_int_89" = alloca %Uint32
-  %"$nat_to_int_1964" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1965" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1964", 0
-  %"$nat_to_int_envptr_1966" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1964", 1
+  %"$NatUtils.nat_to_int_89" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1964" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1965" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1964", 0
+  %"$NatUtils.nat_to_int_envptr_1966" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1964", 1
   %"$ack31_1967" = load %TName_Nat*, %TName_Nat** %ack31
-  %"$nat_to_int_call_1968" = call %Uint32 %"$nat_to_int_fptr_1965"(i8* %"$nat_to_int_envptr_1966", %TName_Nat* %"$ack31_1967")
-  store %Uint32 %"$nat_to_int_call_1968", %Uint32* %"$nat_to_int_89"
-  %"$$nat_to_int_89_1969" = load %Uint32, %Uint32* %"$nat_to_int_89"
-  store %Uint32 %"$$nat_to_int_89_1969", %Uint32* %int31
+  %"$NatUtils.nat_to_int_call_1968" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1965"(i8* %"$NatUtils.nat_to_int_envptr_1966", %TName_Nat* %"$ack31_1967")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1968", %Uint32* %"$NatUtils.nat_to_int_89"
+  %"$$NatUtils.nat_to_int_89_1969" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_89"
+  store %Uint32 %"$$NatUtils.nat_to_int_89_1969", %Uint32* %int31
   %"$gasrem_1970" = load i64, i64* @_gasrem
   %"$gascmp_1971" = icmp ugt i64 1, %"$gasrem_1970"
   br i1 %"$gascmp_1971", label %"$out_of_gas_1972", label %"$have_gas_1973"
@@ -3703,15 +3703,15 @@ entry:
 "$have_gas_1978":                                 ; preds = %"$out_of_gas_1977", %"$have_gas_1973"
   %"$consume_1979" = sub i64 %"$gasrem_1975", 1
   store i64 %"$consume_1979", i64* @_gasrem
-  %"$nat_to_int_90" = alloca %Uint32
-  %"$nat_to_int_1980" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1981" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1980", 0
-  %"$nat_to_int_envptr_1982" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1980", 1
+  %"$NatUtils.nat_to_int_90" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1980" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1981" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1980", 0
+  %"$NatUtils.nat_to_int_envptr_1982" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1980", 1
   %"$ack32_1983" = load %TName_Nat*, %TName_Nat** %ack32
-  %"$nat_to_int_call_1984" = call %Uint32 %"$nat_to_int_fptr_1981"(i8* %"$nat_to_int_envptr_1982", %TName_Nat* %"$ack32_1983")
-  store %Uint32 %"$nat_to_int_call_1984", %Uint32* %"$nat_to_int_90"
-  %"$$nat_to_int_90_1985" = load %Uint32, %Uint32* %"$nat_to_int_90"
-  store %Uint32 %"$$nat_to_int_90_1985", %Uint32* %int32
+  %"$NatUtils.nat_to_int_call_1984" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1981"(i8* %"$NatUtils.nat_to_int_envptr_1982", %TName_Nat* %"$ack32_1983")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1984", %Uint32* %"$NatUtils.nat_to_int_90"
+  %"$$NatUtils.nat_to_int_90_1985" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_90"
+  store %Uint32 %"$$NatUtils.nat_to_int_90_1985", %Uint32* %int32
   %"$gasrem_1986" = load i64, i64* @_gasrem
   %"$gascmp_1987" = icmp ugt i64 1, %"$gasrem_1986"
   br i1 %"$gascmp_1987", label %"$out_of_gas_1988", label %"$have_gas_1989"
@@ -3735,15 +3735,15 @@ entry:
 "$have_gas_1994":                                 ; preds = %"$out_of_gas_1993", %"$have_gas_1989"
   %"$consume_1995" = sub i64 %"$gasrem_1991", 1
   store i64 %"$consume_1995", i64* @_gasrem
-  %"$nat_to_int_91" = alloca %Uint32
-  %"$nat_to_int_1996" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_1997" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1996", 0
-  %"$nat_to_int_envptr_1998" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_1996", 1
+  %"$NatUtils.nat_to_int_91" = alloca %Uint32
+  %"$NatUtils.nat_to_int_1996" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_1997" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1996", 0
+  %"$NatUtils.nat_to_int_envptr_1998" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1996", 1
   %"$ack33_1999" = load %TName_Nat*, %TName_Nat** %ack33
-  %"$nat_to_int_call_2000" = call %Uint32 %"$nat_to_int_fptr_1997"(i8* %"$nat_to_int_envptr_1998", %TName_Nat* %"$ack33_1999")
-  store %Uint32 %"$nat_to_int_call_2000", %Uint32* %"$nat_to_int_91"
-  %"$$nat_to_int_91_2001" = load %Uint32, %Uint32* %"$nat_to_int_91"
-  store %Uint32 %"$$nat_to_int_91_2001", %Uint32* %int33
+  %"$NatUtils.nat_to_int_call_2000" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1997"(i8* %"$NatUtils.nat_to_int_envptr_1998", %TName_Nat* %"$ack33_1999")
+  store %Uint32 %"$NatUtils.nat_to_int_call_2000", %Uint32* %"$NatUtils.nat_to_int_91"
+  %"$$NatUtils.nat_to_int_91_2001" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_91"
+  store %Uint32 %"$$NatUtils.nat_to_int_91_2001", %Uint32* %int33
   %"$gasrem_2002" = load i64, i64* @_gasrem
   %"$gascmp_2003" = icmp ugt i64 1, %"$gasrem_2002"
   br i1 %"$gascmp_2003", label %"$out_of_gas_2004", label %"$have_gas_2005"
@@ -3767,15 +3767,15 @@ entry:
 "$have_gas_2010":                                 ; preds = %"$out_of_gas_2009", %"$have_gas_2005"
   %"$consume_2011" = sub i64 %"$gasrem_2007", 1
   store i64 %"$consume_2011", i64* @_gasrem
-  %"$nat_to_int_92" = alloca %Uint32
-  %"$nat_to_int_2012" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_2013" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_2012", 0
-  %"$nat_to_int_envptr_2014" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_2012", 1
+  %"$NatUtils.nat_to_int_92" = alloca %Uint32
+  %"$NatUtils.nat_to_int_2012" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_2013" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_2012", 0
+  %"$NatUtils.nat_to_int_envptr_2014" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_2012", 1
   %"$ack34_2015" = load %TName_Nat*, %TName_Nat** %ack34
-  %"$nat_to_int_call_2016" = call %Uint32 %"$nat_to_int_fptr_2013"(i8* %"$nat_to_int_envptr_2014", %TName_Nat* %"$ack34_2015")
-  store %Uint32 %"$nat_to_int_call_2016", %Uint32* %"$nat_to_int_92"
-  %"$$nat_to_int_92_2017" = load %Uint32, %Uint32* %"$nat_to_int_92"
-  store %Uint32 %"$$nat_to_int_92_2017", %Uint32* %int34
+  %"$NatUtils.nat_to_int_call_2016" = call %Uint32 %"$NatUtils.nat_to_int_fptr_2013"(i8* %"$NatUtils.nat_to_int_envptr_2014", %TName_Nat* %"$ack34_2015")
+  store %Uint32 %"$NatUtils.nat_to_int_call_2016", %Uint32* %"$NatUtils.nat_to_int_92"
+  %"$$NatUtils.nat_to_int_92_2017" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_92"
+  store %Uint32 %"$$NatUtils.nat_to_int_92_2017", %Uint32* %int34
   %"$gasrem_2018" = load i64, i64* @_gasrem
   %"$gascmp_2019" = icmp ugt i64 1, %"$gasrem_2018"
   br i1 %"$gascmp_2019", label %"$out_of_gas_2020", label %"$have_gas_2021"
@@ -3799,15 +3799,15 @@ entry:
 "$have_gas_2026":                                 ; preds = %"$out_of_gas_2025", %"$have_gas_2021"
   %"$consume_2027" = sub i64 %"$gasrem_2023", 1
   store i64 %"$consume_2027", i64* @_gasrem
-  %"$nat_to_int_93" = alloca %Uint32
-  %"$nat_to_int_2028" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @nat_to_int
-  %"$nat_to_int_fptr_2029" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_2028", 0
-  %"$nat_to_int_envptr_2030" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$nat_to_int_2028", 1
+  %"$NatUtils.nat_to_int_93" = alloca %Uint32
+  %"$NatUtils.nat_to_int_2028" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int
+  %"$NatUtils.nat_to_int_fptr_2029" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_2028", 0
+  %"$NatUtils.nat_to_int_envptr_2030" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_2028", 1
   %"$ack40_2031" = load %TName_Nat*, %TName_Nat** %ack40
-  %"$nat_to_int_call_2032" = call %Uint32 %"$nat_to_int_fptr_2029"(i8* %"$nat_to_int_envptr_2030", %TName_Nat* %"$ack40_2031")
-  store %Uint32 %"$nat_to_int_call_2032", %Uint32* %"$nat_to_int_93"
-  %"$$nat_to_int_93_2033" = load %Uint32, %Uint32* %"$nat_to_int_93"
-  store %Uint32 %"$$nat_to_int_93_2033", %Uint32* %int40
+  %"$NatUtils.nat_to_int_call_2032" = call %Uint32 %"$NatUtils.nat_to_int_fptr_2029"(i8* %"$NatUtils.nat_to_int_envptr_2030", %TName_Nat* %"$ack40_2031")
+  store %Uint32 %"$NatUtils.nat_to_int_call_2032", %Uint32* %"$NatUtils.nat_to_int_93"
+  %"$$NatUtils.nat_to_int_93_2033" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_93"
+  store %Uint32 %"$$NatUtils.nat_to_int_93_2033", %Uint32* %int40
   %"$gasrem_2034" = load i64, i64* @_gasrem
   %"$gascmp_2035" = icmp ugt i64 1, %"$gasrem_2034"
   br i1 %"$gascmp_2035", label %"$out_of_gas_2036", label %"$have_gas_2037"

@@ -164,6 +164,10 @@ ScillaVM::ScillaTypes::String _concat_String(ScillaVM::ScillaJIT *SJ,
                                              ScillaVM::ScillaTypes::String Lhs,
                                              ScillaVM::ScillaTypes::String Rhs);
 
+ScillaVM::ScillaTypes::String _concat_ByStr(ScillaVM::ScillaJIT *SJ,
+                                             ScillaVM::ScillaTypes::String Lhs,
+                                             ScillaVM::ScillaTypes::String Rhs);
+
 void *_concat_ByStrX(ScillaVM::ScillaJIT *SJ, int X1, uint8_t *Lhs, int X2,
                      uint8_t *Rhs);
 
