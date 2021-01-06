@@ -125,5 +125,6 @@ BOOST_AUTO_TEST_CASE(lit_emp_i32_list_string) {
   testExecExpr("lit-emp_i32_list_string");
 }
 BOOST_AUTO_TEST_CASE(map1) { testExecExpr("map1"); }
+BOOST_AUTO_TEST_CASE(builtin_to_bystrx) { testExecExpr("builtin_to_bystrx"); }
 
 BOOST_AUTO_TEST_SUITE_END()

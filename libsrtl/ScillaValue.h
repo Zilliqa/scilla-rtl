@@ -28,6 +28,9 @@
 namespace ScillaVM {
 namespace ScillaValues {
 
+// Reverse the byte order in a byte string, in-place.
+void swapEndian(uint8_t *Buf, int Len);
+
 // Stringify Scilla value @V of type @T.
 // @PrintType for each (sub) value printed.
 std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V);
@@ -52,7 +55,7 @@ void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
 
 // Computs the cost of (memory occupied by) a Scilla value.
 // Compatible with literal_cost in Gas.ml in Scilla_base.
-uint64_t literalCost (const ScillaTypes::Typ *T, const void *V);
+uint64_t literalCost(const ScillaTypes::Typ *T, const void *V);
 
 } // namespace ScillaValues
 } // namespace ScillaVM

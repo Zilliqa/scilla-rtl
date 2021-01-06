@@ -59,6 +59,11 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_eq_ByStr", (void *) _eq_ByStr},
     {"_eq_ByStrX", (void *) _eq_ByStrX},
     {"_to_bystr", (void *) _to_bystr},
+    {"_bystr_to_bystrx", (void *) _bystr_to_bystrx},
+    {"_uint32_to_bystrx", (void *) _uint32_to_bystrx},
+    {"_uint64_to_bystrx", (void *) _uint64_to_bystrx},
+    {"_uint128_to_bystrx", (void *) _uint128_to_bystrx},
+    {"_uint256_to_bystrx", (void *)_uint256_to_bystrx},
     {"_sha256hash", (void *) _sha256hash},
     {"_concat_String", (void *) _concat_String},
     {"_concat_ByStr", (void *) _concat_ByStr},
@@ -147,6 +152,7 @@ Json::Value TransitionState::finalize(void) {
 } // namespace ScillaVM
 
 using namespace ScillaVM;
+namespace ph = std::placeholders;
 
 namespace {
 
@@ -220,9 +226,20 @@ uint8_t *wrapMapAccessResult(SAllocator &SA, bool Found,
   }
 }
 
-} // namespace
+template <unsigned X>
+void *uintToByStrX(ScillaJIT *SJ, ScillaTypes::RawInt<X> I) {
+  auto Len = sizeof(ScillaTypes::RawInt<X>);
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto Mem = SA(Len);
+  std::memcpy(Mem, &I, Len);
+#if BOOST_ENDIAN_LITTLE_BYTE
+  // Native integer is little-endian. Convert it to big-endian.
+  ScillaValues::swapEndian(reinterpret_cast<uint8_t *>(Mem), Len);
+#endif
+  return Mem;
+}
 
-namespace ph = std::placeholders;
+} // namespace
 
 extern "C" {
 
@@ -466,11 +483,11 @@ void _send(ScillaJIT *SJ, const ScillaTypes::Typ *T, const void *V) {
   }
 }
 
-uint64_t _literal_cost (const ScillaTypes::Typ *T, const void *V) {
+uint64_t _literal_cost(const ScillaTypes::Typ *T, const void *V) {
   return ScillaValues::literalCost(T, V);
 }
 
-uint64_t _mapsortcost (const ScillaParams::MapValueT *M) {
+uint64_t _mapsortcost(const ScillaParams::MapValueT *M) {
   uint64_t Cost = 0;
 
   // First calculate cost for sub-maps (if any).
@@ -482,7 +499,7 @@ uint64_t _mapsortcost (const ScillaParams::MapValueT *M) {
     auto *SubM = &boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
     Cost += _mapsortcost(SubM);
   }
-  
+
   // Cost of sorting *this* map.
   auto Len = M->size();
   if (Len > 0) {
@@ -536,6 +553,42 @@ ScillaTypes::String _to_bystr(ScillaJIT *SJ, int X, uint8_t *Buf) {
   return Ret;
 }
 
+void *_bystr_to_bystrx(ScillaJIT *SJ, int X, ScillaTypes::String Str) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  if (X != Str.m_length) {
+    // Wrap with Scilla object "None", which has only a Tag.
+    int MemSize = 1;
+    auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
+    *Mem = ScillaTypes::Option_None_Tag;
+    return Mem;
+  }
+  // Wrap with "Some".
+  // Allocate memory for "Some" = sizeOf (ValT) + 1 byte for Tag.
+  int MemSize = X + 1;
+  auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
+  *Mem = ScillaTypes::Option_Some_Tag;
+  // Create Scilla value from JSON and place it in Mem + 1.
+  // i.e., We are constructing a Scilla "Some" object overall.
+  std::memcpy(Mem + 1, Str.m_buffer, Str.m_length);
+  return Mem;
+}
+
+void *_uint32_to_bystrx(ScillaJIT *SJ, ScillaTypes::Uint32 I) {
+  return uintToByStrX<32>(SJ, I);
+}
+
+void *_uint64_to_bystrx(ScillaJIT *SJ, ScillaTypes::Uint64 I) {
+  return uintToByStrX<64>(SJ, I);
+}
+
+void *_uint128_to_bystrx(ScillaJIT *SJ, ScillaTypes::Uint128 I) {
+  return uintToByStrX<128>(SJ, I);
+}
+
+void *_uint256_to_bystrx(ScillaJIT *SJ, ScillaTypes::Uint256 *I) {
+  return uintToByStrX<256>(SJ, *I);
+}
+
 void *_sha256hash(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
   ByteVec Serialized;
   SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
@@ -558,7 +611,7 @@ ScillaTypes::String _concat_String(ScillaJIT *SJ, ScillaTypes::String Lhs,
 }
 
 ScillaTypes::String _concat_ByStr(ScillaJIT *SJ, ScillaTypes::String Lhs,
-                                   ScillaTypes::String Rhs) {
+                                  ScillaTypes::String Rhs) {
   return _concat_String(SJ, Lhs, Rhs);
 }
 

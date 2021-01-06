@@ -157,6 +157,21 @@ uint8_t *_eq_ByStrX(ScillaVM::ScillaJIT *SJ, int X, uint8_t *Lhs, uint8_t *Rhs);
 ScillaVM::ScillaTypes::String _to_bystr(ScillaVM::ScillaJIT *SJ, int X,
                                         uint8_t *Buf);
 
+void *_bystr_to_bystrx(ScillaVM::ScillaJIT *SJ, int X,
+                       ScillaVM::ScillaTypes::String Str);
+
+void *_uint32_to_bystrx(ScillaVM::ScillaJIT *SJ,
+                        ScillaVM::ScillaTypes::Uint32 I);
+
+void *_uint64_to_bystrx(ScillaVM::ScillaJIT *SJ,
+                        ScillaVM::ScillaTypes::Uint64 I);
+
+void *_uint128_to_bystrx(ScillaVM::ScillaJIT *SJ,
+                         ScillaVM::ScillaTypes::Uint128 I);
+
+void *_uint256_to_bystrx(ScillaVM::ScillaJIT *SJ,
+                         ScillaVM::ScillaTypes::Uint256 *I);
+
 void *_sha256hash(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
                   void *V);
 
@@ -165,8 +180,8 @@ ScillaVM::ScillaTypes::String _concat_String(ScillaVM::ScillaJIT *SJ,
                                              ScillaVM::ScillaTypes::String Rhs);
 
 ScillaVM::ScillaTypes::String _concat_ByStr(ScillaVM::ScillaJIT *SJ,
-                                             ScillaVM::ScillaTypes::String Lhs,
-                                             ScillaVM::ScillaTypes::String Rhs);
+                                            ScillaVM::ScillaTypes::String Lhs,
+                                            ScillaVM::ScillaTypes::String Rhs);
 
 void *_concat_ByStrX(ScillaVM::ScillaJIT *SJ, int X1, uint8_t *Lhs, int X2,
                      uint8_t *Rhs);
@@ -189,8 +204,8 @@ void *_remove(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
 // Scilla builtin _size : The size of a map.
 ScillaVM::ScillaTypes::Uint32 _size(const ScillaVM::ScillaParams::MapValueT *M);
 
-uint64_t _literal_cost (const ScillaVM::ScillaTypes::Typ *T, const void *V);
-uint64_t _mapsortcost (const ScillaVM::ScillaParams::MapValueT *M);
+uint64_t _literal_cost(const ScillaVM::ScillaTypes::Typ *T, const void *V);
+uint64_t _mapsortcost(const ScillaVM::ScillaParams::MapValueT *M);
 
 } // extern "C"
 #pragma clang diagnostic pop

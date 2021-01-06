@@ -101,6 +101,10 @@ uint8_t *hex2Raw(SAllocator &A, uint8_t *Bin, int BinLen,
   return Bin;
 }
 
+} // namespace
+
+namespace ScillaValues {
+
 // Little-endian <-> Big-endian
 void swapEndian(uint8_t *Buf, int Len) {
   for (int I = 0; I < Len / 2; I++) {
@@ -109,10 +113,6 @@ void swapEndian(uint8_t *Buf, int Len) {
     Buf[Len - I - 1] = T;
   }
 }
-
-} // namespace
-
-namespace ScillaValues {
 
 std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
 

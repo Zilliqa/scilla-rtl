@@ -353,8 +353,7 @@ uint64_t *ScillaJIT::initGasAndLibs(uint64_t GasLimit) {
   *GasRemPtr = GasLimit;
 
   // Call the library initialisation function.
-  auto initLibs =
-      reinterpret_cast<void (*)()>(getAddressFor("_init_libs"));
+  auto initLibs = reinterpret_cast<void (*)()>(getAddressFor("_init_libs"));
   initLibs();
 
   return GasRemPtr;

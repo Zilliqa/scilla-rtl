@@ -82,7 +82,8 @@ void testMessage(const std::string &ContrFilename,
   std::unique_ptr<ScillaVM::ScillaJIT_Safe> JE;
   {
     ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
-    JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON, &OCache);
+    JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON,
+                                &OCache);
   }
   Json::Value OJ;
   try {
@@ -181,7 +182,8 @@ void testMessageFail(const std::string &ContrFilename,
   std::unique_ptr<ScillaVM::ScillaJIT_Safe> JE;
   {
     ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
-    JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON, &OCache);
+    JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON,
+                                &OCache);
   }
 
   bool CaughtException = false;
