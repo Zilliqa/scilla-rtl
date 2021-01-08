@@ -68,6 +68,8 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_concat_String", (void *) _concat_String},
     {"_concat_ByStr", (void *) _concat_ByStr},
     {"_concat_ByStrX", (void *) _concat_ByStrX},
+    {"_substr_String", (void *) _substr_String},
+    {"_substr_ByStr", (void *) _substr_ByStr},
     {"_accept", (void *) _accept},
     {"_new_empty_map", (void *) _new_empty_map},
     {"_put", (void *) _put},
@@ -249,7 +251,7 @@ void _print_scilla_val(const ScillaTypes::Typ *T, void *V) {
 
 void *_salloc(ScillaJIT *SJ, size_t size) { return SJ->sAlloc(size); }
 
-void _out_of_gas() { CREATE_ERROR("Ran out of gas"); }
+void _out_of_gas() { SCILLA_EXCEPTION("Ran out of gas"); }
 
 ScillaTypes::Int32 _add_Int32(ScillaTypes::Int32 Lhs, ScillaTypes::Int32 Rhs) {
   return SafeInt32(&Lhs) + SafeInt32(&Rhs);
@@ -622,6 +624,32 @@ void *_concat_ByStrX(ScillaJIT *SJ, int X1, uint8_t *Lhs, int X2,
   std::memcpy(Buf, Lhs, X1);
   std::memcpy(Buf + X1, Rhs, X2);
   return Buf;
+}
+
+ScillaTypes::String _substr_String(ScillaJIT *SJ, ScillaTypes::String Str,
+                                   ScillaTypes::Uint32 Pos,
+                                   ScillaTypes::Uint32 Len) {
+
+  auto PosUI = *reinterpret_cast<unsigned *>(&Pos);
+  auto LenUI = *reinterpret_cast<unsigned *>(&Len);
+
+  if (PosUI + LenUI > (unsigned)Str.m_length) {
+    SCILLA_EXCEPTION("Invalid arguments to substr");
+  }
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  ScillaTypes::String Ret;
+  Ret.m_length = LenUI;
+  auto Buf = reinterpret_cast<uint8_t *>(SA(LenUI));
+  std::memcpy(Buf, Str.m_buffer + PosUI, LenUI);
+  Ret.m_buffer = Buf;
+
+  return Ret;
+}
+
+ScillaTypes::String _substr_ByStr(ScillaJIT *SJ, ScillaTypes::String Str,
+                                  ScillaTypes::Uint32 Pos,
+                                  ScillaTypes::Uint32 Len) {
+  return _substr_String(SJ, Str, Pos, Len);
 }
 
 void _accept(ScillaJIT *SJ) { SJ->TS->processAccept(); }

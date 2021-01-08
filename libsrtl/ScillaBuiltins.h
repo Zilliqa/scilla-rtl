@@ -186,6 +186,16 @@ ScillaVM::ScillaTypes::String _concat_ByStr(ScillaVM::ScillaJIT *SJ,
 void *_concat_ByStrX(ScillaVM::ScillaJIT *SJ, int X1, uint8_t *Lhs, int X2,
                      uint8_t *Rhs);
 
+ScillaVM::ScillaTypes::String _substr_String(ScillaVM::ScillaJIT *SJ,
+                                             ScillaVM::ScillaTypes::String Str,
+                                             ScillaVM::ScillaTypes::Uint32 Pos,
+                                             ScillaVM::ScillaTypes::Uint32 Len);
+
+ScillaVM::ScillaTypes::String _substr_ByStr(ScillaVM::ScillaJIT *SJ,
+                                            ScillaVM::ScillaTypes::String Str,
+                                            ScillaVM::ScillaTypes::Uint32 Pos,
+                                            ScillaVM::ScillaTypes::Uint32 Len);
+
 void _accept(ScillaVM::ScillaJIT *SJ);
 
 ScillaVM::ScillaParams::MapValueT *_new_empty_map(ScillaVM::ScillaJIT *SJ);

@@ -71,7 +71,50 @@ void testExecExpr(const std::string &Testname) {
     ;
   }
 }
+
+void testExecFailExpr(const std::string &Testname) {
+  using namespace ScillaVM;
+  using namespace ScillaTestsuite;
+
+  auto Filename = Config::TestsuiteSrc + "/expr/" + Testname + ".ll";
+
+  ScillaJIT::init();
+  // TODO: Pushing ScillaJIT::create into the try-catch below
+  // causes a segfault later. Likely related to the exception
+  // bug (and workaround) linked to right below.
+  // Linking to an LLVM build with LLVM_ENABLE_EH=On doesn't solve.
+  auto SJ =
+      ScillaJIT::create(ScillaVM::ScillaParams(), Filename, Json::arrayValue);
+
+  bool CaughtException = false;
+  try {
+    auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
+    BOOST_TEST_CHECKPOINT(Filename + ": JIT compilation succeeded");
+    auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
+    ScillaStdout.clear();
+    // Set the remaining gas inside the LLVM-IR for the expression.
+    auto GasRemPtr = reinterpret_cast<uint64_t *>(SJ->getAddressFor("_gasrem"));
+    *GasRemPtr = Config::GasLimit;
+
+    // Execute expression.
+    ScillaMain();
+
+    // Collect and print the remaining gas.
+    ScillaStdout += "Gas remaining: " + std::to_string(*GasRemPtr) + "\n";
+  } catch (const ScillaError &E) {
+    output_test_stream Output(Filename + ".result", !Config::UpdateResults);
+    Output << E.toString();
+    BOOST_TEST(Output.match_pattern());
+    CaughtException = true;
+    BOOST_TEST_CHECKPOINT(Filename + ": Output matched");
+  }
+  BOOST_CHECK_MESSAGE(CaughtException, "Did not catch expected error");
+}
+
 } // namespace
+
+// Expected success tests
+
 BOOST_AUTO_TEST_SUITE(expr_exec)
 
 BOOST_AUTO_TEST_CASE(adt_fun) { testExecExpr("adt-fun"); }
@@ -126,5 +169,16 @@ BOOST_AUTO_TEST_CASE(lit_emp_i32_list_string) {
 }
 BOOST_AUTO_TEST_CASE(map1) { testExecExpr("map1"); }
 BOOST_AUTO_TEST_CASE(builtin_to_bystrx) { testExecExpr("builtin_to_bystrx"); }
+BOOST_AUTO_TEST_CASE(builtin_substr) { testExecExpr("builtin_substr"); }
+
+BOOST_AUTO_TEST_SUITE_END()
+
+// Expected fail tests
+
+BOOST_AUTO_TEST_SUITE(expr_exec_fail)
+
+BOOST_AUTO_TEST_CASE(builtin_substr_fail) {
+  testExecFailExpr("builtin_substr_rfail");
+}
 
 BOOST_AUTO_TEST_SUITE_END()
