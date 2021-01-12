@@ -70,6 +70,8 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_concat_ByStrX", (void *) _concat_ByStrX},
     {"_substr_String", (void *) _substr_String},
     {"_substr_ByStr", (void *) _substr_ByStr},
+    {"_strlen_String", (void *) _strlen_String},
+    {"_strlen_ByStr", (void *) _strlen_ByStr},
     {"_accept", (void *) _accept},
     {"_new_empty_map", (void *) _new_empty_map},
     {"_put", (void *) _put},
@@ -624,6 +626,19 @@ void *_concat_ByStrX(ScillaJIT *SJ, int X1, uint8_t *Lhs, int X2,
   std::memcpy(Buf, Lhs, X1);
   std::memcpy(Buf + X1, Rhs, X2);
   return Buf;
+}
+
+ScillaTypes::Uint32 _strlen_String(ScillaTypes::String Str) {
+  ScillaTypes::Uint32 Ret;
+  uint32_t Len = static_cast<uint32_t>(Str.m_length);
+  auto Size = sizeof(uint32_t);
+  ASSERT(Size == sizeof(Ret.buf));
+  std::memcpy(Ret.buf, &Len, Size);
+  return Ret;
+}
+
+ScillaTypes::Uint32 _strlen_ByStr(ScillaTypes::String Str) {
+  return _strlen_String(Str);
 }
 
 ScillaTypes::String _substr_String(ScillaJIT *SJ, ScillaTypes::String Str,

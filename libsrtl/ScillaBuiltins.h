@@ -196,6 +196,9 @@ ScillaVM::ScillaTypes::String _substr_ByStr(ScillaVM::ScillaJIT *SJ,
                                             ScillaVM::ScillaTypes::Uint32 Pos,
                                             ScillaVM::ScillaTypes::Uint32 Len);
 
+ScillaVM::ScillaTypes::Uint32 _strlen_String(ScillaVM::ScillaTypes::String Str);
+ScillaVM::ScillaTypes::Uint32 _strlen_ByStr(ScillaVM::ScillaTypes::String Str);
+
 void _accept(ScillaVM::ScillaJIT *SJ);
 
 ScillaVM::ScillaParams::MapValueT *_new_empty_map(ScillaVM::ScillaJIT *SJ);
