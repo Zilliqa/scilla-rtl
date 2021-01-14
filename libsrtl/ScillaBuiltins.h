@@ -172,6 +172,15 @@ void *_uint128_to_bystrx(ScillaVM::ScillaJIT *SJ,
 void *_uint256_to_bystrx(ScillaVM::ScillaJIT *SJ,
                          ScillaVM::ScillaTypes::Uint256 *I);
 
+ScillaVM::ScillaTypes::Uint32 _bystrx_to_uint32(ScillaVM::ScillaJIT *, int X,
+                                                void *BS);
+ScillaVM::ScillaTypes::Uint64 _bystrx_to_uint64(ScillaVM::ScillaJIT *, int X,
+                                                void *BS);
+ScillaVM::ScillaTypes::Uint128 _bystrx_to_uint128(ScillaVM::ScillaJIT *, int X,
+                                                  void *BS);
+ScillaVM::ScillaTypes::Uint256 *_bystrx_to_uint256(ScillaVM::ScillaJIT *SJ,
+                                                   int X, void *BS);
+
 void *_sha256hash(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
                   void *V);
 

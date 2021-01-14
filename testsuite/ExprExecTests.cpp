@@ -171,6 +171,9 @@ BOOST_AUTO_TEST_CASE(map1) { testExecExpr("map1"); }
 BOOST_AUTO_TEST_CASE(builtin_to_bystrx) { testExecExpr("builtin_to_bystrx"); }
 BOOST_AUTO_TEST_CASE(builtin_substr) { testExecExpr("builtin_substr"); }
 BOOST_AUTO_TEST_CASE(builtin_strlen) { testExecExpr("builtin_strlen"); }
+BOOST_AUTO_TEST_CASE(bystrx_uint_conversions) {
+  testExecExpr("bystrx_uint_conversions");
+}
 
 BOOST_AUTO_TEST_SUITE_END()
 

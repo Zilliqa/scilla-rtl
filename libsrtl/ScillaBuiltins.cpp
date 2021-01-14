@@ -64,6 +64,10 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_uint64_to_bystrx", (void *) _uint64_to_bystrx},
     {"_uint128_to_bystrx", (void *) _uint128_to_bystrx},
     {"_uint256_to_bystrx", (void *)_uint256_to_bystrx},
+    {"_bystrx_to_uint32", (void *) _bystrx_to_uint32},
+    {"_bystrx_to_uint64", (void *) _bystrx_to_uint64},
+    {"_bystrx_to_uint128", (void *) _bystrx_to_uint128},
+    {"_bystrx_to_uint256", (void *) _bystrx_to_uint256},
     {"_sha256hash", (void *) _sha256hash},
     {"_concat_String", (void *) _concat_String},
     {"_concat_ByStr", (void *) _concat_ByStr},
@@ -241,6 +245,20 @@ void *uintToByStrX(ScillaJIT *SJ, ScillaTypes::RawInt<X> I) {
   ScillaValues::swapEndian(reinterpret_cast<uint8_t *>(Mem), Len);
 #endif
   return Mem;
+}
+
+template <unsigned X>
+void byStrXToUint(ScillaTypes::RawInt<X> &UI, void *BX, int L) {
+  static_assert(sizeof(ScillaTypes::RawInt<X>) == sizeof(UI.buf),
+                "RawInt struct not as expected");
+  auto Len = static_cast<int>(sizeof(ScillaTypes::RawInt<X>));
+  ASSERT(L <= Len);
+  std::memset(UI.buf, 0, Len - L);
+  std::memcpy(UI.buf + (Len - L), BX, L);
+#if BOOST_ENDIAN_LITTLE_BYTE
+  // Native integer is little-endian. Convert it to big-endian.
+  ScillaValues::swapEndian(UI.buf, Len);
+#endif
 }
 
 } // namespace
@@ -591,6 +609,32 @@ void *_uint128_to_bystrx(ScillaJIT *SJ, ScillaTypes::Uint128 I) {
 
 void *_uint256_to_bystrx(ScillaJIT *SJ, ScillaTypes::Uint256 *I) {
   return uintToByStrX<256>(SJ, *I);
+}
+
+ScillaTypes::Uint32 _bystrx_to_uint32(ScillaJIT *, int X, void *BS) {
+  ScillaTypes::Uint32 Ret;
+  byStrXToUint(Ret, BS, X);
+  return Ret;
+}
+
+ScillaTypes::Uint64 _bystrx_to_uint64(ScillaJIT *, int X, void *BS) {
+  ScillaTypes::Uint64 Ret;
+  byStrXToUint(Ret, BS, X);
+  return Ret;
+}
+
+ScillaTypes::Uint128 _bystrx_to_uint128(ScillaJIT *, int X, void *BS) {
+  ScillaTypes::Uint128 Ret;
+  byStrXToUint(Ret, BS, X);
+  return Ret;
+}
+
+ScillaTypes::Uint256 *_bystrx_to_uint256(ScillaJIT *SJ, int X, void *BS) {
+  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+  auto *Ret = reinterpret_cast<ScillaTypes::Uint256 *>(
+      SA(sizeof(ScillaTypes::Uint256)));
+  byStrXToUint(*Ret, BS, X);
+  return Ret;
 }
 
 void *_sha256hash(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
