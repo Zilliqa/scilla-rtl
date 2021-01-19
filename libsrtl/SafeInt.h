@@ -60,6 +60,9 @@ public:
   SafeInt operator+(const SafeInt &Rhs) const;
   SafeInt operator-(const SafeInt &Rhs) const;
 
+  static SafeInt constexpr max() { return SafeInt(SafeIntImpl::max()); };
+  static SafeInt constexpr min() { return SafeInt(SafeIntImpl::min()); };
+
 private:
   // Initialize from raw bytes
   SafeInt(const void *V);

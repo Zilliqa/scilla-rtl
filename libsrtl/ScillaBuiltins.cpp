@@ -793,9 +793,17 @@ void *_remove(ScillaJIT *SJ, const ScillaTypes::Typ *T,
 }
 
 ScillaTypes::Uint32 _size(const ScillaParams::MapValueT *M) {
-  // Converting the size to string and then to SafeUint32
-  // is the safest and simplest, but not the most efficient.
-  return SafeUint32(std::to_string(M->size()));
+  uint64_t S64 = M->size();
+  uint32_t S32 = static_cast<uint32_t>(S64);
+  if (static_cast<uint64_t>(S32) != S64) {
+    CREATE_ERROR("Builtin size: Unable to fit size in Uint32 value");
+  }
+
+  ScillaTypes::Uint32 Ret;
+  static_assert(sizeof(Ret.buf) == sizeof(S32),
+                "Internal error: Integer size mismatch");
+  std::memcpy(Ret.buf, &S32, sizeof(S32));
+  return Ret;
 }
 
 } // end of extern "C".
