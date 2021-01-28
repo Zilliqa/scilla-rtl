@@ -57,6 +57,7 @@ add_subdirectory(libjitd)
 add_subdirectory(libsrtl)
 add_subdirectory(runners)
 add_subdirectory(testsuite)
+add_subdirectory(deps/cryptoutils)
 
 # installation
 set_target_properties(scilla-runner

@@ -17,6 +17,9 @@ target_include_directories(${TARGET} PUBLIC ${Boost_INCLUDE_DIRS})
 # The bignum / wideint library git submodule. It needs no linking.
 target_include_directories(${TARGET} PUBLIC ${PROJECT_SOURCE_DIR}/deps/bignum/src)
 target_link_libraries (${TARGET} PUBLIC jsoncpp ${Boost_LIBRARIES})
+# Zilliqa's cryptoutils library
+target_include_directories(${TARGET} PUBLIC ${PROJECT_SOURCE_DIR}/deps/cryptoutils/include)
+target_link_libraries (${TARGET} PUBLIC CryptoUtils)
 
 target_include_directories(${TARGET} PUBLIC ${OPENSSL_INCLUDE_DIRS})
 target_link_libraries(${TARGET} PRIVATE ${OPENSSL_LIBRARIES})

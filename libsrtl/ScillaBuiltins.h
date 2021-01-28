@@ -184,6 +184,9 @@ ScillaVM::ScillaTypes::Uint256 *_bystrx_to_uint256(ScillaVM::ScillaJIT *SJ,
 void *_sha256hash(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
                   void *V);
 
+void *_keccak256hash(ScillaVM::ScillaJIT *SJ,
+                     const ScillaVM::ScillaTypes::Typ *T, void *V);
+
 ScillaVM::ScillaTypes::String _concat_String(ScillaVM::ScillaJIT *SJ,
                                              ScillaVM::ScillaTypes::String Lhs,
                                              ScillaVM::ScillaTypes::String Rhs);

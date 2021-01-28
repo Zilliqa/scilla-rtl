@@ -1,3 +1,6 @@
 [submodule "deps/bignum"]
 	path = deps/bignum
 	url = https://github.com/Zilliqa/bignum.git
+[submodule "deps/cryptoutils"]
+	path = deps/cryptoutils
+	url = https://github.com/Zilliqa/cryptoutils
