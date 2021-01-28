@@ -28,4 +28,5 @@ branches:
     - master
     - /^release-v.*$/
 script:
+    - scripts/install_cmake_ubuntu.sh
     - scripts/build_ci.sh
