@@ -1,3 +1,4 @@
-cmake -Bbuild -H.
-cmake --build build --target runtests
+#!/usr/bin/env bash
 
+cmake -B build -S . -DADDRESS_SANITIZER=1
+cmake --build build --target runtests
