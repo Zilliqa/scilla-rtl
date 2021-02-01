@@ -163,7 +163,6 @@ Json::Value TransitionState::finalize(void) {
 } // namespace ScillaVM
 
 using namespace ScillaVM;
-namespace ph = std::placeholders;
 
 namespace {
 
@@ -186,9 +185,9 @@ void prepareStateAccessIndices(
   }
 }
 
-uint8_t *toScillaBool(SAllocator &SA, bool B) {
+uint8_t *toScillaBool(ObjManager &OM, bool B) {
   int MemSize = 1;
-  auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
+  auto Mem = reinterpret_cast<uint8_t *>(OM.allocBytes(MemSize));
   if (B) {
     *Mem = ScillaTypes::Bool_True_Tag;
   } else {
@@ -198,14 +197,14 @@ uint8_t *toScillaBool(SAllocator &SA, bool B) {
 }
 
 // Wrap the result of a map acess with Scilla Option type.
-uint8_t *wrapMapAccessResult(SAllocator &SA, bool Found,
+uint8_t *wrapMapAccessResult(ObjManager &OM, bool Found,
                              const boost::any &StringOrMapVal,
                              const ScillaTypes::Typ *ValT) {
   if (Found) {
     // Wrap with "Some".
     // Allocate memory for "Some" = sizeOf (ValT) + 1 byte for Tag.
     int MemSize = ScillaTypes::Typ::sizeOf(ValT) + 1;
-    auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
+    auto Mem = reinterpret_cast<uint8_t *>(OM.allocBytes(MemSize));
     *Mem = ScillaTypes::Option_Some_Tag;
     // Create Scilla value from JSON and place it in Mem + 1.
     // i.e., We are constructing a Scilla "Some" object overall.
@@ -213,25 +212,24 @@ uint8_t *wrapMapAccessResult(SAllocator &SA, bool Found,
       if (ValT->m_t == ScillaTypes::Typ::Map_typ) {
         auto &MapVal =
             boost::any_cast<const ScillaParams::MapValueT &>(StringOrMapVal);
-        auto Buf = SA(sizeof(ScillaParams::MapValueT));
         *reinterpret_cast<void **>(Mem + 1) =
-            new (Buf) ScillaParams::MapValueT(std::move(MapVal));
+            OM.create<ScillaParams::MapValueT>((std::move(MapVal)));
       } else {
         auto StringVal = boost::any_cast<std::string>(StringOrMapVal);
         Json::Value ValJ = parseJSONString(StringVal);
         *reinterpret_cast<void **>(Mem + 1) =
-            ScillaValues::fromJSON(SA, ValT, ValJ);
+            ScillaValues::fromJSON(OM, ValT, ValJ);
       }
     } else {
       auto StringVal = boost::any_cast<std::string>(StringOrMapVal);
       Json::Value ValJ = parseJSONString(StringVal);
-      ScillaValues::fromJSONToMem(SA, (Mem + 1), MemSize - 1, ValT, ValJ);
+      ScillaValues::fromJSONToMem(OM, (Mem + 1), MemSize - 1, ValT, ValJ);
     }
     return Mem;
   } else {
     // Wrap with Scilla object "None", which has only a Tag.
     int MemSize = 1;
-    auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
+    auto Mem = reinterpret_cast<uint8_t *>(OM.allocBytes(MemSize));
     *Mem = ScillaTypes::Option_None_Tag;
     return Mem;
   }
@@ -240,8 +238,7 @@ uint8_t *wrapMapAccessResult(SAllocator &SA, bool Found,
 template <unsigned X>
 void *uintToByStrX(ScillaJIT *SJ, ScillaTypes::RawInt<X> I) {
   auto Len = sizeof(ScillaTypes::RawInt<X>);
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  auto Mem = SA(Len);
+  auto Mem = SJ->OM->allocBytes(Len);
   std::memcpy(Mem, &I, Len);
 #if BOOST_ENDIAN_LITTLE_BYTE
   // Native integer is little-endian. Convert it to big-endian.
@@ -272,7 +269,7 @@ void _print_scilla_val(const ScillaTypes::Typ *T, void *V) {
   ScillaStdout += ScillaValues::toString(true, T, V) + "\n";
 }
 
-void *_salloc(ScillaJIT *SJ, size_t size) { return SJ->sAlloc(size); }
+void *_salloc(ScillaJIT *SJ, size_t size) { return SJ->OM->allocBytes(size); }
 
 void _out_of_gas() { SCILLA_EXCEPTION("Ran out of gas"); }
 
@@ -291,8 +288,8 @@ ScillaTypes::Int128 _add_Int128(ScillaTypes::Int128 Lhs,
 
 ScillaTypes::Int256 *_add_Int256(ScillaJIT *SJ, ScillaTypes::Int256 *Lhs,
                                  ScillaTypes::Int256 *Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  auto *Buf = SA(sizeof(ScillaTypes::Int256));
+
+  auto *Buf = SJ->OM->allocBytes(sizeof(ScillaTypes::Int256));
   return new (Buf) ScillaTypes::Int256(SafeInt256(Lhs) + SafeInt256(Rhs));
 }
 
@@ -313,57 +310,57 @@ ScillaTypes::Uint128 _add_Uint128(ScillaTypes::Uint128 Lhs,
 
 ScillaTypes::Uint256 *_add_Uint256(ScillaJIT *SJ, ScillaTypes::Uint256 *Lhs,
                                    ScillaTypes::Uint256 *Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  auto *Buf = SA(sizeof(ScillaTypes::Uint256));
+
+  auto *Buf = SJ->OM->allocBytes(sizeof(ScillaTypes::Uint256));
   return new (Buf) ScillaTypes::Uint256(SafeUint256(Lhs) + SafeUint256(Rhs));
 }
 
 uint8_t *_eq_Int32(ScillaJIT *SJ, ScillaTypes::Int32 Lhs,
                    ScillaTypes::Int32 Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  return toScillaBool(SA, SafeInt32(&Lhs) == SafeInt32(&Rhs));
+
+  return toScillaBool(*(SJ->OM), SafeInt32(&Lhs) == SafeInt32(&Rhs));
 }
 
 uint8_t *_eq_Int64(ScillaJIT *SJ, ScillaTypes::Int64 Lhs,
                    ScillaTypes::Int64 Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  return toScillaBool(SA, SafeInt64(&Lhs) == SafeInt64(&Rhs));
+
+  return toScillaBool(*(SJ->OM), SafeInt64(&Lhs) == SafeInt64(&Rhs));
 }
 
 uint8_t *_eq_Int128(ScillaJIT *SJ, ScillaTypes::Int128 Lhs,
                     ScillaTypes::Int128 Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  return toScillaBool(SA, SafeInt128(&Lhs) == SafeInt128(&Rhs));
+
+  return toScillaBool(*(SJ->OM), SafeInt128(&Lhs) == SafeInt128(&Rhs));
 }
 
 uint8_t *_eq_Int256(ScillaJIT *SJ, ScillaTypes::Int256 *Lhs,
                     ScillaTypes::Int256 *Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  return toScillaBool(SA, SafeInt256(Lhs) == SafeInt256(Rhs));
+
+  return toScillaBool(*(SJ->OM), SafeInt256(Lhs) == SafeInt256(Rhs));
 }
 
 uint8_t *_eq_Uint32(ScillaJIT *SJ, ScillaTypes::Uint32 Lhs,
                     ScillaTypes::Uint32 Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  return toScillaBool(SA, SafeUint32(&Lhs) == SafeUint32(&Rhs));
+
+  return toScillaBool(*(SJ->OM), SafeUint32(&Lhs) == SafeUint32(&Rhs));
 }
 
 uint8_t *_eq_Uint64(ScillaJIT *SJ, ScillaTypes::Uint64 Lhs,
                     ScillaTypes::Uint64 Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  return toScillaBool(SA, SafeUint64(&Lhs) == SafeUint64(&Rhs));
+
+  return toScillaBool(*(SJ->OM), SafeUint64(&Lhs) == SafeUint64(&Rhs));
 }
 
 uint8_t *_eq_Uint128(ScillaJIT *SJ, ScillaTypes::Uint128 Lhs,
                      ScillaTypes::Uint128 Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  return toScillaBool(SA, SafeUint128(&Lhs) == SafeUint128(&Rhs));
+
+  return toScillaBool(*(SJ->OM), SafeUint128(&Lhs) == SafeUint128(&Rhs));
 }
 
 uint8_t *_eq_Uint256(ScillaJIT *SJ, ScillaTypes::Uint256 *Lhs,
                      ScillaTypes::Uint256 *Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  return toScillaBool(SA, SafeUint256(Lhs) == SafeUint256(Rhs));
+
+  return toScillaBool(*(SJ->OM), SafeUint256(Lhs) == SafeUint256(Rhs));
 }
 
 void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
@@ -389,8 +386,6 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
     CREATE_ERROR("State fetch query failed for " + SQ.Name);
   }
 
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-
   if (SerializedIndices.empty()) {
     // Full access of state variable. No indexing.
     ASSERT_MSG(FetchVal, "Fetching full state variable, but FetchVal not set");
@@ -398,22 +393,22 @@ void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
       ASSERT(ScillaTypes::Typ::mapAccessType(T, NumIdx)->m_t ==
              ScillaTypes::Typ::Map_typ);
       auto &MapVal = boost::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
-      auto Buf = SA(sizeof(ScillaParams::MapValueT));
-      return new (Buf) ScillaParams::MapValueT(std::move(MapVal));
+      return reinterpret_cast<void *>(
+          SJ->OM->create<ScillaParams::MapValueT>(std::move(MapVal)));
     } else {
       auto Val = boost::any_cast<std::string>(StringOrMapVal);
       Json::Value ValJ = parseJSONString(Val);
-      return ScillaValues::fromJSON(SA, T, ValJ);
+      return ScillaValues::fromJSON(*(SJ->OM), T, ValJ);
     }
   }
 
   // Map access. Returned value must be wrapped with Option / Bool.
   auto ValT = ScillaTypes::Typ::mapAccessType(T, NumIdx);
   if (FetchVal) {
-    return wrapMapAccessResult(SA, Found, StringOrMapVal, ValT);
+    return wrapMapAccessResult(*(SJ->OM), Found, StringOrMapVal, ValT);
   } else {
     // We need to construct a Scilla Bool ADT based on "found".
-    auto Mem = toScillaBool(SA, Found);
+    auto Mem = toScillaBool(*(SJ->OM), Found);
     return Mem;
   }
 }
@@ -468,7 +463,8 @@ void *_to_nat(ScillaJIT *SJ, ScillaTypes::Uint32 UI) {
   // A Succ object consists of an i8 tag followed by a pointer.
   auto ElSize = 1 + sizeof(uint8_t *);
   // We allocate all objects in one for (1) fast allocation (2) locality.
-  const auto Mem = reinterpret_cast<uint8_t *>(SJ->sAlloc(ElSize * (I + 1)));
+  const auto Mem =
+      reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(ElSize * (I + 1)));
   *Mem = ScillaTypes::Nat_Zero_Tag;
   uint8_t *MemPrev = Mem;
   for (unsigned II = 1; II <= I; II++) {
@@ -548,30 +544,30 @@ void _throw(ScillaJIT *SJ, const ScillaTypes::Typ *T, const void *V) {
 
 uint8_t *_eq_String(ScillaJIT *SJ, ScillaTypes::String Lhs,
                     ScillaTypes::String Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+
   auto B = (Lhs.m_length == Rhs.m_length) &&
            (std::memcmp(Lhs.m_buffer, Rhs.m_buffer, Lhs.m_length) == 0);
-  return toScillaBool(SA, B);
+  return toScillaBool(*(SJ->OM), B);
 }
 
 uint8_t *_eq_ByStr(ScillaJIT *SJ, ScillaTypes::String Lhs,
                    ScillaTypes::String Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+
   auto B = (Lhs.m_length == Rhs.m_length) &&
            (std::memcmp(Lhs.m_buffer, Rhs.m_buffer, Lhs.m_length) == 0);
-  return toScillaBool(SA, B);
+  return toScillaBool(*(SJ->OM), B);
 }
 
 uint8_t *_eq_ByStrX(ScillaJIT *SJ, int X, uint8_t *Lhs, uint8_t *Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+
   auto B = (std::memcmp(Lhs, Rhs, X) == 0);
-  return toScillaBool(SA, B);
+  return toScillaBool(*(SJ->OM), B);
 }
 
 ScillaTypes::String _to_bystr(ScillaJIT *SJ, int X, uint8_t *Buf) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+
   ScillaTypes::String Ret;
-  auto Mem = SA(X);
+  auto Mem = SJ->OM->allocBytes(X);
   std::memcpy(Mem, Buf, X);
   Ret.m_length = X;
   Ret.m_buffer = reinterpret_cast<uint8_t *>(Mem);
@@ -579,18 +575,18 @@ ScillaTypes::String _to_bystr(ScillaJIT *SJ, int X, uint8_t *Buf) {
 }
 
 void *_bystr_to_bystrx(ScillaJIT *SJ, int X, ScillaTypes::String Str) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+
   if (X != Str.m_length) {
     // Wrap with Scilla object "None", which has only a Tag.
     int MemSize = 1;
-    auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
+    auto Mem = reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(MemSize));
     *Mem = ScillaTypes::Option_None_Tag;
     return Mem;
   }
   // Wrap with "Some".
   // Allocate memory for "Some" = sizeOf (ValT) + 1 byte for Tag.
   int MemSize = X + 1;
-  auto Mem = reinterpret_cast<uint8_t *>(SA(MemSize));
+  auto Mem = reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(MemSize));
   *Mem = ScillaTypes::Option_Some_Tag;
   // Create Scilla value from JSON and place it in Mem + 1.
   // i.e., We are constructing a Scilla "Some" object overall.
@@ -633,17 +629,18 @@ ScillaTypes::Uint128 _bystrx_to_uint128(ScillaJIT *, int X, void *BS) {
 }
 
 ScillaTypes::Uint256 *_bystrx_to_uint256(ScillaJIT *SJ, int X, void *BS) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+
   auto *Ret = reinterpret_cast<ScillaTypes::Uint256 *>(
-      SA(sizeof(ScillaTypes::Uint256)));
+      SJ->OM->allocBytes(sizeof(ScillaTypes::Uint256)));
   byStrXToUint(*Ret, BS, X);
   return Ret;
 }
 
 void *_sha256hash(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
   ByteVec Serialized;
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  auto *Buf = reinterpret_cast<uint8_t *>(SA(SHA256_DIGEST_LENGTH));
+
+  auto *Buf =
+      reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(SHA256_DIGEST_LENGTH));
   ScillaValues::serializeForHashing(Serialized, T, V);
   SHA256(Serialized.data(), Serialized.size(), Buf);
   return Buf;
@@ -652,8 +649,8 @@ void *_sha256hash(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
 void *_keccak256hash(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
   ByteVec Serialized;
   const auto HashLength = sizeof(ethash_hash256);
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  auto *Buf = reinterpret_cast<uint8_t *>(SA(HashLength));
+
+  auto *Buf = reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(HashLength));
   ScillaValues::serializeForHashing(Serialized, T, V);
   auto H = ethash_keccak256(Serialized.data(), Serialized.size());
   std::memcpy(Buf, H.bytes, HashLength);
@@ -662,10 +659,10 @@ void *_keccak256hash(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
 
 ScillaTypes::String _concat_String(ScillaJIT *SJ, ScillaTypes::String Lhs,
                                    ScillaTypes::String Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+
   ScillaTypes::String Ret;
   Ret.m_length = Lhs.m_length + Rhs.m_length;
-  auto Buf = reinterpret_cast<uint8_t *>(SA(Ret.m_length));
+  auto Buf = reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(Ret.m_length));
   std::memcpy(Buf, Lhs.m_buffer, Lhs.m_length);
   std::memcpy(Buf + Lhs.m_length, Rhs.m_buffer, Rhs.m_length);
   Ret.m_buffer = Buf;
@@ -679,8 +676,8 @@ ScillaTypes::String _concat_ByStr(ScillaJIT *SJ, ScillaTypes::String Lhs,
 
 void *_concat_ByStrX(ScillaJIT *SJ, int X1, uint8_t *Lhs, int X2,
                      uint8_t *Rhs) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  auto *Buf = reinterpret_cast<uint8_t *>(SA(X1 + X2));
+
+  auto *Buf = reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(X1 + X2));
   std::memcpy(Buf, Lhs, X1);
   std::memcpy(Buf + X1, Rhs, X2);
   return Buf;
@@ -709,10 +706,10 @@ ScillaTypes::String _substr_String(ScillaJIT *SJ, ScillaTypes::String Str,
   if (PosUI + LenUI > (unsigned)Str.m_length) {
     SCILLA_EXCEPTION("Invalid arguments to substr");
   }
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
+
   ScillaTypes::String Ret;
   Ret.m_length = LenUI;
-  auto Buf = reinterpret_cast<uint8_t *>(SA(LenUI));
+  auto Buf = reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(LenUI));
   std::memcpy(Buf, Str.m_buffer + PosUI, LenUI);
   Ret.m_buffer = Buf;
 
@@ -728,16 +725,12 @@ ScillaTypes::String _substr_ByStr(ScillaJIT *SJ, ScillaTypes::String Str,
 void _accept(ScillaJIT *SJ) { SJ->TS->processAccept(); }
 
 ScillaParams::MapValueT *_new_empty_map(ScillaJIT *SJ) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  auto Buf = SA(sizeof(ScillaParams::MapValueT));
-  return new (Buf) ScillaParams::MapValueT;
+  return SJ->OM->create<ScillaParams::MapValueT>();
 }
 
 ScillaParams::MapValueT *_put(ScillaJIT *SJ, const ScillaTypes::Typ *T,
                               ScillaParams::MapValueT *M, void *K, void *V) {
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  auto Buf = SA(sizeof(ScillaParams::MapValueT));
-  auto NewM = new (Buf) ScillaParams::MapValueT(*M);
+  auto NewM = SJ->OM->create<ScillaParams::MapValueT>(*M);
 
   switch (T->m_t) {
   case ScillaTypes::Typ::Map_typ: {
@@ -774,12 +767,11 @@ void *_get(ScillaJIT *SJ, const ScillaTypes::Typ *T,
   auto KeyS = ScillaValues::toJSON(KeyT, K).toStyledString();
   auto Itr = M->find(KeyS);
 
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
   bool Found = Itr != M->end();
   const boost::any Dummy;
   const boost::any &Val = Found ? Itr->second : Dummy;
   // Wrap with "Option".
-  return wrapMapAccessResult(SA, Found, Val, ValT);
+  return wrapMapAccessResult(*(SJ->OM), Found, Val, ValT);
 }
 
 void *_contains(ScillaJIT *SJ, const ScillaTypes::Typ *T,
@@ -788,8 +780,8 @@ void *_contains(ScillaJIT *SJ, const ScillaTypes::Typ *T,
   auto *KeyT = T->m_sub.m_mapt->m_keyTyp;
   auto KeyS = ScillaValues::toJSON(KeyT, K).toStyledString();
   auto Itr = M->find(KeyS);
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  return toScillaBool(SA, Itr != M->end());
+
+  return toScillaBool(*(SJ->OM), Itr != M->end());
 }
 
 void *_remove(ScillaJIT *SJ, const ScillaTypes::Typ *T,
@@ -798,10 +790,7 @@ void *_remove(ScillaJIT *SJ, const ScillaTypes::Typ *T,
   auto *KeyT = T->m_sub.m_mapt->m_keyTyp;
   auto KeyS = ScillaValues::toJSON(KeyT, K).toStyledString();
 
-  SAllocator SA(std::bind(&ScillaJIT::sAlloc, SJ, ph::_1));
-  auto Buf = SA(sizeof(ScillaParams::MapValueT));
-  auto NewM = new (Buf) ScillaParams::MapValueT(*M);
-
+  auto NewM = SJ->OM->create<ScillaParams::MapValueT>(*M);
   NewM->erase(KeyS);
   return NewM;
 }

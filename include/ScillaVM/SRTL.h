@@ -18,6 +18,7 @@
 #pragma once
 
 #include <functional>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -28,7 +29,59 @@ using ByteVec = std::vector<uint8_t>;
 // A global that accummulates messages printed from the JIT'ed code.
 extern std::string ScillaStdout;
 
-// A memory allocator object.
-using SAllocator = std::function<void *(size_t)>;
+// Allocates, constructs, owns and destructs objects.
+// Objects of any type can be managed. It works similar to how
+// std::any works. https://stackoverflow.com/a/4989141/2128804
+class ObjManager {
+
+  class MemObjBase {
+  public:
+    virtual ~MemObjBase() = default;
+  };
+  template <typename T> class MemObj : public MemObjBase {
+  public:
+    T O;
+    MemObj(const T &O) : O(O){};
+    MemObj(T &&O) : O(std::move(O)){};
+    MemObj() : O(){};
+  };
+  std::vector<MemObjBase *> MAllocs;
+
+public:
+  template <typename T> T *create() {
+    auto P = new MemObj<T>();
+    MAllocs.push_back(P);
+    return &P->O;
+  }
+  // Disable implicit instantiations of the form "auto A = create(10)" which
+  // only allocates an integer, while intention might be to allocate 10 bytes.
+  // allocBytes() must be used to allocate bytes.
+  int *create(const int &) = delete;
+  template <typename T> T *create(const T &O) {
+    auto P = new MemObj<T>(O);
+    MAllocs.push_back(P);
+    return &P->O;
+  }
+  template <typename T> T *create(T &&O) {
+    auto P = new MemObj<T>(std::move(O));
+    MAllocs.push_back(P);
+    return &P->O;
+  }
+  void *allocBytes(size_t N) {
+    auto Buf = new uint8_t[N];
+    auto UP = std::unique_ptr<uint8_t[]>(Buf);
+    auto P = new MemObj<std::unique_ptr<uint8_t[]>>(std::move(UP));
+    MAllocs.push_back(P);
+    return reinterpret_cast<void *>(Buf);
+  };
+  // Destruct and free all objects owned by this manager instance.
+  void mFreeAll() {
+    for (auto *P : MAllocs) {
+      delete P;
+    }
+    MAllocs.clear();
+  }
+  ~ObjManager() { mFreeAll(); };
+};
 
 } // namespace ScillaVM

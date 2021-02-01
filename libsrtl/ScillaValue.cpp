@@ -42,7 +42,7 @@ std::string rawToHex(const uint8_t *Data, int Len) {
 }
 
 // Convert hex string to binary, allocate memory if @Bin is nullptr.
-uint8_t *hex2Raw(SAllocator &A, uint8_t *Bin, int BinLen,
+uint8_t *hex2Raw(ObjManager &OM, uint8_t *Bin, int BinLen,
                  const std::string &Hex, int &NBytes) {
   int HStart = 0, HLen = Hex.length();
   if (HLen % 2 != 0 || HLen == 0)
@@ -83,7 +83,7 @@ uint8_t *hex2Raw(SAllocator &A, uint8_t *Bin, int BinLen,
   NBytes = HLen / 2;
   if (!Bin) {
     ASSERT(BinLen == 0);
-    Bin = reinterpret_cast<uint8_t *>(A(NBytes));
+    Bin = reinterpret_cast<uint8_t *>(OM.allocBytes(NBytes));
   } else {
     if (NBytes != BinLen) {
       CREATE_ERROR("ByStr" + std::to_string(NBytes) +
@@ -223,13 +223,11 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
       } else {
         auto OneTab = "  ";
         Out += "\n" + Tab + "{\n";
-        MemoryAllocator MA;
-        SAllocator SA(
-            std::bind(&MemoryAllocator::mAlloc, &MA, std::placeholders::_1));
+        ObjManager OM;
         for (auto &Itr : *M) {
           Out += Tab + OneTab;
           Json::Value KeyJ = parseJSONString(Itr.first);
-          auto *KeyV = ScillaValues::fromJSON(SA, KeyT, KeyJ);
+          auto *KeyV = ScillaValues::fromJSON(OM, KeyT, KeyJ);
           recurser(KeyT, Tab, KeyV);
           Out += " => ";
           switch (ValT->m_t) {
@@ -242,7 +240,7 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
           default: {
             auto &ValJS = boost::any_cast<const std::string &>(Itr.second);
             Json::Value ValJ = parseJSONString(ValJS);
-            auto *ValV = ScillaValues::fromJSON(SA, ValT, ValJ);
+            auto *ValV = ScillaValues::fromJSON(OM, ValT, ValJ);
             recurser(ValT, Tab + OneTab, ValV);
           }
           }
@@ -373,10 +371,7 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
     case ScillaTypes::Typ::Map_typ:
       auto ValT = T->m_sub.m_mapt->m_valTyp;
       auto M = reinterpret_cast<const ScillaParams::MapValueT *>(V);
-      MemoryAllocator MA;
-      SAllocator SA(
-          std::bind(&MemoryAllocator::mAlloc, &MA, std::placeholders::_1));
-
+      ObjManager MA;
       Out = Json::arrayValue;
       for (auto &Itr : *M) {
         Json::Value KeyJ = parseJSONString(Itr.first);
@@ -406,7 +401,7 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
   return Out;
 }
 
-void *fromJSONToMem(SAllocator &A, void *MemV, int MemSize,
+void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
                     const ScillaTypes::Typ *T, const Json::Value &J) {
 
   auto *Mem = reinterpret_cast<uint8_t *>(MemV);
@@ -421,7 +416,7 @@ void *fromJSONToMem(SAllocator &A, void *MemV, int MemSize,
     if (!Mem) {
       ASSERT(MemSize == 0);
       MemSize = ScillaTypes::Typ::sizeOf(T);
-      Mem = reinterpret_cast<uint8_t *>(A(MemSize));
+      Mem = reinterpret_cast<uint8_t *>(OM.allocBytes(MemSize));
     } else {
       ASSERT_MSG(MemSize == ScillaTypes::Typ::sizeOf(T),
                  "Incorrect memory allocation");
@@ -480,20 +475,20 @@ void *fromJSONToMem(SAllocator &A, void *MemV, int MemSize,
       }
     } break;
     case ScillaTypes::PrimTyp::String_typ: {
-      uint8_t *Buf = reinterpret_cast<uint8_t *>(A(JS.length()));
+      uint8_t *Buf = reinterpret_cast<uint8_t *>(OM.allocBytes(JS.length()));
       std::memcpy(Buf, JS.data(), JS.length());
       new (Mem) ScillaTypes::String({Buf, (int)JS.length()});
       return Mem;
     }
     case ScillaTypes::PrimTyp::Bystr_typ: {
       int NBytes;
-      uint8_t *Buf = hex2Raw(A, nullptr, 0, JS, NBytes);
+      uint8_t *Buf = hex2Raw(OM, nullptr, 0, JS, NBytes);
       new (Mem) ScillaTypes::String({Buf, NBytes});
       return Mem;
     }
     case ScillaTypes::PrimTyp::Bystrx_typ: {
       int NBytes;
-      hex2Raw(A, Mem, MemSize, JS, NBytes);
+      hex2Raw(OM, Mem, MemSize, JS, NBytes);
       ASSERT(NBytes == MemSize);
       return Mem;
     }
@@ -573,7 +568,7 @@ void *fromJSONToMem(SAllocator &A, void *MemV, int MemSize,
     for (I = 0; I < (int)ArgsJ.size(); I++) {
       MemSize += ScillaTypes::Typ::sizeOf(ConstrP->m_args[I]);
     }
-    Mem = reinterpret_cast<uint8_t *>(A(MemSize));
+    Mem = reinterpret_cast<uint8_t *>(OM.allocBytes(MemSize));
     int Offset = 0;
     // First component is the tag.
     *Mem = Tag;
@@ -584,11 +579,11 @@ void *fromJSONToMem(SAllocator &A, void *MemV, int MemSize,
       auto ISize = ScillaTypes::Typ::sizeOf(IT);
       if (ScillaTypes::Typ::isBoxed(IT)) {
         uint8_t *BoxedSub = reinterpret_cast<uint8_t *>(
-            fromJSONToMem(A, nullptr, 0, IT, ArgsJ[I]));
+            fromJSONToMem(OM, nullptr, 0, IT, ArgsJ[I]));
         *reinterpret_cast<uint8_t **>(Mem + Offset) = BoxedSub;
         ASSERT_MSG(ISize == (int)sizeof(void *), "Pointer size mismatch");
       } else {
-        fromJSONToMem(A, Mem + Offset, ISize, IT, ArgsJ[I]);
+        fromJSONToMem(OM, Mem + Offset, ISize, IT, ArgsJ[I]);
       }
       Offset += ISize;
     }
@@ -600,8 +595,7 @@ void *fromJSONToMem(SAllocator &A, void *MemV, int MemSize,
     if (!J.isArray()) {
       CREATE_ERROR("Map JSON must be an array");
     }
-    auto *MMem = A(sizeof(ScillaParams::MapValueT));
-    auto M = new (MMem) ScillaParams::MapValueT;
+    auto *M = OM.create<ScillaParams::MapValueT>();
     for (auto &Entry : J) {
       if (!Entry.isObject()) {
         CREATE_ERROR("Each entry in Map JSON must be an associative JSON");
@@ -616,7 +610,7 @@ void *fromJSONToMem(SAllocator &A, void *MemV, int MemSize,
       switch (ValT->m_t) {
       case ScillaTypes::Typ::Map_typ: {
         auto SubM = reinterpret_cast<ScillaParams::MapValueT *>(
-            fromJSONToMem(A, nullptr, 0, ValT, ValJ));
+            fromJSONToMem(OM, nullptr, 0, ValT, ValJ));
         M->emplace(KeyS, std::move(*SubM));
       } break;
       default:
@@ -631,7 +625,7 @@ void *fromJSONToMem(SAllocator &A, void *MemV, int MemSize,
   CREATE_ERROR("Unreachable");
 }
 
-void *fromJSON(SAllocator &A, const ScillaTypes::Typ *T, const Json::Value &J) {
+void *fromJSON(ObjManager &A, const ScillaTypes::Typ *T, const Json::Value &J) {
   return fromJSONToMem(A, nullptr, 0, T, J);
 }
 
@@ -785,9 +779,7 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
   case ScillaTypes::Typ::Map_typ:
     auto ValT = T->m_sub.m_mapt->m_valTyp;
     auto M = reinterpret_cast<const ScillaParams::MapValueT *>(V);
-    MemoryAllocator MA;
-    SAllocator SA(
-        std::bind(&MemoryAllocator::mAlloc, &MA, std::placeholders::_1));
+    ObjManager OM;
 
     uint64_t Acc = 0;
     for (auto &Itr : *M) {
@@ -803,7 +795,7 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
       default: {
         auto &ValJS = boost::any_cast<const std::string &>(Itr.second);
         auto ValJ = parseJSONString(ValJS);
-        auto *ValV = fromJSON(SA, ValT, ValJ);
+        auto *ValV = fromJSON(OM, ValT, ValJ);
         Acc += literalCost(ValT, ValV);
       }
       }

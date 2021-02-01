@@ -26,6 +26,9 @@
 #include "ScillaVM/SRTL.h"
 
 namespace ScillaVM {
+
+class ObjManager;
+
 namespace ScillaValues {
 
 // Reverse the byte order in a byte string, in-place.
@@ -37,16 +40,16 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V);
 // Serialize Scilla value @V to a JSON
 Json::Value toJSON(const ScillaTypes::Typ *T, const void *V);
 // Deserialize JSON @J of Scilla type T to Scilla value.
-void *fromJSON(SAllocator &A, const ScillaTypes::Typ *T, const Json::Value &J);
+void *fromJSON(ObjManager &OM, const ScillaTypes::Typ *T, const Json::Value &J);
 // Same as @fromJSON, but uses @Mem as the memory destination.
 // Memory cannot be prealloted for boxed types.
 // ASSERT(MemSize == 0 || !ScillaTypes::Typ::isBoxed(T));
 // The function may still call @A for sub allocations.
-// If @Mem is null (and @MemSize 0), @A is used to allocate memory.
+// If @Mem is null (and @MemSize 0), @OM is used to allocate memory.
 // If @MemSize is not 0, it is asserted to be of the right size.
 // It is *always* possible and safer to use @fromJSON. So do that.
 // This function exists only as an optimization to avoid copies.
-void *fromJSONToMem(SAllocator &A, void *Mem, int MemSize,
+void *fromJSONToMem(ObjManager &OM, void *Mem, int MemSize,
                     const ScillaTypes::Typ *T, const Json::Value &J);
 
 // Serialize a Scilla value into a byte sequence ready for hashing.

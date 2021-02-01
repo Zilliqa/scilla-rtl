@@ -37,22 +37,7 @@ void testStateJson(const std::string &Testname) {
 
   auto Filename = Config::TestsuiteSrc + "/state_jsons/" + Testname + ".json";
 
-  struct SAlloc {
-    std::vector<uint8_t *> Allocs;
-    void *alloc(size_t Size) {
-      auto P = new uint8_t[Size];
-      Allocs.push_back(P);
-      return reinterpret_cast<void *>(P);
-    }
-    ~SAlloc() {
-      for (auto *P : Allocs) {
-        delete[] P;
-      }
-      Allocs.clear();
-    }
-  };
-  SAlloc SA;
-  SAllocator Allocator = std::bind(&SAlloc::alloc, &SA, std::placeholders::_1);
+  ObjManager OM;
 
   Json::Value J = parseJSONFile(Filename);
   BOOST_TEST_CHECKPOINT(Filename + ": State JSON parsed");
@@ -71,7 +56,7 @@ void testStateJson(const std::string &Testname) {
           ScillaTypes::Typ::fromString(&TPPC, TypeDescrs::AllTyDescrs,
                                        TypeDescrs::NTyDescrs, VTyp.asString());
       BOOST_REQUIRE_MESSAGE(T, "Parsing type " + VTyp.asString() + " failed");
-      void *SVal = ScillaValues::fromJSON(Allocator, T, VVal);
+      void *SVal = ScillaValues::fromJSON(OM, T, VVal);
       BOOST_TEST_CHECKPOINT(Filename + ": " + VName.asString() +
                             " parsed successfully");
       Json::Value VValR = ScillaValues::toJSON(T, SVal);

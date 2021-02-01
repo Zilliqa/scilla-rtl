@@ -50,7 +50,6 @@
 #include "ScillaVM/JITD.h"
 
 using namespace llvm;
-namespace ph = std::placeholders;
 
 namespace {
 
@@ -290,6 +289,8 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
 
   // Create an empty type parser partial cache.
   THIS->TPPC = std::make_unique<ScillaTypes::TypParserPartialCache>();
+  // Create an object manager.
+  THIS->OM = std::make_unique<ObjManager>();
 
   // Set execptr in the generated code to THIS
   auto ExecPtr = THIS->getAddressFor("_execptr");
@@ -335,14 +336,14 @@ void ScillaJIT::initContrParams(const Json::Value &CP) {
 
     auto *T = ScillaTypes::Typ::fromString(TPPC.get(), AllTyDescrs, TyDescrsLen,
                                            Type.asString());
-    SAllocator SA = std::bind(&ScillaJIT::sAlloc, this, ph::_1);
     void *P = (getAddressFor(VName.asString()));
     if (ScillaTypes::Typ::isBoxed(T)) {
       // Boxed types are just pointers.
-      *reinterpret_cast<void **>(P) = ScillaValues::fromJSON(SA, T, Value);
+      *reinterpret_cast<void **>(P) = ScillaValues::fromJSON(*OM, T, Value);
     } else {
       // We create the ScillaValue in place.
-      ScillaValues::fromJSONToMem(SA, P, ScillaTypes::Typ::sizeOf(T), T, Value);
+      ScillaValues::fromJSONToMem(*OM, P, ScillaTypes::Typ::sizeOf(T), T,
+                                  Value);
     }
   }
 }
@@ -383,25 +384,6 @@ void *ScillaJIT::getAddressFor(const std::string &Symbol) {
 
   return reinterpret_cast<void *>((*SA).getAddress());
 }
-
-void *MemoryAllocator::mAlloc(size_t size) {
-  auto P = new uint8_t[size];
-  MAllocs.push_back(P);
-  return reinterpret_cast<void *>(P);
-}
-
-void MemoryAllocator::mFreeAll() {
-  for (auto *P : MAllocs) {
-    delete[] P;
-  }
-  MAllocs.clear();
-}
-
-MemoryAllocator::~MemoryAllocator() { mFreeAll(); }
-
-void *ScillaJIT::sAlloc(size_t size) { return MA.mAlloc(size); }
-
-void ScillaJIT::sFreeAll() { MA.mFreeAll(); }
 
 ScillaJIT::ScillaJIT(const ScillaParams &SPs, std::unique_ptr<LLJIT> J)
     : Jitter(std::move(J)), SPs(SPs) {}
@@ -473,16 +455,15 @@ Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
                                 });
 
   ASSERT(MemSize > 0);
-  auto *Mem = reinterpret_cast<uint8_t *>(sAlloc(MemSize));
-  SAllocator SA = std::bind(&ScillaJIT::sAlloc, this, ph::_1);
+  auto *Mem = reinterpret_cast<uint8_t *>(OM->allocBytes(MemSize));
   for (size_t I = 0, Off = 0; I < ParamTypes.size(); I++) {
     const ScillaTypes::Typ *T = ParamTypes[I];
     int Size = ScillaTypes::Typ::sizeOf(T);
     if (ScillaTypes::Typ::isBoxed(T)) {
       *reinterpret_cast<void **>(Mem + Off) =
-          ScillaValues::fromJSON(SA, T, ParamValues[I]);
+          ScillaValues::fromJSON(*OM, T, ParamValues[I]);
     } else {
-      ScillaValues::fromJSONToMem(SA, Mem + Off, Size, T, ParamValues[I]);
+      ScillaValues::fromJSONToMem(*OM, Mem + Off, Size, T, ParamValues[I]);
     }
     Off += Size;
   }

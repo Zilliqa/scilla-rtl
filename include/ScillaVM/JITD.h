@@ -38,6 +38,7 @@ namespace ScillaVM {
 class ScillaJIT;
 class ScillaObjCache;
 class TransitionState;
+class ObjManager;
 
 namespace ScillaTypes {
 class TypParserPartialCache;
@@ -54,17 +55,6 @@ public:
   // Constructor for memory only cache.
   ScillaCacheManager();
   ~ScillaCacheManager();
-};
-
-class MemoryAllocator {
-  std::vector<uint8_t *> MAllocs;
-
-public:
-  // Allocate and own the memory for code owned by this object.
-  void *mAlloc(size_t Size);
-  // Free all memory allocated for code owned by this object.
-  void mFreeAll();
-  ~MemoryAllocator();
 };
 
 // Information that Scilla will need to execute contracts.
@@ -111,7 +101,6 @@ private:
 
   void initContrParams(const Json::Value &CP);
   std::unique_ptr<llvm::orc::LLJIT> Jitter;
-  MemoryAllocator MA;
   // An opaque pointer to the type parser partial cache.
   std::unique_ptr<ScillaTypes::TypParserPartialCache> TPPC;
 
@@ -147,11 +136,8 @@ public:
   // Use with care if you don't want to end up with a stale value.
   uint64_t getGasRem();
 
-  // Allocate and own the memory for code owned by this object.
-  void *sAlloc(size_t Size);
-  // Free all memory allocated for code owned by this object.
-  void sFreeAll();
-
+  // Scilla values dynamically allocated and owned by the JIT engine.
+  std::unique_ptr<ObjManager> OM;
   // Scilla configuration parameters.
   const ScillaParams SPs;
   // The state of execution specific to a transition.
