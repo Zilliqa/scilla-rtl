@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 
+#include <llvm/Support/Allocator.h>
+
 namespace ScillaVM {
 
 using ByteVec = std::vector<uint8_t>;
@@ -45,12 +47,16 @@ class ObjManager {
     MemObj(T &&O) : O(std::move(O)){};
     MemObj() : O(){};
   };
-  std::vector<MemObjBase *> MAllocs;
+  std::vector<MemObjBase *> Objs;
+  // We use a bump pointer allocator rather than "new"
+  // because we only free all memory at once.
+  llvm::BumpPtrAllocator All;
 
 public:
   template <typename T> T *create() {
-    auto P = new MemObj<T>();
-    MAllocs.push_back(P);
+    auto P = All.Allocate<MemObj<T>>();
+    new (P) MemObj<T>();
+    Objs.push_back(P);
     return &P->O;
   }
   // Disable implicit instantiations of the form "auto A = create(10)" which
@@ -58,28 +64,27 @@ public:
   // allocBytes() must be used to allocate bytes.
   int *create(const int &) = delete;
   template <typename T> T *create(const T &O) {
-    auto P = new MemObj<T>(O);
-    MAllocs.push_back(P);
+    auto P = All.Allocate<MemObj<T>>();
+    new (P) MemObj<T>(O);
+    Objs.push_back(P);
     return &P->O;
   }
   template <typename T> T *create(T &&O) {
-    auto P = new MemObj<T>(std::move(O));
-    MAllocs.push_back(P);
+    auto P = All.Allocate<MemObj<T>>();
+    new (P) MemObj<T>(std::move(O));
+    Objs.push_back(P);
     return &P->O;
   }
   void *allocBytes(size_t N) {
-    auto Buf = new uint8_t[N];
-    auto UP = std::unique_ptr<uint8_t[]>(Buf);
-    auto P = new MemObj<std::unique_ptr<uint8_t[]>>(std::move(UP));
-    MAllocs.push_back(P);
+    auto Buf = All.Allocate<uint8_t>(N);
     return reinterpret_cast<void *>(Buf);
   };
   // Destruct and free all objects owned by this manager instance.
   void mFreeAll() {
-    for (auto *P : MAllocs) {
-      delete P;
+    for (auto *P : Objs) {
+      P->~MemObjBase();
     }
-    MAllocs.clear();
+    All.Reset();
   }
   ~ObjManager() { mFreeAll(); };
 };
