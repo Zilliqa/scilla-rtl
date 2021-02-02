@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <openssl/sha.h>
-
 #include <ethash/keccak.h>
+#include <openssl/ripemd.h>
+#include <openssl/sha.h>
 
 #include "SafeInt.h"
 #include "ScillaBuiltins.h"
@@ -72,6 +72,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_bystrx_to_uint256", (void *) _bystrx_to_uint256},
     {"_sha256hash", (void *) _sha256hash},
     {"_keccak256hash", (void *) _keccak256hash},
+    {"_ripemd160hash", (void *) _ripemd160hash},
     {"_concat_String", (void *) _concat_String},
     {"_concat_ByStr", (void *) _concat_ByStr},
     {"_concat_ByStrX", (void *) _concat_ByStrX},
@@ -638,7 +639,6 @@ ScillaTypes::Uint256 *_bystrx_to_uint256(ScillaJIT *SJ, int X, void *BS) {
 
 void *_sha256hash(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
   ByteVec Serialized;
-
   auto *Buf =
       reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(SHA256_DIGEST_LENGTH));
   ScillaValues::serializeForHashing(Serialized, T, V);
@@ -654,6 +654,15 @@ void *_keccak256hash(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
   ScillaValues::serializeForHashing(Serialized, T, V);
   auto H = ethash_keccak256(Serialized.data(), Serialized.size());
   std::memcpy(Buf, H.bytes, HashLength);
+  return Buf;
+}
+
+void *_ripemd160hash(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
+  ByteVec Serialized;
+  auto *Buf =
+      reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(RIPEMD160_DIGEST_LENGTH));
+  ScillaValues::serializeForHashing(Serialized, T, V);
+  RIPEMD160(Serialized.data(), Serialized.size(), Buf);
   return Buf;
 }
 
