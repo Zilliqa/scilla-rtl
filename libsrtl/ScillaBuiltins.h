@@ -163,6 +163,8 @@ void *_bystr_to_bystrx(ScillaVM::ScillaJIT *SJ, int X,
 uint8_t *_bech32_to_bystr20(ScillaVM::ScillaJIT *SJ,
                             ScillaVM::ScillaTypes::String Prefix,
                             ScillaVM::ScillaTypes::String Addr);
+void *_bystr20_to_bech32(ScillaVM::ScillaJIT *SJ,
+                         ScillaVM::ScillaTypes::String Prefix, uint8_t *Addr20);
 
 void *_uint32_to_bystrx(ScillaVM::ScillaJIT *SJ,
                         ScillaVM::ScillaTypes::Uint32 I);

@@ -184,6 +184,7 @@ BOOST_AUTO_TEST_CASE(builtin_bech32) { testExecExpr("builtin_bech32"); }
 BOOST_AUTO_TEST_CASE(builtin_bech32_invalid) {
   testExecExpr("builtin_bech32-invalid");
 }
+BOOST_AUTO_TEST_CASE(builtin_bech32_rev) { testExecExpr("builtin_bech32_rev"); }
 
 BOOST_AUTO_TEST_SUITE_END()
 
