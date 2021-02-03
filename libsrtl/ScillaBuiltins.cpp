@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <Bech32/segwit_addr.h>
 #include <ethash/keccak.h>
 #include <openssl/ripemd.h>
 #include <openssl/sha.h>
@@ -62,6 +63,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_eq_ByStrX", (void *) _eq_ByStrX},
     {"_to_bystr", (void *) _to_bystr},
     {"_bystr_to_bystrx", (void *) _bystr_to_bystrx},
+    {"_bech32_to_bystr20", (void *) _bech32_to_bystr20},
     {"_uint32_to_bystrx", (void *) _uint32_to_bystrx},
     {"_uint64_to_bystrx", (void *) _uint64_to_bystrx},
     {"_uint128_to_bystrx", (void *) _uint128_to_bystrx},
@@ -593,6 +595,37 @@ void *_bystr_to_bystrx(ScillaJIT *SJ, int X, ScillaTypes::String Str) {
   // i.e., We are constructing a Scilla "Some" object overall.
   std::memcpy(Mem + 1, Str.m_buffer, Str.m_length);
   return Mem;
+}
+
+uint8_t *_bech32_to_bystr20(ScillaJIT *SJ, ScillaTypes::String Prefix,
+                            ScillaTypes::String Addr) {
+
+  std::string PrefixS(reinterpret_cast<const char *>(Prefix.m_buffer),
+                      Prefix.m_length);
+  std::string AddrS(reinterpret_cast<const char *>(Addr.m_buffer),
+                    Addr.m_length);
+
+  // Result required memory size: as specified by the bech32 header comment
+  const int ProgBufSize = 40;
+  // Will be set by bech32_addr_decode
+  size_t ProgSize;
+
+  // We allocate an extra byte for the ADT tag we want to return.
+  auto Mem = reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(ProgBufSize + 1));
+  if (bech32_addr_decode(Mem + 1, &ProgSize,
+                         reinterpret_cast<const char *>(PrefixS.c_str()),
+                         reinterpret_cast<const char *>(AddrS.c_str()))) {
+    if (ProgSize != 20) {
+      CREATE_ERROR("Bech32 conversion failed. Did not get back ByStr20 value");
+    }
+    *Mem = ScillaTypes::Option_Some_Tag;
+    return Mem;
+  } else {
+    // In this case, we've allocated a buffer whose size is way more than
+    // what we need. But this is ok because this is the "less taken" branch.
+    *Mem = ScillaTypes::Option_None_Tag;
+    return Mem;
+  }
 }
 
 void *_uint32_to_bystrx(ScillaJIT *SJ, ScillaTypes::Uint32 I) {
