@@ -605,6 +605,10 @@ uint8_t *_bech32_to_bystr20(ScillaJIT *SJ, ScillaTypes::String Prefix,
   std::string AddrS(reinterpret_cast<const char *>(Addr.m_buffer),
                     Addr.m_length);
 
+  if (PrefixS != "zil") {
+    SCILLA_EXCEPTION("Prefix for bech32 address must be \"zil\"");
+  }
+
   // Result required memory size: as specified by the bech32 header comment
   const int ProgBufSize = 40;
   // Will be set by bech32_addr_decode
