@@ -185,6 +185,8 @@ BOOST_AUTO_TEST_CASE(builtin_bech32_invalid) {
   testExecExpr("builtin_bech32-invalid");
 }
 BOOST_AUTO_TEST_CASE(builtin_bech32_rev) { testExecExpr("builtin_bech32_rev"); }
+BOOST_AUTO_TEST_CASE(builtin_schnorr_verify_true) { testExecExpr("builtin_schnorr_verify_true"); }
+BOOST_AUTO_TEST_CASE(builtin_schnorr_verify_false) { testExecExpr("builtin_schnorr_verify_false"); }
 
 BOOST_AUTO_TEST_SUITE_END()
 

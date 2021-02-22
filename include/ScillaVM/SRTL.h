@@ -31,6 +31,9 @@ using ByteVec = std::vector<uint8_t>;
 // A global that accummulates messages printed from the JIT'ed code.
 extern std::string ScillaStdout;
 
+const auto Schnorr_Pubkey_Len = 33;
+const auto Schnorr_Signature_Len = 64;
+
 // Allocates, constructs, owns and destructs objects.
 // Objects of any type can be managed. It works similar to how
 // std::any works. https://stackoverflow.com/a/4989141/2128804

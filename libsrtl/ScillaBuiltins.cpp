@@ -19,6 +19,7 @@
 #include <ethash/keccak.h>
 #include <openssl/ripemd.h>
 #include <openssl/sha.h>
+#include <Schnorr.h>
 
 #include "SafeInt.h"
 #include "ScillaBuiltins.h"
@@ -76,6 +77,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_sha256hash", (void *) _sha256hash},
     {"_keccak256hash", (void *) _keccak256hash},
     {"_ripemd160hash", (void *) _ripemd160hash},
+    {"_schnorr_verify", (void *) _schnorr_verify},
     {"_concat_String", (void *) _concat_String},
     {"_concat_ByStr", (void *) _concat_ByStr},
     {"_concat_ByStrX", (void *) _concat_ByStrX},
@@ -745,6 +747,22 @@ void *_ripemd160hash(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
   ScillaValues::serializeForHashing(Serialized, T, V);
   RIPEMD160(Serialized.data(), Serialized.size(), Buf);
   return Buf;
+}
+
+uint8_t *_schnorr_verify(ScillaJIT *SJ, uint8_t *PubK, ScillaTypes::String Msg,
+                         uint8_t *Sign) {
+  ASSERT(Schnorr::PUBKEY_COMPRESSED_SIZE_BYTES == Schnorr_Pubkey_Len);
+  std::vector<uint8_t> PubK_Vec(PubK, PubK + Schnorr_Pubkey_Len);
+  PubKey PK(PubK_Vec, 0);
+
+  std::vector<uint8_t> Sign_Vec(Sign, Sign + Schnorr_Signature_Len);
+  Signature S(Sign_Vec, 0);
+
+  ByteVec M(Msg.m_buffer, Msg.m_buffer + Msg.m_length);
+
+  auto Res = Schnorr::Verify(M, S, PK);
+
+  return toScillaBool(*(SJ->OM), Res);
 }
 
 ScillaTypes::String _concat_String(ScillaJIT *SJ, ScillaTypes::String Lhs,
