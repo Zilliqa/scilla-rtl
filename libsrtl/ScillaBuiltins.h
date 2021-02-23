@@ -196,6 +196,18 @@ void *_keccak256hash(ScillaVM::ScillaJIT *SJ,
 void *_ripemd160hash(ScillaVM::ScillaJIT *SJ,
                      const ScillaVM::ScillaTypes::Typ *T, void *V);
 
+uint8_t *_schnorr_verify(ScillaVM::ScillaJIT *SJ, uint8_t *PubK,
+                         ScillaVM::ScillaTypes::String Msg, uint8_t *Sign);
+
+uint8_t *_schnorr_get_address(ScillaVM::ScillaJIT *SJ, uint8_t *PubK);
+
+uint8_t *_ecdsa_verify(ScillaVM::ScillaJIT *SJ, uint8_t *PubK,
+                       ScillaVM::ScillaTypes::String Msg, uint8_t *Sign);
+
+uint8_t *_ecdsa_recover_pk(ScillaVM::ScillaJIT *SJ,
+                           ScillaVM::ScillaTypes::String Msg, uint8_t *Sign,
+                           ScillaVM::ScillaTypes::Uint32 RecID);
+
 ScillaVM::ScillaTypes::String _concat_String(ScillaVM::ScillaJIT *SJ,
                                              ScillaVM::ScillaTypes::String Lhs,
                                              ScillaVM::ScillaTypes::String Rhs);

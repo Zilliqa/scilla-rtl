@@ -58,6 +58,7 @@ add_subdirectory(libsrtl)
 add_subdirectory(runners)
 add_subdirectory(testsuite)
 add_subdirectory(deps/cryptoutils)
+add_subdirectory(deps/schnorr)
 
 # installation
 set_target_properties(scilla-runner

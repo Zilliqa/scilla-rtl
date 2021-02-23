@@ -4,3 +4,6 @@
 [submodule "deps/cryptoutils"]
 	path = deps/cryptoutils
 	url = https://github.com/Zilliqa/cryptoutils
+[submodule "deps/schnorr"]
+	path = deps/schnorr
+	url = https://github.com/Zilliqa/schnorr.git

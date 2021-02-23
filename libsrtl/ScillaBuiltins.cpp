@@ -16,9 +16,12 @@
  */
 
 #include <Bech32/segwit_addr.h>
+#include <Schnorr.h>
 #include <ethash/keccak.h>
 #include <openssl/ripemd.h>
 #include <openssl/sha.h>
+#include <secp256k1.h>
+#include <secp256k1_recovery.h>
 
 #include "SafeInt.h"
 #include "ScillaBuiltins.h"
@@ -76,6 +79,10 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_sha256hash", (void *) _sha256hash},
     {"_keccak256hash", (void *) _keccak256hash},
     {"_ripemd160hash", (void *) _ripemd160hash},
+    {"_schnorr_verify", (void *) _schnorr_verify},
+    {"_schnorr_get_address", (void *) _schnorr_get_address},
+    {"_ecdsa_verify", (void *) _ecdsa_verify},
+    {"_ecdsa_recover_pk", (void *) _ecdsa_recover_pk},
     {"_concat_String", (void *) _concat_String},
     {"_concat_ByStr", (void *) _concat_ByStr},
     {"_concat_ByStrX", (void *) _concat_ByStrX},
@@ -744,6 +751,86 @@ void *_ripemd160hash(ScillaJIT *SJ, const ScillaTypes::Typ *T, void *V) {
       reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(RIPEMD160_DIGEST_LENGTH));
   ScillaValues::serializeForHashing(Serialized, T, V);
   RIPEMD160(Serialized.data(), Serialized.size(), Buf);
+  return Buf;
+}
+
+uint8_t *_schnorr_verify(ScillaJIT *SJ, uint8_t *PubK, ScillaTypes::String Msg,
+                         uint8_t *Sign) {
+  ASSERT(Schnorr::PUBKEY_COMPRESSED_SIZE_BYTES == Schnorr_Pubkey_Len);
+  std::vector<uint8_t> PubK_Vec(PubK, PubK + Schnorr_Pubkey_Len);
+  PubKey PK(PubK_Vec, 0);
+
+  std::vector<uint8_t> Sign_Vec(Sign, Sign + Schnorr_Signature_Len);
+  Signature S(Sign_Vec, 0);
+
+  ByteVec M(Msg.m_buffer, Msg.m_buffer + Msg.m_length);
+
+  auto Res = Schnorr::Verify(M, S, PK);
+
+  return toScillaBool(*(SJ->OM), Res);
+}
+
+uint8_t *_schnorr_get_address(ScillaJIT *SJ, uint8_t *PubK) {
+
+  static_assert(SHA256_DIGEST_LENGTH > Zilliqa_Address_Len,
+                "Can't extract Zilliqa address from hash of public key");
+
+  // Hash PubK and extract the lower Zilliqa_Address_Len bytes.
+  uint8_t *Buf =
+      reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(SHA256_DIGEST_LENGTH));
+  SHA256(PubK, Schnorr_Pubkey_Len, Buf);
+  return (Buf + (SHA256_DIGEST_LENGTH - Zilliqa_Address_Len));
+}
+
+uint8_t *_ecdsa_verify(ScillaJIT *SJ, uint8_t *PubK, ScillaTypes::String Msg,
+                       uint8_t *Sign) {
+  secp256k1_pubkey PK;
+  if (!secp256k1_ec_pubkey_parse(SJ->Ctx_secp256k1, &PK, PubK,
+                                 Ecdsa_Pubkey_Len)) {
+    SCILLA_EXCEPTION("Error parsing ECDSA public key");
+  }
+  uint8_t MsgHash[SHA256_DIGEST_LENGTH];
+  secp256k1_ecdsa_signature Sig;
+  SHA256(Msg.m_buffer, Msg.m_length, MsgHash);
+  if (!secp256k1_ecdsa_signature_parse_compact(SJ->Ctx_secp256k1, &Sig, Sign)) {
+    SCILLA_EXCEPTION("Error parsing ECDSA signature");
+  }
+
+  auto Res = static_cast<bool>(
+      secp256k1_ecdsa_verify(SJ->Ctx_secp256k1, &Sig, MsgHash, &PK));
+
+  return toScillaBool(*(SJ->OM), Res);
+}
+
+uint8_t *_ecdsa_recover_pk(ScillaJIT *SJ, ScillaTypes::String Msg,
+                           uint8_t *Sign, ScillaTypes::Uint32 RecID) {
+
+  auto RI = *reinterpret_cast<unsigned *>(&RecID);
+
+  uint8_t MsgHash[SHA256_DIGEST_LENGTH];
+  SHA256(Msg.m_buffer, Msg.m_length, MsgHash);
+
+  secp256k1_ecdsa_recoverable_signature S;
+  if (!secp256k1_ecdsa_recoverable_signature_parse_compact(SJ->Ctx_secp256k1,
+                                                           &S, Sign, RI)) {
+    SCILLA_EXCEPTION("Error parsing recoverable signature");
+  }
+
+  secp256k1_pubkey PK;
+  if (!secp256k1_ecdsa_recover(SJ->Ctx_secp256k1, &PK, &S, MsgHash)) {
+    SCILLA_EXCEPTION("Error recovering public key from ECDSA signature");
+  }
+
+  uint8_t *Buf = reinterpret_cast<uint8_t *>(
+      SJ->OM->allocBytes(Ecdsa_Pubkey_Uncompressed_Len));
+  size_t BufLen = Ecdsa_Pubkey_Uncompressed_Len;
+  secp256k1_ec_pubkey_serialize(SJ->Ctx_secp256k1, Buf, &BufLen, &PK,
+                                SECP256K1_EC_UNCOMPRESSED);
+  if (BufLen != Ecdsa_Pubkey_Uncompressed_Len) {
+    SCILLA_EXCEPTION(
+        "Error deserializing to uncompressed public key. Length mistmatch.");
+  }
+
   return Buf;
 }
 
