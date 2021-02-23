@@ -189,6 +189,7 @@ BOOST_AUTO_TEST_CASE(builtin_schnorr_verify_true) { testExecExpr("builtin_schnor
 BOOST_AUTO_TEST_CASE(builtin_schnorr_verify_false) { testExecExpr("builtin_schnorr_verify_false"); }
 BOOST_AUTO_TEST_CASE(builtin_ecdsa_verify_true) { testExecExpr("builtin_ecdsa_verify_true"); }
 BOOST_AUTO_TEST_CASE(builtin_ecdsa_verify_false) { testExecExpr("builtin_ecdsa_verify_false"); }
+BOOST_AUTO_TEST_CASE(builtin_schnorr_get_address) { testExecExpr("builtin-schnorr_get_address"); }
 
 BOOST_AUTO_TEST_SUITE_END()
 

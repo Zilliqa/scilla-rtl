@@ -79,6 +79,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_keccak256hash", (void *) _keccak256hash},
     {"_ripemd160hash", (void *) _ripemd160hash},
     {"_schnorr_verify", (void *) _schnorr_verify},
+    {"_schnorr_get_address", (void *) _schnorr_get_address},
     {"_ecdsa_verify", (void *) _ecdsa_verify},
     {"_concat_String", (void *) _concat_String},
     {"_concat_ByStr", (void *) _concat_ByStr},
@@ -765,6 +766,17 @@ uint8_t *_schnorr_verify(ScillaJIT *SJ, uint8_t *PubK, ScillaTypes::String Msg,
   auto Res = Schnorr::Verify(M, S, PK);
 
   return toScillaBool(*(SJ->OM), Res);
+}
+
+uint8_t *_schnorr_get_address(ScillaJIT *SJ, uint8_t *PubK) {
+
+  static_assert(SHA256_DIGEST_LENGTH > Zilliqa_Address_Len,
+                "Can't extract Zilliqa address from hash of public key");
+
+  // Hash PubK and extract the lower Zilliqa_Address_Len bytes.
+  uint8_t *Buf = reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(SHA256_DIGEST_LENGTH));
+  SHA256(PubK, Schnorr_Pubkey_Len, Buf);
+  return (Buf + (SHA256_DIGEST_LENGTH - Zilliqa_Address_Len));
 }
 
 uint8_t *_ecdsa_verify(ScillaJIT *SJ, uint8_t *PubK, ScillaTypes::String Msg,
