@@ -21,6 +21,7 @@
 #include <openssl/ripemd.h>
 #include <openssl/sha.h>
 #include <secp256k1.h>
+#include <secp256k1_recovery.h>
 
 #include "SafeInt.h"
 #include "ScillaBuiltins.h"
@@ -81,6 +82,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_schnorr_verify", (void *) _schnorr_verify},
     {"_schnorr_get_address", (void *) _schnorr_get_address},
     {"_ecdsa_verify", (void *) _ecdsa_verify},
+    {"_ecdsa_recover_pk", (void *) _ecdsa_recover_pk},
     {"_concat_String", (void *) _concat_String},
     {"_concat_ByStr", (void *) _concat_ByStr},
     {"_concat_ByStrX", (void *) _concat_ByStrX},
@@ -774,7 +776,8 @@ uint8_t *_schnorr_get_address(ScillaJIT *SJ, uint8_t *PubK) {
                 "Can't extract Zilliqa address from hash of public key");
 
   // Hash PubK and extract the lower Zilliqa_Address_Len bytes.
-  uint8_t *Buf = reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(SHA256_DIGEST_LENGTH));
+  uint8_t *Buf =
+      reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(SHA256_DIGEST_LENGTH));
   SHA256(PubK, Schnorr_Pubkey_Len, Buf);
   return (Buf + (SHA256_DIGEST_LENGTH - Zilliqa_Address_Len));
 }
@@ -797,6 +800,38 @@ uint8_t *_ecdsa_verify(ScillaJIT *SJ, uint8_t *PubK, ScillaTypes::String Msg,
       secp256k1_ecdsa_verify(SJ->Ctx_secp256k1, &Sig, MsgHash, &PK));
 
   return toScillaBool(*(SJ->OM), Res);
+}
+
+uint8_t *_ecdsa_recover_pk(ScillaJIT *SJ, ScillaTypes::String Msg,
+                           uint8_t *Sign, ScillaTypes::Uint32 RecID) {
+
+  auto RI = *reinterpret_cast<unsigned *>(&RecID);
+
+  uint8_t MsgHash[SHA256_DIGEST_LENGTH];
+  SHA256(Msg.m_buffer, Msg.m_length, MsgHash);
+
+  secp256k1_ecdsa_recoverable_signature S;
+  if (!secp256k1_ecdsa_recoverable_signature_parse_compact(SJ->Ctx_secp256k1,
+                                                           &S, Sign, RI)) {
+    SCILLA_EXCEPTION("Error parsing recoverable signature");
+  }
+
+  secp256k1_pubkey PK;
+  if (!secp256k1_ecdsa_recover(SJ->Ctx_secp256k1, &PK, &S, MsgHash)) {
+    SCILLA_EXCEPTION("Error recovering public key from ECDSA signature");
+  }
+
+  uint8_t *Buf = reinterpret_cast<uint8_t *>(
+      SJ->OM->allocBytes(Ecdsa_Pubkey_Uncompressed_Len));
+  size_t BufLen = Ecdsa_Pubkey_Uncompressed_Len;
+  secp256k1_ec_pubkey_serialize(SJ->Ctx_secp256k1, Buf, &BufLen, &PK,
+                                SECP256K1_EC_UNCOMPRESSED);
+  if (BufLen != Ecdsa_Pubkey_Uncompressed_Len) {
+    SCILLA_EXCEPTION(
+        "Error deserializing to uncompressed public key. Length mistmatch.");
+  }
+
+  return Buf;
 }
 
 ScillaTypes::String _concat_String(ScillaJIT *SJ, ScillaTypes::String Lhs,

@@ -36,6 +36,7 @@ const auto Schnorr_Signature_Len = 64;
 
 const auto Ecdsa_Pubkey_Len = 33;
 const auto Ecdsa_Signature_Len = 64;
+const auto Ecdsa_Pubkey_Uncompressed_Len = 65;
 
 const auto Zilliqa_Address_Len = 20;
 
