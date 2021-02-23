@@ -16,10 +16,11 @@
  */
 
 #include <Bech32/segwit_addr.h>
+#include <Schnorr.h>
 #include <ethash/keccak.h>
 #include <openssl/ripemd.h>
 #include <openssl/sha.h>
-#include <Schnorr.h>
+#include <secp256k1.h>
 
 #include "SafeInt.h"
 #include "ScillaBuiltins.h"
@@ -78,6 +79,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_keccak256hash", (void *) _keccak256hash},
     {"_ripemd160hash", (void *) _ripemd160hash},
     {"_schnorr_verify", (void *) _schnorr_verify},
+    {"_ecdsa_verify", (void *) _ecdsa_verify},
     {"_concat_String", (void *) _concat_String},
     {"_concat_ByStr", (void *) _concat_ByStr},
     {"_concat_ByStrX", (void *) _concat_ByStrX},
@@ -761,6 +763,26 @@ uint8_t *_schnorr_verify(ScillaJIT *SJ, uint8_t *PubK, ScillaTypes::String Msg,
   ByteVec M(Msg.m_buffer, Msg.m_buffer + Msg.m_length);
 
   auto Res = Schnorr::Verify(M, S, PK);
+
+  return toScillaBool(*(SJ->OM), Res);
+}
+
+uint8_t *_ecdsa_verify(ScillaJIT *SJ, uint8_t *PubK, ScillaTypes::String Msg,
+                       uint8_t *Sign) {
+  secp256k1_pubkey PK;
+  if (!secp256k1_ec_pubkey_parse(SJ->Ctx_secp256k1, &PK, PubK,
+                                 Ecdsa_Pubkey_Len)) {
+    SCILLA_EXCEPTION("Error parsing ECDSA public key");
+  }
+  uint8_t MsgHash[SHA256_DIGEST_LENGTH];
+  secp256k1_ecdsa_signature Sig;
+  SHA256(Msg.m_buffer, Msg.m_length, MsgHash);
+  if (!secp256k1_ecdsa_signature_parse_compact(SJ->Ctx_secp256k1, &Sig, Sign)) {
+    SCILLA_EXCEPTION("Error parsing ECDSA signature");
+  }
+
+  auto Res = static_cast<bool>(
+      secp256k1_ecdsa_verify(SJ->Ctx_secp256k1, &Sig, MsgHash, &PK));
 
   return toScillaBool(*(SJ->OM), Res);
 }

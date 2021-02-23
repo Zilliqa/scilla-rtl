@@ -33,6 +33,9 @@ class LLJIT;
 class MemoryBuffer;
 } // namespace llvm
 
+// Forward declare secp256k1 context.
+typedef struct secp256k1_context_struct secp256k1_context;
+
 namespace ScillaVM {
 
 class ScillaJIT;
@@ -142,6 +145,7 @@ public:
   const ScillaParams SPs;
   // The state of execution specific to a transition.
   std::unique_ptr<TransitionState> TS;
+  secp256k1_context *Ctx_secp256k1;
 
   ~ScillaJIT();
 };
