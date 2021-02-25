@@ -203,6 +203,7 @@ BOOST_AUTO_TEST_CASE(builtin_schnorr_get_address) {
 BOOST_AUTO_TEST_CASE(builtin_ecdsa_recover) {
   testExecExpr("builtin-ecdsa_recover");
 }
+BOOST_AUTO_TEST_CASE(builtin_to_string) { testExecExpr("builtin_to_string"); }
 
 BOOST_AUTO_TEST_SUITE_END()
 

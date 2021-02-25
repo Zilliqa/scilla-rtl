@@ -65,6 +65,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_eq_ByStr", (void *) _eq_ByStr},
     {"_eq_ByStrX", (void *) _eq_ByStrX},
     {"_to_bystr", (void *) _to_bystr},
+    {"_to_string", (void *) _to_string},
     {"_bystr_to_bystrx", (void *) _bystr_to_bystrx},
     {"_bech32_to_bystr20", (void *) _bech32_to_bystr20},
     {"_bystr20_to_bech32", (void *) _bystr20_to_bech32},
@@ -582,6 +583,15 @@ ScillaTypes::String _to_bystr(ScillaJIT *SJ, int X, uint8_t *Buf) {
   std::memcpy(Mem, Buf, X);
   Ret.m_length = X;
   Ret.m_buffer = reinterpret_cast<uint8_t *>(Mem);
+  return Ret;
+}
+
+ScillaTypes::String _to_string(ScillaJIT *SJ, const ScillaTypes::Typ *T,
+                               const void *V) {
+  auto J = ScillaValues::toString(false /* print type */, T, V);
+  auto Mem = reinterpret_cast<uint8_t *>(SJ->OM->allocBytes(J.length()));
+  ScillaTypes::String Ret = {Mem, static_cast<int32_t>(J.length())};
+  std::memcpy(Mem, J.data(), J.length());
   return Ret;
 }
 

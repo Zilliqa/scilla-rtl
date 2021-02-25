@@ -157,6 +157,10 @@ uint8_t *_eq_ByStrX(ScillaVM::ScillaJIT *SJ, int X, uint8_t *Lhs, uint8_t *Rhs);
 ScillaVM::ScillaTypes::String _to_bystr(ScillaVM::ScillaJIT *SJ, int X,
                                         uint8_t *Buf);
 
+ScillaVM::ScillaTypes::String _to_string(ScillaVM::ScillaJIT *SJ,
+                                         const ScillaVM::ScillaTypes::Typ *T,
+                                         const void *V);
+
 void *_bystr_to_bystrx(ScillaVM::ScillaJIT *SJ, int X,
                        ScillaVM::ScillaTypes::String Str);
 
