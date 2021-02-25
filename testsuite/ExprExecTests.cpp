@@ -204,6 +204,7 @@ BOOST_AUTO_TEST_CASE(builtin_ecdsa_recover) {
   testExecExpr("builtin-ecdsa_recover");
 }
 BOOST_AUTO_TEST_CASE(builtin_to_string) { testExecExpr("builtin_to_string"); }
+BOOST_AUTO_TEST_CASE(builtin_to_ascii) { testExecExpr("builtin_to_ascii"); }
 
 BOOST_AUTO_TEST_SUITE_END()
 
@@ -213,6 +214,9 @@ BOOST_AUTO_TEST_SUITE(expr_exec_fail)
 
 BOOST_AUTO_TEST_CASE(builtin_substr_fail) {
   testExecFailExpr("builtin_substr_rfail");
+}
+BOOST_AUTO_TEST_CASE(builtin_to_ascii_error) {
+  testExecFailExpr("builtin_to_ascii_error");
 }
 
 BOOST_AUTO_TEST_SUITE_END()

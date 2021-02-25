@@ -161,6 +161,9 @@ ScillaVM::ScillaTypes::String _to_string(ScillaVM::ScillaJIT *SJ,
                                          const ScillaVM::ScillaTypes::Typ *T,
                                          const void *V);
 
+ScillaVM::ScillaTypes::String _to_ascii(ScillaVM::ScillaJIT *SJ,
+                                        const uint8_t *S, int L);
+
 void *_bystr_to_bystrx(ScillaVM::ScillaJIT *SJ, int X,
                        ScillaVM::ScillaTypes::String Str);
 
