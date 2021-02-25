@@ -31,12 +31,13 @@ namespace {
 ScillaVM::ScillaTypes::TypParserPartialCache TPPC;
 
 // Parse a state JSON, Re-serialize back to JSON and compare.
-void testStateJson(const std::string &Testname) {
+void testStateJson(const std::string &Testname, bool ExpectError = false) {
   using namespace ScillaVM;
   using namespace ScillaTestsuite;
 
   auto Filename = Config::TestsuiteSrc + "/state_jsons/" + Testname + ".json";
 
+  bool Errored = false;
   ObjManager OM;
 
   Json::Value J = parseJSONFile(Filename);
@@ -71,7 +72,13 @@ void testStateJson(const std::string &Testname) {
                             " comparison successful");
     }
   } catch (const ScillaVM::ScillaError &e) {
-    BOOST_FAIL(e.toString());
+    if (!ExpectError)
+      BOOST_FAIL(e.toString());
+    else
+      Errored = true;
+  }
+  if (ExpectError && !Errored) {
+    BOOST_FAIL("Test was expected to fail, but did not");
   }
   BOOST_TEST_CHECKPOINT(Filename + ": test completed");
 }
@@ -86,5 +93,8 @@ BOOST_AUTO_TEST_CASE(prim_types) { testStateJson("prim_types"); }
 BOOST_AUTO_TEST_CASE(list_types) { testStateJson("list_types"); }
 BOOST_AUTO_TEST_CASE(pair_types) { testStateJson("pair_types"); }
 BOOST_AUTO_TEST_CASE(map_types) { testStateJson("map_types"); }
+
+// Expected failures
+BOOST_AUTO_TEST_CASE(string_invalid) { testStateJson("string_invalid", true); }
 
 BOOST_AUTO_TEST_SUITE_END()

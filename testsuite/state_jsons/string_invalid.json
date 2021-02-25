@@ -1,0 +1,7 @@
+[
+  {
+    "vname" : "v_string_invalid",
+    "type" : "String",
+    "value" : "Hello\u0000World"
+  }
+]

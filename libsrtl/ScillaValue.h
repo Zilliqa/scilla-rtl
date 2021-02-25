@@ -33,6 +33,8 @@ namespace ScillaValues {
 
 // Reverse the byte order in a byte string, in-place.
 void swapEndian(uint8_t *Buf, int Len);
+// Is this a valid Scilla String literal. Certain chars aren't allowed.
+bool validateStringLiteral(const uint8_t Buf[], size_t Len);
 
 // Stringify Scilla value @V of type @T.
 // @PrintType for each (sub) value printed.

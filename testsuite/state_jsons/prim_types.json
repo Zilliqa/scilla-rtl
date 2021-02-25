@@ -10,6 +10,11 @@
     "value" : "hello"
   },
   {
+    "vname" : "v_string_special",
+    "type" : "String",
+    "value" : "Hello\bWorld\n"
+  },
+  {
     "vname" : "v_bystr20",
     "type" : "ByStr20",
     "value" : "0xabfeccdc9012345678901234567890f777567890"

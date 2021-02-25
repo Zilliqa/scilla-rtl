@@ -114,6 +114,22 @@ void swapEndian(uint8_t *Buf, int Len) {
   }
 }
 
+bool validateStringLiteral(const uint8_t Buf[], size_t Len) {
+  return std::all_of(Buf, Buf + Len, [](uint8_t C) {
+    uint8_t Specials[] = {'\b', '\012', '\n', '\r', '\t'};
+    if (C >= 32 && C <= 126) {
+      // Printable, so no problem.
+      return true;
+    }
+    // Check if specially allowed.
+    auto Last = Specials + sizeof(Specials);
+    if (std::find(Specials, Last, C) != Last) {
+      return true;
+    }
+    return false;
+  });
+}
+
 std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
 
   std::string Out;
@@ -475,6 +491,10 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
       }
     } break;
     case ScillaTypes::PrimTyp::String_typ: {
+      if (!validateStringLiteral(reinterpret_cast<const uint8_t *>(JS.data()),
+                                 JS.length())) {
+        CREATE_ERROR("Invalid string literal in JSON");
+      }
       uint8_t *Buf = reinterpret_cast<uint8_t *>(OM.allocBytes(JS.length()));
       std::memcpy(Buf, JS.data(), JS.length());
       new (Mem) ScillaTypes::String({Buf, (int)JS.length()});
