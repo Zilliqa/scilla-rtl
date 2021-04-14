@@ -2,7 +2,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -59,15 +59,15 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Nat_ADTTyp_m_specls_45" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_30"*] [%"$TyDescrTy_ADTTyp_Specl_30"* @"$TyDescr_Nat_ADTTyp_Specl_44"]
 @"$TyDescr_ADT_Nat_46" = unnamed_addr constant [3 x i8] c"Nat"
 
-define void @_init_libs() {
+define void @_init_libs() !dbg !4 {
 entry:
   ret void
 }
 
-define internal %TName_Nat* @"$scilla_expr_47"(i8* %0) {
+define internal %TName_Nat* @"$scilla_expr_47"(i8* %0) !dbg !8 {
 entry:
-  %"$expr_0" = alloca %TName_Nat*
-  %"$gasrem_48" = load i64, i64* @_gasrem
+  %"$expr_0" = alloca %TName_Nat*, align 8
+  %"$gasrem_48" = load i64, i64* @_gasrem, align 8
   %"$gascmp_49" = icmp ugt i64 1, %"$gasrem_48"
   br i1 %"$gascmp_49", label %"$out_of_gas_50", label %"$have_gas_51"
 
@@ -77,9 +77,9 @@ entry:
 
 "$have_gas_51":                                   ; preds = %"$out_of_gas_50", %entry
   %"$consume_52" = sub i64 %"$gasrem_48", 1
-  store i64 %"$consume_52", i64* @_gasrem
-  %two = alloca %Uint32
-  %"$gasrem_53" = load i64, i64* @_gasrem
+  store i64 %"$consume_52", i64* @_gasrem, align 8
+  %two = alloca %Uint32, align 8
+  %"$gasrem_53" = load i64, i64* @_gasrem, align 8
   %"$gascmp_54" = icmp ugt i64 1, %"$gasrem_53"
   br i1 %"$gascmp_54", label %"$out_of_gas_55", label %"$have_gas_56"
 
@@ -89,13 +89,13 @@ entry:
 
 "$have_gas_56":                                   ; preds = %"$out_of_gas_55", %"$have_gas_51"
   %"$consume_57" = sub i64 %"$gasrem_53", 1
-  store i64 %"$consume_57", i64* @_gasrem
-  store %Uint32 { i32 2 }, %Uint32* %two
-  %"$execptr_load_58" = load i8*, i8** @_execptr
-  %"$two_59" = load %Uint32, %Uint32* %two
+  store i64 %"$consume_57", i64* @_gasrem, align 8
+  store %Uint32 { i32 2 }, %Uint32* %two, align 4, !dbg !9
+  %"$execptr_load_58" = load i8*, i8** @_execptr, align 8
+  %"$two_59" = load %Uint32, %Uint32* %two, align 4
   %"$to_nat_call_60" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_58", %Uint32 %"$two_59")
-  store %TName_Nat* %"$to_nat_call_60", %TName_Nat** %"$expr_0"
-  %"$$expr_0_61" = load %TName_Nat*, %TName_Nat** %"$expr_0"
+  store %TName_Nat* %"$to_nat_call_60", %TName_Nat** %"$expr_0", align 8, !dbg !10
+  %"$$expr_0_61" = load %TName_Nat*, %TName_Nat** %"$expr_0", align 8
   ret %TName_Nat* %"$$expr_0_61"
 }
 
@@ -112,3 +112,18 @@ entry:
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33", i8* %"$memvoidcast_63")
   ret void
 }
+
+!llvm.module.flags = !{!0}
+!llvm.dbg.cu = !{!1}
+
+!0 = !{i32 2, !"Debug Info Version", i32 3}
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!2 = !DIFile(filename: "builtin_to_nat.scilexp", directory: "codegen/expr")
+!3 = !{}
+!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !2, file: !2, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = distinct !DISubprogram(name: "$scilla_expr_47", linkageName: "$scilla_expr_47", scope: !2, file: !2, type: !5, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!9 = !DILocation(line: 1, column: 11, scope: !8)
+!10 = !DILocation(line: 2, column: 1, scope: !8)

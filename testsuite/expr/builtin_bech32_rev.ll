@@ -4,7 +4,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -64,15 +64,15 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_ADT_Option_48" = unnamed_addr constant [6 x i8] c"Option"
 @"$stringlit_70" = unnamed_addr constant [3 x i8] c"zil"
 
-define void @_init_libs() {
+define void @_init_libs() !dbg !4 {
 entry:
   ret void
 }
 
-define internal %TName_Option_String* @"$scilla_expr_49"(i8* %0) {
+define internal %TName_Option_String* @"$scilla_expr_49"(i8* %0) !dbg !8 {
 entry:
-  %"$expr_0" = alloca %TName_Option_String*
-  %"$gasrem_50" = load i64, i64* @_gasrem
+  %"$expr_0" = alloca %TName_Option_String*, align 8
+  %"$gasrem_50" = load i64, i64* @_gasrem, align 8
   %"$gascmp_51" = icmp ugt i64 1, %"$gasrem_50"
   br i1 %"$gascmp_51", label %"$out_of_gas_52", label %"$have_gas_53"
 
@@ -82,9 +82,9 @@ entry:
 
 "$have_gas_53":                                   ; preds = %"$out_of_gas_52", %entry
   %"$consume_54" = sub i64 %"$gasrem_50", 1
-  store i64 %"$consume_54", i64* @_gasrem
-  %bystr20_addr = alloca [20 x i8]
-  %"$gasrem_55" = load i64, i64* @_gasrem
+  store i64 %"$consume_54", i64* @_gasrem, align 8
+  %bystr20_addr = alloca [20 x i8], align 1
+  %"$gasrem_55" = load i64, i64* @_gasrem, align 8
   %"$gascmp_56" = icmp ugt i64 1, %"$gasrem_55"
   br i1 %"$gascmp_56", label %"$out_of_gas_57", label %"$have_gas_58"
 
@@ -94,9 +94,9 @@ entry:
 
 "$have_gas_58":                                   ; preds = %"$out_of_gas_57", %"$have_gas_53"
   %"$consume_59" = sub i64 %"$gasrem_55", 1
-  store i64 %"$consume_59", i64* @_gasrem
-  store [20 x i8] c"z\A7\EA\9FE4\D8\D7\02$\B9\C2\FB\16RB\F3!\F1+", [20 x i8]* %bystr20_addr
-  %"$gasrem_60" = load i64, i64* @_gasrem
+  store i64 %"$consume_59", i64* @_gasrem, align 8
+  store [20 x i8] c"z\A7\EA\9FE4\D8\D7\02$\B9\C2\FB\16RB\F3!\F1+", [20 x i8]* %bystr20_addr, align 1, !dbg !9
+  %"$gasrem_60" = load i64, i64* @_gasrem, align 8
   %"$gascmp_61" = icmp ugt i64 1, %"$gasrem_60"
   br i1 %"$gascmp_61", label %"$out_of_gas_62", label %"$have_gas_63"
 
@@ -106,9 +106,9 @@ entry:
 
 "$have_gas_63":                                   ; preds = %"$out_of_gas_62", %"$have_gas_58"
   %"$consume_64" = sub i64 %"$gasrem_60", 1
-  store i64 %"$consume_64", i64* @_gasrem
-  %prefix = alloca %String
-  %"$gasrem_65" = load i64, i64* @_gasrem
+  store i64 %"$consume_64", i64* @_gasrem, align 8
+  %prefix = alloca %String, align 8
+  %"$gasrem_65" = load i64, i64* @_gasrem, align 8
   %"$gascmp_66" = icmp ugt i64 1, %"$gasrem_65"
   br i1 %"$gascmp_66", label %"$out_of_gas_67", label %"$have_gas_68"
 
@@ -118,16 +118,16 @@ entry:
 
 "$have_gas_68":                                   ; preds = %"$out_of_gas_67", %"$have_gas_63"
   %"$consume_69" = sub i64 %"$gasrem_65", 1
-  store i64 %"$consume_69", i64* @_gasrem
-  store %String { i8* getelementptr inbounds ([3 x i8], [3 x i8]* @"$stringlit_70", i32 0, i32 0), i32 3 }, %String* %prefix
-  %"$execptr_load_71" = load i8*, i8** @_execptr
-  %"$prefix_72" = load %String, %String* %prefix
-  %"$bystr20_to_bech32_bystr20_addr_73" = alloca [20 x i8]
-  %"$bystr20_addr_74" = load [20 x i8], [20 x i8]* %bystr20_addr
-  store [20 x i8] %"$bystr20_addr_74", [20 x i8]* %"$bystr20_to_bech32_bystr20_addr_73"
+  store i64 %"$consume_69", i64* @_gasrem, align 8
+  store %String { i8* getelementptr inbounds ([3 x i8], [3 x i8]* @"$stringlit_70", i32 0, i32 0), i32 3 }, %String* %prefix, align 8, !dbg !10
+  %"$execptr_load_71" = load i8*, i8** @_execptr, align 8
+  %"$prefix_72" = load %String, %String* %prefix, align 8
+  %"$bystr20_to_bech32_bystr20_addr_73" = alloca [20 x i8], align 1
+  %"$bystr20_addr_74" = load [20 x i8], [20 x i8]* %bystr20_addr, align 1
+  store [20 x i8] %"$bystr20_addr_74", [20 x i8]* %"$bystr20_to_bech32_bystr20_addr_73", align 1
   %"$bystr20_to_bech32_call_75" = call %TName_Option_String* @_bystr20_to_bech32(i8* %"$execptr_load_71", %String %"$prefix_72", [20 x i8]* %"$bystr20_to_bech32_bystr20_addr_73")
-  store %TName_Option_String* %"$bystr20_to_bech32_call_75", %TName_Option_String** %"$expr_0"
-  %"$$expr_0_76" = load %TName_Option_String*, %TName_Option_String** %"$expr_0"
+  store %TName_Option_String* %"$bystr20_to_bech32_call_75", %TName_Option_String** %"$expr_0", align 8, !dbg !11
+  %"$$expr_0_76" = load %TName_Option_String*, %TName_Option_String** %"$expr_0", align 8
   ret %TName_Option_String* %"$$expr_0_76"
 }
 
@@ -144,3 +144,19 @@ entry:
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Option_String_35", i8* %"$memvoidcast_78")
   ret void
 }
+
+!llvm.module.flags = !{!0}
+!llvm.dbg.cu = !{!1}
+
+!0 = !{i32 2, !"Debug Info Version", i32 3}
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!2 = !DIFile(filename: "builtin_bech32_rev.scilexp", directory: "codegen/expr")
+!3 = !{}
+!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !2, file: !2, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = distinct !DISubprogram(name: "$scilla_expr_49", linkageName: "$scilla_expr_49", scope: !2, file: !2, type: !5, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!9 = !DILocation(line: 1, column: 20, scope: !8)
+!10 = !DILocation(line: 2, column: 18, scope: !8)
+!11 = !DILocation(line: 3, column: 1, scope: !8)

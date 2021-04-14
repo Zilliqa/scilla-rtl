@@ -2,7 +2,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -43,15 +43,15 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Map_34" = unnamed_addr constant %_TyDescrTy_Typ { i32 2, i8* bitcast (%"$TyDescr_MapTyp_33"* @"$TyDescr_MapTyp_35" to i8*) }
 @"$TyDescr_MapTyp_35" = unnamed_addr constant %"$TyDescr_MapTyp_33" { %_TyDescrTy_Typ* @"$TyDescr_Int32_3", %_TyDescrTy_Typ* @"$TyDescr_Int32_3" }
 
-define void @_init_libs() {
+define void @_init_libs() !dbg !4 {
 entry:
   ret void
 }
 
-define internal %Map_Int32_Int32* @"$scilla_expr_36"(i8* %0) {
+define internal %Map_Int32_Int32* @"$scilla_expr_36"(i8* %0) !dbg !8 {
 entry:
-  %"$expr_0" = alloca %Map_Int32_Int32*
-  %"$gasrem_37" = load i64, i64* @_gasrem
+  %"$expr_0" = alloca %Map_Int32_Int32*, align 8
+  %"$gasrem_37" = load i64, i64* @_gasrem, align 8
   %"$gascmp_38" = icmp ugt i64 1, %"$gasrem_37"
   br i1 %"$gascmp_38", label %"$out_of_gas_39", label %"$have_gas_40"
 
@@ -61,12 +61,12 @@ entry:
 
 "$have_gas_40":                                   ; preds = %"$out_of_gas_39", %entry
   %"$consume_41" = sub i64 %"$gasrem_37", 1
-  store i64 %"$consume_41", i64* @_gasrem
-  %"$execptr_load_42" = load i8*, i8** @_execptr
+  store i64 %"$consume_41", i64* @_gasrem, align 8
+  %"$execptr_load_42" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_43" = call i8* @_new_empty_map(i8* %"$execptr_load_42")
   %"$Emp_44" = bitcast i8* %"$_new_empty_map_call_43" to %Map_Int32_Int32*
-  store %Map_Int32_Int32* %"$Emp_44", %Map_Int32_Int32** %"$expr_0"
-  %"$$expr_0_45" = load %Map_Int32_Int32*, %Map_Int32_Int32** %"$expr_0"
+  store %Map_Int32_Int32* %"$Emp_44", %Map_Int32_Int32** %"$expr_0", align 8, !dbg !9
+  %"$$expr_0_45" = load %Map_Int32_Int32*, %Map_Int32_Int32** %"$expr_0", align 8
   ret %Map_Int32_Int32* %"$$expr_0_45"
 }
 
@@ -83,3 +83,17 @@ entry:
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Map_34", i8* %"$memvoidcast_47")
   ret void
 }
+
+!llvm.module.flags = !{!0}
+!llvm.dbg.cu = !{!1}
+
+!0 = !{i32 2, !"Debug Info Version", i32 3}
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!2 = !DIFile(filename: "lit-emp_i32_i32.scilexp", directory: "codegen/expr")
+!3 = !{}
+!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !2, file: !2, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = distinct !DISubprogram(name: "$scilla_expr_36", linkageName: "$scilla_expr_36", scope: !2, file: !2, type: !5, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!9 = !DILocation(line: 1, column: 1, scope: !8)

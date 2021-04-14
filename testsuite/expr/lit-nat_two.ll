@@ -5,7 +5,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -61,15 +61,15 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Nat_ADTTyp_m_specls_45" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_30"*] [%"$TyDescrTy_ADTTyp_Specl_30"* @"$TyDescr_Nat_ADTTyp_Specl_44"]
 @"$TyDescr_ADT_Nat_46" = unnamed_addr constant [3 x i8] c"Nat"
 
-define void @_init_libs() {
+define void @_init_libs() !dbg !4 {
 entry:
   ret void
 }
 
-define internal %TName_Nat* @"$scilla_expr_47"(i8* %0) {
+define internal %TName_Nat* @"$scilla_expr_47"(i8* %0) !dbg !8 {
 entry:
-  %"$expr_0" = alloca %TName_Nat*
-  %"$gasrem_48" = load i64, i64* @_gasrem
+  %"$expr_0" = alloca %TName_Nat*, align 8
+  %"$gasrem_48" = load i64, i64* @_gasrem, align 8
   %"$gascmp_49" = icmp ugt i64 1, %"$gasrem_48"
   br i1 %"$gascmp_49", label %"$out_of_gas_50", label %"$have_gas_51"
 
@@ -79,9 +79,9 @@ entry:
 
 "$have_gas_51":                                   ; preds = %"$out_of_gas_50", %entry
   %"$consume_52" = sub i64 %"$gasrem_48", 1
-  store i64 %"$consume_52", i64* @_gasrem
-  %zero = alloca %TName_Nat*
-  %"$gasrem_53" = load i64, i64* @_gasrem
+  store i64 %"$consume_52", i64* @_gasrem, align 8
+  %zero = alloca %TName_Nat*, align 8
+  %"$gasrem_53" = load i64, i64* @_gasrem, align 8
   %"$gascmp_54" = icmp ugt i64 1, %"$gasrem_53"
   br i1 %"$gascmp_54", label %"$out_of_gas_55", label %"$have_gas_56"
 
@@ -91,15 +91,15 @@ entry:
 
 "$have_gas_56":                                   ; preds = %"$out_of_gas_55", %"$have_gas_51"
   %"$consume_57" = sub i64 %"$gasrem_53", 1
-  store i64 %"$consume_57", i64* @_gasrem
-  %"$adtval_58_load" = load i8*, i8** @_execptr
+  store i64 %"$consume_57", i64* @_gasrem, align 8
+  %"$adtval_58_load" = load i8*, i8** @_execptr, align 8
   %"$adtval_58_salloc" = call i8* @_salloc(i8* %"$adtval_58_load", i64 1)
   %"$adtval_58" = bitcast i8* %"$adtval_58_salloc" to %CName_Zero*
   %"$adtgep_59" = getelementptr inbounds %CName_Zero, %CName_Zero* %"$adtval_58", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_59"
+  store i8 0, i8* %"$adtgep_59", align 1
   %"$adtptr_60" = bitcast %CName_Zero* %"$adtval_58" to %TName_Nat*
-  store %TName_Nat* %"$adtptr_60", %TName_Nat** %zero
-  %"$gasrem_61" = load i64, i64* @_gasrem
+  store %TName_Nat* %"$adtptr_60", %TName_Nat** %zero, align 8, !dbg !9
+  %"$gasrem_61" = load i64, i64* @_gasrem, align 8
   %"$gascmp_62" = icmp ugt i64 1, %"$gasrem_61"
   br i1 %"$gascmp_62", label %"$out_of_gas_63", label %"$have_gas_64"
 
@@ -109,9 +109,9 @@ entry:
 
 "$have_gas_64":                                   ; preds = %"$out_of_gas_63", %"$have_gas_56"
   %"$consume_65" = sub i64 %"$gasrem_61", 1
-  store i64 %"$consume_65", i64* @_gasrem
-  %one = alloca %TName_Nat*
-  %"$gasrem_66" = load i64, i64* @_gasrem
+  store i64 %"$consume_65", i64* @_gasrem, align 8
+  %one = alloca %TName_Nat*, align 8
+  %"$gasrem_66" = load i64, i64* @_gasrem, align 8
   %"$gascmp_67" = icmp ugt i64 1, %"$gasrem_66"
   br i1 %"$gascmp_67", label %"$out_of_gas_68", label %"$have_gas_69"
 
@@ -121,18 +121,18 @@ entry:
 
 "$have_gas_69":                                   ; preds = %"$out_of_gas_68", %"$have_gas_64"
   %"$consume_70" = sub i64 %"$gasrem_66", 1
-  store i64 %"$consume_70", i64* @_gasrem
-  %"$zero_71" = load %TName_Nat*, %TName_Nat** %zero
-  %"$adtval_72_load" = load i8*, i8** @_execptr
+  store i64 %"$consume_70", i64* @_gasrem, align 8
+  %"$zero_71" = load %TName_Nat*, %TName_Nat** %zero, align 8
+  %"$adtval_72_load" = load i8*, i8** @_execptr, align 8
   %"$adtval_72_salloc" = call i8* @_salloc(i8* %"$adtval_72_load", i64 9)
   %"$adtval_72" = bitcast i8* %"$adtval_72_salloc" to %CName_Succ*
   %"$adtgep_73" = getelementptr inbounds %CName_Succ, %CName_Succ* %"$adtval_72", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_73"
+  store i8 1, i8* %"$adtgep_73", align 1
   %"$adtgep_74" = getelementptr inbounds %CName_Succ, %CName_Succ* %"$adtval_72", i32 0, i32 1
-  store %TName_Nat* %"$zero_71", %TName_Nat** %"$adtgep_74"
+  store %TName_Nat* %"$zero_71", %TName_Nat** %"$adtgep_74", align 8
   %"$adtptr_75" = bitcast %CName_Succ* %"$adtval_72" to %TName_Nat*
-  store %TName_Nat* %"$adtptr_75", %TName_Nat** %one
-  %"$gasrem_76" = load i64, i64* @_gasrem
+  store %TName_Nat* %"$adtptr_75", %TName_Nat** %one, align 8, !dbg !10
+  %"$gasrem_76" = load i64, i64* @_gasrem, align 8
   %"$gascmp_77" = icmp ugt i64 1, %"$gasrem_76"
   br i1 %"$gascmp_77", label %"$out_of_gas_78", label %"$have_gas_79"
 
@@ -142,9 +142,9 @@ entry:
 
 "$have_gas_79":                                   ; preds = %"$out_of_gas_78", %"$have_gas_69"
   %"$consume_80" = sub i64 %"$gasrem_76", 1
-  store i64 %"$consume_80", i64* @_gasrem
-  %two = alloca %TName_Nat*
-  %"$gasrem_81" = load i64, i64* @_gasrem
+  store i64 %"$consume_80", i64* @_gasrem, align 8
+  %two = alloca %TName_Nat*, align 8
+  %"$gasrem_81" = load i64, i64* @_gasrem, align 8
   %"$gascmp_82" = icmp ugt i64 1, %"$gasrem_81"
   br i1 %"$gascmp_82", label %"$out_of_gas_83", label %"$have_gas_84"
 
@@ -154,18 +154,18 @@ entry:
 
 "$have_gas_84":                                   ; preds = %"$out_of_gas_83", %"$have_gas_79"
   %"$consume_85" = sub i64 %"$gasrem_81", 1
-  store i64 %"$consume_85", i64* @_gasrem
-  %"$one_86" = load %TName_Nat*, %TName_Nat** %one
-  %"$adtval_87_load" = load i8*, i8** @_execptr
+  store i64 %"$consume_85", i64* @_gasrem, align 8
+  %"$one_86" = load %TName_Nat*, %TName_Nat** %one, align 8
+  %"$adtval_87_load" = load i8*, i8** @_execptr, align 8
   %"$adtval_87_salloc" = call i8* @_salloc(i8* %"$adtval_87_load", i64 9)
   %"$adtval_87" = bitcast i8* %"$adtval_87_salloc" to %CName_Succ*
   %"$adtgep_88" = getelementptr inbounds %CName_Succ, %CName_Succ* %"$adtval_87", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_88"
+  store i8 1, i8* %"$adtgep_88", align 1
   %"$adtgep_89" = getelementptr inbounds %CName_Succ, %CName_Succ* %"$adtval_87", i32 0, i32 1
-  store %TName_Nat* %"$one_86", %TName_Nat** %"$adtgep_89"
+  store %TName_Nat* %"$one_86", %TName_Nat** %"$adtgep_89", align 8
   %"$adtptr_90" = bitcast %CName_Succ* %"$adtval_87" to %TName_Nat*
-  store %TName_Nat* %"$adtptr_90", %TName_Nat** %two
-  %"$gasrem_91" = load i64, i64* @_gasrem
+  store %TName_Nat* %"$adtptr_90", %TName_Nat** %two, align 8, !dbg !11
+  %"$gasrem_91" = load i64, i64* @_gasrem, align 8
   %"$gascmp_92" = icmp ugt i64 1, %"$gasrem_91"
   br i1 %"$gascmp_92", label %"$out_of_gas_93", label %"$have_gas_94"
 
@@ -175,10 +175,10 @@ entry:
 
 "$have_gas_94":                                   ; preds = %"$out_of_gas_93", %"$have_gas_84"
   %"$consume_95" = sub i64 %"$gasrem_91", 1
-  store i64 %"$consume_95", i64* @_gasrem
-  %"$two_96" = load %TName_Nat*, %TName_Nat** %two
-  store %TName_Nat* %"$two_96", %TName_Nat** %"$expr_0"
-  %"$$expr_0_97" = load %TName_Nat*, %TName_Nat** %"$expr_0"
+  store i64 %"$consume_95", i64* @_gasrem, align 8
+  %"$two_96" = load %TName_Nat*, %TName_Nat** %two, align 8
+  store %TName_Nat* %"$two_96", %TName_Nat** %"$expr_0", align 8, !dbg !12
+  %"$$expr_0_97" = load %TName_Nat*, %TName_Nat** %"$expr_0", align 8
   ret %TName_Nat* %"$$expr_0_97"
 }
 
@@ -195,3 +195,20 @@ entry:
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33", i8* %"$memvoidcast_99")
   ret void
 }
+
+!llvm.module.flags = !{!0}
+!llvm.dbg.cu = !{!1}
+
+!0 = !{i32 2, !"Debug Info Version", i32 3}
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!2 = !DIFile(filename: "lit-nat_two.scilexp", directory: "codegen/expr")
+!3 = !{}
+!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !2, file: !2, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = distinct !DISubprogram(name: "$scilla_expr_47", linkageName: "$scilla_expr_47", scope: !2, file: !2, type: !5, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!9 = !DILocation(line: 1, column: 12, scope: !8)
+!10 = !DILocation(line: 2, column: 11, scope: !8)
+!11 = !DILocation(line: 3, column: 11, scope: !8)
+!12 = !DILocation(line: 4, column: 1, scope: !8)

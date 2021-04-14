@@ -2,7 +2,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -39,15 +39,15 @@ target triple = "x86_64-pc-linux-gnu"
 @"$TyDescr_Bystr_Prim_28" = global %"$TyDescrTy_PrimTyp_1" { i32 7, i32 0 }
 @"$TyDescr_Bystr_29" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr_Prim_28" to i8*) }
 
-define void @_init_libs() {
+define void @_init_libs() !dbg !4 {
 entry:
   ret void
 }
 
-define internal %Int32 @"$scilla_expr_34"(i8* %0) {
+define internal %Int32 @"$scilla_expr_34"(i8* %0) !dbg !8 {
 entry:
-  %"$expr_0" = alloca %Int32
-  %"$gasrem_35" = load i64, i64* @_gasrem
+  %"$expr_0" = alloca %Int32, align 8
+  %"$gasrem_35" = load i64, i64* @_gasrem, align 8
   %"$gascmp_36" = icmp ugt i64 1, %"$gasrem_35"
   br i1 %"$gascmp_36", label %"$out_of_gas_37", label %"$have_gas_38"
 
@@ -57,9 +57,9 @@ entry:
 
 "$have_gas_38":                                   ; preds = %"$out_of_gas_37", %entry
   %"$consume_39" = sub i64 %"$gasrem_35", 1
-  store i64 %"$consume_39", i64* @_gasrem
-  store %Int32 { i32 4 }, %Int32* %"$expr_0"
-  %"$$expr_0_40" = load %Int32, %Int32* %"$expr_0"
+  store i64 %"$consume_39", i64* @_gasrem, align 8
+  store %Int32 { i32 4 }, %Int32* %"$expr_0", align 4, !dbg !9
+  %"$$expr_0_40" = load %Int32, %Int32* %"$expr_0", align 4
   ret %Int32 %"$$expr_0_40"
 }
 
@@ -70,9 +70,23 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 define void @scilla_main() {
 entry:
   %"$exprval_41" = call %Int32 @"$scilla_expr_34"(i8* null)
-  %"$pval_42" = alloca %Int32
+  %"$pval_42" = alloca %Int32, align 8
   %"$memvoidcast_43" = bitcast %Int32* %"$pval_42" to i8*
-  store %Int32 %"$exprval_41", %Int32* %"$pval_42"
+  store %Int32 %"$exprval_41", %Int32* %"$pval_42", align 4
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_3", i8* %"$memvoidcast_43")
   ret void
 }
+
+!llvm.module.flags = !{!0}
+!llvm.dbg.cu = !{!1}
+
+!0 = !{i32 2, !"Debug Info Version", i32 3}
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!2 = !DIFile(filename: "lit-int32.scilexp", directory: "codegen/expr")
+!3 = !{}
+!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !2, file: !2, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = distinct !DISubprogram(name: "$scilla_expr_34", linkageName: "$scilla_expr_34", scope: !2, file: !2, type: !5, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!9 = !DILocation(line: 1, column: 1, scope: !8)
