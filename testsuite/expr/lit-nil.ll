@@ -64,29 +64,29 @@ entry:
   ret void
 }
 
-define internal %TName_List_Int32* @"$scilla_expr_47"(i8* %0) !dbg !8 {
+define internal %TName_List_Int32* @_scilla_expr_fun(i8* %0) !dbg !9 {
 entry:
   %"$expr_0" = alloca %TName_List_Int32*, align 8
-  %"$gasrem_48" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_49" = icmp ugt i64 1, %"$gasrem_48"
-  br i1 %"$gascmp_49", label %"$out_of_gas_50", label %"$have_gas_51"
+  %"$gasrem_47" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_48" = icmp ugt i64 1, %"$gasrem_47"
+  br i1 %"$gascmp_48", label %"$out_of_gas_49", label %"$have_gas_50"
 
-"$out_of_gas_50":                                 ; preds = %entry
+"$out_of_gas_49":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_51"
+  br label %"$have_gas_50"
 
-"$have_gas_51":                                   ; preds = %"$out_of_gas_50", %entry
-  %"$consume_52" = sub i64 %"$gasrem_48", 1
-  store i64 %"$consume_52", i64* @_gasrem, align 8
-  %"$adtval_53_load" = load i8*, i8** @_execptr, align 8
-  %"$adtval_53_salloc" = call i8* @_salloc(i8* %"$adtval_53_load", i64 1)
-  %"$adtval_53" = bitcast i8* %"$adtval_53_salloc" to %CName_Nil_Int32*
-  %"$adtgep_54" = getelementptr inbounds %CName_Nil_Int32, %CName_Nil_Int32* %"$adtval_53", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_54", align 1
-  %"$adtptr_55" = bitcast %CName_Nil_Int32* %"$adtval_53" to %TName_List_Int32*
-  store %TName_List_Int32* %"$adtptr_55", %TName_List_Int32** %"$expr_0", align 8, !dbg !9
-  %"$$expr_0_56" = load %TName_List_Int32*, %TName_List_Int32** %"$expr_0", align 8
-  ret %TName_List_Int32* %"$$expr_0_56"
+"$have_gas_50":                                   ; preds = %"$out_of_gas_49", %entry
+  %"$consume_51" = sub i64 %"$gasrem_47", 1
+  store i64 %"$consume_51", i64* @_gasrem, align 8
+  %"$adtval_52_load" = load i8*, i8** @_execptr, align 8
+  %"$adtval_52_salloc" = call i8* @_salloc(i8* %"$adtval_52_load", i64 1)
+  %"$adtval_52" = bitcast i8* %"$adtval_52_salloc" to %CName_Nil_Int32*
+  %"$adtgep_53" = getelementptr inbounds %CName_Nil_Int32, %CName_Nil_Int32* %"$adtval_52", i32 0, i32 0
+  store i8 1, i8* %"$adtgep_53", align 1
+  %"$adtptr_54" = bitcast %CName_Nil_Int32* %"$adtval_52" to %TName_List_Int32*
+  store %TName_List_Int32* %"$adtptr_54", %TName_List_Int32** %"$expr_0", align 8, !dbg !10
+  %"$$expr_0_55" = load %TName_List_Int32*, %TName_List_Int32** %"$expr_0", align 8
+  ret %TName_List_Int32* %"$$expr_0_55"
 }
 
 declare void @_out_of_gas()
@@ -97,9 +97,9 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_57" = call %TName_List_Int32* @"$scilla_expr_47"(i8* null)
-  %"$memvoidcast_58" = bitcast %TName_List_Int32* %"$exprval_57" to i8*
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Int32_33", i8* %"$memvoidcast_58")
+  %"$exprval_56" = call %TName_List_Int32* @_scilla_expr_fun(i8* null)
+  %"$memvoidcast_57" = bitcast %TName_List_Int32* %"$exprval_56" to i8*
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Int32_33", i8* %"$memvoidcast_57")
   ret void
 }
 
@@ -110,9 +110,10 @@ entry:
 !1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
 !2 = !DIFile(filename: "lit-nil.scilexp", directory: "codegen/expr")
 !3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !2, file: !2, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DISubroutineType(types: !6)
-!6 = !{!7}
-!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!8 = distinct !DISubprogram(name: "$scilla_expr_47", linkageName: "$scilla_expr_47", scope: !2, file: !2, type: !5, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!9 = !DILocation(line: 1, column: 1, scope: !8)
+!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!5 = !DIFile(filename: ".", directory: ".")
+!6 = !DISubroutineType(types: !7)
+!7 = !{!8}
+!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!9 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!10 = !DILocation(line: 1, column: 1, scope: !9)

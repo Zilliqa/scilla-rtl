@@ -49,88 +49,88 @@ entry:
   ret void
 }
 
-define internal %Uint32 @"$scilla_expr_35"(i8* %0) !dbg !8 {
+define internal %Uint32 @_scilla_expr_fun(i8* %0) !dbg !9 {
 entry:
   %"$expr_1" = alloca %Uint32, align 8
-  %"$gasrem_36" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_37" = icmp ugt i64 1, %"$gasrem_36"
-  br i1 %"$gascmp_37", label %"$out_of_gas_38", label %"$have_gas_39"
+  %"$gasrem_35" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_36" = icmp ugt i64 1, %"$gasrem_35"
+  br i1 %"$gascmp_36", label %"$out_of_gas_37", label %"$have_gas_38"
 
-"$out_of_gas_38":                                 ; preds = %entry
+"$out_of_gas_37":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_39"
+  br label %"$have_gas_38"
 
-"$have_gas_39":                                   ; preds = %"$out_of_gas_38", %entry
-  %"$consume_40" = sub i64 %"$gasrem_36", 1
-  store i64 %"$consume_40", i64* @_gasrem, align 8
+"$have_gas_38":                                   ; preds = %"$out_of_gas_37", %entry
+  %"$consume_39" = sub i64 %"$gasrem_35", 1
+  store i64 %"$consume_39", i64* @_gasrem, align 8
   %a = alloca %Uint32, align 8
-  %"$gasrem_41" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_42" = icmp ugt i64 1, %"$gasrem_41"
-  br i1 %"$gascmp_42", label %"$out_of_gas_43", label %"$have_gas_44"
+  %"$gasrem_40" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_41" = icmp ugt i64 1, %"$gasrem_40"
+  br i1 %"$gascmp_41", label %"$out_of_gas_42", label %"$have_gas_43"
 
-"$out_of_gas_43":                                 ; preds = %"$have_gas_39"
+"$out_of_gas_42":                                 ; preds = %"$have_gas_38"
   call void @_out_of_gas()
-  br label %"$have_gas_44"
+  br label %"$have_gas_43"
 
-"$have_gas_44":                                   ; preds = %"$out_of_gas_43", %"$have_gas_39"
-  %"$consume_45" = sub i64 %"$gasrem_41", 1
-  store i64 %"$consume_45", i64* @_gasrem, align 8
-  store %Uint32 { i32 1 }, %Uint32* %a, align 4, !dbg !9
-  %"$gasrem_46" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_47" = icmp ugt i64 1, %"$gasrem_46"
-  br i1 %"$gascmp_47", label %"$out_of_gas_48", label %"$have_gas_49"
+"$have_gas_43":                                   ; preds = %"$out_of_gas_42", %"$have_gas_38"
+  %"$consume_44" = sub i64 %"$gasrem_40", 1
+  store i64 %"$consume_44", i64* @_gasrem, align 8
+  store %Uint32 { i32 1 }, %Uint32* %a, align 4, !dbg !10
+  %"$gasrem_45" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_46" = icmp ugt i64 1, %"$gasrem_45"
+  br i1 %"$gascmp_46", label %"$out_of_gas_47", label %"$have_gas_48"
 
-"$out_of_gas_48":                                 ; preds = %"$have_gas_44"
+"$out_of_gas_47":                                 ; preds = %"$have_gas_43"
   call void @_out_of_gas()
-  br label %"$have_gas_49"
+  br label %"$have_gas_48"
 
-"$have_gas_49":                                   ; preds = %"$out_of_gas_48", %"$have_gas_44"
-  %"$consume_50" = sub i64 %"$gasrem_46", 1
-  store i64 %"$consume_50", i64* @_gasrem, align 8
+"$have_gas_48":                                   ; preds = %"$out_of_gas_47", %"$have_gas_43"
+  %"$consume_49" = sub i64 %"$gasrem_45", 1
+  store i64 %"$consume_49", i64* @_gasrem, align 8
   %x = alloca %Uint32, align 8
-  %"$gasrem_51" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_52" = icmp ugt i64 1, %"$gasrem_51"
-  br i1 %"$gascmp_52", label %"$out_of_gas_53", label %"$have_gas_54"
+  %"$gasrem_50" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_51" = icmp ugt i64 1, %"$gasrem_50"
+  br i1 %"$gascmp_51", label %"$out_of_gas_52", label %"$have_gas_53"
 
-"$out_of_gas_53":                                 ; preds = %"$have_gas_49"
+"$out_of_gas_52":                                 ; preds = %"$have_gas_48"
   call void @_out_of_gas()
-  br label %"$have_gas_54"
+  br label %"$have_gas_53"
 
-"$have_gas_54":                                   ; preds = %"$out_of_gas_53", %"$have_gas_49"
-  %"$consume_55" = sub i64 %"$gasrem_51", 1
-  store i64 %"$consume_55", i64* @_gasrem, align 8
+"$have_gas_53":                                   ; preds = %"$out_of_gas_52", %"$have_gas_48"
+  %"$consume_54" = sub i64 %"$gasrem_50", 1
+  store i64 %"$consume_54", i64* @_gasrem, align 8
   %"$a_0" = alloca %Uint32, align 8
-  %"$gasrem_56" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_57" = icmp ugt i64 1, %"$gasrem_56"
-  br i1 %"$gascmp_57", label %"$out_of_gas_58", label %"$have_gas_59"
+  %"$gasrem_55" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_56" = icmp ugt i64 1, %"$gasrem_55"
+  br i1 %"$gascmp_56", label %"$out_of_gas_57", label %"$have_gas_58"
 
-"$out_of_gas_58":                                 ; preds = %"$have_gas_54"
+"$out_of_gas_57":                                 ; preds = %"$have_gas_53"
   call void @_out_of_gas()
-  br label %"$have_gas_59"
+  br label %"$have_gas_58"
 
-"$have_gas_59":                                   ; preds = %"$out_of_gas_58", %"$have_gas_54"
-  %"$consume_60" = sub i64 %"$gasrem_56", 1
-  store i64 %"$consume_60", i64* @_gasrem, align 8
-  store %Uint32 { i32 2 }, %Uint32* %"$a_0", align 4, !dbg !10
-  %"$gasrem_61" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_62" = icmp ugt i64 1, %"$gasrem_61"
-  br i1 %"$gascmp_62", label %"$out_of_gas_63", label %"$have_gas_64"
+"$have_gas_58":                                   ; preds = %"$out_of_gas_57", %"$have_gas_53"
+  %"$consume_59" = sub i64 %"$gasrem_55", 1
+  store i64 %"$consume_59", i64* @_gasrem, align 8
+  store %Uint32 { i32 2 }, %Uint32* %"$a_0", align 4, !dbg !11
+  %"$gasrem_60" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_61" = icmp ugt i64 1, %"$gasrem_60"
+  br i1 %"$gascmp_61", label %"$out_of_gas_62", label %"$have_gas_63"
 
-"$out_of_gas_63":                                 ; preds = %"$have_gas_59"
+"$out_of_gas_62":                                 ; preds = %"$have_gas_58"
   call void @_out_of_gas()
-  br label %"$have_gas_64"
+  br label %"$have_gas_63"
 
-"$have_gas_64":                                   ; preds = %"$out_of_gas_63", %"$have_gas_59"
-  %"$consume_65" = sub i64 %"$gasrem_61", 1
-  store i64 %"$consume_65", i64* @_gasrem, align 8
-  %"$$a_0_66" = load %Uint32, %Uint32* %"$a_0", align 4
-  store %Uint32 %"$$a_0_66", %Uint32* %x, align 4, !dbg !11
-  %"$a_67" = load %Uint32, %Uint32* %a, align 4
-  %"$x_68" = load %Uint32, %Uint32* %x, align 4
-  %"$add_call_69" = call %Uint32 @_add_Uint32(%Uint32 %"$a_67", %Uint32 %"$x_68")
-  store %Uint32 %"$add_call_69", %Uint32* %"$expr_1", align 4, !dbg !12
-  %"$$expr_1_70" = load %Uint32, %Uint32* %"$expr_1", align 4
-  ret %Uint32 %"$$expr_1_70"
+"$have_gas_63":                                   ; preds = %"$out_of_gas_62", %"$have_gas_58"
+  %"$consume_64" = sub i64 %"$gasrem_60", 1
+  store i64 %"$consume_64", i64* @_gasrem, align 8
+  %"$$a_0_65" = load %Uint32, %Uint32* %"$a_0", align 4
+  store %Uint32 %"$$a_0_65", %Uint32* %x, align 4, !dbg !12
+  %"$a_66" = load %Uint32, %Uint32* %a, align 4
+  %"$x_67" = load %Uint32, %Uint32* %x, align 4
+  %"$add_call_68" = call %Uint32 @_add_Uint32(%Uint32 %"$a_66", %Uint32 %"$x_67")
+  store %Uint32 %"$add_call_68", %Uint32* %"$expr_1", align 4, !dbg !13
+  %"$$expr_1_69" = load %Uint32, %Uint32* %"$expr_1", align 4
+  ret %Uint32 %"$$expr_1_69"
 }
 
 declare void @_out_of_gas()
@@ -141,11 +141,11 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_71" = call %Uint32 @"$scilla_expr_35"(i8* null)
-  %"$pval_72" = alloca %Uint32, align 8
-  %"$memvoidcast_73" = bitcast %Uint32* %"$pval_72" to i8*
-  store %Uint32 %"$exprval_71", %Uint32* %"$pval_72", align 4
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Uint32_6", i8* %"$memvoidcast_73")
+  %"$exprval_70" = call %Uint32 @_scilla_expr_fun(i8* null)
+  %"$pval_71" = alloca %Uint32, align 8
+  %"$memvoidcast_72" = bitcast %Uint32* %"$pval_71" to i8*
+  store %Uint32 %"$exprval_70", %Uint32* %"$pval_71", align 4
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Uint32_6", i8* %"$memvoidcast_72")
   ret void
 }
 
@@ -156,12 +156,13 @@ entry:
 !1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
 !2 = !DIFile(filename: "name_clash.scilexp", directory: "codegen/expr")
 !3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !2, file: !2, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DISubroutineType(types: !6)
-!6 = !{!7}
-!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!8 = distinct !DISubprogram(name: "$scilla_expr_35", linkageName: "$scilla_expr_35", scope: !2, file: !2, type: !5, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!9 = !DILocation(line: 1, column: 9, scope: !8)
-!10 = !DILocation(line: 3, column: 11, scope: !8)
-!11 = !DILocation(line: 4, column: 3, scope: !8)
-!12 = !DILocation(line: 6, column: 1, scope: !8)
+!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!5 = !DIFile(filename: ".", directory: ".")
+!6 = !DISubroutineType(types: !7)
+!7 = !{!8}
+!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!9 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!10 = !DILocation(line: 1, column: 9, scope: !9)
+!11 = !DILocation(line: 3, column: 11, scope: !9)
+!12 = !DILocation(line: 4, column: 3, scope: !9)
+!13 = !DILocation(line: 6, column: 1, scope: !9)

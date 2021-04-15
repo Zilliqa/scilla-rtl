@@ -48,26 +48,26 @@ entry:
   ret void
 }
 
-define internal %Map_Int32_Int32* @"$scilla_expr_36"(i8* %0) !dbg !8 {
+define internal %Map_Int32_Int32* @_scilla_expr_fun(i8* %0) !dbg !9 {
 entry:
   %"$expr_0" = alloca %Map_Int32_Int32*, align 8
-  %"$gasrem_37" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_38" = icmp ugt i64 1, %"$gasrem_37"
-  br i1 %"$gascmp_38", label %"$out_of_gas_39", label %"$have_gas_40"
+  %"$gasrem_36" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_37" = icmp ugt i64 1, %"$gasrem_36"
+  br i1 %"$gascmp_37", label %"$out_of_gas_38", label %"$have_gas_39"
 
-"$out_of_gas_39":                                 ; preds = %entry
+"$out_of_gas_38":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_40"
+  br label %"$have_gas_39"
 
-"$have_gas_40":                                   ; preds = %"$out_of_gas_39", %entry
-  %"$consume_41" = sub i64 %"$gasrem_37", 1
-  store i64 %"$consume_41", i64* @_gasrem, align 8
-  %"$execptr_load_42" = load i8*, i8** @_execptr, align 8
-  %"$_new_empty_map_call_43" = call i8* @_new_empty_map(i8* %"$execptr_load_42")
-  %"$Emp_44" = bitcast i8* %"$_new_empty_map_call_43" to %Map_Int32_Int32*
-  store %Map_Int32_Int32* %"$Emp_44", %Map_Int32_Int32** %"$expr_0", align 8, !dbg !9
-  %"$$expr_0_45" = load %Map_Int32_Int32*, %Map_Int32_Int32** %"$expr_0", align 8
-  ret %Map_Int32_Int32* %"$$expr_0_45"
+"$have_gas_39":                                   ; preds = %"$out_of_gas_38", %entry
+  %"$consume_40" = sub i64 %"$gasrem_36", 1
+  store i64 %"$consume_40", i64* @_gasrem, align 8
+  %"$execptr_load_41" = load i8*, i8** @_execptr, align 8
+  %"$_new_empty_map_call_42" = call i8* @_new_empty_map(i8* %"$execptr_load_41")
+  %"$Emp_43" = bitcast i8* %"$_new_empty_map_call_42" to %Map_Int32_Int32*
+  store %Map_Int32_Int32* %"$Emp_43", %Map_Int32_Int32** %"$expr_0", align 8, !dbg !10
+  %"$$expr_0_44" = load %Map_Int32_Int32*, %Map_Int32_Int32** %"$expr_0", align 8
+  ret %Map_Int32_Int32* %"$$expr_0_44"
 }
 
 declare void @_out_of_gas()
@@ -78,9 +78,9 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_46" = call %Map_Int32_Int32* @"$scilla_expr_36"(i8* null)
-  %"$memvoidcast_47" = bitcast %Map_Int32_Int32* %"$exprval_46" to i8*
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Map_34", i8* %"$memvoidcast_47")
+  %"$exprval_45" = call %Map_Int32_Int32* @_scilla_expr_fun(i8* null)
+  %"$memvoidcast_46" = bitcast %Map_Int32_Int32* %"$exprval_45" to i8*
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Map_34", i8* %"$memvoidcast_46")
   ret void
 }
 
@@ -91,9 +91,10 @@ entry:
 !1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
 !2 = !DIFile(filename: "lit-emp_i32_i32.scilexp", directory: "codegen/expr")
 !3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !2, file: !2, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DISubroutineType(types: !6)
-!6 = !{!7}
-!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!8 = distinct !DISubprogram(name: "$scilla_expr_36", linkageName: "$scilla_expr_36", scope: !2, file: !2, type: !5, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!9 = !DILocation(line: 1, column: 1, scope: !8)
+!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!5 = !DIFile(filename: ".", directory: ".")
+!6 = !DISubroutineType(types: !7)
+!7 = !{!8}
+!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!9 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!10 = !DILocation(line: 1, column: 1, scope: !9)

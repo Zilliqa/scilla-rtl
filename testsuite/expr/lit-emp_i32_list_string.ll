@@ -69,26 +69,26 @@ entry:
   ret void
 }
 
-define internal %"Map_Int32_List_(String)"* @"$scilla_expr_49"(i8* %0) !dbg !8 {
+define internal %"Map_Int32_List_(String)"* @_scilla_expr_fun(i8* %0) !dbg !9 {
 entry:
   %"$expr_0" = alloca %"Map_Int32_List_(String)"*, align 8
-  %"$gasrem_50" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_51" = icmp ugt i64 1, %"$gasrem_50"
-  br i1 %"$gascmp_51", label %"$out_of_gas_52", label %"$have_gas_53"
+  %"$gasrem_49" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_50" = icmp ugt i64 1, %"$gasrem_49"
+  br i1 %"$gascmp_50", label %"$out_of_gas_51", label %"$have_gas_52"
 
-"$out_of_gas_52":                                 ; preds = %entry
+"$out_of_gas_51":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_53"
+  br label %"$have_gas_52"
 
-"$have_gas_53":                                   ; preds = %"$out_of_gas_52", %entry
-  %"$consume_54" = sub i64 %"$gasrem_50", 1
-  store i64 %"$consume_54", i64* @_gasrem, align 8
-  %"$execptr_load_55" = load i8*, i8** @_execptr, align 8
-  %"$_new_empty_map_call_56" = call i8* @_new_empty_map(i8* %"$execptr_load_55")
-  %"$Emp_57" = bitcast i8* %"$_new_empty_map_call_56" to %"Map_Int32_List_(String)"*
-  store %"Map_Int32_List_(String)"* %"$Emp_57", %"Map_Int32_List_(String)"** %"$expr_0", align 8, !dbg !9
-  %"$$expr_0_58" = load %"Map_Int32_List_(String)"*, %"Map_Int32_List_(String)"** %"$expr_0", align 8
-  ret %"Map_Int32_List_(String)"* %"$$expr_0_58"
+"$have_gas_52":                                   ; preds = %"$out_of_gas_51", %entry
+  %"$consume_53" = sub i64 %"$gasrem_49", 1
+  store i64 %"$consume_53", i64* @_gasrem, align 8
+  %"$execptr_load_54" = load i8*, i8** @_execptr, align 8
+  %"$_new_empty_map_call_55" = call i8* @_new_empty_map(i8* %"$execptr_load_54")
+  %"$Emp_56" = bitcast i8* %"$_new_empty_map_call_55" to %"Map_Int32_List_(String)"*
+  store %"Map_Int32_List_(String)"* %"$Emp_56", %"Map_Int32_List_(String)"** %"$expr_0", align 8, !dbg !10
+  %"$$expr_0_57" = load %"Map_Int32_List_(String)"*, %"Map_Int32_List_(String)"** %"$expr_0", align 8
+  ret %"Map_Int32_List_(String)"* %"$$expr_0_57"
 }
 
 declare void @_out_of_gas()
@@ -99,9 +99,9 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_59" = call %"Map_Int32_List_(String)"* @"$scilla_expr_49"(i8* null)
-  %"$memvoidcast_60" = bitcast %"Map_Int32_List_(String)"* %"$exprval_59" to i8*
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Map_35", i8* %"$memvoidcast_60")
+  %"$exprval_58" = call %"Map_Int32_List_(String)"* @_scilla_expr_fun(i8* null)
+  %"$memvoidcast_59" = bitcast %"Map_Int32_List_(String)"* %"$exprval_58" to i8*
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Map_35", i8* %"$memvoidcast_59")
   ret void
 }
 
@@ -112,9 +112,10 @@ entry:
 !1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
 !2 = !DIFile(filename: "lit-emp_i32_list_string.scilexp", directory: "codegen/expr")
 !3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !2, file: !2, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DISubroutineType(types: !6)
-!6 = !{!7}
-!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!8 = distinct !DISubprogram(name: "$scilla_expr_49", linkageName: "$scilla_expr_49", scope: !2, file: !2, type: !5, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!9 = !DILocation(line: 1, column: 1, scope: !8)
+!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!5 = !DIFile(filename: ".", directory: ".")
+!6 = !DISubroutineType(types: !7)
+!7 = !{!8}
+!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!9 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!10 = !DILocation(line: 1, column: 1, scope: !9)

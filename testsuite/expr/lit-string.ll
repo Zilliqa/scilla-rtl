@@ -38,30 +38,30 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Exception_27" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Exception_Prim_26" to i8*) }
 @"$TyDescr_Bystr_Prim_28" = global %"$TyDescrTy_PrimTyp_1" { i32 7, i32 0 }
 @"$TyDescr_Bystr_29" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr_Prim_28" to i8*) }
-@"$stringlit_40" = unnamed_addr constant [11 x i8] c"hello world"
+@"$stringlit_39" = unnamed_addr constant [11 x i8] c"hello world"
 
 define void @_init_libs() !dbg !4 {
 entry:
   ret void
 }
 
-define internal %String @"$scilla_expr_34"(i8* %0) !dbg !8 {
+define internal %String @_scilla_expr_fun(i8* %0) !dbg !9 {
 entry:
   %"$expr_0" = alloca %String, align 8
-  %"$gasrem_35" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_36" = icmp ugt i64 1, %"$gasrem_35"
-  br i1 %"$gascmp_36", label %"$out_of_gas_37", label %"$have_gas_38"
+  %"$gasrem_34" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_35" = icmp ugt i64 1, %"$gasrem_34"
+  br i1 %"$gascmp_35", label %"$out_of_gas_36", label %"$have_gas_37"
 
-"$out_of_gas_37":                                 ; preds = %entry
+"$out_of_gas_36":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_38"
+  br label %"$have_gas_37"
 
-"$have_gas_38":                                   ; preds = %"$out_of_gas_37", %entry
-  %"$consume_39" = sub i64 %"$gasrem_35", 1
-  store i64 %"$consume_39", i64* @_gasrem, align 8
-  store %String { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$stringlit_40", i32 0, i32 0), i32 11 }, %String* %"$expr_0", align 8, !dbg !9
-  %"$$expr_0_41" = load %String, %String* %"$expr_0", align 8
-  ret %String %"$$expr_0_41"
+"$have_gas_37":                                   ; preds = %"$out_of_gas_36", %entry
+  %"$consume_38" = sub i64 %"$gasrem_34", 1
+  store i64 %"$consume_38", i64* @_gasrem, align 8
+  store %String { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$stringlit_39", i32 0, i32 0), i32 11 }, %String* %"$expr_0", align 8, !dbg !10
+  %"$$expr_0_40" = load %String, %String* %"$expr_0", align 8
+  ret %String %"$$expr_0_40"
 }
 
 declare void @_out_of_gas()
@@ -70,11 +70,11 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_42" = call %String @"$scilla_expr_34"(i8* null)
-  %"$pval_43" = alloca %String, align 8
-  %"$memvoidcast_44" = bitcast %String* %"$pval_43" to i8*
-  store %String %"$exprval_42", %String* %"$pval_43", align 8
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_44")
+  %"$exprval_41" = call %String @_scilla_expr_fun(i8* null)
+  %"$pval_42" = alloca %String, align 8
+  %"$memvoidcast_43" = bitcast %String* %"$pval_42" to i8*
+  store %String %"$exprval_41", %String* %"$pval_42", align 8
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_43")
   ret void
 }
 
@@ -85,9 +85,10 @@ entry:
 !1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
 !2 = !DIFile(filename: "lit-string.scilexp", directory: "codegen/expr")
 !3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !2, file: !2, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DISubroutineType(types: !6)
-!6 = !{!7}
-!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!8 = distinct !DISubprogram(name: "$scilla_expr_34", linkageName: "$scilla_expr_34", scope: !2, file: !2, type: !5, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!9 = !DILocation(line: 1, column: 13, scope: !8)
+!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!5 = !DIFile(filename: ".", directory: ".")
+!6 = !DISubroutineType(types: !7)
+!7 = !{!8}
+!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!9 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!10 = !DILocation(line: 1, column: 13, scope: !9)

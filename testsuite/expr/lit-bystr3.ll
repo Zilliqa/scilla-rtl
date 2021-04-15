@@ -45,23 +45,23 @@ entry:
   ret void
 }
 
-define internal [3 x i8] @"$scilla_expr_36"(i8* %0) !dbg !8 {
+define internal [3 x i8] @_scilla_expr_fun(i8* %0) !dbg !9 {
 entry:
   %"$expr_0" = alloca [3 x i8], align 1
-  %"$gasrem_37" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_38" = icmp ugt i64 1, %"$gasrem_37"
-  br i1 %"$gascmp_38", label %"$out_of_gas_39", label %"$have_gas_40"
+  %"$gasrem_36" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_37" = icmp ugt i64 1, %"$gasrem_36"
+  br i1 %"$gascmp_37", label %"$out_of_gas_38", label %"$have_gas_39"
 
-"$out_of_gas_39":                                 ; preds = %entry
+"$out_of_gas_38":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_40"
+  br label %"$have_gas_39"
 
-"$have_gas_40":                                   ; preds = %"$out_of_gas_39", %entry
-  %"$consume_41" = sub i64 %"$gasrem_37", 1
-  store i64 %"$consume_41", i64* @_gasrem, align 8
-  store [3 x i8] c"\AB\09\FE", [3 x i8]* %"$expr_0", align 1, !dbg !9
-  %"$$expr_0_42" = load [3 x i8], [3 x i8]* %"$expr_0", align 1
-  ret [3 x i8] %"$$expr_0_42"
+"$have_gas_39":                                   ; preds = %"$out_of_gas_38", %entry
+  %"$consume_40" = sub i64 %"$gasrem_36", 1
+  store i64 %"$consume_40", i64* @_gasrem, align 8
+  store [3 x i8] c"\AB\09\FE", [3 x i8]* %"$expr_0", align 1, !dbg !10
+  %"$$expr_0_41" = load [3 x i8], [3 x i8]* %"$expr_0", align 1
+  ret [3 x i8] %"$$expr_0_41"
 }
 
 declare void @_out_of_gas()
@@ -70,11 +70,11 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_43" = call [3 x i8] @"$scilla_expr_36"(i8* null)
-  %"$pval_44" = alloca [3 x i8], align 1
-  %"$memvoidcast_45" = bitcast [3 x i8]* %"$pval_44" to i8*
-  store [3 x i8] %"$exprval_43", [3 x i8]* %"$pval_44", align 1
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Bystr3_31", i8* %"$memvoidcast_45")
+  %"$exprval_42" = call [3 x i8] @_scilla_expr_fun(i8* null)
+  %"$pval_43" = alloca [3 x i8], align 1
+  %"$memvoidcast_44" = bitcast [3 x i8]* %"$pval_43" to i8*
+  store [3 x i8] %"$exprval_42", [3 x i8]* %"$pval_43", align 1
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Bystr3_31", i8* %"$memvoidcast_44")
   ret void
 }
 
@@ -85,9 +85,10 @@ entry:
 !1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
 !2 = !DIFile(filename: "lit-bystr3.scilexp", directory: "codegen/expr")
 !3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !2, file: !2, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DISubroutineType(types: !6)
-!6 = !{!7}
-!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!8 = distinct !DISubprogram(name: "$scilla_expr_36", linkageName: "$scilla_expr_36", scope: !2, file: !2, type: !5, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!9 = !DILocation(line: 1, column: 1, scope: !8)
+!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!5 = !DIFile(filename: ".", directory: ".")
+!6 = !DISubroutineType(types: !7)
+!7 = !{!8}
+!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!9 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!10 = !DILocation(line: 1, column: 1, scope: !9)
