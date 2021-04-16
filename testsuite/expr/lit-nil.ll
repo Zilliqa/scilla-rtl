@@ -59,12 +59,12 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_List_ADTTyp_m_specls_45" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_30"*] [%"$TyDescrTy_ADTTyp_Specl_30"* @"$TyDescr_List_Int32_ADTTyp_Specl_44"]
 @"$TyDescr_ADT_List_46" = unnamed_addr constant [4 x i8] c"List"
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() {
 entry:
   ret void
 }
 
-define internal %TName_List_Int32* @_scilla_expr_fun(i8* %0) !dbg !9 {
+define internal %TName_List_Int32* @_scilla_expr_fun(i8* %0) {
 entry:
   %"$expr_0" = alloca %TName_List_Int32*, align 8
   %"$gasrem_47" = load i64, i64* @_gasrem, align 8
@@ -84,7 +84,7 @@ entry:
   %"$adtgep_53" = getelementptr inbounds %CName_Nil_Int32, %CName_Nil_Int32* %"$adtval_52", i32 0, i32 0
   store i8 1, i8* %"$adtgep_53", align 1
   %"$adtptr_54" = bitcast %CName_Nil_Int32* %"$adtval_52" to %TName_List_Int32*
-  store %TName_List_Int32* %"$adtptr_54", %TName_List_Int32** %"$expr_0", align 8, !dbg !10
+  store %TName_List_Int32* %"$adtptr_54", %TName_List_Int32** %"$expr_0", align 8
   %"$$expr_0_55" = load %TName_List_Int32*, %TName_List_Int32** %"$expr_0", align 8
   ret %TName_List_Int32* %"$$expr_0_55"
 }
@@ -102,18 +102,3 @@ entry:
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Int32_33", i8* %"$memvoidcast_57")
   ret void
 }
-
-!llvm.module.flags = !{!0}
-!llvm.dbg.cu = !{!1}
-
-!0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
-!2 = !DIFile(filename: "lit-nil.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!10 = !DILocation(line: 1, column: 1, scope: !9)

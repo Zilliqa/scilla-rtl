@@ -26,11 +26,12 @@ using boost::test_tools::output_test_stream;
 #include "Testsuite.h"
 
 namespace {
-void testExecExpr(const std::string &Testname) {
-  using namespace ScillaVM;
-  using namespace ScillaTestsuite;
 
-  auto Filename = Config::TestsuiteSrc + "/expr/" + Testname + ".ll";
+using namespace ScillaVM;
+using namespace ScillaTestsuite;
+
+void testExecExprHelper(const std::string &Filename,
+                        const std::string &ResultFilename) {
 
   ScillaJIT::init();
   // TODO: Pushing ScillaJIT::create into the try-catch below
@@ -59,7 +60,7 @@ void testExecExpr(const std::string &Testname) {
 
   BOOST_TEST_CHECKPOINT(Filename + ": Execution succeeded");
 
-  output_test_stream Output(Filename + ".result", !Config::UpdateResults);
+  output_test_stream Output(ResultFilename, !Config::UpdateResults);
   Output << ScillaStdout;
   BOOST_TEST(Output.match_pattern());
   BOOST_TEST_CHECKPOINT(Filename + ": Output matched");
@@ -72,9 +73,18 @@ void testExecExpr(const std::string &Testname) {
   }
 }
 
+// Calls testExecExprHelper for both non-debug and debug LLVM-IR inputs.
+void testExecExpr(const std::string &Testname) {
+  auto Filename = Config::TestsuiteSrc + "/expr/" + Testname + ".ll";
+  auto FilenameDbg = Config::TestsuiteSrc + "/expr/" + Testname + ".dbg.ll";
+  auto ResultFilename = Filename + ".result";
+  BOOST_TEST_CHECKPOINT("Testing " + Filename + " with non-debug LLVM-IR");
+  testExecExprHelper(Filename, ResultFilename);
+  BOOST_TEST_CHECKPOINT("Testing " + FilenameDbg + " with debug LLVM-IR");
+  testExecExprHelper(FilenameDbg, ResultFilename);
+}
+
 void testExecFailExpr(const std::string &Testname) {
-  using namespace ScillaVM;
-  using namespace ScillaTestsuite;
 
   auto Filename = Config::TestsuiteSrc + "/expr/" + Testname + ".ll";
 

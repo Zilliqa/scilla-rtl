@@ -50,12 +50,12 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Bystr5_Prim_32" = global %"$TyDescrTy_PrimTyp_1" { i32 8, i32 5 }
 @"$TyDescr_Bystr5_33" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr5_Prim_32" to i8*) }
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() {
 entry:
   ret void
 }
 
-define internal %String @_scilla_expr_fun(i8* %0) !dbg !9 {
+define internal %String @_scilla_expr_fun(i8* %0) {
 entry:
   %"$expr_0" = alloca %String, align 8
   %"$gasrem_38" = load i64, i64* @_gasrem, align 8
@@ -81,7 +81,7 @@ entry:
 "$have_gas_46":                                   ; preds = %"$out_of_gas_45", %"$have_gas_41"
   %"$consume_47" = sub i64 %"$gasrem_43", 1
   store i64 %"$consume_47", i64* @_gasrem, align 8
-  store [5 x i8] c"hello", [5 x i8]* %hello, align 1, !dbg !10
+  store [5 x i8] c"hello", [5 x i8]* %hello, align 1
   %"$gasrem_48" = load i64, i64* @_gasrem, align 8
   %"$gascmp_49" = icmp ugt i64 1, %"$gasrem_48"
   br i1 %"$gascmp_49", label %"$out_of_gas_50", label %"$have_gas_51"
@@ -105,7 +105,7 @@ entry:
 "$have_gas_56":                                   ; preds = %"$out_of_gas_55", %"$have_gas_51"
   %"$consume_57" = sub i64 %"$gasrem_53", 1
   store i64 %"$consume_57", i64* @_gasrem, align 8
-  store [6 x i8] c" world", [6 x i8]* %world, align 1, !dbg !11
+  store [6 x i8] c" world", [6 x i8]* %world, align 1
   %"$gasrem_58" = load i64, i64* @_gasrem, align 8
   %"$gascmp_59" = icmp ugt i64 1, %"$gasrem_58"
   br i1 %"$gascmp_59", label %"$out_of_gas_60", label %"$have_gas_61"
@@ -124,7 +124,7 @@ entry:
   store [6 x i8] %"$world_65", [6 x i8]* %"$to_bystr_world_64", align 1
   %"$$to_bystr_world_64_66" = bitcast [6 x i8]* %"$to_bystr_world_64" to i8*
   %"$to_bystr_call_67" = call %Bystr @_to_bystr(i8* %"$execptr_load_63", i32 6, i8* %"$$to_bystr_world_64_66")
-  store %Bystr %"$to_bystr_call_67", %Bystr* %worldx, align 8, !dbg !12
+  store %Bystr %"$to_bystr_call_67", %Bystr* %worldx, align 8
   %"$gasrem_68" = load i64, i64* @_gasrem, align 8
   %"$gascmp_69" = icmp ugt i64 1, %"$gasrem_68"
   br i1 %"$gascmp_69", label %"$out_of_gas_70", label %"$have_gas_71"
@@ -143,7 +143,7 @@ entry:
   store [5 x i8] %"$hello_75", [5 x i8]* %"$to_ascii_hello_74", align 1
   %"$$to_ascii_hello_74_76" = bitcast [5 x i8]* %"$to_ascii_hello_74" to i8*
   %"$to_ascii_call_77" = call %String @_to_ascii(i8* %"$execptr_load_73", i8* %"$$to_ascii_hello_74_76", i32 5)
-  store %String %"$to_ascii_call_77", %String* %hello_s, align 8, !dbg !13
+  store %String %"$to_ascii_call_77", %String* %hello_s, align 8
   %"$gasrem_78" = load i64, i64* @_gasrem, align 8
   %"$gascmp_79" = icmp ugt i64 1, %"$gasrem_78"
   br i1 %"$gascmp_79", label %"$out_of_gas_80", label %"$have_gas_81"
@@ -161,12 +161,12 @@ entry:
   %"$to_ascii_85" = extractvalue %Bystr %"$worldx_83", 1
   %"$execptr_load_86" = load i8*, i8** @_execptr, align 8
   %"$to_ascii_call_87" = call %String @_to_ascii(i8* %"$execptr_load_86", i8* %"$to_ascii_84", i32 %"$to_ascii_85")
-  store %String %"$to_ascii_call_87", %String* %world_s, align 8, !dbg !14
+  store %String %"$to_ascii_call_87", %String* %world_s, align 8
   %"$execptr_load_88" = load i8*, i8** @_execptr, align 8
   %"$hello_s_89" = load %String, %String* %hello_s, align 8
   %"$world_s_90" = load %String, %String* %world_s, align 8
   %"$concat_call_91" = call %String @_concat_String(i8* %"$execptr_load_88", %String %"$hello_s_89", %String %"$world_s_90")
-  store %String %"$concat_call_91", %String* %"$expr_0", align 8, !dbg !15
+  store %String %"$concat_call_91", %String* %"$expr_0", align 8
   %"$$expr_0_92" = load %String, %String* %"$expr_0", align 8
   ret %String %"$$expr_0_92"
 }
@@ -190,23 +190,3 @@ entry:
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_95")
   ret void
 }
-
-!llvm.module.flags = !{!0}
-!llvm.dbg.cu = !{!1}
-
-!0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
-!2 = !DIFile(filename: "builtin_to_ascii.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!10 = !DILocation(line: 1, column: 13, scope: !9)
-!11 = !DILocation(line: 2, column: 13, scope: !9)
-!12 = !DILocation(line: 3, column: 14, scope: !9)
-!13 = !DILocation(line: 5, column: 15, scope: !9)
-!14 = !DILocation(line: 6, column: 15, scope: !9)
-!15 = !DILocation(line: 7, column: 1, scope: !9)

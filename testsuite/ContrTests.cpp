@@ -37,14 +37,21 @@ const std::string CacheDir((boost::filesystem::temp_directory_path() /=
                                .native());
 ScillaCacheManager OCache(CacheDir);
 
+// Give a file foo.ll, return foo.dbg.ll.
+std::string deriveDbgFilename(std::string Filename) {
+  auto BaseName = boost::filesystem::basename(Filename);
+  auto Extension = boost::filesystem::extension(Filename);
+  return BaseName + ".dbg" + Extension;
+}
+
 // MessageFilename.empty() => stateInit
-void testMessage(const std::string &ContrFilename,
-                 const std::string &MessageFilename,
-                 const std::string &InitFilename,
-                 const std::string &ContrInfoFilename,
-                 const std::string &StateFilename,
-                 const std::string &ExpectedStateFilename,
-                 const std::string &ExpectedOutputFilename) {
+void testMessageHelper(const std::string &ContrFilename,
+                       const std::string &MessageFilename,
+                       const std::string &InitFilename,
+                       const std::string &ContrInfoFilename,
+                       const std::string &StateFilename,
+                       const std::string &ExpectedStateFilename,
+                       const std::string &ExpectedOutputFilename) {
   MemStateServer State;
   namespace ph = std::placeholders;
   ScillaParams::FetchState_Type fetchStateValue = std::bind(
@@ -143,6 +150,25 @@ void testMessage(const std::string &ContrFilename,
   } catch (std::exception &) {
     ;
   }
+}
+
+// Calls testMessageHelper for both .ll and .dbg.ll files,
+// extracting the information from `ContrFilename`.
+void testMessage(const std::string &ContrFilename,
+                 const std::string &MessageFilename,
+                 const std::string &InitFilename,
+                 const std::string &ContrInfoFilename,
+                 const std::string &StateFilename,
+                 const std::string &ExpectedStateFilename,
+                 const std::string &ExpectedOutputFilename) {
+  BOOST_TEST_CHECKPOINT("Testing " + ContrFilename + " with non-debug LLVM-IR");
+  testMessageHelper(ContrFilename, MessageFilename, InitFilename,
+                    ContrInfoFilename, StateFilename, ExpectedStateFilename,
+                    ExpectedOutputFilename);
+  BOOST_TEST_CHECKPOINT("Testing " + ContrFilename + " with debug LLVM-IR");
+  testMessageHelper(deriveDbgFilename(ContrFilename), MessageFilename,
+                    InitFilename, ContrInfoFilename, StateFilename,
+                    ExpectedStateFilename, ExpectedOutputFilename);
 }
 
 void testMessageFail(const std::string &ContrFilename,

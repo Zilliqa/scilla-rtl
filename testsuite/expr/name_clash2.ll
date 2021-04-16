@@ -45,7 +45,7 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Bystr_Prim_32" = global %"$TyDescrTy_PrimTyp_5" { i32 7, i32 0 }
 @"$TyDescr_Bystr_33" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_Bystr_Prim_32" to i8*) }
 
-define internal %Uint32 @"$fundef_3"(%"$$fundef_3_env_38"* %0, %Uint32 %1) !dbg !4 {
+define internal %Uint32 @"$fundef_3"(%"$$fundef_3_env_38"* %0, %Uint32 %1) {
 entry:
   %"$retval_4" = alloca %Uint32, align 8
   %"$gasrem_39" = load i64, i64* @_gasrem, align 8
@@ -59,19 +59,19 @@ entry:
 "$have_gas_42":                                   ; preds = %"$out_of_gas_41", %entry
   %"$consume_43" = sub i64 %"$gasrem_39", 1
   store i64 %"$consume_43", i64* @_gasrem, align 8
-  store %Uint32 %1, %Uint32* %"$retval_4", align 4, !dbg !8
+  store %Uint32 %1, %Uint32* %"$retval_4", align 4
   %"$$retval_4_44" = load %Uint32, %Uint32* %"$retval_4", align 4
   ret %Uint32 %"$$retval_4_44"
 }
 
 declare void @_out_of_gas()
 
-define void @_init_libs() !dbg !9 {
+define void @_init_libs() {
 entry:
   ret void
 }
 
-define internal %Uint32 @_scilla_expr_fun(i8* %0) !dbg !11 {
+define internal %Uint32 @_scilla_expr_fun(i8* %0) {
 entry:
   %"$expr_2" = alloca %Uint32, align 8
   %"$gasrem_45" = load i64, i64* @_gasrem, align 8
@@ -97,7 +97,7 @@ entry:
 "$have_gas_53":                                   ; preds = %"$out_of_gas_52", %"$have_gas_48"
   %"$consume_54" = sub i64 %"$gasrem_50", 1
   store i64 %"$consume_54", i64* @_gasrem, align 8
-  store %Uint32 { i32 1 }, %Uint32* %a, align 4, !dbg !12
+  store %Uint32 { i32 1 }, %Uint32* %a, align 4
   %"$gasrem_55" = load i64, i64* @_gasrem, align 8
   %"$gascmp_56" = icmp ugt i64 1, %"$gasrem_55"
   br i1 %"$gascmp_56", label %"$out_of_gas_57", label %"$have_gas_58"
@@ -121,7 +121,7 @@ entry:
 "$have_gas_63":                                   ; preds = %"$out_of_gas_62", %"$have_gas_58"
   %"$consume_64" = sub i64 %"$gasrem_60", 1
   store i64 %"$consume_64", i64* @_gasrem, align 8
-  store { %Uint32 (i8*, %Uint32)*, i8* } { %Uint32 (i8*, %Uint32)* bitcast (%Uint32 (%"$$fundef_3_env_38"*, %Uint32)* @"$fundef_3" to %Uint32 (i8*, %Uint32)*), i8* null }, { %Uint32 (i8*, %Uint32)*, i8* }* %f, align 8, !dbg !13
+  store { %Uint32 (i8*, %Uint32)*, i8* } { %Uint32 (i8*, %Uint32)* bitcast (%Uint32 (%"$$fundef_3_env_38"*, %Uint32)* @"$fundef_3" to %Uint32 (i8*, %Uint32)*), i8* null }, { %Uint32 (i8*, %Uint32)*, i8* }* %f, align 8
   %"$gasrem_68" = load i64, i64* @_gasrem, align 8
   %"$gascmp_69" = icmp ugt i64 1, %"$gasrem_68"
   br i1 %"$gascmp_69", label %"$out_of_gas_70", label %"$have_gas_71"
@@ -150,14 +150,14 @@ entry:
   %"$f_fptr_79" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$f_78", 0
   %"$f_envptr_80" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$f_78", 1
   %"$a_81" = load %Uint32, %Uint32* %a, align 4
-  %"$f_call_82" = call %Uint32 %"$f_fptr_79"(i8* %"$f_envptr_80", %Uint32 %"$a_81"), !dbg !14
-  store %Uint32 %"$f_call_82", %Uint32* %"$f_1", align 4, !dbg !14
+  %"$f_call_82" = call %Uint32 %"$f_fptr_79"(i8* %"$f_envptr_80", %Uint32 %"$a_81")
+  store %Uint32 %"$f_call_82", %Uint32* %"$f_1", align 4
   %"$$f_1_83" = load %Uint32, %Uint32* %"$f_1", align 4
-  store %Uint32 %"$$f_1_83", %Uint32* %b, align 4, !dbg !14
+  store %Uint32 %"$$f_1_83", %Uint32* %b, align 4
   %"$a_84" = load %Uint32, %Uint32* %a, align 4
   %"$b_85" = load %Uint32, %Uint32* %b, align 4
   %"$add_call_86" = call %Uint32 @_add_Uint32(%Uint32 %"$a_84", %Uint32 %"$b_85")
-  store %Uint32 %"$add_call_86", %Uint32* %"$expr_2", align 4, !dbg !15
+  store %Uint32 %"$add_call_86", %Uint32* %"$expr_2", align 4
   %"$$expr_2_87" = load %Uint32, %Uint32* %"$expr_2", align 4
   ret %Uint32 %"$$expr_2_87"
 }
@@ -175,23 +175,3 @@ entry:
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Uint32_9", i8* %"$memvoidcast_90")
   ret void
 }
-
-!llvm.module.flags = !{!0}
-!llvm.dbg.cu = !{!1}
-
-!0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
-!2 = !DIFile(filename: "name_clash2.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "$fundef_3", linkageName: "$fundef_3", scope: !2, file: !2, line: 2, type: !5, scopeLine: 2, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DISubroutineType(types: !6)
-!6 = !{!7}
-!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!8 = !DILocation(line: 2, column: 29, scope: !4)
-!9 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !10, file: !10, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!10 = !DIFile(filename: ".", directory: ".")
-!11 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !5, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!12 = !DILocation(line: 1, column: 9, scope: !11)
-!13 = !DILocation(line: 2, column: 29, scope: !11)
-!14 = !DILocation(line: 3, column: 9, scope: !11)
-!15 = !DILocation(line: 5, column: 1, scope: !11)

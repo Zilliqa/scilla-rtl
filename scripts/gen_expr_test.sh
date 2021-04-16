@@ -7,11 +7,11 @@ then
    exit 1
 fi
 
-while read p;
+while read -r p;
 do
     echo "; $p"
-done < $1
+done < "$1"
 
-goldfile="`dirname $1`/gold/`basename $1 .scilexp`.scilexp.gold"
+goldfile=$(dirname "$1")/gold/$(basename "$1" .scilexp).scilexp.gold
 
-cat $goldfile
+cat "$goldfile"

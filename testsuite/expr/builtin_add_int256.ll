@@ -41,12 +41,12 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Bystr_Prim_28" = global %"$TyDescrTy_PrimTyp_1" { i32 7, i32 0 }
 @"$TyDescr_Bystr_29" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr_Prim_28" to i8*) }
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() {
 entry:
   ret void
 }
 
-define internal void @_scilla_expr_fun(i8* %0, %Int256* %1) !dbg !9 {
+define internal void @_scilla_expr_fun(i8* %0, %Int256* %1) {
 entry:
   %"$expr_0" = alloca %Int256, align 8
   %"$gasrem_34" = load i64, i64* @_gasrem, align 8
@@ -72,7 +72,7 @@ entry:
 "$have_gas_42":                                   ; preds = %"$out_of_gas_41", %"$have_gas_37"
   %"$consume_43" = sub i64 %"$gasrem_39", 1
   store i64 %"$consume_43", i64* @_gasrem, align 8
-  store %Int256 { i256 -1 }, %Int256* %one, align 8, !dbg !10
+  store %Int256 { i256 -1 }, %Int256* %one, align 8
   %"$gasrem_44" = load i64, i64* @_gasrem, align 8
   %"$gascmp_45" = icmp ugt i64 1, %"$gasrem_44"
   br i1 %"$gascmp_45", label %"$out_of_gas_46", label %"$have_gas_47"
@@ -96,7 +96,7 @@ entry:
 "$have_gas_52":                                   ; preds = %"$out_of_gas_51", %"$have_gas_47"
   %"$consume_53" = sub i64 %"$gasrem_49", 1
   store i64 %"$consume_53", i64* @_gasrem, align 8
-  store %Int256 { i256 2 }, %Int256* %two, align 8, !dbg !11
+  store %Int256 { i256 2 }, %Int256* %two, align 8
   %"$execptr_load_54" = load i8*, i8** @_execptr, align 8
   %"$add_one_55" = alloca %Int256, align 8
   %"$one_56" = load %Int256, %Int256* %one, align 8
@@ -106,7 +106,7 @@ entry:
   store %Int256 %"$two_58", %Int256* %"$add_two_57", align 8
   %"$add_call_59" = call %Int256* @_add_Int256(i8* %"$execptr_load_54", %Int256* %"$add_one_55", %Int256* %"$add_two_57")
   %"$add_60" = load %Int256, %Int256* %"$add_call_59", align 8
-  store %Int256 %"$add_60", %Int256* %"$expr_0", align 8, !dbg !12
+  store %Int256 %"$add_60", %Int256* %"$expr_0", align 8
   %"$$expr_0_61" = load %Int256, %Int256* %"$expr_0", align 8
   store %Int256 %"$$expr_0_61", %Int256* %1, align 8
   ret void
@@ -126,20 +126,3 @@ entry:
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int256_15", i8* %"$memvoidcast_63")
   ret void
 }
-
-!llvm.module.flags = !{!0}
-!llvm.dbg.cu = !{!1}
-
-!0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
-!2 = !DIFile(filename: "builtin_add_int256.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!10 = !DILocation(line: 1, column: 11, scope: !9)
-!11 = !DILocation(line: 2, column: 11, scope: !9)
-!12 = !DILocation(line: 3, column: 1, scope: !9)

@@ -77,12 +77,12 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_ADT_Pair_52" = unnamed_addr constant [4 x i8] c"Pair"
 @"$stringlit_63" = unnamed_addr constant [5 x i8] c"hello"
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() {
 entry:
   ret void
 }
 
-define internal void @_scilla_expr_fun(i8* %0, [32 x i8]* %1) !dbg !9 {
+define internal void @_scilla_expr_fun(i8* %0, [32 x i8]* %1) {
 entry:
   %"$expr_0" = alloca [32 x i8], align 1
   %"$gasrem_53" = load i64, i64* @_gasrem, align 8
@@ -108,7 +108,7 @@ entry:
 "$have_gas_61":                                   ; preds = %"$out_of_gas_60", %"$have_gas_56"
   %"$consume_62" = sub i64 %"$gasrem_58", 1
   store i64 %"$consume_62", i64* @_gasrem, align 8
-  store %String { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$stringlit_63", i32 0, i32 0), i32 5 }, %String* %s, align 8, !dbg !10
+  store %String { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$stringlit_63", i32 0, i32 0), i32 5 }, %String* %s, align 8
   %"$gasrem_64" = load i64, i64* @_gasrem, align 8
   %"$gascmp_65" = icmp ugt i64 1, %"$gasrem_64"
   br i1 %"$gascmp_65", label %"$out_of_gas_66", label %"$have_gas_67"
@@ -128,7 +128,7 @@ entry:
   %"$$sha256hash_s_70_72" = bitcast %String* %"$sha256hash_s_70" to i8*
   %"$sha256hash_call_73" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_69", %_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$$sha256hash_s_70_72")
   %"$sha256hash_74" = load [32 x i8], [32 x i8]* %"$sha256hash_call_73", align 1
-  store [32 x i8] %"$sha256hash_74", [32 x i8]* %h1, align 1, !dbg !11
+  store [32 x i8] %"$sha256hash_74", [32 x i8]* %h1, align 1
   %"$gasrem_75" = load i64, i64* @_gasrem, align 8
   %"$gascmp_76" = icmp ugt i64 1, %"$gasrem_75"
   br i1 %"$gascmp_76", label %"$out_of_gas_77", label %"$have_gas_78"
@@ -148,7 +148,7 @@ entry:
   %"$$sha256hash_h1_81_83" = bitcast [32 x i8]* %"$sha256hash_h1_81" to i8*
   %"$sha256hash_call_84" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_80", %_TyDescrTy_Typ* @"$TyDescr_Bystr32_31", i8* %"$$sha256hash_h1_81_83")
   %"$sha256hash_85" = load [32 x i8], [32 x i8]* %"$sha256hash_call_84", align 1
-  store [32 x i8] %"$sha256hash_85", [32 x i8]* %h2, align 1, !dbg !12
+  store [32 x i8] %"$sha256hash_85", [32 x i8]* %h2, align 1
   %"$gasrem_86" = load i64, i64* @_gasrem, align 8
   %"$gascmp_87" = icmp ugt i64 1, %"$gasrem_86"
   br i1 %"$gascmp_87", label %"$out_of_gas_88", label %"$have_gas_89"
@@ -184,7 +184,7 @@ entry:
   %"$adtgep_101" = getelementptr inbounds %CName_Pair_String_ByStr32, %CName_Pair_String_ByStr32* %"$adtval_98", i32 0, i32 2
   store [32 x i8] %"$h2_97", [32 x i8]* %"$adtgep_101", align 1
   %"$adtptr_102" = bitcast %CName_Pair_String_ByStr32* %"$adtval_98" to %TName_Pair_String_ByStr32*
-  store %TName_Pair_String_ByStr32* %"$adtptr_102", %TName_Pair_String_ByStr32** %sh, align 8, !dbg !13
+  store %TName_Pair_String_ByStr32* %"$adtptr_102", %TName_Pair_String_ByStr32** %sh, align 8
   %"$gasrem_103" = load i64, i64* @_gasrem, align 8
   %"$gascmp_104" = icmp ugt i64 1, %"$gasrem_103"
   br i1 %"$gascmp_104", label %"$out_of_gas_105", label %"$have_gas_106"
@@ -202,7 +202,7 @@ entry:
   %"$$sh_109_110" = bitcast %TName_Pair_String_ByStr32* %"$sh_109" to i8*
   %"$sha256hash_call_111" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_108", %_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_String_ByStr32_36", i8* %"$$sh_109_110")
   %"$sha256hash_112" = load [32 x i8], [32 x i8]* %"$sha256hash_call_111", align 1
-  store [32 x i8] %"$sha256hash_112", [32 x i8]* %sh2, align 1, !dbg !14
+  store [32 x i8] %"$sha256hash_112", [32 x i8]* %sh2, align 1
   %"$gasrem_113" = load i64, i64* @_gasrem, align 8
   %"$gascmp_114" = icmp ugt i64 1, %"$gasrem_113"
   br i1 %"$gascmp_114", label %"$out_of_gas_115", label %"$have_gas_116"
@@ -221,7 +221,7 @@ entry:
   store [32 x i8] %"$sh2_120", [32 x i8]* %"$to_bystr_sh2_119", align 1
   %"$$to_bystr_sh2_119_121" = bitcast [32 x i8]* %"$to_bystr_sh2_119" to i8*
   %"$to_bystr_call_122" = call %Bystr @_to_bystr(i8* %"$execptr_load_118", i32 32, i8* %"$$to_bystr_sh2_119_121")
-  store %Bystr %"$to_bystr_call_122", %Bystr* %bystr1, align 8, !dbg !15
+  store %Bystr %"$to_bystr_call_122", %Bystr* %bystr1, align 8
   %"$gasrem_123" = load i64, i64* @_gasrem, align 8
   %"$gascmp_124" = icmp ugt i64 1, %"$gasrem_123"
   br i1 %"$gascmp_124", label %"$out_of_gas_125", label %"$have_gas_126"
@@ -245,7 +245,7 @@ entry:
 "$have_gas_131":                                  ; preds = %"$out_of_gas_130", %"$have_gas_126"
   %"$consume_132" = sub i64 %"$gasrem_128", 1
   store i64 %"$consume_132", i64* @_gasrem, align 8
-  store %Int32 { i32 4 }, %Int32* %i4, align 4, !dbg !16
+  store %Int32 { i32 4 }, %Int32* %i4, align 4
   %"$gasrem_133" = load i64, i64* @_gasrem, align 8
   %"$gascmp_134" = icmp ugt i64 1, %"$gasrem_133"
   br i1 %"$gascmp_134", label %"$out_of_gas_135", label %"$have_gas_136"
@@ -281,13 +281,13 @@ entry:
   %"$adtgep_148" = getelementptr inbounds %CName_Pair_ByStr_Int32, %CName_Pair_ByStr_Int32* %"$adtval_145", i32 0, i32 2
   store %Int32 %"$i4_144", %Int32* %"$adtgep_148", align 4
   %"$adtptr_149" = bitcast %CName_Pair_ByStr_Int32* %"$adtval_145" to %TName_Pair_ByStr_Int32*
-  store %TName_Pair_ByStr_Int32* %"$adtptr_149", %TName_Pair_ByStr_Int32** %p2, align 8, !dbg !17
+  store %TName_Pair_ByStr_Int32* %"$adtptr_149", %TName_Pair_ByStr_Int32** %p2, align 8
   %"$execptr_load_150" = load i8*, i8** @_execptr, align 8
   %"$p2_151" = load %TName_Pair_ByStr_Int32*, %TName_Pair_ByStr_Int32** %p2, align 8
   %"$$p2_151_152" = bitcast %TName_Pair_ByStr_Int32* %"$p2_151" to i8*
   %"$sha256hash_call_153" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_150", %_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_ByStr_Int32_35", i8* %"$$p2_151_152")
   %"$sha256hash_154" = load [32 x i8], [32 x i8]* %"$sha256hash_call_153", align 1
-  store [32 x i8] %"$sha256hash_154", [32 x i8]* %"$expr_0", align 1, !dbg !18
+  store [32 x i8] %"$sha256hash_154", [32 x i8]* %"$expr_0", align 1
   %"$$expr_0_155" = load [32 x i8], [32 x i8]* %"$expr_0", align 1
   store [32 x i8] %"$$expr_0_155", [32 x i8]* %1, align 1
   ret void
@@ -311,26 +311,3 @@ entry:
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Bystr32_31", i8* %"$memvoidcast_157")
   ret void
 }
-
-!llvm.module.flags = !{!0}
-!llvm.dbg.cu = !{!1}
-
-!0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
-!2 = !DIFile(filename: "builtin_sha256hash.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!10 = !DILocation(line: 1, column: 15, scope: !9)
-!11 = !DILocation(line: 2, column: 10, scope: !9)
-!12 = !DILocation(line: 3, column: 10, scope: !9)
-!13 = !DILocation(line: 4, column: 10, scope: !9)
-!14 = !DILocation(line: 5, column: 11, scope: !9)
-!15 = !DILocation(line: 6, column: 14, scope: !9)
-!16 = !DILocation(line: 7, column: 10, scope: !9)
-!17 = !DILocation(line: 8, column: 10, scope: !9)
-!18 = !DILocation(line: 9, column: 1, scope: !9)

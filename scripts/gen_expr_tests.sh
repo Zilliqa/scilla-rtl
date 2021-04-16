@@ -26,5 +26,6 @@ do
         echo "$inputf input file not found"
     else
         ./gen_expr_test.sh "$inputf" > "$llfile"
+        ./gen_expr_dtest.sh "$inputf" > "$testsuite_dir/expr/${llfile_base}.dbg.ll"
     fi
 done

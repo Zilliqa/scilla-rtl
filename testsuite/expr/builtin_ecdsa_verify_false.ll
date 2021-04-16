@@ -69,12 +69,12 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Bool_ADTTyp_m_specls_51" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_36"*] [%"$TyDescrTy_ADTTyp_Specl_36"* @"$TyDescr_Bool_ADTTyp_Specl_50"]
 @"$TyDescr_ADT_Bool_52" = unnamed_addr constant [4 x i8] c"Bool"
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() {
 entry:
   ret void
 }
 
-define internal %TName_Bool* @_scilla_expr_fun(i8* %0) !dbg !9 {
+define internal %TName_Bool* @_scilla_expr_fun(i8* %0) {
 entry:
   %"$expr_0" = alloca %TName_Bool*, align 8
   %"$gasrem_53" = load i64, i64* @_gasrem, align 8
@@ -100,7 +100,7 @@ entry:
 "$have_gas_61":                                   ; preds = %"$out_of_gas_60", %"$have_gas_56"
   %"$consume_62" = sub i64 %"$gasrem_58", 1
   store i64 %"$consume_62", i64* @_gasrem, align 8
-  store [33 x i8] c"\03\01\08,\FE\D7\81$\A1X\92\DA\18\87\DA\FF\08Fi\E7\A2\ED'\11\9Eq\C2\0B\DA:.\00\DD", [33 x i8]* %pk, align 1, !dbg !10
+  store [33 x i8] c"\03\01\08,\FE\D7\81$\A1X\92\DA\18\87\DA\FF\08Fi\E7\A2\ED'\11\9Eq\C2\0B\DA:.\00\DD", [33 x i8]* %pk, align 1
   %"$gasrem_63" = load i64, i64* @_gasrem, align 8
   %"$gascmp_64" = icmp ugt i64 1, %"$gasrem_63"
   br i1 %"$gascmp_64", label %"$out_of_gas_65", label %"$have_gas_66"
@@ -124,7 +124,7 @@ entry:
 "$have_gas_71":                                   ; preds = %"$out_of_gas_70", %"$have_gas_66"
   %"$consume_72" = sub i64 %"$gasrem_68", 1
   store i64 %"$consume_72", i64* @_gasrem, align 8
-  store [32 x i8] c"\B1\0E-Rv\12\07;&\EE\CD\FDq~j2\0C\F4KJ\FA\C2\B0s-\9F\CB\E2\B7\FA\0C\F6", [32 x i8]* %msg_bs, align 1, !dbg !11
+  store [32 x i8] c"\B1\0E-Rv\12\07;&\EE\CD\FDq~j2\0C\F4KJ\FA\C2\B0s-\9F\CB\E2\B7\FA\0C\F6", [32 x i8]* %msg_bs, align 1
   %"$gasrem_73" = load i64, i64* @_gasrem, align 8
   %"$gascmp_74" = icmp ugt i64 1, %"$gasrem_73"
   br i1 %"$gascmp_74", label %"$out_of_gas_75", label %"$have_gas_76"
@@ -143,7 +143,7 @@ entry:
   store [32 x i8] %"$msg_bs_80", [32 x i8]* %"$to_bystr_msg_bs_79", align 1
   %"$$to_bystr_msg_bs_79_81" = bitcast [32 x i8]* %"$to_bystr_msg_bs_79" to i8*
   %"$to_bystr_call_82" = call %Bystr @_to_bystr(i8* %"$execptr_load_78", i32 32, i8* %"$$to_bystr_msg_bs_79_81")
-  store %Bystr %"$to_bystr_call_82", %Bystr* %msg, align 8, !dbg !12
+  store %Bystr %"$to_bystr_call_82", %Bystr* %msg, align 8
   %"$gasrem_83" = load i64, i64* @_gasrem, align 8
   %"$gascmp_84" = icmp ugt i64 1, %"$gasrem_83"
   br i1 %"$gascmp_84", label %"$out_of_gas_85", label %"$have_gas_86"
@@ -167,7 +167,7 @@ entry:
 "$have_gas_91":                                   ; preds = %"$out_of_gas_90", %"$have_gas_86"
   %"$consume_92" = sub i64 %"$gasrem_88", 1
   store i64 %"$consume_92", i64* @_gasrem, align 8
-  store [64 x i8] c"q3\EF\F4\00\B8I5\91\\\08\EC\D3.0\B2\06\D9\E7\B8\8D\85z8/\D1N\10S\0F0V1IpB\8C@/x\AB\96\14\03\18\80[\DB\C9M\87\B0tL\FB\A8\86\C5\80\BF\CD\DB\98_", [64 x i8]* %sign, align 1, !dbg !13
+  store [64 x i8] c"q3\EF\F4\00\B8I5\91\\\08\EC\D3.0\B2\06\D9\E7\B8\8D\85z8/\D1N\10S\0F0V1IpB\8C@/x\AB\96\14\03\18\80[\DB\C9M\87\B0tL\FB\A8\86\C5\80\BF\CD\DB\98_", [64 x i8]* %sign, align 1
   %"$execptr_load_93" = load i8*, i8** @_execptr, align 8
   %"$ecdsa_verify_pk_94" = alloca [33 x i8], align 1
   %"$pk_95" = load [33 x i8], [33 x i8]* %pk, align 1
@@ -177,7 +177,7 @@ entry:
   %"$sign_98" = load [64 x i8], [64 x i8]* %sign, align 1
   store [64 x i8] %"$sign_98", [64 x i8]* %"$ecdsa_verify_sign_97", align 1
   %"$ecdsa_verify_call_99" = call %TName_Bool* @_ecdsa_verify(i8* %"$execptr_load_93", [33 x i8]* %"$ecdsa_verify_pk_94", %Bystr %"$msg_96", [64 x i8]* %"$ecdsa_verify_sign_97")
-  store %TName_Bool* %"$ecdsa_verify_call_99", %TName_Bool** %"$expr_0", align 8, !dbg !14
+  store %TName_Bool* %"$ecdsa_verify_call_99", %TName_Bool** %"$expr_0", align 8
   %"$$expr_0_100" = load %TName_Bool*, %TName_Bool** %"$expr_0", align 8
   ret %TName_Bool* %"$$expr_0_100"
 }
@@ -197,22 +197,3 @@ entry:
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_39", i8* %"$memvoidcast_102")
   ret void
 }
-
-!llvm.module.flags = !{!0}
-!llvm.dbg.cu = !{!1}
-
-!0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
-!2 = !DIFile(filename: "builtin_ecdsa_verify_false.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!10 = !DILocation(line: 1, column: 10, scope: !9)
-!11 = !DILocation(line: 2, column: 14, scope: !9)
-!12 = !DILocation(line: 3, column: 11, scope: !9)
-!13 = !DILocation(line: 4, column: 12, scope: !9)
-!14 = !DILocation(line: 5, column: 1, scope: !9)

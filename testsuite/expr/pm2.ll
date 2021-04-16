@@ -85,7 +85,7 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Option_ADTTyp_m_specls_59" = unnamed_addr constant [2 x %"$TyDescrTy_ADTTyp_Specl_34"*] [%"$TyDescrTy_ADTTyp_Specl_34"* @"$TyDescr_Option_Int32_ADTTyp_Specl_49", %"$TyDescrTy_ADTTyp_Specl_34"* @"$TyDescr_Option_Option_(Int32)_ADTTyp_Specl_58"]
 @"$TyDescr_ADT_Option_60" = unnamed_addr constant [6 x i8] c"Option"
 
-define internal %Int32 @"$fundef_3"(%"$$fundef_3_env_61"* %0, %"TName_Option_Option_(Int32)"* %1) !dbg !4 {
+define internal %Int32 @"$fundef_3"(%"$$fundef_3_env_61"* %0, %"TName_Option_Option_(Int32)"* %1) {
 entry:
   %"$$fundef_3_env_x_62" = getelementptr inbounds %"$$fundef_3_env_61", %"$$fundef_3_env_61"* %0, i32 0, i32 0
   %"$x_envload_63" = load %Int32, %Int32* %"$$fundef_3_env_x_62", align 4
@@ -112,7 +112,7 @@ entry:
   switch i8 %"$o_tag_73", label %"$empty_default_74" [
     i8 1, label %"$None_75"
     i8 0, label %"$Some_83"
-  ], !dbg !8
+  ]
 
 "$None_75":                                       ; preds = %"$have_gas_69"
   %"$o_76" = bitcast %"TName_Option_Option_(Int32)"* %1 to %"CName_None_Option_(Int32)"*
@@ -128,7 +128,7 @@ entry:
   %"$consume_81" = sub i64 %"$gasrem_77", 1
   store i64 %"$consume_81", i64* @_gasrem, align 8
   %"$x_82" = load %Int32, %Int32* %x, align 4
-  store %Int32 %"$x_82", %Int32* %"$retval_4", align 4, !dbg !9
+  store %Int32 %"$x_82", %Int32* %"$retval_4", align 4
   br label %"$matchsucc_71"
 
 "$Some_83":                                       ; preds = %"$have_gas_69"
@@ -143,7 +143,7 @@ entry:
   switch i8 %"$$o_0_tag_90", label %"$empty_default_91" [
     i8 1, label %"$None_92"
     i8 0, label %"$Some_100"
-  ], !dbg !12
+  ]
 
 "$None_92":                                       ; preds = %"$Some_83"
   %"$$o_0_93" = bitcast %TName_Option_Int32* %"$$o_0_88" to %CName_None_Int32*
@@ -159,7 +159,7 @@ entry:
   %"$consume_98" = sub i64 %"$gasrem_94", 1
   store i64 %"$consume_98", i64* @_gasrem, align 8
   %"$y_99" = load %Int32, %Int32* %y, align 4
-  store %Int32 %"$y_99", %Int32* %"$retval_4", align 4, !dbg !14
+  store %Int32 %"$y_99", %Int32* %"$retval_4", align 4
   br label %"$matchsucc_87"
 
 "$Some_100":                                      ; preds = %"$Some_83"
@@ -180,7 +180,7 @@ entry:
   %"$consume_108" = sub i64 %"$gasrem_104", 1
   store i64 %"$consume_108", i64* @_gasrem, align 8
   %"$z_109" = load %Int32, %Int32* %z, align 4
-  store %Int32 %"$z_109", %Int32* %"$retval_4", align 4, !dbg !17
+  store %Int32 %"$z_109", %Int32* %"$retval_4", align 4
   br label %"$matchsucc_87"
 
 "$empty_default_91":                              ; preds = %"$Some_83"
@@ -199,12 +199,12 @@ entry:
 
 declare void @_out_of_gas()
 
-define void @_init_libs() !dbg !19 {
+define void @_init_libs() {
 entry:
   ret void
 }
 
-define internal %Int32 @_scilla_expr_fun(i8* %0) !dbg !21 {
+define internal %Int32 @_scilla_expr_fun(i8* %0) {
 entry:
   %"$expr_2" = alloca %Int32, align 8
   %"$gasrem_111" = load i64, i64* @_gasrem, align 8
@@ -230,7 +230,7 @@ entry:
 "$have_gas_119":                                  ; preds = %"$out_of_gas_118", %"$have_gas_114"
   %"$consume_120" = sub i64 %"$gasrem_116", 1
   store i64 %"$consume_120", i64* @_gasrem, align 8
-  store %Int32 { i32 42 }, %Int32* %x, align 4, !dbg !22
+  store %Int32 { i32 42 }, %Int32* %x, align 4
   %"$gasrem_121" = load i64, i64* @_gasrem, align 8
   %"$gascmp_122" = icmp ugt i64 1, %"$gasrem_121"
   br i1 %"$gascmp_122", label %"$out_of_gas_123", label %"$have_gas_124"
@@ -254,7 +254,7 @@ entry:
 "$have_gas_129":                                  ; preds = %"$out_of_gas_128", %"$have_gas_124"
   %"$consume_130" = sub i64 %"$gasrem_126", 1
   store i64 %"$consume_130", i64* @_gasrem, align 8
-  store %Int32 { i32 41 }, %Int32* %y, align 4, !dbg !23
+  store %Int32 { i32 41 }, %Int32* %y, align 4
   %"$gasrem_131" = load i64, i64* @_gasrem, align 8
   %"$gascmp_132" = icmp ugt i64 1, %"$gasrem_131"
   br i1 %"$gascmp_132", label %"$out_of_gas_133", label %"$have_gas_134"
@@ -289,7 +289,7 @@ entry:
   %"$$fundef_3_env_y_147" = getelementptr inbounds %"$$fundef_3_env_61", %"$$fundef_3_env_61"* %"$$fundef_3_envp_141", i32 0, i32 1
   %"$y_148" = load %Int32, %Int32* %y, align 4
   store %Int32 %"$y_148", %Int32* %"$$fundef_3_env_y_147", align 4
-  store { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } %"$$fundef_3_cloval_144", { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* }* %f, align 8, !dbg !24
+  store { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } %"$$fundef_3_cloval_144", { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* }* %f, align 8
   %"$gasrem_149" = load i64, i64* @_gasrem, align 8
   %"$gascmp_150" = icmp ugt i64 1, %"$gasrem_149"
   br i1 %"$gascmp_150", label %"$out_of_gas_151", label %"$have_gas_152"
@@ -322,7 +322,7 @@ entry:
   %"$adtgep_162" = getelementptr inbounds %CName_Some_Int32, %CName_Some_Int32* %"$adtval_160", i32 0, i32 1
   store %Int32 %"$x_159", %Int32* %"$adtgep_162", align 4
   %"$adtptr_163" = bitcast %CName_Some_Int32* %"$adtval_160" to %TName_Option_Int32*
-  store %TName_Option_Int32* %"$adtptr_163", %TName_Option_Int32** %o1, align 8, !dbg !25
+  store %TName_Option_Int32* %"$adtptr_163", %TName_Option_Int32** %o1, align 8
   %"$gasrem_164" = load i64, i64* @_gasrem, align 8
   %"$gascmp_165" = icmp ugt i64 1, %"$gasrem_164"
   br i1 %"$gascmp_165", label %"$out_of_gas_166", label %"$have_gas_167"
@@ -355,7 +355,7 @@ entry:
   %"$adtgep_177" = getelementptr inbounds %"CName_Some_Option_(Int32)", %"CName_Some_Option_(Int32)"* %"$adtval_175", i32 0, i32 1
   store %TName_Option_Int32* %"$o1_174", %TName_Option_Int32** %"$adtgep_177", align 8
   %"$adtptr_178" = bitcast %"CName_Some_Option_(Int32)"* %"$adtval_175" to %"TName_Option_Option_(Int32)"*
-  store %"TName_Option_Option_(Int32)"* %"$adtptr_178", %"TName_Option_Option_(Int32)"** %o2, align 8, !dbg !26
+  store %"TName_Option_Option_(Int32)"* %"$adtptr_178", %"TName_Option_Option_(Int32)"** %o2, align 8
   %"$gasrem_179" = load i64, i64* @_gasrem, align 8
   %"$gascmp_180" = icmp ugt i64 1, %"$gasrem_179"
   br i1 %"$gascmp_180", label %"$out_of_gas_181", label %"$have_gas_182"
@@ -372,10 +372,10 @@ entry:
   %"$f_fptr_185" = extractvalue { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } %"$f_184", 0
   %"$f_envptr_186" = extractvalue { %Int32 (i8*, %"TName_Option_Option_(Int32)"*)*, i8* } %"$f_184", 1
   %"$o2_187" = load %"TName_Option_Option_(Int32)"*, %"TName_Option_Option_(Int32)"** %o2, align 8
-  %"$f_call_188" = call %Int32 %"$f_fptr_185"(i8* %"$f_envptr_186", %"TName_Option_Option_(Int32)"* %"$o2_187"), !dbg !27
-  store %Int32 %"$f_call_188", %Int32* %"$f_1", align 4, !dbg !27
+  %"$f_call_188" = call %Int32 %"$f_fptr_185"(i8* %"$f_envptr_186", %"TName_Option_Option_(Int32)"* %"$o2_187")
+  store %Int32 %"$f_call_188", %Int32* %"$f_1", align 4
   %"$$f_1_189" = load %Int32, %Int32* %"$f_1", align 4
-  store %Int32 %"$$f_1_189", %Int32* %"$expr_2", align 4, !dbg !27
+  store %Int32 %"$$f_1_189", %Int32* %"$expr_2", align 4
   %"$$expr_2_190" = load %Int32, %Int32* %"$expr_2", align 4
   ret %Int32 %"$$expr_2_190"
 }
@@ -393,35 +393,3 @@ entry:
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_7", i8* %"$memvoidcast_193")
   ret void
 }
-
-!llvm.module.flags = !{!0}
-!llvm.dbg.cu = !{!1}
-
-!0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
-!2 = !DIFile(filename: "pm2.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "$fundef_3", linkageName: "$fundef_3", scope: !2, file: !2, line: 4, type: !5, scopeLine: 4, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DISubroutineType(types: !6)
-!6 = !{!7}
-!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!8 = !DILocation(line: 4, column: 3, scope: !4)
-!9 = !DILocation(line: 5, column: 13, scope: !10)
-!10 = distinct !DILexicalBlock(scope: !11, file: !2, line: 5, column: 5)
-!11 = distinct !DILexicalBlock(scope: !4, file: !2, line: 4, column: 3)
-!12 = !DILocation(line: 4, column: 3, scope: !13)
-!13 = distinct !DILexicalBlock(scope: !11, file: !2, line: 6, column: 5)
-!14 = !DILocation(line: 6, column: 18, scope: !15)
-!15 = distinct !DILexicalBlock(scope: !16, file: !2, line: 6, column: 10)
-!16 = distinct !DILexicalBlock(scope: !13, file: !2, line: 4, column: 3)
-!17 = !DILocation(line: 7, column: 22, scope: !18)
-!18 = distinct !DILexicalBlock(scope: !16, file: !2, line: 7, column: 11)
-!19 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !20, file: !20, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!20 = !DIFile(filename: ".", directory: ".")
-!21 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !5, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!22 = !DILocation(line: 1, column: 9, scope: !21)
-!23 = !DILocation(line: 2, column: 9, scope: !21)
-!24 = !DILocation(line: 4, column: 3, scope: !21)
-!25 = !DILocation(line: 10, column: 10, scope: !21)
-!26 = !DILocation(line: 11, column: 10, scope: !21)
-!27 = !DILocation(line: 12, column: 1, scope: !21)

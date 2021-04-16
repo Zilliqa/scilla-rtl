@@ -69,12 +69,12 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_ADT_Pair_45" = unnamed_addr constant [4 x i8] c"Pair"
 @"$stringlit_56" = unnamed_addr constant [11 x i8] c"hello world"
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() {
 entry:
   ret void
 }
 
-define internal %TName_Pair_String_ByStr* @_scilla_expr_fun(i8* %0) !dbg !9 {
+define internal %TName_Pair_String_ByStr* @_scilla_expr_fun(i8* %0) {
 entry:
   %"$expr_0" = alloca %TName_Pair_String_ByStr*, align 8
   %"$gasrem_46" = load i64, i64* @_gasrem, align 8
@@ -100,7 +100,7 @@ entry:
 "$have_gas_54":                                   ; preds = %"$out_of_gas_53", %"$have_gas_49"
   %"$consume_55" = sub i64 %"$gasrem_51", 1
   store i64 %"$consume_55", i64* @_gasrem, align 8
-  store %String { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$stringlit_56", i32 0, i32 0), i32 11 }, %String* %x, align 8, !dbg !10
+  store %String { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$stringlit_56", i32 0, i32 0), i32 11 }, %String* %x, align 8
   %"$gasrem_57" = load i64, i64* @_gasrem, align 8
   %"$gascmp_58" = icmp ugt i64 1, %"$gasrem_57"
   br i1 %"$gascmp_58", label %"$out_of_gas_59", label %"$have_gas_60"
@@ -124,7 +124,7 @@ entry:
 "$have_gas_65":                                   ; preds = %"$out_of_gas_64", %"$have_gas_60"
   %"$consume_66" = sub i64 %"$gasrem_62", 1
   store i64 %"$consume_66", i64* @_gasrem, align 8
-  store [6 x i8] c"\00\11\223DU", [6 x i8]* %y, align 1, !dbg !11
+  store [6 x i8] c"\00\11\223DU", [6 x i8]* %y, align 1
   %"$gasrem_67" = load i64, i64* @_gasrem, align 8
   %"$gascmp_68" = icmp ugt i64 1, %"$gasrem_67"
   br i1 %"$gascmp_68", label %"$out_of_gas_69", label %"$have_gas_70"
@@ -143,7 +143,7 @@ entry:
   store [6 x i8] %"$y_74", [6 x i8]* %"$to_bystr_y_73", align 1
   %"$$to_bystr_y_73_75" = bitcast [6 x i8]* %"$to_bystr_y_73" to i8*
   %"$to_bystr_call_76" = call %Bystr @_to_bystr(i8* %"$execptr_load_72", i32 6, i8* %"$$to_bystr_y_73_75")
-  store %Bystr %"$to_bystr_call_76", %Bystr* %ybs, align 8, !dbg !12
+  store %Bystr %"$to_bystr_call_76", %Bystr* %ybs, align 8
   %"$gasrem_77" = load i64, i64* @_gasrem, align 8
   %"$gascmp_78" = icmp ugt i64 1, %"$gasrem_77"
   br i1 %"$gascmp_78", label %"$out_of_gas_79", label %"$have_gas_80"
@@ -167,7 +167,7 @@ entry:
 "$have_gas_85":                                   ; preds = %"$out_of_gas_84", %"$have_gas_80"
   %"$consume_86" = sub i64 %"$gasrem_82", 1
   store i64 %"$consume_86", i64* @_gasrem, align 8
-  store %Uint32 zeroinitializer, %Uint32* %pos, align 4, !dbg !13
+  store %Uint32 zeroinitializer, %Uint32* %pos, align 4
   %"$gasrem_87" = load i64, i64* @_gasrem, align 8
   %"$gascmp_88" = icmp ugt i64 1, %"$gasrem_87"
   br i1 %"$gascmp_88", label %"$out_of_gas_89", label %"$have_gas_90"
@@ -191,7 +191,7 @@ entry:
 "$have_gas_95":                                   ; preds = %"$out_of_gas_94", %"$have_gas_90"
   %"$consume_96" = sub i64 %"$gasrem_92", 1
   store i64 %"$consume_96", i64* @_gasrem, align 8
-  store %Uint32 { i32 5 }, %Uint32* %len, align 4, !dbg !14
+  store %Uint32 { i32 5 }, %Uint32* %len, align 4
   %"$gasrem_97" = load i64, i64* @_gasrem, align 8
   %"$gascmp_98" = icmp ugt i64 1, %"$gasrem_97"
   br i1 %"$gascmp_98", label %"$out_of_gas_99", label %"$have_gas_100"
@@ -209,7 +209,7 @@ entry:
   %"$pos_104" = load %Uint32, %Uint32* %pos, align 4
   %"$len_105" = load %Uint32, %Uint32* %len, align 4
   %"$substr_call_106" = call %String @_substr_String(i8* %"$execptr_load_102", %String %"$x_103", %Uint32 %"$pos_104", %Uint32 %"$len_105")
-  store %String %"$substr_call_106", %String* %x_sub, align 8, !dbg !15
+  store %String %"$substr_call_106", %String* %x_sub, align 8
   %"$gasrem_107" = load i64, i64* @_gasrem, align 8
   %"$gascmp_108" = icmp ugt i64 1, %"$gasrem_107"
   br i1 %"$gascmp_108", label %"$out_of_gas_109", label %"$have_gas_110"
@@ -227,7 +227,7 @@ entry:
   %"$pos_114" = load %Uint32, %Uint32* %pos, align 4
   %"$len_115" = load %Uint32, %Uint32* %len, align 4
   %"$substr_call_116" = call %Bystr @_substr_ByStr(i8* %"$execptr_load_112", %Bystr %"$ybs_113", %Uint32 %"$pos_114", %Uint32 %"$len_115")
-  store %Bystr %"$substr_call_116", %Bystr* %ybs_sub, align 8, !dbg !16
+  store %Bystr %"$substr_call_116", %Bystr* %ybs_sub, align 8
   %"$gasrem_117" = load i64, i64* @_gasrem, align 8
   %"$gascmp_118" = icmp ugt i64 1, %"$gasrem_117"
   br i1 %"$gascmp_118", label %"$out_of_gas_119", label %"$have_gas_120"
@@ -251,7 +251,7 @@ entry:
   %"$adtgep_127" = getelementptr inbounds %CName_Pair_String_ByStr, %CName_Pair_String_ByStr* %"$adtval_124", i32 0, i32 2
   store %Bystr %"$ybs_sub_123", %Bystr* %"$adtgep_127", align 8
   %"$adtptr_128" = bitcast %CName_Pair_String_ByStr* %"$adtval_124" to %TName_Pair_String_ByStr*
-  store %TName_Pair_String_ByStr* %"$adtptr_128", %TName_Pair_String_ByStr** %"$expr_0", align 8, !dbg !17
+  store %TName_Pair_String_ByStr* %"$adtptr_128", %TName_Pair_String_ByStr** %"$expr_0", align 8
   %"$$expr_0_129" = load %TName_Pair_String_ByStr*, %TName_Pair_String_ByStr** %"$expr_0", align 8
   ret %TName_Pair_String_ByStr* %"$$expr_0_129"
 }
@@ -275,25 +275,3 @@ entry:
   call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_String_ByStr_35", i8* %"$memvoidcast_131")
   ret void
 }
-
-!llvm.module.flags = !{!0}
-!llvm.dbg.cu = !{!1}
-
-!0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
-!2 = !DIFile(filename: "builtin_substr.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!10 = !DILocation(line: 1, column: 21, scope: !9)
-!11 = !DILocation(line: 2, column: 9, scope: !9)
-!12 = !DILocation(line: 3, column: 11, scope: !9)
-!13 = !DILocation(line: 5, column: 11, scope: !9)
-!14 = !DILocation(line: 6, column: 11, scope: !9)
-!15 = !DILocation(line: 7, column: 13, scope: !9)
-!16 = !DILocation(line: 8, column: 15, scope: !9)
-!17 = !DILocation(line: 10, column: 1, scope: !9)
