@@ -2,7 +2,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -69,26 +69,26 @@ entry:
   ret void
 }
 
-define internal %"Map_Int32_List_(String)"* @"$scilla_expr_49"(i8* %0) {
+define internal %"Map_Int32_List_(String)"* @_scilla_expr_fun(i8* %0) {
 entry:
-  %"$expr_0" = alloca %"Map_Int32_List_(String)"*
-  %"$gasrem_50" = load i64, i64* @_gasrem
-  %"$gascmp_51" = icmp ugt i64 1, %"$gasrem_50"
-  br i1 %"$gascmp_51", label %"$out_of_gas_52", label %"$have_gas_53"
+  %"$expr_0" = alloca %"Map_Int32_List_(String)"*, align 8
+  %"$gasrem_49" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_50" = icmp ugt i64 1, %"$gasrem_49"
+  br i1 %"$gascmp_50", label %"$out_of_gas_51", label %"$have_gas_52"
 
-"$out_of_gas_52":                                 ; preds = %entry
+"$out_of_gas_51":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_53"
+  br label %"$have_gas_52"
 
-"$have_gas_53":                                   ; preds = %"$out_of_gas_52", %entry
-  %"$consume_54" = sub i64 %"$gasrem_50", 1
-  store i64 %"$consume_54", i64* @_gasrem
-  %"$execptr_load_55" = load i8*, i8** @_execptr
-  %"$_new_empty_map_call_56" = call i8* @_new_empty_map(i8* %"$execptr_load_55")
-  %"$Emp_57" = bitcast i8* %"$_new_empty_map_call_56" to %"Map_Int32_List_(String)"*
-  store %"Map_Int32_List_(String)"* %"$Emp_57", %"Map_Int32_List_(String)"** %"$expr_0"
-  %"$$expr_0_58" = load %"Map_Int32_List_(String)"*, %"Map_Int32_List_(String)"** %"$expr_0"
-  ret %"Map_Int32_List_(String)"* %"$$expr_0_58"
+"$have_gas_52":                                   ; preds = %"$out_of_gas_51", %entry
+  %"$consume_53" = sub i64 %"$gasrem_49", 1
+  store i64 %"$consume_53", i64* @_gasrem, align 8
+  %"$execptr_load_54" = load i8*, i8** @_execptr, align 8
+  %"$_new_empty_map_call_55" = call i8* @_new_empty_map(i8* %"$execptr_load_54")
+  %"$Emp_56" = bitcast i8* %"$_new_empty_map_call_55" to %"Map_Int32_List_(String)"*
+  store %"Map_Int32_List_(String)"* %"$Emp_56", %"Map_Int32_List_(String)"** %"$expr_0", align 8
+  %"$$expr_0_57" = load %"Map_Int32_List_(String)"*, %"Map_Int32_List_(String)"** %"$expr_0", align 8
+  ret %"Map_Int32_List_(String)"* %"$$expr_0_57"
 }
 
 declare void @_out_of_gas()
@@ -99,8 +99,8 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_59" = call %"Map_Int32_List_(String)"* @"$scilla_expr_49"(i8* null)
-  %"$memvoidcast_60" = bitcast %"Map_Int32_List_(String)"* %"$exprval_59" to i8*
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Map_35", i8* %"$memvoidcast_60")
+  %"$exprval_58" = call %"Map_Int32_List_(String)"* @_scilla_expr_fun(i8* null)
+  %"$memvoidcast_59" = bitcast %"Map_Int32_List_(String)"* %"$exprval_58" to i8*
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Map_35", i8* %"$memvoidcast_59")
   ret void
 }

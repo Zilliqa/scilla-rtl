@@ -17,14 +17,18 @@ then
     exit 1
 fi
 
-for llfile in ${testsuite_dir}/expr/*.ll
+for llfile in "${testsuite_dir}"/expr/*.ll
 do
-    llfile_base=$(basename $llfile .ll)
-    inputf=${scilla_compiler_root}/tests/codegen/expr/${llfile_base}.scilexp
-    if [[ ! -f ${scilla_compiler_root}/tests/codegen/expr/${llfile_base}.scilexp ]]
+    llfile_base=$(basename "$llfile" .ll)
+    if [ "$(basename "$llfile_base" .dbg)" == "$llfile_base" ]
     then
-        echo "$inputf input file not found"
-    else
-        ./gen_expr_test.sh "$inputf" > "$llfile"
+        inputf=${scilla_compiler_root}/tests/codegen/expr/${llfile_base}.scilexp
+        if [[ ! -f ${scilla_compiler_root}/tests/codegen/expr/${llfile_base}.scilexp ]]
+        then
+            echo "$inputf input file not found"
+        else
+            ./gen_expr_test.sh "$inputf" > "$llfile"
+            ./gen_expr_dtest.sh "$inputf" > "$testsuite_dir/expr/${llfile_base}.dbg.ll"
+        fi
     fi
 done

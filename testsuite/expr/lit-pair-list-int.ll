@@ -8,7 +8,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -96,215 +96,215 @@ entry:
   ret void
 }
 
-define internal %"TName_Pair_List_(Int32)_List_(Uint32)"* @"$scilla_expr_67"(i8* %0) {
+define internal %"TName_Pair_List_(Int32)_List_(Uint32)"* @_scilla_expr_fun(i8* %0) {
 entry:
-  %"$expr_0" = alloca %"TName_Pair_List_(Int32)_List_(Uint32)"*
-  %"$gasrem_68" = load i64, i64* @_gasrem
-  %"$gascmp_69" = icmp ugt i64 1, %"$gasrem_68"
-  br i1 %"$gascmp_69", label %"$out_of_gas_70", label %"$have_gas_71"
+  %"$expr_0" = alloca %"TName_Pair_List_(Int32)_List_(Uint32)"*, align 8
+  %"$gasrem_67" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_68" = icmp ugt i64 1, %"$gasrem_67"
+  br i1 %"$gascmp_68", label %"$out_of_gas_69", label %"$have_gas_70"
 
-"$out_of_gas_70":                                 ; preds = %entry
+"$out_of_gas_69":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_71"
+  br label %"$have_gas_70"
 
-"$have_gas_71":                                   ; preds = %"$out_of_gas_70", %entry
-  %"$consume_72" = sub i64 %"$gasrem_68", 1
-  store i64 %"$consume_72", i64* @_gasrem
-  %nil_int32 = alloca %TName_List_Int32*
-  %"$gasrem_73" = load i64, i64* @_gasrem
-  %"$gascmp_74" = icmp ugt i64 1, %"$gasrem_73"
-  br i1 %"$gascmp_74", label %"$out_of_gas_75", label %"$have_gas_76"
+"$have_gas_70":                                   ; preds = %"$out_of_gas_69", %entry
+  %"$consume_71" = sub i64 %"$gasrem_67", 1
+  store i64 %"$consume_71", i64* @_gasrem, align 8
+  %nil_int32 = alloca %TName_List_Int32*, align 8
+  %"$gasrem_72" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_73" = icmp ugt i64 1, %"$gasrem_72"
+  br i1 %"$gascmp_73", label %"$out_of_gas_74", label %"$have_gas_75"
 
-"$out_of_gas_75":                                 ; preds = %"$have_gas_71"
+"$out_of_gas_74":                                 ; preds = %"$have_gas_70"
   call void @_out_of_gas()
-  br label %"$have_gas_76"
+  br label %"$have_gas_75"
 
-"$have_gas_76":                                   ; preds = %"$out_of_gas_75", %"$have_gas_71"
-  %"$consume_77" = sub i64 %"$gasrem_73", 1
-  store i64 %"$consume_77", i64* @_gasrem
-  %"$adtval_78_load" = load i8*, i8** @_execptr
-  %"$adtval_78_salloc" = call i8* @_salloc(i8* %"$adtval_78_load", i64 1)
-  %"$adtval_78" = bitcast i8* %"$adtval_78_salloc" to %CName_Nil_Int32*
-  %"$adtgep_79" = getelementptr inbounds %CName_Nil_Int32, %CName_Nil_Int32* %"$adtval_78", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_79"
-  %"$adtptr_80" = bitcast %CName_Nil_Int32* %"$adtval_78" to %TName_List_Int32*
-  store %TName_List_Int32* %"$adtptr_80", %TName_List_Int32** %nil_int32
-  %"$gasrem_81" = load i64, i64* @_gasrem
-  %"$gascmp_82" = icmp ugt i64 1, %"$gasrem_81"
-  br i1 %"$gascmp_82", label %"$out_of_gas_83", label %"$have_gas_84"
+"$have_gas_75":                                   ; preds = %"$out_of_gas_74", %"$have_gas_70"
+  %"$consume_76" = sub i64 %"$gasrem_72", 1
+  store i64 %"$consume_76", i64* @_gasrem, align 8
+  %"$adtval_77_load" = load i8*, i8** @_execptr, align 8
+  %"$adtval_77_salloc" = call i8* @_salloc(i8* %"$adtval_77_load", i64 1)
+  %"$adtval_77" = bitcast i8* %"$adtval_77_salloc" to %CName_Nil_Int32*
+  %"$adtgep_78" = getelementptr inbounds %CName_Nil_Int32, %CName_Nil_Int32* %"$adtval_77", i32 0, i32 0
+  store i8 1, i8* %"$adtgep_78", align 1
+  %"$adtptr_79" = bitcast %CName_Nil_Int32* %"$adtval_77" to %TName_List_Int32*
+  store %TName_List_Int32* %"$adtptr_79", %TName_List_Int32** %nil_int32, align 8
+  %"$gasrem_80" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_81" = icmp ugt i64 1, %"$gasrem_80"
+  br i1 %"$gascmp_81", label %"$out_of_gas_82", label %"$have_gas_83"
 
-"$out_of_gas_83":                                 ; preds = %"$have_gas_76"
+"$out_of_gas_82":                                 ; preds = %"$have_gas_75"
   call void @_out_of_gas()
-  br label %"$have_gas_84"
+  br label %"$have_gas_83"
 
-"$have_gas_84":                                   ; preds = %"$out_of_gas_83", %"$have_gas_76"
-  %"$consume_85" = sub i64 %"$gasrem_81", 1
-  store i64 %"$consume_85", i64* @_gasrem
-  %ione = alloca %Int32
-  %"$gasrem_86" = load i64, i64* @_gasrem
-  %"$gascmp_87" = icmp ugt i64 1, %"$gasrem_86"
-  br i1 %"$gascmp_87", label %"$out_of_gas_88", label %"$have_gas_89"
+"$have_gas_83":                                   ; preds = %"$out_of_gas_82", %"$have_gas_75"
+  %"$consume_84" = sub i64 %"$gasrem_80", 1
+  store i64 %"$consume_84", i64* @_gasrem, align 8
+  %ione = alloca %Int32, align 8
+  %"$gasrem_85" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_86" = icmp ugt i64 1, %"$gasrem_85"
+  br i1 %"$gascmp_86", label %"$out_of_gas_87", label %"$have_gas_88"
 
-"$out_of_gas_88":                                 ; preds = %"$have_gas_84"
+"$out_of_gas_87":                                 ; preds = %"$have_gas_83"
   call void @_out_of_gas()
-  br label %"$have_gas_89"
+  br label %"$have_gas_88"
 
-"$have_gas_89":                                   ; preds = %"$out_of_gas_88", %"$have_gas_84"
-  %"$consume_90" = sub i64 %"$gasrem_86", 1
-  store i64 %"$consume_90", i64* @_gasrem
-  store %Int32 { i32 1 }, %Int32* %ione
-  %"$gasrem_91" = load i64, i64* @_gasrem
-  %"$gascmp_92" = icmp ugt i64 1, %"$gasrem_91"
-  br i1 %"$gascmp_92", label %"$out_of_gas_93", label %"$have_gas_94"
+"$have_gas_88":                                   ; preds = %"$out_of_gas_87", %"$have_gas_83"
+  %"$consume_89" = sub i64 %"$gasrem_85", 1
+  store i64 %"$consume_89", i64* @_gasrem, align 8
+  store %Int32 { i32 1 }, %Int32* %ione, align 4
+  %"$gasrem_90" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_91" = icmp ugt i64 1, %"$gasrem_90"
+  br i1 %"$gascmp_91", label %"$out_of_gas_92", label %"$have_gas_93"
 
-"$out_of_gas_93":                                 ; preds = %"$have_gas_89"
+"$out_of_gas_92":                                 ; preds = %"$have_gas_88"
   call void @_out_of_gas()
-  br label %"$have_gas_94"
+  br label %"$have_gas_93"
 
-"$have_gas_94":                                   ; preds = %"$out_of_gas_93", %"$have_gas_89"
-  %"$consume_95" = sub i64 %"$gasrem_91", 1
-  store i64 %"$consume_95", i64* @_gasrem
-  %cons_int32 = alloca %TName_List_Int32*
-  %"$gasrem_96" = load i64, i64* @_gasrem
-  %"$gascmp_97" = icmp ugt i64 1, %"$gasrem_96"
-  br i1 %"$gascmp_97", label %"$out_of_gas_98", label %"$have_gas_99"
+"$have_gas_93":                                   ; preds = %"$out_of_gas_92", %"$have_gas_88"
+  %"$consume_94" = sub i64 %"$gasrem_90", 1
+  store i64 %"$consume_94", i64* @_gasrem, align 8
+  %cons_int32 = alloca %TName_List_Int32*, align 8
+  %"$gasrem_95" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_96" = icmp ugt i64 1, %"$gasrem_95"
+  br i1 %"$gascmp_96", label %"$out_of_gas_97", label %"$have_gas_98"
 
-"$out_of_gas_98":                                 ; preds = %"$have_gas_94"
+"$out_of_gas_97":                                 ; preds = %"$have_gas_93"
   call void @_out_of_gas()
-  br label %"$have_gas_99"
+  br label %"$have_gas_98"
 
-"$have_gas_99":                                   ; preds = %"$out_of_gas_98", %"$have_gas_94"
-  %"$consume_100" = sub i64 %"$gasrem_96", 1
-  store i64 %"$consume_100", i64* @_gasrem
-  %"$ione_101" = load %Int32, %Int32* %ione
-  %"$nil_int32_102" = load %TName_List_Int32*, %TName_List_Int32** %nil_int32
-  %"$adtval_103_load" = load i8*, i8** @_execptr
-  %"$adtval_103_salloc" = call i8* @_salloc(i8* %"$adtval_103_load", i64 13)
-  %"$adtval_103" = bitcast i8* %"$adtval_103_salloc" to %CName_Cons_Int32*
-  %"$adtgep_104" = getelementptr inbounds %CName_Cons_Int32, %CName_Cons_Int32* %"$adtval_103", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_104"
-  %"$adtgep_105" = getelementptr inbounds %CName_Cons_Int32, %CName_Cons_Int32* %"$adtval_103", i32 0, i32 1
-  store %Int32 %"$ione_101", %Int32* %"$adtgep_105"
-  %"$adtgep_106" = getelementptr inbounds %CName_Cons_Int32, %CName_Cons_Int32* %"$adtval_103", i32 0, i32 2
-  store %TName_List_Int32* %"$nil_int32_102", %TName_List_Int32** %"$adtgep_106"
-  %"$adtptr_107" = bitcast %CName_Cons_Int32* %"$adtval_103" to %TName_List_Int32*
-  store %TName_List_Int32* %"$adtptr_107", %TName_List_Int32** %cons_int32
-  %"$gasrem_108" = load i64, i64* @_gasrem
-  %"$gascmp_109" = icmp ugt i64 1, %"$gasrem_108"
-  br i1 %"$gascmp_109", label %"$out_of_gas_110", label %"$have_gas_111"
+"$have_gas_98":                                   ; preds = %"$out_of_gas_97", %"$have_gas_93"
+  %"$consume_99" = sub i64 %"$gasrem_95", 1
+  store i64 %"$consume_99", i64* @_gasrem, align 8
+  %"$ione_100" = load %Int32, %Int32* %ione, align 4
+  %"$nil_int32_101" = load %TName_List_Int32*, %TName_List_Int32** %nil_int32, align 8
+  %"$adtval_102_load" = load i8*, i8** @_execptr, align 8
+  %"$adtval_102_salloc" = call i8* @_salloc(i8* %"$adtval_102_load", i64 13)
+  %"$adtval_102" = bitcast i8* %"$adtval_102_salloc" to %CName_Cons_Int32*
+  %"$adtgep_103" = getelementptr inbounds %CName_Cons_Int32, %CName_Cons_Int32* %"$adtval_102", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_103", align 1
+  %"$adtgep_104" = getelementptr inbounds %CName_Cons_Int32, %CName_Cons_Int32* %"$adtval_102", i32 0, i32 1
+  store %Int32 %"$ione_100", %Int32* %"$adtgep_104", align 4
+  %"$adtgep_105" = getelementptr inbounds %CName_Cons_Int32, %CName_Cons_Int32* %"$adtval_102", i32 0, i32 2
+  store %TName_List_Int32* %"$nil_int32_101", %TName_List_Int32** %"$adtgep_105", align 8
+  %"$adtptr_106" = bitcast %CName_Cons_Int32* %"$adtval_102" to %TName_List_Int32*
+  store %TName_List_Int32* %"$adtptr_106", %TName_List_Int32** %cons_int32, align 8
+  %"$gasrem_107" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_108" = icmp ugt i64 1, %"$gasrem_107"
+  br i1 %"$gascmp_108", label %"$out_of_gas_109", label %"$have_gas_110"
 
-"$out_of_gas_110":                                ; preds = %"$have_gas_99"
+"$out_of_gas_109":                                ; preds = %"$have_gas_98"
   call void @_out_of_gas()
-  br label %"$have_gas_111"
+  br label %"$have_gas_110"
 
-"$have_gas_111":                                  ; preds = %"$out_of_gas_110", %"$have_gas_99"
-  %"$consume_112" = sub i64 %"$gasrem_108", 1
-  store i64 %"$consume_112", i64* @_gasrem
-  %nil_uint32 = alloca %TName_List_Uint32*
-  %"$gasrem_113" = load i64, i64* @_gasrem
-  %"$gascmp_114" = icmp ugt i64 1, %"$gasrem_113"
-  br i1 %"$gascmp_114", label %"$out_of_gas_115", label %"$have_gas_116"
+"$have_gas_110":                                  ; preds = %"$out_of_gas_109", %"$have_gas_98"
+  %"$consume_111" = sub i64 %"$gasrem_107", 1
+  store i64 %"$consume_111", i64* @_gasrem, align 8
+  %nil_uint32 = alloca %TName_List_Uint32*, align 8
+  %"$gasrem_112" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_113" = icmp ugt i64 1, %"$gasrem_112"
+  br i1 %"$gascmp_113", label %"$out_of_gas_114", label %"$have_gas_115"
 
-"$out_of_gas_115":                                ; preds = %"$have_gas_111"
+"$out_of_gas_114":                                ; preds = %"$have_gas_110"
   call void @_out_of_gas()
-  br label %"$have_gas_116"
+  br label %"$have_gas_115"
 
-"$have_gas_116":                                  ; preds = %"$out_of_gas_115", %"$have_gas_111"
-  %"$consume_117" = sub i64 %"$gasrem_113", 1
-  store i64 %"$consume_117", i64* @_gasrem
-  %"$adtval_118_load" = load i8*, i8** @_execptr
-  %"$adtval_118_salloc" = call i8* @_salloc(i8* %"$adtval_118_load", i64 1)
-  %"$adtval_118" = bitcast i8* %"$adtval_118_salloc" to %CName_Nil_Uint32*
-  %"$adtgep_119" = getelementptr inbounds %CName_Nil_Uint32, %CName_Nil_Uint32* %"$adtval_118", i32 0, i32 0
-  store i8 1, i8* %"$adtgep_119"
-  %"$adtptr_120" = bitcast %CName_Nil_Uint32* %"$adtval_118" to %TName_List_Uint32*
-  store %TName_List_Uint32* %"$adtptr_120", %TName_List_Uint32** %nil_uint32
-  %"$gasrem_121" = load i64, i64* @_gasrem
-  %"$gascmp_122" = icmp ugt i64 1, %"$gasrem_121"
-  br i1 %"$gascmp_122", label %"$out_of_gas_123", label %"$have_gas_124"
+"$have_gas_115":                                  ; preds = %"$out_of_gas_114", %"$have_gas_110"
+  %"$consume_116" = sub i64 %"$gasrem_112", 1
+  store i64 %"$consume_116", i64* @_gasrem, align 8
+  %"$adtval_117_load" = load i8*, i8** @_execptr, align 8
+  %"$adtval_117_salloc" = call i8* @_salloc(i8* %"$adtval_117_load", i64 1)
+  %"$adtval_117" = bitcast i8* %"$adtval_117_salloc" to %CName_Nil_Uint32*
+  %"$adtgep_118" = getelementptr inbounds %CName_Nil_Uint32, %CName_Nil_Uint32* %"$adtval_117", i32 0, i32 0
+  store i8 1, i8* %"$adtgep_118", align 1
+  %"$adtptr_119" = bitcast %CName_Nil_Uint32* %"$adtval_117" to %TName_List_Uint32*
+  store %TName_List_Uint32* %"$adtptr_119", %TName_List_Uint32** %nil_uint32, align 8
+  %"$gasrem_120" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_121" = icmp ugt i64 1, %"$gasrem_120"
+  br i1 %"$gascmp_121", label %"$out_of_gas_122", label %"$have_gas_123"
 
-"$out_of_gas_123":                                ; preds = %"$have_gas_116"
+"$out_of_gas_122":                                ; preds = %"$have_gas_115"
   call void @_out_of_gas()
-  br label %"$have_gas_124"
+  br label %"$have_gas_123"
 
-"$have_gas_124":                                  ; preds = %"$out_of_gas_123", %"$have_gas_116"
-  %"$consume_125" = sub i64 %"$gasrem_121", 1
-  store i64 %"$consume_125", i64* @_gasrem
-  %uione = alloca %Uint32
-  %"$gasrem_126" = load i64, i64* @_gasrem
-  %"$gascmp_127" = icmp ugt i64 1, %"$gasrem_126"
-  br i1 %"$gascmp_127", label %"$out_of_gas_128", label %"$have_gas_129"
+"$have_gas_123":                                  ; preds = %"$out_of_gas_122", %"$have_gas_115"
+  %"$consume_124" = sub i64 %"$gasrem_120", 1
+  store i64 %"$consume_124", i64* @_gasrem, align 8
+  %uione = alloca %Uint32, align 8
+  %"$gasrem_125" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_126" = icmp ugt i64 1, %"$gasrem_125"
+  br i1 %"$gascmp_126", label %"$out_of_gas_127", label %"$have_gas_128"
 
-"$out_of_gas_128":                                ; preds = %"$have_gas_124"
+"$out_of_gas_127":                                ; preds = %"$have_gas_123"
   call void @_out_of_gas()
-  br label %"$have_gas_129"
+  br label %"$have_gas_128"
 
-"$have_gas_129":                                  ; preds = %"$out_of_gas_128", %"$have_gas_124"
-  %"$consume_130" = sub i64 %"$gasrem_126", 1
-  store i64 %"$consume_130", i64* @_gasrem
-  store %Uint32 { i32 1 }, %Uint32* %uione
-  %"$gasrem_131" = load i64, i64* @_gasrem
-  %"$gascmp_132" = icmp ugt i64 1, %"$gasrem_131"
-  br i1 %"$gascmp_132", label %"$out_of_gas_133", label %"$have_gas_134"
+"$have_gas_128":                                  ; preds = %"$out_of_gas_127", %"$have_gas_123"
+  %"$consume_129" = sub i64 %"$gasrem_125", 1
+  store i64 %"$consume_129", i64* @_gasrem, align 8
+  store %Uint32 { i32 1 }, %Uint32* %uione, align 4
+  %"$gasrem_130" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_131" = icmp ugt i64 1, %"$gasrem_130"
+  br i1 %"$gascmp_131", label %"$out_of_gas_132", label %"$have_gas_133"
 
-"$out_of_gas_133":                                ; preds = %"$have_gas_129"
+"$out_of_gas_132":                                ; preds = %"$have_gas_128"
   call void @_out_of_gas()
-  br label %"$have_gas_134"
+  br label %"$have_gas_133"
 
-"$have_gas_134":                                  ; preds = %"$out_of_gas_133", %"$have_gas_129"
-  %"$consume_135" = sub i64 %"$gasrem_131", 1
-  store i64 %"$consume_135", i64* @_gasrem
-  %cons_uint32 = alloca %TName_List_Uint32*
-  %"$gasrem_136" = load i64, i64* @_gasrem
-  %"$gascmp_137" = icmp ugt i64 1, %"$gasrem_136"
-  br i1 %"$gascmp_137", label %"$out_of_gas_138", label %"$have_gas_139"
+"$have_gas_133":                                  ; preds = %"$out_of_gas_132", %"$have_gas_128"
+  %"$consume_134" = sub i64 %"$gasrem_130", 1
+  store i64 %"$consume_134", i64* @_gasrem, align 8
+  %cons_uint32 = alloca %TName_List_Uint32*, align 8
+  %"$gasrem_135" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_136" = icmp ugt i64 1, %"$gasrem_135"
+  br i1 %"$gascmp_136", label %"$out_of_gas_137", label %"$have_gas_138"
 
-"$out_of_gas_138":                                ; preds = %"$have_gas_134"
+"$out_of_gas_137":                                ; preds = %"$have_gas_133"
   call void @_out_of_gas()
-  br label %"$have_gas_139"
+  br label %"$have_gas_138"
 
-"$have_gas_139":                                  ; preds = %"$out_of_gas_138", %"$have_gas_134"
-  %"$consume_140" = sub i64 %"$gasrem_136", 1
-  store i64 %"$consume_140", i64* @_gasrem
-  %"$uione_141" = load %Uint32, %Uint32* %uione
-  %"$nil_uint32_142" = load %TName_List_Uint32*, %TName_List_Uint32** %nil_uint32
-  %"$adtval_143_load" = load i8*, i8** @_execptr
-  %"$adtval_143_salloc" = call i8* @_salloc(i8* %"$adtval_143_load", i64 13)
-  %"$adtval_143" = bitcast i8* %"$adtval_143_salloc" to %CName_Cons_Uint32*
-  %"$adtgep_144" = getelementptr inbounds %CName_Cons_Uint32, %CName_Cons_Uint32* %"$adtval_143", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_144"
-  %"$adtgep_145" = getelementptr inbounds %CName_Cons_Uint32, %CName_Cons_Uint32* %"$adtval_143", i32 0, i32 1
-  store %Uint32 %"$uione_141", %Uint32* %"$adtgep_145"
-  %"$adtgep_146" = getelementptr inbounds %CName_Cons_Uint32, %CName_Cons_Uint32* %"$adtval_143", i32 0, i32 2
-  store %TName_List_Uint32* %"$nil_uint32_142", %TName_List_Uint32** %"$adtgep_146"
-  %"$adtptr_147" = bitcast %CName_Cons_Uint32* %"$adtval_143" to %TName_List_Uint32*
-  store %TName_List_Uint32* %"$adtptr_147", %TName_List_Uint32** %cons_uint32
-  %"$gasrem_148" = load i64, i64* @_gasrem
-  %"$gascmp_149" = icmp ugt i64 1, %"$gasrem_148"
-  br i1 %"$gascmp_149", label %"$out_of_gas_150", label %"$have_gas_151"
+"$have_gas_138":                                  ; preds = %"$out_of_gas_137", %"$have_gas_133"
+  %"$consume_139" = sub i64 %"$gasrem_135", 1
+  store i64 %"$consume_139", i64* @_gasrem, align 8
+  %"$uione_140" = load %Uint32, %Uint32* %uione, align 4
+  %"$nil_uint32_141" = load %TName_List_Uint32*, %TName_List_Uint32** %nil_uint32, align 8
+  %"$adtval_142_load" = load i8*, i8** @_execptr, align 8
+  %"$adtval_142_salloc" = call i8* @_salloc(i8* %"$adtval_142_load", i64 13)
+  %"$adtval_142" = bitcast i8* %"$adtval_142_salloc" to %CName_Cons_Uint32*
+  %"$adtgep_143" = getelementptr inbounds %CName_Cons_Uint32, %CName_Cons_Uint32* %"$adtval_142", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_143", align 1
+  %"$adtgep_144" = getelementptr inbounds %CName_Cons_Uint32, %CName_Cons_Uint32* %"$adtval_142", i32 0, i32 1
+  store %Uint32 %"$uione_140", %Uint32* %"$adtgep_144", align 4
+  %"$adtgep_145" = getelementptr inbounds %CName_Cons_Uint32, %CName_Cons_Uint32* %"$adtval_142", i32 0, i32 2
+  store %TName_List_Uint32* %"$nil_uint32_141", %TName_List_Uint32** %"$adtgep_145", align 8
+  %"$adtptr_146" = bitcast %CName_Cons_Uint32* %"$adtval_142" to %TName_List_Uint32*
+  store %TName_List_Uint32* %"$adtptr_146", %TName_List_Uint32** %cons_uint32, align 8
+  %"$gasrem_147" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_148" = icmp ugt i64 1, %"$gasrem_147"
+  br i1 %"$gascmp_148", label %"$out_of_gas_149", label %"$have_gas_150"
 
-"$out_of_gas_150":                                ; preds = %"$have_gas_139"
+"$out_of_gas_149":                                ; preds = %"$have_gas_138"
   call void @_out_of_gas()
-  br label %"$have_gas_151"
+  br label %"$have_gas_150"
 
-"$have_gas_151":                                  ; preds = %"$out_of_gas_150", %"$have_gas_139"
-  %"$consume_152" = sub i64 %"$gasrem_148", 1
-  store i64 %"$consume_152", i64* @_gasrem
-  %"$cons_int32_153" = load %TName_List_Int32*, %TName_List_Int32** %cons_int32
-  %"$cons_uint32_154" = load %TName_List_Uint32*, %TName_List_Uint32** %cons_uint32
-  %"$adtval_155_load" = load i8*, i8** @_execptr
-  %"$adtval_155_salloc" = call i8* @_salloc(i8* %"$adtval_155_load", i64 17)
-  %"$adtval_155" = bitcast i8* %"$adtval_155_salloc" to %"CName_Pair_List_(Int32)_List_(Uint32)"*
-  %"$adtgep_156" = getelementptr inbounds %"CName_Pair_List_(Int32)_List_(Uint32)", %"CName_Pair_List_(Int32)_List_(Uint32)"* %"$adtval_155", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_156"
-  %"$adtgep_157" = getelementptr inbounds %"CName_Pair_List_(Int32)_List_(Uint32)", %"CName_Pair_List_(Int32)_List_(Uint32)"* %"$adtval_155", i32 0, i32 1
-  store %TName_List_Int32* %"$cons_int32_153", %TName_List_Int32** %"$adtgep_157"
-  %"$adtgep_158" = getelementptr inbounds %"CName_Pair_List_(Int32)_List_(Uint32)", %"CName_Pair_List_(Int32)_List_(Uint32)"* %"$adtval_155", i32 0, i32 2
-  store %TName_List_Uint32* %"$cons_uint32_154", %TName_List_Uint32** %"$adtgep_158"
-  %"$adtptr_159" = bitcast %"CName_Pair_List_(Int32)_List_(Uint32)"* %"$adtval_155" to %"TName_Pair_List_(Int32)_List_(Uint32)"*
-  store %"TName_Pair_List_(Int32)_List_(Uint32)"* %"$adtptr_159", %"TName_Pair_List_(Int32)_List_(Uint32)"** %"$expr_0"
-  %"$$expr_0_160" = load %"TName_Pair_List_(Int32)_List_(Uint32)"*, %"TName_Pair_List_(Int32)_List_(Uint32)"** %"$expr_0"
-  ret %"TName_Pair_List_(Int32)_List_(Uint32)"* %"$$expr_0_160"
+"$have_gas_150":                                  ; preds = %"$out_of_gas_149", %"$have_gas_138"
+  %"$consume_151" = sub i64 %"$gasrem_147", 1
+  store i64 %"$consume_151", i64* @_gasrem, align 8
+  %"$cons_int32_152" = load %TName_List_Int32*, %TName_List_Int32** %cons_int32, align 8
+  %"$cons_uint32_153" = load %TName_List_Uint32*, %TName_List_Uint32** %cons_uint32, align 8
+  %"$adtval_154_load" = load i8*, i8** @_execptr, align 8
+  %"$adtval_154_salloc" = call i8* @_salloc(i8* %"$adtval_154_load", i64 17)
+  %"$adtval_154" = bitcast i8* %"$adtval_154_salloc" to %"CName_Pair_List_(Int32)_List_(Uint32)"*
+  %"$adtgep_155" = getelementptr inbounds %"CName_Pair_List_(Int32)_List_(Uint32)", %"CName_Pair_List_(Int32)_List_(Uint32)"* %"$adtval_154", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_155", align 1
+  %"$adtgep_156" = getelementptr inbounds %"CName_Pair_List_(Int32)_List_(Uint32)", %"CName_Pair_List_(Int32)_List_(Uint32)"* %"$adtval_154", i32 0, i32 1
+  store %TName_List_Int32* %"$cons_int32_152", %TName_List_Int32** %"$adtgep_156", align 8
+  %"$adtgep_157" = getelementptr inbounds %"CName_Pair_List_(Int32)_List_(Uint32)", %"CName_Pair_List_(Int32)_List_(Uint32)"* %"$adtval_154", i32 0, i32 2
+  store %TName_List_Uint32* %"$cons_uint32_153", %TName_List_Uint32** %"$adtgep_157", align 8
+  %"$adtptr_158" = bitcast %"CName_Pair_List_(Int32)_List_(Uint32)"* %"$adtval_154" to %"TName_Pair_List_(Int32)_List_(Uint32)"*
+  store %"TName_Pair_List_(Int32)_List_(Uint32)"* %"$adtptr_158", %"TName_Pair_List_(Int32)_List_(Uint32)"** %"$expr_0", align 8
+  %"$$expr_0_159" = load %"TName_Pair_List_(Int32)_List_(Uint32)"*, %"TName_Pair_List_(Int32)_List_(Uint32)"** %"$expr_0", align 8
+  ret %"TName_Pair_List_(Int32)_List_(Uint32)"* %"$$expr_0_159"
 }
 
 declare void @_out_of_gas()
@@ -315,8 +315,8 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_161" = call %"TName_Pair_List_(Int32)_List_(Uint32)"* @"$scilla_expr_67"(i8* null)
-  %"$memvoidcast_162" = bitcast %"TName_Pair_List_(Int32)_List_(Uint32)"* %"$exprval_161" to i8*
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_List_(Int32)_List_(Uint32)_35", i8* %"$memvoidcast_162")
+  %"$exprval_160" = call %"TName_Pair_List_(Int32)_List_(Uint32)"* @_scilla_expr_fun(i8* null)
+  %"$memvoidcast_161" = bitcast %"TName_Pair_List_(Int32)_List_(Uint32)"* %"$exprval_160" to i8*
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_List_(Int32)_List_(Uint32)_35", i8* %"$memvoidcast_161")
   ret void
 }
