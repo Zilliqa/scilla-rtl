@@ -44,19 +44,19 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Exception_27" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Exception_Prim_26" to i8*) }
 @"$TyDescr_Bystr_Prim_28" = global %"$TyDescrTy_PrimTyp_1" { i32 7, i32 0 }
 @"$TyDescr_Bystr_29" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr_Prim_28" to i8*) }
-@"$TyDescr_ADT_Nat_33" = unnamed_addr constant %_TyDescrTy_Typ { i32 1, i8* bitcast (%"$TyDescrTy_ADTTyp_Specl_30"* @"$TyDescr_Nat_ADTTyp_Specl_44" to i8*) }
-@"$TyDescr_Nat_ADTTyp_35" = unnamed_addr constant %"$TyDescrTy_ADTTyp_31" { %TyDescrString { i8* getelementptr inbounds ([3 x i8], [3 x i8]* @"$TyDescr_ADT_Nat_46", i32 0, i32 0), i32 3 }, i32 0, i32 2, i32 1, %"$TyDescrTy_ADTTyp_Specl_30"** getelementptr inbounds ([1 x %"$TyDescrTy_ADTTyp_Specl_30"*], [1 x %"$TyDescrTy_ADTTyp_Specl_30"*]* @"$TyDescr_Nat_ADTTyp_m_specls_45", i32 0, i32 0) }
-@"$TyDescr_Nat_Zero_Constr_m_args_36" = unnamed_addr constant [0 x %_TyDescrTy_Typ*] zeroinitializer
-@"$TyDescr_ADT_Zero_37" = unnamed_addr constant [4 x i8] c"Zero"
-@"$TyDescr_Nat_Zero_ADTTyp_Constr_38" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Constr_32" { %TyDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$TyDescr_ADT_Zero_37", i32 0, i32 0), i32 4 }, i32 0, %_TyDescrTy_Typ** getelementptr inbounds ([0 x %_TyDescrTy_Typ*], [0 x %_TyDescrTy_Typ*]* @"$TyDescr_Nat_Zero_Constr_m_args_36", i32 0, i32 0) }
-@"$TyDescr_Nat_Succ_Constr_m_args_39" = unnamed_addr constant [1 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33"]
-@"$TyDescr_ADT_Succ_40" = unnamed_addr constant [4 x i8] c"Succ"
-@"$TyDescr_Nat_Succ_ADTTyp_Constr_41" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Constr_32" { %TyDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$TyDescr_ADT_Succ_40", i32 0, i32 0), i32 4 }, i32 1, %_TyDescrTy_Typ** getelementptr inbounds ([1 x %_TyDescrTy_Typ*], [1 x %_TyDescrTy_Typ*]* @"$TyDescr_Nat_Succ_Constr_m_args_39", i32 0, i32 0) }
-@"$TyDescr_Nat_ADTTyp_Specl_m_constrs_42" = unnamed_addr constant [2 x %"$TyDescrTy_ADTTyp_Constr_32"*] [%"$TyDescrTy_ADTTyp_Constr_32"* @"$TyDescr_Nat_Zero_ADTTyp_Constr_38", %"$TyDescrTy_ADTTyp_Constr_32"* @"$TyDescr_Nat_Succ_ADTTyp_Constr_41"]
-@"$TyDescr_Nat_ADTTyp_Specl_m_TArgs_43" = unnamed_addr constant [0 x %_TyDescrTy_Typ*] zeroinitializer
-@"$TyDescr_Nat_ADTTyp_Specl_44" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Specl_30" { %_TyDescrTy_Typ** getelementptr inbounds ([0 x %_TyDescrTy_Typ*], [0 x %_TyDescrTy_Typ*]* @"$TyDescr_Nat_ADTTyp_Specl_m_TArgs_43", i32 0, i32 0), %"$TyDescrTy_ADTTyp_Constr_32"** getelementptr inbounds ([2 x %"$TyDescrTy_ADTTyp_Constr_32"*], [2 x %"$TyDescrTy_ADTTyp_Constr_32"*]* @"$TyDescr_Nat_ADTTyp_Specl_m_constrs_42", i32 0, i32 0), %"$TyDescrTy_ADTTyp_31"* @"$TyDescr_Nat_ADTTyp_35" }
-@"$TyDescr_Nat_ADTTyp_m_specls_45" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_30"*] [%"$TyDescrTy_ADTTyp_Specl_30"* @"$TyDescr_Nat_ADTTyp_Specl_44"]
-@"$TyDescr_ADT_Nat_46" = unnamed_addr constant [3 x i8] c"Nat"
+@"$TyDescr_ADT_Nat_33" = unnamed_addr constant %_TyDescrTy_Typ { i32 1, i8* bitcast (%"$TyDescrTy_ADTTyp_Specl_30"* @"$TyDescr_Nat_ADTTyp_Specl_46" to i8*) }
+@"$TyDescr_Nat_ADTTyp_37" = unnamed_addr constant %"$TyDescrTy_ADTTyp_31" { %TyDescrString { i8* getelementptr inbounds ([3 x i8], [3 x i8]* @"$TyDescr_ADT_Nat_48", i32 0, i32 0), i32 3 }, i32 0, i32 2, i32 1, %"$TyDescrTy_ADTTyp_Specl_30"** getelementptr inbounds ([1 x %"$TyDescrTy_ADTTyp_Specl_30"*], [1 x %"$TyDescrTy_ADTTyp_Specl_30"*]* @"$TyDescr_Nat_ADTTyp_m_specls_47", i32 0, i32 0) }
+@"$TyDescr_Nat_Zero_Constr_m_args_38" = unnamed_addr constant [0 x %_TyDescrTy_Typ*] zeroinitializer
+@"$TyDescr_ADT_Zero_39" = unnamed_addr constant [4 x i8] c"Zero"
+@"$TyDescr_Nat_Zero_ADTTyp_Constr_40" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Constr_32" { %TyDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$TyDescr_ADT_Zero_39", i32 0, i32 0), i32 4 }, i32 0, %_TyDescrTy_Typ** getelementptr inbounds ([0 x %_TyDescrTy_Typ*], [0 x %_TyDescrTy_Typ*]* @"$TyDescr_Nat_Zero_Constr_m_args_38", i32 0, i32 0) }
+@"$TyDescr_Nat_Succ_Constr_m_args_41" = unnamed_addr constant [1 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33"]
+@"$TyDescr_ADT_Succ_42" = unnamed_addr constant [4 x i8] c"Succ"
+@"$TyDescr_Nat_Succ_ADTTyp_Constr_43" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Constr_32" { %TyDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$TyDescr_ADT_Succ_42", i32 0, i32 0), i32 4 }, i32 1, %_TyDescrTy_Typ** getelementptr inbounds ([1 x %_TyDescrTy_Typ*], [1 x %_TyDescrTy_Typ*]* @"$TyDescr_Nat_Succ_Constr_m_args_41", i32 0, i32 0) }
+@"$TyDescr_Nat_ADTTyp_Specl_m_constrs_44" = unnamed_addr constant [2 x %"$TyDescrTy_ADTTyp_Constr_32"*] [%"$TyDescrTy_ADTTyp_Constr_32"* @"$TyDescr_Nat_Zero_ADTTyp_Constr_40", %"$TyDescrTy_ADTTyp_Constr_32"* @"$TyDescr_Nat_Succ_ADTTyp_Constr_43"]
+@"$TyDescr_Nat_ADTTyp_Specl_m_TArgs_45" = unnamed_addr constant [0 x %_TyDescrTy_Typ*] zeroinitializer
+@"$TyDescr_Nat_ADTTyp_Specl_46" = unnamed_addr constant %"$TyDescrTy_ADTTyp_Specl_30" { %_TyDescrTy_Typ** getelementptr inbounds ([0 x %_TyDescrTy_Typ*], [0 x %_TyDescrTy_Typ*]* @"$TyDescr_Nat_ADTTyp_Specl_m_TArgs_45", i32 0, i32 0), %"$TyDescrTy_ADTTyp_Constr_32"** getelementptr inbounds ([2 x %"$TyDescrTy_ADTTyp_Constr_32"*], [2 x %"$TyDescrTy_ADTTyp_Constr_32"*]* @"$TyDescr_Nat_ADTTyp_Specl_m_constrs_44", i32 0, i32 0), %"$TyDescrTy_ADTTyp_31"* @"$TyDescr_Nat_ADTTyp_37" }
+@"$TyDescr_Nat_ADTTyp_m_specls_47" = unnamed_addr constant [1 x %"$TyDescrTy_ADTTyp_Specl_30"*] [%"$TyDescrTy_ADTTyp_Specl_30"* @"$TyDescr_Nat_ADTTyp_Specl_46"]
+@"$TyDescr_ADT_Nat_48" = unnamed_addr constant [3 x i8] c"Nat"
 
 define void @_init_libs() {
 entry:
@@ -66,26 +66,26 @@ entry:
 define internal %TName_Nat* @_scilla_expr_fun(i8* %0) {
 entry:
   %"$expr_0" = alloca %TName_Nat*, align 8
-  %"$gasrem_47" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_48" = icmp ugt i64 1, %"$gasrem_47"
-  br i1 %"$gascmp_48", label %"$out_of_gas_49", label %"$have_gas_50"
+  %"$gasrem_49" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_50" = icmp ugt i64 1, %"$gasrem_49"
+  br i1 %"$gascmp_50", label %"$out_of_gas_51", label %"$have_gas_52"
 
-"$out_of_gas_49":                                 ; preds = %entry
+"$out_of_gas_51":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_50"
+  br label %"$have_gas_52"
 
-"$have_gas_50":                                   ; preds = %"$out_of_gas_49", %entry
-  %"$consume_51" = sub i64 %"$gasrem_47", 1
-  store i64 %"$consume_51", i64* @_gasrem, align 8
-  %"$adtval_52_load" = load i8*, i8** @_execptr, align 8
-  %"$adtval_52_salloc" = call i8* @_salloc(i8* %"$adtval_52_load", i64 1)
-  %"$adtval_52" = bitcast i8* %"$adtval_52_salloc" to %CName_Zero*
-  %"$adtgep_53" = getelementptr inbounds %CName_Zero, %CName_Zero* %"$adtval_52", i32 0, i32 0
-  store i8 0, i8* %"$adtgep_53", align 1
-  %"$adtptr_54" = bitcast %CName_Zero* %"$adtval_52" to %TName_Nat*
-  store %TName_Nat* %"$adtptr_54", %TName_Nat** %"$expr_0", align 8
-  %"$$expr_0_55" = load %TName_Nat*, %TName_Nat** %"$expr_0", align 8
-  ret %TName_Nat* %"$$expr_0_55"
+"$have_gas_52":                                   ; preds = %"$out_of_gas_51", %entry
+  %"$consume_53" = sub i64 %"$gasrem_49", 1
+  store i64 %"$consume_53", i64* @_gasrem, align 8
+  %"$adtval_54_load" = load i8*, i8** @_execptr, align 8
+  %"$adtval_54_salloc" = call i8* @_salloc(i8* %"$adtval_54_load", i64 1)
+  %"$adtval_54" = bitcast i8* %"$adtval_54_salloc" to %CName_Zero*
+  %"$adtgep_55" = getelementptr inbounds %CName_Zero, %CName_Zero* %"$adtval_54", i32 0, i32 0
+  store i8 0, i8* %"$adtgep_55", align 1
+  %"$adtptr_56" = bitcast %CName_Zero* %"$adtval_54" to %TName_Nat*
+  store %TName_Nat* %"$adtptr_56", %TName_Nat** %"$expr_0", align 8
+  %"$$expr_0_57" = load %TName_Nat*, %TName_Nat** %"$expr_0", align 8
+  ret %TName_Nat* %"$$expr_0_57"
 }
 
 declare void @_out_of_gas()
@@ -96,8 +96,8 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_56" = call %TName_Nat* @_scilla_expr_fun(i8* null)
-  %"$memvoidcast_57" = bitcast %TName_Nat* %"$exprval_56" to i8*
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33", i8* %"$memvoidcast_57")
+  %"$exprval_58" = call %TName_Nat* @_scilla_expr_fun(i8* null)
+  %"$memvoidcast_59" = bitcast %TName_Nat* %"$exprval_58" to i8*
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33", i8* %"$memvoidcast_59")
   ret void
 }

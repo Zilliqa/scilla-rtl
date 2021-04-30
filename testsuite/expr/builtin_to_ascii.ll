@@ -58,117 +58,117 @@ entry:
 define internal %String @_scilla_expr_fun(i8* %0) {
 entry:
   %"$expr_0" = alloca %String, align 8
-  %"$gasrem_38" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_39" = icmp ugt i64 1, %"$gasrem_38"
-  br i1 %"$gascmp_39", label %"$out_of_gas_40", label %"$have_gas_41"
+  %"$gasrem_40" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_41" = icmp ugt i64 1, %"$gasrem_40"
+  br i1 %"$gascmp_41", label %"$out_of_gas_42", label %"$have_gas_43"
 
-"$out_of_gas_40":                                 ; preds = %entry
+"$out_of_gas_42":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_41"
+  br label %"$have_gas_43"
 
-"$have_gas_41":                                   ; preds = %"$out_of_gas_40", %entry
-  %"$consume_42" = sub i64 %"$gasrem_38", 1
-  store i64 %"$consume_42", i64* @_gasrem, align 8
+"$have_gas_43":                                   ; preds = %"$out_of_gas_42", %entry
+  %"$consume_44" = sub i64 %"$gasrem_40", 1
+  store i64 %"$consume_44", i64* @_gasrem, align 8
   %hello = alloca [5 x i8], align 1
-  %"$gasrem_43" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_44" = icmp ugt i64 1, %"$gasrem_43"
-  br i1 %"$gascmp_44", label %"$out_of_gas_45", label %"$have_gas_46"
+  %"$gasrem_45" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_46" = icmp ugt i64 1, %"$gasrem_45"
+  br i1 %"$gascmp_46", label %"$out_of_gas_47", label %"$have_gas_48"
 
-"$out_of_gas_45":                                 ; preds = %"$have_gas_41"
+"$out_of_gas_47":                                 ; preds = %"$have_gas_43"
   call void @_out_of_gas()
-  br label %"$have_gas_46"
+  br label %"$have_gas_48"
 
-"$have_gas_46":                                   ; preds = %"$out_of_gas_45", %"$have_gas_41"
-  %"$consume_47" = sub i64 %"$gasrem_43", 1
-  store i64 %"$consume_47", i64* @_gasrem, align 8
+"$have_gas_48":                                   ; preds = %"$out_of_gas_47", %"$have_gas_43"
+  %"$consume_49" = sub i64 %"$gasrem_45", 1
+  store i64 %"$consume_49", i64* @_gasrem, align 8
   store [5 x i8] c"hello", [5 x i8]* %hello, align 1
-  %"$gasrem_48" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_49" = icmp ugt i64 1, %"$gasrem_48"
-  br i1 %"$gascmp_49", label %"$out_of_gas_50", label %"$have_gas_51"
+  %"$gasrem_50" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_51" = icmp ugt i64 1, %"$gasrem_50"
+  br i1 %"$gascmp_51", label %"$out_of_gas_52", label %"$have_gas_53"
 
-"$out_of_gas_50":                                 ; preds = %"$have_gas_46"
+"$out_of_gas_52":                                 ; preds = %"$have_gas_48"
   call void @_out_of_gas()
-  br label %"$have_gas_51"
+  br label %"$have_gas_53"
 
-"$have_gas_51":                                   ; preds = %"$out_of_gas_50", %"$have_gas_46"
-  %"$consume_52" = sub i64 %"$gasrem_48", 1
-  store i64 %"$consume_52", i64* @_gasrem, align 8
+"$have_gas_53":                                   ; preds = %"$out_of_gas_52", %"$have_gas_48"
+  %"$consume_54" = sub i64 %"$gasrem_50", 1
+  store i64 %"$consume_54", i64* @_gasrem, align 8
   %world = alloca [6 x i8], align 1
-  %"$gasrem_53" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_54" = icmp ugt i64 1, %"$gasrem_53"
-  br i1 %"$gascmp_54", label %"$out_of_gas_55", label %"$have_gas_56"
+  %"$gasrem_55" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_56" = icmp ugt i64 1, %"$gasrem_55"
+  br i1 %"$gascmp_56", label %"$out_of_gas_57", label %"$have_gas_58"
 
-"$out_of_gas_55":                                 ; preds = %"$have_gas_51"
+"$out_of_gas_57":                                 ; preds = %"$have_gas_53"
   call void @_out_of_gas()
-  br label %"$have_gas_56"
+  br label %"$have_gas_58"
 
-"$have_gas_56":                                   ; preds = %"$out_of_gas_55", %"$have_gas_51"
-  %"$consume_57" = sub i64 %"$gasrem_53", 1
-  store i64 %"$consume_57", i64* @_gasrem, align 8
+"$have_gas_58":                                   ; preds = %"$out_of_gas_57", %"$have_gas_53"
+  %"$consume_59" = sub i64 %"$gasrem_55", 1
+  store i64 %"$consume_59", i64* @_gasrem, align 8
   store [6 x i8] c" world", [6 x i8]* %world, align 1
-  %"$gasrem_58" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_59" = icmp ugt i64 1, %"$gasrem_58"
-  br i1 %"$gascmp_59", label %"$out_of_gas_60", label %"$have_gas_61"
+  %"$gasrem_60" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_61" = icmp ugt i64 1, %"$gasrem_60"
+  br i1 %"$gascmp_61", label %"$out_of_gas_62", label %"$have_gas_63"
 
-"$out_of_gas_60":                                 ; preds = %"$have_gas_56"
+"$out_of_gas_62":                                 ; preds = %"$have_gas_58"
   call void @_out_of_gas()
-  br label %"$have_gas_61"
+  br label %"$have_gas_63"
 
-"$have_gas_61":                                   ; preds = %"$out_of_gas_60", %"$have_gas_56"
-  %"$consume_62" = sub i64 %"$gasrem_58", 1
-  store i64 %"$consume_62", i64* @_gasrem, align 8
+"$have_gas_63":                                   ; preds = %"$out_of_gas_62", %"$have_gas_58"
+  %"$consume_64" = sub i64 %"$gasrem_60", 1
+  store i64 %"$consume_64", i64* @_gasrem, align 8
   %worldx = alloca %Bystr, align 8
-  %"$execptr_load_63" = load i8*, i8** @_execptr, align 8
-  %"$to_bystr_world_64" = alloca [6 x i8], align 1
-  %"$world_65" = load [6 x i8], [6 x i8]* %world, align 1
-  store [6 x i8] %"$world_65", [6 x i8]* %"$to_bystr_world_64", align 1
-  %"$$to_bystr_world_64_66" = bitcast [6 x i8]* %"$to_bystr_world_64" to i8*
-  %"$to_bystr_call_67" = call %Bystr @_to_bystr(i8* %"$execptr_load_63", i32 6, i8* %"$$to_bystr_world_64_66")
-  store %Bystr %"$to_bystr_call_67", %Bystr* %worldx, align 8
-  %"$gasrem_68" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_69" = icmp ugt i64 1, %"$gasrem_68"
-  br i1 %"$gascmp_69", label %"$out_of_gas_70", label %"$have_gas_71"
+  %"$execptr_load_65" = load i8*, i8** @_execptr, align 8
+  %"$to_bystr_world_66" = alloca [6 x i8], align 1
+  %"$world_67" = load [6 x i8], [6 x i8]* %world, align 1
+  store [6 x i8] %"$world_67", [6 x i8]* %"$to_bystr_world_66", align 1
+  %"$$to_bystr_world_66_68" = bitcast [6 x i8]* %"$to_bystr_world_66" to i8*
+  %"$to_bystr_call_69" = call %Bystr @_to_bystr(i8* %"$execptr_load_65", i32 6, i8* %"$$to_bystr_world_66_68")
+  store %Bystr %"$to_bystr_call_69", %Bystr* %worldx, align 8
+  %"$gasrem_70" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_71" = icmp ugt i64 1, %"$gasrem_70"
+  br i1 %"$gascmp_71", label %"$out_of_gas_72", label %"$have_gas_73"
 
-"$out_of_gas_70":                                 ; preds = %"$have_gas_61"
+"$out_of_gas_72":                                 ; preds = %"$have_gas_63"
   call void @_out_of_gas()
-  br label %"$have_gas_71"
+  br label %"$have_gas_73"
 
-"$have_gas_71":                                   ; preds = %"$out_of_gas_70", %"$have_gas_61"
-  %"$consume_72" = sub i64 %"$gasrem_68", 1
-  store i64 %"$consume_72", i64* @_gasrem, align 8
+"$have_gas_73":                                   ; preds = %"$out_of_gas_72", %"$have_gas_63"
+  %"$consume_74" = sub i64 %"$gasrem_70", 1
+  store i64 %"$consume_74", i64* @_gasrem, align 8
   %hello_s = alloca %String, align 8
-  %"$execptr_load_73" = load i8*, i8** @_execptr, align 8
-  %"$to_ascii_hello_74" = alloca [5 x i8], align 1
-  %"$hello_75" = load [5 x i8], [5 x i8]* %hello, align 1
-  store [5 x i8] %"$hello_75", [5 x i8]* %"$to_ascii_hello_74", align 1
-  %"$$to_ascii_hello_74_76" = bitcast [5 x i8]* %"$to_ascii_hello_74" to i8*
-  %"$to_ascii_call_77" = call %String @_to_ascii(i8* %"$execptr_load_73", i8* %"$$to_ascii_hello_74_76", i32 5)
-  store %String %"$to_ascii_call_77", %String* %hello_s, align 8
-  %"$gasrem_78" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_79" = icmp ugt i64 1, %"$gasrem_78"
-  br i1 %"$gascmp_79", label %"$out_of_gas_80", label %"$have_gas_81"
+  %"$execptr_load_75" = load i8*, i8** @_execptr, align 8
+  %"$to_ascii_hello_76" = alloca [5 x i8], align 1
+  %"$hello_77" = load [5 x i8], [5 x i8]* %hello, align 1
+  store [5 x i8] %"$hello_77", [5 x i8]* %"$to_ascii_hello_76", align 1
+  %"$$to_ascii_hello_76_78" = bitcast [5 x i8]* %"$to_ascii_hello_76" to i8*
+  %"$to_ascii_call_79" = call %String @_to_ascii(i8* %"$execptr_load_75", i8* %"$$to_ascii_hello_76_78", i32 5)
+  store %String %"$to_ascii_call_79", %String* %hello_s, align 8
+  %"$gasrem_80" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_81" = icmp ugt i64 1, %"$gasrem_80"
+  br i1 %"$gascmp_81", label %"$out_of_gas_82", label %"$have_gas_83"
 
-"$out_of_gas_80":                                 ; preds = %"$have_gas_71"
+"$out_of_gas_82":                                 ; preds = %"$have_gas_73"
   call void @_out_of_gas()
-  br label %"$have_gas_81"
+  br label %"$have_gas_83"
 
-"$have_gas_81":                                   ; preds = %"$out_of_gas_80", %"$have_gas_71"
-  %"$consume_82" = sub i64 %"$gasrem_78", 1
-  store i64 %"$consume_82", i64* @_gasrem, align 8
+"$have_gas_83":                                   ; preds = %"$out_of_gas_82", %"$have_gas_73"
+  %"$consume_84" = sub i64 %"$gasrem_80", 1
+  store i64 %"$consume_84", i64* @_gasrem, align 8
   %world_s = alloca %String, align 8
-  %"$worldx_83" = load %Bystr, %Bystr* %worldx, align 8
-  %"$to_ascii_84" = extractvalue %Bystr %"$worldx_83", 0
-  %"$to_ascii_85" = extractvalue %Bystr %"$worldx_83", 1
-  %"$execptr_load_86" = load i8*, i8** @_execptr, align 8
-  %"$to_ascii_call_87" = call %String @_to_ascii(i8* %"$execptr_load_86", i8* %"$to_ascii_84", i32 %"$to_ascii_85")
-  store %String %"$to_ascii_call_87", %String* %world_s, align 8
+  %"$worldx_85" = load %Bystr, %Bystr* %worldx, align 8
+  %"$to_ascii_86" = extractvalue %Bystr %"$worldx_85", 0
+  %"$to_ascii_87" = extractvalue %Bystr %"$worldx_85", 1
   %"$execptr_load_88" = load i8*, i8** @_execptr, align 8
-  %"$hello_s_89" = load %String, %String* %hello_s, align 8
-  %"$world_s_90" = load %String, %String* %world_s, align 8
-  %"$concat_call_91" = call %String @_concat_String(i8* %"$execptr_load_88", %String %"$hello_s_89", %String %"$world_s_90")
-  store %String %"$concat_call_91", %String* %"$expr_0", align 8
-  %"$$expr_0_92" = load %String, %String* %"$expr_0", align 8
-  ret %String %"$$expr_0_92"
+  %"$to_ascii_call_89" = call %String @_to_ascii(i8* %"$execptr_load_88", i8* %"$to_ascii_86", i32 %"$to_ascii_87")
+  store %String %"$to_ascii_call_89", %String* %world_s, align 8
+  %"$execptr_load_90" = load i8*, i8** @_execptr, align 8
+  %"$hello_s_91" = load %String, %String* %hello_s, align 8
+  %"$world_s_92" = load %String, %String* %world_s, align 8
+  %"$concat_call_93" = call %String @_concat_String(i8* %"$execptr_load_90", %String %"$hello_s_91", %String %"$world_s_92")
+  store %String %"$concat_call_93", %String* %"$expr_0", align 8
+  %"$$expr_0_94" = load %String, %String* %"$expr_0", align 8
+  ret %String %"$$expr_0_94"
 }
 
 declare void @_out_of_gas()
@@ -183,10 +183,10 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_93" = call %String @_scilla_expr_fun(i8* null)
-  %"$pval_94" = alloca %String, align 8
-  %"$memvoidcast_95" = bitcast %String* %"$pval_94" to i8*
-  store %String %"$exprval_93", %String* %"$pval_94", align 8
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_95")
+  %"$exprval_95" = call %String @_scilla_expr_fun(i8* null)
+  %"$pval_96" = alloca %String, align 8
+  %"$memvoidcast_97" = bitcast %String* %"$pval_96" to i8*
+  store %String %"$exprval_95", %String* %"$pval_96", align 8
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_97")
   ret void
 }

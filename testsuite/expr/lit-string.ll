@@ -38,7 +38,7 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Exception_27" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Exception_Prim_26" to i8*) }
 @"$TyDescr_Bystr_Prim_28" = global %"$TyDescrTy_PrimTyp_1" { i32 7, i32 0 }
 @"$TyDescr_Bystr_29" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr_Prim_28" to i8*) }
-@"$stringlit_39" = unnamed_addr constant [11 x i8] c"hello world"
+@"$stringlit_41" = unnamed_addr constant [11 x i8] c"hello world"
 
 define void @_init_libs() {
 entry:
@@ -48,20 +48,20 @@ entry:
 define internal %String @_scilla_expr_fun(i8* %0) {
 entry:
   %"$expr_0" = alloca %String, align 8
-  %"$gasrem_34" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_35" = icmp ugt i64 1, %"$gasrem_34"
-  br i1 %"$gascmp_35", label %"$out_of_gas_36", label %"$have_gas_37"
+  %"$gasrem_36" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_37" = icmp ugt i64 1, %"$gasrem_36"
+  br i1 %"$gascmp_37", label %"$out_of_gas_38", label %"$have_gas_39"
 
-"$out_of_gas_36":                                 ; preds = %entry
+"$out_of_gas_38":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_37"
+  br label %"$have_gas_39"
 
-"$have_gas_37":                                   ; preds = %"$out_of_gas_36", %entry
-  %"$consume_38" = sub i64 %"$gasrem_34", 1
-  store i64 %"$consume_38", i64* @_gasrem, align 8
-  store %String { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$stringlit_39", i32 0, i32 0), i32 11 }, %String* %"$expr_0", align 8
-  %"$$expr_0_40" = load %String, %String* %"$expr_0", align 8
-  ret %String %"$$expr_0_40"
+"$have_gas_39":                                   ; preds = %"$out_of_gas_38", %entry
+  %"$consume_40" = sub i64 %"$gasrem_36", 1
+  store i64 %"$consume_40", i64* @_gasrem, align 8
+  store %String { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$stringlit_41", i32 0, i32 0), i32 11 }, %String* %"$expr_0", align 8
+  %"$$expr_0_42" = load %String, %String* %"$expr_0", align 8
+  ret %String %"$$expr_0_42"
 }
 
 declare void @_out_of_gas()
@@ -70,10 +70,10 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_41" = call %String @_scilla_expr_fun(i8* null)
-  %"$pval_42" = alloca %String, align 8
-  %"$memvoidcast_43" = bitcast %String* %"$pval_42" to i8*
-  store %String %"$exprval_41", %String* %"$pval_42", align 8
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_43")
+  %"$exprval_43" = call %String @_scilla_expr_fun(i8* null)
+  %"$pval_44" = alloca %String, align 8
+  %"$memvoidcast_45" = bitcast %String* %"$pval_44" to i8*
+  store %String %"$exprval_43", %String* %"$pval_44", align 8
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_45")
   ret void
 }

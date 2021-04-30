@@ -47,20 +47,20 @@ entry:
 define internal %Int32 @_scilla_expr_fun(i8* %0) !dbg !9 {
 entry:
   %"$expr_0" = alloca %Int32, align 8
-  %"$gasrem_34" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_35" = icmp ugt i64 1, %"$gasrem_34"
-  br i1 %"$gascmp_35", label %"$out_of_gas_36", label %"$have_gas_37"
+  %"$gasrem_36" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_37" = icmp ugt i64 1, %"$gasrem_36"
+  br i1 %"$gascmp_37", label %"$out_of_gas_38", label %"$have_gas_39"
 
-"$out_of_gas_36":                                 ; preds = %entry
+"$out_of_gas_38":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_37"
+  br label %"$have_gas_39"
 
-"$have_gas_37":                                   ; preds = %"$out_of_gas_36", %entry
-  %"$consume_38" = sub i64 %"$gasrem_34", 1
-  store i64 %"$consume_38", i64* @_gasrem, align 8
+"$have_gas_39":                                   ; preds = %"$out_of_gas_38", %entry
+  %"$consume_40" = sub i64 %"$gasrem_36", 1
+  store i64 %"$consume_40", i64* @_gasrem, align 8
   store %Int32 { i32 4 }, %Int32* %"$expr_0", align 4, !dbg !10
-  %"$$expr_0_39" = load %Int32, %Int32* %"$expr_0", align 4
-  ret %Int32 %"$$expr_0_39"
+  %"$$expr_0_41" = load %Int32, %Int32* %"$expr_0", align 4
+  ret %Int32 %"$$expr_0_41"
 }
 
 declare void @_out_of_gas()
@@ -69,11 +69,11 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_40" = call %Int32 @_scilla_expr_fun(i8* null)
-  %"$pval_41" = alloca %Int32, align 8
-  %"$memvoidcast_42" = bitcast %Int32* %"$pval_41" to i8*
-  store %Int32 %"$exprval_40", %Int32* %"$pval_41", align 4
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_3", i8* %"$memvoidcast_42")
+  %"$exprval_42" = call %Int32 @_scilla_expr_fun(i8* null)
+  %"$pval_43" = alloca %Int32, align 8
+  %"$memvoidcast_44" = bitcast %Int32* %"$pval_43" to i8*
+  store %Int32 %"$exprval_42", %Int32* %"$pval_43", align 4
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_3", i8* %"$memvoidcast_44")
   ret void
 }
 

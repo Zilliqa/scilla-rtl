@@ -30,7 +30,7 @@ String::operator std::string() const {
 
 // Are two types equal?
 bool Typ::operator==(const Typ *RHS) {
-  // Currently only once Typ instance of each type exists.
+  // Currently only one Typ instance of each type exists.
   // So a pointer equality is sufficient.
   return static_cast<const void *>(this) == static_cast<const void *>(RHS);
 }
@@ -107,6 +107,24 @@ std::string Typ::toString(const Typ *T) {
       recurser(MP->m_valTyp);
       Out += ")";
     } break;
+    case Typ::Address_typ: {
+      AddressTyp *AT = T->m_sub.m_addrt;
+      if (AT->m_numFields < 0) {
+        Out += "ByStr20 with end";
+        break;
+      }
+      Out += "ByStr20 with contract ";
+      for (int32_t I = 0; I < AT->m_numFields; I++) {
+        Out +=
+            std::string("field ") + std::string(AT->m_fields[I].m_Name) + " : ";
+        recurser(AT->m_fields[I].m_FTyp);
+        if (I == AT->m_numFields - 1)
+          Out += " ";
+        else
+          Out += ", ";
+      }
+      Out += "end";
+    } break;
     }
   };
 
@@ -151,6 +169,9 @@ int ScillaTypes::Typ::sizeOf(const Typ *T) {
   case Typ::Map_typ:
     // ADTs and Maps are boxed, so just a pointer.
     return sizeof(void *);
+  case Typ::Address_typ:
+    // These are just ByStr20 values.
+    return AddrByStr_Len;
   }
 
   CREATE_ERROR("Unreachable executed");
@@ -170,6 +191,8 @@ bool Typ::isBoxed(const Typ *T) {
   case ADT_typ:
   case Map_typ:
     return true;
+  case Address_typ:
+    return false;
   }
   CREATE_ERROR("Unreachable executed");
 }
@@ -178,6 +201,7 @@ int Typ::getMapDepth(const Typ *T) {
   switch (T->m_t) {
   case Prim_typ:
   case ADT_typ:
+  case Address_typ:
     return 0;
   case Map_typ:
     return 1 + getMapDepth(T->m_sub.m_mapt->m_valTyp);
@@ -190,6 +214,7 @@ void Typ::getMapKeyTypes(const Typ *T, std::vector<const Typ *> &Keys) {
   switch (T->m_t) {
   case Prim_typ:
   case ADT_typ:
+  case Address_typ:
     return;
   case Map_typ:
     Keys.push_back(T->m_sub.m_mapt->m_keyTyp);
@@ -205,6 +230,7 @@ const Typ *Typ::mapAccessType(const Typ *MT, int NumIdx) {
   switch (MT->m_t) {
   case Prim_typ:
   case ADT_typ:
+  case Address_typ:
     CREATE_ERROR("Trying to access non Map value with indexing");
   case Map_typ:
     return mapAccessType(MT->m_sub.m_mapt->m_valTyp, NumIdx - 1);
@@ -250,6 +276,9 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
         break;
       case Map_typ:
         MapList.push_back(Ts[i]);
+        break;
+      case Address_typ:
+        // TODO
         break;
       }
     }
