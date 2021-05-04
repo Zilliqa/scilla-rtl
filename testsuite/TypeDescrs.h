@@ -32,6 +32,11 @@ extern Typ Map_int32_string_typ;
 extern Typ Map_int64_pair_int32_list_int64_typ;
 extern Typ Map_int32_map_int32_string_typ;
 
+extern Typ ByStr20_typ;
+extern Typ ByStr_typ;
+
+extern Typ ByStr20_with_1_field_Typ, ByStr20_with_2_fields_Typ;
+
 extern const Typ *AllTyDescrs[];
 extern size_t NTyDescrs;
 } // namespace TypeDescrs

@@ -28,13 +28,22 @@ BOOST_AUTO_TEST_CASE(tydescrs_print) {
   BOOST_REQUIRE(Typ::toString(&String_typ) == "String");
   BOOST_REQUIRE(Typ::toString(&List_int32_typ) == "List (Int32)");
   BOOST_REQUIRE(Typ::toString(&List_int64_typ) == "List (Int64)");
+  BOOST_REQUIRE(Typ::toString(&ByStr20_typ) == "ByStr20");
+  BOOST_REQUIRE(Typ::toString(&ByStr_typ) == "ByStr");
+  BOOST_REQUIRE(Typ::toString(&ByStr20_with_1_field_Typ) ==
+                "ByStr20 with contract field foo0 : Int32 end");
+  BOOST_REQUIRE(
+      Typ::toString(&ByStr20_with_2_fields_Typ) ==
+      "ByStr20 with contract field foo1 : Pair (List (Int32)) (Int64), field "
+      "bar1 : Map (Int64) (Pair (Int32) (List (Int64))) end");
 }
 
 void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
   using namespace TypeDescrs;
   try {
     const Typ *T = Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, Input);
-    BOOST_REQUIRE(T && Typ::toString(T) == ExpectedO);
+    BOOST_REQUIRE_MESSAGE(T && Typ::toString(T) == ExpectedO,
+                          "Failed matching " << ExpectedO);
   } catch (const ScillaVM::ScillaError &E) {
     BOOST_FAIL(E.toString());
   }
@@ -65,6 +74,8 @@ BOOST_AUTO_TEST_CASE(parse_prims) {
 
   parserTestSuccess("String", "String");
   parserTestSuccess("BNum", "BNum");
+
+  parserTestSuccess("ByStr20", "ByStr20");
 }
 
 BOOST_AUTO_TEST_CASE(parse_prim_fail) {
@@ -122,6 +133,36 @@ BOOST_AUTO_TEST_CASE(parser_map_int64_pair_int32_list_int64) {
 BOOST_AUTO_TEST_CASE(parser_map_int64_pair_int32_list_int64_fail) {
   // This is the same issue as with "parse_pair_list_int32_int64_fail"
   parserTestFail("Map Int64 Pair Int32 List Int64");
+}
+
+BOOST_AUTO_TEST_CASE(parse_addresses_succ) {
+  parserTestSuccess("ByStr20 with end", "ByStr20 with end");
+  parserTestSuccess("ByStr20 with contract end", "ByStr20 with contract end");
+  parserTestSuccess("ByStr20 with contract field foo0 : Int32 end",
+                    "ByStr20 with contract field foo0 : Int32 end");
+  parserTestSuccess(
+      "ByStr20 with contract field foo1 : Pair (List Int32) Int64, "
+      "field bar1 : Map Int64 (Pair Int32 (List Int64)) end",
+      "ByStr20 with contract field foo1 : Pair (List (Int32)) (Int64), field "
+      "bar1 : Map (Int64) (Pair (Int32) (List (Int64))) end");
+}
+
+BOOST_AUTO_TEST_CASE(parse_addresses_fail) {
+  // "end" missing.
+  parserTestFail("ByStr20 with");
+  // ByStr10 can't form addresses
+  parserTestFail("ByStr10 with end");
+  // "contract" missing
+  parserTestFail("ByStr20 with field foo0 : Int32 end");
+  // Foo0 instead of foo0
+  parserTestFail("ByStr20 with contract field Foo0 : Int32 end");
+  // "foo1" instead of "foo0"
+  parserTestFail("ByStr20 with contract field foo1 : Int32 end");
+  // "field" missing
+  parserTestFail("ByStr20 with contract foo0 : Int32 end");
+  // ';' instead of ',' as separator
+  parserTestFail("ByStr20 with contract field foo1 : Pair (List Int32) Int64; "
+                 "field bar1 : Map Int64 (Pair Int32 (List Int64)) end");
 }
 
 BOOST_AUTO_TEST_SUITE_END()

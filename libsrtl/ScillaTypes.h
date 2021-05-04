@@ -140,7 +140,7 @@ struct AddressTyp {
 
   struct Field {
     String m_Name;
-    Typ *m_FTyp;
+    const Typ *m_FTyp;
   };
   Field *m_fields;
 };
@@ -151,6 +151,7 @@ class TypParserPartialCache {
   std::unordered_map<std::string, const Typ *> PrimMap;
   std::unordered_map<std::string, std::vector<const Typ *>> ADTMap;
   std::vector<const Typ *> MapList;
+  std::vector<const Typ *> AddrList;
   friend struct Typ;
 
 public:
@@ -158,6 +159,7 @@ public:
     PrimMap.clear();
     ADTMap.clear();
     MapList.clear();
+    AddrList.clear();
   }
   bool empty() { return PrimMap.empty(); }
 };
