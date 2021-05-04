@@ -378,7 +378,9 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
           [&PrimMap]
           (const std::string &TName) {
               auto itrPrim = PrimMap.find(TName);
-              ASSERT_MSG(itrPrim != PrimMap.end(), TName + " not a PrimTyp");
+              if (itrPrim == PrimMap.end()) {
+                CREATE_ERROR("PrimTyp " + TName + " not found");
+              }
               const Typ *T = itrPrim->second;
               ASSERT_MSG(T->m_t == Typ::Prim_typ, TName + " classified incorrectly");
               return T;
