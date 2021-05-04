@@ -51,39 +51,39 @@ entry:
 define internal %String @_scilla_expr_fun(i8* %0) !dbg !9 {
 entry:
   %"$expr_0" = alloca %String, align 8
-  %"$gasrem_36" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_37" = icmp ugt i64 1, %"$gasrem_36"
-  br i1 %"$gascmp_37", label %"$out_of_gas_38", label %"$have_gas_39"
+  %"$gasrem_38" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_39" = icmp ugt i64 1, %"$gasrem_38"
+  br i1 %"$gascmp_39", label %"$out_of_gas_40", label %"$have_gas_41"
 
-"$out_of_gas_38":                                 ; preds = %entry
+"$out_of_gas_40":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_39"
+  br label %"$have_gas_41"
 
-"$have_gas_39":                                   ; preds = %"$out_of_gas_38", %entry
-  %"$consume_40" = sub i64 %"$gasrem_36", 1
-  store i64 %"$consume_40", i64* @_gasrem, align 8
+"$have_gas_41":                                   ; preds = %"$out_of_gas_40", %entry
+  %"$consume_42" = sub i64 %"$gasrem_38", 1
+  store i64 %"$consume_42", i64* @_gasrem, align 8
   %hello_0 = alloca [6 x i8], align 1
-  %"$gasrem_41" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_42" = icmp ugt i64 1, %"$gasrem_41"
-  br i1 %"$gascmp_42", label %"$out_of_gas_43", label %"$have_gas_44"
+  %"$gasrem_43" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_44" = icmp ugt i64 1, %"$gasrem_43"
+  br i1 %"$gascmp_44", label %"$out_of_gas_45", label %"$have_gas_46"
 
-"$out_of_gas_43":                                 ; preds = %"$have_gas_39"
+"$out_of_gas_45":                                 ; preds = %"$have_gas_41"
   call void @_out_of_gas()
-  br label %"$have_gas_44"
+  br label %"$have_gas_46"
 
-"$have_gas_44":                                   ; preds = %"$out_of_gas_43", %"$have_gas_39"
-  %"$consume_45" = sub i64 %"$gasrem_41", 1
-  store i64 %"$consume_45", i64* @_gasrem, align 8
+"$have_gas_46":                                   ; preds = %"$out_of_gas_45", %"$have_gas_41"
+  %"$consume_47" = sub i64 %"$gasrem_43", 1
+  store i64 %"$consume_47", i64* @_gasrem, align 8
   store [6 x i8] c"hello\00", [6 x i8]* %hello_0, align 1, !dbg !10
-  %"$execptr_load_46" = load i8*, i8** @_execptr, align 8
-  %"$to_ascii_hello_0_47" = alloca [6 x i8], align 1
-  %"$hello_0_48" = load [6 x i8], [6 x i8]* %hello_0, align 1
-  store [6 x i8] %"$hello_0_48", [6 x i8]* %"$to_ascii_hello_0_47", align 1
-  %"$$to_ascii_hello_0_47_49" = bitcast [6 x i8]* %"$to_ascii_hello_0_47" to i8*
-  %"$to_ascii_call_50" = call %String @_to_ascii(i8* %"$execptr_load_46", i8* %"$$to_ascii_hello_0_47_49", i32 6)
-  store %String %"$to_ascii_call_50", %String* %"$expr_0", align 8, !dbg !11
-  %"$$expr_0_51" = load %String, %String* %"$expr_0", align 8
-  ret %String %"$$expr_0_51"
+  %"$execptr_load_48" = load i8*, i8** @_execptr, align 8
+  %"$to_ascii_hello_0_49" = alloca [6 x i8], align 1
+  %"$hello_0_50" = load [6 x i8], [6 x i8]* %hello_0, align 1
+  store [6 x i8] %"$hello_0_50", [6 x i8]* %"$to_ascii_hello_0_49", align 1
+  %"$$to_ascii_hello_0_49_51" = bitcast [6 x i8]* %"$to_ascii_hello_0_49" to i8*
+  %"$to_ascii_call_52" = call %String @_to_ascii(i8* %"$execptr_load_48", i8* %"$$to_ascii_hello_0_49_51", i32 6)
+  store %String %"$to_ascii_call_52", %String* %"$expr_0", align 8, !dbg !11
+  %"$$expr_0_53" = load %String, %String* %"$expr_0", align 8
+  ret %String %"$$expr_0_53"
 }
 
 declare void @_out_of_gas()
@@ -94,11 +94,11 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_52" = call %String @_scilla_expr_fun(i8* null)
-  %"$pval_53" = alloca %String, align 8
-  %"$memvoidcast_54" = bitcast %String* %"$pval_53" to i8*
-  store %String %"$exprval_52", %String* %"$pval_53", align 8
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_54")
+  %"$exprval_54" = call %String @_scilla_expr_fun(i8* null)
+  %"$pval_55" = alloca %String, align 8
+  %"$memvoidcast_56" = bitcast %String* %"$pval_55" to i8*
+  store %String %"$exprval_54", %String* %"$pval_55", align 8
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_56")
   ret void
 }
 

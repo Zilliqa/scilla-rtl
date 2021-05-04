@@ -30,7 +30,7 @@ String::operator std::string() const {
 
 // Are two types equal?
 bool Typ::operator==(const Typ *RHS) {
-  // Currently only once Typ instance of each type exists.
+  // Currently only one Typ instance of each type exists.
   // So a pointer equality is sufficient.
   return static_cast<const void *>(this) == static_cast<const void *>(RHS);
 }
@@ -107,6 +107,24 @@ std::string Typ::toString(const Typ *T) {
       recurser(MP->m_valTyp);
       Out += ")";
     } break;
+    case Typ::Address_typ: {
+      AddressTyp *AT = T->m_sub.m_addrt;
+      if (AT->m_numFields < 0) {
+        Out += "ByStr20 with end";
+        break;
+      }
+      Out += "ByStr20 with contract ";
+      for (int32_t I = 0; I < AT->m_numFields; I++) {
+        Out +=
+            std::string("field ") + std::string(AT->m_fields[I].m_Name) + " : ";
+        recurser(AT->m_fields[I].m_FTyp);
+        if (I == AT->m_numFields - 1)
+          Out += " ";
+        else
+          Out += ", ";
+      }
+      Out += "end";
+    } break;
     }
   };
 
@@ -151,6 +169,9 @@ int ScillaTypes::Typ::sizeOf(const Typ *T) {
   case Typ::Map_typ:
     // ADTs and Maps are boxed, so just a pointer.
     return sizeof(void *);
+  case Typ::Address_typ:
+    // These are just ByStr20 values.
+    return AddrByStr_Len;
   }
 
   CREATE_ERROR("Unreachable executed");
@@ -170,6 +191,8 @@ bool Typ::isBoxed(const Typ *T) {
   case ADT_typ:
   case Map_typ:
     return true;
+  case Address_typ:
+    return false;
   }
   CREATE_ERROR("Unreachable executed");
 }
@@ -178,6 +201,7 @@ int Typ::getMapDepth(const Typ *T) {
   switch (T->m_t) {
   case Prim_typ:
   case ADT_typ:
+  case Address_typ:
     return 0;
   case Map_typ:
     return 1 + getMapDepth(T->m_sub.m_mapt->m_valTyp);
@@ -190,6 +214,7 @@ void Typ::getMapKeyTypes(const Typ *T, std::vector<const Typ *> &Keys) {
   switch (T->m_t) {
   case Prim_typ:
   case ADT_typ:
+  case Address_typ:
     return;
   case Map_typ:
     Keys.push_back(T->m_sub.m_mapt->m_keyTyp);
@@ -205,6 +230,7 @@ const Typ *Typ::mapAccessType(const Typ *MT, int NumIdx) {
   switch (MT->m_t) {
   case Prim_typ:
   case ADT_typ:
+  case Address_typ:
     CREATE_ERROR("Trying to access non Map value with indexing");
   case Map_typ:
     return mapAccessType(MT->m_sub.m_mapt->m_valTyp, NumIdx - 1);
@@ -234,6 +260,7 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
   auto &PrimMap = TPPC->PrimMap;
   auto &ADTMap = TPPC->ADTMap;
   auto &MapList = TPPC->MapList;
+  auto &AddrList = TPPC->AddrList;
 
   // Classify Ts into PrimTypes, ADTs and Map types.
   if (TPPC->empty()) {
@@ -251,22 +278,33 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
       case Map_typ:
         MapList.push_back(Ts[i]);
         break;
+      case Address_typ:
+        AddrList.push_back(Ts[i]);
+        break;
       }
     }
   }
+
+  typedef std::pair<std::string, const Typ *> FieldTypePair;
 
   namespace qi = boost::spirit::qi;
   namespace ascii = boost::spirit::ascii;
   namespace px = boost::phoenix;
 
   qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
+      Ident_R;
+  qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
       TIdent_R;
   qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
       TByStr_R;
+  qi::rule<std::string::const_iterator, FieldTypePair, ascii::space_type>
+      FieldTypePair_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> T_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> TArg_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> Start_R;
 
+  // An identifier is "[A-Z][a-zA-Z0-9]*"
+  Ident_R = qi::lexeme[qi::char_('a', 'z') >> *(ascii::alnum)];
   // A type identifier is "[A-Z][a-zA-Z0-9]*"
   TIdent_R = qi::lexeme[qi::char_('A', 'Z') >> *(ascii::alnum)];
   // ByStr and ByStrX are primitive types
@@ -274,8 +312,62 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
 
   // clang-format off
   T_R =
-    // Rule-0 Get all the PrimTyps.
-     (qi::string("Int32")   | qi::string("Int64") 
+    // Rule-0: Parse non-contract addresses
+    (qi::lit("ByStr20") >> qi::lit("with") >> qi::lit("end"))
+      [qi::_val = px::bind
+        (
+          [&AddrList] () {
+            for (auto &T : AddrList) {
+              ASSERT_MSG(T->m_t == Typ::Address_typ,
+                "Non-Address type classified incorrectly as Address");
+              if (T->m_sub.m_addrt->m_numFields == -1) {
+                return T;
+              }
+            }
+            CREATE_ERROR("Non-contract Address type not found");
+          }
+        )
+      ]
+    // Rule-1: Parse contract addresses into an optional non-empty list of
+    //         comma-separated FieldTypePairs. That's just another way of
+    //         specifying a comma-separated list of 0 or more FieldTypePairs.
+    | (qi::lit("ByStr20") >> qi::lit("with") >> qi::lit("contract") >>
+        -((qi::lit("field") >> FieldTypePair_R) % ',') >> qi::lit("end"))
+      [qi::_val = px::bind
+        (
+          [&AddrList](const boost::optional<std::vector<FieldTypePair> > &FieldsOpt) {
+            const auto &Fields =
+              FieldsOpt ? FieldsOpt.get() : std::vector<FieldTypePair>();
+            for (auto &T : AddrList) {
+              ASSERT_MSG(T->m_t == Typ::Address_typ,
+                "Non-Address type classified incorrectly as Address");
+              if ((size_t) T->m_sub.m_addrt->m_numFields == Fields.size()) {
+                auto *TDFields = T->m_sub.m_addrt->m_fields;
+                size_t I = 0;
+                for (I = 0; I < Fields.size(); I++) {
+                  if (std::string(TDFields[I].m_Name) != Fields[I].first ||
+                      TDFields[I].m_FTyp != Fields[I].second) {
+                    break;
+                  }
+                }
+                if (I == Fields.size()) {
+                  // We have a match.
+                  return T;
+                }
+              }
+            }
+            std::string ErrTyp = "\"ByStr20 with contract ";
+            for (auto &P : Fields) {
+              ErrTyp += P.first + " : " + toString(P.second) + " ";
+            }
+            ErrTyp += "end\"";
+            CREATE_ERROR("Type " + ErrTyp + " not found");
+          },
+          qi::_1
+        )
+      ]
+    // Rule-2 Get all the PrimTyps.
+    | (qi::string("Int32")   | qi::string("Int64") 
     | qi::string("Int128")  | qi::string("Int256")
     | qi::string("Uint32")  | qi::string("Uint64")
     | qi::string("Uint128") | qi::string("Uint256")
@@ -286,7 +378,9 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
           [&PrimMap]
           (const std::string &TName) {
               auto itrPrim = PrimMap.find(TName);
-              ASSERT_MSG(itrPrim != PrimMap.end(), TName + " not a PrimTyp");
+              if (itrPrim == PrimMap.end()) {
+                CREATE_ERROR("PrimTyp " + TName + " not found");
+              }
               const Typ *T = itrPrim->second;
               ASSERT_MSG(T->m_t == Typ::Prim_typ, TName + " classified incorrectly");
               return T;
@@ -294,7 +388,7 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
             qi::_1
           )
         ]
-    |  (qi::lit("Map") >> T_R >> T_R) // Rule-1 for Map
+    |  (qi::lit("Map") >> T_R >> T_R) // Rule-3 for Map
         [qi::_val = px::bind
           (
             [&MapList]
@@ -312,11 +406,11 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
             qi::_1, qi::_2
           )
         ]
-    | (TIdent_R >> *TArg_R) // Rule-2 for ADTs
+    | (TIdent_R >> *TArg_R) // Rule-4 for ADTs
         [qi::_val = px::bind
           (
             [&ADTMap]
-            (const std::string &TName, std::vector<const Typ *> TArgs) {
+            (const std::string &TName, const std::vector<const Typ *> &TArgs) {
               // Check if this is an ADT
               auto itrADT = ADTMap.find(TName);
               if (itrADT != ADTMap.end()) {
@@ -343,7 +437,7 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
             qi::_1, qi::_2
           )
         ] 
-    | ('(' >> T_R >> ')') // Rule-3 for "( typ )"
+    | ('(' >> T_R >> ')') // Rule-5 for "( typ )"
         [qi::_val = px::bind
           (
             []
@@ -394,6 +488,17 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
             CREATE_ERROR("Unknown type " + TName);
           },
           qi::_1
+        )
+      ]
+    ;
+
+  FieldTypePair_R =
+    (Ident_R >> ':' >> T_R)
+      [qi::_val = px::bind
+        (
+          [](const std::string &FName, const Typ *FTyp) {
+            return FieldTypePair(FName, FTyp);
+          }, qi::_1, qi::_2
         )
       ]
     ;

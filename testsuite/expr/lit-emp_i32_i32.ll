@@ -40,8 +40,8 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Exception_27" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Exception_Prim_26" to i8*) }
 @"$TyDescr_Bystr_Prim_28" = global %"$TyDescrTy_PrimTyp_1" { i32 7, i32 0 }
 @"$TyDescr_Bystr_29" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr_Prim_28" to i8*) }
-@"$TyDescr_Map_34" = unnamed_addr constant %_TyDescrTy_Typ { i32 2, i8* bitcast (%"$TyDescr_MapTyp_33"* @"$TyDescr_MapTyp_35" to i8*) }
-@"$TyDescr_MapTyp_35" = unnamed_addr constant %"$TyDescr_MapTyp_33" { %_TyDescrTy_Typ* @"$TyDescr_Int32_3", %_TyDescrTy_Typ* @"$TyDescr_Int32_3" }
+@"$TyDescr_Map_34" = unnamed_addr constant %_TyDescrTy_Typ { i32 2, i8* bitcast (%"$TyDescr_MapTyp_33"* @"$TyDescr_MapTyp_37" to i8*) }
+@"$TyDescr_MapTyp_37" = unnamed_addr constant %"$TyDescr_MapTyp_33" { %_TyDescrTy_Typ* @"$TyDescr_Int32_3", %_TyDescrTy_Typ* @"$TyDescr_Int32_3" }
 
 define void @_init_libs() {
 entry:
@@ -51,23 +51,23 @@ entry:
 define internal %Map_Int32_Int32* @_scilla_expr_fun(i8* %0) {
 entry:
   %"$expr_0" = alloca %Map_Int32_Int32*, align 8
-  %"$gasrem_36" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_37" = icmp ugt i64 1, %"$gasrem_36"
-  br i1 %"$gascmp_37", label %"$out_of_gas_38", label %"$have_gas_39"
+  %"$gasrem_38" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_39" = icmp ugt i64 1, %"$gasrem_38"
+  br i1 %"$gascmp_39", label %"$out_of_gas_40", label %"$have_gas_41"
 
-"$out_of_gas_38":                                 ; preds = %entry
+"$out_of_gas_40":                                 ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_39"
+  br label %"$have_gas_41"
 
-"$have_gas_39":                                   ; preds = %"$out_of_gas_38", %entry
-  %"$consume_40" = sub i64 %"$gasrem_36", 1
-  store i64 %"$consume_40", i64* @_gasrem, align 8
-  %"$execptr_load_41" = load i8*, i8** @_execptr, align 8
-  %"$_new_empty_map_call_42" = call i8* @_new_empty_map(i8* %"$execptr_load_41")
-  %"$Emp_43" = bitcast i8* %"$_new_empty_map_call_42" to %Map_Int32_Int32*
-  store %Map_Int32_Int32* %"$Emp_43", %Map_Int32_Int32** %"$expr_0", align 8
-  %"$$expr_0_44" = load %Map_Int32_Int32*, %Map_Int32_Int32** %"$expr_0", align 8
-  ret %Map_Int32_Int32* %"$$expr_0_44"
+"$have_gas_41":                                   ; preds = %"$out_of_gas_40", %entry
+  %"$consume_42" = sub i64 %"$gasrem_38", 1
+  store i64 %"$consume_42", i64* @_gasrem, align 8
+  %"$execptr_load_43" = load i8*, i8** @_execptr, align 8
+  %"$_new_empty_map_call_44" = call i8* @_new_empty_map(i8* %"$execptr_load_43")
+  %"$Emp_45" = bitcast i8* %"$_new_empty_map_call_44" to %Map_Int32_Int32*
+  store %Map_Int32_Int32* %"$Emp_45", %Map_Int32_Int32** %"$expr_0", align 8
+  %"$$expr_0_46" = load %Map_Int32_Int32*, %Map_Int32_Int32** %"$expr_0", align 8
+  ret %Map_Int32_Int32* %"$$expr_0_46"
 }
 
 declare void @_out_of_gas()
@@ -78,8 +78,8 @@ declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_45" = call %Map_Int32_Int32* @_scilla_expr_fun(i8* null)
-  %"$memvoidcast_46" = bitcast %Map_Int32_Int32* %"$exprval_45" to i8*
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Map_34", i8* %"$memvoidcast_46")
+  %"$exprval_47" = call %Map_Int32_Int32* @_scilla_expr_fun(i8* null)
+  %"$memvoidcast_48" = bitcast %Map_Int32_Int32* %"$exprval_47" to i8*
+  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Map_34", i8* %"$memvoidcast_48")
   ret void
 }

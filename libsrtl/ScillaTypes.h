@@ -133,12 +133,25 @@ struct MapTyp {
   Typ *m_valTyp;
 };
 
-struct Typ;
+struct AddressTyp {
+  // -1 : None
+  // >= 0 ; Some n
+  int32_t m_numFields;
+
+  struct Field {
+    String m_Name;
+    const Typ *m_FTyp;
+  };
+  Field *m_fields;
+};
+
+const uint32_t AddrByStr_Len = 20;
 
 class TypParserPartialCache {
   std::unordered_map<std::string, const Typ *> PrimMap;
   std::unordered_map<std::string, std::vector<const Typ *>> ADTMap;
   std::vector<const Typ *> MapList;
+  std::vector<const Typ *> AddrList;
   friend struct Typ;
 
 public:
@@ -146,6 +159,7 @@ public:
     PrimMap.clear();
     ADTMap.clear();
     MapList.clear();
+    AddrList.clear();
   }
   bool empty() { return PrimMap.empty(); }
 };
@@ -158,6 +172,7 @@ struct Typ {
     Prim_typ = 0,
     ADT_typ,
     Map_typ,
+    Address_typ,
   };
 
   Typs m_t; // Tag for the union below
@@ -167,6 +182,8 @@ struct Typ {
     ADTTyp::Specl *m_spladt;
     // key type, value type.
     MapTyp *m_mapt;
+    // Address type
+    AddressTyp *m_addrt;
   } m_sub;
 
   // Stringify a Scilla type @T to @out and return @out.

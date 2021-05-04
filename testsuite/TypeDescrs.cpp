@@ -84,6 +84,7 @@ Typ buildTyp_ADT(ADTTyp::Specl *Specl) {
   R.m_sub.m_spladt = Specl;
   return R;
 }
+
 Typ buildTyp_Map(MapTyp *MT) {
   Typ R;
   R.m_t = Typ::Map_typ;
@@ -91,18 +92,34 @@ Typ buildTyp_Map(MapTyp *MT) {
   return R;
 }
 
+Typ buildTyp_Address(AddressTyp *AT) {
+  Typ R;
+  R.m_t = Typ::Address_typ;
+  R.m_sub.m_addrt = AT;
+  return R;
+}
+
+// Convert a C string into a String value.
+String buildString(const char *Str) {
+  return {(uint8_t *)Str, (int)strlen(Str)};
+}
+
+AddressTyp::Field buildTyp_Field(const char *Name, const Typ *T) {
+  AddressTyp::Field F;
+  F.m_FTyp = T;
+  F.m_Name = buildString(Name);
+  return F;
+}
+
 Typ List_int32_typ = buildTyp_ADT(List_specls[0]);
 Typ List_int64_typ = buildTyp_ADT(List_specls[1]);
 Typ *List_int32_Cons_argtys[] = {&Int32_typ, &List_int32_typ};
 Typ *List_int64_Cons_argtys[] = {&Int64_typ, &List_int64_typ};
-ADTTyp::Constr List_int32_Cons = {{(uint8_t *)"Cons", (int)strlen("Cons")},
-                                  2 /* m_numArgs */,
+ADTTyp::Constr List_int32_Cons = {buildString("Cons"), 2 /* m_numArgs */,
                                   List_int32_Cons_argtys /* m_args */};
-ADTTyp::Constr List_int64_Cons = {{(uint8_t *)"Cons", (int)strlen("Cons")},
-                                  2 /* m_numArgs */,
+ADTTyp::Constr List_int64_Cons = {buildString("Cons"), 2 /* m_numArgs */,
                                   List_int64_Cons_argtys /* m_args */};
-ADTTyp::Constr List_Nil = {{(uint8_t *)"Nil", (int)strlen("Nil")},
-                           0 /* m_numArgs */,
+ADTTyp::Constr List_Nil = {buildString("Nil"), 0 /* m_numArgs */,
                            nullptr /* m_args */};
 Typ *List_int32_argtys[] = {&Int32_typ};
 Typ *List_int64_argtys[] = {&Int64_typ};
@@ -116,23 +133,17 @@ ADTTyp::Specl *List_specls[] = {&List_int32_specl, &List_int64_specl};
 
 // Pair (List Int32) Int64 and Pair Int32 (List Int64)
 extern ADTTyp::Specl *Pair_specls[];
-ADTTyp Pair_adttyp = {{(uint8_t *)"Pair", (int)strlen("Pair")},
-                      2 /* m_numTArgs */,
-                      1 /* m_numConstrs */,
-                      2 /* m_numSpecls */,
+ADTTyp Pair_adttyp = {buildString("Pair"), 2 /* m_numTArgs */,
+                      1 /* m_numConstrs */, 2 /* m_numSpecls */,
                       Pair_specls /* specializations */};
 Typ Pair_list_int32_int64_typ = buildTyp_ADT(Pair_specls[0]);
 Typ Pair_int32_list_int64_typ = buildTyp_ADT(Pair_specls[1]);
 Typ *Pair_list_int32_int64_Pair_argtys[] = {&List_int32_typ, &Int64_typ};
 Typ *Pair_int32_list_int64_Pair_argtys[] = {&Int32_typ, &List_int64_typ};
 ADTTyp::Constr Pair_list_int32_int64_Pair = {
-    {(uint8_t *)"Pair", (int)strlen("Pair")},
-    2 /* m_numArgs */,
-    Pair_list_int32_int64_Pair_argtys};
+    buildString("Pair"), 2 /* m_numArgs */, Pair_list_int32_int64_Pair_argtys};
 ADTTyp::Constr Pair_int32_list_int64_Pair = {
-    {(uint8_t *)"Pair", (int)strlen("Pair")},
-    2 /* m_numArgs */,
-    Pair_int32_list_int64_Pair_argtys};
+    buildString("Pair"), 2 /* m_numArgs */, Pair_int32_list_int64_Pair_argtys};
 Typ *Pair_list_int32_int64_argtys[] = {&List_int32_typ, &Int64_typ};
 Typ *Pair_int32_list_int64_argtys[] = {&Int32_typ, &List_int64_typ};
 ADTTyp::Constr *Pair_list_int32_int64_constrs[] = {&Pair_list_int32_int64_Pair};
@@ -156,6 +167,24 @@ MapTyp Map_int32_map_int32_string_MapTyp = {&Int32_typ, &Map_int32_string_typ};
 Typ Map_int32_map_int32_string_typ =
     buildTyp_Map(&Map_int32_map_int32_string_MapTyp);
 
+AddressTyp ByStr20_with_end_Addr = {-1, nullptr};
+Typ ByStr20_with_end_typ = buildTyp_Address(&ByStr20_with_end_Addr);
+
+AddressTyp ByStr20_with_contract_end_Addr = {0, nullptr};
+Typ ByStr20_with_contract_end_typ =
+    buildTyp_Address(&ByStr20_with_contract_end_Addr);
+
+AddressTyp::Field ByStr20_with_1_field_Fields[] = {
+    buildTyp_Field("foo0", &Int32_typ)};
+AddressTyp ByStr20_with_1_field_Addr = {1, ByStr20_with_1_field_Fields};
+Typ ByStr20_with_1_field_Typ = buildTyp_Address(&ByStr20_with_1_field_Addr);
+
+AddressTyp::Field ByStr20_with_2_fields_Fields[] = {
+    buildTyp_Field("foo1", &Pair_list_int32_int64_typ),
+    buildTyp_Field("bar1", &Map_int64_pair_int32_list_int64_typ)};
+AddressTyp ByStr20_with_2_fields_Addr = {2, ByStr20_with_2_fields_Fields};
+Typ ByStr20_with_2_fields_Typ = buildTyp_Address(&ByStr20_with_2_fields_Addr);
+
 // clang-format off
 const Typ* AllTyDescrs[] = {
   &Int32_typ, &Int64_typ, &Int128_typ, &Int256_typ,
@@ -163,7 +192,9 @@ const Typ* AllTyDescrs[] = {
   &String_typ, &BNum_typ, &List_int32_typ, &List_int64_typ,
   &Pair_list_int32_int64_typ, &Pair_int32_list_int64_typ,
   &Map_int32_string_typ, &Map_int64_pair_int32_list_int64_typ,
-  &Map_int32_map_int32_string_typ, &ByStr_typ, &ByStr20_typ
+  &Map_int32_map_int32_string_typ, &ByStr_typ, &ByStr20_typ,
+  &ByStr20_with_end_typ, &ByStr20_with_contract_end_typ,
+  &ByStr20_with_1_field_Typ, &ByStr20_with_2_fields_Typ
 };
 size_t NTyDescrs = sizeof(AllTyDescrs) / sizeof(const Typ *);
 

@@ -32,7 +32,6 @@
 #include "llvm/ExecutionEngine/SectionMemoryManager.h"
 #include "llvm/IR/DataLayout.h"
 #include "llvm/IR/LLVMContext.h"
-#include "llvm/IR/LegacyPassManager.h"
 #include "llvm/IRReader/IRReader.h"
 #include "llvm/Support/FileSystem.h"
 #include "llvm/Support/Path.h"

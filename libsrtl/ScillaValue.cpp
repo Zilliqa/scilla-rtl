@@ -230,7 +230,7 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
         VP += ScillaTypes::Typ::sizeOf(ArgT);
       }
     } break;
-    case ScillaTypes::Typ::Map_typ:
+    case ScillaTypes::Typ::Map_typ: {
       auto KeyT = T->m_sub.m_mapt->m_keyTyp;
       auto ValT = T->m_sub.m_mapt->m_valTyp;
       auto M = reinterpret_cast<const ScillaParams::MapValueT *>(V);
@@ -263,6 +263,12 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
         }
         Out += "\n" + Tab + "}";
       }
+    } break;
+    case ScillaTypes::Typ::Address_typ: {
+      // Same as ByStr20.
+      Out += rawToHex(reinterpret_cast<const uint8_t *>(V),
+                      ScillaTypes::AddrByStr_Len);
+    } break;
     }
 
     if (PrintType)
@@ -384,7 +390,7 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
         VP += ScillaTypes::Typ::sizeOf(ArgT);
       }
     } break;
-    case ScillaTypes::Typ::Map_typ:
+    case ScillaTypes::Typ::Map_typ: {
       auto ValT = T->m_sub.m_mapt->m_valTyp;
       auto M = reinterpret_cast<const ScillaParams::MapValueT *>(V);
       ObjManager MA;
@@ -409,6 +415,11 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
         Assoc["val"] = ValJ;
         Out.append(Assoc);
       }
+    } break;
+    case ScillaTypes::Typ::Address_typ: {
+      // Same as ByStr20, it becomes a string.
+      Out = toString(false, T, V);
+    } break;
     }
   };
 
@@ -423,7 +434,8 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
   auto *Mem = reinterpret_cast<uint8_t *>(MemV);
 
   switch (T->m_t) {
-  case ScillaTypes::Typ::Prim_typ: {
+  case ScillaTypes::Typ::Prim_typ:
+  case ScillaTypes::Typ::Address_typ: {
     if (!J.isString()) {
       CREATE_ERROR("Expected string JSON for primitive type");
     }
@@ -436,6 +448,13 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
     } else {
       ASSERT_MSG(MemSize == ScillaTypes::Typ::sizeOf(T),
                  "Incorrect memory allocation");
+    }
+    if (T->m_t == ScillaTypes::Typ::Address_typ) {
+      ASSERT(MemSize == ScillaTypes::AddrByStr_Len);
+      int NBytes;
+      hex2Raw(OM, Mem, MemSize, JS, NBytes);
+      ASSERT(NBytes == MemSize);
+      return Mem;
     }
     switch (T->m_sub.m_primt->m_pt) {
     case ScillaTypes::PrimTyp::Int_typ: {
@@ -639,7 +658,7 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
       }
     }
     return M;
-  }
+  } break;
   }
 
   CREATE_ERROR("Unreachable");
@@ -709,7 +728,10 @@ void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
   } break;
   case ScillaTypes::Typ::Map_typ: {
     CREATE_ERROR("Unimplemented");
-  }
+  } break;
+  case ScillaTypes::Typ::Address_typ: {
+    Ret.insert(Ret.end(), V, V + ScillaTypes::AddrByStr_Len);
+  } break;
   }
 }
 
@@ -796,7 +818,7 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
     }
     return Acc;
   };
-  case ScillaTypes::Typ::Map_typ:
+  case ScillaTypes::Typ::Map_typ: {
     auto ValT = T->m_sub.m_mapt->m_valTyp;
     auto M = reinterpret_cast<const ScillaParams::MapValueT *>(V);
     ObjManager OM;
@@ -821,6 +843,10 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
       }
     }
     return Acc;
+  } break;
+  case ScillaTypes::Typ::Address_typ: {
+    return ScillaTypes::Typ::sizeOf(T);
+  } break;
   }
 
   CREATE_ERROR("Unreachable");
