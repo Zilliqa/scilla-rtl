@@ -337,7 +337,7 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
         (
           [&AddrList](const boost::optional<std::vector<FieldTypePair> > &FieldsOpt) {
             const auto &Fields =
-              FieldsOpt.has_value() ? FieldsOpt.get() : std::vector<FieldTypePair>();
+              FieldsOpt ? FieldsOpt.get() : std::vector<FieldTypePair>();
             for (auto &T : AddrList) {
               ASSERT_MSG(T->m_t == Typ::Address_typ,
                 "Non-Address type classified incorrectly as Address");
