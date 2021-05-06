@@ -1,3 +1,22 @@
+/*
+ * Copyright (C) 2020 Zilliqa
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+#include <algorithm>
+
 #include <boost/test/unit_test.hpp>
 
 #include "../libsrtl/ScillaTypes.h"
@@ -12,6 +31,16 @@ ScillaVM::ScillaTypes::TypParserPartialCache TPPC;
 BOOST_AUTO_TEST_SUITE(typ_parser)
 
 using namespace ScillaVM::ScillaTypes;
+
+// This tests the testsuite type descriptors.
+BOOST_AUTO_TEST_CASE(tydescrs_sanity) {
+  using namespace TypeDescrs;
+
+  for (size_t I = 0; I < NTyDescrs; I++) {
+    BOOST_REQUIRE_MESSAGE(Typ::areAddressFieldsSorted(AllTyDescrs[I]),
+                          Typ::toString(AllTyDescrs[I]));
+  }
+}
 
 // Just print and verify our type descriptors above.
 BOOST_AUTO_TEST_CASE(tydescrs_print) {
@@ -34,8 +63,8 @@ BOOST_AUTO_TEST_CASE(tydescrs_print) {
                 "ByStr20 with contract field foo0 : Int32 end");
   BOOST_REQUIRE(
       Typ::toString(&ByStr20_with_2_fields_Typ) ==
-      "ByStr20 with contract field foo1 : Pair (List (Int32)) (Int64), field "
-      "bar1 : Map (Int64) (Pair (Int32) (List (Int64))) end");
+      "ByStr20 with contract field bar1 : Pair (List (Int32)) (Int64), field "
+      "foo1 : Map (Int64) (Pair (Int32) (List (Int64))) end");
 }
 
 void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
@@ -141,10 +170,16 @@ BOOST_AUTO_TEST_CASE(parse_addresses_succ) {
   parserTestSuccess("ByStr20 with contract field foo0 : Int32 end",
                     "ByStr20 with contract field foo0 : Int32 end");
   parserTestSuccess(
-      "ByStr20 with contract field foo1 : Pair (List Int32) Int64, "
-      "field bar1 : Map Int64 (Pair Int32 (List Int64)) end",
-      "ByStr20 with contract field foo1 : Pair (List (Int32)) (Int64), field "
-      "bar1 : Map (Int64) (Pair (Int32) (List (Int64))) end");
+      "ByStr20 with contract field bar1 : Pair (List Int32) Int64, "
+      "field foo1 : Map Int64 (Pair Int32 (List Int64)) end",
+      "ByStr20 with contract field bar1 : Pair (List (Int32)) (Int64), field "
+      "foo1 : Map (Int64) (Pair (Int32) (List (Int64))) end");
+  // Fields defined in a different order.
+  parserTestSuccess(
+      "ByStr20 with contract field foo1 : Map Int64 (Pair Int32 (List Int64)), "
+      "field bar1 : Pair (List Int32) Int64 end",
+      "ByStr20 with contract field bar1 : Pair (List (Int32)) (Int64), field "
+      "foo1 : Map (Int64) (Pair (Int32) (List (Int64))) end");
 }
 
 BOOST_AUTO_TEST_CASE(parse_addresses_fail) {
@@ -161,8 +196,14 @@ BOOST_AUTO_TEST_CASE(parse_addresses_fail) {
   // "field" missing
   parserTestFail("ByStr20 with contract foo0 : Int32 end");
   // ';' instead of ',' as separator
-  parserTestFail("ByStr20 with contract field foo1 : Pair (List Int32) Int64; "
+  parserTestFail("ByStr20 with contract field bar1 : Pair (List Int32) Int64; "
+                 "field foo1 : Map Int64 (Pair Int32 (List Int64)) end");
+  // Field types incorrect, in different orders of names.
+  parserTestFail("ByStr20 with contract field foo1 : Pair (List Int32) Int64, "
                  "field bar1 : Map Int64 (Pair Int32 (List Int64)) end");
+  parserTestFail(
+      "ByStr20 with contract field bar1 : Map Int64 (Pair Int32 (List Int64)), "
+      "field foo1 : Pair (List Int32) Int64 end");
 }
 
 BOOST_AUTO_TEST_SUITE_END()

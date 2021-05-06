@@ -209,6 +209,8 @@ struct Typ {
   static int getMapDepth(const Typ *T);
   // The type of the value accessed in a map access.
   static const Typ *mapAccessType(const Typ *MT, int NumIdx);
+  // Checks that the fields of an Address type are sorted
+  static bool areAddressFieldsSorted(const Typ *T);
 
   bool operator==(const Typ *RHS);
   bool operator!=(const Typ *RHS);

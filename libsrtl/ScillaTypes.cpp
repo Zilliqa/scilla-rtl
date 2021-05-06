@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <algorithm>
 #include <functional>
 
 #include "ScillaTypes.h"
@@ -239,6 +240,41 @@ const Typ *Typ::mapAccessType(const Typ *MT, int NumIdx) {
   CREATE_ERROR("Unreachable executed");
 }
 
+bool Typ::areAddressFieldsSorted(const Typ *T) {
+  switch (T->m_t) {
+  case Typ::Prim_typ:
+    return true;
+  case Typ::ADT_typ: {
+    auto *Specl = T->m_sub.m_spladt;
+    int NumTArgs = Specl->m_parent->m_numTArgs;
+    return std::all_of(Specl->m_TArgs, Specl->m_TArgs + NumTArgs,
+                       areAddressFieldsSorted);
+  }
+  case Typ::Map_typ: {
+    auto *MT = T->m_sub.m_mapt;
+    return areAddressFieldsSorted(MT->m_keyTyp) &&
+           areAddressFieldsSorted(MT->m_valTyp);
+  }
+  case Typ::Address_typ: {
+    auto *AT = T->m_sub.m_addrt;
+    auto NumFields = AT->m_numFields;
+    if (NumFields < 0)
+      return true;
+    return std::is_sorted(
+               AT->m_fields, AT->m_fields + NumFields,
+               [](const AddressTyp::Field &F1, const AddressTyp::Field &F2) {
+                 return std::string(F1.m_Name) < std::string(F2.m_Name);
+               }) &&
+           std::all_of(AT->m_fields, AT->m_fields + NumFields,
+                       [](const AddressTyp::Field &F) {
+                         return areAddressFieldsSorted(F.m_FTyp);
+                       });
+  }
+  }
+
+  CREATE_ERROR("Unreachable executed");
+}
+
 } // namespace ScillaTypes
 } // namespace ScillaVM
 
@@ -264,22 +300,23 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
 
   // Classify Ts into PrimTypes, ADTs and Map types.
   if (TPPC->empty()) {
-    for (int i = 0; i < NT; i++) {
-      switch (Ts[i]->m_t) {
+    for (int I = 0; I < NT; I++) {
+      ASSERT(areAddressFieldsSorted(Ts[I]));
+      switch (Ts[I]->m_t) {
       case Prim_typ:
         // Direct mapping for prim types.
-        PrimMap[toString(Ts[i])] = Ts[i];
+        PrimMap[toString(Ts[I])] = Ts[I];
         break;
       case ADT_typ:
         // List down all Typ objects for this ADT.
-        ADTMap[(std::string)Ts[i]->m_sub.m_spladt->m_parent->m_tName].push_back(
-            Ts[i]);
+        ADTMap[(std::string)Ts[I]->m_sub.m_spladt->m_parent->m_tName].push_back(
+            Ts[I]);
         break;
       case Map_typ:
-        MapList.push_back(Ts[i]);
+        MapList.push_back(Ts[I]);
         break;
       case Address_typ:
-        AddrList.push_back(Ts[i]);
+        AddrList.push_back(Ts[I]);
         break;
       }
     }
@@ -341,19 +378,25 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
             for (auto &T : AddrList) {
               ASSERT_MSG(T->m_t == Typ::Address_typ,
                 "Non-Address type classified incorrectly as Address");
-              if ((size_t) T->m_sub.m_addrt->m_numFields == Fields.size()) {
+              auto T_NFields = (size_t) T->m_sub.m_addrt->m_numFields;
+              // Check if the fields in T are equivalent to those in Fields.
+              if (T_NFields == Fields.size()) {
                 auto *TDFields = T->m_sub.m_addrt->m_fields;
-                size_t I = 0;
-                for (I = 0; I < Fields.size(); I++) {
-                  if (std::string(TDFields[I].m_Name) != Fields[I].first ||
-                      TDFields[I].m_FTyp != Fields[I].second) {
-                    break;
-                  }
-                }
-                if (I == Fields.size()) {
-                  // We have a match.
+                // Does every field in TDFields exist in Fields?
+                bool all_matched = std::all_of(TDFields, TDFields + T_NFields,
+                  [Fields](const AddressTyp::Field &TF) {
+                    auto ToMatchName = std::string(TF.m_Name);
+                    auto *ToMatchTyp = TF.m_FTyp;
+                    // Check if TF exists in Fields.
+                    return std::any_of(Fields.begin(), Fields.end(), 
+                      [ToMatchName, ToMatchTyp] (const FieldTypePair &Parsed) {
+                        return Parsed.first == ToMatchName 
+                              && Parsed.second  == ToMatchTyp;
+                      });
+                  });
+                // T exactly matches the Fields. We're done.
+                if (all_matched)
                   return T;
-                }
               }
             }
             std::string ErrTyp = "\"ByStr20 with contract ";

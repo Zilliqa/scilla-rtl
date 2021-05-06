@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2020 Zilliqa
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <cstring>
 
 #include "TypeDescrs.h"
@@ -180,8 +197,8 @@ AddressTyp ByStr20_with_1_field_Addr = {1, ByStr20_with_1_field_Fields};
 Typ ByStr20_with_1_field_Typ = buildTyp_Address(&ByStr20_with_1_field_Addr);
 
 AddressTyp::Field ByStr20_with_2_fields_Fields[] = {
-    buildTyp_Field("foo1", &Pair_list_int32_int64_typ),
-    buildTyp_Field("bar1", &Map_int64_pair_int32_list_int64_typ)};
+    buildTyp_Field("bar1", &Pair_list_int32_int64_typ),
+    buildTyp_Field("foo1", &Map_int64_pair_int32_list_int64_typ)};
 AddressTyp ByStr20_with_2_fields_Addr = {2, ByStr20_with_2_fields_Fields};
 Typ ByStr20_with_2_fields_Typ = buildTyp_Address(&ByStr20_with_2_fields_Addr);
 
