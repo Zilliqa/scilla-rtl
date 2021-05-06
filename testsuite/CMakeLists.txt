@@ -4,7 +4,7 @@ add_executable(${TARGET_SCILLA_TESTS}
   Testsuite.cpp
   ContrTests.cpp
   ExprExecTests.cpp
-  TypeParserTests.cpp
+  TypeTests.cpp
   TypeDescrs.cpp
   StateJsonTests.cpp
   StateJsonUtils.cpp
