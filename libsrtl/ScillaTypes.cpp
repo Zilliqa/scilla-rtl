@@ -47,31 +47,24 @@ bool Typ::assignable(const Typ *To, const Typ *From) {
     if (Subset->m_numFields > Superset->m_numFields) {
       return false;
     }
-    int SearchFrom = 0;
+    AddressTyp::Field *SearchFromItr = Superset->m_fields;
+    AddressTyp::Field *SearchFromItrEnd = SearchFromItr + Superset->m_numFields;
     // The search below is linear and relies on a strict ordering based on
     // the field names (i.e., the fields in AddressTyp must be sorted).
     for (int I = 0; I < Subset->m_numFields; I++) {
       AddressTyp::Field &F_Sub = Subset->m_fields[I];
       // This field must exist in "Superset".
-      bool Found = false;
-      while (SearchFrom < Superset->m_numFields) {
-        AddressTyp::Field &F_Sup = Superset->m_fields[SearchFrom];
-        if (std::string(F_Sup.m_Name) == std::string(F_Sub.m_Name)) {
-          if (!assignable(F_Sub.m_FTyp, F_Sup.m_FTyp)) {
-            return false;
-          }
-          Found = true;
-          // For the next field in Subset, search from the element after this.
-          SearchFrom++;
-          break;
-        }
-        // F_Sup does not exist in F_Sub, so we skip it.
-        SearchFrom++;
-      }
-      if (!Found) {
-        // We've reached the end of our search, unfruitfully.
+      auto Itr = std::find_if(SearchFromItr, SearchFromItrEnd,
+                              [&F_Sub](const AddressTyp::Field &F_Sup) {
+                                return std::string(F_Sup.m_Name) ==
+                                       std::string(F_Sub.m_Name);
+                              });
+      if (Itr == SearchFromItrEnd || !assignable(F_Sub.m_FTyp, Itr->m_FTyp)) {
+        // Either we don't have that field in Superset, or it isn't assignable
+        // to the one we have in Subset. Both qualify for non-assignability.
         return false;
       }
+      SearchFromItr = Itr;
     }
     return true;
   };
