@@ -28,7 +28,7 @@ namespace {
 ScillaVM::ScillaTypes::TypParserPartialCache TPPC;
 } // namespace
 
-BOOST_AUTO_TEST_SUITE(typ_parser)
+BOOST_AUTO_TEST_SUITE(types)
 
 using namespace ScillaVM::ScillaTypes;
 
@@ -59,6 +59,8 @@ BOOST_AUTO_TEST_CASE(tydescrs_print) {
   BOOST_REQUIRE(Typ::toString(&List_int64_typ) == "List (Int64)");
   BOOST_REQUIRE(Typ::toString(&ByStr20_typ) == "ByStr20");
   BOOST_REQUIRE(Typ::toString(&ByStr_typ) == "ByStr");
+  BOOST_REQUIRE(Typ::toString(&Bool_typ) == "Bool");
+  BOOST_REQUIRE(Typ::toString(&Option_Int256_typ) == "Option (Int256)");
   BOOST_REQUIRE(Typ::toString(&ByStr20_with_1_field_Typ) ==
                 "ByStr20 with contract field foo0 : Int32 end");
   BOOST_REQUIRE(
@@ -67,12 +69,24 @@ BOOST_AUTO_TEST_CASE(tydescrs_print) {
       "foo1 : Map (Int64) (Pair (Int32) (List (Int64))) end");
 }
 
-void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
+const Typ *parseTypeString(const std::string TS) {
   using namespace TypeDescrs;
   try {
-    const Typ *T = Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, Input);
-    BOOST_REQUIRE_MESSAGE(T && Typ::toString(T) == ExpectedO,
-                          "Failed matching " << ExpectedO);
+    const Typ *T = Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, TS);
+    BOOST_REQUIRE_MESSAGE(T, "Parsing " << TS << " failed.");
+    return T;
+  } catch (const ScillaVM::ScillaError &E) {
+    BOOST_FAIL(E.toString());
+  }
+  BOOST_UNREACHABLE_RETURN();
+}
+
+void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
+  try {
+    const Typ *T = parseTypeString(Input);
+    BOOST_REQUIRE_MESSAGE(Typ::toString(T) == ExpectedO,
+                          "Failed matching " << ExpectedO << " vs "
+                                             << Typ::toString(T));
   } catch (const ScillaVM::ScillaError &E) {
     BOOST_FAIL(E.toString());
   }
@@ -105,6 +119,20 @@ BOOST_AUTO_TEST_CASE(parse_prims) {
   parserTestSuccess("BNum", "BNum");
 
   parserTestSuccess("ByStr20", "ByStr20");
+}
+
+BOOST_AUTO_TEST_CASE(adts) {
+  parserTestSuccess("Bool", "Bool");
+  parserTestSuccess("Option Int256", "Option (Int256)");
+  parserTestSuccess("Option (Int256)", "Option (Int256)");
+}
+
+BOOST_AUTO_TEST_CASE(adts_fail) {
+  parserTestFail("Bool True");
+  parserTestFail("Bool (True)");
+  parserTestFail("True");
+  parserTestFail("Option Uint256 Int256");
+  parserTestFail("Option (Uint256) (Int256)");
 }
 
 BOOST_AUTO_TEST_CASE(parse_prim_fail) {
@@ -204,6 +232,168 @@ BOOST_AUTO_TEST_CASE(parse_addresses_fail) {
   parserTestFail(
       "ByStr20 with contract field bar1 : Map Int64 (Pair Int32 (List Int64)), "
       "field foo1 : Pair (List Int32) Int64 end");
+}
+
+// Valid Scilla types, but unsupported in the VM.
+BOOST_AUTO_TEST_CASE(valid_scilla_types_unsupported) {
+  parserTestFail("forall 'A. 'A -> forall 'B. List ('B)");
+  parserTestFail("forall 'A. 'A -> ByStr20 with contract field f : 'A end");
+  parserTestFail("ByStr20 with contract field x : Uint32, field y : Bool end "
+                 "-> ByStr20 with contract field y : Bool end");
+}
+
+BOOST_AUTO_TEST_CASE(equivalent_types) {
+  std::string EqTypes[][2] = {
+      {"ByStr20", "ByStr20"},
+      {"ByStr20 with end", "ByStr20 with end"},
+      {"ByStr20 with contract end", "ByStr20 with contract end"},
+      {"ByStr20 with contract field x : Uint32 end",
+       "ByStr20 with contract field x : Uint32 end"},
+      {"ByStr20 with contract field x : Uint32, field y : Bool end",
+       "ByStr20 with contract field x : Uint32, field y : Bool end"},
+      {"ByStr20 with contract field y : Bool, field x : Uint32 end",
+       "ByStr20 with contract field x : Uint32, field y : Bool end"},
+      {"ByStr20 with contract field x : Uint32, field y : ByStr20 with end end",
+       "ByStr20 with contract field x : Uint32, field y : ByStr20 with end "
+       "end"},
+      {"ByStr20 with contract field x : Uint32, field y : ByStr20 with "
+       "contract end end",
+       "ByStr20 with contract field x : Uint32, field y : ByStr20 with "
+       "contract end end"},
+      {"ByStr20 with contract field x : Uint32, field y : ByStr20 with "
+       "contract field y2 : ByStr20, field y1 : Option Int256 end end",
+       "ByStr20 with contract field x : Uint32, field y : ByStr20 with "
+       "contract field y1 : Option Int256, field y2 : ByStr20 end end"},
+      {"Map (ByStr20 with contract field x : Uint32, field y : ByStr20 with "
+       "end end) ByStr20",
+       "Map (ByStr20 with contract field x : Uint32, field y : ByStr20 with "
+       "end end) ByStr20"},
+      {"Map (ByStr20 with contract end) (ByStr20 with contract field x : "
+       "Uint32 end)",
+       "Map (ByStr20 with contract end) (ByStr20 with contract field x : "
+       "Uint32 end)"},
+      {"Map ByStr20 (ByStr20 with contract field x : Uint32 end)",
+       "Map ByStr20 (ByStr20 with contract field x : Uint32 end)"},
+  };
+
+  const size_t NEqEntries = sizeof(EqTypes) / (sizeof(std::string) * 2);
+  for (size_t I = 0; I < NEqEntries; I++) {
+    BOOST_REQUIRE_MESSAGE(Typ::equal(parseTypeString(EqTypes[I][0]),
+                                     parseTypeString(EqTypes[I][1])),
+                          I);
+  }
+  for (size_t I = 0; I < NEqEntries; I++) {
+    BOOST_REQUIRE_MESSAGE(Typ::assignable(parseTypeString(EqTypes[I][0]),
+                                          parseTypeString(EqTypes[I][1])),
+                          I);
+  }
+  for (size_t I = 0; I < NEqEntries; I++) {
+    BOOST_REQUIRE_MESSAGE(Typ::assignable(parseTypeString(EqTypes[I][1]),
+                                          parseTypeString(EqTypes[I][0])),
+                          I);
+  }
+}
+
+BOOST_AUTO_TEST_CASE(assignable_but_not_equivalent_types) {
+  std::string AssTypes[][2] = {
+      {"ByStr20", "ByStr20 with end"},
+      {"ByStr20", "ByStr20 with contract end"},
+      {"ByStr20 with end", "ByStr20 with contract end"},
+      {"ByStr20 with end", "ByStr20 with contract field x : Uint32 end"},
+      {"ByStr20 with contract end",
+       "ByStr20 with contract field x : Uint32 end"},
+      {"ByStr20 with contract field x : Uint32 end",
+       "ByStr20 with contract field x : Uint32, field y : Uint32 end"},
+      {"ByStr20 with contract field x : Uint32 end",
+       "ByStr20 with contract field x : Uint32, field y : Uint32, field z : "
+       "ByStr20 with end end"},
+      {"ByStr20 with contract field y : Uint32, field x : Uint32 end",
+       "ByStr20 with contract field x : Uint32, field y : Uint32, field z : "
+       "ByStr20 with end end"},
+      {"ByStr20 with contract field x : Uint32, field y : ByStr20 with "
+       "contract field y1 : Int32 end end",
+       "ByStr20 with contract field x : Uint32, field y : ByStr20 with "
+       "contract field y2 : Bool, field y1 : Int32 end end"},
+      {"ByStr20 with contract field x : Uint32, field y : ByStr20 with "
+       "contract end end",
+       "ByStr20 with contract field x : Uint32, field y : ByStr20 with "
+       "contract field y2 : Bool, field y1 : Int32 end end"},
+      {"ByStr20 with contract field x : ByStr20 with end end",
+       "ByStr20 with contract field x : ByStr20 with contract end end"},
+      {"Map (ByStr20 with end) (ByStr20 with contract field x : Uint32 end)",
+       "Map (ByStr20 with contract end) (ByStr20 with contract field x : "
+       "Uint32 end)"},
+      {"Map (ByStr20 with contract end) (ByStr20 with contract end)",
+       "Map (ByStr20 with contract end) (ByStr20 with contract field x : "
+       "Uint32 end)"},
+  };
+
+  const size_t NAssEntries = sizeof(AssTypes) / (sizeof(std::string) * 2);
+  for (size_t I = 0; I < NAssEntries; I++) {
+    BOOST_REQUIRE_MESSAGE(Typ::assignable(parseTypeString(AssTypes[I][0]),
+                                          parseTypeString(AssTypes[I][1])),
+                          I);
+  }
+  for (size_t I = 0; I < NAssEntries; I++) {
+    BOOST_REQUIRE_MESSAGE(!Typ::assignable(parseTypeString(AssTypes[I][1]),
+                                           parseTypeString(AssTypes[I][0])),
+                          I);
+  }
+  for (size_t I = 0; I < NAssEntries; I++) {
+    BOOST_REQUIRE_MESSAGE(!Typ::equal(parseTypeString(AssTypes[I][0]),
+                                      parseTypeString(AssTypes[I][1])),
+                          I);
+  }
+}
+
+BOOST_AUTO_TEST_CASE(not_assignable_in_either_direction_types) {
+  std::string NAssTypes[][2] = {
+      {"Int32", "Uint32"},
+      // Addresses
+      {"ByStr20 with contract field x : Int32 end",
+       "ByStr20 with contract field x : Uint32 end"},
+      {"ByStr20 with contract field x : Int32 end",
+       "ByStr20 with contract field y : Int32 end"},
+      {"ByStr20 with contract field x : Int32, field z : Uint32 end",
+       "ByStr20 with contract field y : Int32, field w : Uint32 end"},
+      {"ByStr20 with contract field x : ByStr20 with contract field y1 : Int32 "
+       "end end",
+       "ByStr20 with contract field x : ByStr20 with contract field y1 : "
+       "Uint32 end end"},
+      {"ByStr20 with contract field x : ByStr20 with contract field y1 : Int32 "
+       "end end",
+       "ByStr20 with contract field x : ByStr20 with contract field y2 : Int32 "
+       "end end"},
+      {"Map (ByStr20 with contract end) (ByStr20 with contract field x : "
+       "Uint32 end)",
+       "Map (ByStr20 with contract field x : Uint32 end) (ByStr20 with "
+       "contract end)"},
+      {"Map (ByStr20 with contract end) (ByStr20 with contract field y : "
+       "Uint32 end)",
+       "Map (ByStr20 with contract end) (ByStr20 with contract field x : "
+       "Uint32 end)"},
+      {"Map (ByStr20 with contract field y : Uint32 end) (ByStr20 with "
+       "contract end)",
+       "Map (ByStr20 with contract field x : Uint32 end) (ByStr20 with "
+       "contract end)"},
+  };
+
+  const size_t NNAssEntries = sizeof(NAssTypes) / (sizeof(std::string) * 2);
+  for (size_t I = 0; I < NNAssEntries; I++) {
+    BOOST_REQUIRE_MESSAGE(!Typ::assignable(parseTypeString(NAssTypes[I][0]),
+                                           parseTypeString(NAssTypes[I][1])),
+                          I);
+  }
+  for (size_t I = 0; I < NNAssEntries; I++) {
+    BOOST_REQUIRE_MESSAGE(!Typ::assignable(parseTypeString(NAssTypes[I][1]),
+                                           parseTypeString(NAssTypes[I][0])),
+                          I);
+  }
+  for (size_t I = 0; I < NNAssEntries; I++) {
+    BOOST_REQUIRE_MESSAGE(!Typ::equal(parseTypeString(NAssTypes[I][0]),
+                                      parseTypeString(NAssTypes[I][1])),
+                          I);
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END()

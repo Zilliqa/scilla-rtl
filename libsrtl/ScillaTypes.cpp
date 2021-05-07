@@ -29,15 +29,103 @@ String::operator std::string() const {
   return std::string(m_buffer, m_buffer + m_length);
 }
 
-// Are two types equal?
-bool Typ::operator==(const Typ *RHS) {
+bool Typ::equal(const Typ *LHS, const Typ *RHS) {
   // Currently only one Typ instance of each type exists.
   // So a pointer equality is sufficient.
-  return static_cast<const void *>(this) == static_cast<const void *>(RHS);
+  return static_cast<const void *>(LHS) == static_cast<const void *>(RHS);
 }
 
-// Are two types unequal?
-bool Typ::operator!=(const Typ *RHS) { return !(this == RHS); }
+bool Typ::assignable(const Typ *To, const Typ *From) {
+
+  // A lambda to check assignability of two address types.
+  // Every field F_Sub in "Subset" must exist as F_Sup in "Superset"
+  //   AND
+  // assignable(F_Sub, F_Sup).
+  // (Subset->m_numFields < 0), i.e., Subset is (Address None) will return true.
+  auto checkAddressSubset = [](AddressTyp *Subset,
+                               AddressTyp *Superset) -> bool {
+    if (Subset->m_numFields > Superset->m_numFields) {
+      return false;
+    }
+    int SearchFrom = 0;
+    // The search below is linear and relies on a strict ordering based on
+    // the field names (i.e., the fields in AddressTyp must be sorted).
+    for (int I = 0; I < Subset->m_numFields; I++) {
+      AddressTyp::Field &F_Sub = Subset->m_fields[I];
+      // This field must exist in "Superset".
+      bool Found = false;
+      while (SearchFrom < Superset->m_numFields) {
+        AddressTyp::Field &F_Sup = Superset->m_fields[SearchFrom];
+        if (std::string(F_Sup.m_Name) == std::string(F_Sub.m_Name)) {
+          if (!assignable(F_Sub.m_FTyp, F_Sup.m_FTyp)) {
+            return false;
+          }
+          Found = true;
+          // For the next field in Subset, search from the element after this.
+          SearchFrom++;
+          break;
+        }
+        // F_Sup does not exist in F_Sub, so we skip it.
+        SearchFrom++;
+      }
+      if (!Found) {
+        // We've reached the end of our search, unfruitfully.
+        return false;
+      }
+    }
+    return true;
+  };
+
+  switch (From->m_t) {
+  case Address_typ: {
+    // "From" is an Address.
+    AddressTyp *From_AT = From->m_sub.m_addrt;
+    if (To->m_t == Address_typ) {
+      // Check assignable(To, From).
+      return checkAddressSubset(To->m_sub.m_addrt, From_AT);
+    } else if (To->m_t == Prim_typ) {
+      PrimTyp *T_PT = To->m_sub.m_primt;
+      if (T_PT->m_pt == PrimTyp::Bystrx_typ &&
+          T_PT->m_detail.m_bystX == Zilliqa_Address_Len) {
+        // Any address is assignable to ByStr20.
+        return true;
+      }
+    }
+    return false;
+  }
+  case Map_typ: {
+    if (To->m_t != Map_typ)
+      return false;
+    MapTyp *To_MT = To->m_sub.m_mapt;
+    MapTyp *From_MT = From->m_sub.m_mapt;
+    return assignable(To_MT->m_keyTyp, From_MT->m_keyTyp) &&
+           assignable(To_MT->m_valTyp, From_MT->m_valTyp);
+  }
+  case ADT_typ: {
+    if (To->m_t != ADT_typ)
+      return false;
+    ADTTyp::Specl *To_Specls = To->m_sub.m_spladt;
+    ADTTyp::Specl *From_Specls = From->m_sub.m_spladt;
+    // They must be the same ADT, otherwise it doesn't make much sense.
+    if (std::string(To_Specls->m_parent->m_tName) !=
+        std::string(From_Specls->m_parent->m_tName))
+      return false;
+    // Same ADT specializations must have the same parent ADT type.
+    ASSERT(To_Specls->m_parent == From_Specls->m_parent);
+    int NTArgs = To_Specls->m_parent->m_numTArgs;
+    for (int I = 0; I < NTArgs; I++) {
+      if (!assignable(To_Specls->m_TArgs[I], From_Specls->m_TArgs[I]))
+        return false;
+    }
+    return true;
+  }
+  case Prim_typ:
+    // Just equality for primitive types.
+    return equal(From, To);
+  }
+
+  CREATE_ERROR("Unreachable executed");
+}
 
 std::string Typ::toString(const Typ *T) {
 
@@ -391,7 +479,7 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
                     return std::any_of(Fields.begin(), Fields.end(), 
                       [ToMatchName, ToMatchTyp] (const FieldTypePair &Parsed) {
                         return Parsed.first == ToMatchName 
-                              && Parsed.second  == ToMatchTyp;
+                               && equal(Parsed.second, ToMatchTyp);
                       });
                   });
                 // T exactly matches the Fields. We're done.
@@ -401,7 +489,8 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
             }
             std::string ErrTyp = "\"ByStr20 with contract ";
             for (auto &P : Fields) {
-              ErrTyp += P.first + " : " + toString(P.second) + " ";
+              ErrTyp += std::string("field ") + P.first +
+                  " : " + toString(P.second) + " ";
             }
             ErrTyp += "end\"";
             CREATE_ERROR("Type " + ErrTyp + " not found");
@@ -438,13 +527,14 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
             (const Typ *KTyp, const Typ *VTyp) {
               for (const Typ *T : MapList) {
                 ASSERT_MSG(T->m_t == Typ::Map_typ, "Non MapTyp classfied incorrectly");
-                if (T->m_sub.m_mapt->m_keyTyp == KTyp &&
-                    T->m_sub.m_mapt->m_valTyp == VTyp) {
+                if (equal(T->m_sub.m_mapt->m_keyTyp, KTyp) &&
+                    equal(T->m_sub.m_mapt->m_valTyp, VTyp)) {
                   // We have a match.
                   return T;
                 }
               }
-              CREATE_ERROR("No matching MapTyp found");
+              CREATE_ERROR("MapTyp (" + Typ::toString(KTyp) + ") (" +
+                Typ::toString(VTyp) + ") not found");
             },
             qi::_1, qi::_2
           )

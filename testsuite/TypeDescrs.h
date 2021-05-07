@@ -42,6 +42,7 @@ extern Typ List_int32_typ;
 extern Typ List_int64_typ;
 extern Typ Pair_list_int32_int64_typ;
 extern Typ Pair_int32_list_int64_typ;
+extern Typ Bool_typ, Option_Int256_typ;
 
 // Map Int32 String, Map Int64 (Pair Int32 (List Int64))
 // and Map Int32 (Map Int32 String)
@@ -52,6 +53,7 @@ extern Typ Map_int32_map_int32_string_typ;
 extern Typ ByStr20_typ;
 extern Typ ByStr_typ;
 
+// Address types
 extern Typ ByStr20_with_1_field_Typ, ByStr20_with_2_fields_Typ;
 
 extern const Typ *AllTyDescrs[];

@@ -212,8 +212,10 @@ struct Typ {
   // Checks that the fields of an Address type are sorted
   static bool areAddressFieldsSorted(const Typ *T);
 
-  bool operator==(const Typ *RHS);
-  bool operator!=(const Typ *RHS);
+  // Are two types equal?
+  static bool equal(const Typ *LHS, const Typ *RHS);
+  // Can RHS be assigned to LHS?
+  static bool assignable(const Typ *LHS, const Typ *RHS);
 };
 
 } // namespace ScillaTypes
