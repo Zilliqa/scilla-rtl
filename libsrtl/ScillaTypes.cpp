@@ -64,7 +64,8 @@ bool Typ::assignable(const Typ *To, const Typ *From) {
         // to the one we have in Subset. Both qualify for non-assignability.
         return false;
       }
-      SearchFromItr = Itr;
+      // For the next field in Subset, we search from after what we just found.
+      SearchFromItr = Itr + 1;
     }
     return true;
   };
