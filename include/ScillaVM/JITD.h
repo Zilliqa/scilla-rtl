@@ -45,7 +45,8 @@ class ObjManager;
 
 namespace ScillaTypes {
 class TypParserPartialCache;
-}
+class Typ;
+} // namespace ScillaTypes
 
 // An opaque object for use from outside the ScillaJIT object.
 class ScillaCacheManager {
@@ -124,7 +125,10 @@ public:
                                            const Json::Value &ContrParams,
                                            ScillaCacheManager * = nullptr);
   // Get address for @Symbol inside the compiled IR, ready to be used.
-  void *getAddressFor(const std::string &Symbol);
+  void *getAddressFor(const std::string &Symbol) const;
+
+  // Get the type descriptors table and its length.
+  std::pair<const ScillaTypes::Typ **, int> getTypeDescrTable() const;
 
   // Initialize gas-remaining field in the code and initialize libraries.
   uint64_t *initGasAndLibs(uint64_t GasRem);
@@ -195,6 +199,11 @@ public:
   // Useful if execution was interrupted due to an exception.
   // Use with care if you don't want to end up with a stale value.
   uint64_t getGasRem() { return ScillaJIT::getGasRem(); }
+
+  // Get the type descriptors table and its length.
+  std::pair<const ScillaTypes::Typ **, int> getTypeDescrTable() const {
+    return ScillaJIT::getTypeDescrTable();
+  }
 };
 
 } // namespace ScillaVM

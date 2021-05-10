@@ -20,6 +20,7 @@
 #include <jsoncpp/json/value.h>
 #include <memory>
 
+#include "ScillaTypes.h"
 #include "ScillaVM/Errors.h"
 #include "ScillaVM/Utils.h"
 
@@ -151,18 +152,19 @@ bool MemStateServer::updateStateValue(const ScillaParams::StateQuery &Query,
   return true;
 }
 
-std::string MemStateServer::initFromJSON(const Json::Value &SJ,
-                                         const Json::Value &CIJ) {
+std::string MemStateServer::initFromJSON(
+    const Json::Value &SJ, const Json::Value &CIJ,
+    std::pair<const ScillaTypes::Typ **, int> TyDescrs) {
 
-  std::string Balance = "0";
-  // Let's note down the map depth for each field.
+  ScillaTypes::TypParserPartialCache TPPC;
+
+  // Let's note down fields and their types from CIJ.
   if (!CIJ.isMember("contract_info") ||
       !CIJ["contract_info"].isMember("fields") ||
       !CIJ["contract_info"]["fields"].isArray()) {
     CREATE_ERROR("Incorrect format of contract info JSON");
   }
 
-  std::unordered_map<std::string, int> FieldDepths;
   auto &Fields = CIJ["contract_info"]["fields"];
   for (auto &Field : Fields) {
     if (!Field.isObject() || !Field.isMember("vname") ||
@@ -172,13 +174,8 @@ std::string MemStateServer::initFromJSON(const Json::Value &SJ,
       auto FieldName = Field["vname"].asString();
       if (FieldName == "_balance")
         continue;
-      FieldDepths[FieldName] = Field["depth"].asInt();
-      if (SJ.empty()) {
-        // State JSON is empty. So this must be a deployment.
-        // We'll have to get the type from contract-info.
-        auto FieldType = Field["type"].asString();
-        FieldTypes[FieldName] = FieldType;
-      }
+      auto FieldType = Field["type"].asString();
+      FieldTypes[FieldName] = FieldType;
     }
   }
 
@@ -186,6 +183,7 @@ std::string MemStateServer::initFromJSON(const Json::Value &SJ,
     CREATE_ERROR("Expected state JSON to be array");
   }
 
+  std::string Balance = "0";
   for (auto &VJ : SJ) {
     Json::Value VNameJ, VTypJ, VValJ;
     if (!VJ.isObject() ||
@@ -202,12 +200,11 @@ std::string MemStateServer::initFromJSON(const Json::Value &SJ,
       continue;
     }
 
-    auto DepthItr = FieldDepths.find(VName);
-    if (DepthItr == FieldDepths.end()) {
-      CREATE_ERROR("Depth of " + VName + " not found in contract info");
-    }
+    auto Type = ScillaTypes::Typ::fromString(&TPPC, TyDescrs.first,
+                                             TyDescrs.second, VTypJ.asString());
+    ASSERT_MSG(Type, "Couldn't parse type " + VTypJ.asString());
+    auto Depth = ScillaTypes::Typ::getMapDepth(Type);
 
-    int Depth = DepthItr->second;
     boost::any V;
     std::function<void(int, boost::any &, const Json::Value &)> jsonToSV =
         [&jsonToSV, &VName](int Depth, boost::any &SV,
@@ -241,7 +238,6 @@ std::string MemStateServer::initFromJSON(const Json::Value &SJ,
     ScillaParams::StateQuery Query = {VName, Depth, std::vector<std::string>(),
                                       false};
     updateStateValue(Query, V);
-    FieldTypes[VName] = VTypJ.asString();
   }
 
   return Balance;

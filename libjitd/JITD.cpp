@@ -375,7 +375,7 @@ uint64_t ScillaJIT::getGasRem() {
   return *reinterpret_cast<uint64_t *>(getAddressFor("_gasrem"));
 }
 
-void *ScillaJIT::getAddressFor(const std::string &Symbol) {
+void *ScillaJIT::getAddressFor(const std::string &Symbol) const {
 
   auto SA = Jitter->lookup(Symbol);
   if (auto Err = SA.takeError()) {
@@ -383,6 +383,14 @@ void *ScillaJIT::getAddressFor(const std::string &Symbol) {
   }
 
   return reinterpret_cast<void *>((*SA).getAddress());
+}
+
+std::pair<const ScillaTypes::Typ **, int> ScillaJIT::getTypeDescrTable() const {
+  auto AllTyDescrs = reinterpret_cast<const ScillaTypes::Typ **>(
+      getAddressFor("_tydescr_table"));
+  auto TyDescrsLen =
+      *reinterpret_cast<int *>(getAddressFor("_tydescr_table_length"));
+  return std::make_pair(AllTyDescrs, TyDescrsLen);
 }
 
 ScillaJIT::ScillaJIT(const ScillaParams &SPs, std::unique_ptr<LLJIT> J)
@@ -428,10 +436,7 @@ Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
   std::string TransName = TransNameJ.asString();
   auto Transition =
       reinterpret_cast<void (*)(void *)>(getAddressFor(TransName));
-  auto AllTyDescrs = reinterpret_cast<const ScillaTypes::Typ **>(
-      getAddressFor("_tydescr_table"));
-  auto TyDescrsLen =
-      *reinterpret_cast<int *>(getAddressFor("_tydescr_table_length"));
+  auto TyDescrs = getTypeDescrTable();
 
   std::vector<const ScillaTypes::Typ *> ParamTypes;
   std::vector<Json::Value> ParamValues;
@@ -445,8 +450,8 @@ Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
       CREATE_ERROR("Incorrect paramter format in message JSON.");
     }
 
-    auto *T = ScillaTypes::Typ::fromString(TPPC.get(), AllTyDescrs, TyDescrsLen,
-                                           TypeJ.asString());
+    auto *T = ScillaTypes::Typ::fromString(TPPC.get(), TyDescrs.first,
+                                           TyDescrs.second, TypeJ.asString());
     ParamTypes.push_back(T);
     ParamValues.push_back(ValueJ);
   }

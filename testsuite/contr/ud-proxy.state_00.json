@@ -5,7 +5,7 @@
       "vname" : "_balance"
    },
    {
-      "type" : "Map ByStr20 Bool",
+      "type" : "Map (ByStr20) (Bool)",
       "value" : [
          {
             "key" : "0xaafeccdc9012345678901234567890f777567895",

@@ -133,12 +133,12 @@ int main(int argc, char *argv[]) {
       auto MJ = parseJSONFile(MessageFilename);
       auto SJ = parseJSONFile(StateFilename);
       // Update our in-memory state table with the one from the JSONs.
-      auto Balance = State.initFromJSON(SJ, CIJ);
+      auto Balance = State.initFromJSON(SJ, CIJ, JE->getTypeDescrTable());
       // Execute message
       OutJ = JE->execMsg(Balance, GasLimit, MJ);
     } else {
       // Deployment
-      State.initFromJSON(Json::arrayValue, CIJ);
+      State.initFromJSON(Json::arrayValue, CIJ, JE->getTypeDescrTable());
       OutJ = JE->initState(GasLimit);
     }
 

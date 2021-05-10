@@ -64,12 +64,11 @@ void testMessageHelper(const std::string &ContrFilename,
 
   ScillaJIT_Safe::init();
 
-  Json::Value MessageJSON, InitJSON;
+  Json::Value MessageJSON, InitJSON, StateJSON, ContrInfoJSON;
   std::string Balance;
   bool isStateInit = MessageFilename.empty();
   try {
     // Prepare all inputs.
-    Json::Value StateJSON;
     if (!isStateInit) {
       MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
       StateJSON = parseJSONFile(PathPrefix + StateFilename);
@@ -77,11 +76,9 @@ void testMessageHelper(const std::string &ContrFilename,
       StateJSON = Json::arrayValue;
     }
     InitJSON = parseJSONFile(PathPrefix + InitFilename);
-    auto CIJ = parseJSONFile(PathPrefix + ContrInfoFilename);
-    // Update our in-memory state table with the one from the JSONs.
-    Balance = State.initFromJSON(StateJSON, CIJ);
-  } catch (const ScillaError &e) {
-    BOOST_FAIL(e.toString());
+    ContrInfoJSON = parseJSONFile(PathPrefix + ContrInfoFilename);
+  } catch (const ScillaError &E) {
+    BOOST_FAIL(E.toString());
   }
 
   // Create a JIT engine and execute the message.
@@ -92,8 +89,12 @@ void testMessageHelper(const std::string &ContrFilename,
     JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON,
                                 &OCache);
   }
-  Json::Value OJ;
+
   try {
+    // Update our in-memory state table with the one from the JSONs.
+    Balance =
+        State.initFromJSON(StateJSON, ContrInfoJSON, JE->getTypeDescrTable());
+    Json::Value OJ;
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
       if (isStateInit) {
@@ -189,18 +190,16 @@ void testMessageFail(const std::string &ContrFilename,
 
   ScillaJIT_Safe::init();
 
-  Json::Value MessageJSON, InitJSON;
+  Json::Value MessageJSON, InitJSON, StateJSON, ContrInfoJSON;
   std::string Balance;
   try {
     // Prepare all inputs.
     MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
     InitJSON = parseJSONFile(PathPrefix + InitFilename);
-    auto SJ = parseJSONFile(PathPrefix + StateFilename);
-    auto CIJ = parseJSONFile(PathPrefix + ContrInfoFilename);
-    // Update our in-memory state table with the one from the JSONs.
-    Balance = State.initFromJSON(SJ, CIJ);
-  } catch (const ScillaError &e) {
-    BOOST_FAIL(e.toString());
+    StateJSON = parseJSONFile(PathPrefix + StateFilename);
+    ContrInfoJSON = parseJSONFile(PathPrefix + ContrInfoFilename);
+  } catch (const ScillaError &E) {
+    BOOST_FAIL(E.toString());
   }
 
   // Create a JIT engine and execute the message.
@@ -214,8 +213,13 @@ void testMessageFail(const std::string &ContrFilename,
 
   bool CaughtException = false;
   try {
-    ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
-    JE->execMsg(Balance, Config::GasLimit, MessageJSON);
+    // Update our in-memory state table with the one from the JSONs.
+    Balance =
+        State.initFromJSON(StateJSON, ContrInfoJSON, JE->getTypeDescrTable());
+    {
+      ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
+      JE->execMsg(Balance, Config::GasLimit, MessageJSON);
+    }
   } catch (const ScillaError &E) {
     output_test_stream Output(PathPrefix + ExpectedOutputFilename,
                               !Config::UpdateResults);

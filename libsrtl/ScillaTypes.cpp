@@ -411,23 +411,37 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
   namespace px = boost::phoenix;
 
   qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
-      Ident_R;
+      Ident_R, TByStr_R, QualifiedTypeName_R;
   qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
-      TIdent_R;
-  qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
-      TByStr_R;
+      HexQual, FilenameQual, NoQual;
   qi::rule<std::string::const_iterator, FieldTypePair, ascii::space_type>
       FieldTypePair_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> T_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> TArg_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> Start_R;
 
-  // An identifier is "[A-Z][a-zA-Z0-9]*"
-  Ident_R = qi::lexeme[qi::char_('a', 'z') >> *(ascii::alnum)];
-  // A type identifier is "[A-Z][a-zA-Z0-9]*"
-  TIdent_R = qi::lexeme[qi::char_('A', 'Z') >> *(ascii::alnum)];
+  // An identifier is "[a-z][a-zA-Z0-9_]*"
+  Ident_R =
+      qi::lexeme[qi::char_('a', 'z') >> *((ascii::alnum) | qi::char_('_'))];
   // ByStr and ByStrX are primitive types
   TByStr_R = qi::lexeme[qi::string("ByStr") >> *(ascii::digit)];
+
+  // Qualified type names
+  HexQual =
+      qi::lexeme[qi::string("0x") >> *(ascii::xdigit) >> qi::char_('.') >>
+                 qi::char_('A', 'Z') >> *((ascii::alnum) | qi::char_('_'))];
+  FilenameQual =
+      qi::lexeme[*((ascii::alnum) | qi::char_('-') | qi::char_('_')) >>
+                 qi::char_('.') >> qi::char_('A', 'Z') >>
+                 *((ascii::alnum) | qi::char_('_'))];
+  NoQual =
+      qi::lexeme[qi::char_('A', 'Z') >> *((ascii::alnum) | qi::char_('_'))];
+
+  auto IdFun = [](const std::string &I) { return I; };
+  QualifiedTypeName_R = (HexQual)[qi::_val = px::bind(IdFun, qi::_1)] |
+                        (FilenameQual)[qi::_val = px::bind(IdFun, qi::_1)] |
+                        (NoQual)[qi::_val = px::bind(IdFun, qi::_1)];
+  ;
 
   // clang-format off
   T_R =
@@ -533,7 +547,7 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
             qi::_1, qi::_2
           )
         ]
-    | (TIdent_R >> *TArg_R) // Rule-4 for ADTs
+    | (QualifiedTypeName_R >> *TArg_R) // Rule-4 for ADTs
         [qi::_val = px::bind
           (
             [&ADTMap]
@@ -587,7 +601,7 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
             qi::_1
           )
         ]
-    | TIdent_R 
+    | QualifiedTypeName_R
       [qi::_val = px::bind
         (
           [&PrimMap, &ADTMap]

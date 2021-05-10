@@ -38,6 +38,10 @@ std::string readFile(const std::string &Filename);
 Json::Value parseJSONString(const std::string &JS);
 Json::Value parseJSONFile(const std::string &Filename);
 
+namespace ScillaTypes {
+class Typ;
+} // namespace ScillaTypes
+
 // A state server implementation with no persistence.
 class MemStateServer {
   std::unordered_map<std::string, boost::any> ContractState;
@@ -53,9 +57,12 @@ public:
                         const boost::any &Value);
 
   // Re-initialize the state from the provided state JSON.
-  // Requires the contract info JSON for knowing field types.
+  // Requires contract info JSON (CIJ) for field names
+  // (during deployment the state JSON is empty and cannot help).
+  // Requires the type descriptors table to parse types.
   // Returns "_balance" as a string.
-  std::string initFromJSON(const Json::Value &SJ, const Json::Value &CIJ);
+  std::string initFromJSON(const Json::Value &SJ, const Json::Value &CIJ,
+                           std::pair<const ScillaTypes::Typ **, int> TyDescrs);
   // Print the full state into a JSON.
   Json::Value dumpToJSON();
 };
