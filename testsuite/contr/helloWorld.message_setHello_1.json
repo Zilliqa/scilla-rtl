@@ -1,12 +1,13 @@
 {
-    "_tag" : "setHello",
     "_amount": "0",
-    "_sender" : "0x1234567890123456789012345678901234567890",
-    "params" : [
+    "_origin": "0x1234567890123456789012345678901234567890",
+    "_sender": "0x1234567890123456789012345678901234567890",
+    "_tag": "setHello",
+    "params": [
         {
-            "vname" : "msg",
-            "type" : "String",
-            "value" : "Hello world"
-        }            
+            "type": "String",
+            "value": "Hello world",
+            "vname": "msg"
+        }
     ]
 }

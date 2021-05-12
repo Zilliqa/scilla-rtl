@@ -1,12 +1,13 @@
 {
-    "_tag" : "setRegistrar",
     "_amount": "0",
-    "_sender" : "0xaafeccdc9012345678901234567890f777567895",
-    "params" : [
+    "_origin": "0xaafeccdc9012345678901234567890f777567895",
+    "_sender": "0xaafeccdc9012345678901234567890f777567895",
+    "_tag": "setRegistrar",
+    "params": [
         {
-            "vname" : "address",
-            "type" : "ByStr20",
-            "value" : "0x1234567890123456789012345678901234567890"
+            "type": "ByStr20",
+            "value": "0x1234567890123456789012345678901234567890",
+            "vname": "address"
         }
     ]
 }

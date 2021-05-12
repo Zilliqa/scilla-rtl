@@ -1,22 +1,22 @@
 {
-    "_tag" : "setAdmin",
     "_amount": "0",
-    "_sender" : "0xaafeccdc9012345678901234567890f777567895",
-    "params" : [
+    "_origin": "0xaafeccdc9012345678901234567890f777567895",
+    "_sender": "0xaafeccdc9012345678901234567890f777567895",
+    "_tag": "setAdmin",
+    "params": [
         {
-            "vname" : "address",
-            "type" : "ByStr20",
-            "value" : "0xfefeccdc9012345678901234567890f777567895"
+            "type": "ByStr20",
+            "value": "0xfefeccdc9012345678901234567890f777567895",
+            "vname": "address"
         },
         {
-            "vname" : "isApproved",
-            "type" : "Bool",
-            "value" : {
-                "constructor" : "True",
-                "argtypes" : [],
-                "arguments" : []
-            }
+            "type": "Bool",
+            "value": {
+                "argtypes": [],
+                "arguments": [],
+                "constructor": "True"
+            },
+            "vname": "isApproved"
         }
-
     ]
 }

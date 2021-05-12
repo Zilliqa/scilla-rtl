@@ -1,23 +1,29 @@
 {
-    "_tag" : "t1",
     "_amount": "0",
-    "_sender" : "0xaafeccdc9012345678901234567890f777567895",
-    "params" : [
+    "_origin": "0xaafeccdc9012345678901234567890f777567895",
+    "_sender": "0xaafeccdc9012345678901234567890f777567895",
+    "_tag": "t1",
+    "params": [
         {
-            "vname" : "p",
-            "type" : "Pair (List Int32) Int32",
-            "value" : {
-                "constructor" : "Pair",
-                "argtypes" : ["List Int32", "Int32"],
-                "arguments" : [
+            "type": "Pair (List Int32) Int32",
+            "value": {
+                "argtypes": [
+                    "List Int32",
+                    "Int32"
+                ],
+                "arguments": [
                     {
-                        "constructor" : "Nil",
-                        "argtypes" : ["Int32"],
-                        "arguments" : []
+                        "argtypes": [
+                            "Int32"
+                        ],
+                        "arguments": [],
+                        "constructor": "Nil"
                     },
                     "122"
-                ]
-            }
+                ],
+                "constructor": "Pair"
+            },
+            "vname": "p"
         }
     ]
 }
