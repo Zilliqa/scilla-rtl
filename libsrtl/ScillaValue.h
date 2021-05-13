@@ -31,6 +31,11 @@ class ObjManager;
 
 namespace ScillaValues {
 
+// Convert raw bytes to a "0x" hex-string.
+std::string rawToHex(const uint8_t *Data, int Len);
+// Convert hex string to binary, allocate memory if @Bin is nullptr.
+uint8_t *hex2Raw(ObjManager &OM, uint8_t *Bin, int BinLen,
+                 const std::string &Hex, int &NBytes);
 // Reverse the byte order in a byte string, in-place.
 void swapEndian(uint8_t *Buf, int Len);
 // Is this a valid Scilla String literal. Certain chars aren't allowed.

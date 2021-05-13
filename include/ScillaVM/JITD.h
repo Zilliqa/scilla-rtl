@@ -77,15 +77,22 @@ struct ScillaParams {
 
   using FetchState_Type = std::function<bool(const StateQuery &Query,
                                              boost::any &RetVal, bool &Found)>;
+  using FetchRemoteState_Type =
+      std::function<bool(const std::string &Addr, const StateQuery &Query,
+                         boost::any &RetVal, bool &Found, std::string &Type)>;
   using UpdateState_Type =
       std::function<bool(const StateQuery &Query, const boost::any &Val)>;
 
   FetchState_Type fetchStateValue;
+  FetchRemoteState_Type fetchRemoteStateValue;
   UpdateState_Type updateStateValue;
 
-  ScillaParams() : fetchStateValue(nullptr), updateStateValue(nullptr){};
-  ScillaParams(FetchState_Type FS, UpdateState_Type US)
-      : fetchStateValue(FS), updateStateValue(US){};
+  ScillaParams()
+      : fetchStateValue(nullptr), fetchRemoteStateValue(nullptr),
+        updateStateValue(nullptr){};
+  ScillaParams(FetchState_Type FS, FetchRemoteState_Type FRS,
+               UpdateState_Type US)
+      : fetchStateValue(FS), fetchRemoteStateValue(FRS), updateStateValue(US){};
 };
 
 // Each ScillaJIT object compiles an LLVM-IR module and provides access

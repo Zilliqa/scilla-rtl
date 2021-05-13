@@ -82,6 +82,13 @@ void *_fetch_field(ScillaVM::ScillaJIT *SJ, const char *Name,
                    const ScillaVM::ScillaTypes::Typ *T, int32_t NumIdx,
                    const uint8_t *Indices, int32_t FetchVal);
 
+// Same as _fetch_field, but with an address parameter.
+void *
+_fetch_remote_field(ScillaVM::ScillaJIT *SJ,
+                    const uint8_t Addr[ScillaVM::ScillaTypes::AddrByStr_Len],
+                    const char *Name, const ScillaVM::ScillaTypes::Typ *T,
+                    int32_t NumIdx, const uint8_t *Indices, int32_t FetchVal);
+
 // Update field @Name whose type is @T with value @Val. If Val is nullptr,
 // then this is a map update and the keys must be deleted.
 void _update_field(ScillaVM::ScillaJIT *SJ, const char *Name,

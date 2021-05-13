@@ -248,6 +248,64 @@ uint8_t *wrapMapAccessResult(ObjManager &OM, bool Found,
   }
 }
 
+void *fetchFieldHelper(ScillaJIT *SJ, const std::string &Addr, const char *Name,
+                       const ScillaTypes::Typ *T, int32_t NumIdx,
+                       const uint8_t *Indices, int32_t FetchVal) {
+  std::vector<const ScillaTypes::Typ *> KeyTypes;
+  std::vector<std::string> SerializedIndices;
+
+  ScillaTypes::Typ::getMapKeyTypes(T, KeyTypes);
+  ASSERT((int)KeyTypes.size() >= NumIdx);
+  // If the number of indices provided is fewer than max possible,
+  // then the result of this access is a map value.
+  unsigned MapValueAccess = NumIdx < (int)KeyTypes.size();
+  prepareStateAccessIndices(KeyTypes, NumIdx, Indices, SerializedIndices);
+
+  ScillaParams::StateQuery SQ = {std::string(Name), (int)KeyTypes.size(),
+                                 SerializedIndices, !FetchVal};
+
+  boost::any StringOrMapVal;
+  bool Found = false;
+  ASSERT_MSG(SJ->SPs.fetchStateValue && SJ->SPs.fetchRemoteStateValue,
+             "Incorrect ScillaParams provided to ScillaJIT");
+  bool Succ;
+  if (Addr.empty()) {
+    Succ = SJ->SPs.fetchStateValue(SQ, StringOrMapVal, Found);
+  } else {
+    std::string Type;
+    Succ = SJ->SPs.fetchRemoteStateValue(Addr, SQ, StringOrMapVal, Found, Type);
+  }
+  if (!Succ) {
+    CREATE_ERROR("State fetch query failed for " + Addr + "." + SQ.Name);
+  }
+
+  if (SerializedIndices.empty()) {
+    // Full access of state variable. No indexing.
+    ASSERT_MSG(FetchVal, "Fetching full state variable, but FetchVal not set");
+    if (MapValueAccess) {
+      ASSERT(ScillaTypes::Typ::mapAccessType(T, NumIdx)->m_t ==
+             ScillaTypes::Typ::Map_typ);
+      auto &MapVal = boost::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
+      return reinterpret_cast<void *>(
+          SJ->OM->create<ScillaParams::MapValueT>(std::move(MapVal)));
+    } else {
+      auto Val = boost::any_cast<std::string>(StringOrMapVal);
+      Json::Value ValJ = parseJSONString(Val);
+      return ScillaValues::fromJSON(*(SJ->OM), T, ValJ);
+    }
+  }
+
+  // Map access. Returned value must be wrapped with Option / Bool.
+  auto ValT = ScillaTypes::Typ::mapAccessType(T, NumIdx);
+  if (FetchVal) {
+    return wrapMapAccessResult(*(SJ->OM), Found, StringOrMapVal, ValT);
+  } else {
+    // We need to construct a Scilla Bool ADT based on "found".
+    auto Mem = toScillaBool(*(SJ->OM), Found);
+    return Mem;
+  }
+}
+
 template <unsigned X>
 void *uintToByStrX(ScillaJIT *SJ, ScillaTypes::RawInt<X> I) {
   auto Len = sizeof(ScillaTypes::RawInt<X>);
@@ -378,52 +436,20 @@ uint8_t *_eq_Uint256(ScillaJIT *SJ, ScillaTypes::Uint256 *Lhs,
 
 void *_fetch_field(ScillaJIT *SJ, const char *Name, const ScillaTypes::Typ *T,
                    int32_t NumIdx, const uint8_t *Indices, int32_t FetchVal) {
-  std::vector<const ScillaTypes::Typ *> KeyTypes;
-  std::vector<std::string> SerializedIndices;
 
-  ScillaTypes::Typ::getMapKeyTypes(T, KeyTypes);
-  ASSERT((int)KeyTypes.size() >= NumIdx);
-  // If the number of indices provided is fewer than max possible,
-  // then the result of this access is a map value.
-  unsigned MapValueAccess = NumIdx < (int)KeyTypes.size();
-  prepareStateAccessIndices(KeyTypes, NumIdx, Indices, SerializedIndices);
+  return fetchFieldHelper(SJ, std::string(), Name, T, NumIdx, Indices,
+                          FetchVal);
+}
 
-  ScillaParams::StateQuery SQ = {std::string(Name), (int)KeyTypes.size(),
-                                 SerializedIndices, !FetchVal};
+void *_fetch_remote_field(ScillaJIT *SJ,
+                          const uint8_t AddrBytes[ScillaTypes::AddrByStr_Len],
+                          const char *Name, const ScillaTypes::Typ *T,
+                          int32_t NumIdx, const uint8_t *Indices,
+                          int32_t FetchVal) {
 
-  boost::any StringOrMapVal;
-  bool Found = false;
-  ASSERT_MSG(SJ->SPs.fetchStateValue,
-             "Incorrect ScillaParams provided to ScillaJIT");
-  if (!SJ->SPs.fetchStateValue(SQ, StringOrMapVal, Found)) {
-    CREATE_ERROR("State fetch query failed for " + SQ.Name);
-  }
-
-  if (SerializedIndices.empty()) {
-    // Full access of state variable. No indexing.
-    ASSERT_MSG(FetchVal, "Fetching full state variable, but FetchVal not set");
-    if (MapValueAccess) {
-      ASSERT(ScillaTypes::Typ::mapAccessType(T, NumIdx)->m_t ==
-             ScillaTypes::Typ::Map_typ);
-      auto &MapVal = boost::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
-      return reinterpret_cast<void *>(
-          SJ->OM->create<ScillaParams::MapValueT>(std::move(MapVal)));
-    } else {
-      auto Val = boost::any_cast<std::string>(StringOrMapVal);
-      Json::Value ValJ = parseJSONString(Val);
-      return ScillaValues::fromJSON(*(SJ->OM), T, ValJ);
-    }
-  }
-
-  // Map access. Returned value must be wrapped with Option / Bool.
-  auto ValT = ScillaTypes::Typ::mapAccessType(T, NumIdx);
-  if (FetchVal) {
-    return wrapMapAccessResult(*(SJ->OM), Found, StringOrMapVal, ValT);
-  } else {
-    // We need to construct a Scilla Bool ADT based on "found".
-    auto Mem = toScillaBool(*(SJ->OM), Found);
-    return Mem;
-  }
+  std::string Addr =
+      ScillaValues::rawToHex(AddrBytes, ScillaTypes::AddrByStr_Len);
+  return fetchFieldHelper(SJ, Addr, Name, T, NumIdx, Indices, FetchVal);
 }
 
 void _update_field(ScillaVM::ScillaJIT *SJ, const char *Name,

@@ -30,7 +30,13 @@ do
         else
             cat "$input_f" > "$llfile"
             cat "$input_debug_f" > ${testsuite_dir}/contr/"${llfile_base}.dbg.ll"
-            scilla-checker -gaslimit 10000 -libdir "${scilla_compiler_root}"/src/stdlib -contractinfo "$input_source_f" > "${testsuite_dir}/contr/${llfile_base}.contrinfo.json"
+            # If the test has an init JSON, use that to generate the LLVM-IR.
+            if [[ -r ${scilla_compiler_root}/tests/codegen/contr/${llfile_base}.json ]]
+            then
+                scilla-checker -gaslimit 10000 -libdir "${scilla_compiler_root}"/src/stdlib -contractinfo "$input_source_f" -init "${scilla_compiler_root}/tests/codegen/contr/${llfile_base}.json" > "${testsuite_dir}/contr/${llfile_base}.contrinfo.json"
+            else
+                scilla-checker -gaslimit 10000 -libdir "${scilla_compiler_root}"/src/stdlib -contractinfo "$input_source_f" > "${testsuite_dir}/contr/${llfile_base}.contrinfo.json"
+            fi
         fi
     fi
 done
