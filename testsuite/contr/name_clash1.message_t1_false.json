@@ -1,16 +1,17 @@
 {
-    "_tag" : "t1",
     "_amount": "0",
-    "_sender" : "0xaafeccdc9012345678901234567890f777567895",
-    "params" : [
+    "_origin": "0xaafeccdc9012345678901234567890f777567895",
+    "_sender": "0xaafeccdc9012345678901234567890f777567895",
+    "_tag": "t1",
+    "params": [
         {
-            "vname" : "c",
-            "type" : "Bool",
-            "value" : {
-                "constructor" : "False",
-                "argtypes" : [],
-                "arguments" : []
-            }
+            "type": "Bool",
+            "value": {
+                "argtypes": [],
+                "arguments": [],
+                "constructor": "False"
+            },
+            "vname": "c"
         }
     ]
 }

@@ -56,9 +56,12 @@ void testMessageHelper(const std::string &ContrFilename,
   namespace ph = std::placeholders;
   ScillaParams::FetchState_Type fetchStateValue = std::bind(
       &MemStateServer::fetchStateValue, &State, ph::_1, ph::_2, ph::_3);
+  ScillaParams::FetchRemoteState_Type fetchRemoteStateValue =
+      std::bind(&MemStateServer::fetchRemoteStateValue, &State, ph::_1, ph::_2,
+                ph::_3, ph::_4, ph::_5);
   ScillaParams::UpdateState_Type updateStateValue =
       std::bind(&MemStateServer::updateStateValue, &State, ph::_1, ph::_2);
-  ScillaParams SP(fetchStateValue, updateStateValue);
+  ScillaParams SP(fetchStateValue, fetchRemoteStateValue, updateStateValue);
 
   std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
 
@@ -92,8 +95,12 @@ void testMessageHelper(const std::string &ContrFilename,
 
   try {
     // Update our in-memory state table with the one from the JSONs.
-    Balance =
-        State.initFromJSON(StateJSON, ContrInfoJSON, JE->getTypeDescrTable());
+    if (isStateInit) {
+      State.initFieldTypes(InitJSON, ContrInfoJSON);
+    } else {
+      Balance = State.initState(InitJSON, StateJSON, JE->getTypeDescrTable());
+    }
+
     Json::Value OJ;
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
@@ -182,9 +189,12 @@ void testMessageFail(const std::string &ContrFilename,
   namespace ph = std::placeholders;
   ScillaParams::FetchState_Type fetchStateValue = std::bind(
       &MemStateServer::fetchStateValue, &State, ph::_1, ph::_2, ph::_3);
+  ScillaParams::FetchRemoteState_Type fetchRemoteStateValue =
+      std::bind(&MemStateServer::fetchRemoteStateValue, &State, ph::_1, ph::_2,
+                ph::_3, ph::_4, ph::_5);
   ScillaParams::UpdateState_Type updateStateValue =
       std::bind(&MemStateServer::updateStateValue, &State, ph::_1, ph::_2);
-  ScillaParams SP(fetchStateValue, updateStateValue);
+  ScillaParams SP(fetchStateValue, fetchRemoteStateValue, updateStateValue);
 
   std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
 
@@ -214,8 +224,7 @@ void testMessageFail(const std::string &ContrFilename,
   bool CaughtException = false;
   try {
     // Update our in-memory state table with the one from the JSONs.
-    Balance =
-        State.initFromJSON(StateJSON, ContrInfoJSON, JE->getTypeDescrTable());
+    Balance = State.initState(InitJSON, StateJSON, JE->getTypeDescrTable());
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
       JE->execMsg(Balance, Config::GasLimit, MessageJSON);
@@ -368,25 +377,25 @@ BOOST_AUTO_TEST_SUITE_END() // helloWorld
 BOOST_AUTO_TEST_SUITE(accept)
 
 BOOST_AUTO_TEST_CASE(state_00_message_Accept1) {
-  testMessage("accept.ll", "accept.message_Accept1.json", "accept.init.json",
+  testMessage("accept.ll", "accept.message_Accept1.json", "empty_init.json",
               "accept.contrinfo.json", "accept.state_00.json",
               "accept.state_01.json", "accept.output_Accept1.json");
 }
 BOOST_AUTO_TEST_CASE(state_00_message_Accept2) {
-  testMessage("accept.ll", "accept.message_Accept2.json", "accept.init.json",
+  testMessage("accept.ll", "accept.message_Accept2.json", "empty_init.json",
               "accept.contrinfo.json", "accept.state_00.json",
               "accept.state_00.json", "accept.output_Accept2.json");
 }
 BOOST_AUTO_TEST_CASE(state_00_message_Accept3_succ) {
-  testMessage("accept.ll", "accept.message_Accept3.json", "accept.init.json",
+  testMessage("accept.ll", "accept.message_Accept3.json", "empty_init.json",
               "accept.contrinfo.json", "accept.state_01.json",
               "accept.state_00.json", "accept.output_Accept3_succ.json");
 }
 
 BOOST_AUTO_TEST_CASE(state_00_message_Accept3_fail) {
-  testMessageFail("accept.ll", "accept.message_Accept3.json",
-                  "accept.init.json", "accept.contrinfo.json",
-                  "accept.state_00.json", "accept.output_Accept3_fail.txt");
+  testMessageFail("accept.ll", "accept.message_Accept3.json", "empty_init.json",
+                  "accept.contrinfo.json", "accept.state_00.json",
+                  "accept.output_Accept3_fail.txt");
 }
 
 BOOST_AUTO_TEST_SUITE_END() // accept
@@ -535,6 +544,25 @@ BOOST_AUTO_TEST_CASE(map_corners_test_exec) {
   }
 }
 
-BOOST_AUTO_TEST_SUITE_END() // map_corners_test
+BOOST_AUTO_TEST_SUITE_END() // remote_state_reads
+
+BOOST_AUTO_TEST_SUITE(remote_state_reads)
+
+BOOST_AUTO_TEST_CASE(remote_state_reads_init) {
+  testMessage("remote_state_reads.ll", "", "remote_state_reads.init.json",
+              "remote_state_reads.contrinfo.json", "",
+              "remote_state_reads.ostate_00.json",
+              "remote_state_reads.init_output.json");
+}
+
+BOOST_AUTO_TEST_CASE(remote_state_reads_1) {
+  testMessage(
+      "remote_state_reads.ll", "remote_state_reads.message_1.json",
+      "remote_state_reads.init.json", "remote_state_reads.contrinfo.json",
+      "remote_state_reads.state_1.json", "remote_state_reads.ostate_01.json",
+      "remote_state_reads.output_1.json");
+}
+
+BOOST_AUTO_TEST_SUITE_END() // remote_state_reads
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

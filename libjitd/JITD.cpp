@@ -403,10 +403,11 @@ Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
                                Json::Value &Msg) {
   Json::Value TransNameJ = Msg.get("_tag", Json::nullValue);
   Json::Value ParamsJ = Msg.get("params", Json::nullValue);
+  Json::Value OriginJ = Msg.get("_origin", Json::nullValue);
   Json::Value SenderJ = Msg.get("_sender", Json::nullValue);
   Json::Value AmountJ = Msg.get("_amount", Json::nullValue);
   if (!TransNameJ.isString() || !ParamsJ.isArray() || !SenderJ.isString() ||
-      !AmountJ.isString())
+      !OriginJ.isString() || !AmountJ.isString())
     CREATE_ERROR("Invalid Message");
 
   auto GasRemPtr = initGasAndLibs(GasLimit);
@@ -422,6 +423,12 @@ Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
     AmountParam["type"] = "Uint128";
     AmountParam["value"] = AmountJ;
   }
+  Json::Value OriginParam;
+  {
+    OriginParam["vname"] = "_origin";
+    OriginParam["type"] = "ByStr20";
+    OriginParam["value"] = OriginJ;
+  }
   Json::Value SenderParam;
   {
     SenderParam["vname"] = "_sender";
@@ -430,6 +437,7 @@ Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
   }
   std::vector<Json::Value> AllParamsJ;
   AllParamsJ.push_back(AmountParam);
+  AllParamsJ.push_back(OriginParam);
   AllParamsJ.push_back(SenderParam);
   AllParamsJ.insert(AllParamsJ.end(), ParamsJ.begin(), ParamsJ.end());
 

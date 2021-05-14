@@ -1,22 +1,23 @@
 {
-    "_tag" : "bestow",
     "_amount": "0",
-    "_sender" : "0xaafeccdc9012345678901234567890f777567895",
-    "params" : [
+    "_origin": "0xaafeccdc9012345678901234567890f777567895",
+    "_sender": "0xaafeccdc9012345678901234567890f777567895",
+    "_tag": "bestow",
+    "params": [
         {
-            "vname" : "label",
-            "type" : "String",
-            "value" : "www.zilliqa.zil"
+            "type": "String",
+            "value": "www.zilliqa.zil",
+            "vname": "label"
         },
         {
-            "vname" : "owner",
-            "type" : "ByStr20",
-            "value" : "0x0011ccdc9012345678901234567890f777567895"
+            "type": "ByStr20",
+            "value": "0x0011ccdc9012345678901234567890f777567895",
+            "vname": "owner"
         },
         {
-            "vname" : "resolver",
-            "type" : "ByStr20",
-            "value" : "0x1100ccdc9012345678901234567890f777567895"
+            "type": "ByStr20",
+            "value": "0x1100ccdc9012345678901234567890f777567895",
+            "vname": "resolver"
         }
     ]
 }

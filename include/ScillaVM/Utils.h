@@ -44,25 +44,44 @@ class Typ;
 
 // A state server implementation with no persistence.
 class MemStateServer {
-  std::unordered_map<std::string, boost::any> ContractState;
+  std::unordered_map<std::string, std::unordered_map<std::string, boost::any>>
+      BCState;
   // We store the type (when initialized from JSON) for later printing to JSON.
-  std::unordered_map<std::string, std::string> FieldTypes;
+  std::unordered_map<std::string, std::unordered_map<std::string, std::string>>
+      FieldTypes;
+  std::string ThisAddress;
+
+  // Update (part of) the state. Returns false on error.
+  bool updateRemoteStateValue(const std::string &Addr,
+                              const ScillaParams::StateQuery &Query,
+                              const boost::any &Value);
 
 public:
-  // Fetch (part of) state variable. Returns false on error.
+  // Fetch (part of) state variable for ThisAddress. Returns false on error.
   bool fetchStateValue(const ScillaParams::StateQuery &Query,
                        boost::any &RetVal, bool &Found);
-  // Update (part of) the state. Returns false on error.
+  // Fetch (part of) state variable. Returns false on error.
+  bool fetchRemoteStateValue(const std::string &Addr,
+                             const ScillaParams::StateQuery &Query,
+                             boost::any &RetVal, bool &Found,
+                             std::string &Type);
+  // Update (part of) the state for ThisAddress. Returns false on error.
   bool updateStateValue(const ScillaParams::StateQuery &Query,
                         const boost::any &Value);
 
-  // Re-initialize the state from the provided state JSON.
-  // Requires contract info JSON (CIJ) for field names
-  // (during deployment the state JSON is empty and cannot help).
+  // (Re)initialize the state from the provided state JSON.
   // Requires the type descriptors table to parse types.
+  // Requires init JSON for noting down _this_address.
   // Returns "_balance" as a string.
-  std::string initFromJSON(const Json::Value &SJ, const Json::Value &CIJ,
-                           std::pair<const ScillaTypes::Typ **, int> TyDescrs);
+  std::string
+  initState(const Json::Value &InitJ, const Json::Value &StateJ,
+            const std::pair<const ScillaTypes::Typ **, int> &TyDescrs);
+
+  // Initialize the server with only field types and no values.
+  // The contract-info JSON is parsed to get the field types.
+  // Requires init JSON for noting down _this_address.
+  void initFieldTypes(const Json::Value &InitJ, const Json::Value &CIJ);
+
   // Print the full state into a JSON.
   Json::Value dumpToJSON();
 };

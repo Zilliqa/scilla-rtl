@@ -107,9 +107,12 @@ int main(int argc, char *argv[]) {
   namespace ph = std::placeholders;
   ScillaParams::FetchState_Type fetchStateValue = std::bind(
       &MemStateServer::fetchStateValue, &State, ph::_1, ph::_2, ph::_3);
+  ScillaParams::FetchRemoteState_Type fetchRemoteStateValue =
+      std::bind(&MemStateServer::fetchRemoteStateValue, &State, ph::_1, ph::_2,
+                ph::_3, ph::_4, ph::_5);
   ScillaParams::UpdateState_Type updateStateValue =
       std::bind(&MemStateServer::updateStateValue, &State, ph::_1, ph::_2);
-  ScillaParams SP(fetchStateValue, updateStateValue);
+  ScillaParams SP(fetchStateValue, fetchRemoteStateValue, updateStateValue);
 
   ScillaJIT::init();
 
@@ -133,12 +136,12 @@ int main(int argc, char *argv[]) {
       auto MJ = parseJSONFile(MessageFilename);
       auto SJ = parseJSONFile(StateFilename);
       // Update our in-memory state table with the one from the JSONs.
-      auto Balance = State.initFromJSON(SJ, CIJ, JE->getTypeDescrTable());
+      auto Balance = State.initState(IJ, SJ, JE->getTypeDescrTable());
       // Execute message
       OutJ = JE->execMsg(Balance, GasLimit, MJ);
     } else {
       // Deployment
-      State.initFromJSON(Json::arrayValue, CIJ, JE->getTypeDescrTable());
+      State.initFieldTypes(IJ, CIJ);
       OutJ = JE->initState(GasLimit);
     }
 

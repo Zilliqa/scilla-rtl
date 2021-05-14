@@ -26,9 +26,11 @@
 namespace ScillaVM {
 
 namespace {
-
 constexpr char Hexmap[] = {'0', '1', '2', '3', '4', '5', '6', '7',
                            '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+} // namespace
+
+namespace ScillaValues {
 
 // Adapted from https://codereview.stackexchange.com/a/78539.
 std::string rawToHex(const uint8_t *Data, int Len) {
@@ -41,7 +43,6 @@ std::string rawToHex(const uint8_t *Data, int Len) {
   return S;
 }
 
-// Convert hex string to binary, allocate memory if @Bin is nullptr.
 uint8_t *hex2Raw(ObjManager &OM, uint8_t *Bin, int BinLen,
                  const std::string &Hex, int &NBytes) {
   int HStart = 0, HLen = Hex.length();
@@ -100,10 +101,6 @@ uint8_t *hex2Raw(ObjManager &OM, uint8_t *Bin, int BinLen,
 
   return Bin;
 }
-
-} // namespace
-
-namespace ScillaValues {
 
 // Little-endian <-> Big-endian
 void swapEndian(uint8_t *Buf, int Len) {
