@@ -48,6 +48,7 @@ std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void) {
     {"_add_Uint128", (void *) _add_Uint128},
     {"_add_Uint256", (void *) _add_Uint256},
     {"_fetch_field", (void *) _fetch_field},
+    {"_fetch_remote_field", (void *) _fetch_remote_field},
     {"_update_field", (void *) _update_field},
     {"_to_nat", (void *) _to_nat},
     {"_send", (void *) _send},

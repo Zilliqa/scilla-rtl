@@ -544,6 +544,25 @@ BOOST_AUTO_TEST_CASE(map_corners_test_exec) {
   }
 }
 
-BOOST_AUTO_TEST_SUITE_END() // map_corners_test
+BOOST_AUTO_TEST_SUITE_END() // remote_state_reads
+
+BOOST_AUTO_TEST_SUITE(remote_state_reads)
+
+BOOST_AUTO_TEST_CASE(remote_state_reads_init) {
+  testMessage("remote_state_reads.ll", "", "remote_state_reads.init.json",
+              "remote_state_reads.contrinfo.json", "",
+              "remote_state_reads.ostate_00.json",
+              "remote_state_reads.init_output.json");
+}
+
+BOOST_AUTO_TEST_CASE(remote_state_reads_1) {
+  testMessage(
+      "remote_state_reads.ll", "remote_state_reads.message_1.json",
+      "remote_state_reads.init.json", "remote_state_reads.contrinfo.json",
+      "remote_state_reads.state_1.json", "remote_state_reads.ostate_01.json",
+      "remote_state_reads.output_1.json");
+}
+
+BOOST_AUTO_TEST_SUITE_END() // remote_state_reads
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

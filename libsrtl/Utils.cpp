@@ -246,70 +246,89 @@ std::string MemStateServer::initState(
   }
   ThisAddress = TAOpt->asString();
 
-  auto recurser = [this, &TPPC, TyDescrs](const std::string &Addr,
-                                          const Json::Value &StateJ) {
-    std::string Balance = "0";
-    if (!StateJ.isArray()) {
-      CREATE_ERROR("Expected state JSON to be array");
-    }
-    for (auto &VJ : StateJ) {
-      Json::Value VNameJ, VTypJ, VValJ;
-      if (!VJ.isObject() ||
-          (VNameJ = VJ.get("vname", Json::nullValue)) == Json::nullValue ||
-          (VTypJ = VJ.get("type", Json::nullValue)) == Json::nullValue ||
-          (VValJ = VJ.get("value", Json::nullValue)) == Json::nullValue ||
-          !VNameJ.isString() || !VTypJ.isString()) {
-        CREATE_ERROR("Invalid state JSON variable");
-      }
-      std::string VName = VNameJ.asString();
-
-      if (VName == "_balance") {
-        Balance = VValJ.asString();
-        continue;
-      }
-
-      auto Type = ScillaTypes::Typ::fromString(
-          &TPPC, TyDescrs.first, TyDescrs.second, VTypJ.asString());
-      ASSERT_MSG(Type, "Couldn't parse type " + VTypJ.asString());
-      auto Depth = ScillaTypes::Typ::getMapDepth(Type);
-
-      boost::any V;
-      std::function<void(int, boost::any &, const Json::Value &)> jsonToSV =
-          [&jsonToSV, &VName](int Depth, boost::any &SV,
-                              const Json::Value &JSONV) -> void {
-        if (Depth == 0) {
-          SV = JSONV.toStyledString();
-          return;
+  std::function<std::string(const std::string &, const Json::Value &)>
+      recurser = [&recurser, this, &TPPC, TyDescrs](const std::string &Addr,
+                                                    const Json::Value &StateJ) {
+        std::string Balance = "0";
+        if (!StateJ.isArray()) {
+          CREATE_ERROR("Expected state JSON to be array");
         }
-        if (!JSONV.isArray()) {
-          CREATE_ERROR("At depth " + std::to_string(Depth) + " expected " +
-                       VName + " to be JSON array");
-        }
-
-        // If SV doesn't hold a value yet, create one.
-        if (SV.empty())
-          SV = ScillaParams::MapValueT();
-
-        ASSERT(boost::has_type<ScillaParams::MapValueT>(SV));
-        auto &MapV = boost::any_cast<ScillaParams::MapValueT &>(SV);
-        for (auto &Entry : JSONV) {
-          if (!Entry.isObject() || !Entry.isMember("key") ||
-              !Entry.isMember("val")) {
-            CREATE_ERROR(VName + " has malformed map structure");
+        for (auto &VJ : StateJ) {
+          Json::Value VNameJ, VTypJ, VValJ;
+          if (!VJ.isObject() ||
+              (VNameJ = VJ.get("vname", Json::nullValue)) == Json::nullValue ||
+              (VTypJ = VJ.get("type", Json::nullValue)) == Json::nullValue ||
+              (VValJ = VJ.get("value", Json::nullValue)) == Json::nullValue ||
+              !VNameJ.isString() || !VTypJ.isString()) {
+            CREATE_ERROR("Invalid state JSON variable");
           }
-          auto &SubV = MapV[Entry["key"].toStyledString()];
-          jsonToSV(Depth - 1, SubV, Entry["val"]);
-        }
-      };
-      jsonToSV(Depth, V, VValJ);
+          std::string VName = VNameJ.asString();
 
-      ScillaParams::StateQuery Query = {VName, Depth,
-                                        std::vector<std::string>(), false};
-      updateStateValue(Query, V);
-      FieldTypes[Addr][VName] = VTypJ.asString();
-    }
-    return Balance;
-  };
+          if (VName == "_balance") {
+            Balance = VValJ.asString();
+          }
+
+          if (VName == "_external") {
+            if (!VValJ.isArray()) {
+              CREATE_ERROR("External fields must be an array");
+            }
+            for (const auto &ES : VValJ) {
+              Json::Value AddrJ, StateJ;
+              if (!ES.isObject() ||
+                  (AddrJ = ES.get("address", Json::nullValue)) ==
+                      Json::nullValue ||
+                  (StateJ = ES.get("state", Json::nullValue)) ==
+                      Json::nullValue ||
+                  !AddrJ.isString() || !StateJ.isArray()) {
+                CREATE_ERROR("External contract data malformed.");
+              }
+              recurser(AddrJ.asString(), StateJ);
+            }
+            continue;
+          }
+
+          auto Type = ScillaTypes::Typ::fromString(
+              &TPPC, TyDescrs.first, TyDescrs.second, VTypJ.asString());
+          ASSERT_MSG(Type, "Couldn't parse type " + VTypJ.asString());
+          auto Depth = ScillaTypes::Typ::getMapDepth(Type);
+
+          boost::any V;
+          std::function<void(int, boost::any &, const Json::Value &)> jsonToSV =
+              [&jsonToSV, &VName](int Depth, boost::any &SV,
+                                  const Json::Value &JSONV) -> void {
+            if (Depth == 0) {
+              SV = JSONV.toStyledString();
+              return;
+            }
+            if (!JSONV.isArray()) {
+              CREATE_ERROR("At depth " + std::to_string(Depth) + " expected " +
+                           VName + " to be JSON array");
+            }
+
+            // If SV doesn't hold a value yet, create one.
+            if (SV.empty())
+              SV = ScillaParams::MapValueT();
+
+            ASSERT(boost::has_type<ScillaParams::MapValueT>(SV));
+            auto &MapV = boost::any_cast<ScillaParams::MapValueT &>(SV);
+            for (auto &Entry : JSONV) {
+              if (!Entry.isObject() || !Entry.isMember("key") ||
+                  !Entry.isMember("val")) {
+                CREATE_ERROR(VName + " has malformed map structure");
+              }
+              auto &SubV = MapV[Entry["key"].toStyledString()];
+              jsonToSV(Depth - 1, SubV, Entry["val"]);
+            }
+          };
+          jsonToSV(Depth, V, VValJ);
+
+          ScillaParams::StateQuery Query = {VName, Depth,
+                                            std::vector<std::string>(), false};
+          updateRemoteStateValue(Addr, Query, V);
+          FieldTypes[Addr][VName] = VTypJ.asString();
+        }
+        return Balance;
+      };
 
   return recurser(ThisAddress, StateJ);
 
@@ -319,6 +338,10 @@ Json::Value MemStateServer::dumpToJSON() {
   Json::Value RetVal(Json::arrayValue);
   for (auto &Field : BCState[ThisAddress]) {
     auto FieldName = Field.first;
+
+    // Balance here may not be updated. It must be taken from Scilla output.
+    if (FieldName == "_balance")
+      continue;
 
     std::function<Json::Value(boost::any &)> svToJSON =
         [&svToJSON](boost::any &SV) -> Json::Value {
