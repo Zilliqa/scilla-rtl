@@ -65,6 +65,9 @@ target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_71" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
+%"$ParamDescr_806" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%ParamDescrString = type { i8*, i32 }
+%"$TransDescr_807" = type { %ParamDescrString, i32, %"$ParamDescr_806"* }
 %"$$fundef_69_env_106" = type { %Uint32 }
 %Uint32 = type { i32 }
 %"$$fundef_67_env_107" = type {}
@@ -114,6 +117,12 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Exception_97" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_71"* @"$TyDescr_Exception_Prim_96" to i8*) }
 @"$TyDescr_Bystr_Prim_98" = global %"$TyDescrTy_PrimTyp_71" { i32 7, i32 0 }
 @"$TyDescr_Bystr_99" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_71"* @"$TyDescr_Bystr_Prim_98" to i8*) }
+@_tydescr_table = constant [14 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_95", %_TyDescrTy_Typ* @"$TyDescr_Int64_77", %_TyDescrTy_Typ* @"$TyDescr_Uint256_87", %_TyDescrTy_Typ* @"$TyDescr_Uint32_75", %_TyDescrTy_Typ* @"$TyDescr_Uint64_79", %_TyDescrTy_Typ* @"$TyDescr_Bnum_91", %_TyDescrTy_Typ* @"$TyDescr_Uint128_83", %_TyDescrTy_Typ* @"$TyDescr_Exception_97", %_TyDescrTy_Typ* @"$TyDescr_String_89", %_TyDescrTy_Typ* @"$TyDescr_Int256_85", %_TyDescrTy_Typ* @"$TyDescr_Int128_81", %_TyDescrTy_Typ* @"$TyDescr_Bystr_99", %_TyDescrTy_Typ* @"$TyDescr_Message_93", %_TyDescrTy_Typ* @"$TyDescr_Int32_73"]
+@_tydescr_table_length = constant i32 14
+@_contract_parameters = constant [0 x %"$ParamDescr_806"] zeroinitializer
+@_contract_parameters_length = constant i32 0
+@_transition_parameters = constant [0 x %"$TransDescr_807"] zeroinitializer
+@_transition_parameters_length = constant i32 0
 
 define internal %Uint32 @"$fundef_69"(%"$$fundef_69_env_106"* %0, %Uint32 %1) !dbg !4 {
 entry:

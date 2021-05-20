@@ -26,6 +26,10 @@
 
 namespace ScillaVM {
 
+namespace ScillaTypes {
+struct Typ;
+}
+
 using ByteVec = std::vector<uint8_t>;
 
 // A global that accummulates messages printed from the JIT'ed code.
@@ -97,5 +101,11 @@ public:
   }
   ~ObjManager() { mFreeAll(); };
 };
+
+// Check that @Val is of type @Target. Asserts valueCompatible(Target, ParsedT).
+// @ParsedT is the type specified in the JSON from which @Val is parsed.
+// The dynamic typecheck itself is essentially ensuring that Addresses conform.
+bool dynamicTypecheck(const ScillaTypes::Typ *Target,
+                      const ScillaTypes::Typ *ParsedT, void *Val);
 
 } // namespace ScillaVM

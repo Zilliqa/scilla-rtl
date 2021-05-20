@@ -16,9 +16,23 @@
  */
 
 #include "ScillaVM/SRTL.h"
+#include "ScillaTypes.h"
+#include "ScillaVM/Errors.h"
 
 namespace ScillaVM {
 
 std::string ScillaStdout = "";
 
+bool dynamicTypecheck(const ScillaTypes::Typ *TargetT,
+                      const ScillaTypes::Typ *ParsedT, void *) {
+
+  if (!ScillaTypes::Typ::valueCompatible(ParsedT, TargetT)) {
+    CREATE_ERROR("Value of type " + ScillaTypes::Typ::toString(ParsedT) +
+                 " cannot be assigned to a value of type " +
+                 ScillaTypes::Typ::toString(TargetT));
+  }
+
+  return true;
 }
+
+} // namespace ScillaVM

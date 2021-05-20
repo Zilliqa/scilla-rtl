@@ -50,6 +50,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %TName_Nat = type { i8, %CName_Zero*, %CName_Succ* }
 %CName_Zero = type <{ i8 }>
 %CName_Succ = type <{ i8, %TName_Nat* }>
+%"$ParamDescr_1226" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%ParamDescrString = type { i8*, i32 }
+%"$TransDescr_1227" = type { %ParamDescrString, i32, %"$ParamDescr_1226"* }
 %"$$fundef_82_env_132" = type { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, { %TName_Nat* (i8*, %TName_Nat*)*, i8* })*, i8* }, { { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, { %TName_Nat* (i8*, %TName_Nat*)*, i8* })*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, { %TName_Nat* (i8*, %TName_Nat*)*, i8* })*, i8* })*, i8* }, { %TName_Nat* (i8*, %TName_Nat*)*, i8* } }
 %"$$fundef_80_env_133" = type { { %TName_Nat* (i8*, %TName_Nat*)*, i8* }, { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { %TName_Nat* (i8*, %TName_Nat*)*, i8* })*, i8* }, %TName_Nat* }
 %"$$fundef_78_env_134" = type { { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { %TName_Nat* (i8*, %TName_Nat*)*, i8* })*, i8* }, %TName_Nat* }
@@ -127,6 +130,12 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_ADT_Nat_131" = unnamed_addr constant [3 x i8] c"Nat"
 @nat_fold = global { i8*, i8* }* null
 @NatUtils.nat_to_int = global { %Uint32 (i8*, %TName_Nat*)*, i8* } zeroinitializer
+@_tydescr_table = constant [15 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_108", %_TyDescrTy_Typ* @"$TyDescr_Int64_90", %_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_116", %_TyDescrTy_Typ* @"$TyDescr_Uint256_100", %_TyDescrTy_Typ* @"$TyDescr_Uint32_88", %_TyDescrTy_Typ* @"$TyDescr_Uint64_92", %_TyDescrTy_Typ* @"$TyDescr_Bnum_104", %_TyDescrTy_Typ* @"$TyDescr_Uint128_96", %_TyDescrTy_Typ* @"$TyDescr_Exception_110", %_TyDescrTy_Typ* @"$TyDescr_String_102", %_TyDescrTy_Typ* @"$TyDescr_Int256_98", %_TyDescrTy_Typ* @"$TyDescr_Int128_94", %_TyDescrTy_Typ* @"$TyDescr_Bystr_112", %_TyDescrTy_Typ* @"$TyDescr_Message_106", %_TyDescrTy_Typ* @"$TyDescr_Int32_86"]
+@_tydescr_table_length = constant i32 15
+@_contract_parameters = constant [0 x %"$ParamDescr_1226"] zeroinitializer
+@_contract_parameters_length = constant i32 0
+@_transition_parameters = constant [0 x %"$TransDescr_1227"] zeroinitializer
+@_transition_parameters_length = constant i32 0
 
 define internal { %TName_Nat* (i8*, %TName_Nat*)*, i8* } @"$fundef_82"(%"$$fundef_82_env_132"* %0, %TName_Nat* %1) !dbg !4 {
 entry:

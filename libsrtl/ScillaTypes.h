@@ -147,6 +147,19 @@ struct AddressTyp {
 
 const uint32_t AddrByStr_Len = 20;
 
+// Parameter descriptor.
+struct ParamDescr {
+  String m_PName;
+  Typ *m_PTy;
+};
+
+// Transition descriptor.
+struct TransDescr {
+  String m_TName;
+  int32_t m_NParams;
+  ParamDescr *m_Params;
+};
+
 class TypParserPartialCache {
   std::unordered_map<std::string, const Typ *> PrimMap;
   std::unordered_map<std::string, std::vector<const Typ *>> ADTMap;
@@ -216,6 +229,8 @@ struct Typ {
   static bool equal(const Typ *LHS, const Typ *RHS);
   // Can RHS be assigned to LHS?
   static bool assignable(const Typ *LHS, const Typ *RHS);
+  // Are values of type T1 and T2 structurally same?
+  static bool valueCompatible(const Typ *T1, const Typ *T2);
 };
 
 } // namespace ScillaTypes

@@ -15,6 +15,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %"$TyDescr_AddrTyp_44" = type { i32, %"$TyDescr_AddrFieldTyp_43"* }
 %"$TyDescr_AddrFieldTyp_43" = type { %TyDescrString, %_TyDescrTy_Typ* }
 %Uint32 = type { i32 }
+%"$ParamDescr_203" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%ParamDescrString = type { i8*, i32 }
+%"$TransDescr_204" = type { %ParamDescrString, i32, %"$ParamDescr_203"* }
 %Int32 = type { i32 }
 %Uint128 = type { i128 }
 %String = type { i8*, i32 }
@@ -94,6 +97,18 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$x_124" = unnamed_addr constant [2 x i8] c"x\00"
 @_tydescr_table = constant [18 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_30", %_TyDescrTy_Typ* @"$TyDescr_Int64_12", %_TyDescrTy_Typ* @"$TyDescr_Addr_45", %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_41", %_TyDescrTy_Typ* @"$TyDescr_Bystr20_36", %_TyDescrTy_Typ* @"$TyDescr_Uint256_22", %_TyDescrTy_Typ* @"$TyDescr_Uint32_10", %_TyDescrTy_Typ* @"$TyDescr_Uint64_14", %_TyDescrTy_Typ* @"$TyDescr_Bnum_26", %_TyDescrTy_Typ* @"$TyDescr_Uint128_18", %_TyDescrTy_Typ* @"$TyDescr_Exception_32", %_TyDescrTy_Typ* @"$TyDescr_String_24", %_TyDescrTy_Typ* @"$TyDescr_Int256_20", %_TyDescrTy_Typ* @"$TyDescr_Int128_16", %_TyDescrTy_Typ* @"$TyDescr_Bystr_34", %_TyDescrTy_Typ* @"$TyDescr_Message_28", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Int32_40", %_TyDescrTy_Typ* @"$TyDescr_Int32_8"]
 @_tydescr_table_length = constant i32 18
+@"$pname__scilla_version_205" = unnamed_addr constant [15 x i8] c"_scilla_version"
+@"$pname__this_address_206" = unnamed_addr constant [13 x i8] c"_this_address"
+@_contract_parameters = constant [2 x %"$ParamDescr_203"] [%"$ParamDescr_203" { %ParamDescrString { i8* getelementptr inbounds ([15 x i8], [15 x i8]* @"$pname__scilla_version_205", i32 0, i32 0), i32 15 }, %_TyDescrTy_Typ* @"$TyDescr_Uint32_10" }, %"$ParamDescr_203" { %ParamDescrString { i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$pname__this_address_206", i32 0, i32 0), i32 13 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_36" }]
+@_contract_parameters_length = constant i32 2
+@"$tpname__amount_207" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_208" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_209" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_c_210" = unnamed_addr constant [1 x i8] c"c"
+@"$tparams_t1_211" = unnamed_addr constant [4 x %"$ParamDescr_203"] [%"$ParamDescr_203" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_207", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_18" }, %"$ParamDescr_203" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_208", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_45" }, %"$ParamDescr_203" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_209", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_45" }, %"$ParamDescr_203" { %ParamDescrString { i8* getelementptr inbounds ([1 x i8], [1 x i8]* @"$tpname_c_210", i32 0, i32 0), i32 1 }, %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_41" }]
+@"$tname_t1_212" = unnamed_addr constant [2 x i8] c"t1"
+@_transition_parameters = constant [1 x %"$TransDescr_204"] [%"$TransDescr_204" { %ParamDescrString { i8* getelementptr inbounds ([2 x i8], [2 x i8]* @"$tname_t1_212", i32 0, i32 0), i32 2 }, i32 4, %"$ParamDescr_203"* getelementptr inbounds ([4 x %"$ParamDescr_203"], [4 x %"$ParamDescr_203"]* @"$tparams_t1_211", i32 0, i32 0) }]
+@_transition_parameters_length = constant i32 1
 
 define void @_init_libs() {
 entry:

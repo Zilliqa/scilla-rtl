@@ -121,6 +121,10 @@ bool Typ::assignable(const Typ *To, const Typ *From) {
   CREATE_ERROR("Unreachable executed");
 }
 
+bool Typ::valueCompatible(const Typ *T1, const Typ *T2) {
+  return assignable(T1, T2) || assignable(T2, T1);
+}
+
 std::string Typ::toString(const Typ *T) {
 
   std::string Out;
