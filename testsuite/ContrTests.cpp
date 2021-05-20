@@ -202,37 +202,48 @@ void testMessageFail(const std::string &ContrFilename,
 
   Json::Value MessageJSON, InitJSON, StateJSON, ContrInfoJSON;
   std::string Balance;
+  bool isStateInit = MessageFilename.empty();
   try {
     // Prepare all inputs.
-    MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
+    if (!isStateInit) {
+      MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
+      StateJSON = parseJSONFile(PathPrefix + StateFilename);
+    } else {
+      StateJSON = Json::arrayValue;
+    }
     InitJSON = parseJSONFile(PathPrefix + InitFilename);
-    StateJSON = parseJSONFile(PathPrefix + StateFilename);
     ContrInfoJSON = parseJSONFile(PathPrefix + ContrInfoFilename);
   } catch (const ScillaError &E) {
     BOOST_FAIL(E.toString());
   }
 
-  // Create a JIT engine and execute the message.
-  // TODO: Due to the below mentioned bug, this can't be in a try-catch block.
   std::unique_ptr<ScillaVM::ScillaJIT_Safe> JE;
-  {
-    ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
-    JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON,
-                                &OCache);
-  }
-
   bool CaughtException = false;
   try {
+    // Create a JIT engine
+    {
+      ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
+      JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON,
+                                  &OCache);
+    }
     // Update our in-memory state table with the one from the JSONs.
-    Balance = State.initState(InitJSON, StateJSON, JE->getTypeDescrTable());
+    if (isStateInit) {
+      State.initFieldTypes(InitJSON, ContrInfoJSON);
+    } else {
+      Balance = State.initState(InitJSON, StateJSON, JE->getTypeDescrTable());
+    }
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
-      JE->execMsg(Balance, Config::GasLimit, MessageJSON);
+      if (isStateInit) {
+        JE->initState(Config::GasLimit);
+      } else {
+        JE->execMsg(Balance, Config::GasLimit, MessageJSON);
+      }
     }
   } catch (const ScillaError &E) {
     output_test_stream Output(PathPrefix + ExpectedOutputFilename,
                               !Config::UpdateResults);
-    Output << E.toString();
+    Output << E.Msg;
     BOOST_TEST(Output.match_pattern());
     CaughtException = true;
     BOOST_TEST_CHECKPOINT(ContrFilename + ": Output matched");
@@ -286,6 +297,12 @@ BOOST_AUTO_TEST_CASE(state_01_message_IncrementN_1) {
               "empty_init.json", "simple-map.contrinfo.json",
               "simple-map.state_01.json", "simple-map.state_05.json",
               "simple-map.output_01_1.json");
+}
+
+BOOST_AUTO_TEST_CASE(state_00_message_badinit_fail) {
+  testMessageFail("simple-map.ll", "", "bad_init.json",
+                  "simple-map.contrinfo.json", "",
+                  "simple-map.init_output_fail.json");
 }
 
 BOOST_AUTO_TEST_SUITE_END() // simple_map

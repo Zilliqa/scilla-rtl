@@ -101,7 +101,7 @@ struct ScillaParams {
 class ScillaJIT {
 private:
   // Use the Create method to build a ScillaJIT object.
-  ScillaJIT(const ScillaParams &SPs, std::unique_ptr<llvm::orc::LLJIT> J);
+  ScillaJIT(const ScillaParams &SPs, std::unique_ptr<llvm::orc::LLJIT> &&J);
   // JIT Compile LLVM-IR from MemBuf, affixing @ModuleID to it.
   // Optionally, a cache manager can be provided.
   static std::unique_ptr<ScillaJIT> create(const ScillaParams &SPs,

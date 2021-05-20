@@ -194,7 +194,7 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
   // any path prefixes, but extension replace with ".scilla_cache".
   SmallString<64> FNSS(FileName);
   sys::path::replace_extension(FNSS, ".scilla_cache");
-  std::string ModuleID = sys::path::filename(FNSS.c_str());
+  std::string ModuleID = sys::path::filename(FNSS.c_str()).str();
 
   return create(SPs, (*MemBuf).get(), ModuleID, ContrParams, OC);
 }
@@ -260,7 +260,8 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
   if (auto Err = addScillaBuiltins(*(*J), (*J)->getDataLayout()))
     CREATE_ERROR(llvm::toString(std::move(Err)));
 
-  auto *THIS = new ScillaJIT(SPs, std::move(*J));
+  std::unique_ptr<ScillaJIT> THIS(new ScillaJIT(SPs, std::move(*J)));
+
   auto Ctx = std::make_unique<LLVMContext>();
 
   std::unique_ptr<llvm::MemoryBuffer> Obj =
@@ -296,12 +297,12 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
 
   // Set execptr in the generated code to THIS
   auto ExecPtr = THIS->getAddressFor("_execptr");
-  *reinterpret_cast<ScillaJIT **>(ExecPtr) = THIS;
+  *reinterpret_cast<ScillaJIT **>(ExecPtr) = THIS.get();
 
   // Initialize contract parameters.
   THIS->initContrParams(ContrParams);
 
-  return std::unique_ptr<ScillaJIT>(THIS);
+  return THIS;
 }
 
 // We assume that the init JSON is "correct" and has all
@@ -368,7 +369,7 @@ void ScillaJIT::initContrParams(const Json::Value &CP) {
                    ScillaTypes::Typ::toString(T) +
                    " is incompatible with type " +
                    ScillaTypes::Typ::toString(ExpectedT->second) +
-                   " specified in the contract");
+                   " specified in the contract.");
     }
     void *P = (getAddressFor(VName.asString()));
     if (ScillaTypes::Typ::isBoxed(T)) {
@@ -430,7 +431,7 @@ std::pair<const ScillaTypes::Typ **, int> ScillaJIT::getTypeDescrTable() const {
   return std::make_pair(AllTyDescrs, TyDescrsLen);
 }
 
-ScillaJIT::ScillaJIT(const ScillaParams &SPs, std::unique_ptr<LLJIT> J)
+ScillaJIT::ScillaJIT(const ScillaParams &SPs, std::unique_ptr<LLJIT> &&J)
     : Jitter(std::move(J)), SPs(SPs),
       Ctx_secp256k1(secp256k1_context_create(SECP256K1_CONTEXT_VERIFY)) {}
 
