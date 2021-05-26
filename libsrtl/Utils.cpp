@@ -231,7 +231,8 @@ boost::optional<int> mapDepthOfTypeString(const std::string &TypeStr) {
   Start_R %= T_R >> qi::eoi;
 
   int Depth = 0;
-  if (!phrase_parse(TypeStr.begin(), TypeStr.end(), Start_R, ascii::space, Depth))
+  if (!phrase_parse(TypeStr.begin(), TypeStr.end(), Start_R, ascii::space,
+                    Depth))
     return {};
 
   return Depth;
@@ -392,11 +393,8 @@ void MemStateServer::initFieldTypes(const Json::Value &InitJ,
   }
 }
 
-std::string MemStateServer::initState(
-    const Json::Value &InitJ, const Json::Value &StateJ,
-    const std::pair<const ScillaTypes::Typ **, int> &TyDescrs) {
-
-  ScillaTypes::TypParserPartialCache TPPC;
+std::string MemStateServer::initState(const Json::Value &InitJ,
+                                      const Json::Value &StateJ) {
 
   auto TAOpt = vNameValue(InitJ, "_this_address");
   if (!TAOpt || !TAOpt->isString()) {
@@ -405,8 +403,8 @@ std::string MemStateServer::initState(
   ThisAddress = TAOpt->asString();
 
   std::function<std::string(const std::string &, const Json::Value &)>
-      recurser = [&recurser, this, &TPPC, TyDescrs](const std::string &Addr,
-                                                    const Json::Value &StateJ) {
+      recurser = [&recurser, this](const std::string &Addr,
+                                   const Json::Value &StateJ) {
         std::string Balance = "0";
         if (!StateJ.isArray()) {
           CREATE_ERROR("Expected state JSON to be array");
@@ -445,9 +443,12 @@ std::string MemStateServer::initState(
             continue;
           }
 
-          auto Type = ScillaTypes::Typ::fromString(
-              &TPPC, TyDescrs.first, TyDescrs.second, VTypJ.asString());
-          auto Depth = ScillaTypes::Typ::getMapDepth(Type);
+          auto DepthOpt = mapDepthOfTypeString(VTypJ.asString());
+          if (!DepthOpt) {
+            CREATE_ERROR("Error computing map depth of type " +
+                         VTypJ.asString());
+          }
+          auto Depth = DepthOpt.get();
 
           boost::any V;
           std::function<void(int, boost::any &, const Json::Value &)> jsonToSV =

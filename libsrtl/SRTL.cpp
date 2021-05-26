@@ -60,7 +60,7 @@ remoteFieldType(const ScillaJIT *SJ, const std::string &Addr,
 }
 
 bool isContrAddr(const ScillaJIT *SJ, const std::string &Addr) {
-  return remoteFieldType(SJ, Addr, "_this_address").has_value();
+  return static_cast<bool>(remoteFieldType(SJ, Addr, "_this_address"));
 }
 
 bool isUserAddr(const ScillaJIT *SJ, const std::string &Addr) {

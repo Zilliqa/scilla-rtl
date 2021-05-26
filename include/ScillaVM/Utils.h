@@ -18,8 +18,8 @@
 #include <string>
 #include <unordered_map>
 
-#include <boost/optional.hpp>
 #include <boost/any.hpp>
+#include <boost/optional.hpp>
 #include <jsoncpp/json/value.h>
 
 #include "JITD.h"
@@ -74,12 +74,9 @@ public:
                         const boost::any &Value);
 
   // (Re)initialize the state from the provided state JSON.
-  // Requires the type descriptors table to parse types.
   // Requires init JSON for noting down _this_address.
   // Returns "_balance" as a string.
-  std::string
-  initState(const Json::Value &InitJ, const Json::Value &StateJ,
-            const std::pair<const ScillaTypes::Typ **, int> &TyDescrs);
+  std::string initState(const Json::Value &InitJ, const Json::Value &StateJ);
 
   // Initialize the server with only field types and no values.
   // The contract-info JSON is parsed to get the field types.
