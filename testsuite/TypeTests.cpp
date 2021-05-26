@@ -22,6 +22,7 @@
 #include "../libsrtl/ScillaTypes.h"
 #include "TypeDescrs.h"
 #include <ScillaVM/Errors.h>
+#include <ScillaVM/Utils.h>
 
 namespace {
 // Type parser partial cache for faster run across tests.
@@ -79,12 +80,23 @@ const Typ *parseTypeString(const std::string TS) {
   BOOST_UNREACHABLE_RETURN();
 }
 
+void testMapDepthOfTypeString(const std::string TypeStr, int ExpectedDepth) {
+  auto DepthFromString = ScillaVM::mapDepthOfTypeString(TypeStr);
+  BOOST_REQUIRE_MESSAGE(DepthFromString, "Map depth parser failed " << TypeStr);
+  BOOST_REQUIRE_MESSAGE(ExpectedDepth == *DepthFromString,
+                        "Mismatch in map depth for "
+                            << TypeStr << ": expected " << ExpectedDepth
+                            << " but got " << *DepthFromString);
+}
+
 void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
   try {
     const Typ *T = parseTypeString(Input);
     BOOST_REQUIRE_MESSAGE(Typ::toString(T) == ExpectedO,
                           "Failed matching " << ExpectedO << " vs "
                                              << Typ::toString(T));
+    auto DepthFromType = Typ::getMapDepth(T);
+    testMapDepthOfTypeString(Input, DepthFromType);
   } catch (const ScillaVM::ScillaError &E) {
     BOOST_FAIL(E.toString());
   }
@@ -179,6 +191,19 @@ BOOST_AUTO_TEST_CASE(parse_pair_int32_list_int64_fail) {
 
 BOOST_AUTO_TEST_CASE(parse_map_int32_string) {
   parserTestSuccess("Map Int32 String", "Map (Int32) (String)");
+}
+
+BOOST_AUTO_TEST_CASE(parse_maps_extended) {
+  parserTestSuccess("Map Int32 (Map Int32 String)",
+                    "Map (Int32) (Map (Int32) (String))");
+  parserTestSuccess("Map (ByStr20 with contract field x : Uint32, field y : "
+                    "ByStr20 with end end) ByStr20",
+                    "Map (ByStr20 with contract field x : Uint32, field y : "
+                    "ByStr20 with end end) (ByStr20)");
+  parserTestSuccess("Map (ByStr20 with contract end) (ByStr20 with contract "
+                    "field x : Uint32 end)",
+                    "Map (ByStr20 with contract end) (ByStr20 with contract "
+                    "field x : Uint32 end)");
 }
 
 BOOST_AUTO_TEST_CASE(parser_map_int64_pair_int32_list_int64) {
@@ -395,6 +420,20 @@ BOOST_AUTO_TEST_CASE(not_assignable_in_either_direction_types) {
                                       parseTypeString(NAssTypes[I][1])),
                           I);
   }
+}
+
+BOOST_AUTO_TEST_CASE(map_depth_from_type_str_tests) {
+  testMapDepthOfTypeString("Map Int32 (Map Int64 String)", 2);
+  testMapDepthOfTypeString("Map Int32 (Map Int64 (Map (ByStr20 with contract "
+                           "field foo : Map Int32 Int32 end) Int32))",
+                           3);
+  testMapDepthOfTypeString(
+      "Map (ByStr20 with contract "
+      "field foo : Map Int32 Int32 end) (Map Int64 (Map ByStr20 Uint32))",
+      3);
+  testMapDepthOfTypeString("Pair Int32 (Map Int64 String)", 0);
+  testMapDepthOfTypeString("(Map Int64 Map1)", 1);
+  testMapDepthOfTypeString("Map (Map2) Foo", 1);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

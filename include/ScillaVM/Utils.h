@@ -18,6 +18,7 @@
 #include <string>
 #include <unordered_map>
 
+#include <boost/optional.hpp>
 #include <boost/any.hpp>
 #include <jsoncpp/json/value.h>
 
@@ -37,6 +38,9 @@ namespace ScillaVM {
 std::string readFile(const std::string &Filename);
 Json::Value parseJSONString(const std::string &JS);
 Json::Value parseJSONFile(const std::string &Filename);
+// Parse a Scilla type and return its map depth if successfully parsed.
+// Warning: This function may accept invalid Scilla types too.
+boost::optional<int> mapDepthOfTypeString(const std::string &TypeStr);
 
 namespace ScillaTypes {
 class Typ;
