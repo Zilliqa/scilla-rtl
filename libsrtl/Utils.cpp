@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <boost/optional.hpp>
+#include <boost/config/warning_disable.hpp>
+#include <boost/spirit/include/phoenix.hpp>
+#include <boost/spirit/include/qi.hpp>
 #include <fstream>
 #include <jsoncpp/json/reader.h>
 #include <jsoncpp/json/value.h>
@@ -77,6 +79,163 @@ Json::Value parseJSONString(const std::string &JS) {
 Json::Value parseJSONFile(const std::string &Filename) {
 
   return parseJSONString(readFile(Filename));
+}
+
+boost::optional<int> mapDepthOfTypeString(const std::string &TypeStr) {
+
+  typedef std::pair<std::string, int> FieldTypePair;
+
+  namespace qi = boost::spirit::qi;
+  namespace ascii = boost::spirit::ascii;
+  namespace px = boost::phoenix;
+
+  qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
+      Ident_R, TByStr_R, QualifiedTypeName_R;
+  qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
+      HexQual, FilenameQual, NoQual;
+  qi::rule<std::string::const_iterator, FieldTypePair, ascii::space_type>
+      FieldTypePair_R;
+  qi::rule<std::string::const_iterator, int, ascii::space_type> T_R;
+  qi::rule<std::string::const_iterator, int, ascii::space_type> TArg_R;
+  qi::rule<std::string::const_iterator, int, ascii::space_type> Start_R;
+
+  // An identifier is "[a-z][a-zA-Z0-9_]*"
+  Ident_R =
+      qi::lexeme[qi::char_('a', 'z') >> *((ascii::alnum) | qi::char_('_'))];
+  // ByStr and ByStrX are primitive types
+  TByStr_R = qi::lexeme[qi::string("ByStr") >> *(ascii::digit)];
+
+  // Qualified type names. The keyword "Map" is not accepted.
+  // https://stackoverflow.com/questions/38039237/parsing-identifiers-except-keywords
+  HexQual =
+      qi::lexeme[qi::string("0x") >> *(ascii::xdigit) >> qi::char_('.') >>
+                 ((qi::char_('A', 'Z') >> *((ascii::alnum) | qi::char_('_'))) -
+                  (qi::string("Map") >> !((ascii::alnum) | qi::char_('_'))))];
+  FilenameQual =
+      qi::lexeme[*((ascii::alnum) | qi::char_('-') | qi::char_('_')) >>
+                 qi::char_('.') >>
+                 ((qi::char_('A', 'Z') >> *((ascii::alnum) | qi::char_('_'))) -
+                  (qi::string("Map") >> !((ascii::alnum) | qi::char_('_'))))];
+  NoQual =
+      qi::lexeme[(qi::char_('A', 'Z') >> *((ascii::alnum) | qi::char_('_'))) -
+                 (qi::string("Map") >> !((ascii::alnum) | qi::char_('_')))];
+
+  auto IdFun = [](const std::string &I) { return I; };
+  QualifiedTypeName_R = (HexQual)[qi::_val = px::bind(IdFun, qi::_1)] |
+                        (FilenameQual)[qi::_val = px::bind(IdFun, qi::_1)] |
+                        (NoQual)[qi::_val = px::bind(IdFun, qi::_1)];
+  ;
+
+  // clang-format off
+  T_R =
+    // Rule-0: Parse non-contract addresses
+    (qi::lit("ByStr20") >> qi::lit("with") >> qi::lit("end"))
+      [qi::_val = px::bind
+        (
+          [] () {
+              return 0;
+          }
+        )
+      ]
+    // Rule-1: Parse contract addresses into an optional non-empty list of
+    //         comma-separated FieldTypePairs. That's just another way of
+    //         specifying a comma-separated list of 0 or more FieldTypePairs.
+    | (qi::lit("ByStr20") >> qi::lit("with") >> qi::lit("contract") >>
+        -((qi::lit("field") >> FieldTypePair_R) % ',') >> qi::lit("end"))
+      [qi::_val = px::bind
+        (
+          [](const boost::optional<std::vector<FieldTypePair> > &) {
+            return 0;
+          },
+          qi::_1
+        )
+      ]
+    // Rule-2 Get all the PrimTyps.
+    | (qi::string("Int32")   | qi::string("Int64") 
+    | qi::string("Int128")  | qi::string("Int256")
+    | qi::string("Uint32")  | qi::string("Uint64")
+    | qi::string("Uint128") | qi::string("Uint256")
+    | qi::string("String")  | qi::string("BNum")
+    | TByStr_R)
+       [qi::_val = px::bind
+         (
+            [](const std::string &) {
+                return 0;
+            },
+            qi::_1
+          )
+        ]
+    |  (qi::lit("Map") >> T_R >> T_R) // Rule-3 for Map
+        [qi::_val = px::bind
+          (
+            [](int, int VDepth) {
+              return VDepth + 1;
+            },
+            qi::_1, qi::_2
+          )
+        ]
+    | (QualifiedTypeName_R >> *TArg_R) // Rule-4 for ADTs
+        [qi::_val = px::bind
+          (
+            [](const std::string &, const std::vector<int> &) {
+              return 0;
+            },
+            qi::_1, qi::_2
+          )
+        ] 
+    | ('(' >> T_R >> ')') // Rule-5 for "( typ )"
+        [qi::_val = px::bind
+          (
+            [](int Depth) {
+              return Depth; 
+            },
+            qi::_1
+          )
+        ]
+    ;
+
+  TArg_R =
+      ('(' >> T_R >> ')')
+        [qi::_val = px::bind
+          (
+            [](int Depth) {
+              return Depth; 
+            },
+            qi::_1
+          )
+        ]
+    | QualifiedTypeName_R
+      [qi::_val = px::bind
+        (
+          [](const std::string &) {
+            return 0;
+          },
+          qi::_1
+        )
+      ]
+    ;
+
+  FieldTypePair_R =
+    (Ident_R >> ':' >> T_R)
+      [qi::_val = px::bind
+        (
+          [](const std::string &FName, int FDepth) {
+            return FieldTypePair(FName, FDepth);
+          }, qi::_1, qi::_2
+        )
+      ]
+    ;
+
+  // clang-format on
+
+  Start_R %= T_R >> qi::eoi;
+
+  int Depth = 0;
+  if (!phrase_parse(TypeStr.begin(), TypeStr.end(), Start_R, ascii::space,
+                    Depth))
+    return {};
+
+  return Depth;
 }
 
 bool MemStateServer::fetchStateValue(const ScillaParams::StateQuery &Query,
@@ -234,11 +393,8 @@ void MemStateServer::initFieldTypes(const Json::Value &InitJ,
   }
 }
 
-std::string MemStateServer::initState(
-    const Json::Value &InitJ, const Json::Value &StateJ,
-    const std::pair<const ScillaTypes::Typ **, int> &TyDescrs) {
-
-  ScillaTypes::TypParserPartialCache TPPC;
+std::string MemStateServer::initState(const Json::Value &InitJ,
+                                      const Json::Value &StateJ) {
 
   auto TAOpt = vNameValue(InitJ, "_this_address");
   if (!TAOpt || !TAOpt->isString()) {
@@ -247,8 +403,8 @@ std::string MemStateServer::initState(
   ThisAddress = TAOpt->asString();
 
   std::function<std::string(const std::string &, const Json::Value &)>
-      recurser = [&recurser, this, &TPPC, TyDescrs](const std::string &Addr,
-                                                    const Json::Value &StateJ) {
+      recurser = [&recurser, this](const std::string &Addr,
+                                   const Json::Value &StateJ) {
         std::string Balance = "0";
         if (!StateJ.isArray()) {
           CREATE_ERROR("Expected state JSON to be array");
@@ -287,10 +443,12 @@ std::string MemStateServer::initState(
             continue;
           }
 
-          auto Type = ScillaTypes::Typ::fromString(
-              &TPPC, TyDescrs.first, TyDescrs.second, VTypJ.asString());
-          ASSERT_MSG(Type, "Couldn't parse type " + VTypJ.asString());
-          auto Depth = ScillaTypes::Typ::getMapDepth(Type);
+          auto DepthOpt = mapDepthOfTypeString(VTypJ.asString());
+          if (!DepthOpt) {
+            CREATE_ERROR("Error computing map depth of type " +
+                         VTypJ.asString());
+          }
+          auto Depth = DepthOpt.get();
 
           boost::any V;
           std::function<void(int, boost::any &, const Json::Value &)> jsonToSV =

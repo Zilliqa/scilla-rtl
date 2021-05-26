@@ -121,6 +121,10 @@ bool Typ::assignable(const Typ *To, const Typ *From) {
   CREATE_ERROR("Unreachable executed");
 }
 
+bool Typ::valueCompatible(const Typ *T1, const Typ *T2) {
+  return assignable(T1, T2) || assignable(T2, T1);
+}
+
 std::string Typ::toString(const Typ *T) {
 
   std::string Out;
@@ -649,8 +653,8 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
   Start_R %= T_R >> qi::eoi;
 
   const Typ *T = nullptr;
-  if (!phrase_parse(Input.begin(), Input.end(), Start_R, ascii::space, T))
-    return nullptr;
+  if (!phrase_parse(Input.begin(), Input.end(), Start_R, ascii::space, T) || !T)
+    CREATE_ERROR("Parsing type " + Input + " failed");
 
   return T;
 }

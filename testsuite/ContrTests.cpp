@@ -67,19 +67,24 @@ void testMessageHelper(const std::string &ContrFilename,
 
   ScillaJIT_Safe::init();
 
-  Json::Value MessageJSON, InitJSON, StateJSON, ContrInfoJSON;
-  std::string Balance;
-  bool isStateInit = MessageFilename.empty();
+  Json::Value MessageJSON, InitJSON;
+  std::string Balance = "0";
   try {
     // Prepare all inputs.
-    if (!isStateInit) {
-      MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
-      StateJSON = parseJSONFile(PathPrefix + StateFilename);
-    } else {
-      StateJSON = Json::arrayValue;
-    }
     InitJSON = parseJSONFile(PathPrefix + InitFilename);
-    ContrInfoJSON = parseJSONFile(PathPrefix + ContrInfoFilename);
+    if (!MessageFilename.empty()) {
+      MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
+    }
+    // If there's a contract-info JSON, it'll give us field names and types.
+    if (!ContrInfoFilename.empty()) {
+      auto ContrInfoJSON = parseJSONFile(PathPrefix + ContrInfoFilename);
+      State.initFieldTypes(InitJSON, ContrInfoJSON);
+    }
+    // Update our in-memory state table with the one from a state JSON.
+    if (!StateFilename.empty()) {
+      auto StateJSON = parseJSONFile(PathPrefix + StateFilename);
+      Balance = State.initState(InitJSON, StateJSON);
+    }
   } catch (const ScillaError &E) {
     BOOST_FAIL(E.toString());
   }
@@ -89,25 +94,16 @@ void testMessageHelper(const std::string &ContrFilename,
   std::unique_ptr<ScillaVM::ScillaJIT_Safe> JE;
   {
     ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
-    JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON,
-                                &OCache);
+    JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, &OCache);
   }
-
   try {
-    // Update our in-memory state table with the one from the JSONs.
-    if (isStateInit) {
-      State.initFieldTypes(InitJSON, ContrInfoJSON);
-    } else {
-      Balance = State.initState(InitJSON, StateJSON, JE->getTypeDescrTable());
-    }
-
     Json::Value OJ;
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
-      if (isStateInit) {
-        OJ = JE->initState(Config::GasLimit);
+      if (MessageFilename.empty()) {
+        OJ = JE->deploy(InitJSON, Config::GasLimit);
       } else {
-        OJ = JE->execMsg(Balance, Config::GasLimit, MessageJSON);
+        OJ = JE->execMsg(Balance, Config::GasLimit, InitJSON, MessageJSON);
       }
     }
 
@@ -158,7 +154,7 @@ void testMessageHelper(const std::string &ContrFilename,
   } catch (std::exception &) {
     ;
   }
-}
+} // namespace
 
 // Calls testMessageHelper for both .ll and .dbg.ll files,
 // extracting the information from `ContrFilename`.
@@ -200,39 +196,48 @@ void testMessageFail(const std::string &ContrFilename,
 
   ScillaJIT_Safe::init();
 
-  Json::Value MessageJSON, InitJSON, StateJSON, ContrInfoJSON;
-  std::string Balance;
+  Json::Value MessageJSON, InitJSON;
+  std::string Balance = "0";
   try {
     // Prepare all inputs.
-    MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
     InitJSON = parseJSONFile(PathPrefix + InitFilename);
-    StateJSON = parseJSONFile(PathPrefix + StateFilename);
-    ContrInfoJSON = parseJSONFile(PathPrefix + ContrInfoFilename);
+    if (!MessageFilename.empty()) {
+      MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
+    }
+    // If there's a contract-info JSON, it'll give us field names and types.
+    if (!ContrInfoFilename.empty()) {
+      auto ContrInfoJSON = parseJSONFile(PathPrefix + ContrInfoFilename);
+      State.initFieldTypes(InitJSON, ContrInfoJSON);
+    }
+    // Update our in-memory state table with the one from a state JSON.
+    if (!StateFilename.empty()) {
+      auto StateJSON = parseJSONFile(PathPrefix + StateFilename);
+      Balance = State.initState(InitJSON, StateJSON);
+    }
   } catch (const ScillaError &E) {
     BOOST_FAIL(E.toString());
   }
 
-  // Create a JIT engine and execute the message.
-  // TODO: Due to the below mentioned bug, this can't be in a try-catch block.
   std::unique_ptr<ScillaVM::ScillaJIT_Safe> JE;
-  {
-    ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
-    JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON,
-                                &OCache);
-  }
-
   bool CaughtException = false;
   try {
-    // Update our in-memory state table with the one from the JSONs.
-    Balance = State.initState(InitJSON, StateJSON, JE->getTypeDescrTable());
+    // Create a JIT engine
+    {
+      ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
+      JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, &OCache);
+    }
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
-      JE->execMsg(Balance, Config::GasLimit, MessageJSON);
+      if (MessageFilename.empty()) {
+        JE->deploy(InitJSON, Config::GasLimit);
+      } else {
+        JE->execMsg(Balance, Config::GasLimit, InitJSON, MessageJSON);
+      }
     }
   } catch (const ScillaError &E) {
     output_test_stream Output(PathPrefix + ExpectedOutputFilename,
                               !Config::UpdateResults);
-    Output << E.toString();
+    Output << E.Msg;
     BOOST_TEST(Output.match_pattern());
     CaughtException = true;
     BOOST_TEST_CHECKPOINT(ContrFilename + ": Output matched");
@@ -286,6 +291,12 @@ BOOST_AUTO_TEST_CASE(state_01_message_IncrementN_1) {
               "empty_init.json", "simple-map.contrinfo.json",
               "simple-map.state_01.json", "simple-map.state_05.json",
               "simple-map.output_01_1.json");
+}
+
+BOOST_AUTO_TEST_CASE(state_00_message_badinit_fail) {
+  testMessageFail("simple-map.ll", "", "bad_init.json",
+                  "simple-map.contrinfo.json", "",
+                  "simple-map.init_output_fail.json");
 }
 
 BOOST_AUTO_TEST_SUITE_END() // simple_map
@@ -550,7 +561,8 @@ BOOST_AUTO_TEST_SUITE(remote_state_reads)
 
 BOOST_AUTO_TEST_CASE(remote_state_reads_init) {
   testMessage("remote_state_reads.ll", "", "remote_state_reads.init.json",
-              "remote_state_reads.contrinfo.json", "",
+              "remote_state_reads.contrinfo.json",
+              "remote_state_reads.init_state.json",
               "remote_state_reads.ostate_00.json",
               "remote_state_reads.init_output.json");
 }

@@ -101,16 +101,15 @@ struct ScillaParams {
 class ScillaJIT {
 private:
   // Use the Create method to build a ScillaJIT object.
-  ScillaJIT(const ScillaParams &SPs, std::unique_ptr<llvm::orc::LLJIT> J);
+  ScillaJIT(const ScillaParams &SPs, std::unique_ptr<llvm::orc::LLJIT> &&J);
   // JIT Compile LLVM-IR from MemBuf, affixing @ModuleID to it.
   // Optionally, a cache manager can be provided.
   static std::unique_ptr<ScillaJIT> create(const ScillaParams &SPs,
                                            llvm::MemoryBuffer *MemBuf,
                                            const std::string &ModuleID,
-                                           const Json::Value &ContrParams,
                                            ScillaCacheManager * = nullptr);
 
-  void initContrParams(const Json::Value &CP);
+  void initContrParams(const Json::Value &CP, bool DoDynamicTypechecks);
   std::unique_ptr<llvm::orc::LLJIT> Jitter;
   // An opaque pointer to the type parser partial cache.
   std::unique_ptr<ScillaTypes::TypParserPartialCache> TPPC;
@@ -122,14 +121,12 @@ public:
   //  Optionally, a cache manager can be provided.
   static std::unique_ptr<ScillaJIT> create(const ScillaParams &SPs,
                                            const std::string &FileName,
-                                           const Json::Value &ContrParams,
                                            ScillaCacheManager * = nullptr);
   // JIT Compile LLVM-IR in @IR, affixing @ModuleID to it.
   // Optionally, a cache manager can be provided.
   static std::unique_ptr<ScillaJIT> create(const ScillaParams &SPs,
                                            const std::string &IR,
                                            const std::string &ModuleID,
-                                           const Json::Value &ContrParams,
                                            ScillaCacheManager * = nullptr);
   // Get address for @Symbol inside the compiled IR, ready to be used.
   void *getAddressFor(const std::string &Symbol) const;
@@ -141,14 +138,16 @@ public:
   uint64_t *initGasAndLibs(uint64_t GasRem);
   // Execute a message.
   Json::Value execMsg(const std::string &Balance, uint64_t GasLimit,
-                      Json::Value &Msg);
+                      const Json::Value &InitJ, const Json::Value &Msg);
   // Initialize the contract state to field initialization values in the source.
   // This is to be called only during deployment of the contract. Never again.
-  Json::Value initState(uint64_t GasLimit);
-  // What's the gas remaining from previous execution (initState / execMsg).
+  Json::Value deploy(const Json::Value &InitJ, uint64_t GasLimit);
+  // What's the gas remaining from previous execution (deploy / execMsg).
   // Useful if execution was interrupted due to an exception.
   // Use with care if you don't want to end up with a stale value.
-  uint64_t getGasRem();
+  uint64_t getGasRem() const;
+  // Parse a string into a Scilla type. Raises error on failure.
+  const ScillaTypes::Typ *parseTypeString(const std::string &) const;
 
   // Scilla values dynamically allocated and owned by the JIT engine.
   std::unique_ptr<ObjManager> OM;
@@ -165,7 +164,7 @@ public:
 //   ScillaJIT_Safe::init(); : One time ever
 //   1. auto SJ = ScillaJIT_Safe::create(...);
 //   2. (a) Deployment (b) Transition execution
-//      a. auto Output = ScillaJIT_Safe::initState(...);
+//      a. auto Output = ScillaJIT_Safe::deploy(...);
 //        OR
 //      b. auto Output = ScillaJIT_Safe::execMsg(...);
 //   3. If ScillaError exception, check remaining gas with getGasRem().
@@ -177,35 +176,35 @@ public:
   //  Optionally, a cache manager can be provided.
   static std::unique_ptr<ScillaJIT_Safe>
   create(const ScillaParams &SPs, const std::string &FileName,
-         const Json::Value &ContrParams, ScillaCacheManager *SCM = nullptr) {
-    ScillaJIT *Ptr =
-        ScillaJIT::create(SPs, FileName, ContrParams, SCM).release();
+         ScillaCacheManager *SCM = nullptr) {
+    ScillaJIT *Ptr = ScillaJIT::create(SPs, FileName, SCM).release();
     return std::unique_ptr<ScillaJIT_Safe>(static_cast<ScillaJIT_Safe *>(Ptr));
   }
   // JIT Compile LLVM-IR in @IR, affixing @ModuleID to it.
   // Optionally, a cache manager can be provided.
   static std::unique_ptr<ScillaJIT_Safe>
   create(const ScillaParams &SPs, const std::string &IR,
-         const std::string &ModuleID, const Json::Value &ContrParams,
-         ScillaCacheManager *SCM = nullptr) {
-    ScillaJIT *Ptr =
-        ScillaJIT::create(SPs, IR, ModuleID, ContrParams, SCM).release();
+         const std::string &ModuleID, ScillaCacheManager *SCM = nullptr) {
+    ScillaJIT *Ptr = ScillaJIT::create(SPs, IR, ModuleID, SCM).release();
     return std::unique_ptr<ScillaJIT_Safe>(static_cast<ScillaJIT_Safe *>(Ptr));
   }
   // Execute a message.
   Json::Value execMsg(const std::string &Balance, uint64_t GasLimit,
-                      Json::Value &Msg) {
-    return ScillaJIT::execMsg(Balance, GasLimit, Msg);
+                      const Json::Value &InitJ, const Json::Value &Msg) {
+    return ScillaJIT::execMsg(Balance, GasLimit, InitJ, Msg);
   }
   // Initialize the contract state to field initialization values in the source.
   // This is to be called only during deployment of the contract. Never again.
-  Json::Value initState(uint64_t GasLimit) {
-    return ScillaJIT::initState(GasLimit);
+  Json::Value deploy(const Json::Value &InitJ, uint64_t GasLimit) {
+    return ScillaJIT::deploy(InitJ, GasLimit);
   }
-  // What's the gas remaining from previous execution (initState / execMsg).
+  // What's the gas remaining from previous execution (deploy / execMsg).
   // Useful if execution was interrupted due to an exception.
   // Use with care if you don't want to end up with a stale value.
-  uint64_t getGasRem() { return ScillaJIT::getGasRem(); }
+  uint64_t getGasRem() const { return ScillaJIT::getGasRem(); }
+
+  // Parse a string into a Scilla type. Raises error on failure.
+  const ScillaTypes::Typ *parseTypeString(const std::string &) const;
 
   // Get the type descriptors table and its length.
   std::pair<const ScillaTypes::Typ **, int> getTypeDescrTable() const {

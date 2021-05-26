@@ -34,8 +34,8 @@ namespace po = boost::program_options;
 void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
   auto UsageString =
       "Usage: " + std::string(argv[0]) +
-      " [option...] -i input_contract.ll -c contract_info.json "
-      "-n init.json -g gaslimit [-m message.json] [-s state.json]"
+      " [option...] -i input_contract.ll -n init.json -g gaslimit "
+      "[-c contract_info.json] [-m message.json] [-s state.json]"
       "\nSupported options";
   po::options_description Desc(UsageString);
 
@@ -71,18 +71,19 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
     exit(EXIT_SUCCESS);
   }
 
-  // Ensure that an input file is provided.
+  // Ensure that input files are provided.
   if (!VM.count("input-contract") || !VM.count("init") ||
-      !VM.count("contract-info") || !VM.count("gaslimit")) {
+      !VM.count("gaslimit")) {
     std::cerr << "Missing mandatory command line arguments\n" << Desc << "\n";
     exit(EXIT_FAILURE);
   }
 
-  // Absence of message and input state indicates deployment.
-  if ((VM.count("message") && !VM.count("state")) ||
-      (!VM.count("message") && VM.count("state"))) {
-    std::cerr << "Provide both message and initial state for transition "
-                 "execution. Provide neither for deployment\n";
+  // Absence of message indicates deployment, which requires contract-info.
+  if ((!VM.count("message") && !VM.count("contract-info")) ||
+      (VM.count("message") && !VM.count("state"))) {
+    std::cerr
+        << "Deployment: Mandatory contract-info JSON. Optional state JSON.\n"
+           "Transition: Mandatory message and state JSONs\n";
     exit(EXIT_FAILURE);
   }
 }
@@ -121,28 +122,37 @@ int main(int argc, char *argv[]) {
     // Prepare all inputs.
     auto InputFilename = VM["input-contract"].as<std::string>();
     auto InitFilename = VM["init"].as<std::string>();
-    auto ContrInfoFilename = VM["contract-info"].as<std::string>();
     auto GasLimit = VM["gaslimit"].as<uint64_t>();
     auto IJ = parseJSONFile(InitFilename);
-    auto CIJ = parseJSONFile(ContrInfoFilename);
-    // Create JIT engine.
-    auto JE = ScillaJIT::create(SP, InputFilename, IJ);
-    Json::Value OutJ;
 
+    // If there's a contract-info provided, use its field name / type info.
+    if (VM.count("contract-info")) {
+      auto ContrInfoFilename = VM["contract-info"].as<std::string>();
+      auto CIJ = parseJSONFile(ContrInfoFilename);
+      State.initFieldTypes(IJ, CIJ);
+    }
+
+    std::string Balance = "0";
+    // If there's a state JSON, use it to fill our state server.
+    if (VM.count("state")) {
+      // Update our in-memory state table with the one from the JSONs.
+      auto StateFilename = VM["state"].as<std::string>();
+      auto SJ = parseJSONFile(StateFilename);
+      Balance = State.initState(IJ, SJ);
+    }
+
+    // Create JIT engine.
+    auto JE = ScillaJIT::create(SP, InputFilename);
+    Json::Value OutJ;
     if (VM.count("message")) {
       // Transition execution
       auto MessageFilename = VM["message"].as<std::string>();
-      auto StateFilename = VM["state"].as<std::string>();
       auto MJ = parseJSONFile(MessageFilename);
-      auto SJ = parseJSONFile(StateFilename);
-      // Update our in-memory state table with the one from the JSONs.
-      auto Balance = State.initState(IJ, SJ, JE->getTypeDescrTable());
       // Execute message
-      OutJ = JE->execMsg(Balance, GasLimit, MJ);
+      OutJ = JE->execMsg(Balance, GasLimit, IJ, MJ);
     } else {
       // Deployment
-      State.initFieldTypes(IJ, CIJ);
-      OutJ = JE->initState(GasLimit);
+      OutJ = JE->deploy(IJ, GasLimit);
     }
 
     auto OSJ = State.dumpToJSON();

@@ -22,9 +22,16 @@
 #include <string>
 #include <vector>
 
+#include <boost/optional.hpp>
+
 #include <llvm/Support/Allocator.h>
 
 namespace ScillaVM {
+
+class ScillaJIT;
+namespace ScillaTypes {
+struct Typ;
+}
 
 using ByteVec = std::vector<uint8_t>;
 
@@ -97,5 +104,21 @@ public:
   }
   ~ObjManager() { mFreeAll(); };
 };
+
+// Fetch the type of a remote field, if it exists.
+boost::optional<const ScillaTypes::Typ *>
+remoteFieldType(const ScillaJIT *SJ, const std::string &Addr,
+                const std::string &FName);
+
+// Is the given address a contract?
+bool isContrAddr(const ScillaJIT *SJ, const std::string &Addr);
+// Check if the given address has balance > 0 || nonce > 0
+bool isUserAddr(const ScillaJIT *SJ, const std::string &Addr);
+
+// Check that @Val is of type @Target. Asserts valueCompatible(Target, ParsedT).
+// @ParsedT is the type specified in the JSON from which @Val is parsed.
+// The dynamic typecheck itself is essentially ensuring that Addresses conform.
+bool dynamicTypecheck(const ScillaJIT *SJ, const ScillaTypes::Typ *Target,
+                      const ScillaTypes::Typ *ParsedT, void *Val);
 
 } // namespace ScillaVM

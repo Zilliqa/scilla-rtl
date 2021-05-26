@@ -147,6 +147,19 @@ struct AddressTyp {
 
 const uint32_t AddrByStr_Len = 20;
 
+// Parameter descriptor.
+struct ParamDescr {
+  String m_PName;
+  Typ *m_PTy;
+};
+
+// Transition descriptor.
+struct TransDescr {
+  String m_TName;
+  int32_t m_NParams;
+  ParamDescr *m_Params;
+};
+
 class TypParserPartialCache {
   std::unordered_map<std::string, const Typ *> PrimMap;
   std::unordered_map<std::string, std::vector<const Typ *>> ADTMap;
@@ -200,9 +213,9 @@ struct Typ {
   //   - If the cache is empty, it is filled.
   //   - If the cache is not empty, it is used.
   // The cache must have been built using the same @Ts argument.
+  // Raises error if parsing fails.
   static const Typ *fromString(TypParserPartialCache *TPPC, const Typ *Ts[],
                                int NT, const std::string &Input);
-
   // Get the type of keys of a Map.
   static void getMapKeyTypes(const Typ *T, std::vector<const Typ *> &Keys);
   // Map depth. 0 for non-Map types.
@@ -216,6 +229,8 @@ struct Typ {
   static bool equal(const Typ *LHS, const Typ *RHS);
   // Can RHS be assigned to LHS?
   static bool assignable(const Typ *LHS, const Typ *RHS);
+  // Are values of type T1 and T2 structurally same?
+  static bool valueCompatible(const Typ *T1, const Typ *T2);
 };
 
 } // namespace ScillaTypes

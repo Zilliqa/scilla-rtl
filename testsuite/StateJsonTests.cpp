@@ -56,7 +56,6 @@ void testStateJson(const std::string &Testname, bool ExpectError = false) {
       const auto *T =
           ScillaTypes::Typ::fromString(&TPPC, TypeDescrs::AllTyDescrs,
                                        TypeDescrs::NTyDescrs, VTyp.asString());
-      BOOST_REQUIRE_MESSAGE(T, "Parsing type " + VTyp.asString() + " failed");
       void *SVal = ScillaValues::fromJSON(OM, T, VVal);
       BOOST_TEST_CHECKPOINT(Filename + ": " + VName.asString() +
                             " parsed successfully");
