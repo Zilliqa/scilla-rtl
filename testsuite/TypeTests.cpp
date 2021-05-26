@@ -432,8 +432,19 @@ BOOST_AUTO_TEST_CASE(map_depth_from_type_str_tests) {
       "field foo : Map Int32 Int32 end) (Map Int64 (Map ByStr20 Uint32))",
       3);
   testMapDepthOfTypeString("Pair Int32 (Map Int64 String)", 0);
+  testMapDepthOfTypeString("Map1", 0);
   testMapDepthOfTypeString("(Map Int64 Map1)", 1);
   testMapDepthOfTypeString("Map (Map2) Foo", 1);
+}
+
+BOOST_AUTO_TEST_CASE(map_depth_from_type_str_tests_fail) {
+  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("Map"));
+  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("List Map"));
+  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("Map Map"));
+  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("Map Map Map"));
+  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("Map (Map) Map"));
+  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("Map Uint32 Map"));
+  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("Map Uint32 (List Map)"));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

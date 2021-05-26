@@ -81,10 +81,6 @@ Json::Value parseJSONFile(const std::string &Filename) {
   return parseJSONString(readFile(Filename));
 }
 
-// Warning: This function accepts invalid Scilla types. It is unaware
-// of valid ADTs, so unknown names (or for example a "Map" without all
-// of its arguments) are considered to be ADTs.
-// For example just "Map", "Map Map Map" etc all return `Some 0`.
 boost::optional<int> mapDepthOfTypeString(const std::string &TypeStr) {
 
   typedef std::pair<std::string, int> FieldTypePair;
@@ -109,16 +105,20 @@ boost::optional<int> mapDepthOfTypeString(const std::string &TypeStr) {
   // ByStr and ByStrX are primitive types
   TByStr_R = qi::lexeme[qi::string("ByStr") >> *(ascii::digit)];
 
-  // Qualified type names
+  // Qualified type names. The keyword "Map" is not accepted.
+  // https://stackoverflow.com/questions/38039237/parsing-identifiers-except-keywords
   HexQual =
       qi::lexeme[qi::string("0x") >> *(ascii::xdigit) >> qi::char_('.') >>
-                 qi::char_('A', 'Z') >> *((ascii::alnum) | qi::char_('_'))];
+                 ((qi::char_('A', 'Z') >> *((ascii::alnum) | qi::char_('_'))) -
+                  (qi::string("Map") >> !((ascii::alnum) | qi::char_('_'))))];
   FilenameQual =
       qi::lexeme[*((ascii::alnum) | qi::char_('-') | qi::char_('_')) >>
-                 qi::char_('.') >> qi::char_('A', 'Z') >>
-                 *((ascii::alnum) | qi::char_('_'))];
+                 qi::char_('.') >>
+                 ((qi::char_('A', 'Z') >> *((ascii::alnum) | qi::char_('_'))) -
+                  (qi::string("Map") >> !((ascii::alnum) | qi::char_('_'))))];
   NoQual =
-      qi::lexeme[qi::char_('A', 'Z') >> *((ascii::alnum) | qi::char_('_'))];
+      qi::lexeme[(qi::char_('A', 'Z') >> *((ascii::alnum) | qi::char_('_'))) -
+                 (qi::string("Map") >> !((ascii::alnum) | qi::char_('_')))];
 
   auto IdFun = [](const std::string &I) { return I; };
   QualifiedTypeName_R = (HexQual)[qi::_val = px::bind(IdFun, qi::_1)] |
