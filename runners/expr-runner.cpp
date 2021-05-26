@@ -114,8 +114,7 @@ int main(int argc, char *argv[]) {
   try {
     auto InputFilename = VM["input-file"].as<std::string>();
     auto GasLimit = VM["gaslimit"].as<uint64_t>();
-    auto SJ =
-        ScillaJIT::create(ScillaParams(), InputFilename, Json::arrayValue);
+    auto SJ = ScillaJIT::create(ScillaParams(), InputFilename);
     auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
     auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
 

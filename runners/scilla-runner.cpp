@@ -142,17 +142,17 @@ int main(int argc, char *argv[]) {
     }
 
     // Create JIT engine.
-    auto JE = ScillaJIT::create(SP, InputFilename, IJ);
+    auto JE = ScillaJIT::create(SP, InputFilename);
     Json::Value OutJ;
     if (VM.count("message")) {
       // Transition execution
       auto MessageFilename = VM["message"].as<std::string>();
       auto MJ = parseJSONFile(MessageFilename);
       // Execute message
-      OutJ = JE->execMsg(Balance, GasLimit, MJ);
+      OutJ = JE->execMsg(Balance, GasLimit, IJ, MJ);
     } else {
       // Deployment
-      OutJ = JE->initState(GasLimit);
+      OutJ = JE->deploy(IJ, GasLimit);
     }
 
     auto OSJ = State.dumpToJSON();

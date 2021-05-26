@@ -184,7 +184,6 @@ void ScillaJIT::init() {
 
 std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
                                              const std::string &FileName,
-                                             const Json::Value &ContrParams,
                                              ScillaCacheManager *OC) {
 
   auto MemBuf = MemoryBuffer::getFile(FileName);
@@ -198,22 +197,20 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
   sys::path::replace_extension(FNSS, ".scilla_cache");
   std::string ModuleID = sys::path::filename(FNSS.c_str()).str();
 
-  return create(SPs, (*MemBuf).get(), ModuleID, ContrParams, OC);
+  return create(SPs, (*MemBuf).get(), ModuleID, OC);
 }
 
 std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
                                              const std::string &IR,
                                              const std::string &ModuleID,
-                                             const Json::Value &ContrParams,
                                              ScillaCacheManager *OC) {
   auto MemBuf = MemoryBuffer::getMemBuffer(IR);
-  return create(SPs, MemBuf.get(), ModuleID, ContrParams, OC);
+  return create(SPs, MemBuf.get(), ModuleID, OC);
 }
 
 std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
                                              llvm::MemoryBuffer *MemBuf,
                                              const std::string &ModuleID,
-                                             const Json::Value &ContrParams,
                                              ScillaCacheManager *SCM) {
 
   ScillaObjCache *OC = SCM ? SCM->SOC.get() : nullptr;
@@ -299,15 +296,11 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
   auto ExecPtr = THIS->getAddressFor("_execptr");
   *reinterpret_cast<ScillaJIT **>(ExecPtr) = THIS.get();
 
-  // Initialize contract parameters.
-  THIS->initContrParams(ContrParams);
-
   return THIS;
 }
 
-// We assume that the init JSON is "correct" and has all
-// implicit and explicitly defined parameters with right types.
-void ScillaJIT::initContrParams(const Json::Value &CP) {
+void ScillaJIT::initContrParams(const Json::Value &CP,
+                                bool DoDynamicTypechecks) {
 
   // First get the name and types of contract parameters.
   auto CParams = reinterpret_cast<const ScillaTypes::ParamDescr *>(
@@ -381,7 +374,8 @@ void ScillaJIT::initContrParams(const Json::Value &CP) {
       ScillaValues::fromJSONToMem(*OM, ValP, ScillaTypes::Typ::sizeOf(T), T,
                                   Value);
     }
-    if (!dynamicTypecheck(this, ExpectedT->second, T, ValP)) {
+    if (DoDynamicTypechecks &&
+        !dynamicTypecheck(this, ExpectedT->second, T, ValP)) {
       CREATE_ERROR("Dynamic typecheck failed: " + VName.asString());
     }
   }
@@ -399,7 +393,10 @@ uint64_t *ScillaJIT::initGasAndLibs(uint64_t GasLimit) {
   return GasRemPtr;
 }
 
-Json::Value ScillaJIT::initState(uint64_t GasLimit) {
+Json::Value ScillaJIT::deploy(const Json::Value &InitJ, uint64_t GasLimit) {
+
+  // Initialize contract parameters.
+  initContrParams(InitJ, true /* DoDynamicTypechecks */);
 
   auto GasRemPtr = initGasAndLibs(GasLimit);
 
@@ -446,7 +443,11 @@ ScillaJIT::ScillaJIT(const ScillaParams &SPs, std::unique_ptr<LLJIT> &&J)
 ScillaJIT::~ScillaJIT() { secp256k1_context_destroy(Ctx_secp256k1); }
 
 Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
-                               Json::Value &Msg) {
+                               const Json::Value &InitJ,
+                               const Json::Value &Msg) {
+
+  initContrParams(InitJ, false /* DoDynamicTypechecks */);
+
   Json::Value TransNameJ = Msg.get("_tag", Json::nullValue);
   Json::Value ParamsJ = Msg.get("params", Json::nullValue);
   Json::Value OriginJ = Msg.get("_origin", Json::nullValue);

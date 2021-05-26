@@ -94,17 +94,16 @@ void testMessageHelper(const std::string &ContrFilename,
   std::unique_ptr<ScillaVM::ScillaJIT_Safe> JE;
   {
     ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
-    JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON,
-                                &OCache);
+    JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, &OCache);
   }
   try {
     Json::Value OJ;
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
       if (MessageFilename.empty()) {
-        OJ = JE->initState(Config::GasLimit);
+        OJ = JE->deploy(InitJSON, Config::GasLimit);
       } else {
-        OJ = JE->execMsg(Balance, Config::GasLimit, MessageJSON);
+        OJ = JE->execMsg(Balance, Config::GasLimit, InitJSON, MessageJSON);
       }
     }
 
@@ -225,15 +224,14 @@ void testMessageFail(const std::string &ContrFilename,
     // Create a JIT engine
     {
       ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
-      JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, InitJSON,
-                                  &OCache);
+      JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, &OCache);
     }
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
       if (MessageFilename.empty()) {
-        JE->initState(Config::GasLimit);
+        JE->deploy(InitJSON, Config::GasLimit);
       } else {
-        JE->execMsg(Balance, Config::GasLimit, MessageJSON);
+        JE->execMsg(Balance, Config::GasLimit, InitJSON, MessageJSON);
       }
     }
   } catch (const ScillaError &E) {
@@ -568,7 +566,7 @@ BOOST_AUTO_TEST_CASE(remote_state_reads_init) {
               "remote_state_reads.ostate_00.json",
               "remote_state_reads.init_output.json");
 }
-#if 0
+
 BOOST_AUTO_TEST_CASE(remote_state_reads_1) {
   testMessage(
       "remote_state_reads.ll", "remote_state_reads.message_1.json",
@@ -576,7 +574,6 @@ BOOST_AUTO_TEST_CASE(remote_state_reads_1) {
       "remote_state_reads.state_1.json", "remote_state_reads.ostate_01.json",
       "remote_state_reads.output_1.json");
 }
-#endif
 
 BOOST_AUTO_TEST_SUITE_END() // remote_state_reads
 
