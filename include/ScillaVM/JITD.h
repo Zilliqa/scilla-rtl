@@ -148,7 +148,9 @@ public:
   // What's the gas remaining from previous execution (initState / execMsg).
   // Useful if execution was interrupted due to an exception.
   // Use with care if you don't want to end up with a stale value.
-  uint64_t getGasRem();
+  uint64_t getGasRem() const;
+  // Parse a string into a Scilla type. Raises error on failure.
+  const ScillaTypes::Typ *parseTypeString(const std::string &) const;
 
   // Scilla values dynamically allocated and owned by the JIT engine.
   std::unique_ptr<ObjManager> OM;
@@ -205,7 +207,10 @@ public:
   // What's the gas remaining from previous execution (initState / execMsg).
   // Useful if execution was interrupted due to an exception.
   // Use with care if you don't want to end up with a stale value.
-  uint64_t getGasRem() { return ScillaJIT::getGasRem(); }
+  uint64_t getGasRem() const { return ScillaJIT::getGasRem(); }
+
+  // Parse a string into a Scilla type. Raises error on failure.
+  const ScillaTypes::Typ *parseTypeString(const std::string &) const;
 
   // Get the type descriptors table and its length.
   std::pair<const ScillaTypes::Typ **, int> getTypeDescrTable() const {

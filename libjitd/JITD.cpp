@@ -76,6 +76,8 @@ Error addScillaBuiltins(orc::LLJIT &LLJitter, const DataLayout &DL) {
 
 namespace ScillaVM {
 
+namespace ph = std::placeholders;
+
 #define DEBUG_TYPE "obj_cache"
 
 // Caching mechanism for compiled files. Not thread safe.
@@ -246,10 +248,9 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
             }
             auto GDBListener =
                 JITEventListener::createGDBRegistrationListener();
-            using namespace std::placeholders;
             ObjLinkingLayer->setNotifyLoaded(
                 std::bind(&JITEventListener::notifyObjectLoaded, GDBListener,
-                          _1, _2, _3));
+                          ph::_1, ph::_2, ph::_3));
             return ObjLinkingLayer;
           })
           .create();
@@ -261,7 +262,6 @@ std::unique_ptr<ScillaJIT> ScillaJIT::create(const ScillaParams &SPs,
     CREATE_ERROR(llvm::toString(std::move(Err)));
 
   std::unique_ptr<ScillaJIT> THIS(new ScillaJIT(SPs, std::move(*J)));
-
   auto Ctx = std::make_unique<LLVMContext>();
 
   std::unique_ptr<llvm::MemoryBuffer> Obj =
@@ -340,7 +340,6 @@ void ScillaJIT::initContrParams(const Json::Value &CP) {
                   ParamMap[std::string(PD.m_PName)] = PD.m_PTy;
                 });
 
-  auto TyDescrs = getTypeDescrTable();
   for (const auto &PJ : CP) {
     if (!PJ.isObject()) {
       CREATE_ERROR(ErrMsg);
@@ -360,8 +359,7 @@ void ScillaJIT::initContrParams(const Json::Value &CP) {
     if (ExpectedT == ParamMap.end()) {
       CREATE_ERROR("Unknown contract parameter in JSON " + VName.asString());
     }
-    auto *T = ScillaTypes::Typ::fromString(TPPC.get(), TyDescrs.first,
-                                           TyDescrs.second, Type.asString());
+    auto *T = parseTypeString(Type.asString());
     // Before we parse the value into memory (which is already allocated
     // and of fixed length), ensure that the value is safe.
     if (!ScillaTypes::Typ::valueCompatible(T, ExpectedT->second)) {
@@ -372,15 +370,18 @@ void ScillaJIT::initContrParams(const Json::Value &CP) {
                    " specified in the contract.");
     }
     void *P = (getAddressFor(VName.asString()));
+    void *ValP;
     if (ScillaTypes::Typ::isBoxed(T)) {
       // Boxed types are just pointers.
-      *reinterpret_cast<void **>(P) = ScillaValues::fromJSON(*OM, T, Value);
+      ValP = ScillaValues::fromJSON(*OM, T, Value);
+      *reinterpret_cast<void **>(P) = ValP;
     } else {
+      ValP = P;
       // We create the ScillaValue in place.
-      ScillaValues::fromJSONToMem(*OM, P, ScillaTypes::Typ::sizeOf(T), T,
+      ScillaValues::fromJSONToMem(*OM, ValP, ScillaTypes::Typ::sizeOf(T), T,
                                   Value);
     }
-    if (!dynamicTypecheck(ExpectedT->second, T, P)) {
+    if (!dynamicTypecheck(this, ExpectedT->second, T, ValP)) {
       CREATE_ERROR("Dynamic typecheck failed: " + VName.asString());
     }
   }
@@ -409,8 +410,15 @@ Json::Value ScillaJIT::initState(uint64_t GasLimit) {
   return TS->finalize();
 }
 
-uint64_t ScillaJIT::getGasRem() {
-  return *reinterpret_cast<uint64_t *>(getAddressFor("_gasrem"));
+uint64_t ScillaJIT::getGasRem() const {
+  return *reinterpret_cast<const uint64_t *>(getAddressFor("_gasrem"));
+}
+
+const ScillaTypes::Typ *
+ScillaJIT::parseTypeString(const std::string &TStr) const {
+  auto TyDescrs = getTypeDescrTable();
+  return ScillaTypes::Typ::fromString(TPPC.get(), TyDescrs.first,
+                                      TyDescrs.second, TStr);
 }
 
 void *ScillaJIT::getAddressFor(const std::string &Symbol) const {
@@ -508,7 +516,6 @@ Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
     TParamsMap[std::string(PD.m_PName)] = PD.m_PTy;
   });
 
-  auto TyDescrs = getTypeDescrTable();
   std::vector<std::string> ParamNames;
   std::vector<const ScillaTypes::Typ *> ParamTypes;
   std::vector<Json::Value> ParamValues;
@@ -521,9 +528,7 @@ Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
         !VNameJ.isString() || !TypeJ.isString()) {
       CREATE_ERROR("Incorrect paramter format in message JSON.");
     }
-
-    auto *T = ScillaTypes::Typ::fromString(TPPC.get(), TyDescrs.first,
-                                           TyDescrs.second, TypeJ.asString());
+    auto *T = parseTypeString(TypeJ.asString());
     ParamTypes.push_back(T);
     ParamValues.push_back(ValueJ);
     ParamNames.push_back(VNameJ.asString());
@@ -539,17 +544,21 @@ Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
     const ScillaTypes::Typ *T = ParamTypes[I];
     int Size = ScillaTypes::Typ::sizeOf(T);
     auto *ThisMemP = Mem + Off;
+    void *ValP;
     if (ScillaTypes::Typ::isBoxed(T)) {
-      *reinterpret_cast<void **>(ThisMemP) =
-          ScillaValues::fromJSON(*OM, T, ParamValues[I]);
+      ValP = ScillaValues::fromJSON(*OM, T, ParamValues[I]);
+      *reinterpret_cast<void **>(ThisMemP) = ValP;
     } else {
-      ScillaValues::fromJSONToMem(*OM, ThisMemP, Size, T, ParamValues[I]);
+      ValP = ThisMemP;
+      ScillaValues::fromJSONToMem(*OM, ValP, Size, T, ParamValues[I]);
     }
     auto ExpectedT = TParamsMap.find(ParamNames[I]);
     if (ExpectedT == TParamsMap.end()) {
       CREATE_ERROR("Unknown transition parameter " + ParamNames[I]);
     }
-    if (!dynamicTypecheck(ExpectedT->second, T, ThisMemP)) {
+    // _sender and _origin are trusted addresses. Otherwise, we must verify.
+    if (ParamNames[I] != "_sender" && ParamNames[I] != "_origin" &&
+        !dynamicTypecheck(this, ExpectedT->second, T, ValP)) {
       CREATE_ERROR("Dyanamic typecheck failed: " + ParamNames[I]);
     }
 

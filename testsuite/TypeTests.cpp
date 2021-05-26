@@ -72,9 +72,7 @@ BOOST_AUTO_TEST_CASE(tydescrs_print) {
 const Typ *parseTypeString(const std::string TS) {
   using namespace TypeDescrs;
   try {
-    const Typ *T = Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, TS);
-    BOOST_REQUIRE_MESSAGE(T, "Parsing " << TS << " failed.");
-    return T;
+    return Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, TS);
   } catch (const ScillaVM::ScillaError &E) {
     BOOST_FAIL(E.toString());
   }
@@ -94,12 +92,15 @@ void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
 
 void parserTestFail(const std::string &Input) {
   using namespace TypeDescrs;
+  bool CaughtError = false;
   try {
-    const Typ *T = Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, Input);
-    BOOST_REQUIRE_MESSAGE(!T, "Type parser should have failed, but did not.");
+    Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, Input);
   } catch (const ScillaVM::ScillaError &E) {
+    CaughtError = true;
     BOOST_TEST_MESSAGE("\tCaught expected exception: " << E.toString());
   }
+  BOOST_REQUIRE_MESSAGE(CaughtError,
+                        "Type parser should have failed, but did not.");
 }
 
 BOOST_AUTO_TEST_CASE(parse_prims) {

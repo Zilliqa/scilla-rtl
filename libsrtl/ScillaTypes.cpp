@@ -653,8 +653,8 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
   Start_R %= T_R >> qi::eoi;
 
   const Typ *T = nullptr;
-  if (!phrase_parse(Input.begin(), Input.end(), Start_R, ascii::space, T))
-    return nullptr;
+  if (!phrase_parse(Input.begin(), Input.end(), Start_R, ascii::space, T) || !T)
+    CREATE_ERROR("Parsing type " + Input + " failed");
 
   return T;
 }

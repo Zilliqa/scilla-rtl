@@ -289,7 +289,6 @@ std::string MemStateServer::initState(
 
           auto Type = ScillaTypes::Typ::fromString(
               &TPPC, TyDescrs.first, TyDescrs.second, VTypJ.asString());
-          ASSERT_MSG(Type, "Couldn't parse type " + VTypJ.asString());
           auto Depth = ScillaTypes::Typ::getMapDepth(Type);
 
           boost::any V;

@@ -213,9 +213,9 @@ struct Typ {
   //   - If the cache is empty, it is filled.
   //   - If the cache is not empty, it is used.
   // The cache must have been built using the same @Ts argument.
+  // Raises error if parsing fails.
   static const Typ *fromString(TypParserPartialCache *TPPC, const Typ *Ts[],
                                int NT, const std::string &Input);
-
   // Get the type of keys of a Map.
   static void getMapKeyTypes(const Typ *T, std::vector<const Typ *> &Keys);
   // Map depth. 0 for non-Map types.
