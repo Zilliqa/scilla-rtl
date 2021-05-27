@@ -96,13 +96,14 @@ public:
     return reinterpret_cast<void *>(Buf);
   };
   // Destruct and free all objects owned by this manager instance.
-  void mFreeAll() {
+  void deleteAll() {
     for (auto *P : Objs) {
       P->~MemObjBase();
     }
+    Objs.clear();
     All.Reset();
   }
-  ~ObjManager() { mFreeAll(); };
+  ~ObjManager() { deleteAll(); };
 };
 
 // Fetch the type of a remote field, if it exists.

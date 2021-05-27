@@ -24,9 +24,9 @@ namespace ScillaTestsuite {
 void checkEqStateVariables(const Json::Value &Expected,
                            const Json::Value &Got) {
 
-  BOOST_ASSERT_MSG(Expected.isArray() && Got.isArray() &&
-                       Expected.size() == Got.size(),
-                   "State JSON size mismatch");
+  BOOST_REQUIRE_MESSAGE(Expected.isArray() && Got.isArray() &&
+                            Expected.size() == Got.size(),
+                        "State JSON size mismatch");
 
   for (Json::Value::ArrayIndex I = 0; I < Expected.size(); I++) {
     const auto &ESV = Expected[I];

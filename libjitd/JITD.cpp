@@ -404,7 +404,10 @@ Json::Value ScillaJIT::deploy(const Json::Value &InitJ, uint64_t GasLimit) {
   TS = std::make_unique<TransitionState>("0", "0", GasRemPtr);
   auto fIS = reinterpret_cast<void (*)(void)>(getAddressFor("_init_state"));
   fIS();
-  return TS->finalize();
+
+  Json::Value Result = TS->finalize();
+  OM->deleteAll();
+  return Result;
 }
 
 uint64_t ScillaJIT::getGasRem() const {
@@ -567,7 +570,10 @@ Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
   }
 
   Transition(Mem);
-  return TS->finalize();
+
+  Json::Value Result = TS->finalize();
+  OM->deleteAll();
+  return Result;
 }
 
 } // namespace ScillaVM
