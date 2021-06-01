@@ -57,8 +57,8 @@ add_subdirectory(libjitd)
 add_subdirectory(libsrtl)
 add_subdirectory(runners)
 add_subdirectory(testsuite)
-add_subdirectory(deps/cryptoutils)
-add_subdirectory(deps/schnorr)
+add_subdirectory(deps/cryptoutils EXCLUDE_FROM_ALL)
+add_subdirectory(deps/schnorr EXCLUDE_FROM_ALL)
 
 # installation
 set_target_properties(scilla-runner
@@ -70,8 +70,16 @@ set_target_properties(ScillaRTL
 set_target_properties(ScillaJITD
     PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 install(
-    DIRECTORY ${CMAKE_BINARY_DIR}/bin ${CMAKE_BINARY_DIR}/lib ${CMAKE_SOURCE_DIR}/include
-    DESTINATION ${CMAKE_INSTALL_PREFIX}
+    TARGETS scilla-runner expr-runner
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+)
+install(
+    TARGETS ScillaRTL ScillaJITD CryptoUtils Schnorr ff
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+)
+install(
+    DIRECTORY include/
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/include
     USE_SOURCE_PERMISSIONS
 )
 
