@@ -670,8 +670,9 @@ BOOST_AUTO_TEST_CASE(common_jit) {
 auto prepareRemoteStateReadsSuccTests = []() {
   ContractTest RSRSTs{"remote_state_reads.ll", {}};
   for (int I = 1; I <= 11; I++) {
-    if (I == 6 || I == 7 ||
-        I == 9 /* https://github.com/Zilliqa/scilla-vm/issues/23 */)
+    if (I == 6    /* https://github.com/Zilliqa/scilla-compiler/issues/68 */
+        || I == 7 /* https://github.com/Zilliqa/scilla-compiler/issues/69 */
+        || I == 9 /* https://github.com/Zilliqa/scilla-vm/issues/23 */)
       continue;
     ContractTest::Input ThisInput = {
         "remote_state_reads_succ_" + std::to_string(I),
