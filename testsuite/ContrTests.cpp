@@ -100,8 +100,8 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
         JE = ScillaJIT_Safe::create(SP, PathPrefix + CT.ContrFilename, &OCache);
       }
     }
-    BOOST_TEST_CHECKPOINT("Testing " + CT.ContrFilename + " with input " +
-                          Input.ID);
+    BOOST_TEST_MESSAGE("Testing " + CT.ContrFilename + " with input " +
+                       Input.ID);
     Json::Value MessageJSON, InitJSON;
     std::string Balance = "0";
     try {
@@ -648,17 +648,16 @@ BOOST_AUTO_TEST_CASE(map_corners_test_stress,
 BOOST_AUTO_TEST_SUITE_END() // map_corners_test
 
 BOOST_AUTO_TEST_SUITE(remote_state_reads)
+
 ContractTest RemoteStateReadsTests = {
     "remote_state_reads.ll",
-    {{"remote_state_reads_init", "", "remote_state_reads.init.json",
-      "remote_state_reads.contrinfo.json", "remote_state_reads.init_state.json",
-      "remote_state_reads.ostate_00.json",
-      "remote_state_reads.init_output.json"},
-
-     {"remote_state_reads_1", "remote_state_reads.message_1.json",
-      "remote_state_reads.init.json", "remote_state_reads.contrinfo.json",
-      "remote_state_reads.state_1.json", "remote_state_reads.ostate_01.json",
-      "remote_state_reads.output_1.json"}}};
+    {
+        {"remote_state_reads_init", "", "remote_state_reads.init.json",
+         "remote_state_reads.contrinfo.json",
+         "remote_state_reads.init_state.json",
+         "remote_state_reads.init_ostate.json",
+         "remote_state_reads.init_output.json"},
+    }};
 
 BOOST_AUTO_TEST_CASE(unique_jits) {
   testMessages(RemoteStateReadsTests, false /* CommonJIT */);
@@ -666,6 +665,33 @@ BOOST_AUTO_TEST_CASE(unique_jits) {
 
 BOOST_AUTO_TEST_CASE(common_jit) {
   testMessages(RemoteStateReadsTests, true /* CommonJIT */);
+}
+
+auto prepareRemoteStateReadsSuccTests = []() {
+  ContractTest RSRSTs{"remote_state_reads.ll", {}};
+  for (int I = 1; I <= 11; I++) {
+    if (I == 6 || I == 7 ||
+        I == 9 /* https://github.com/Zilliqa/scilla-vm/issues/23 */)
+      continue;
+    ContractTest::Input ThisInput = {
+        "remote_state_reads_succ_" + std::to_string(I),
+        "remote_state_reads.message_" + std::to_string(I) + ".json",
+        "remote_state_reads.init.json",
+        "remote_state_reads.contrinfo.json",
+        "remote_state_reads.state_" + std::to_string(I) + ".json",
+        "remote_state_reads.ostate_" + std::to_string(I) + ".json",
+        "remote_state_reads.output_" + std::to_string(I) + ".json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits) {
+  testMessages(prepareRemoteStateReadsSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit) {
+  testMessages(prepareRemoteStateReadsSuccTests(), true /* CommonJIT */);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // remote_state_reads
