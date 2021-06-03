@@ -657,6 +657,30 @@ ContractTest RemoteStateReadsTests = {
          "remote_state_reads.init_state.json",
          "remote_state_reads.init_ostate.json",
          "remote_state_reads.init_output.json"},
+/*         {"remote_state_reads_init_assignable_map_types", "",
+         "remote_state_reads.init_assignable_map_types.json",
+         "remote_state_reads.contrinfo.json",
+         "remote_state_reads.init_assignable_map_types_state.json",
+         "remote_state_reads.init_assignable_map_types_ostate.json",
+         "remote_state_reads.init_assignable_map_types_output.json"}, */
+         {"remote_state_reads_init_nonce_no_balance", "",
+         "remote_state_reads.init_nonce_no_balance.json",
+         "remote_state_reads.contrinfo.json",
+         "remote_state_reads.init_nonce_no_balance_state.json",
+         "remote_state_reads.init_nonce_no_balance_ostate.json",
+         "remote_state_reads.init_nonce_no_balance_output.json"},
+         {"remote_state_reads_init_balance_no_nonce", "",
+         "remote_state_reads.init_balance_no_nonce.json",
+         "remote_state_reads.contrinfo.json",
+         "remote_state_reads.init_balance_no_nonce_state.json",
+         "remote_state_reads.init_balance_no_nonce_ostate.json",
+         "remote_state_reads.init_balance_no_nonce_output.json"},
+         {"remote_state_reads_init_balance_and_nonce", "",
+         "remote_state_reads.init_balance_and_nonce.json",
+         "remote_state_reads.contrinfo.json",
+         "remote_state_reads.init_balance_and_nonce_state.json",
+         "remote_state_reads.init_balance_and_nonce_ostate.json",
+         "remote_state_reads.init_balance_and_nonce_output.json"},
     }};
 
 BOOST_AUTO_TEST_CASE(unique_jits) {
@@ -670,7 +694,8 @@ BOOST_AUTO_TEST_CASE(common_jit) {
 auto prepareRemoteStateReadsSuccTests = []() {
   ContractTest RSRSTs{"remote_state_reads.ll", {}};
   for (int I = 1; I <= 11; I++) {
-    if (I == 6    /* https://github.com/Zilliqa/scilla-compiler/issues/68 */
+    if (I == 4 ||
+        I == 6    /* https://github.com/Zilliqa/scilla-compiler/issues/68 */
         || I == 7 /* https://github.com/Zilliqa/scilla-compiler/issues/69 */
         || I == 9 /* https://github.com/Zilliqa/scilla-vm/issues/23 */)
       continue;
