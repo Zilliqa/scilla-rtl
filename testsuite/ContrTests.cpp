@@ -720,6 +720,31 @@ BOOST_AUTO_TEST_CASE(succ_common_jit) {
   testMessages(prepareRemoteStateReadsSuccTests(), true /* CommonJIT */);
 }
 
+auto prepareRemoteStateReads2SuccTests = []() {
+  ContractTest RSRSTs{"remote_state_reads_2.ll", {}};
+  for (int I = 1; I <= 5; I++) {
+    ContractTest::Input ThisInput = {
+        "remote_state_reads_2_succ_" + std::to_string(I),
+        "remote_state_reads_2.message_" + std::to_string(I) + ".json",
+        "remote_state_reads_2.init.json",
+        "remote_state_reads_2.contrinfo.json",
+        "remote_state_reads_2.state_" + std::to_string(I) + ".json",
+        "remote_state_reads_2.ostate_" + std::to_string(I) + ".json",
+        "remote_state_reads_2.output_" + std::to_string(I) + ".json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits_2) {
+  testMessages(prepareRemoteStateReads2SuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit_2) {
+  testMessages(prepareRemoteStateReads2SuccTests(), true /* CommonJIT */);
+}
+
+
 BOOST_AUTO_TEST_SUITE_END() // remote_state_reads
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

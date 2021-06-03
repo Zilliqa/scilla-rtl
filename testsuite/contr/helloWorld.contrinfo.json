@@ -16,7 +16,6 @@
       { "vname": "sendoff_msg", "type": "String", "depth": 0 }
     ],
     "transitions": [
-      { "vname": "all_names", "params": [] },
       {
         "vname": "setHello",
         "params": [ { "vname": "msg", "type": "String" } ]
