@@ -40,6 +40,8 @@ Json::Value parseJSONString(const std::string &JS);
 Json::Value parseJSONFile(const std::string &Filename);
 // Parse a Scilla type and return its map depth if successfully parsed.
 boost::optional<int> mapDepthOfTypeString(const std::string &TypeStr);
+// Serialize a JSON for storage.
+std::string serializeJSON(const Json::Value &J);
 
 namespace ScillaTypes {
 class Typ;

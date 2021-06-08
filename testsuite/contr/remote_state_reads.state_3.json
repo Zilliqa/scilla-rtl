@@ -160,7 +160,7 @@
                 { "vname": "_balance", "type": "Uint128", "value": "31" },
                 { "vname": "_this_address", "type": "ByStr20", "value": "0xabfeccdc9012345678901234567890f777564325" },
                 { "vname": "transactionCount", "type": "Uint32", "value": "5" },
-                { "vname": "admin", "type": "ByStr20 with end", "value": "0xabfeccdc9012345678901234567890f777564326" },
+                { "vname": "admin", "type": "ByStr20 with contract field paused : Bool end", "value": "0xabfeccdc9012345678901234567890f777564326" },
                 {
                     "vname": "owners",
                     "type": "Map (ByStr20 with end) Bool",

@@ -194,7 +194,7 @@ void prepareStateAccessIndices(
       VPtr = reinterpret_cast<const void *>(Indices + Off);
     }
     SerializedIndices.emplace_back(
-        ScillaValues::toJSON(KT, VPtr).toStyledString());
+        serializeJSON(ScillaValues::toJSON(KT, VPtr)));
     Off += ScillaTypes::Typ::sizeOf(KT);
   }
 }
@@ -481,7 +481,7 @@ void _update_field(ScillaVM::ScillaJIT *SJ, const char *Name,
         CREATE_ERROR("State update query failed for " + SQ.Name);
       }
     } else {
-      auto ValS = ScillaValues::toJSON(ValT, Val).toStyledString();
+      auto ValS = serializeJSON(ScillaValues::toJSON(ValT, Val));
       if (!SJ->SPs.updateStateValue(SQ, ValS)) {
         CREATE_ERROR("State update query failed for " + SQ.Name);
       }
@@ -962,8 +962,7 @@ ScillaParams::MapValueT *_put(ScillaJIT *SJ, const ScillaTypes::Typ *T,
   switch (T->m_t) {
   case ScillaTypes::Typ::Map_typ: {
     auto KT = T->m_sub.m_mapt->m_keyTyp;
-    Json::Value KeyJ = ScillaValues::toJSON(KT, K);
-    auto KeyS = KeyJ.toStyledString();
+    auto KeyS = serializeJSON(ScillaValues::toJSON(KT, K));
 
     auto VT = T->m_sub.m_mapt->m_valTyp;
     switch (VT->m_t) {
@@ -971,8 +970,7 @@ ScillaParams::MapValueT *_put(ScillaJIT *SJ, const ScillaTypes::Typ *T,
       NewM->operator[](KeyS) = *reinterpret_cast<ScillaParams::MapValueT *>(V);
       break;
     default: {
-      Json::Value ValJ = ScillaValues::toJSON(VT, V);
-      NewM->operator[](KeyS) = ValJ.toStyledString();
+      NewM->operator[](KeyS) = serializeJSON(ScillaValues::toJSON(VT, V));
       break;
     }
     }
@@ -991,7 +989,7 @@ void *_get(ScillaJIT *SJ, const ScillaTypes::Typ *T,
   ASSERT(T->m_t == ScillaTypes::Typ::Map_typ);
   auto *KeyT = T->m_sub.m_mapt->m_keyTyp;
   auto *ValT = T->m_sub.m_mapt->m_valTyp;
-  auto KeyS = ScillaValues::toJSON(KeyT, K).toStyledString();
+  auto KeyS = serializeJSON(ScillaValues::toJSON(KeyT, K));
   auto Itr = M->find(KeyS);
 
   bool Found = Itr != M->end();
@@ -1005,7 +1003,7 @@ void *_contains(ScillaJIT *SJ, const ScillaTypes::Typ *T,
                 const ScillaParams::MapValueT *M, const void *K) {
   ASSERT(T->m_t == ScillaTypes::Typ::Map_typ);
   auto *KeyT = T->m_sub.m_mapt->m_keyTyp;
-  auto KeyS = ScillaValues::toJSON(KeyT, K).toStyledString();
+  auto KeyS = serializeJSON(ScillaValues::toJSON(KeyT, K));
   auto Itr = M->find(KeyS);
 
   return toScillaBool(*(SJ->OM), Itr != M->end());
@@ -1015,7 +1013,7 @@ void *_remove(ScillaJIT *SJ, const ScillaTypes::Typ *T,
               const ScillaParams::MapValueT *M, const void *K) {
   ASSERT(T->m_t == ScillaTypes::Typ::Map_typ);
   auto *KeyT = T->m_sub.m_mapt->m_keyTyp;
-  auto KeyS = ScillaValues::toJSON(KeyT, K).toStyledString();
+  auto KeyS = serializeJSON(ScillaValues::toJSON(KeyT, K));
 
   auto NewM = SJ->OM->create<ScillaParams::MapValueT>(*M);
   NewM->erase(KeyS);
