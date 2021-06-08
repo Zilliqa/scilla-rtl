@@ -641,7 +641,7 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
       if (KeyJ.isNull() || ValJ.isNull()) {
         CREATE_ERROR("Map JSON entry does not contain key/val entry");
       }
-      auto KeyS = KeyJ.toStyledString();
+      auto KeyS = serializeJSON(KeyJ);
       auto *ValT = T->m_sub.m_mapt->m_valTyp;
       switch (ValT->m_t) {
       case ScillaTypes::Typ::Map_typ: {
@@ -650,7 +650,7 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
         M->emplace(KeyS, std::move(*SubM));
       } break;
       default:
-        M->emplace(KeyS, ValJ.toStyledString());
+        M->emplace(KeyS, serializeJSON(ValJ));
         break;
       }
     }

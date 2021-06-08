@@ -21,6 +21,7 @@
 #include <fstream>
 #include <jsoncpp/json/reader.h>
 #include <jsoncpp/json/value.h>
+#include <jsoncpp/json/writer.h>
 #include <memory>
 
 #include "ScillaTypes.h"
@@ -28,6 +29,12 @@
 #include "ScillaVM/Utils.h"
 
 namespace {
+
+// TODO: Use JsonUtils.h from the blockchain code. That is thread-safe.
+Json::CharReaderBuilder ReadBuilder;
+std::unique_ptr<Json::CharReader> JsonReader(ReadBuilder.newCharReader());
+Json::StreamWriterBuilder WriteBuilder;
+std::unique_ptr<Json::StreamWriter> JsonWriter(WriteBuilder.newStreamWriter());
 
 // Find "vname" in the input JSON array and return its "value".
 // Typical Scilla state JSON format is expected as input.
@@ -64,11 +71,9 @@ std::string readFile(const std::string &Filename) {
 
 Json::Value parseJSONString(const std::string &JS) {
   Json::Value Ret;
-  Json::CharReaderBuilder ReadBuilder;
-  std::unique_ptr<Json::CharReader> Reader(ReadBuilder.newCharReader());
   std::string Error;
   try {
-    Reader->parse(JS.c_str(), JS.c_str() + JS.length(), &Ret, &Error);
+    JsonReader->parse(JS.c_str(), JS.c_str() + JS.length(), &Ret, &Error);
   } catch (const std::exception &e) {
     CREATE_ERROR(std::string(e.what()) + ": " + Error);
   }
@@ -77,8 +82,13 @@ Json::Value parseJSONString(const std::string &JS) {
 }
 
 Json::Value parseJSONFile(const std::string &Filename) {
-
   return parseJSONString(readFile(Filename));
+}
+
+std::string serializeJSON(const Json::Value &J) {
+  std::ostringstream Oss;
+  JsonWriter->write(J, &Oss);
+  return Oss.str();
 }
 
 boost::optional<int> mapDepthOfTypeString(const std::string &TypeStr) {
@@ -455,7 +465,7 @@ std::string MemStateServer::initState(const Json::Value &InitJ,
               [&jsonToSV, &VName](int Depth, boost::any &SV,
                                   const Json::Value &JSONV) -> void {
             if (Depth == 0) {
-              SV = JSONV.toStyledString();
+              SV = serializeJSON(JSONV);
               return;
             }
             if (!JSONV.isArray()) {
@@ -474,7 +484,7 @@ std::string MemStateServer::initState(const Json::Value &InitJ,
                   !Entry.isMember("val")) {
                 CREATE_ERROR(VName + " has malformed map structure");
               }
-              auto &SubV = MapV[Entry["key"].toStyledString()];
+              auto &SubV = MapV[serializeJSON(Entry["key"])];
               jsonToSV(Depth - 1, SubV, Entry["val"]);
             }
           };
