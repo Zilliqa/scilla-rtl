@@ -163,7 +163,7 @@
                 { "vname": "admin", "type": "ByStr20 with end", "value": "0xabfeccdc9012345678901234567890f777564326" },
                 {
                     "vname": "owners",
-                    "type": "Map (ByStr20 with end) Bool",
+                    "type": "Map (ByStr20 with contract field paused : Bool end) Bool",
                     "value": [
                         {
                             "key" : "0xabfeccdc9012345678901234567890f777564326",
