@@ -18,7 +18,6 @@
 #include <algorithm>
 #include <memory>
 #include <numeric>
-#include <secp256k1.h>
 
 #include "llvm/ADT/StringRef.h"
 #include "llvm/ExecutionEngine/JITEventListener.h"
@@ -440,10 +439,9 @@ std::pair<const ScillaTypes::Typ **, int> ScillaJIT::getTypeDescrTable() const {
 }
 
 ScillaJIT::ScillaJIT(const ScillaParams &SPs, std::unique_ptr<LLJIT> &&J)
-    : Jitter(std::move(J)), SPs(SPs),
-      Ctx_secp256k1(secp256k1_context_create(SECP256K1_CONTEXT_VERIFY)) {}
+    : Jitter(std::move(J)), SPs(SPs) {}
 
-ScillaJIT::~ScillaJIT() { secp256k1_context_destroy(Ctx_secp256k1); }
+ScillaJIT::~ScillaJIT() {}
 
 Json::Value ScillaJIT::execMsg(const std::string &Balance, uint64_t GasLimit,
                                const Json::Value &InitJ,

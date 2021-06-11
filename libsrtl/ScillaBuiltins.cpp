@@ -180,6 +180,17 @@ using namespace ScillaVM;
 
 namespace {
 
+// A C++ wrapper to own the C object.
+struct Secp256k1_Context {
+  secp256k1_context *Ctx;
+  Secp256k1_Context()
+      : Ctx(secp256k1_context_create(SECP256K1_CONTEXT_VERIFY)) {}
+  ~Secp256k1_Context() { secp256k1_context_destroy(Ctx); }
+};
+
+// TODO: This and its uses aren't thread-safe.
+Secp256k1_Context SecpCtx;
+
 // Serialize indices in a Scilla memory buffer.
 void prepareStateAccessIndices(
     const std::vector<const ScillaTypes::Typ *> &KeyTypes, int NumIdx,
@@ -835,19 +846,18 @@ uint8_t *_schnorr_get_address(ScillaJIT *SJ, uint8_t *PubK) {
 uint8_t *_ecdsa_verify(ScillaJIT *SJ, uint8_t *PubK, ScillaTypes::String Msg,
                        uint8_t *Sign) {
   secp256k1_pubkey PK;
-  if (!secp256k1_ec_pubkey_parse(SJ->Ctx_secp256k1, &PK, PubK,
-                                 Ecdsa_Pubkey_Len)) {
+  if (!secp256k1_ec_pubkey_parse(SecpCtx.Ctx, &PK, PubK, Ecdsa_Pubkey_Len)) {
     SCILLA_EXCEPTION("Error parsing ECDSA public key");
   }
   uint8_t MsgHash[SHA256_DIGEST_LENGTH];
   secp256k1_ecdsa_signature Sig;
   SHA256(Msg.m_buffer, Msg.m_length, MsgHash);
-  if (!secp256k1_ecdsa_signature_parse_compact(SJ->Ctx_secp256k1, &Sig, Sign)) {
+  if (!secp256k1_ecdsa_signature_parse_compact(SecpCtx.Ctx, &Sig, Sign)) {
     SCILLA_EXCEPTION("Error parsing ECDSA signature");
   }
 
   auto Res = static_cast<bool>(
-      secp256k1_ecdsa_verify(SJ->Ctx_secp256k1, &Sig, MsgHash, &PK));
+      secp256k1_ecdsa_verify(SecpCtx.Ctx, &Sig, MsgHash, &PK));
 
   return toScillaBool(*(SJ->OM), Res);
 }
@@ -861,20 +871,20 @@ uint8_t *_ecdsa_recover_pk(ScillaJIT *SJ, ScillaTypes::String Msg,
   SHA256(Msg.m_buffer, Msg.m_length, MsgHash);
 
   secp256k1_ecdsa_recoverable_signature S;
-  if (!secp256k1_ecdsa_recoverable_signature_parse_compact(SJ->Ctx_secp256k1,
-                                                           &S, Sign, RI)) {
+  if (!secp256k1_ecdsa_recoverable_signature_parse_compact(SecpCtx.Ctx, &S,
+                                                           Sign, RI)) {
     SCILLA_EXCEPTION("Error parsing recoverable signature");
   }
 
   secp256k1_pubkey PK;
-  if (!secp256k1_ecdsa_recover(SJ->Ctx_secp256k1, &PK, &S, MsgHash)) {
+  if (!secp256k1_ecdsa_recover(SecpCtx.Ctx, &PK, &S, MsgHash)) {
     SCILLA_EXCEPTION("Error recovering public key from ECDSA signature");
   }
 
   uint8_t *Buf = reinterpret_cast<uint8_t *>(
       SJ->OM->allocBytes(Ecdsa_Pubkey_Uncompressed_Len));
   size_t BufLen = Ecdsa_Pubkey_Uncompressed_Len;
-  secp256k1_ec_pubkey_serialize(SJ->Ctx_secp256k1, Buf, &BufLen, &PK,
+  secp256k1_ec_pubkey_serialize(SecpCtx.Ctx, Buf, &BufLen, &PK,
                                 SECP256K1_EC_UNCOMPRESSED);
   if (BufLen != Ecdsa_Pubkey_Uncompressed_Len) {
     SCILLA_EXCEPTION(
