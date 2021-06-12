@@ -21,18 +21,13 @@
  * Scilla contract. It is not intended to be called from other C++
  * code, and is therefore not a public header. */
 
+#include "ScillaVM/ScillaExec.h"
+
 #include "SafeInt.h"
 #include "ScillaTypes.h"
-#include "ScillaVM/JITD.h"
 #include "ScillaValue.h"
 
 namespace ScillaVM {
-
-struct ScillaFunctionsMap {
-  const char *FName;
-  const void *FAddr;
-};
-std::vector<ScillaFunctionsMap> getAllScillaBuiltins(void);
 
 // Values that begin with a transition and change as it executes.
 class TransitionState {
@@ -70,7 +65,7 @@ extern "C" {
 void _print_scilla_val(const ScillaVM::ScillaTypes::Typ *T, void *V);
 
 // Allocate memory for JIT code owned by @SJ
-void *_salloc(ScillaVM::ScillaJIT *SJ, size_t size);
+void *_salloc(ScillaVM::ScillaExecImpl *SJ, size_t size);
 
 // Handler for out-of-gas during execution
 void _out_of_gas();
@@ -78,20 +73,20 @@ void _out_of_gas();
 // Fetch field @Name whose type is @T. For map accesses, FetchVal can be false,
 // to indicate that the return value is a Scilla `Bool`, indicating found or
 // not.
-void *_fetch_field(ScillaVM::ScillaJIT *SJ, const char *Name,
+void *_fetch_field(ScillaVM::ScillaExecImpl *SJ, const char *Name,
                    const ScillaVM::ScillaTypes::Typ *T, int32_t NumIdx,
                    const uint8_t *Indices, int32_t FetchVal);
 
 // Same as _fetch_field, but with an address parameter.
 void *
-_fetch_remote_field(ScillaVM::ScillaJIT *SJ,
+_fetch_remote_field(ScillaVM::ScillaExecImpl *SJ,
                     const uint8_t Addr[ScillaVM::ScillaTypes::AddrByStr_Len],
                     const char *Name, const ScillaVM::ScillaTypes::Typ *T,
                     int32_t NumIdx, const uint8_t *Indices, int32_t FetchVal);
 
 // Update field @Name whose type is @T with value @Val. If Val is nullptr,
 // then this is a map update and the keys must be deleted.
-void _update_field(ScillaVM::ScillaJIT *SJ, const char *Name,
+void _update_field(ScillaVM::ScillaExecImpl *SJ, const char *Name,
                    const ScillaVM::ScillaTypes::Typ *, int32_t NumIdx,
                    const uint8_t *Indices, void *Val);
 
@@ -102,7 +97,7 @@ ScillaVM::ScillaTypes::Int64 _add_Int64(ScillaVM::ScillaTypes::Int64,
                                         ScillaVM::ScillaTypes::Int64);
 ScillaVM::ScillaTypes::Int128 _add_Int128(ScillaVM::ScillaTypes::Int128,
                                           ScillaVM::ScillaTypes::Int128);
-ScillaVM::ScillaTypes::Int256 *_add_Int256(ScillaVM::ScillaJIT *SJ,
+ScillaVM::ScillaTypes::Int256 *_add_Int256(ScillaVM::ScillaExecImpl *SJ,
                                            ScillaVM::ScillaTypes::Int256 *Lhs,
                                            ScillaVM::ScillaTypes::Int256 *Rhs);
 
@@ -113,132 +108,141 @@ ScillaVM::ScillaTypes::Uint64 _add_Uint64(ScillaVM::ScillaTypes::Uint64,
 ScillaVM::ScillaTypes::Uint128 _add_Uint128(ScillaVM::ScillaTypes::Uint128,
                                             ScillaVM::ScillaTypes::Uint128);
 ScillaVM::ScillaTypes::Uint256 *
-_add_Uint256(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Uint256 *Lhs,
+_add_Uint256(ScillaVM::ScillaExecImpl *SJ, ScillaVM::ScillaTypes::Uint256 *Lhs,
              ScillaVM::ScillaTypes::Uint256 *Rhs);
 
-uint8_t *_eq_Int32(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Int32 Lhs,
+uint8_t *_eq_Int32(ScillaVM::ScillaExecImpl *SJ,
+                   ScillaVM::ScillaTypes::Int32 Lhs,
                    ScillaVM::ScillaTypes::Int32 Rhs);
 
-uint8_t *_eq_Int64(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Int64 Lhs,
+uint8_t *_eq_Int64(ScillaVM::ScillaExecImpl *SJ,
+                   ScillaVM::ScillaTypes::Int64 Lhs,
                    ScillaVM::ScillaTypes::Int64 Rhs);
 
-uint8_t *_eq_Int128(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Int128 Lhs,
+uint8_t *_eq_Int128(ScillaVM::ScillaExecImpl *SJ,
+                    ScillaVM::ScillaTypes::Int128 Lhs,
                     ScillaVM::ScillaTypes::Int128 Rhs);
 
-uint8_t *_eq_Int256(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Int256 *Lhs,
+uint8_t *_eq_Int256(ScillaVM::ScillaExecImpl *SJ,
+                    ScillaVM::ScillaTypes::Int256 *Lhs,
                     ScillaVM::ScillaTypes::Int256 *Rhs);
 
-uint8_t *_eq_Uint32(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Uint32 Lhs,
+uint8_t *_eq_Uint32(ScillaVM::ScillaExecImpl *SJ,
+                    ScillaVM::ScillaTypes::Uint32 Lhs,
                     ScillaVM::ScillaTypes::Uint32 Rhs);
 
-uint8_t *_eq_Uint64(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Uint64 Lhs,
+uint8_t *_eq_Uint64(ScillaVM::ScillaExecImpl *SJ,
+                    ScillaVM::ScillaTypes::Uint64 Lhs,
                     ScillaVM::ScillaTypes::Uint64 Rhs);
 
-uint8_t *_eq_Uint128(ScillaVM::ScillaJIT *SJ,
+uint8_t *_eq_Uint128(ScillaVM::ScillaExecImpl *SJ,
                      ScillaVM::ScillaTypes::Uint128 Lhs,
                      ScillaVM::ScillaTypes::Uint128 Rhs);
 
-uint8_t *_eq_Uint256(ScillaVM::ScillaJIT *SJ,
+uint8_t *_eq_Uint256(ScillaVM::ScillaExecImpl *SJ,
                      ScillaVM::ScillaTypes::Uint256 *Lhs,
                      ScillaVM::ScillaTypes::Uint256 *Rhs);
 
-void *_to_nat(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::Uint32 UI);
+void *_to_nat(ScillaVM::ScillaExecImpl *SJ, ScillaVM::ScillaTypes::Uint32 UI);
 
-void _send(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+void _send(ScillaVM::ScillaExecImpl *SJ, const ScillaVM::ScillaTypes::Typ *T,
            const void *V);
 
-void _event(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+void _event(ScillaVM::ScillaExecImpl *SJ, const ScillaVM::ScillaTypes::Typ *T,
             const void *V);
 
-void _throw(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+void _throw(ScillaVM::ScillaExecImpl *SJ, const ScillaVM::ScillaTypes::Typ *T,
             const void *V);
 
-uint8_t *_eq_String(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::String Lhs,
+uint8_t *_eq_String(ScillaVM::ScillaExecImpl *SJ,
+                    ScillaVM::ScillaTypes::String Lhs,
                     ScillaVM::ScillaTypes::String Rhs);
 
-uint8_t *_eq_ByStr(ScillaVM::ScillaJIT *SJ, ScillaVM::ScillaTypes::String Lhs,
+uint8_t *_eq_ByStr(ScillaVM::ScillaExecImpl *SJ,
+                   ScillaVM::ScillaTypes::String Lhs,
                    ScillaVM::ScillaTypes::String Rhs);
 
-uint8_t *_eq_ByStrX(ScillaVM::ScillaJIT *SJ, int X, uint8_t *Lhs, uint8_t *Rhs);
+uint8_t *_eq_ByStrX(ScillaVM::ScillaExecImpl *SJ, int X, uint8_t *Lhs,
+                    uint8_t *Rhs);
 
-ScillaVM::ScillaTypes::String _to_bystr(ScillaVM::ScillaJIT *SJ, int X,
+ScillaVM::ScillaTypes::String _to_bystr(ScillaVM::ScillaExecImpl *SJ, int X,
                                         uint8_t *Buf);
 
-ScillaVM::ScillaTypes::String _to_string(ScillaVM::ScillaJIT *SJ,
+ScillaVM::ScillaTypes::String _to_string(ScillaVM::ScillaExecImpl *SJ,
                                          const ScillaVM::ScillaTypes::Typ *T,
                                          const void *V);
 
-ScillaVM::ScillaTypes::String _to_ascii(ScillaVM::ScillaJIT *SJ,
+ScillaVM::ScillaTypes::String _to_ascii(ScillaVM::ScillaExecImpl *SJ,
                                         const uint8_t *S, int L);
 
-void *_bystr_to_bystrx(ScillaVM::ScillaJIT *SJ, int X,
+void *_bystr_to_bystrx(ScillaVM::ScillaExecImpl *SJ, int X,
                        ScillaVM::ScillaTypes::String Str);
 
-uint8_t *_bech32_to_bystr20(ScillaVM::ScillaJIT *SJ,
+uint8_t *_bech32_to_bystr20(ScillaVM::ScillaExecImpl *SJ,
                             ScillaVM::ScillaTypes::String Prefix,
                             ScillaVM::ScillaTypes::String Addr);
-void *_bystr20_to_bech32(ScillaVM::ScillaJIT *SJ,
+void *_bystr20_to_bech32(ScillaVM::ScillaExecImpl *SJ,
                          ScillaVM::ScillaTypes::String Prefix, uint8_t *Addr20);
 
-void *_uint32_to_bystrx(ScillaVM::ScillaJIT *SJ,
+void *_uint32_to_bystrx(ScillaVM::ScillaExecImpl *SJ,
                         ScillaVM::ScillaTypes::Uint32 I);
 
-void *_uint64_to_bystrx(ScillaVM::ScillaJIT *SJ,
+void *_uint64_to_bystrx(ScillaVM::ScillaExecImpl *SJ,
                         ScillaVM::ScillaTypes::Uint64 I);
 
-void *_uint128_to_bystrx(ScillaVM::ScillaJIT *SJ,
+void *_uint128_to_bystrx(ScillaVM::ScillaExecImpl *SJ,
                          ScillaVM::ScillaTypes::Uint128 I);
 
-void *_uint256_to_bystrx(ScillaVM::ScillaJIT *SJ,
+void *_uint256_to_bystrx(ScillaVM::ScillaExecImpl *SJ,
                          ScillaVM::ScillaTypes::Uint256 *I);
 
-ScillaVM::ScillaTypes::Uint32 _bystrx_to_uint32(ScillaVM::ScillaJIT *, int X,
-                                                void *BS);
-ScillaVM::ScillaTypes::Uint64 _bystrx_to_uint64(ScillaVM::ScillaJIT *, int X,
-                                                void *BS);
-ScillaVM::ScillaTypes::Uint128 _bystrx_to_uint128(ScillaVM::ScillaJIT *, int X,
-                                                  void *BS);
-ScillaVM::ScillaTypes::Uint256 *_bystrx_to_uint256(ScillaVM::ScillaJIT *SJ,
+ScillaVM::ScillaTypes::Uint32 _bystrx_to_uint32(ScillaVM::ScillaExecImpl *,
+                                                int X, void *BS);
+ScillaVM::ScillaTypes::Uint64 _bystrx_to_uint64(ScillaVM::ScillaExecImpl *,
+                                                int X, void *BS);
+ScillaVM::ScillaTypes::Uint128 _bystrx_to_uint128(ScillaVM::ScillaExecImpl *,
+                                                  int X, void *BS);
+ScillaVM::ScillaTypes::Uint256 *_bystrx_to_uint256(ScillaVM::ScillaExecImpl *SJ,
                                                    int X, void *BS);
 
-void *_sha256hash(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
-                  void *V);
+void *_sha256hash(ScillaVM::ScillaExecImpl *SJ,
+                  const ScillaVM::ScillaTypes::Typ *T, void *V);
 
-void *_keccak256hash(ScillaVM::ScillaJIT *SJ,
+void *_keccak256hash(ScillaVM::ScillaExecImpl *SJ,
                      const ScillaVM::ScillaTypes::Typ *T, void *V);
 
-void *_ripemd160hash(ScillaVM::ScillaJIT *SJ,
+void *_ripemd160hash(ScillaVM::ScillaExecImpl *SJ,
                      const ScillaVM::ScillaTypes::Typ *T, void *V);
 
-uint8_t *_schnorr_verify(ScillaVM::ScillaJIT *SJ, uint8_t *PubK,
+uint8_t *_schnorr_verify(ScillaVM::ScillaExecImpl *SJ, uint8_t *PubK,
                          ScillaVM::ScillaTypes::String Msg, uint8_t *Sign);
 
-uint8_t *_schnorr_get_address(ScillaVM::ScillaJIT *SJ, uint8_t *PubK);
+uint8_t *_schnorr_get_address(ScillaVM::ScillaExecImpl *SJ, uint8_t *PubK);
 
-uint8_t *_ecdsa_verify(ScillaVM::ScillaJIT *SJ, uint8_t *PubK,
+uint8_t *_ecdsa_verify(ScillaVM::ScillaExecImpl *SJ, uint8_t *PubK,
                        ScillaVM::ScillaTypes::String Msg, uint8_t *Sign);
 
-uint8_t *_ecdsa_recover_pk(ScillaVM::ScillaJIT *SJ,
+uint8_t *_ecdsa_recover_pk(ScillaVM::ScillaExecImpl *SJ,
                            ScillaVM::ScillaTypes::String Msg, uint8_t *Sign,
                            ScillaVM::ScillaTypes::Uint32 RecID);
 
-ScillaVM::ScillaTypes::String _concat_String(ScillaVM::ScillaJIT *SJ,
+ScillaVM::ScillaTypes::String _concat_String(ScillaVM::ScillaExecImpl *SJ,
                                              ScillaVM::ScillaTypes::String Lhs,
                                              ScillaVM::ScillaTypes::String Rhs);
 
-ScillaVM::ScillaTypes::String _concat_ByStr(ScillaVM::ScillaJIT *SJ,
+ScillaVM::ScillaTypes::String _concat_ByStr(ScillaVM::ScillaExecImpl *SJ,
                                             ScillaVM::ScillaTypes::String Lhs,
                                             ScillaVM::ScillaTypes::String Rhs);
 
-void *_concat_ByStrX(ScillaVM::ScillaJIT *SJ, int X1, uint8_t *Lhs, int X2,
+void *_concat_ByStrX(ScillaVM::ScillaExecImpl *SJ, int X1, uint8_t *Lhs, int X2,
                      uint8_t *Rhs);
 
-ScillaVM::ScillaTypes::String _substr_String(ScillaVM::ScillaJIT *SJ,
+ScillaVM::ScillaTypes::String _substr_String(ScillaVM::ScillaExecImpl *SJ,
                                              ScillaVM::ScillaTypes::String Str,
                                              ScillaVM::ScillaTypes::Uint32 Pos,
                                              ScillaVM::ScillaTypes::Uint32 Len);
 
-ScillaVM::ScillaTypes::String _substr_ByStr(ScillaVM::ScillaJIT *SJ,
+ScillaVM::ScillaTypes::String _substr_ByStr(ScillaVM::ScillaExecImpl *SJ,
                                             ScillaVM::ScillaTypes::String Str,
                                             ScillaVM::ScillaTypes::Uint32 Pos,
                                             ScillaVM::ScillaTypes::Uint32 Len);
@@ -246,19 +250,20 @@ ScillaVM::ScillaTypes::String _substr_ByStr(ScillaVM::ScillaJIT *SJ,
 ScillaVM::ScillaTypes::Uint32 _strlen_String(ScillaVM::ScillaTypes::String Str);
 ScillaVM::ScillaTypes::Uint32 _strlen_ByStr(ScillaVM::ScillaTypes::String Str);
 
-void _accept(ScillaVM::ScillaJIT *SJ);
+void _accept(ScillaVM::ScillaExecImpl *SJ);
 
-ScillaVM::ScillaParams::MapValueT *_new_empty_map(ScillaVM::ScillaJIT *SJ);
-ScillaVM::ScillaParams::MapValueT *_put(ScillaVM::ScillaJIT *SJ,
+ScillaVM::ScillaParams::MapValueT *_new_empty_map(ScillaVM::ScillaExecImpl *SJ);
+ScillaVM::ScillaParams::MapValueT *_put(ScillaVM::ScillaExecImpl *SJ,
                                         const ScillaVM::ScillaTypes::Typ *T,
                                         ScillaVM::ScillaParams::MapValueT *M,
                                         void *K, void *V);
-void *_get(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+void *_get(ScillaVM::ScillaExecImpl *SJ, const ScillaVM::ScillaTypes::Typ *T,
            const ScillaVM::ScillaParams::MapValueT *M, const void *K);
-void *_contains(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+void *_contains(ScillaVM::ScillaExecImpl *SJ,
+                const ScillaVM::ScillaTypes::Typ *T,
                 const ScillaVM::ScillaParams::MapValueT *M, const void *K);
 
-void *_remove(ScillaVM::ScillaJIT *SJ, const ScillaVM::ScillaTypes::Typ *T,
+void *_remove(ScillaVM::ScillaExecImpl *SJ, const ScillaVM::ScillaTypes::Typ *T,
               const ScillaVM::ScillaParams::MapValueT *M, const void *K);
 
 // Scilla builtin _size : The size of a map.

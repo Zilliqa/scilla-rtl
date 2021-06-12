@@ -21,7 +21,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "ScillaVM/SRTL.h"
+#include "SRTL.h"
 
 namespace ScillaVM {
 

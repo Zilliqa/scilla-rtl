@@ -21,8 +21,8 @@
 
 #include "ScillaVM/Debug.h"
 #include "ScillaVM/Errors.h"
-#include "ScillaVM/JITD.h"
-#include "ScillaVM/SRTL.h"
+#include "ScillaVM/ScillaExec.h"
+#include "ScillaVM/Utils.h"
 
 using namespace ScillaVM;
 
@@ -108,23 +108,15 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  ScillaJIT::init();
-
-  ScillaStdout.clear();
+  std::string ScillaOutput;
   try {
     auto InputFilename = VM["input-file"].as<std::string>();
+    // Tool to compile the LLVM-IR to a binary shared object.
+    CompileToSO CSO(InputFilename);
+
     auto GasLimit = VM["gaslimit"].as<uint64_t>();
-    auto SJ = ScillaJIT::create(ScillaParams(), InputFilename);
-    auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
-    auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
-
-    // Set gas available in the JIT'ed code and then initialize libraries.
-    SJ->initGasAndLibs(GasLimit);
-
-    // Execute ...
-    ScillaMain();
-    // Collect and print the remaining gas.
-    ScillaStdout += "Gas remaining: " + std::to_string(SJ->getGasRem()) + "\n";
+    ScillaExprExec SJ(ScillaParams(), CSO.compile());
+    ScillaOutput = SJ.exec(GasLimit);
   } catch (const ScillaError &e) {
     std::cerr << e.toString() << "\n";
     return EXIT_FAILURE;
@@ -137,14 +129,14 @@ int main(int argc, char *argv[]) {
       std::cerr << "Error opening output file " << OutputFilename << "\n";
       return EXIT_FAILURE;
     } else {
-      OFile << ScillaStdout;
+      OFile << ScillaOutput;
       if (OFile.bad()) {
         std::cerr << "Error writing to output file " << OutputFilename << "\n";
         return EXIT_FAILURE;
       }
     }
   } else {
-    std::cout << ScillaStdout;
+    std::cout << ScillaOutput;
   }
 
   return EXIT_SUCCESS;

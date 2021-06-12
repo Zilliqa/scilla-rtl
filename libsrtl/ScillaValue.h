@@ -22,8 +22,8 @@
 #include <boost/multiprecision/cpp_int.hpp>
 #include <jsoncpp/json/value.h>
 
+#include "SRTL.h"
 #include "ScillaTypes.h"
-#include "ScillaVM/SRTL.h"
 
 namespace ScillaVM {
 

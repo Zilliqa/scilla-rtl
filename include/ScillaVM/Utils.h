@@ -15,14 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#pragma once
+
 #include <string>
 #include <unordered_map>
 
 #include <boost/any.hpp>
+#include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
 #include <jsoncpp/json/value.h>
 
-#include "JITD.h"
+#include "ScillaExec.h"
 
 namespace boost {
 // Does a boost::any object hold a value of type T.
@@ -35,6 +38,7 @@ template <typename T> bool has_type(const boost::any *a) {
 } // namespace boost
 
 namespace ScillaVM {
+
 std::string readFile(const std::string &Filename);
 Json::Value parseJSONString(const std::string &JS);
 Json::Value parseJSONFile(const std::string &Filename);
@@ -42,6 +46,20 @@ Json::Value parseJSONFile(const std::string &Filename);
 boost::optional<int> mapDepthOfTypeString(const std::string &TypeStr);
 // Serialize a JSON for storage.
 std::string serializeJSON(const Json::Value &J);
+
+// Compile an LLVM IR/bitcode file and return path to binary shared object.
+// The shared object's lifetime is that of this object.
+class CompileToSO {
+  const boost::filesystem::path SOFile;
+  const std::string InputFile;
+
+public:
+  CompileToSO(const std::string &Filename);
+  // Compile the file to a shared object and return the .so filename.
+  // Raises an error if compilation fails.
+  std::string compile() const;
+  ~CompileToSO();
+};
 
 namespace ScillaTypes {
 class Typ;

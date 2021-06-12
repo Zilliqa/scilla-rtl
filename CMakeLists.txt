@@ -53,7 +53,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # C++ standard
 set(CMAKE_CXX_STANDARD 14)
 
-add_subdirectory(libjitd)
 add_subdirectory(libsrtl)
 add_subdirectory(runners)
 add_subdirectory(testsuite)
@@ -67,14 +66,12 @@ set_target_properties(expr-runner
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set_target_properties(ScillaRTL
     PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set_target_properties(ScillaJITD
-    PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 install(
     TARGETS scilla-runner expr-runner
     DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
 )
 install(
-    TARGETS ScillaRTL ScillaJITD CryptoUtils Schnorr ff
+    TARGETS ScillaRTL CryptoUtils Schnorr ff
     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
 )
 install(

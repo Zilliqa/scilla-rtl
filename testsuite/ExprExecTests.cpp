@@ -20,8 +20,8 @@
 using boost::test_tools::output_test_stream;
 
 #include <ScillaVM/Errors.h>
-#include <ScillaVM/JITD.h>
-#include <ScillaVM/SRTL.h>
+#include <ScillaVM/ScillaExec.h>
+#include <ScillaVM/Utils.h>
 
 #include "Testsuite.h"
 
@@ -33,26 +33,14 @@ using namespace ScillaTestsuite;
 void testExecExprHelper(const std::string &Filename,
                         const std::string &ResultFilename) {
 
-  ScillaJIT::init();
-  // TODO: Pushing ScillaJIT::create into the try-catch below
-  // causes a segfault later. Likely related to the exception
-  // bug (and workaround) linked to right below.
-  // Linking to an LLVM build with LLVM_ENABLE_EH=On doesn't solve.
-  auto SJ = ScillaJIT::create(ScillaVM::ScillaParams(), Filename);
+  std::string ScillaOutput;
   try {
-    auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
-    BOOST_TEST_CHECKPOINT(Filename + ": JIT compilation succeeded");
-    auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
-    ScillaStdout.clear();
-    // Set the remaining gas inside the LLVM-IR for the expression.
-    auto GasRemPtr = reinterpret_cast<uint64_t *>(SJ->getAddressFor("_gasrem"));
-    *GasRemPtr = Config::GasLimit;
-
-    // Execute expression.
-    ScillaMain();
-
-    // Collect and print the remaining gas.
-    ScillaStdout += "Gas remaining: " + std::to_string(*GasRemPtr) + "\n";
+    // Tool to compile the LLVM-IR to a binary shared object.
+    CompileToSO CSO(Filename);
+    // Setup a Scilla expression execution object.
+    ScillaExprExec SJ(ScillaVM::ScillaParams(), CSO.compile());
+    BOOST_TEST_CHECKPOINT(Filename + ": Loaded compiled shared object.");
+    ScillaOutput = SJ.exec(Config::GasLimit);
   } catch (const ScillaError &E) {
     BOOST_FAIL(E.toString());
   }
@@ -60,16 +48,9 @@ void testExecExprHelper(const std::string &Filename,
   BOOST_TEST_CHECKPOINT(Filename + ": Execution succeeded");
 
   output_test_stream Output(ResultFilename, !Config::UpdateResults);
-  Output << ScillaStdout;
+  Output << ScillaOutput;
   BOOST_TEST(Output.match_pattern());
   BOOST_TEST_CHECKPOINT(Filename + ": Output matched");
-
-  // https://github.com/boostorg/boost/issues/379
-  try {
-    throw std::exception();
-  } catch (std::exception &) {
-    ;
-  }
 }
 
 // Calls testExecExprHelper for both non-debug and debug LLVM-IR inputs.
@@ -87,28 +68,15 @@ void testExecFailExpr(const std::string &Testname) {
 
   auto Filename = Config::TestsuiteSrc + "/expr/" + Testname + ".ll";
 
-  ScillaJIT::init();
-  // TODO: Pushing ScillaJIT::create into the try-catch below
-  // causes a segfault later. Likely related to the exception
-  // bug (and workaround) linked to right below.
-  // Linking to an LLVM build with LLVM_ENABLE_EH=On doesn't solve.
-  auto SJ = ScillaJIT::create(ScillaVM::ScillaParams(), Filename);
-
   bool CaughtException = false;
+  std::string ScillaOutput;
   try {
-    auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
-    BOOST_TEST_CHECKPOINT(Filename + ": JIT compilation succeeded");
-    auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
-    ScillaStdout.clear();
-    // Set the remaining gas inside the LLVM-IR for the expression.
-    auto GasRemPtr = reinterpret_cast<uint64_t *>(SJ->getAddressFor("_gasrem"));
-    *GasRemPtr = Config::GasLimit;
-
-    // Execute expression.
-    ScillaMain();
-
-    // Collect and print the remaining gas.
-    ScillaStdout += "Gas remaining: " + std::to_string(*GasRemPtr) + "\n";
+    // Tool to compile the LLVM-IR to a binary shared object.
+    CompileToSO CSO(Filename);
+    // Setup a Scilla expression execution object.
+    ScillaExprExec SJ(ScillaVM::ScillaParams(), CSO.compile());
+    BOOST_TEST_CHECKPOINT(Filename + ": Loaded compiled shared object.");
+    ScillaOutput = SJ.exec(Config::GasLimit);
   } catch (const ScillaError &E) {
     output_test_stream Output(Filename + ".result", !Config::UpdateResults);
     Output << E.toString();

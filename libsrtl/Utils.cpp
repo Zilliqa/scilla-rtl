@@ -16,6 +16,7 @@
  */
 
 #include <boost/config/warning_disable.hpp>
+#include <boost/process.hpp>
 #include <boost/spirit/include/phoenix.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include <fstream>
@@ -62,6 +63,9 @@ boost::optional<Json::Value> vNameValue(const Json::Value &Vs,
 
 namespace ScillaVM {
 
+namespace bf = boost::filesystem;
+namespace bp = boost::process;
+
 std::string readFile(const std::string &Filename) {
   std::ifstream IfsFile(Filename);
   std::string FileStr((std::istreambuf_iterator<char>(IfsFile)),
@@ -90,6 +94,25 @@ std::string serializeJSON(const Json::Value &J) {
   JsonWriter->write(J, &Oss);
   return Oss.str();
 }
+
+CompileToSO::CompileToSO(const std::string &Filename)
+    : SOFile(bf::temp_directory_path() / bf::unique_path()),
+      InputFile(Filename) {}
+
+std::string CompileToSO::compile() const {
+  try {
+    auto ExecP = bp::search_path("clang");
+    if (bp::system(ExecP, "-fPIC", "-shared", InputFile, "-o",
+                   SOFile.native())) {
+      CREATE_ERROR("Compilation of " + InputFile + " failed.");
+    }
+  } catch (std::system_error &E) {
+    CREATE_ERROR(E.what());
+  }
+  return SOFile.native();
+}
+
+CompileToSO::~CompileToSO() { boost::filesystem::remove(SOFile); }
 
 boost::optional<int> mapDepthOfTypeString(const std::string &TypeStr) {
 

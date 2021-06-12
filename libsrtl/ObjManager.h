@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Zilliqa
+ * Copyright (C) 2021 Zilliqa
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,35 +17,11 @@
 
 #pragma once
 
-#include <functional>
-#include <memory>
-#include <string>
 #include <vector>
-
-#include <boost/optional.hpp>
 
 #include <llvm/Support/Allocator.h>
 
 namespace ScillaVM {
-
-class ScillaJIT;
-namespace ScillaTypes {
-struct Typ;
-}
-
-using ByteVec = std::vector<uint8_t>;
-
-// A global that accummulates messages printed from the JIT'ed code.
-extern std::string ScillaStdout;
-
-const auto Schnorr_Pubkey_Len = 33;
-const auto Schnorr_Signature_Len = 64;
-
-const auto Ecdsa_Pubkey_Len = 33;
-const auto Ecdsa_Signature_Len = 64;
-const auto Ecdsa_Pubkey_Uncompressed_Len = 65;
-
-const auto Zilliqa_Address_Len = 20;
 
 // Allocates, constructs, owns and destructs objects.
 // Objects of any type can be managed. It works similar to how
@@ -105,21 +81,5 @@ public:
   }
   ~ObjManager() { deleteAll(); };
 };
-
-// Fetch the type of a remote field, if it exists.
-boost::optional<const ScillaTypes::Typ *>
-remoteFieldType(const ScillaJIT *SJ, const std::string &Addr,
-                const std::string &FName);
-
-// Is the given address a contract?
-bool isContrAddr(const ScillaJIT *SJ, const std::string &Addr);
-// Check if the given address has balance > 0 || nonce > 0
-bool isUserAddr(const ScillaJIT *SJ, const std::string &Addr);
-
-// Check that @Val is of type @Target. Asserts valueCompatible(Target, ParsedT).
-// @ParsedT is the type specified in the JSON from which @Val is parsed.
-// The dynamic typecheck itself is essentially ensuring that Addresses conform.
-bool dynamicTypecheck(const ScillaJIT *SJ, const ScillaTypes::Typ *Target,
-                      const ScillaTypes::Typ *ParsedT, void *Val);
 
 } // namespace ScillaVM

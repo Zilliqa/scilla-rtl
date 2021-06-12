@@ -17,10 +17,11 @@
 
 #include <boost/predef.h>
 
-#include "SafeInt.h"
 #include "ScillaVM/Errors.h"
-#include "ScillaVM/JITD.h"
 #include "ScillaVM/Utils.h"
+
+#include "SafeInt.h"
+#include "ScillaExecImpl.h"
 #include "ScillaValue.h"
 
 namespace ScillaVM {

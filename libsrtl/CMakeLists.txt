@@ -1,11 +1,13 @@
 set(TARGET ScillaRTL)
 add_library(${TARGET} SHARED
+  ScillaExecImpl.cpp
   SRTL.cpp
   ScillaBuiltins.cpp
   ScillaTypes.cpp
   ScillaValue.cpp
   SafeInt.cpp
   Utils.cpp
+  Debug.cpp
 )
 
 target_compile_definitions(${TARGET} PUBLIC ${LLVM_DEFINITIONS})

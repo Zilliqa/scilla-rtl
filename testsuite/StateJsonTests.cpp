@@ -18,10 +18,11 @@
 #include <boost/test/unit_test.hpp>
 
 #include <ScillaVM/Errors.h>
-#include <ScillaVM/SRTL.h>
 #include <ScillaVM/Utils.h>
 
+#include "../libsrtl/ObjManager.h"
 #include "../libsrtl/ScillaValue.h"
+
 #include "StateJsonUtils.h"
 #include "Testsuite.h"
 #include "TypeDescrs.h"
