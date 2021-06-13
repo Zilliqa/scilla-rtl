@@ -150,7 +150,7 @@ uint8_t *toScillaBool(ObjManager &OM, bool B) {
 
 // Wrap the result of a map acess with Scilla Option type.
 uint8_t *wrapMapAccessResult(ObjManager &OM, bool Found,
-                             const boost::any &StringOrMapVal,
+                             const std::any &StringOrMapVal,
                              const ScillaTypes::Typ *ValT) {
   if (Found) {
     // Wrap with "Some".
@@ -163,17 +163,17 @@ uint8_t *wrapMapAccessResult(ObjManager &OM, bool Found,
     if (ScillaTypes::Typ::isBoxed(ValT)) {
       if (ValT->m_t == ScillaTypes::Typ::Map_typ) {
         auto &MapVal =
-            boost::any_cast<const ScillaParams::MapValueT &>(StringOrMapVal);
+            std::any_cast<const ScillaParams::MapValueT &>(StringOrMapVal);
         *reinterpret_cast<void **>(Mem + 1) =
             OM.create<ScillaParams::MapValueT>((std::move(MapVal)));
       } else {
-        auto StringVal = boost::any_cast<std::string>(StringOrMapVal);
+        auto StringVal = std::any_cast<std::string>(StringOrMapVal);
         Json::Value ValJ = parseJSONString(StringVal);
         *reinterpret_cast<void **>(Mem + 1) =
             ScillaValues::fromJSON(OM, ValT, ValJ);
       }
     } else {
-      auto StringVal = boost::any_cast<std::string>(StringOrMapVal);
+      auto StringVal = std::any_cast<std::string>(StringOrMapVal);
       Json::Value ValJ = parseJSONString(StringVal);
       ScillaValues::fromJSONToMem(OM, (Mem + 1), MemSize - 1, ValT, ValJ);
     }
@@ -204,7 +204,7 @@ void *fetchFieldHelper(ScillaExecImpl *SJ, const std::string &Addr,
   ScillaParams::StateQuery SQ = {std::string(Name), (int)KeyTypes.size(),
                                  SerializedIndices, !FetchVal};
 
-  boost::any StringOrMapVal;
+  std::any StringOrMapVal;
   bool Found = false;
   ASSERT_MSG(SJ->SPs.fetchStateValue && SJ->SPs.fetchRemoteStateValue,
              "Incorrect ScillaParams provided to ScillaExecImpl");
@@ -225,11 +225,11 @@ void *fetchFieldHelper(ScillaExecImpl *SJ, const std::string &Addr,
     if (MapValueAccess) {
       ASSERT(ScillaTypes::Typ::mapAccessType(T, NumIdx)->m_t ==
              ScillaTypes::Typ::Map_typ);
-      auto &MapVal = boost::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
+      auto &MapVal = std::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
       return reinterpret_cast<void *>(
           SJ->OM.create<ScillaParams::MapValueT>(std::move(MapVal)));
     } else {
-      auto Val = boost::any_cast<std::string>(StringOrMapVal);
+      auto Val = std::any_cast<std::string>(StringOrMapVal);
       Json::Value ValJ = parseJSONString(Val);
       return ScillaValues::fromJSON(SJ->OM, T, ValJ);
     }
@@ -432,7 +432,7 @@ void _update_field(ScillaRTL::ScillaExecImpl *SJ, const char *Name,
   } else {
     ASSERT_MSG(!SerializedIndices.empty(),
                "Value deletion is possible only for indexed map access");
-    boost::any EmptyVal;
+    std::any EmptyVal;
     if (!SJ->SPs.updateStateValue(SQ, EmptyVal)) {
       CREATE_ERROR("State update query failed for " + SQ.Name);
     }
@@ -496,11 +496,11 @@ uint64_t _mapsortcost(const ScillaParams::MapValueT *M) {
 
   // First calculate cost for sub-maps (if any).
   for (auto &Itr : *M) {
-    if (boost::has_type<std::string>(Itr.second)) {
+    if (std::has_type<std::string>(Itr.second)) {
       break;
     }
-    ASSERT(boost::has_type<ScillaParams::MapValueT>(Itr.second));
-    auto *SubM = &boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+    ASSERT(std::has_type<ScillaParams::MapValueT>(Itr.second));
+    auto *SubM = &std::any_cast<const ScillaParams::MapValueT &>(Itr.second);
     Cost += _mapsortcost(SubM);
   }
 
@@ -935,8 +935,8 @@ void *_get(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,
   auto Itr = M->find(KeyS);
 
   bool Found = Itr != M->end();
-  const boost::any Dummy;
-  const boost::any &Val = Found ? Itr->second : Dummy;
+  const std::any Dummy;
+  const std::any &Val = Found ? Itr->second : Dummy;
   // Wrap with "Option".
   return wrapMapAccessResult(SJ->OM, Found, Val, ValT);
 }

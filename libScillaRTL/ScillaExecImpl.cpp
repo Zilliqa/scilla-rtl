@@ -118,10 +118,10 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
   }
   // Let's put the expected contract parameters into a map for fast access.
   std::unordered_map<std::string, ScillaTypes::Typ *> ParamMap;
-  std::for_each(CParams, CParams + NCParams,
-                [&ParamMap](const ScillaTypes::ParamDescr &PD) {
-                  ParamMap[std::string(PD.m_PName)] = PD.m_PTy;
-                });
+  std::for_each_n(CParams, NCParams,
+                  [&ParamMap](const ScillaTypes::ParamDescr &PD) {
+                    ParamMap[std::string(PD.m_PName)] = PD.m_PTy;
+                  });
 
   for (const auto &PJ : CP) {
     if (!PJ.isObject()) {
@@ -296,7 +296,7 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
     CREATE_ERROR("Incorrect number of parameters to transition " + TransName);
   }
   std::unordered_map<std::string, const ScillaTypes::Typ *> TParamsMap;
-  std::for_each(PD, PD + NPD, [&TParamsMap](const ScillaTypes::ParamDescr &PD) {
+  std::for_each_n(PD, NPD, [&TParamsMap](const ScillaTypes::ParamDescr &PD) {
     TParamsMap[std::string(PD.m_PName)] = PD.m_PTy;
   });
 

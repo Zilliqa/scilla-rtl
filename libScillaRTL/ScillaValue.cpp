@@ -247,12 +247,12 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
           switch (ValT->m_t) {
           case ScillaTypes::Typ::Map_typ: {
             auto &ValJS =
-                boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+                std::any_cast<const ScillaParams::MapValueT &>(Itr.second);
             recurser(ValT, Tab + OneTab, &ValJS);
             break;
           }
           default: {
-            auto &ValJS = boost::any_cast<const std::string &>(Itr.second);
+            auto &ValJS = std::any_cast<const std::string &>(Itr.second);
             Json::Value ValJ = parseJSONString(ValJS);
             auto *ValV = ScillaValues::fromJSON(OM, ValT, ValJ);
             recurser(ValT, Tab + OneTab, ValV);
@@ -399,12 +399,12 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
         switch (ValT->m_t) {
         case ScillaTypes::Typ::Map_typ: {
           auto &ValJS =
-              boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+              std::any_cast<const ScillaParams::MapValueT &>(Itr.second);
           recurser(ValT, &ValJS, ValJ);
           break;
         }
         default: {
-          auto &ValJS = boost::any_cast<const std::string &>(Itr.second);
+          auto &ValJS = std::any_cast<const std::string &>(Itr.second);
           ValJ = parseJSONString(ValJS);
         }
         }
@@ -827,13 +827,12 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
       Acc += stringLengthNormalize(KeyJ.asString().size());
       switch (ValT->m_t) {
       case ScillaTypes::Typ::Map_typ: {
-        auto &ValV =
-            boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+        auto &ValV = std::any_cast<const ScillaParams::MapValueT &>(Itr.second);
         Acc += literalCost(ValT, &ValV);
         break;
       }
       default: {
-        auto &ValJS = boost::any_cast<const std::string &>(Itr.second);
+        auto &ValJS = std::any_cast<const std::string &>(Itr.second);
         auto ValJ = parseJSONString(ValJS);
         auto *ValV = fromJSON(OM, ValT, ValJ);
         Acc += literalCost(ValT, ValV);

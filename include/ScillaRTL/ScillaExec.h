@@ -22,7 +22,7 @@
 #include <string>
 #include <unordered_map>
 
-#include <boost/any.hpp>
+#include <any>
 #include <jsoncpp/json/json.h>
 
 // Forward declarations.
@@ -37,18 +37,18 @@ struct ScillaParams {
     bool IgnoreVal;
   };
   // A Scilla state contains either std::string or a MapValueT
-  // We use boost::any to capture this. Using std::variant is
+  // We use std::any to capture this. Using std::variant is
   // cumbersome because of the recursive type definition required.
   // https://stackoverflow.com/questions/43309468/recursive-data-structure-with-variant
-  using MapValueT = std::unordered_map<std::string, boost::any>;
+  using MapValueT = std::unordered_map<std::string, std::any>;
 
   using FetchState_Type = std::function<bool(const StateQuery &Query,
-                                             boost::any &RetVal, bool &Found)>;
+                                             std::any &RetVal, bool &Found)>;
   using FetchRemoteState_Type =
       std::function<bool(const std::string &Addr, const StateQuery &Query,
-                         boost::any &RetVal, bool &Found, std::string &Type)>;
+                         std::any &RetVal, bool &Found, std::string &Type)>;
   using UpdateState_Type =
-      std::function<bool(const StateQuery &Query, const boost::any &Val)>;
+      std::function<bool(const StateQuery &Query, const std::any &Val)>;
 
   FetchState_Type fetchStateValue;
   FetchRemoteState_Type fetchRemoteStateValue;
