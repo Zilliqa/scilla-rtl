@@ -25,9 +25,9 @@
 #include <jsoncpp/json/writer.h>
 #include <memory>
 
-#include "ScillaTypes.h"
 #include "ScillaRTL/Errors.h"
 #include "ScillaRTL/Utils.h"
+#include "ScillaTypes.h"
 
 namespace {
 

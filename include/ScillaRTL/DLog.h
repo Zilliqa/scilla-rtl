@@ -37,7 +37,7 @@ void enableAllDLogTypes();
 
 #ifndef NDEBUG
 
-#define SRTL_DLOG_TYPE(TYPE, X)                                                 \
+#define SRTL_DLOG_TYPE(TYPE, X)                                                \
   do {                                                                         \
     if (ScillaRTL::isInCurrentDLogTypes(TYPE)) {                               \
       X;                                                                       \

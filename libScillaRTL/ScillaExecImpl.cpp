@@ -68,7 +68,8 @@ std::string ScillaExprExec::exec(uint64_t GasLimit) {
   PImpl->ScillaStdout.clear();
   ScillaMain();
   // Collect and print the remaining gas.
-  PImpl->ScillaStdout += "Gas remaining: " + std::to_string(PImpl->getGasRem()) + "\n";
+  PImpl->ScillaStdout +=
+      "Gas remaining: " + std::to_string(PImpl->getGasRem()) + "\n";
   PImpl->OM.deleteAll();
   return PImpl->ScillaStdout;
 }

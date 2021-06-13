@@ -18,9 +18,9 @@
 #include <algorithm>
 #include <functional>
 
-#include "ScillaTypes.h"
-#include "ScillaRTL/Errors.h"
 #include "SRTL.h"
+#include "ScillaRTL/Errors.h"
+#include "ScillaTypes.h"
 
 namespace ScillaRTL {
 

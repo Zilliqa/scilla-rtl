@@ -28,9 +28,9 @@
 #include "SafeInt.h"
 #include "ScillaBuiltins.h"
 #include "ScillaExecImpl.h"
-#include "ScillaTypes.h"
 #include "ScillaRTL/Errors.h"
 #include "ScillaRTL/Utils.h"
+#include "ScillaTypes.h"
 #include "ScillaValue.h"
 
 namespace ScillaRTL {
