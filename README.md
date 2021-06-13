@@ -1,6 +1,6 @@
 # Scilla Runtime Library
 
-![Build Status](https://github.com/Zilliqa/scilla-vm/workflows/CI/badge.svg)
+![Build Status](https://github.com/Zilliqa/scilla-rtl/workflows/CI/badge.svg)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/Zilliqa/scilla/blob/master/LICENSE)
 
 The Scilla Runtime Library provides two main functionalities
@@ -20,11 +20,11 @@ Install these Ubuntu packages
 Use the LLVM apt repository if clang-10 is not in your OS repository.
 
 We suggest building ScillaRTL in a directory that is *not* the source directory.
-  * `$git clone --recurse-submodules https://github.com/Zilliqa/scilla-vm.git`
-  * `$cd scilla-vm; mkdir build; cd build`
+  * `$git clone --recurse-submodules https://github.com/Zilliqa/scilla-rtl.git`
+  * `$cd scilla-rtl; mkdir build; cd build`
   * `$cmake ..` configures the project.
     Additional (optional) flags:
-    - `-DCMAKE_INSTALL_PREFIX=/where/to/install/scilla-vm`: To specify an install directory other
+    - `-DCMAKE_INSTALL_PREFIX=/where/to/install/scilla-rtl`: To specify an install directory other
     than the default. The default installation path typically requires root permissions.
     - `-DCMAKE_BUILD_TYPE=[Debug|Release|RelWithDebInfo|MinSizeRel]`: The default build is `Debug`.
   * `$make` builds the entire project. You can find the built files in `bin/` and `lib/`.
