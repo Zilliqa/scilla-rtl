@@ -74,32 +74,28 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
   CompileToSO CSO(PathPrefix + CT.ContrFilename);
 
   std::unique_ptr<ScillaRTL::ScillaContrExec> JE;
-  if (CommonJIT) {
-    BOOST_TEST_CHECKPOINT("Creating common JIT for " + CT.ContrFilename);
-    // Create a JIT engine and execute the message.
-    // TODO: Due to the below mentioned bug, this can't be in a try-catch block.
-    {
-      ScopeTimer CreateTimer(CT.ContrFilename + ": ScillaExec::create");
-      JE = std::make_unique<ScillaRTL::ScillaContrExec>(SP, CSO.compile());
-    }
-  }
-
-  for (const auto &Input : CT.Inputs) {
-    if (!CommonJIT) {
-      BOOST_TEST_CHECKPOINT("Creating unique JIT for " + CT.ContrFilename);
-      // Create a JIT engine and execute the message.
-      // TODO: Due to the below mentioned bug, this can't be in a try-catch
-      // block.
+  try {
+    if (CommonJIT) {
+      BOOST_TEST_CHECKPOINT("Creating common JIT for " + CT.ContrFilename);
       {
         ScopeTimer CreateTimer(CT.ContrFilename + ": ScillaExec::create");
         JE = std::make_unique<ScillaRTL::ScillaContrExec>(SP, CSO.compile());
       }
     }
-    BOOST_TEST_MESSAGE("Testing " + CT.ContrFilename + " with input " +
-                       Input.ID);
-    Json::Value MessageJSON, InitJSON;
-    std::string Balance = "0";
-    try {
+
+    for (const auto &Input : CT.Inputs) {
+      if (!CommonJIT) {
+        BOOST_TEST_CHECKPOINT("Creating unique JIT for " + CT.ContrFilename);
+        {
+          ScopeTimer CreateTimer(CT.ContrFilename + ": ScillaExec::create");
+          JE = std::make_unique<ScillaRTL::ScillaContrExec>(SP, CSO.compile());
+        }
+      }
+      BOOST_TEST_MESSAGE("Testing " + CT.ContrFilename + " with input " +
+                         Input.ID);
+      Json::Value MessageJSON, InitJSON;
+      std::string Balance = "0";
+
       // Prepare all inputs.
       InitJSON = parseJSONFile(PathPrefix + Input.InitFilename);
       if (!Input.MessageFilename.empty()) {
@@ -165,16 +161,9 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       BOOST_REQUIRE_MESSAGE(EOJ == OJ, "Comparison failed:\nExpected:\n" +
                                            EOJ.toStyledString() + "\nGot:\n" +
                                            OJ.toStyledString());
-    } catch (const ScillaError &E) {
-      BOOST_FAIL(E.toString());
     }
-  }
-
-  // https://github.com/boostorg/boost/issues/379
-  try {
-    throw std::exception();
-  } catch (std::exception &) {
-    ;
+  } catch (const ScillaError &E) {
+    BOOST_FAIL(E.toString());
   }
 }
 
@@ -259,13 +248,6 @@ void testMessageFail(const std::string &ContrFilename,
   }
 
   BOOST_CHECK_MESSAGE(CaughtException, "Did not catch expected error");
-
-  // https://github.com/boostorg/boost/issues/379
-  try {
-    throw std::exception();
-  } catch (std::exception &) {
-    ;
-  }
 }
 
 } // namespace
