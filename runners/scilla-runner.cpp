@@ -19,7 +19,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "ScillaRTL/Debug.h"
+#include "ScillaRTL/DLog.h"
 #include "ScillaRTL/Errors.h"
 #include "ScillaRTL/ScillaExec.h"
 #include "ScillaRTL/Utils.h"
@@ -47,10 +47,10 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
     ("gaslimit,g", po::value<uint64_t>(), "Gas limit")
     ("contract-info,c", po::value<std::string>(), "Specify the contract info JSON from checker")
     ("output-file,o", po::value<std::string>(), "Specify output filename")
-    ("debug", "Enable full logging (debug builds only)")
-    ("debug-only",
+    ("dlog", "Enable full logging (debug builds only)")
+    ("dlog-only",
          po::value<std::vector<std::string> >(),
-         "DEBUG_TYPE to activate for logging (debug builds only")
+         "SRTL_DLOG_TYPE to activate for logging (debug builds only")
     ("help,h", "Print help message")
     ("version,v", "Print version")
   ;
@@ -94,12 +94,12 @@ int main(int argc, char *argv[]) {
   po::variables_map VM;
   parseCLIArgs(argc, argv, VM);
 
-  if (VM.count("debug")) {
-    ScillaRTL::enableAllDebugTypes();
-  } else if (VM.count("debug-only")) {
-    auto &DTs = VM["debug-only"].as<std::vector<std::string>>();
+  if (VM.count("dlog")) {
+    ScillaRTL::enableAllDLogTypes();
+  } else if (VM.count("dlog-only")) {
+    auto &DTs = VM["dlog-only"].as<std::vector<std::string>>();
     for (auto &DT : DTs) {
-      ScillaRTL::addToCurrentDebugTypes(DT);
+      ScillaRTL::addToCurrentDLogTypes(DT);
     }
   }
 

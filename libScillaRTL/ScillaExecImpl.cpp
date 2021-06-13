@@ -19,7 +19,6 @@
 #include <memory>
 #include <numeric>
 
-#include "ScillaRTL/Debug.h"
 #include "ScillaRTL/Errors.h"
 #include "ScillaRTL/ScillaExec.h"
 

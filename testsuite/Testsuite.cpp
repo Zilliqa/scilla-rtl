@@ -22,7 +22,7 @@
 #include <boost/program_options.hpp>
 #include <boost/test/unit_test.hpp>
 
-#include <ScillaRTL/Debug.h>
+#include <ScillaRTL/DLog.h>
 
 namespace {
 namespace po = boost::program_options;
@@ -36,10 +36,10 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
   // clang-format off
   Desc.add_options()
     ("help,h", "Print help message")
-    ("debug", "Enable full logging (debug builds only)")
-    ("debug-only",
+    ("dlog", "Enable full logging (debug builds only)")
+    ("dlog-only",
          po::value<std::vector<std::string> >(),
-         "DEBUG_TYPE to activate for logging (debug builds only")
+         "SRTL_DLOG_TYPE to activate for logging (debug builds only")
     ("update-result", "Update expected results of all executed tests")
   ;
 
@@ -103,12 +103,12 @@ struct CommandLineInit {
     auto Dir = VM["testsuite-dir"].as<std::string>();
     BOOST_TEST_REQUIRE(boost::filesystem::is_directory(Dir));
     Config::TestsuiteSrc = Dir;
-    if (VM.count("debug")) {
-      ScillaRTL::enableAllDebugTypes();
-    } else if (VM.count("debug-only")) {
-      auto &DTs = VM["debug-only"].as<std::vector<std::string>>();
+    if (VM.count("dlog")) {
+      ScillaRTL::enableAllDLogTypes();
+    } else if (VM.count("dlog-only")) {
+      auto &DTs = VM["dlog-only"].as<std::vector<std::string>>();
       for (auto &DT : DTs) {
-        ScillaRTL::addToCurrentDebugTypes(DT);
+        ScillaRTL::addToCurrentDLogTypes(DT);
       }
     }
     if (VM.count("update-result")) {

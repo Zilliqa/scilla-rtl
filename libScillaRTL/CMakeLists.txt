@@ -7,7 +7,7 @@ add_library(${TARGET} SHARED
   ScillaValue.cpp
   SafeInt.cpp
   Utils.cpp
-  Debug.cpp
+  DLog.cpp
 )
 
 target_compile_definitions(${TARGET} PUBLIC ${LLVM_DEFINITIONS})

@@ -15,14 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// This debug log infrastructure is inspired by:
+// This DLOG log infrastructure is inspired by:
 // https://llvm.org/docs/ProgrammersManual.html#fine-grained-debug-info-with-debug-type-and-the-debug-only-option
 
 // Provide
-//   SVM_DEBUG(dbgs() << "debug message") and
-//   SVM_DEBUG_TYPE("foo", dbgs() << "debug message")
-// in debug builds. For the former to work, DEBUG_TYPE must be
-// defined. SVM_DEBUG is equal to SVM_DEBUG_TYPE(DEBUG_TYPE, ...).
+//   SRTL_DLOG(dlog() << "debug log message") and
+//   SRTL_DLOG_TYPE("foo", dlog() << "debug log message")
+// in DLog builds. For the former to work, DLOG_TYPE must be
+// defined. SRTL_DLOG is equal to SRTL_DLOG_TYPE(DLOG_TYPE, ...).
 
 #pragma once
 
@@ -30,26 +30,29 @@
 #include <string>
 
 namespace ScillaRTL {
-bool isInCurrentDebugTypes(std::string TYPE);
-void addToCurrentDebugTypes(std::string TYPE);
-void enableAllDebugTypes();
+bool isInCurrentDLogTypes(std::string TYPE);
+void addToCurrentDLogTypes(std::string TYPE);
+void enableAllDLogTypes();
 } // namespace ScillaRTL
 
 #ifndef NDEBUG
 
-#define SVM_DEBUG_TYPE(TYPE, X)                                                \
+#define SRTL_DLOG_TYPE(TYPE, X)                                                 \
   do {                                                                         \
-    if (ScillaRTL::isInCurrentDebugTypes(TYPE)) {                               \
+    if (ScillaRTL::isInCurrentDLogTypes(TYPE)) {                               \
       X;                                                                       \
     }                                                                          \
   } while (false)
 
-#define SVM_DEBUG(X) SVM_DEBUG_TYPE(DEBUG_TYPE, X)
+#define SRTL_DLOG(X) SRTL_DLOG_TYPE(DLOG_TYPE, X)
 
 namespace ScillaRTL {
-std::ostream &dbgs();
+std::ostream &dlogImpl(const std::string &File, int Line);
 }
+
+#define dlog() dlogImpl(__FILE__, __LINE__)
+
 #else
-#define SVM_DEBUG_TYPE(TYPE, X)
-#define SVM_DEBUG(X)
-#endif
+#define SRTL_DLOG_TYPE(TYPE, X)
+#define SRTL_DLOG(X)
+#endif // NDEBUG
