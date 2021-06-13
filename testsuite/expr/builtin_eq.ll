@@ -64,9 +64,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %TName_Bool = type { i8, %CName_True*, %CName_False* }
 %CName_True = type <{ i8 }>
 %CName_False = type <{ i8 }>
-%"$ParamDescr_664" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_665" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_665" = type { %ParamDescrString, i32, %"$ParamDescr_664"* }
+%"$TransDescr_666" = type { %ParamDescrString, i32, %"$ParamDescr_665"* }
 %"$$fundef_15_env_78" = type {}
 %"$$fundef_19_env_79" = type { %TName_Bool* }
 %"$$fundef_17_env_80" = type {}
@@ -131,9 +131,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$stringlit_360" = unnamed_addr constant [5 x i8] c"Hello"
 @_tydescr_table = constant [17 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_50", %_TyDescrTy_Typ* @"$TyDescr_Int64_32", %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_62", %_TyDescrTy_Typ* @"$TyDescr_Bystr3_56", %_TyDescrTy_Typ* @"$TyDescr_Uint256_42", %_TyDescrTy_Typ* @"$TyDescr_Uint32_30", %_TyDescrTy_Typ* @"$TyDescr_Uint64_34", %_TyDescrTy_Typ* @"$TyDescr_Bnum_46", %_TyDescrTy_Typ* @"$TyDescr_Uint128_38", %_TyDescrTy_Typ* @"$TyDescr_Exception_52", %_TyDescrTy_Typ* @"$TyDescr_String_44", %_TyDescrTy_Typ* @"$TyDescr_Int256_40", %_TyDescrTy_Typ* @"$TyDescr_Int128_36", %_TyDescrTy_Typ* @"$TyDescr_Bystr_54", %_TyDescrTy_Typ* @"$TyDescr_Message_48", %_TyDescrTy_Typ* @"$TyDescr_Bystr2_58", %_TyDescrTy_Typ* @"$TyDescr_Int32_28"]
 @_tydescr_table_length = constant i32 17
-@_contract_parameters = constant [0 x %"$ParamDescr_664"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_665"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_665"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_666"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define internal %TName_Bool* @"$fundef_15"(%"$$fundef_15_env_78"* %0, %TName_Bool* %1) {
@@ -1367,12 +1367,13 @@ declare %Bystr @_to_bystr(i8*, i32, i8*)
 
 declare %TName_Bool* @_eq_ByStr(i8*, %Bystr, %Bystr)
 
-declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
+declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
   %"$exprval_662" = call %TName_Bool* @_scilla_expr_fun(i8* null)
   %"$memvoidcast_663" = bitcast %TName_Bool* %"$exprval_662" to i8*
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_62", i8* %"$memvoidcast_663")
+  %"$execptr_load_664" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_664", %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_62", i8* %"$memvoidcast_663")
   ret void
 }

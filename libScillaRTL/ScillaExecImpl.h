@@ -64,6 +64,8 @@ public:
   const ScillaParams SPs;
   // The state of execution specific to a transition.
   std::unique_ptr<TransitionState> TS;
+  // If the Scilla code wants to print something, that goes here.
+  std::string ScillaStdout;
 };
 
 } // namespace ScillaRTL

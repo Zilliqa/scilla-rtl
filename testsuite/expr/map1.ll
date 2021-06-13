@@ -14,9 +14,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %"$TyDescrTy_ADTTyp_Specl_30" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_32"**, %"$TyDescrTy_ADTTyp_31"* }
 %"$TyDescrTy_ADTTyp_Constr_32" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
 %"$TyDescr_MapTyp_34" = type { %_TyDescrTy_Typ*, %_TyDescrTy_Typ* }
-%"$ParamDescr_81" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_82" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_82" = type { %ParamDescrString, i32, %"$ParamDescr_81"* }
+%"$TransDescr_83" = type { %ParamDescrString, i32, %"$ParamDescr_82"* }
 %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))" = type { %Uint128, %"TName_List_Map_(Int32)_(Map_(String)_(Int32))"* }
 %Uint128 = type { i128 }
 %"TName_List_Map_(Int32)_(Map_(String)_(Int32))" = type { i8, %"CName_Cons_Map_(Int32)_(Map_(String)_(Int32))"*, %"CName_Nil_Map_(Int32)_(Map_(String)_(Int32))"* }
@@ -78,9 +78,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_MapTyp_54" = unnamed_addr constant %"$TyDescr_MapTyp_34" { %_TyDescrTy_Typ* @"$TyDescr_Uint128_13", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Map_(Int32)_(Map_(String)_(Int32))_33" }
 @_tydescr_table = constant [18 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_25", %_TyDescrTy_Typ* @"$TyDescr_Int64_7", %_TyDescrTy_Typ* @"$TyDescr_Uint256_17", %_TyDescrTy_Typ* @"$TyDescr_Uint32_5", %_TyDescrTy_Typ* @"$TyDescr_Uint64_9", %_TyDescrTy_Typ* @"$TyDescr_Bnum_21", %_TyDescrTy_Typ* @"$TyDescr_Uint128_13", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Map_(Int32)_(Map_(String)_(Int32))_33", %_TyDescrTy_Typ* @"$TyDescr_Exception_27", %_TyDescrTy_Typ* @"$TyDescr_String_19", %_TyDescrTy_Typ* @"$TyDescr_Map_36", %_TyDescrTy_Typ* @"$TyDescr_Int256_15", %_TyDescrTy_Typ* @"$TyDescr_Int128_11", %_TyDescrTy_Typ* @"$TyDescr_Map_35", %_TyDescrTy_Typ* @"$TyDescr_Bystr_29", %_TyDescrTy_Typ* @"$TyDescr_Message_23", %_TyDescrTy_Typ* @"$TyDescr_Map_37", %_TyDescrTy_Typ* @"$TyDescr_Int32_3"]
 @_tydescr_table_length = constant i32 18
-@_contract_parameters = constant [0 x %"$ParamDescr_81"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_82"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_82"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_83"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define void @_init_libs() {
@@ -147,12 +147,13 @@ declare void @_out_of_gas()
 
 declare i8* @_new_empty_map(i8*)
 
-declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
+declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
   %"$exprval_79" = call %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* @_scilla_expr_fun(i8* null)
   %"$memvoidcast_80" = bitcast %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* %"$exprval_79" to i8*
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Map_37", i8* %"$memvoidcast_80")
+  %"$execptr_load_81" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_81", %_TyDescrTy_Typ* @"$TyDescr_Map_37", i8* %"$memvoidcast_80")
   ret void
 }

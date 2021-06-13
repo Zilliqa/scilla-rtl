@@ -276,8 +276,8 @@ void byStrXToUint(ScillaTypes::RawInt<X> &UI, void *BX, int L) {
 
 extern "C" {
 
-void _print_scilla_val(const ScillaTypes::Typ *T, void *V) {
-  ScillaStdout += ScillaValues::toString(true, T, V) + "\n";
+void _print_scilla_val(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *V) {
+  SJ->ScillaStdout += ScillaValues::toString(true, T, V) + "\n";
 }
 
 void *_salloc(ScillaExecImpl *SJ, size_t size) {

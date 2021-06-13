@@ -51,8 +51,9 @@ $build/bin/scilla-runner -g 10000 --input-contract testsuite/contr/simple-map.ll
 ```
 
 ## Developer Notes
-All public headers are placed in [include](./include). Source files for the JIT driver are
-in [libjitd](./libjitd) while the sources for Scilla RTL are in [libsrtl](./libsrtl).
+All public headers are placed in [include](./include). The library implementation resides 
+in [libScillaRTL](./libScillaRTL). Executable wrappers are defined in [runners](./runners).
+The tests sources are confined to [testsuite](./testsuite).
 
 ### Coding Standards
 This project uses the [LLVM coding standards](https://llvm.org/docs/CodingStandards.html).

@@ -65,12 +65,12 @@ std::string ScillaExprExec::exec(uint64_t GasLimit) {
   // Set gas available in the JIT'ed code and then initialize libraries.
   PImpl->initGasAndLibs(GasLimit);
   // Clear the output.
-  ScillaStdout.clear();
+  PImpl->ScillaStdout.clear();
   ScillaMain();
   // Collect and print the remaining gas.
-  ScillaStdout += "Gas remaining: " + std::to_string(PImpl->getGasRem()) + "\n";
+  PImpl->ScillaStdout += "Gas remaining: " + std::to_string(PImpl->getGasRem()) + "\n";
   PImpl->OM.deleteAll();
-  return ScillaStdout;
+  return PImpl->ScillaStdout;
 }
 
 uint64_t ScillaExprExec::getGasRem() const { return PImpl->getGasRem(); }

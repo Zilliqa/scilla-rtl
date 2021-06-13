@@ -42,8 +42,6 @@ void unquoteString(std::string &Input) {
 
 namespace ScillaRTL {
 
-std::string ScillaStdout = "";
-
 boost::optional<const ScillaTypes::Typ *>
 remoteFieldType(const ScillaExecImpl *SJ, const std::string &Addr,
                 const std::string &FName) {

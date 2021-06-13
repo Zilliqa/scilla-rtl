@@ -33,9 +33,6 @@ struct Typ;
 
 using ByteVec = std::vector<uint8_t>;
 
-// A global that accummulates messages printed from the JIT'ed code.
-extern std::string ScillaStdout;
-
 const auto Schnorr_Pubkey_Len = 33;
 const auto Schnorr_Signature_Len = 64;
 

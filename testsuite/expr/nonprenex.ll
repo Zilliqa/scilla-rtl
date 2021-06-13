@@ -41,9 +41,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %TyDescrString = type { i8*, i32 }
 %"$TyDescrTy_ADTTyp_Specl_90" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_92"**, %"$TyDescrTy_ADTTyp_91"* }
 %"$TyDescrTy_ADTTyp_Constr_92" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
-%"$ParamDescr_1000" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_1001" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_1001" = type { %ParamDescrString, i32, %"$ParamDescr_1000"* }
+%"$TransDescr_1002" = type { %ParamDescrString, i32, %"$ParamDescr_1001"* }
 %"$$fundef_57_env_132" = type { %TName_Bool*, { i8*, i8* }* }
 %TName_Bool = type { i8, %CName_True*, %CName_False* }
 %CName_True = type <{ i8 }>
@@ -151,9 +151,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @ListUtils.list_length = global { i8*, i8* }* null
 @_tydescr_table = constant [18 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_83", %_TyDescrTy_Typ* @"$TyDescr_Int64_65", %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_93", %_TyDescrTy_Typ* @"$TyDescr_Bystr20_89", %_TyDescrTy_Typ* @"$TyDescr_Uint256_75", %_TyDescrTy_Typ* @"$TyDescr_Uint32_63", %_TyDescrTy_Typ* @"$TyDescr_Uint64_67", %_TyDescrTy_Typ* @"$TyDescr_Bnum_79", %_TyDescrTy_Typ* @"$TyDescr_Uint128_71", %_TyDescrTy_Typ* @"$TyDescr_Exception_85", %_TyDescrTy_Typ* @"$TyDescr_String_77", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_ByStr20_94", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_String_95", %_TyDescrTy_Typ* @"$TyDescr_Int256_73", %_TyDescrTy_Typ* @"$TyDescr_Int128_69", %_TyDescrTy_Typ* @"$TyDescr_Bystr_87", %_TyDescrTy_Typ* @"$TyDescr_Message_81", %_TyDescrTy_Typ* @"$TyDescr_Int32_61"]
 @_tydescr_table_length = constant i32 18
-@_contract_parameters = constant [0 x %"$ParamDescr_1000"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_1001"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_1001"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_1002"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define internal { i8*, i8* }* @"$fundef_57"(%"$$fundef_57_env_132"* %0, { i8*, i8* }* %1) {
@@ -1901,7 +1901,7 @@ entry:
   ret %Uint32 %"$$expr_44_996"
 }
 
-declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
+declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
@@ -1909,6 +1909,7 @@ entry:
   %"$pval_998" = alloca %Uint32, align 8
   %"$memvoidcast_999" = bitcast %Uint32* %"$pval_998" to i8*
   store %Uint32 %"$exprval_997", %Uint32* %"$pval_998", align 4
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Uint32_63", i8* %"$memvoidcast_999")
+  %"$execptr_load_1000" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_1000", %_TyDescrTy_Typ* @"$TyDescr_Uint32_63", i8* %"$memvoidcast_999")
   ret void
 }

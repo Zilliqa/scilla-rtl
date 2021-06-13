@@ -19,9 +19,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %TyDescrString = type { i8*, i32 }
 %"$TyDescrTy_ADTTyp_Specl_34" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_36"**, %"$TyDescrTy_ADTTyp_35"* }
 %"$TyDescrTy_ADTTyp_Constr_36" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
-%"$ParamDescr_148" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_149" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_149" = type { %ParamDescrString, i32, %"$ParamDescr_148"* }
+%"$TransDescr_150" = type { %ParamDescrString, i32, %"$ParamDescr_149"* }
 %Int32 = type { i32 }
 %"$$fundef_3_env_53" = type { %Int32, %Int32 }
 %TName_Bool = type { i8, %CName_True*, %CName_False* }
@@ -73,9 +73,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_ADT_Bool_52" = unnamed_addr constant [4 x i8] c"Bool"
 @_tydescr_table = constant [15 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_29", %_TyDescrTy_Typ* @"$TyDescr_Int64_11", %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_37", %_TyDescrTy_Typ* @"$TyDescr_Uint256_21", %_TyDescrTy_Typ* @"$TyDescr_Uint32_9", %_TyDescrTy_Typ* @"$TyDescr_Uint64_13", %_TyDescrTy_Typ* @"$TyDescr_Bnum_25", %_TyDescrTy_Typ* @"$TyDescr_Uint128_17", %_TyDescrTy_Typ* @"$TyDescr_Exception_31", %_TyDescrTy_Typ* @"$TyDescr_String_23", %_TyDescrTy_Typ* @"$TyDescr_Int256_19", %_TyDescrTy_Typ* @"$TyDescr_Int128_15", %_TyDescrTy_Typ* @"$TyDescr_Bystr_33", %_TyDescrTy_Typ* @"$TyDescr_Message_27", %_TyDescrTy_Typ* @"$TyDescr_Int32_7"]
 @_tydescr_table_length = constant i32 15
-@_contract_parameters = constant [0 x %"$ParamDescr_148"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_149"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_149"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_150"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define internal %Int32 @"$fundef_3"(%"$$fundef_3_env_53"* %0, %TName_Bool* %1) !dbg !4 {
@@ -296,7 +296,7 @@ entry:
 
 declare i8* @_salloc(i8*, i64)
 
-declare void @_print_scilla_val(%_TyDescrTy_Typ*, i8*)
+declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
@@ -304,7 +304,8 @@ entry:
   %"$pval_146" = alloca %Int32, align 8
   %"$memvoidcast_147" = bitcast %Int32* %"$pval_146" to i8*
   store %Int32 %"$exprval_145", %Int32* %"$pval_146", align 4
-  call void @_print_scilla_val(%_TyDescrTy_Typ* @"$TyDescr_Int32_7", i8* %"$memvoidcast_147")
+  %"$execptr_load_148" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_148", %_TyDescrTy_Typ* @"$TyDescr_Int32_7", i8* %"$memvoidcast_147")
   ret void
 }
 
