@@ -1,6 +1,6 @@
 # Scilla Runtime Library
 
-[![Build Status](https://travis-ci.com/Zilliqa/scilla-vm.svg?branch=master)](https://travis-ci.com/Zilliqa/scilla-vm)
+![Build Status](https://github.com/Zilliqa/scilla-vm/workflows/CI/badge.svg)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/Zilliqa/scilla/blob/master/LICENSE)
 
 The Scilla Runtime Library provides two main functionalities
