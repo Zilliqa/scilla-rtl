@@ -24,6 +24,8 @@
 // in debug builds. For the former to work, DEBUG_TYPE must be
 // defined. SVM_DEBUG is equal to SVM_DEBUG_TYPE(DEBUG_TYPE, ...).
 
+#pragma once
+
 #include <iostream>
 #include <string>
 

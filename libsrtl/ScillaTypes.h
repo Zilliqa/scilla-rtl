@@ -20,8 +20,7 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
-
-#include "SRTL.h"
+#include <vector>
 
 namespace ScillaVM {
 

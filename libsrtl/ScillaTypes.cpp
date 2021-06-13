@@ -20,6 +20,7 @@
 
 #include "ScillaTypes.h"
 #include "ScillaVM/Errors.h"
+#include "SRTL.h"
 
 namespace ScillaVM {
 
