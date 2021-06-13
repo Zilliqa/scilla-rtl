@@ -101,7 +101,7 @@ CompileToSO::CompileToSO(const std::string &Filename)
 
 std::string CompileToSO::compile() const {
   try {
-    auto ExecP = bp::search_path("clang");
+    auto ExecP = bp::search_path("clang-10");
     if (bp::system(ExecP, "-fPIC", "-shared", InputFile, "-o",
                    SOFile.native())) {
       CREATE_ERROR("Compilation of " + InputFile + " failed.");
