@@ -15,12 +15,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(jsoncpp REQUIRED jsoncpp)
 find_package(OpenSSL REQUIRED)
 message(STATUS "Found jsoncpp ${jsoncpp_VERSION} at ${jsoncpp_INCLUDE_DIRS}")
-# LLVM stuff
-find_package(LLVM 10 REQUIRED CONFIG)
-message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
-message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
-# Find the libraries that correspond to the LLVM components we use
-llvm_map_components_to_libnames(llvm_libs support core orcjit nativecodegen)
+
 # Boost stuff
 find_package(Boost REQUIRED unit_test_framework filesystem program_options)
 
@@ -51,7 +46,7 @@ endif()
 # export compile commands
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # C++ standard
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(libScillaRTL)
 add_subdirectory(runners)

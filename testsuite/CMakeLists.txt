@@ -12,7 +12,7 @@ add_executable(${TARGET_SCILLA_TESTS}
 
 target_include_directories(${TARGET_SCILLA_TESTS} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(${TARGET_SCILLA_TESTS} PUBLIC ${BOOST_INCLUDE_TARGETS})
-target_link_libraries (${TARGET_SCILLA_TESTS} PUBLIC ScillaRTL pthread  ${llvm_libs} ${Boost_LIBRARIES})
+target_link_libraries (${TARGET_SCILLA_TESTS} PUBLIC ScillaRTL)
 
 # Add a custom target to run the testsuite as `make runtests`
 # Note: We don't use `make test` becaus `test` is a reserved target.

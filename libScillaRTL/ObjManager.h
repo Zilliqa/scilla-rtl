@@ -17,11 +17,24 @@
 
 #pragma once
 
+#include <memory_resource>
 #include <vector>
 
-#include <llvm/Support/Allocator.h>
-
 namespace ScillaRTL {
+
+// Mimics llvm::BumpPtrAllocator to the extent of our need.
+class BumpPtrAllocator {
+  std::pmr::monotonic_buffer_resource MBAlloc;
+
+public:
+  BumpPtrAllocator(const BumpPtrAllocator &) = delete;
+  BumpPtrAllocator() : MBAlloc(){};
+  ~BumpPtrAllocator() = default;
+  template <typename T> T *Allocate(size_t N = 1) {
+    return reinterpret_cast<T *>(MBAlloc.allocate(sizeof(T) * N));
+  }
+  void Reset() { MBAlloc.release(); }
+};
 
 // Allocates, constructs, owns and destructs objects.
 // Objects of any type can be managed. It works similar to how
@@ -42,7 +55,7 @@ class ObjManager {
   std::vector<MemObjBase *> Objs;
   // We use a bump pointer allocator rather than "new"
   // because we only free all memory at once.
-  llvm::BumpPtrAllocator All;
+  BumpPtrAllocator All;
 
 public:
   template <typename T> T *create() {
