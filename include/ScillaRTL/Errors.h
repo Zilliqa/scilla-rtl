@@ -15,9 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#pragma once
+
 #include <string>
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 struct SourceLoc {
   std::string File;
@@ -36,7 +38,7 @@ struct SourceLoc {
 struct ScillaError {
   // Error message
   std::string Msg;
-  // Where in ScillaVM was this error thrown from.
+  // Where in ScillaRTL was this error thrown from.
   SourceLoc ThrowLoc;
   // Where in the Scilla source were we when the error occurred.
   SourceLoc ScillaSrcLoc;
@@ -54,7 +56,7 @@ struct ScillaError {
   }
 };
 
-} // namespace ScillaVM
+} // namespace ScillaRTL
 
 // Throws a ScillaError object, attaching the location of error
 // Uses a default (empty) Scilla source location.

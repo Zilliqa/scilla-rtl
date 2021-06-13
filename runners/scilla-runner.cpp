@@ -19,13 +19,12 @@
 #include <fstream>
 #include <iostream>
 
-#include "ScillaVM/Debug.h"
-#include "ScillaVM/Errors.h"
-#include "ScillaVM/JITD.h"
-#include "ScillaVM/SRTL.h"
-#include "ScillaVM/Utils.h"
+#include "ScillaRTL/DLog.h"
+#include "ScillaRTL/Errors.h"
+#include "ScillaRTL/ScillaExec.h"
+#include "ScillaRTL/Utils.h"
 
-using namespace ScillaVM;
+using namespace ScillaRTL;
 
 namespace {
 
@@ -48,10 +47,10 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
     ("gaslimit,g", po::value<uint64_t>(), "Gas limit")
     ("contract-info,c", po::value<std::string>(), "Specify the contract info JSON from checker")
     ("output-file,o", po::value<std::string>(), "Specify output filename")
-    ("debug", "Enable full logging (debug builds only)")
-    ("debug-only",
+    ("dlog", "Enable full logging (debug builds only)")
+    ("dlog-only",
          po::value<std::vector<std::string> >(),
-         "DEBUG_TYPE to activate for logging (debug builds only")
+         "SRTL_DLOG_TYPE to activate for logging (debug builds only")
     ("help,h", "Print help message")
     ("version,v", "Print version")
   ;
@@ -95,12 +94,12 @@ int main(int argc, char *argv[]) {
   po::variables_map VM;
   parseCLIArgs(argc, argv, VM);
 
-  if (VM.count("debug")) {
-    ScillaVM::enableAllDebugTypes();
-  } else if (VM.count("debug-only")) {
-    auto &DTs = VM["debug-only"].as<std::vector<std::string>>();
+  if (VM.count("dlog")) {
+    ScillaRTL::enableAllDLogTypes();
+  } else if (VM.count("dlog-only")) {
+    auto &DTs = VM["dlog-only"].as<std::vector<std::string>>();
     for (auto &DT : DTs) {
-      ScillaVM::addToCurrentDebugTypes(DT);
+      ScillaRTL::addToCurrentDLogTypes(DT);
     }
   }
 
@@ -115,14 +114,16 @@ int main(int argc, char *argv[]) {
       std::bind(&MemStateServer::updateStateValue, &State, ph::_1, ph::_2);
   ScillaParams SP(fetchStateValue, fetchRemoteStateValue, updateStateValue);
 
-  ScillaJIT::init();
-
-  ScillaStdout.clear();
+  std::string OutputS;
   try {
     // Prepare all inputs.
     auto InputFilename = VM["input-contract"].as<std::string>();
     auto InitFilename = VM["init"].as<std::string>();
     auto GasLimit = VM["gaslimit"].as<uint64_t>();
+
+    // Tool to compile the LLVM-IR to a binary shared object.
+    CompileToSO CSO(InputFilename);
+    // Parse the init JSON.
     auto IJ = parseJSONFile(InitFilename);
 
     // If there's a contract-info provided, use its field name / type info.
@@ -142,17 +143,17 @@ int main(int argc, char *argv[]) {
     }
 
     // Create JIT engine.
-    auto JE = ScillaJIT::create(SP, InputFilename);
+    ScillaContrExec JE(SP, CSO.compile());
     Json::Value OutJ;
     if (VM.count("message")) {
       // Transition execution
       auto MessageFilename = VM["message"].as<std::string>();
       auto MJ = parseJSONFile(MessageFilename);
       // Execute message
-      OutJ = JE->execMsg(Balance, GasLimit, IJ, MJ);
+      OutJ = JE.execMsg(Balance, GasLimit, IJ, MJ);
     } else {
       // Deployment
-      OutJ = JE->deploy(IJ, GasLimit);
+      OutJ = JE.deploy(IJ, GasLimit);
     }
 
     auto OSJ = State.dumpToJSON();
@@ -161,7 +162,7 @@ int main(int argc, char *argv[]) {
       OutJ["states"].append(S);
 
     // Append output to the Scilla output object for printing later.
-    ScillaStdout += OutJ.toStyledString();
+    OutputS += OutJ.toStyledString();
   } catch (const ScillaError &e) {
     std::cerr << e.toString() << "\n";
     return EXIT_FAILURE;
@@ -174,14 +175,14 @@ int main(int argc, char *argv[]) {
       std::cerr << "Error opening output file " << OutputFilename << "\n";
       return EXIT_FAILURE;
     } else {
-      OFile << ScillaStdout;
+      OFile << OutputS;
       if (OFile.bad()) {
         std::cerr << "Error writing to output file " << OutputFilename << "\n";
         return EXIT_FAILURE;
       }
     }
   } else {
-    std::cout << ScillaStdout;
+    std::cout << OutputS;
   }
 
   return EXIT_SUCCESS;

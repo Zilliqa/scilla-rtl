@@ -19,13 +19,13 @@
 #include <string>
 
 #include "SafeInt.h"
-#include <ScillaVM/Errors.h>
+#include <ScillaRTL/Errors.h>
 
 #if BOOST_ENDIAN_BIG_BYTE
 #error "Big endian architecture not supported."
 #endif
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 using namespace ScillaTypes;
 
@@ -127,4 +127,4 @@ template class SafeInt<64, SafeIntKind::Unsigned>;
 template class SafeInt<128, SafeIntKind::Unsigned>;
 template class SafeInt<256, SafeIntKind::Unsigned>;
 
-} // namespace ScillaVM
+} // namespace ScillaRTL

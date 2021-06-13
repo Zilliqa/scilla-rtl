@@ -19,12 +19,12 @@
 #include <fstream>
 #include <iostream>
 
-#include "ScillaVM/Debug.h"
-#include "ScillaVM/Errors.h"
-#include "ScillaVM/JITD.h"
-#include "ScillaVM/SRTL.h"
+#include "ScillaRTL/DLog.h"
+#include "ScillaRTL/Errors.h"
+#include "ScillaRTL/ScillaExec.h"
+#include "ScillaRTL/Utils.h"
 
-using namespace ScillaVM;
+using namespace ScillaRTL;
 
 namespace {
 
@@ -41,10 +41,10 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
     ("output-file,o", po::value<std::string>(), "Specify output filename")
     ("gaslimit,g", po::value<uint64_t>(), "Gas limit")
     ("help,h", "Print help message")
-    ("debug", "Enable full logging (debug builds only)")
-    ("debug-only",
+    ("dlog", "Enable full logging (debug builds only)")
+    ("dlog-only",
          po::value<std::vector<std::string> >(),
-         "DEBUG_TYPE to activate for logging (debug builds only")
+         "SRTL_DLOG_TYPE to activate for logging (debug builds only")
     ("version,v", "Print version")
   ;
 
@@ -99,32 +99,24 @@ int main(int argc, char *argv[]) {
   po::variables_map VM;
   parseCLIArgs(argc, argv, VM);
 
-  if (VM.count("debug")) {
-    ScillaVM::enableAllDebugTypes();
-  } else if (VM.count("debug-only")) {
-    auto &DTs = VM["debug-only"].as<std::vector<std::string>>();
+  if (VM.count("dlog")) {
+    ScillaRTL::enableAllDLogTypes();
+  } else if (VM.count("dlog-only")) {
+    auto &DTs = VM["dlog-only"].as<std::vector<std::string>>();
     for (auto &DT : DTs) {
-      ScillaVM::addToCurrentDebugTypes(DT);
+      ScillaRTL::addToCurrentDLogTypes(DT);
     }
   }
 
-  ScillaJIT::init();
-
-  ScillaStdout.clear();
+  std::string ScillaOutput;
   try {
     auto InputFilename = VM["input-file"].as<std::string>();
+    // Tool to compile the LLVM-IR to a binary shared object.
+    CompileToSO CSO(InputFilename);
+
     auto GasLimit = VM["gaslimit"].as<uint64_t>();
-    auto SJ = ScillaJIT::create(ScillaParams(), InputFilename);
-    auto ScillaMainAddr = SJ->getAddressFor("scilla_main");
-    auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
-
-    // Set gas available in the JIT'ed code and then initialize libraries.
-    SJ->initGasAndLibs(GasLimit);
-
-    // Execute ...
-    ScillaMain();
-    // Collect and print the remaining gas.
-    ScillaStdout += "Gas remaining: " + std::to_string(SJ->getGasRem()) + "\n";
+    ScillaExprExec SJ(ScillaParams(), CSO.compile());
+    ScillaOutput = SJ.exec(GasLimit);
   } catch (const ScillaError &e) {
     std::cerr << e.toString() << "\n";
     return EXIT_FAILURE;
@@ -137,14 +129,14 @@ int main(int argc, char *argv[]) {
       std::cerr << "Error opening output file " << OutputFilename << "\n";
       return EXIT_FAILURE;
     } else {
-      OFile << ScillaStdout;
+      OFile << ScillaOutput;
       if (OFile.bad()) {
         std::cerr << "Error writing to output file " << OutputFilename << "\n";
         return EXIT_FAILURE;
       }
     }
   } else {
-    std::cout << ScillaStdout;
+    std::cout << ScillaOutput;
   }
 
   return EXIT_SUCCESS;

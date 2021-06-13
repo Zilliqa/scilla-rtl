@@ -17,22 +17,23 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include <ScillaVM/Errors.h>
-#include <ScillaVM/SRTL.h>
-#include <ScillaVM/Utils.h>
+#include <ScillaRTL/Errors.h>
+#include <ScillaRTL/Utils.h>
 
-#include "../libsrtl/ScillaValue.h"
+#include "../libScillaRTL/ObjManager.h"
+#include "../libScillaRTL/ScillaValue.h"
+
 #include "StateJsonUtils.h"
 #include "Testsuite.h"
 #include "TypeDescrs.h"
 
 namespace {
 // Type parser partial cache for faster run across tests.
-ScillaVM::ScillaTypes::TypParserPartialCache TPPC;
+ScillaRTL::ScillaTypes::TypParserPartialCache TPPC;
 
 // Parse a state JSON, Re-serialize back to JSON and compare.
 void testStateJson(const std::string &Testname, bool ExpectError = false) {
-  using namespace ScillaVM;
+  using namespace ScillaRTL;
   using namespace ScillaTestsuite;
 
   auto Filename = Config::TestsuiteSrc + "/state_jsons/" + Testname + ".json";
@@ -70,7 +71,7 @@ void testStateJson(const std::string &Testname, bool ExpectError = false) {
       BOOST_TEST_CHECKPOINT(Filename + ": " + VName.asString() +
                             " comparison successful");
     }
-  } catch (const ScillaVM::ScillaError &e) {
+  } catch (const ScillaRTL::ScillaError &e) {
     if (!ExpectError)
       BOOST_FAIL(e.toString());
     else

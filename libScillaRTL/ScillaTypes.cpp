@@ -19,9 +19,10 @@
 #include <functional>
 
 #include "ScillaTypes.h"
-#include "ScillaVM/Errors.h"
+#include "ScillaRTL/Errors.h"
+#include "SRTL.h"
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 namespace ScillaTypes {
 
@@ -362,13 +363,13 @@ bool Typ::areAddressFieldsSorted(const Typ *T) {
 }
 
 } // namespace ScillaTypes
-} // namespace ScillaVM
+} // namespace ScillaRTL
 
 #include <boost/config/warning_disable.hpp>
 #include <boost/spirit/include/phoenix.hpp>
 #include <boost/spirit/include/qi.hpp>
 
-namespace ScillaVM {
+namespace ScillaRTL {
 namespace ScillaTypes {
 
 const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
@@ -660,4 +661,4 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
 }
 
 } // namespace ScillaTypes
-} // namespace ScillaVM
+} // namespace ScillaRTL

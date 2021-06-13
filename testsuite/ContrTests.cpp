@@ -20,22 +20,17 @@
 #include <boost/test/unit_test.hpp>
 using boost::test_tools::output_test_stream;
 
-#include <ScillaVM/Errors.h>
-#include <ScillaVM/SRTL.h>
-#include <ScillaVM/Utils.h>
+#include <ScillaRTL/Errors.h>
+#include <ScillaRTL/ScillaExec.h>
+#include <ScillaRTL/Utils.h>
 
 #include "StateJsonUtils.h"
 #include "Testsuite.h"
 
-using namespace ScillaVM;
+using namespace ScillaRTL;
 using namespace ScillaTestsuite;
 
 namespace {
-
-const std::string CacheDir((boost::filesystem::temp_directory_path() /=
-                            "scilla_testsuite_cache")
-                               .native());
-ScillaCacheManager OCache(CacheDir);
 
 struct ContractTest {
   struct Input {
@@ -75,17 +70,17 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
   ScillaParams SP(fetchStateValue, fetchRemoteStateValue, updateStateValue);
 
   std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
+  // Tool to compile the LLVM-IR to a binary shared object.
+  CompileToSO CSO(PathPrefix + CT.ContrFilename);
 
-  ScillaJIT_Safe::init();
-
-  std::unique_ptr<ScillaVM::ScillaJIT_Safe> JE;
+  std::unique_ptr<ScillaRTL::ScillaContrExec> JE;
   if (CommonJIT) {
     BOOST_TEST_CHECKPOINT("Creating common JIT for " + CT.ContrFilename);
     // Create a JIT engine and execute the message.
     // TODO: Due to the below mentioned bug, this can't be in a try-catch block.
     {
-      ScopeTimer CreateTimer(CT.ContrFilename + ": ScillaJIT::create");
-      JE = ScillaJIT_Safe::create(SP, PathPrefix + CT.ContrFilename, &OCache);
+      ScopeTimer CreateTimer(CT.ContrFilename + ": ScillaExec::create");
+      JE = std::make_unique<ScillaRTL::ScillaContrExec>(SP, CSO.compile());
     }
   }
 
@@ -96,8 +91,8 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       // TODO: Due to the below mentioned bug, this can't be in a try-catch
       // block.
       {
-        ScopeTimer CreateTimer(CT.ContrFilename + ": ScillaJIT::create");
-        JE = ScillaJIT_Safe::create(SP, PathPrefix + CT.ContrFilename, &OCache);
+        ScopeTimer CreateTimer(CT.ContrFilename + ": ScillaExec::create");
+        JE = std::make_unique<ScillaRTL::ScillaContrExec>(SP, CSO.compile());
       }
     }
     BOOST_TEST_MESSAGE("Testing " + CT.ContrFilename + " with input " +
@@ -124,7 +119,7 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       // Let's execute.
       Json::Value OJ;
       {
-        ScopeTimer ExecMsgTimer(CT.ContrFilename + ": ScillaJIT::execMsg");
+        ScopeTimer ExecMsgTimer(CT.ContrFilename + ": ScillaExec::execMsg");
         if (Input.MessageFilename.empty()) {
           OJ = JE->deploy(InitJSON, Config::GasLimit);
         } else {
@@ -213,8 +208,8 @@ void testMessageFail(const std::string &ContrFilename,
   ScillaParams SP(fetchStateValue, fetchRemoteStateValue, updateStateValue);
 
   std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
-
-  ScillaJIT_Safe::init();
+  // Tool to compile the LLVM-IR to a binary shared object.
+  CompileToSO CSO(PathPrefix + ContrFilename);
 
   Json::Value MessageJSON, InitJSON;
   std::string Balance = "0";
@@ -238,16 +233,16 @@ void testMessageFail(const std::string &ContrFilename,
     BOOST_FAIL(E.toString());
   }
 
-  std::unique_ptr<ScillaVM::ScillaJIT_Safe> JE;
+  std::unique_ptr<ScillaRTL::ScillaContrExec> JE;
   bool CaughtException = false;
   try {
     // Create a JIT engine
     {
-      ScopeTimer CreateTimer(ContrFilename + ": ScillaJIT::create");
-      JE = ScillaJIT_Safe::create(SP, PathPrefix + ContrFilename, &OCache);
+      ScopeTimer CreateTimer(ContrFilename + ": ScillaExec::create");
+      JE = std::make_unique<ScillaRTL::ScillaContrExec>(SP, CSO.compile());
     }
     {
-      ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaJIT::execMsg");
+      ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaExec::execMsg");
       if (MessageFilename.empty()) {
         JE->deploy(InitJSON, Config::GasLimit);
       } else {
@@ -631,7 +626,7 @@ BOOST_AUTO_TEST_CASE(map_corners_test_exec_unique_jits) {
 
 // Run a large number of these tests with a common JIT.
 // This test is disabled as it hogs up CI time. To see it work,
-// comment out the call to ObjManager::deleteAll() in ScillaJIT::execMsg().
+// comment out the call to ObjManager::deleteAll() in ScillaExec::execMsg().
 // Check peak memory usage: https://stackoverflow.com/a/774601/2128804
 int MCT_NumRepeats = 500;
 BOOST_AUTO_TEST_CASE(map_corners_test_stress,

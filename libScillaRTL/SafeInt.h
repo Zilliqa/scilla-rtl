@@ -23,7 +23,7 @@
 
 #include "ScillaTypes.h"
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 // A class for safe arithmetic operations.
 // Creates an error on overflows or underflows in any operation.
@@ -82,4 +82,4 @@ typedef SafeInt<64, SafeIntKind::Unsigned> SafeUint64;
 typedef SafeInt<128, SafeIntKind::Unsigned> SafeUint128;
 typedef SafeInt<256, SafeIntKind::Unsigned> SafeUint256;
 
-} // namespace ScillaVM
+} // namespace ScillaRTL

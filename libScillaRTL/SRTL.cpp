@@ -17,12 +17,13 @@
 
 #include <boost/any.hpp>
 
+#include "ScillaRTL/Errors.h"
+#include "ScillaRTL/Utils.h"
+
+#include "SRTL.h"
 #include "SafeInt.h"
+#include "ScillaExecImpl.h"
 #include "ScillaTypes.h"
-#include "ScillaVM/Errors.h"
-#include "ScillaVM/JITD.h"
-#include "ScillaVM/SRTL.h"
-#include "ScillaVM/Utils.h"
 #include "ScillaValue.h"
 
 namespace {
@@ -39,12 +40,12 @@ void unquoteString(std::string &Input) {
 }
 } // namespace
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 std::string ScillaStdout = "";
 
 boost::optional<const ScillaTypes::Typ *>
-remoteFieldType(const ScillaJIT *SJ, const std::string &Addr,
+remoteFieldType(const ScillaExecImpl *SJ, const std::string &Addr,
                 const std::string &FName) {
 
   ScillaParams::StateQuery Q = {FName, 0, {}, true};
@@ -59,11 +60,11 @@ remoteFieldType(const ScillaJIT *SJ, const std::string &Addr,
                 : boost::none);
 }
 
-bool isContrAddr(const ScillaJIT *SJ, const std::string &Addr) {
+bool isContrAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
   return static_cast<bool>(remoteFieldType(SJ, Addr, "_this_address"));
 }
 
-bool isUserAddr(const ScillaJIT *SJ, const std::string &Addr) {
+bool isUserAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
   ScillaParams::StateQuery SQBalance = {"_balance", 0, {}, false};
   ScillaParams::StateQuery SQNonce = {"_nonce", 0, {}, false};
   boost::any BalanceVal, NonceVal;
@@ -98,7 +99,7 @@ bool isUserAddr(const ScillaJIT *SJ, const std::string &Addr) {
   return Balance > SafeUint128::min() || Nonce > SafeUint64::min();
 }
 
-bool dynamicTypecheck(const ScillaJIT *SJ, const ScillaTypes::Typ *TargetT,
+bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
                       const ScillaTypes::Typ *ParsedT, void *Val) {
 
   if (!ScillaTypes::Typ::valueCompatible(ParsedT, TargetT)) {
@@ -195,4 +196,4 @@ bool dynamicTypecheck(const ScillaJIT *SJ, const ScillaTypes::Typ *TargetT,
   return recurser(TargetT, Val);
 }
 
-} // namespace ScillaVM
+} // namespace ScillaRTL

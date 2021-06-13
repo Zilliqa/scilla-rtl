@@ -17,26 +17,24 @@
 
 #include <set>
 
-#include <ScillaVM/Debug.h>
+#include <ScillaRTL/DLog.h>
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
-bool EnableAllDebugTypes;
-std::set<std::string> EnabledDebugTypes;
+bool EnableAllDLogTypes;
+std::set<std::string> EnabledDLogTypes;
 
-bool isInCurrentDebugTypes(std::string TYPE) {
-  return EnableAllDebugTypes || EnabledDebugTypes.count(TYPE);
+bool isInCurrentDLogTypes(std::string TYPE) {
+  return EnableAllDLogTypes || EnabledDLogTypes.count(TYPE);
 }
 
-void addToCurrentDebugTypes(std::string TYPE) {
-  EnabledDebugTypes.insert(TYPE);
-}
+void addToCurrentDLogTypes(std::string TYPE) { EnabledDLogTypes.insert(TYPE); }
 
-void enableAllDebugTypes() { EnableAllDebugTypes = true; }
+void enableAllDLogTypes() { EnableAllDLogTypes = true; }
 
-std::ostream &dbgs() {
-  std::cout << "dbgs@" << __FILE__ << ":" << __LINE__ << ": ";
+std::ostream &dlogImpl(const std::string &File, int Line) {
+  std::cout << "dlog@" << File << ":" << Line << ": ";
   return std::cout;
 }
 
-} // namespace ScillaVM
+} // namespace ScillaRTL

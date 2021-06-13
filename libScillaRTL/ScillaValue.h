@@ -22,10 +22,10 @@
 #include <boost/multiprecision/cpp_int.hpp>
 #include <jsoncpp/json/value.h>
 
+#include "SRTL.h"
 #include "ScillaTypes.h"
-#include "ScillaVM/SRTL.h"
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 class ObjManager;
 
@@ -68,4 +68,4 @@ void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
 uint64_t literalCost(const ScillaTypes::Typ *T, const void *V);
 
 } // namespace ScillaValues
-} // namespace ScillaVM
+} // namespace ScillaRTL

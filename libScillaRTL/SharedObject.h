@@ -15,11 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#pragma once
+
 #include <dlfcn.h>
 
-#include <ScillaVM/Errors.h>
+#include <ScillaRTL/Errors.h>
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 class SharedObject {
   void *Handle;
@@ -33,7 +35,7 @@ public:
   }
   ~SharedObject() { dlclose(Handle); }
 
-  void *getAddressFor(const std::string &Name) {
+  void *getAddressFor(const std::string &Name) const {
     auto Ptr = dlsym(Handle, Name.c_str());
     if (!Ptr) {
       CREATE_ERROR(dlerror());
@@ -41,4 +43,4 @@ public:
     return Ptr;
   }
 };
-} // namespace ScillaVM
+} // namespace ScillaRTL
