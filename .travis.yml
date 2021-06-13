@@ -20,6 +20,7 @@ addons:
     - libjsoncpp-dev
     - libsecp256k1-dev
     - llvm-10-dev
+    - clang-10
 cache:
   directories:
   - $HOME/openssl
