@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <boost/any.hpp>
+#include <any>
 
 #include "ScillaRTL/Errors.h"
 #include "ScillaRTL/Utils.h"
@@ -42,20 +42,20 @@ void unquoteString(std::string &Input) {
 
 namespace ScillaRTL {
 
-boost::optional<const ScillaTypes::Typ *>
+std::optional<const ScillaTypes::Typ *>
 remoteFieldType(const ScillaExecImpl *SJ, const std::string &Addr,
                 const std::string &FName) {
 
   ScillaParams::StateQuery Q = {FName, 0, {}, true};
-  boost::any IgnoreVal;
+  std::any IgnoreVal;
   std::string TypeS;
   bool Found;
   if (!SJ->SPs.fetchRemoteStateValue(Addr, Q, IgnoreVal, Found, TypeS)) {
     CREATE_ERROR("Error querying " + Addr + " for " + FName);
   }
 
-  return (Found ? boost::make_optional(SJ->parseTypeString(TypeS))
-                : boost::none);
+  return (Found ? std::make_optional(SJ->parseTypeString(TypeS))
+                : std::nullopt);
 }
 
 bool isContrAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
@@ -65,7 +65,7 @@ bool isContrAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
 bool isUserAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
   ScillaParams::StateQuery SQBalance = {"_balance", 0, {}, false};
   ScillaParams::StateQuery SQNonce = {"_nonce", 0, {}, false};
-  boost::any BalanceVal, NonceVal;
+  std::any BalanceVal, NonceVal;
   std::string BalanceType, NonceType;
   bool FoundBalance, FoundNonce;
   if (!SJ->SPs.fetchRemoteStateValue(Addr, SQBalance, BalanceVal, FoundBalance,
@@ -84,8 +84,8 @@ bool isUserAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
   }
 
   // The values are quoted numbers.
-  auto BalanceS = boost::any_cast<std::string>(BalanceVal);
-  auto NonceS = boost::any_cast<std::string>(NonceVal);
+  auto BalanceS = std::any_cast<std::string>(BalanceVal);
+  auto NonceS = std::any_cast<std::string>(NonceVal);
   unquoteString(BalanceS);
   unquoteString(NonceS);
 
@@ -152,14 +152,12 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
                 }
                 switch (ValT->m_t) {
                 case ScillaTypes::Typ::Map_typ: {
-                  auto &ValJS =
-                      boost::any_cast<const ScillaParams::MapValueT &>(
-                          Itr.second);
+                  auto &ValJS = std::any_cast<const ScillaParams::MapValueT &>(
+                      Itr.second);
                   return recurser(ValT, &ValJS);
                 }
                 default: {
-                  auto &ValJS =
-                      boost::any_cast<const std::string &>(Itr.second);
+                  auto &ValJS = std::any_cast<const std::string &>(Itr.second);
                   Json::Value ValJ = parseJSONString(ValJS);
                   auto *ValV = ScillaValues::fromJSON(OM, ValT, ValJ);
                   return recurser(ValT, ValV);

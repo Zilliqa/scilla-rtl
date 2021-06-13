@@ -19,10 +19,9 @@
 
 #include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
-
-#include <boost/optional.hpp>
 
 namespace ScillaRTL {
 
@@ -43,7 +42,7 @@ const auto Ecdsa_Pubkey_Uncompressed_Len = 65;
 const auto Zilliqa_Address_Len = 20;
 
 // Fetch the type of a remote field, if it exists.
-boost::optional<const ScillaTypes::Typ *>
+std::optional<const ScillaTypes::Typ *>
 remoteFieldType(const ScillaExecImpl *SJ, const std::string &Addr,
                 const std::string &FName);
 

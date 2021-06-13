@@ -485,7 +485,7 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
                 auto *TDFields = T->m_sub.m_addrt->m_fields;
                 // Does every field in TDFields exist in Fields?
                 bool all_matched = std::all_of(TDFields, TDFields + T_NFields,
-                  [Fields](const AddressTyp::Field &TF) {
+                  [&Fields](const AddressTyp::Field &TF) {
                     auto ToMatchName = std::string(TF.m_Name);
                     auto *ToMatchTyp = TF.m_FTyp;
                     // Check if TF exists in Fields.

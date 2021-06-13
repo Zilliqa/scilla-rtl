@@ -20,22 +20,22 @@
 #include <string>
 #include <unordered_map>
 
-#include <boost/any.hpp>
+#include <any>
 #include <boost/filesystem.hpp>
-#include <boost/optional.hpp>
 #include <jsoncpp/json/value.h>
+#include <optional>
 
 #include "ScillaExec.h"
 
-namespace boost {
-// Does a boost::any object hold a value of type T.
-template <typename T> bool has_type(const boost::any &a) {
+namespace std {
+// Does an std::any object hold a value of type T.
+template <typename T> bool has_type(const std::any &a) {
   return a.type() == typeid(T);
 }
-template <typename T> bool has_type(const boost::any *a) {
+template <typename T> bool has_type(const std::any *a) {
   return a->type() == typeid(T);
 }
-} // namespace boost
+} // namespace std
 
 namespace ScillaRTL {
 
@@ -43,7 +43,7 @@ std::string readFile(const std::string &Filename);
 Json::Value parseJSONString(const std::string &JS);
 Json::Value parseJSONFile(const std::string &Filename);
 // Parse a Scilla type and return its map depth if successfully parsed.
-boost::optional<int> mapDepthOfTypeString(const std::string &TypeStr);
+std::optional<int> mapDepthOfTypeString(const std::string &TypeStr);
 // Serialize a JSON for storage.
 std::string serializeJSON(const Json::Value &J);
 
@@ -67,7 +67,7 @@ class Typ;
 
 // A state server implementation with no persistence.
 class MemStateServer {
-  std::unordered_map<std::string, std::unordered_map<std::string, boost::any>>
+  std::unordered_map<std::string, std::unordered_map<std::string, std::any>>
       BCState;
   // We store the type (when initialized from JSON) for later printing to JSON.
   std::unordered_map<std::string, std::unordered_map<std::string, std::string>>
@@ -77,20 +77,19 @@ class MemStateServer {
   // Update (part of) the state. Returns false on error.
   bool updateRemoteStateValue(const std::string &Addr,
                               const ScillaParams::StateQuery &Query,
-                              const boost::any &Value);
+                              const std::any &Value);
 
 public:
   // Fetch (part of) state variable for ThisAddress. Returns false on error.
-  bool fetchStateValue(const ScillaParams::StateQuery &Query,
-                       boost::any &RetVal, bool &Found);
+  bool fetchStateValue(const ScillaParams::StateQuery &Query, std::any &RetVal,
+                       bool &Found);
   // Fetch (part of) state variable. Returns false on error.
   bool fetchRemoteStateValue(const std::string &Addr,
                              const ScillaParams::StateQuery &Query,
-                             boost::any &RetVal, bool &Found,
-                             std::string &Type);
+                             std::any &RetVal, bool &Found, std::string &Type);
   // Update (part of) the state for ThisAddress. Returns false on error.
   bool updateStateValue(const ScillaParams::StateQuery &Query,
-                        const boost::any &Value);
+                        const std::any &Value);
 
   // (Re)initialize the state from the provided state JSON.
   // Requires init JSON for noting down _this_address.
