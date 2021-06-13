@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-20.04
+        ocaml-version:
+          - 4.12.0
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Try to restore opam cache
+        if: runner.os != 'Windows'
+        id: opam-cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.opam
+            !~/.opam/log
+          key: ${{ matrix.os }}-${{ matrix.ocaml-version }}-v2
+
+      - name: Use OCaml ${{ matrix.ocaml-version }}
+        uses: avsm/setup-ocaml@v1
+        with:
+          ocaml-version: ${{ matrix.ocaml-version }}
+
+      - name: Install Boost libraries
+        run: sudo apt-get update && sudo apt-get install -yq ninja-build libboost-system-dev libboost-test-dev
+
+      - run: opam pin add scilla.dev git+https://github.com/Zilliqa/scilla\#master --no-action
+      - run: opam depext scilla --yes
+      - run: opam install scilla --yes
+
+      - name: Try to restore LLVM build from cache
+        if: runner.os != 'Windows'
+        id: llvm_build-cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/llvm_build
+            ~/llvm-project-*
+          key: ${{ matrix.os }}-${{ matrix.ocaml-version }}-v2
+
+      - name: Download, build and install (to opam) LLVM.
+        if: steps.llvm_build-cache.outputs.cache-hit != 'true'
+        run: scripts/build_install_llvm.sh
+
+      - run: opam install ./ --deps-only --with-test --yes
+      - run: LIBRARY_PATH=~/llvm_build/lib opam exec -- make test
+      - run: opam install ocamlformat.0.18.0 --yes
+      - run: opam exec -- make fmt

@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-20.04
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install required OS packages
+        run: sudo apt-get update && sudo apt-get install -yq build-essential pkg-config zlib1g-dev libssl-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-system-dev libboost-test-dev libjsoncpp-dev libsecp256k1-dev clang-10 
+
+      - run: scripts/build_ci.sh
