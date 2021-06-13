@@ -18,7 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          submodule: 'recursive'
+          submodules: 'recursive'
 
       - name: Install required OS packages
         run: sudo apt-get update && sudo apt-get install -yq build-essential pkg-config zlib1g-dev libssl-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-system-dev libboost-test-dev libjsoncpp-dev libsecp256k1-dev clang-10 
