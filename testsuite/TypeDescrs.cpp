@@ -21,7 +21,7 @@
 
 namespace TypeDescrs {
 
-using namespace ScillaVM::ScillaTypes;
+using namespace ScillaRTL::ScillaTypes;
 
 // IntX types
 PrimTyp Int32_primtyp = {PrimTyp::Int_typ, {PrimTyp::Bits32}};

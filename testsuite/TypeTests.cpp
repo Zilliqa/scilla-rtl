@@ -19,19 +19,19 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "../libsrtl/ScillaTypes.h"
+#include "../libScillaRTL/ScillaTypes.h"
 #include "TypeDescrs.h"
-#include <ScillaVM/Errors.h>
-#include <ScillaVM/Utils.h>
+#include <ScillaRTL/Errors.h>
+#include <ScillaRTL/Utils.h>
 
 namespace {
 // Type parser partial cache for faster run across tests.
-ScillaVM::ScillaTypes::TypParserPartialCache TPPC;
+ScillaRTL::ScillaTypes::TypParserPartialCache TPPC;
 } // namespace
 
 BOOST_AUTO_TEST_SUITE(types)
 
-using namespace ScillaVM::ScillaTypes;
+using namespace ScillaRTL::ScillaTypes;
 
 // This tests the testsuite type descriptors.
 BOOST_AUTO_TEST_CASE(tydescrs_sanity) {
@@ -74,14 +74,14 @@ const Typ *parseTypeString(const std::string TS) {
   using namespace TypeDescrs;
   try {
     return Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, TS);
-  } catch (const ScillaVM::ScillaError &E) {
+  } catch (const ScillaRTL::ScillaError &E) {
     BOOST_FAIL(E.toString());
   }
   BOOST_UNREACHABLE_RETURN();
 }
 
 void testMapDepthOfTypeString(const std::string TypeStr, int ExpectedDepth) {
-  auto DepthFromString = ScillaVM::mapDepthOfTypeString(TypeStr);
+  auto DepthFromString = ScillaRTL::mapDepthOfTypeString(TypeStr);
   BOOST_REQUIRE_MESSAGE(DepthFromString, "Map depth parser failed " << TypeStr);
   BOOST_REQUIRE_MESSAGE(ExpectedDepth == *DepthFromString,
                         "Mismatch in map depth for "
@@ -97,7 +97,7 @@ void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
                                              << Typ::toString(T));
     auto DepthFromType = Typ::getMapDepth(T);
     testMapDepthOfTypeString(Input, DepthFromType);
-  } catch (const ScillaVM::ScillaError &E) {
+  } catch (const ScillaRTL::ScillaError &E) {
     BOOST_FAIL(E.toString());
   }
 }
@@ -107,7 +107,7 @@ void parserTestFail(const std::string &Input) {
   bool CaughtError = false;
   try {
     Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, Input);
-  } catch (const ScillaVM::ScillaError &E) {
+  } catch (const ScillaRTL::ScillaError &E) {
     CaughtError = true;
     BOOST_TEST_MESSAGE("\tCaught expected exception: " << E.toString());
   }
@@ -438,13 +438,13 @@ BOOST_AUTO_TEST_CASE(map_depth_from_type_str_tests) {
 }
 
 BOOST_AUTO_TEST_CASE(map_depth_from_type_str_tests_fail) {
-  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("Map"));
-  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("List Map"));
-  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("Map Map"));
-  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("Map Map Map"));
-  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("Map (Map) Map"));
-  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("Map Uint32 Map"));
-  BOOST_REQUIRE(!ScillaVM::mapDepthOfTypeString("Map Uint32 (List Map)"));
+  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("Map"));
+  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("List Map"));
+  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("Map Map"));
+  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("Map Map Map"));
+  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("Map (Map) Map"));
+  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("Map Uint32 Map"));
+  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("Map Uint32 (List Map)"));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

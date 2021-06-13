@@ -19,9 +19,9 @@
 
 #include <dlfcn.h>
 
-#include <ScillaVM/Errors.h>
+#include <ScillaRTL/Errors.h>
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 class SharedObject {
   void *Handle;
@@ -43,4 +43,4 @@ public:
     return Ptr;
   }
 };
-} // namespace ScillaVM
+} // namespace ScillaRTL

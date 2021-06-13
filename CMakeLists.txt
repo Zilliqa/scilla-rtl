@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1)
 
-project(ScillaVM)
+project(ScillaRTL)
 
 # detect operating system
 message(STATUS "We are on a ${CMAKE_SYSTEM_NAME} system")
@@ -53,7 +53,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # C++ standard
 set(CMAKE_CXX_STANDARD 14)
 
-add_subdirectory(libsrtl)
+add_subdirectory(libScillaRTL)
 add_subdirectory(runners)
 add_subdirectory(testsuite)
 add_subdirectory(deps/cryptoutils EXCLUDE_FROM_ALL)

@@ -29,24 +29,24 @@
 #include <iostream>
 #include <string>
 
-namespace ScillaVM {
+namespace ScillaRTL {
 bool isInCurrentDebugTypes(std::string TYPE);
 void addToCurrentDebugTypes(std::string TYPE);
 void enableAllDebugTypes();
-} // namespace ScillaVM
+} // namespace ScillaRTL
 
 #ifndef NDEBUG
 
 #define SVM_DEBUG_TYPE(TYPE, X)                                                \
   do {                                                                         \
-    if (ScillaVM::isInCurrentDebugTypes(TYPE)) {                               \
+    if (ScillaRTL::isInCurrentDebugTypes(TYPE)) {                               \
       X;                                                                       \
     }                                                                          \
   } while (false)
 
 #define SVM_DEBUG(X) SVM_DEBUG_TYPE(DEBUG_TYPE, X)
 
-namespace ScillaVM {
+namespace ScillaRTL {
 std::ostream &dbgs();
 }
 #else

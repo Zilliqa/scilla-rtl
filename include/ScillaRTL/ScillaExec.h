@@ -26,7 +26,7 @@
 #include <jsoncpp/json/json.h>
 
 // Forward declarations.
-namespace ScillaVM {
+namespace ScillaRTL {
 
 // Information that Scilla will need to execute contracts.
 struct ScillaParams {
@@ -120,4 +120,4 @@ public:
   uint64_t getGasRem() const;
 };
 
-} // namespace ScillaVM
+} // namespace ScillaRTL

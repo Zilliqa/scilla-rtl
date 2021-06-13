@@ -25,7 +25,7 @@
 #include "SRTL.h"
 #include "ScillaTypes.h"
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 class ObjManager;
 
@@ -68,4 +68,4 @@ void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
 uint64_t literalCost(const ScillaTypes::Typ *T, const void *V);
 
 } // namespace ScillaValues
-} // namespace ScillaVM
+} // namespace ScillaRTL

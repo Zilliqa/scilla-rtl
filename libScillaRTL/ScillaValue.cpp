@@ -17,14 +17,14 @@
 
 #include <boost/predef.h>
 
-#include "ScillaVM/Errors.h"
-#include "ScillaVM/Utils.h"
+#include "ScillaRTL/Errors.h"
+#include "ScillaRTL/Utils.h"
 
 #include "SafeInt.h"
 #include "ScillaExecImpl.h"
 #include "ScillaValue.h"
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 namespace {
 constexpr char Hexmap[] = {'0', '1', '2', '3', '4', '5', '6', '7',
@@ -851,4 +851,4 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
 }
 
 } // namespace ScillaValues
-} // namespace ScillaVM
+} // namespace ScillaRTL

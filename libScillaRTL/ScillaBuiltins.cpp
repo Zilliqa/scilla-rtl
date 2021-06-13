@@ -29,11 +29,11 @@
 #include "ScillaBuiltins.h"
 #include "ScillaExecImpl.h"
 #include "ScillaTypes.h"
-#include "ScillaVM/Errors.h"
-#include "ScillaVM/Utils.h"
+#include "ScillaRTL/Errors.h"
+#include "ScillaRTL/Utils.h"
 #include "ScillaValue.h"
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 void TransitionState::processMessage(std::string OutType, Json::Value &M) {
   if (OutJ.empty()) {
@@ -101,9 +101,9 @@ Json::Value TransitionState::finalize(void) {
   return OutJ;
 }
 
-} // namespace ScillaVM
+} // namespace ScillaRTL
 
-using namespace ScillaVM;
+using namespace ScillaRTL;
 
 namespace {
 
@@ -396,8 +396,8 @@ void *_fetch_remote_field(ScillaExecImpl *SJ,
   return fetchFieldHelper(SJ, Addr, Name, T, NumIdx, Indices, FetchVal);
 }
 
-void _update_field(ScillaVM::ScillaExecImpl *SJ, const char *Name,
-                   const ScillaVM::ScillaTypes::Typ *T, int32_t NumIdx,
+void _update_field(ScillaRTL::ScillaExecImpl *SJ, const char *Name,
+                   const ScillaRTL::ScillaTypes::Typ *T, int32_t NumIdx,
                    const uint8_t *Indices, void *Val) {
 
   std::vector<const ScillaTypes::Typ *> KeyTypes;

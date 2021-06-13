@@ -19,15 +19,15 @@
 #include <boost/test/unit_test.hpp>
 using boost::test_tools::output_test_stream;
 
-#include <ScillaVM/Errors.h>
-#include <ScillaVM/ScillaExec.h>
-#include <ScillaVM/Utils.h>
+#include <ScillaRTL/Errors.h>
+#include <ScillaRTL/ScillaExec.h>
+#include <ScillaRTL/Utils.h>
 
 #include "Testsuite.h"
 
 namespace {
 
-using namespace ScillaVM;
+using namespace ScillaRTL;
 using namespace ScillaTestsuite;
 
 void testExecExprHelper(const std::string &Filename,
@@ -38,7 +38,7 @@ void testExecExprHelper(const std::string &Filename,
     // Tool to compile the LLVM-IR to a binary shared object.
     CompileToSO CSO(Filename);
     // Setup a Scilla expression execution object.
-    ScillaExprExec SJ(ScillaVM::ScillaParams(), CSO.compile());
+    ScillaExprExec SJ(ScillaRTL::ScillaParams(), CSO.compile());
     BOOST_TEST_CHECKPOINT(Filename + ": Loaded compiled shared object.");
     ScillaOutput = SJ.exec(Config::GasLimit);
   } catch (const ScillaError &E) {
@@ -74,7 +74,7 @@ void testExecFailExpr(const std::string &Testname) {
     // Tool to compile the LLVM-IR to a binary shared object.
     CompileToSO CSO(Filename);
     // Setup a Scilla expression execution object.
-    ScillaExprExec SJ(ScillaVM::ScillaParams(), CSO.compile());
+    ScillaExprExec SJ(ScillaRTL::ScillaParams(), CSO.compile());
     BOOST_TEST_CHECKPOINT(Filename + ": Loaded compiled shared object.");
     ScillaOutput = SJ.exec(Config::GasLimit);
   } catch (const ScillaError &E) {

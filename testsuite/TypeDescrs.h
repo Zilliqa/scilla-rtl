@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "../libsrtl/ScillaTypes.h"
+#include "../libScillaRTL/ScillaTypes.h"
 
 namespace TypeDescrs {
 
-using namespace ScillaVM::ScillaTypes;
+using namespace ScillaRTL::ScillaTypes;
 
 // IntX types
 extern Typ Int32_typ;

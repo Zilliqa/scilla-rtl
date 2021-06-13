@@ -22,7 +22,7 @@
 #include <boost/program_options.hpp>
 #include <boost/test/unit_test.hpp>
 
-#include <ScillaVM/Debug.h>
+#include <ScillaRTL/Debug.h>
 
 namespace {
 namespace po = boost::program_options;
@@ -104,11 +104,11 @@ struct CommandLineInit {
     BOOST_TEST_REQUIRE(boost::filesystem::is_directory(Dir));
     Config::TestsuiteSrc = Dir;
     if (VM.count("debug")) {
-      ScillaVM::enableAllDebugTypes();
+      ScillaRTL::enableAllDebugTypes();
     } else if (VM.count("debug-only")) {
       auto &DTs = VM["debug-only"].as<std::vector<std::string>>();
       for (auto &DT : DTs) {
-        ScillaVM::addToCurrentDebugTypes(DT);
+        ScillaRTL::addToCurrentDebugTypes(DT);
       }
     }
     if (VM.count("update-result")) {

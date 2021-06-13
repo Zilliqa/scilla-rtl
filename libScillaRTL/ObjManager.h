@@ -21,7 +21,7 @@
 
 #include <llvm/Support/Allocator.h>
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 // Allocates, constructs, owns and destructs objects.
 // Objects of any type can be managed. It works similar to how
@@ -82,4 +82,4 @@ public:
   ~ObjManager() { deleteAll(); };
 };
 
-} // namespace ScillaVM
+} // namespace ScillaRTL

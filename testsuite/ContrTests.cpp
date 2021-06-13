@@ -20,14 +20,14 @@
 #include <boost/test/unit_test.hpp>
 using boost::test_tools::output_test_stream;
 
-#include <ScillaVM/Errors.h>
-#include <ScillaVM/ScillaExec.h>
-#include <ScillaVM/Utils.h>
+#include <ScillaRTL/Errors.h>
+#include <ScillaRTL/ScillaExec.h>
+#include <ScillaRTL/Utils.h>
 
 #include "StateJsonUtils.h"
 #include "Testsuite.h"
 
-using namespace ScillaVM;
+using namespace ScillaRTL;
 using namespace ScillaTestsuite;
 
 namespace {
@@ -73,14 +73,14 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
   // Tool to compile the LLVM-IR to a binary shared object.
   CompileToSO CSO(PathPrefix + CT.ContrFilename);
 
-  std::unique_ptr<ScillaVM::ScillaContrExec> JE;
+  std::unique_ptr<ScillaRTL::ScillaContrExec> JE;
   if (CommonJIT) {
     BOOST_TEST_CHECKPOINT("Creating common JIT for " + CT.ContrFilename);
     // Create a JIT engine and execute the message.
     // TODO: Due to the below mentioned bug, this can't be in a try-catch block.
     {
       ScopeTimer CreateTimer(CT.ContrFilename + ": ScillaExec::create");
-      JE = std::make_unique<ScillaVM::ScillaContrExec>(SP, CSO.compile());
+      JE = std::make_unique<ScillaRTL::ScillaContrExec>(SP, CSO.compile());
     }
   }
 
@@ -92,7 +92,7 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       // block.
       {
         ScopeTimer CreateTimer(CT.ContrFilename + ": ScillaExec::create");
-        JE = std::make_unique<ScillaVM::ScillaContrExec>(SP, CSO.compile());
+        JE = std::make_unique<ScillaRTL::ScillaContrExec>(SP, CSO.compile());
       }
     }
     BOOST_TEST_MESSAGE("Testing " + CT.ContrFilename + " with input " +
@@ -233,13 +233,13 @@ void testMessageFail(const std::string &ContrFilename,
     BOOST_FAIL(E.toString());
   }
 
-  std::unique_ptr<ScillaVM::ScillaContrExec> JE;
+  std::unique_ptr<ScillaRTL::ScillaContrExec> JE;
   bool CaughtException = false;
   try {
     // Create a JIT engine
     {
       ScopeTimer CreateTimer(ContrFilename + ": ScillaExec::create");
-      JE = std::make_unique<ScillaVM::ScillaContrExec>(SP, CSO.compile());
+      JE = std::make_unique<ScillaRTL::ScillaContrExec>(SP, CSO.compile());
     }
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaExec::execMsg");

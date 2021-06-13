@@ -19,9 +19,9 @@
 #include <memory>
 
 #include "ObjManager.h"
-#include "ScillaVM/ScillaExec.h"
+#include "ScillaRTL/ScillaExec.h"
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 class SharedObject;
 class TransitionState;
@@ -66,4 +66,4 @@ public:
   std::unique_ptr<TransitionState> TS;
 };
 
-} // namespace ScillaVM
+} // namespace ScillaRTL

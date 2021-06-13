@@ -17,9 +17,9 @@
 
 #include <set>
 
-#include <ScillaVM/Debug.h>
+#include <ScillaRTL/Debug.h>
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 bool EnableAllDebugTypes;
 std::set<std::string> EnabledDebugTypes;
@@ -39,4 +39,4 @@ std::ostream &dbgs() {
   return std::cout;
 }
 
-} // namespace ScillaVM
+} // namespace ScillaRTL

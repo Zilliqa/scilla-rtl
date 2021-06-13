@@ -19,9 +19,9 @@
 #include <memory>
 #include <numeric>
 
-#include "ScillaVM/Debug.h"
-#include "ScillaVM/Errors.h"
-#include "ScillaVM/ScillaExec.h"
+#include "ScillaRTL/Debug.h"
+#include "ScillaRTL/Errors.h"
+#include "ScillaRTL/ScillaExec.h"
 
 #include "ObjManager.h"
 #include "SRTL.h"
@@ -30,7 +30,7 @@
 #include "ScillaTypes.h"
 #include "SharedObject.h"
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 ScillaContrExec::~ScillaContrExec() = default;
 
@@ -356,4 +356,4 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
   return Result;
 }
 
-} // namespace ScillaVM
+} // namespace ScillaRTL

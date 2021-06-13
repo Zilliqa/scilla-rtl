@@ -17,8 +17,8 @@
 
 #include <boost/any.hpp>
 
-#include "ScillaVM/Errors.h"
-#include "ScillaVM/Utils.h"
+#include "ScillaRTL/Errors.h"
+#include "ScillaRTL/Utils.h"
 
 #include "SRTL.h"
 #include "SafeInt.h"
@@ -40,7 +40,7 @@ void unquoteString(std::string &Input) {
 }
 } // namespace
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 std::string ScillaStdout = "";
 
@@ -196,4 +196,4 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
   return recurser(TargetT, Val);
 }
 
-} // namespace ScillaVM
+} // namespace ScillaRTL

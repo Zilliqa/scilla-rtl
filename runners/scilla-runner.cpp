@@ -19,12 +19,12 @@
 #include <fstream>
 #include <iostream>
 
-#include "ScillaVM/Debug.h"
-#include "ScillaVM/Errors.h"
-#include "ScillaVM/ScillaExec.h"
-#include "ScillaVM/Utils.h"
+#include "ScillaRTL/Debug.h"
+#include "ScillaRTL/Errors.h"
+#include "ScillaRTL/ScillaExec.h"
+#include "ScillaRTL/Utils.h"
 
-using namespace ScillaVM;
+using namespace ScillaRTL;
 
 namespace {
 
@@ -95,11 +95,11 @@ int main(int argc, char *argv[]) {
   parseCLIArgs(argc, argv, VM);
 
   if (VM.count("debug")) {
-    ScillaVM::enableAllDebugTypes();
+    ScillaRTL::enableAllDebugTypes();
   } else if (VM.count("debug-only")) {
     auto &DTs = VM["debug-only"].as<std::vector<std::string>>();
     for (auto &DT : DTs) {
-      ScillaVM::addToCurrentDebugTypes(DT);
+      ScillaRTL::addToCurrentDebugTypes(DT);
     }
   }
 

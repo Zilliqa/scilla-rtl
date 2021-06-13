@@ -24,7 +24,7 @@
 
 #include <boost/optional.hpp>
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 class ScillaExecImpl;
 namespace ScillaTypes {
@@ -61,4 +61,4 @@ bool isUserAddr(const ScillaExecImpl *SJ, const std::string &Addr);
 bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *Target,
                       const ScillaTypes::Typ *ParsedT, void *Val);
 
-} // namespace ScillaVM
+} // namespace ScillaRTL

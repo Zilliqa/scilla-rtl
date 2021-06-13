@@ -26,8 +26,8 @@
 #include <memory>
 
 #include "ScillaTypes.h"
-#include "ScillaVM/Errors.h"
-#include "ScillaVM/Utils.h"
+#include "ScillaRTL/Errors.h"
+#include "ScillaRTL/Utils.h"
 
 namespace {
 
@@ -61,7 +61,7 @@ boost::optional<Json::Value> vNameValue(const Json::Value &Vs,
 
 } // namespace
 
-namespace ScillaVM {
+namespace ScillaRTL {
 
 namespace bf = boost::filesystem;
 namespace bp = boost::process;
@@ -523,7 +523,7 @@ std::string MemStateServer::initState(const Json::Value &InitJ,
 
   return recurser(ThisAddress, StateJ);
 
-} // namespace ScillaVM
+} // namespace ScillaRTL
 
 Json::Value MemStateServer::dumpToJSON() {
   Json::Value RetVal(Json::arrayValue);
@@ -564,4 +564,4 @@ Json::Value MemStateServer::dumpToJSON() {
   return RetVal;
 }
 
-} // namespace ScillaVM
+} // namespace ScillaRTL
