@@ -8,9 +8,9 @@ target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
-%"$ParamDescr_67" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_68" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_68" = type { %ParamDescrString, i32, %"$ParamDescr_67"* }
+%"$TransDescr_69" = type { %ParamDescrString, i32, %"$ParamDescr_68"* }
 %Uint256 = type { i256 }
 
 @_execptr = global i8* null
@@ -45,9 +45,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Bystr_29" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr_Prim_28" to i8*) }
 @_tydescr_table = constant [14 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_25", %_TyDescrTy_Typ* @"$TyDescr_Int64_7", %_TyDescrTy_Typ* @"$TyDescr_Uint256_17", %_TyDescrTy_Typ* @"$TyDescr_Uint32_5", %_TyDescrTy_Typ* @"$TyDescr_Uint64_9", %_TyDescrTy_Typ* @"$TyDescr_Bnum_21", %_TyDescrTy_Typ* @"$TyDescr_Uint128_13", %_TyDescrTy_Typ* @"$TyDescr_Exception_27", %_TyDescrTy_Typ* @"$TyDescr_String_19", %_TyDescrTy_Typ* @"$TyDescr_Int256_15", %_TyDescrTy_Typ* @"$TyDescr_Int128_11", %_TyDescrTy_Typ* @"$TyDescr_Bystr_29", %_TyDescrTy_Typ* @"$TyDescr_Message_23", %_TyDescrTy_Typ* @"$TyDescr_Int32_3"]
 @_tydescr_table_length = constant i32 14
-@_contract_parameters = constant [0 x %"$ParamDescr_67"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_68"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_68"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_69"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define void @_init_libs() {
@@ -114,10 +114,10 @@ entry:
   %"$two_60" = load %Uint256, %Uint256* %two, align 8
   store %Uint256 %"$two_60", %Uint256* %"$add_two_59", align 8
   %"$add_call_61" = call %Uint256* @_add_Uint256(i8* %"$execptr_load_56", %Uint256* %"$add_one_57", %Uint256* %"$add_two_59")
-  %"$add_62" = load %Uint256, %Uint256* %"$add_call_61", align 8
-  store %Uint256 %"$add_62", %Uint256* %"$expr_0", align 8
-  %"$$expr_0_63" = load %Uint256, %Uint256* %"$expr_0", align 8
-  store %Uint256 %"$$expr_0_63", %Uint256* %1, align 8
+  %"$add_63" = load %Uint256, %Uint256* %"$add_call_61", align 8
+  store %Uint256 %"$add_63", %Uint256* %"$expr_0", align 8
+  %"$$expr_0_64" = load %Uint256, %Uint256* %"$expr_0", align 8
+  store %Uint256 %"$$expr_0_64", %Uint256* %1, align 8
   ret void
 }
 
@@ -129,10 +129,10 @@ declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$mainval_64" = alloca %Uint256, align 8
-  %"$memvoidcast_65" = bitcast %Uint256* %"$mainval_64" to i8*
-  call void @_scilla_expr_fun(i8* null, %Uint256* %"$mainval_64")
-  %"$execptr_load_66" = load i8*, i8** @_execptr, align 8
-  call void @_print_scilla_val(i8* %"$execptr_load_66", %_TyDescrTy_Typ* @"$TyDescr_Uint256_17", i8* %"$memvoidcast_65")
+  %"$mainval_65" = alloca %Uint256, align 8
+  %"$memvoidcast_66" = bitcast %Uint256* %"$mainval_65" to i8*
+  call void @_scilla_expr_fun(i8* null, %Uint256* %"$mainval_65")
+  %"$execptr_load_67" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_67", %_TyDescrTy_Typ* @"$TyDescr_Uint256_17", i8* %"$memvoidcast_66")
   ret void
 }

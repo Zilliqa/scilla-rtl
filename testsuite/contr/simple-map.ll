@@ -180,8 +180,8 @@ entry:
   store i64 %"$consume_84", i64* @_gasrem, align 8
   %"$execptr_load_85" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_86" = call i8* @_new_empty_map(i8* %"$execptr_load_85")
-  %"$Emp_87" = bitcast i8* %"$_new_empty_map_call_86" to %Map_ByStr20_Int32*
-  store %Map_ByStr20_Int32* %"$Emp_87", %Map_ByStr20_Int32** %"$access_count_3", align 8
+  %"$_new_empty_map_87" = bitcast i8* %"$_new_empty_map_call_86" to %Map_ByStr20_Int32*
+  store %Map_ByStr20_Int32* %"$_new_empty_map_87", %Map_ByStr20_Int32** %"$access_count_3", align 8
   %"$execptr_load_88" = load i8*, i8** @_execptr, align 8
   %"$$access_count_3_90" = load %Map_ByStr20_Int32*, %Map_ByStr20_Int32** %"$access_count_3", align 8
   %"$update_value_91" = bitcast %Map_ByStr20_Int32* %"$$access_count_3_90" to i8*

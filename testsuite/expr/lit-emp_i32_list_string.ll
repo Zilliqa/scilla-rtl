@@ -94,8 +94,8 @@ entry:
   store i64 %"$consume_55", i64* @_gasrem, align 8
   %"$execptr_load_56" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_57" = call i8* @_new_empty_map(i8* %"$execptr_load_56")
-  %"$Emp_58" = bitcast i8* %"$_new_empty_map_call_57" to %"Map_Int32_List_(String)"*
-  store %"Map_Int32_List_(String)"* %"$Emp_58", %"Map_Int32_List_(String)"** %"$expr_0", align 8
+  %"$_new_empty_map_58" = bitcast i8* %"$_new_empty_map_call_57" to %"Map_Int32_List_(String)"*
+  store %"Map_Int32_List_(String)"* %"$_new_empty_map_58", %"Map_Int32_List_(String)"** %"$expr_0", align 8
   %"$$expr_0_59" = load %"Map_Int32_List_(String)"*, %"Map_Int32_List_(String)"** %"$expr_0", align 8
   ret %"Map_Int32_List_(String)"* %"$$expr_0_59"
 }

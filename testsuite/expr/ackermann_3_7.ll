@@ -50,9 +50,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %TName_Nat = type { i8, %CName_Zero*, %CName_Succ* }
 %CName_Zero = type <{ i8 }>
 %CName_Succ = type <{ i8, %TName_Nat* }>
-%"$ParamDescr_1227" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_1229" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_1228" = type { %ParamDescrString, i32, %"$ParamDescr_1227"* }
+%"$TransDescr_1230" = type { %ParamDescrString, i32, %"$ParamDescr_1229"* }
 %"$$fundef_82_env_132" = type { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, { %TName_Nat* (i8*, %TName_Nat*)*, i8* })*, i8* }, { { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, { %TName_Nat* (i8*, %TName_Nat*)*, i8* })*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, { %TName_Nat* (i8*, %TName_Nat*)*, i8* })*, i8* })*, i8* }, { %TName_Nat* (i8*, %TName_Nat*)*, i8* } }
 %"$$fundef_80_env_133" = type { { %TName_Nat* (i8*, %TName_Nat*)*, i8* }, { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { %TName_Nat* (i8*, %TName_Nat*)*, i8* })*, i8* }, %TName_Nat* }
 %"$$fundef_78_env_134" = type { { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { %TName_Nat* (i8*, %TName_Nat*)*, i8* })*, i8* }, %TName_Nat* }
@@ -132,9 +132,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @NatUtils.nat_to_int = global { %Uint32 (i8*, %TName_Nat*)*, i8* } zeroinitializer
 @_tydescr_table = constant [15 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_108", %_TyDescrTy_Typ* @"$TyDescr_Int64_90", %_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_116", %_TyDescrTy_Typ* @"$TyDescr_Uint256_100", %_TyDescrTy_Typ* @"$TyDescr_Uint32_88", %_TyDescrTy_Typ* @"$TyDescr_Uint64_92", %_TyDescrTy_Typ* @"$TyDescr_Bnum_104", %_TyDescrTy_Typ* @"$TyDescr_Uint128_96", %_TyDescrTy_Typ* @"$TyDescr_Exception_110", %_TyDescrTy_Typ* @"$TyDescr_String_102", %_TyDescrTy_Typ* @"$TyDescr_Int256_98", %_TyDescrTy_Typ* @"$TyDescr_Int128_94", %_TyDescrTy_Typ* @"$TyDescr_Bystr_112", %_TyDescrTy_Typ* @"$TyDescr_Message_106", %_TyDescrTy_Typ* @"$TyDescr_Int32_86"]
 @_tydescr_table_length = constant i32 15
-@_contract_parameters = constant [0 x %"$ParamDescr_1227"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_1229"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_1228"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_1230"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define internal { %TName_Nat* (i8*, %TName_Nat*)*, i8* } @"$fundef_82"(%"$$fundef_82_env_132"* %0, %TName_Nat* %1) {
@@ -2211,108 +2211,108 @@ entry:
   %"$uintM_1169" = load %Uint32, %Uint32* %uintM, align 4
   %"$to_nat_call_1170" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1168", %Uint32 %"$uintM_1169")
   store %TName_Nat* %"$to_nat_call_1170", %TName_Nat** %m, align 8
-  %"$gasrem_1171" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1172" = icmp ugt i64 1, %"$gasrem_1171"
-  br i1 %"$gascmp_1172", label %"$out_of_gas_1173", label %"$have_gas_1174"
+  %"$gasrem_1172" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1173" = icmp ugt i64 1, %"$gasrem_1172"
+  br i1 %"$gascmp_1173", label %"$out_of_gas_1174", label %"$have_gas_1175"
 
-"$out_of_gas_1173":                               ; preds = %"$have_gas_1166"
+"$out_of_gas_1174":                               ; preds = %"$have_gas_1166"
   call void @_out_of_gas()
-  br label %"$have_gas_1174"
+  br label %"$have_gas_1175"
 
-"$have_gas_1174":                                 ; preds = %"$out_of_gas_1173", %"$have_gas_1166"
-  %"$consume_1175" = sub i64 %"$gasrem_1171", 1
-  store i64 %"$consume_1175", i64* @_gasrem, align 8
+"$have_gas_1175":                                 ; preds = %"$out_of_gas_1174", %"$have_gas_1166"
+  %"$consume_1176" = sub i64 %"$gasrem_1172", 1
+  store i64 %"$consume_1176", i64* @_gasrem, align 8
   %n = alloca %TName_Nat*, align 8
-  %"$execptr_load_1176" = load i8*, i8** @_execptr, align 8
-  %"$uintN_1177" = load %Uint32, %Uint32* %uintN, align 4
-  %"$to_nat_call_1178" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1176", %Uint32 %"$uintN_1177")
-  store %TName_Nat* %"$to_nat_call_1178", %TName_Nat** %n, align 8
-  %"$gasrem_1179" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1180" = icmp ugt i64 1, %"$gasrem_1179"
-  br i1 %"$gascmp_1180", label %"$out_of_gas_1181", label %"$have_gas_1182"
+  %"$execptr_load_1177" = load i8*, i8** @_execptr, align 8
+  %"$uintN_1178" = load %Uint32, %Uint32* %uintN, align 4
+  %"$to_nat_call_1179" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1177", %Uint32 %"$uintN_1178")
+  store %TName_Nat* %"$to_nat_call_1179", %TName_Nat** %n, align 8
+  %"$gasrem_1181" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1182" = icmp ugt i64 1, %"$gasrem_1181"
+  br i1 %"$gascmp_1182", label %"$out_of_gas_1183", label %"$have_gas_1184"
 
-"$out_of_gas_1181":                               ; preds = %"$have_gas_1174"
+"$out_of_gas_1183":                               ; preds = %"$have_gas_1175"
   call void @_out_of_gas()
-  br label %"$have_gas_1182"
+  br label %"$have_gas_1184"
 
-"$have_gas_1182":                                 ; preds = %"$out_of_gas_1181", %"$have_gas_1174"
-  %"$consume_1183" = sub i64 %"$gasrem_1179", 1
-  store i64 %"$consume_1183", i64* @_gasrem, align 8
+"$have_gas_1184":                                 ; preds = %"$out_of_gas_1183", %"$have_gas_1175"
+  %"$consume_1185" = sub i64 %"$gasrem_1181", 1
+  store i64 %"$consume_1185", i64* @_gasrem, align 8
   %ack00 = alloca %TName_Nat*, align 8
-  %"$gasrem_1184" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1185" = icmp ugt i64 1, %"$gasrem_1184"
-  br i1 %"$gascmp_1185", label %"$out_of_gas_1186", label %"$have_gas_1187"
+  %"$gasrem_1186" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1187" = icmp ugt i64 1, %"$gasrem_1186"
+  br i1 %"$gascmp_1187", label %"$out_of_gas_1188", label %"$have_gas_1189"
 
-"$out_of_gas_1186":                               ; preds = %"$have_gas_1182"
+"$out_of_gas_1188":                               ; preds = %"$have_gas_1184"
   call void @_out_of_gas()
-  br label %"$have_gas_1187"
+  br label %"$have_gas_1189"
 
-"$have_gas_1187":                                 ; preds = %"$out_of_gas_1186", %"$have_gas_1182"
-  %"$consume_1188" = sub i64 %"$gasrem_1184", 1
-  store i64 %"$consume_1188", i64* @_gasrem, align 8
+"$have_gas_1189":                                 ; preds = %"$out_of_gas_1188", %"$have_gas_1184"
+  %"$consume_1190" = sub i64 %"$gasrem_1186", 1
+  store i64 %"$consume_1190", i64* @_gasrem, align 8
   %"$ackermann_18" = alloca { %TName_Nat* (i8*, %TName_Nat*)*, i8* }, align 8
-  %"$ackermann_1189" = load { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* }, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* }* %ackermann, align 8
-  %"$ackermann_fptr_1190" = extractvalue { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } %"$ackermann_1189", 0
-  %"$ackermann_envptr_1191" = extractvalue { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } %"$ackermann_1189", 1
-  %"$m_1192" = load %TName_Nat*, %TName_Nat** %m, align 8
-  %"$ackermann_call_1193" = call { %TName_Nat* (i8*, %TName_Nat*)*, i8* } %"$ackermann_fptr_1190"(i8* %"$ackermann_envptr_1191", %TName_Nat* %"$m_1192")
-  store { %TName_Nat* (i8*, %TName_Nat*)*, i8* } %"$ackermann_call_1193", { %TName_Nat* (i8*, %TName_Nat*)*, i8* }* %"$ackermann_18", align 8
+  %"$ackermann_1191" = load { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* }, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* }* %ackermann, align 8
+  %"$ackermann_fptr_1192" = extractvalue { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } %"$ackermann_1191", 0
+  %"$ackermann_envptr_1193" = extractvalue { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } %"$ackermann_1191", 1
+  %"$m_1194" = load %TName_Nat*, %TName_Nat** %m, align 8
+  %"$ackermann_call_1195" = call { %TName_Nat* (i8*, %TName_Nat*)*, i8* } %"$ackermann_fptr_1192"(i8* %"$ackermann_envptr_1193", %TName_Nat* %"$m_1194")
+  store { %TName_Nat* (i8*, %TName_Nat*)*, i8* } %"$ackermann_call_1195", { %TName_Nat* (i8*, %TName_Nat*)*, i8* }* %"$ackermann_18", align 8
   %"$ackermann_19" = alloca %TName_Nat*, align 8
-  %"$$ackermann_18_1194" = load { %TName_Nat* (i8*, %TName_Nat*)*, i8* }, { %TName_Nat* (i8*, %TName_Nat*)*, i8* }* %"$ackermann_18", align 8
-  %"$$ackermann_18_fptr_1195" = extractvalue { %TName_Nat* (i8*, %TName_Nat*)*, i8* } %"$$ackermann_18_1194", 0
-  %"$$ackermann_18_envptr_1196" = extractvalue { %TName_Nat* (i8*, %TName_Nat*)*, i8* } %"$$ackermann_18_1194", 1
-  %"$n_1197" = load %TName_Nat*, %TName_Nat** %n, align 8
-  %"$$ackermann_18_call_1198" = call %TName_Nat* %"$$ackermann_18_fptr_1195"(i8* %"$$ackermann_18_envptr_1196", %TName_Nat* %"$n_1197")
-  store %TName_Nat* %"$$ackermann_18_call_1198", %TName_Nat** %"$ackermann_19", align 8
-  %"$$ackermann_19_1199" = load %TName_Nat*, %TName_Nat** %"$ackermann_19", align 8
-  store %TName_Nat* %"$$ackermann_19_1199", %TName_Nat** %ack00, align 8
-  %"$gasrem_1200" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1201" = icmp ugt i64 1, %"$gasrem_1200"
-  br i1 %"$gascmp_1201", label %"$out_of_gas_1202", label %"$have_gas_1203"
+  %"$$ackermann_18_1196" = load { %TName_Nat* (i8*, %TName_Nat*)*, i8* }, { %TName_Nat* (i8*, %TName_Nat*)*, i8* }* %"$ackermann_18", align 8
+  %"$$ackermann_18_fptr_1197" = extractvalue { %TName_Nat* (i8*, %TName_Nat*)*, i8* } %"$$ackermann_18_1196", 0
+  %"$$ackermann_18_envptr_1198" = extractvalue { %TName_Nat* (i8*, %TName_Nat*)*, i8* } %"$$ackermann_18_1196", 1
+  %"$n_1199" = load %TName_Nat*, %TName_Nat** %n, align 8
+  %"$$ackermann_18_call_1200" = call %TName_Nat* %"$$ackermann_18_fptr_1197"(i8* %"$$ackermann_18_envptr_1198", %TName_Nat* %"$n_1199")
+  store %TName_Nat* %"$$ackermann_18_call_1200", %TName_Nat** %"$ackermann_19", align 8
+  %"$$ackermann_19_1201" = load %TName_Nat*, %TName_Nat** %"$ackermann_19", align 8
+  store %TName_Nat* %"$$ackermann_19_1201", %TName_Nat** %ack00, align 8
+  %"$gasrem_1202" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1203" = icmp ugt i64 1, %"$gasrem_1202"
+  br i1 %"$gascmp_1203", label %"$out_of_gas_1204", label %"$have_gas_1205"
 
-"$out_of_gas_1202":                               ; preds = %"$have_gas_1187"
+"$out_of_gas_1204":                               ; preds = %"$have_gas_1189"
   call void @_out_of_gas()
-  br label %"$have_gas_1203"
+  br label %"$have_gas_1205"
 
-"$have_gas_1203":                                 ; preds = %"$out_of_gas_1202", %"$have_gas_1187"
-  %"$consume_1204" = sub i64 %"$gasrem_1200", 1
-  store i64 %"$consume_1204", i64* @_gasrem, align 8
+"$have_gas_1205":                                 ; preds = %"$out_of_gas_1204", %"$have_gas_1189"
+  %"$consume_1206" = sub i64 %"$gasrem_1202", 1
+  store i64 %"$consume_1206", i64* @_gasrem, align 8
   %int01 = alloca %Uint32, align 8
-  %"$gasrem_1205" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1206" = icmp ugt i64 1, %"$gasrem_1205"
-  br i1 %"$gascmp_1206", label %"$out_of_gas_1207", label %"$have_gas_1208"
+  %"$gasrem_1207" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1208" = icmp ugt i64 1, %"$gasrem_1207"
+  br i1 %"$gascmp_1208", label %"$out_of_gas_1209", label %"$have_gas_1210"
 
-"$out_of_gas_1207":                               ; preds = %"$have_gas_1203"
+"$out_of_gas_1209":                               ; preds = %"$have_gas_1205"
   call void @_out_of_gas()
-  br label %"$have_gas_1208"
+  br label %"$have_gas_1210"
 
-"$have_gas_1208":                                 ; preds = %"$out_of_gas_1207", %"$have_gas_1203"
-  %"$consume_1209" = sub i64 %"$gasrem_1205", 1
-  store i64 %"$consume_1209", i64* @_gasrem, align 8
+"$have_gas_1210":                                 ; preds = %"$out_of_gas_1209", %"$have_gas_1205"
+  %"$consume_1211" = sub i64 %"$gasrem_1207", 1
+  store i64 %"$consume_1211", i64* @_gasrem, align 8
   %"$NatUtils.nat_to_int_20" = alloca %Uint32, align 8
-  %"$NatUtils.nat_to_int_1210" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int, align 8
-  %"$NatUtils.nat_to_int_fptr_1211" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1210", 0
-  %"$NatUtils.nat_to_int_envptr_1212" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1210", 1
-  %"$ack00_1213" = load %TName_Nat*, %TName_Nat** %ack00, align 8
-  %"$NatUtils.nat_to_int_call_1214" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1211"(i8* %"$NatUtils.nat_to_int_envptr_1212", %TName_Nat* %"$ack00_1213")
-  store %Uint32 %"$NatUtils.nat_to_int_call_1214", %Uint32* %"$NatUtils.nat_to_int_20", align 4
-  %"$$NatUtils.nat_to_int_20_1215" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_20", align 4
-  store %Uint32 %"$$NatUtils.nat_to_int_20_1215", %Uint32* %int01, align 4
-  %"$gasrem_1216" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1217" = icmp ugt i64 1, %"$gasrem_1216"
-  br i1 %"$gascmp_1217", label %"$out_of_gas_1218", label %"$have_gas_1219"
+  %"$NatUtils.nat_to_int_1212" = load { %Uint32 (i8*, %TName_Nat*)*, i8* }, { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int, align 8
+  %"$NatUtils.nat_to_int_fptr_1213" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1212", 0
+  %"$NatUtils.nat_to_int_envptr_1214" = extractvalue { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$NatUtils.nat_to_int_1212", 1
+  %"$ack00_1215" = load %TName_Nat*, %TName_Nat** %ack00, align 8
+  %"$NatUtils.nat_to_int_call_1216" = call %Uint32 %"$NatUtils.nat_to_int_fptr_1213"(i8* %"$NatUtils.nat_to_int_envptr_1214", %TName_Nat* %"$ack00_1215")
+  store %Uint32 %"$NatUtils.nat_to_int_call_1216", %Uint32* %"$NatUtils.nat_to_int_20", align 4
+  %"$$NatUtils.nat_to_int_20_1217" = load %Uint32, %Uint32* %"$NatUtils.nat_to_int_20", align 4
+  store %Uint32 %"$$NatUtils.nat_to_int_20_1217", %Uint32* %int01, align 4
+  %"$gasrem_1218" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1219" = icmp ugt i64 1, %"$gasrem_1218"
+  br i1 %"$gascmp_1219", label %"$out_of_gas_1220", label %"$have_gas_1221"
 
-"$out_of_gas_1218":                               ; preds = %"$have_gas_1208"
+"$out_of_gas_1220":                               ; preds = %"$have_gas_1210"
   call void @_out_of_gas()
-  br label %"$have_gas_1219"
+  br label %"$have_gas_1221"
 
-"$have_gas_1219":                                 ; preds = %"$out_of_gas_1218", %"$have_gas_1208"
-  %"$consume_1220" = sub i64 %"$gasrem_1216", 1
-  store i64 %"$consume_1220", i64* @_gasrem, align 8
-  %"$int01_1221" = load %Uint32, %Uint32* %int01, align 4
-  store %Uint32 %"$int01_1221", %Uint32* %"$expr_51", align 4
-  %"$$expr_51_1222" = load %Uint32, %Uint32* %"$expr_51", align 4
-  ret %Uint32 %"$$expr_51_1222"
+"$have_gas_1221":                                 ; preds = %"$out_of_gas_1220", %"$have_gas_1210"
+  %"$consume_1222" = sub i64 %"$gasrem_1218", 1
+  store i64 %"$consume_1222", i64* @_gasrem, align 8
+  %"$int01_1223" = load %Uint32, %Uint32* %int01, align 4
+  store %Uint32 %"$int01_1223", %Uint32* %"$expr_51", align 4
+  %"$$expr_51_1224" = load %Uint32, %Uint32* %"$expr_51", align 4
+  ret %Uint32 %"$$expr_51_1224"
 }
 
 declare %TName_Nat* @_to_nat(i8*, %Uint32)
@@ -2321,11 +2321,11 @@ declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_1223" = call %Uint32 @_scilla_expr_fun(i8* null)
-  %"$pval_1224" = alloca %Uint32, align 8
-  %"$memvoidcast_1225" = bitcast %Uint32* %"$pval_1224" to i8*
-  store %Uint32 %"$exprval_1223", %Uint32* %"$pval_1224", align 4
-  %"$execptr_load_1226" = load i8*, i8** @_execptr, align 8
-  call void @_print_scilla_val(i8* %"$execptr_load_1226", %_TyDescrTy_Typ* @"$TyDescr_Uint32_88", i8* %"$memvoidcast_1225")
+  %"$exprval_1225" = call %Uint32 @_scilla_expr_fun(i8* null)
+  %"$pval_1226" = alloca %Uint32, align 8
+  %"$memvoidcast_1227" = bitcast %Uint32* %"$pval_1226" to i8*
+  store %Uint32 %"$exprval_1225", %Uint32* %"$pval_1226", align 4
+  %"$execptr_load_1228" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_1228", %_TyDescrTy_Typ* @"$TyDescr_Uint32_88", i8* %"$memvoidcast_1227")
   ret void
 }

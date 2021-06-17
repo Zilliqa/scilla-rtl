@@ -16,6 +16,7 @@
  */
 
 #include <boost/predef.h>
+#include <boost/multiprecision/gmp.hpp>
 
 #include "ScillaRTL/Errors.h"
 #include "ScillaRTL/Utils.h"
@@ -23,6 +24,8 @@
 #include "SafeInt.h"
 #include "ScillaExecImpl.h"
 #include "ScillaValue.h"
+
+namespace bmp = boost::multiprecision;
 
 namespace ScillaRTL {
 
@@ -196,7 +199,14 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
         auto SP = reinterpret_cast<const ScillaTypes::String *>(V);
         Out += rawToHex(SP->m_buffer, SP->m_length);
       } break;
-      case ScillaTypes::PrimTyp::Bnum_typ:
+      case ScillaTypes::PrimTyp::Bnum_typ:{
+        auto IP = reinterpret_cast<const bmp::gmp_int *>(V);
+        try {
+          Out += IP->str(std::streamsize(), std::ios_base::fmtflags());
+        } catch (std::runtime_error &E) {
+          CREATE_ERROR(E.what());
+        }
+      } break;
       case ScillaTypes::PrimTyp::Msg_typ:
       case ScillaTypes::PrimTyp::Event_typ:
       case ScillaTypes::PrimTyp::Exception_typ:

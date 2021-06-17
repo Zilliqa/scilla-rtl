@@ -137,8 +137,8 @@ entry:
   store i64 %"$consume_74", i64* @_gasrem, align 8
   %"$execptr_load_75" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_76" = call i8* @_new_empty_map(i8* %"$execptr_load_75")
-  %"$Emp_77" = bitcast i8* %"$_new_empty_map_call_76" to %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"*
-  store %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* %"$Emp_77", %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"** %"$expr_0", align 8, !dbg !10
+  %"$_new_empty_map_77" = bitcast i8* %"$_new_empty_map_call_76" to %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"*
+  store %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* %"$_new_empty_map_77", %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"** %"$expr_0", align 8, !dbg !10
   %"$$expr_0_78" = load %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"*, %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"** %"$expr_0", align 8
   ret %"Map_Uint128_List_(Map_(Int32)_(Map_(String)_(Int32)))"* %"$$expr_0_78"
 }

@@ -410,8 +410,8 @@ entry:
   store i64 %"$consume_210", i64* @_gasrem, align 8
   %"$execptr_load_211" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_212" = call i8* @_new_empty_map(i8* %"$execptr_load_211")
-  %"$Emp_213" = bitcast i8* %"$_new_empty_map_call_212" to %Map_ByStr20_Bool*
-  store %Map_ByStr20_Bool* %"$Emp_213", %Map_ByStr20_Bool** %empty, align 8
+  %"$_new_empty_map_213" = bitcast i8* %"$_new_empty_map_call_212" to %Map_ByStr20_Bool*
+  store %Map_ByStr20_Bool* %"$_new_empty_map_213", %Map_ByStr20_Bool** %empty, align 8
   %"$execptr_load_214" = load i8*, i8** @_execptr, align 8
   %"$empty_215" = load %Map_ByStr20_Bool*, %Map_ByStr20_Bool** %empty, align 8
   %"$$empty_215_216" = bitcast %Map_ByStr20_Bool* %"$empty_215" to i8*
@@ -422,8 +422,8 @@ entry:
   %"$ud-proxy.true_220" = load %TName_Bool*, %TName_Bool** @ud-proxy.true, align 8
   %"$$ud-proxy.true_220_221" = bitcast %TName_Bool* %"$ud-proxy.true_220" to i8*
   %"$put_call_222" = call i8* @_put(i8* %"$execptr_load_214", %_TyDescrTy_Typ* @"$TyDescr_Map_48", i8* %"$$empty_215_216", i8* %"$$put_initialAdmin_217_219", i8* %"$$ud-proxy.true_220_221")
-  %"$_put_223" = bitcast i8* %"$put_call_222" to %Map_ByStr20_Bool*
-  store %Map_ByStr20_Bool* %"$_put_223", %Map_ByStr20_Bool** %"$admins_9", align 8
+  %"$put_223" = bitcast i8* %"$put_call_222" to %Map_ByStr20_Bool*
+  store %Map_ByStr20_Bool* %"$put_223", %Map_ByStr20_Bool** %"$admins_9", align 8
   %"$execptr_load_224" = load i8*, i8** @_execptr, align 8
   %"$$admins_9_226" = load %Map_ByStr20_Bool*, %Map_ByStr20_Bool** %"$admins_9", align 8
   %"$update_value_227" = bitcast %Map_ByStr20_Bool* %"$$admins_9_226" to i8*

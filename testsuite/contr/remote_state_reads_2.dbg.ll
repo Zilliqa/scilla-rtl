@@ -244,8 +244,8 @@ entry:
   store i64 %"$consume_125", i64* @_gasrem, align 8
   %"$execptr_load_126" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_127" = call i8* @_new_empty_map(i8* %"$execptr_load_126")
-  %"$Emp_128" = bitcast i8* %"$_new_empty_map_call_127" to %Map_Uint128_ByStr20_with_end*
-  store %Map_Uint128_ByStr20_with_end* %"$Emp_128", %Map_Uint128_ByStr20_with_end** %"$address_type_erasure_test_res_1_3", align 8, !dbg !13
+  %"$_new_empty_map_128" = bitcast i8* %"$_new_empty_map_call_127" to %Map_Uint128_ByStr20_with_end*
+  store %Map_Uint128_ByStr20_with_end* %"$_new_empty_map_128", %Map_Uint128_ByStr20_with_end** %"$address_type_erasure_test_res_1_3", align 8, !dbg !13
   %"$execptr_load_129" = load i8*, i8** @_execptr, align 8
   %"$$address_type_erasure_test_res_1_3_131" = load %Map_Uint128_ByStr20_with_end*, %Map_Uint128_ByStr20_with_end** %"$address_type_erasure_test_res_1_3", align 8
   %"$update_value_132" = bitcast %Map_Uint128_ByStr20_with_end* %"$$address_type_erasure_test_res_1_3_131" to i8*
@@ -753,8 +753,8 @@ entry:
   store [20 x i8] %"$cparam_417", [20 x i8]* %"$put_cparam_416", align 1
   %"$$put_cparam_416_418" = bitcast [20 x i8]* %"$put_cparam_416" to i8*
   %"$put_call_419" = call i8* @_put(i8* %"$execptr_load_410", %_TyDescrTy_Typ* @"$TyDescr_Map_41", i8* %"$$emp_map_411_412", i8* %"$$put_zero_413_415", i8* %"$$put_cparam_416_418")
-  %"$_put_420" = bitcast i8* %"$put_call_419" to %Map_Uint128_ByStr20_with_end*
-  store %Map_Uint128_ByStr20_with_end* %"$_put_420", %Map_Uint128_ByStr20_with_end** %new_map, align 8, !dbg !42
+  %"$put_420" = bitcast i8* %"$put_call_419" to %Map_Uint128_ByStr20_with_end*
+  store %Map_Uint128_ByStr20_with_end* %"$put_420", %Map_Uint128_ByStr20_with_end** %new_map, align 8, !dbg !42
   %"$new_map_421" = load %Map_Uint128_ByStr20_with_end*, %Map_Uint128_ByStr20_with_end** %new_map, align 8
   %"$$new_map_421_422" = bitcast %Map_Uint128_ByStr20_with_end* %"$new_map_421" to i8*
   %"$_literal_cost_call_423" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_41", i8* %"$$new_map_421_422")
