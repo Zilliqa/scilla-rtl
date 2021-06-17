@@ -133,7 +133,7 @@ entry:
   %"$execptr_load_73" = load i8*, i8** @_execptr, align 8
   %"$prefix_74" = load %String, %String* %prefix, align 8
   %"$bech32str_75" = load %String, %String* %bech32str, align 8
-  %"$bech32_to_bystr20_call_76" = call %TName_Option_ByStr20* @_bech32_to_bystr20(i8* %"$execptr_load_73", %String %"$prefix_74", %String %"$bech32str_75")
+  %"$bech32_to_bystr20_call_76" = call %TName_Option_ByStr20* @_bech32_to_bystr20(i8* %"$execptr_load_73", %String %"$prefix_74", %String %"$bech32str_75"), !dbg !12
   store %TName_Option_ByStr20* %"$bech32_to_bystr20_call_76", %TName_Option_ByStr20** %"$expr_0", align 8, !dbg !12
   %"$$expr_0_78" = load %TName_Option_ByStr20*, %TName_Option_ByStr20** %"$expr_0", align 8
   ret %TName_Option_ByStr20* %"$$expr_0_78"

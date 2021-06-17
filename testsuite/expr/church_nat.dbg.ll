@@ -126,7 +126,7 @@ entry:
   store %Uint32 %"$one_envload_684", %Uint32* %one, align 4
   %"$retval_72" = alloca %Uint32, align 8
   %"$one_685" = load %Uint32, %Uint32* %one, align 4
-  %"$add_call_686" = call %Uint32 @_add_Uint32(%Uint32 %"$one_685", %Uint32 %1)
+  %"$add_call_686" = call %Uint32 @_add_Uint32(%Uint32 %"$one_685", %Uint32 %1), !dbg !8
   store %Uint32 %"$add_call_686", %Uint32* %"$retval_72", align 4, !dbg !8
   %"$$retval_72_687" = load %Uint32, %Uint32* %"$retval_72", align 4
   ret %Uint32 %"$$retval_72_687"

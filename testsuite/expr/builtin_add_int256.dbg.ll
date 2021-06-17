@@ -113,7 +113,7 @@ entry:
   %"$add_two_59" = alloca %Int256, align 8
   %"$two_60" = load %Int256, %Int256* %two, align 8
   store %Int256 %"$two_60", %Int256* %"$add_two_59", align 8
-  %"$add_call_61" = call %Int256* @_add_Int256(i8* %"$execptr_load_56", %Int256* %"$add_one_57", %Int256* %"$add_two_59")
+  %"$add_call_61" = call %Int256* @_add_Int256(i8* %"$execptr_load_56", %Int256* %"$add_one_57", %Int256* %"$add_two_59"), !dbg !12
   %"$add_63" = load %Int256, %Int256* %"$add_call_61", align 8
   store %Int256 %"$add_63", %Int256* %"$expr_0", align 8, !dbg !12
   %"$$expr_0_64" = load %Int256, %Int256* %"$expr_0", align 8

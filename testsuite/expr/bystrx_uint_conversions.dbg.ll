@@ -332,7 +332,7 @@ entry:
   %"$zero_154" = load [1 x i8], [1 x i8]* %zero, align 1
   store [1 x i8] %"$zero_154", [1 x i8]* %"$to_uint32_zero_153", align 1
   %"$$to_uint32_zero_153_155" = bitcast [1 x i8]* %"$to_uint32_zero_153" to i8*
-  %"$to_uint32_call_156" = call %Uint32 @_bystrx_to_uint32(i8* %"$execptr_load_152", i32 1, i8* %"$$to_uint32_zero_153_155")
+  %"$to_uint32_call_156" = call %Uint32 @_bystrx_to_uint32(i8* %"$execptr_load_152", i32 1, i8* %"$$to_uint32_zero_153_155"), !dbg !17
   store %Uint32 %"$to_uint32_call_156", %Uint32* %res7, align 4, !dbg !17
   %"$gasrem_157" = load i64, i64* @_gasrem, align 8
   %"$gascmp_158" = icmp ugt i64 1, %"$gasrem_157"
@@ -351,7 +351,7 @@ entry:
   %"$one_1_164" = load [1 x i8], [1 x i8]* %one_1, align 1
   store [1 x i8] %"$one_1_164", [1 x i8]* %"$to_uint32_one_1_163", align 1
   %"$$to_uint32_one_1_163_165" = bitcast [1 x i8]* %"$to_uint32_one_1_163" to i8*
-  %"$to_uint32_call_166" = call %Uint32 @_bystrx_to_uint32(i8* %"$execptr_load_162", i32 1, i8* %"$$to_uint32_one_1_163_165")
+  %"$to_uint32_call_166" = call %Uint32 @_bystrx_to_uint32(i8* %"$execptr_load_162", i32 1, i8* %"$$to_uint32_one_1_163_165"), !dbg !18
   store %Uint32 %"$to_uint32_call_166", %Uint32* %res8, align 4, !dbg !18
   %"$gasrem_167" = load i64, i64* @_gasrem, align 8
   %"$gascmp_168" = icmp ugt i64 1, %"$gasrem_167"
@@ -370,7 +370,7 @@ entry:
   %"$one_3_174" = load [3 x i8], [3 x i8]* %one_3, align 1
   store [3 x i8] %"$one_3_174", [3 x i8]* %"$to_uint32_one_3_173", align 1
   %"$$to_uint32_one_3_173_175" = bitcast [3 x i8]* %"$to_uint32_one_3_173" to i8*
-  %"$to_uint32_call_176" = call %Uint32 @_bystrx_to_uint32(i8* %"$execptr_load_172", i32 3, i8* %"$$to_uint32_one_3_173_175")
+  %"$to_uint32_call_176" = call %Uint32 @_bystrx_to_uint32(i8* %"$execptr_load_172", i32 3, i8* %"$$to_uint32_one_3_173_175"), !dbg !19
   store %Uint32 %"$to_uint32_call_176", %Uint32* %res9, align 4, !dbg !19
   %"$gasrem_177" = load i64, i64* @_gasrem, align 8
   %"$gascmp_178" = icmp ugt i64 1, %"$gasrem_177"
@@ -389,7 +389,7 @@ entry:
   %"$one_4_184" = load [4 x i8], [4 x i8]* %one_4, align 1
   store [4 x i8] %"$one_4_184", [4 x i8]* %"$to_uint32_one_4_183", align 1
   %"$$to_uint32_one_4_183_185" = bitcast [4 x i8]* %"$to_uint32_one_4_183" to i8*
-  %"$to_uint32_call_186" = call %Uint32 @_bystrx_to_uint32(i8* %"$execptr_load_182", i32 4, i8* %"$$to_uint32_one_4_183_185")
+  %"$to_uint32_call_186" = call %Uint32 @_bystrx_to_uint32(i8* %"$execptr_load_182", i32 4, i8* %"$$to_uint32_one_4_183_185"), !dbg !20
   store %Uint32 %"$to_uint32_call_186", %Uint32* %res10, align 4, !dbg !20
   %"$gasrem_187" = load i64, i64* @_gasrem, align 8
   %"$gascmp_188" = icmp ugt i64 1, %"$gasrem_187"
@@ -405,7 +405,7 @@ entry:
   %sum1 = alloca %Uint32, align 8
   %"$res7_192" = load %Uint32, %Uint32* %res7, align 4
   %"$res8_193" = load %Uint32, %Uint32* %res8, align 4
-  %"$add_call_194" = call %Uint32 @_add_Uint32(%Uint32 %"$res7_192", %Uint32 %"$res8_193")
+  %"$add_call_194" = call %Uint32 @_add_Uint32(%Uint32 %"$res7_192", %Uint32 %"$res8_193"), !dbg !21
   store %Uint32 %"$add_call_194", %Uint32* %sum1, align 4, !dbg !21
   %"$gasrem_195" = load i64, i64* @_gasrem, align 8
   %"$gascmp_196" = icmp ugt i64 1, %"$gasrem_195"
@@ -421,7 +421,7 @@ entry:
   %sum2 = alloca %Uint32, align 8
   %"$res9_200" = load %Uint32, %Uint32* %res9, align 4
   %"$res10_201" = load %Uint32, %Uint32* %res10, align 4
-  %"$add_call_202" = call %Uint32 @_add_Uint32(%Uint32 %"$res9_200", %Uint32 %"$res10_201")
+  %"$add_call_202" = call %Uint32 @_add_Uint32(%Uint32 %"$res9_200", %Uint32 %"$res10_201"), !dbg !22
   store %Uint32 %"$add_call_202", %Uint32* %sum2, align 4, !dbg !22
   %"$gasrem_203" = load i64, i64* @_gasrem, align 8
   %"$gascmp_204" = icmp ugt i64 1, %"$gasrem_203"
@@ -437,7 +437,7 @@ entry:
   %sum_32 = alloca %Uint32, align 8
   %"$sum1_208" = load %Uint32, %Uint32* %sum1, align 4
   %"$sum2_209" = load %Uint32, %Uint32* %sum2, align 4
-  %"$add_call_210" = call %Uint32 @_add_Uint32(%Uint32 %"$sum1_208", %Uint32 %"$sum2_209")
+  %"$add_call_210" = call %Uint32 @_add_Uint32(%Uint32 %"$sum1_208", %Uint32 %"$sum2_209"), !dbg !23
   store %Uint32 %"$add_call_210", %Uint32* %sum_32, align 4, !dbg !23
   %"$gasrem_211" = load i64, i64* @_gasrem, align 8
   %"$gascmp_212" = icmp ugt i64 1, %"$gasrem_211"
@@ -456,7 +456,7 @@ entry:
   %"$one_1_218" = load [1 x i8], [1 x i8]* %one_1, align 1
   store [1 x i8] %"$one_1_218", [1 x i8]* %"$to_uint64_one_1_217", align 1
   %"$$to_uint64_one_1_217_219" = bitcast [1 x i8]* %"$to_uint64_one_1_217" to i8*
-  %"$to_uint64_call_220" = call %Uint64 @_bystrx_to_uint64(i8* %"$execptr_load_216", i32 1, i8* %"$$to_uint64_one_1_217_219")
+  %"$to_uint64_call_220" = call %Uint64 @_bystrx_to_uint64(i8* %"$execptr_load_216", i32 1, i8* %"$$to_uint64_one_1_217_219"), !dbg !24
   store %Uint64 %"$to_uint64_call_220", %Uint64* %res12, align 8, !dbg !24
   %"$gasrem_221" = load i64, i64* @_gasrem, align 8
   %"$gascmp_222" = icmp ugt i64 1, %"$gasrem_221"
@@ -475,7 +475,7 @@ entry:
   %"$one_4_228" = load [4 x i8], [4 x i8]* %one_4, align 1
   store [4 x i8] %"$one_4_228", [4 x i8]* %"$to_uint64_one_4_227", align 1
   %"$$to_uint64_one_4_227_229" = bitcast [4 x i8]* %"$to_uint64_one_4_227" to i8*
-  %"$to_uint64_call_230" = call %Uint64 @_bystrx_to_uint64(i8* %"$execptr_load_226", i32 4, i8* %"$$to_uint64_one_4_227_229")
+  %"$to_uint64_call_230" = call %Uint64 @_bystrx_to_uint64(i8* %"$execptr_load_226", i32 4, i8* %"$$to_uint64_one_4_227_229"), !dbg !25
   store %Uint64 %"$to_uint64_call_230", %Uint64* %res13, align 8, !dbg !25
   %"$gasrem_231" = load i64, i64* @_gasrem, align 8
   %"$gascmp_232" = icmp ugt i64 1, %"$gasrem_231"
@@ -494,7 +494,7 @@ entry:
   %"$one_8_238" = load [8 x i8], [8 x i8]* %one_8, align 1
   store [8 x i8] %"$one_8_238", [8 x i8]* %"$to_uint64_one_8_237", align 1
   %"$$to_uint64_one_8_237_239" = bitcast [8 x i8]* %"$to_uint64_one_8_237" to i8*
-  %"$to_uint64_call_240" = call %Uint64 @_bystrx_to_uint64(i8* %"$execptr_load_236", i32 8, i8* %"$$to_uint64_one_8_237_239")
+  %"$to_uint64_call_240" = call %Uint64 @_bystrx_to_uint64(i8* %"$execptr_load_236", i32 8, i8* %"$$to_uint64_one_8_237_239"), !dbg !26
   store %Uint64 %"$to_uint64_call_240", %Uint64* %res14, align 8, !dbg !26
   %"$gasrem_241" = load i64, i64* @_gasrem, align 8
   %"$gascmp_242" = icmp ugt i64 1, %"$gasrem_241"
@@ -510,7 +510,7 @@ entry:
   %"$sum1_0" = alloca %Uint64, align 8
   %"$res12_246" = load %Uint64, %Uint64* %res12, align 8
   %"$res13_247" = load %Uint64, %Uint64* %res13, align 8
-  %"$add_call_248" = call %Uint64 @_add_Uint64(%Uint64 %"$res12_246", %Uint64 %"$res13_247")
+  %"$add_call_248" = call %Uint64 @_add_Uint64(%Uint64 %"$res12_246", %Uint64 %"$res13_247"), !dbg !27
   store %Uint64 %"$add_call_248", %Uint64* %"$sum1_0", align 8, !dbg !27
   %"$gasrem_249" = load i64, i64* @_gasrem, align 8
   %"$gascmp_250" = icmp ugt i64 1, %"$gasrem_249"
@@ -526,7 +526,7 @@ entry:
   %sum_64 = alloca %Uint64, align 8
   %"$$sum1_0_254" = load %Uint64, %Uint64* %"$sum1_0", align 8
   %"$res14_255" = load %Uint64, %Uint64* %res14, align 8
-  %"$add_call_256" = call %Uint64 @_add_Uint64(%Uint64 %"$$sum1_0_254", %Uint64 %"$res14_255")
+  %"$add_call_256" = call %Uint64 @_add_Uint64(%Uint64 %"$$sum1_0_254", %Uint64 %"$res14_255"), !dbg !28
   store %Uint64 %"$add_call_256", %Uint64* %sum_64, align 8, !dbg !28
   %"$gasrem_257" = load i64, i64* @_gasrem, align 8
   %"$gascmp_258" = icmp ugt i64 1, %"$gasrem_257"
@@ -545,7 +545,7 @@ entry:
   %"$one_1_264" = load [1 x i8], [1 x i8]* %one_1, align 1
   store [1 x i8] %"$one_1_264", [1 x i8]* %"$to_uint128_one_1_263", align 1
   %"$$to_uint128_one_1_263_265" = bitcast [1 x i8]* %"$to_uint128_one_1_263" to i8*
-  %"$to_uint128_call_266" = call %Uint128 @_bystrx_to_uint128(i8* %"$execptr_load_262", i32 1, i8* %"$$to_uint128_one_1_263_265")
+  %"$to_uint128_call_266" = call %Uint128 @_bystrx_to_uint128(i8* %"$execptr_load_262", i32 1, i8* %"$$to_uint128_one_1_263_265"), !dbg !29
   store %Uint128 %"$to_uint128_call_266", %Uint128* %res15, align 8, !dbg !29
   %"$gasrem_267" = load i64, i64* @_gasrem, align 8
   %"$gascmp_268" = icmp ugt i64 1, %"$gasrem_267"
@@ -564,7 +564,7 @@ entry:
   %"$one_4_274" = load [4 x i8], [4 x i8]* %one_4, align 1
   store [4 x i8] %"$one_4_274", [4 x i8]* %"$to_uint128_one_4_273", align 1
   %"$$to_uint128_one_4_273_275" = bitcast [4 x i8]* %"$to_uint128_one_4_273" to i8*
-  %"$to_uint128_call_276" = call %Uint128 @_bystrx_to_uint128(i8* %"$execptr_load_272", i32 4, i8* %"$$to_uint128_one_4_273_275")
+  %"$to_uint128_call_276" = call %Uint128 @_bystrx_to_uint128(i8* %"$execptr_load_272", i32 4, i8* %"$$to_uint128_one_4_273_275"), !dbg !30
   store %Uint128 %"$to_uint128_call_276", %Uint128* %res16, align 8, !dbg !30
   %"$gasrem_277" = load i64, i64* @_gasrem, align 8
   %"$gascmp_278" = icmp ugt i64 1, %"$gasrem_277"
@@ -583,7 +583,7 @@ entry:
   %"$one_8_284" = load [8 x i8], [8 x i8]* %one_8, align 1
   store [8 x i8] %"$one_8_284", [8 x i8]* %"$to_uint128_one_8_283", align 1
   %"$$to_uint128_one_8_283_285" = bitcast [8 x i8]* %"$to_uint128_one_8_283" to i8*
-  %"$to_uint128_call_286" = call %Uint128 @_bystrx_to_uint128(i8* %"$execptr_load_282", i32 8, i8* %"$$to_uint128_one_8_283_285")
+  %"$to_uint128_call_286" = call %Uint128 @_bystrx_to_uint128(i8* %"$execptr_load_282", i32 8, i8* %"$$to_uint128_one_8_283_285"), !dbg !31
   store %Uint128 %"$to_uint128_call_286", %Uint128* %res17, align 8, !dbg !31
   %"$gasrem_287" = load i64, i64* @_gasrem, align 8
   %"$gascmp_288" = icmp ugt i64 1, %"$gasrem_287"
@@ -602,7 +602,7 @@ entry:
   %"$one_16_294" = load [16 x i8], [16 x i8]* %one_16, align 1
   store [16 x i8] %"$one_16_294", [16 x i8]* %"$to_uint128_one_16_293", align 1
   %"$$to_uint128_one_16_293_295" = bitcast [16 x i8]* %"$to_uint128_one_16_293" to i8*
-  %"$to_uint128_call_296" = call %Uint128 @_bystrx_to_uint128(i8* %"$execptr_load_292", i32 16, i8* %"$$to_uint128_one_16_293_295")
+  %"$to_uint128_call_296" = call %Uint128 @_bystrx_to_uint128(i8* %"$execptr_load_292", i32 16, i8* %"$$to_uint128_one_16_293_295"), !dbg !32
   store %Uint128 %"$to_uint128_call_296", %Uint128* %res18, align 8, !dbg !32
   %"$gasrem_297" = load i64, i64* @_gasrem, align 8
   %"$gascmp_298" = icmp ugt i64 1, %"$gasrem_297"
@@ -618,7 +618,7 @@ entry:
   %"$sum1_1" = alloca %Uint128, align 8
   %"$res15_302" = load %Uint128, %Uint128* %res15, align 8
   %"$res16_303" = load %Uint128, %Uint128* %res16, align 8
-  %"$add_call_304" = call %Uint128 @_add_Uint128(%Uint128 %"$res15_302", %Uint128 %"$res16_303")
+  %"$add_call_304" = call %Uint128 @_add_Uint128(%Uint128 %"$res15_302", %Uint128 %"$res16_303"), !dbg !33
   store %Uint128 %"$add_call_304", %Uint128* %"$sum1_1", align 8, !dbg !33
   %"$gasrem_305" = load i64, i64* @_gasrem, align 8
   %"$gascmp_306" = icmp ugt i64 1, %"$gasrem_305"
@@ -634,7 +634,7 @@ entry:
   %"$sum2_2" = alloca %Uint128, align 8
   %"$res17_310" = load %Uint128, %Uint128* %res17, align 8
   %"$res18_311" = load %Uint128, %Uint128* %res18, align 8
-  %"$add_call_312" = call %Uint128 @_add_Uint128(%Uint128 %"$res17_310", %Uint128 %"$res18_311")
+  %"$add_call_312" = call %Uint128 @_add_Uint128(%Uint128 %"$res17_310", %Uint128 %"$res18_311"), !dbg !34
   store %Uint128 %"$add_call_312", %Uint128* %"$sum2_2", align 8, !dbg !34
   %"$gasrem_313" = load i64, i64* @_gasrem, align 8
   %"$gascmp_314" = icmp ugt i64 1, %"$gasrem_313"
@@ -650,7 +650,7 @@ entry:
   %sum_128 = alloca %Uint128, align 8
   %"$$sum1_1_318" = load %Uint128, %Uint128* %"$sum1_1", align 8
   %"$$sum2_2_319" = load %Uint128, %Uint128* %"$sum2_2", align 8
-  %"$add_call_320" = call %Uint128 @_add_Uint128(%Uint128 %"$$sum1_1_318", %Uint128 %"$$sum2_2_319")
+  %"$add_call_320" = call %Uint128 @_add_Uint128(%Uint128 %"$$sum1_1_318", %Uint128 %"$$sum2_2_319"), !dbg !35
   store %Uint128 %"$add_call_320", %Uint128* %sum_128, align 8, !dbg !35
   %"$gasrem_321" = load i64, i64* @_gasrem, align 8
   %"$gascmp_322" = icmp ugt i64 1, %"$gasrem_321"
@@ -669,7 +669,7 @@ entry:
   %"$one_1_328" = load [1 x i8], [1 x i8]* %one_1, align 1
   store [1 x i8] %"$one_1_328", [1 x i8]* %"$to_uint256_one_1_327", align 1
   %"$$to_uint256_one_1_327_329" = bitcast [1 x i8]* %"$to_uint256_one_1_327" to i8*
-  %"$to_uint256_call_330" = call %Uint256* @_bystrx_to_uint256(i8* %"$execptr_load_326", i32 1, i8* %"$$to_uint256_one_1_327_329")
+  %"$to_uint256_call_330" = call %Uint256* @_bystrx_to_uint256(i8* %"$execptr_load_326", i32 1, i8* %"$$to_uint256_one_1_327_329"), !dbg !36
   %"$to_uint256_332" = load %Uint256, %Uint256* %"$to_uint256_call_330", align 8
   store %Uint256 %"$to_uint256_332", %Uint256* %res19, align 8, !dbg !36
   %"$gasrem_333" = load i64, i64* @_gasrem, align 8
@@ -689,7 +689,7 @@ entry:
   %"$one_8_340" = load [8 x i8], [8 x i8]* %one_8, align 1
   store [8 x i8] %"$one_8_340", [8 x i8]* %"$to_uint256_one_8_339", align 1
   %"$$to_uint256_one_8_339_341" = bitcast [8 x i8]* %"$to_uint256_one_8_339" to i8*
-  %"$to_uint256_call_342" = call %Uint256* @_bystrx_to_uint256(i8* %"$execptr_load_338", i32 8, i8* %"$$to_uint256_one_8_339_341")
+  %"$to_uint256_call_342" = call %Uint256* @_bystrx_to_uint256(i8* %"$execptr_load_338", i32 8, i8* %"$$to_uint256_one_8_339_341"), !dbg !37
   %"$to_uint256_344" = load %Uint256, %Uint256* %"$to_uint256_call_342", align 8
   store %Uint256 %"$to_uint256_344", %Uint256* %res20, align 8, !dbg !37
   %"$gasrem_345" = load i64, i64* @_gasrem, align 8
@@ -709,7 +709,7 @@ entry:
   %"$one_16_352" = load [16 x i8], [16 x i8]* %one_16, align 1
   store [16 x i8] %"$one_16_352", [16 x i8]* %"$to_uint256_one_16_351", align 1
   %"$$to_uint256_one_16_351_353" = bitcast [16 x i8]* %"$to_uint256_one_16_351" to i8*
-  %"$to_uint256_call_354" = call %Uint256* @_bystrx_to_uint256(i8* %"$execptr_load_350", i32 16, i8* %"$$to_uint256_one_16_351_353")
+  %"$to_uint256_call_354" = call %Uint256* @_bystrx_to_uint256(i8* %"$execptr_load_350", i32 16, i8* %"$$to_uint256_one_16_351_353"), !dbg !38
   %"$to_uint256_356" = load %Uint256, %Uint256* %"$to_uint256_call_354", align 8
   store %Uint256 %"$to_uint256_356", %Uint256* %res21, align 8, !dbg !38
   %"$gasrem_357" = load i64, i64* @_gasrem, align 8
@@ -729,7 +729,7 @@ entry:
   %"$one_32_364" = load [32 x i8], [32 x i8]* %one_32, align 1
   store [32 x i8] %"$one_32_364", [32 x i8]* %"$to_uint256_one_32_363", align 1
   %"$$to_uint256_one_32_363_365" = bitcast [32 x i8]* %"$to_uint256_one_32_363" to i8*
-  %"$to_uint256_call_366" = call %Uint256* @_bystrx_to_uint256(i8* %"$execptr_load_362", i32 32, i8* %"$$to_uint256_one_32_363_365")
+  %"$to_uint256_call_366" = call %Uint256* @_bystrx_to_uint256(i8* %"$execptr_load_362", i32 32, i8* %"$$to_uint256_one_32_363_365"), !dbg !39
   %"$to_uint256_368" = load %Uint256, %Uint256* %"$to_uint256_call_366", align 8
   store %Uint256 %"$to_uint256_368", %Uint256* %res22, align 8, !dbg !39
   %"$gasrem_369" = load i64, i64* @_gasrem, align 8
@@ -751,7 +751,7 @@ entry:
   %"$add_res20_377" = alloca %Uint256, align 8
   %"$res20_378" = load %Uint256, %Uint256* %res20, align 8
   store %Uint256 %"$res20_378", %Uint256* %"$add_res20_377", align 8
-  %"$add_call_379" = call %Uint256* @_add_Uint256(i8* %"$execptr_load_374", %Uint256* %"$add_res19_375", %Uint256* %"$add_res20_377")
+  %"$add_call_379" = call %Uint256* @_add_Uint256(i8* %"$execptr_load_374", %Uint256* %"$add_res19_375", %Uint256* %"$add_res20_377"), !dbg !40
   %"$add_381" = load %Uint256, %Uint256* %"$add_call_379", align 8
   store %Uint256 %"$add_381", %Uint256* %"$sum1_3", align 8, !dbg !40
   %"$gasrem_382" = load i64, i64* @_gasrem, align 8
@@ -773,7 +773,7 @@ entry:
   %"$add_res22_390" = alloca %Uint256, align 8
   %"$res22_391" = load %Uint256, %Uint256* %res22, align 8
   store %Uint256 %"$res22_391", %Uint256* %"$add_res22_390", align 8
-  %"$add_call_392" = call %Uint256* @_add_Uint256(i8* %"$execptr_load_387", %Uint256* %"$add_res21_388", %Uint256* %"$add_res22_390")
+  %"$add_call_392" = call %Uint256* @_add_Uint256(i8* %"$execptr_load_387", %Uint256* %"$add_res21_388", %Uint256* %"$add_res22_390"), !dbg !41
   %"$add_394" = load %Uint256, %Uint256* %"$add_call_392", align 8
   store %Uint256 %"$add_394", %Uint256* %"$sum2_4", align 8, !dbg !41
   %"$gasrem_395" = load i64, i64* @_gasrem, align 8
@@ -795,7 +795,7 @@ entry:
   %"$add_$sum2_4_403" = alloca %Uint256, align 8
   %"$$sum2_4_404" = load %Uint256, %Uint256* %"$sum2_4", align 8
   store %Uint256 %"$$sum2_4_404", %Uint256* %"$add_$sum2_4_403", align 8
-  %"$add_call_405" = call %Uint256* @_add_Uint256(i8* %"$execptr_load_400", %Uint256* %"$add_$sum1_3_401", %Uint256* %"$add_$sum2_4_403")
+  %"$add_call_405" = call %Uint256* @_add_Uint256(i8* %"$execptr_load_400", %Uint256* %"$add_$sum1_3_401", %Uint256* %"$add_$sum2_4_403"), !dbg !42
   %"$add_407" = load %Uint256, %Uint256* %"$add_call_405", align 8
   store %Uint256 %"$add_407", %Uint256* %sum_256, align 8, !dbg !42
   %"$gasrem_408" = load i64, i64* @_gasrem, align 8

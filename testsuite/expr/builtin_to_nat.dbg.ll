@@ -102,7 +102,7 @@ entry:
   store %Uint32 { i32 2 }, %Uint32* %two, align 4, !dbg !10
   %"$execptr_load_59" = load i8*, i8** @_execptr, align 8
   %"$two_60" = load %Uint32, %Uint32* %two, align 4
-  %"$to_nat_call_61" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_59", %Uint32 %"$two_60")
+  %"$to_nat_call_61" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_59", %Uint32 %"$two_60"), !dbg !11
   store %TName_Nat* %"$to_nat_call_61", %TName_Nat** %"$expr_0", align 8, !dbg !11
   %"$$expr_0_63" = load %TName_Nat*, %TName_Nat** %"$expr_0", align 8
   ret %TName_Nat* %"$$expr_0_63"

@@ -394,7 +394,7 @@ entry:
   %"$eq__sender_174" = alloca [20 x i8], align 1
   store [20 x i8] %_sender, [20 x i8]* %"$eq__sender_174", align 1
   %"$$eq__sender_174_175" = bitcast [20 x i8]* %"$eq__sender_174" to i8*
-  %"$eq_call_176" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_170", i32 20, i8* %"$$eq_owner_171_173", i8* %"$$eq__sender_174_175")
+  %"$eq_call_176" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_170", i32 20, i8* %"$$eq_owner_171_173", i8* %"$$eq__sender_174_175"), !dbg !20
   store %TName_Bool* %"$eq_call_176", %TName_Bool** %is_owner, align 8, !dbg !20
   %"$gasrem_178" = load i64, i64* @_gasrem, align 8
   %"$gascmp_179" = icmp ugt i64 2, %"$gasrem_178"

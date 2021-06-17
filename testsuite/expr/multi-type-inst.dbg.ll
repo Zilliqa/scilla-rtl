@@ -561,7 +561,7 @@ entry:
   %"$retval_41" = alloca %Uint32, align 8
   %"$one_604" = load %Uint32, %Uint32* %one, align 4
   %"$z_605" = load %Uint32, %Uint32* %z, align 4
-  %"$add_call_606" = call %Uint32 @_add_Uint32(%Uint32 %"$one_604", %Uint32 %"$z_605")
+  %"$add_call_606" = call %Uint32 @_add_Uint32(%Uint32 %"$one_604", %Uint32 %"$z_605"), !dbg !31
   store %Uint32 %"$add_call_606", %Uint32* %"$retval_41", align 4, !dbg !31
   %"$$retval_41_607" = load %Uint32, %Uint32* %"$retval_41", align 4
   ret %Uint32 %"$$retval_41_607"
@@ -768,7 +768,7 @@ entry:
   %"$retval_35" = alloca %Uint32, align 8
   %"$one_503" = load %Uint32, %Uint32* %one, align 4
   %"$z_504" = load %Uint32, %Uint32* %z, align 4
-  %"$add_call_505" = call %Uint32 @_add_Uint32(%Uint32 %"$one_503", %Uint32 %"$z_504")
+  %"$add_call_505" = call %Uint32 @_add_Uint32(%Uint32 %"$one_503", %Uint32 %"$z_504"), !dbg !42
   store %Uint32 %"$add_call_505", %Uint32* %"$retval_35", align 4, !dbg !42
   %"$$retval_35_506" = load %Uint32, %Uint32* %"$retval_35", align 4
   ret %Uint32 %"$$retval_35_506"

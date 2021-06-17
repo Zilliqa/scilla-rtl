@@ -214,7 +214,7 @@ entry:
   %res1 = alloca [4 x i8], align 1
   %"$execptr_load_124" = load i8*, i8** @_execptr, align 8
   %"$uint32_100_125" = load %Uint32, %Uint32* %uint32_100, align 4
-  %"$to_bystr4_call_126" = call i8* @_uint32_to_bystrx(i8* %"$execptr_load_124", %Uint32 %"$uint32_100_125")
+  %"$to_bystr4_call_126" = call i8* @_uint32_to_bystrx(i8* %"$execptr_load_124", %Uint32 %"$uint32_100_125"), !dbg !11
   %"$to_bystr4_127" = bitcast i8* %"$to_bystr4_call_126" to [4 x i8]*
   %"$to_bystr4_128" = load [4 x i8], [4 x i8]* %"$to_bystr4_127", align 1
   store [4 x i8] %"$to_bystr4_128", [4 x i8]* %res1, align 1, !dbg !11
@@ -256,7 +256,7 @@ entry:
   %res2 = alloca [8 x i8], align 1
   %"$execptr_load_144" = load i8*, i8** @_execptr, align 8
   %"$uint64_200_145" = load %Uint64, %Uint64* %uint64_200, align 8
-  %"$to_bystr8_call_146" = call i8* @_uint64_to_bystrx(i8* %"$execptr_load_144", %Uint64 %"$uint64_200_145")
+  %"$to_bystr8_call_146" = call i8* @_uint64_to_bystrx(i8* %"$execptr_load_144", %Uint64 %"$uint64_200_145"), !dbg !13
   %"$to_bystr8_147" = bitcast i8* %"$to_bystr8_call_146" to [8 x i8]*
   %"$to_bystr8_148" = load [8 x i8], [8 x i8]* %"$to_bystr8_147", align 1
   store [8 x i8] %"$to_bystr8_148", [8 x i8]* %res2, align 1, !dbg !13
@@ -298,7 +298,7 @@ entry:
   %res3 = alloca [16 x i8], align 1
   %"$execptr_load_164" = load i8*, i8** @_execptr, align 8
   %"$uint128_300_165" = load %Uint128, %Uint128* %uint128_300, align 8
-  %"$to_bystr16_call_166" = call i8* @_uint128_to_bystrx(i8* %"$execptr_load_164", %Uint128 %"$uint128_300_165")
+  %"$to_bystr16_call_166" = call i8* @_uint128_to_bystrx(i8* %"$execptr_load_164", %Uint128 %"$uint128_300_165"), !dbg !15
   %"$to_bystr16_167" = bitcast i8* %"$to_bystr16_call_166" to [16 x i8]*
   %"$to_bystr16_168" = load [16 x i8], [16 x i8]* %"$to_bystr16_167", align 1
   store [16 x i8] %"$to_bystr16_168", [16 x i8]* %res3, align 1, !dbg !15
@@ -342,7 +342,7 @@ entry:
   %"$to_bystr32_uint256_400_185" = alloca %Uint256, align 8
   %"$uint256_400_186" = load %Uint256, %Uint256* %uint256_400, align 8
   store %Uint256 %"$uint256_400_186", %Uint256* %"$to_bystr32_uint256_400_185", align 8
-  %"$to_bystr32_call_187" = call i8* @_uint256_to_bystrx(i8* %"$execptr_load_184", %Uint256* %"$to_bystr32_uint256_400_185")
+  %"$to_bystr32_call_187" = call i8* @_uint256_to_bystrx(i8* %"$execptr_load_184", %Uint256* %"$to_bystr32_uint256_400_185"), !dbg !17
   %"$to_bystr32_188" = bitcast i8* %"$to_bystr32_call_187" to [32 x i8]*
   %"$to_bystr32_189" = load [32 x i8], [32 x i8]* %"$to_bystr32_188", align 1
   store [32 x i8] %"$to_bystr32_189", [32 x i8]* %res4, align 1, !dbg !17
@@ -387,7 +387,7 @@ entry:
   %"$x_207" = load [2 x i8], [2 x i8]* %x, align 1
   store [2 x i8] %"$x_207", [2 x i8]* %"$to_bystr_x_206", align 1
   %"$$to_bystr_x_206_208" = bitcast [2 x i8]* %"$to_bystr_x_206" to i8*
-  %"$to_bystr_call_209" = call %Bystr @_to_bystr(i8* %"$execptr_load_205", i32 2, i8* %"$$to_bystr_x_206_208")
+  %"$to_bystr_call_209" = call %Bystr @_to_bystr(i8* %"$execptr_load_205", i32 2, i8* %"$$to_bystr_x_206_208"), !dbg !19
   store %Bystr %"$to_bystr_call_209", %Bystr* %xbs, align 8, !dbg !19
   %"$gasrem_210" = load i64, i64* @_gasrem, align 8
   %"$gascmp_211" = icmp ugt i64 1, %"$gasrem_210"
@@ -403,7 +403,7 @@ entry:
   %res_x_some = alloca %TName_Option_ByStr2*, align 8
   %"$execptr_load_215" = load i8*, i8** @_execptr, align 8
   %"$xbs_216" = load %Bystr, %Bystr* %xbs, align 8
-  %"$to_bystr2_call_217" = call i8* @_bystr_to_bystrx(i8* %"$execptr_load_215", i32 2, %Bystr %"$xbs_216")
+  %"$to_bystr2_call_217" = call i8* @_bystr_to_bystrx(i8* %"$execptr_load_215", i32 2, %Bystr %"$xbs_216"), !dbg !20
   %"$to_bystr2_218" = bitcast i8* %"$to_bystr2_call_217" to %TName_Option_ByStr2*
   store %TName_Option_ByStr2* %"$to_bystr2_218", %TName_Option_ByStr2** %res_x_some, align 8, !dbg !20
   %"$gasrem_219" = load i64, i64* @_gasrem, align 8
@@ -420,7 +420,7 @@ entry:
   %res_x_none = alloca %TName_Option_ByStr3*, align 8
   %"$execptr_load_224" = load i8*, i8** @_execptr, align 8
   %"$xbs_225" = load %Bystr, %Bystr* %xbs, align 8
-  %"$to_bystr3_call_226" = call i8* @_bystr_to_bystrx(i8* %"$execptr_load_224", i32 3, %Bystr %"$xbs_225")
+  %"$to_bystr3_call_226" = call i8* @_bystr_to_bystrx(i8* %"$execptr_load_224", i32 3, %Bystr %"$xbs_225"), !dbg !21
   %"$to_bystr3_227" = bitcast i8* %"$to_bystr3_call_226" to %TName_Option_ByStr3*
   store %TName_Option_ByStr3* %"$to_bystr3_227", %TName_Option_ByStr3** %res_x_none, align 8, !dbg !21
   %"$gasrem_228" = load i64, i64* @_gasrem, align 8

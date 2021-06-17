@@ -135,7 +135,7 @@ entry:
   %"$s_73" = load %String, %String* %s, align 8
   store %String %"$s_73", %String* %"$ripemd160hash_s_72", align 8
   %"$$ripemd160hash_s_72_74" = bitcast %String* %"$ripemd160hash_s_72" to i8*
-  %"$ripemd160hash_call_75" = call [20 x i8]* @_ripemd160hash(i8* %"$execptr_load_71", %_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$$ripemd160hash_s_72_74")
+  %"$ripemd160hash_call_75" = call [20 x i8]* @_ripemd160hash(i8* %"$execptr_load_71", %_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$$ripemd160hash_s_72_74"), !dbg !11
   %"$ripemd160hash_77" = load [20 x i8], [20 x i8]* %"$ripemd160hash_call_75", align 1
   store [20 x i8] %"$ripemd160hash_77", [20 x i8]* %h1, align 1, !dbg !11
   %"$gasrem_78" = load i64, i64* @_gasrem, align 8
@@ -155,7 +155,7 @@ entry:
   %"$h1_85" = load [20 x i8], [20 x i8]* %h1, align 1
   store [20 x i8] %"$h1_85", [20 x i8]* %"$ripemd160hash_h1_84", align 1
   %"$$ripemd160hash_h1_84_86" = bitcast [20 x i8]* %"$ripemd160hash_h1_84" to i8*
-  %"$ripemd160hash_call_87" = call [20 x i8]* @_ripemd160hash(i8* %"$execptr_load_83", %_TyDescrTy_Typ* @"$TyDescr_Bystr20_31", i8* %"$$ripemd160hash_h1_84_86")
+  %"$ripemd160hash_call_87" = call [20 x i8]* @_ripemd160hash(i8* %"$execptr_load_83", %_TyDescrTy_Typ* @"$TyDescr_Bystr20_31", i8* %"$$ripemd160hash_h1_84_86"), !dbg !12
   %"$ripemd160hash_89" = load [20 x i8], [20 x i8]* %"$ripemd160hash_call_87", align 1
   store [20 x i8] %"$ripemd160hash_89", [20 x i8]* %h2, align 1, !dbg !12
   %"$gasrem_90" = load i64, i64* @_gasrem, align 8
@@ -209,7 +209,7 @@ entry:
   %"$execptr_load_112" = load i8*, i8** @_execptr, align 8
   %"$sh_113" = load %TName_Pair_String_ByStr20*, %TName_Pair_String_ByStr20** %sh, align 8
   %"$$sh_113_114" = bitcast %TName_Pair_String_ByStr20* %"$sh_113" to i8*
-  %"$ripemd160hash_call_115" = call [20 x i8]* @_ripemd160hash(i8* %"$execptr_load_112", %_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_String_ByStr20_36", i8* %"$$sh_113_114")
+  %"$ripemd160hash_call_115" = call [20 x i8]* @_ripemd160hash(i8* %"$execptr_load_112", %_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_String_ByStr20_36", i8* %"$$sh_113_114"), !dbg !14
   %"$ripemd160hash_117" = load [20 x i8], [20 x i8]* %"$ripemd160hash_call_115", align 1
   store [20 x i8] %"$ripemd160hash_117", [20 x i8]* %sh2, align 1, !dbg !14
   %"$gasrem_118" = load i64, i64* @_gasrem, align 8
@@ -229,7 +229,7 @@ entry:
   %"$sh2_125" = load [20 x i8], [20 x i8]* %sh2, align 1
   store [20 x i8] %"$sh2_125", [20 x i8]* %"$to_bystr_sh2_124", align 1
   %"$$to_bystr_sh2_124_126" = bitcast [20 x i8]* %"$to_bystr_sh2_124" to i8*
-  %"$to_bystr_call_127" = call %Bystr @_to_bystr(i8* %"$execptr_load_123", i32 20, i8* %"$$to_bystr_sh2_124_126")
+  %"$to_bystr_call_127" = call %Bystr @_to_bystr(i8* %"$execptr_load_123", i32 20, i8* %"$$to_bystr_sh2_124_126"), !dbg !15
   store %Bystr %"$to_bystr_call_127", %Bystr* %bystr1, align 8, !dbg !15
   %"$gasrem_128" = load i64, i64* @_gasrem, align 8
   %"$gascmp_129" = icmp ugt i64 1, %"$gasrem_128"
@@ -294,7 +294,7 @@ entry:
   %"$execptr_load_155" = load i8*, i8** @_execptr, align 8
   %"$p2_156" = load %TName_Pair_ByStr_Int32*, %TName_Pair_ByStr_Int32** %p2, align 8
   %"$$p2_156_157" = bitcast %TName_Pair_ByStr_Int32* %"$p2_156" to i8*
-  %"$ripemd160hash_call_158" = call [20 x i8]* @_ripemd160hash(i8* %"$execptr_load_155", %_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_ByStr_Int32_35", i8* %"$$p2_156_157")
+  %"$ripemd160hash_call_158" = call [20 x i8]* @_ripemd160hash(i8* %"$execptr_load_155", %_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_ByStr_Int32_35", i8* %"$$p2_156_157"), !dbg !18
   %"$ripemd160hash_160" = load [20 x i8], [20 x i8]* %"$ripemd160hash_call_158", align 1
   store [20 x i8] %"$ripemd160hash_160", [20 x i8]* %"$expr_0", align 1, !dbg !18
   %"$$expr_0_161" = load [20 x i8], [20 x i8]* %"$expr_0", align 1

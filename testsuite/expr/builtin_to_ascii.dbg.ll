@@ -132,7 +132,7 @@ entry:
   %"$world_67" = load [6 x i8], [6 x i8]* %world, align 1
   store [6 x i8] %"$world_67", [6 x i8]* %"$to_bystr_world_66", align 1
   %"$$to_bystr_world_66_68" = bitcast [6 x i8]* %"$to_bystr_world_66" to i8*
-  %"$to_bystr_call_69" = call %Bystr @_to_bystr(i8* %"$execptr_load_65", i32 6, i8* %"$$to_bystr_world_66_68")
+  %"$to_bystr_call_69" = call %Bystr @_to_bystr(i8* %"$execptr_load_65", i32 6, i8* %"$$to_bystr_world_66_68"), !dbg !12
   store %Bystr %"$to_bystr_call_69", %Bystr* %worldx, align 8, !dbg !12
   %"$gasrem_70" = load i64, i64* @_gasrem, align 8
   %"$gascmp_71" = icmp ugt i64 1, %"$gasrem_70"
@@ -151,7 +151,7 @@ entry:
   %"$hello_77" = load [5 x i8], [5 x i8]* %hello, align 1
   store [5 x i8] %"$hello_77", [5 x i8]* %"$to_ascii_hello_76", align 1
   %"$$to_ascii_hello_76_78" = bitcast [5 x i8]* %"$to_ascii_hello_76" to i8*
-  %"$to_ascii_call_79" = call %String @_to_ascii(i8* %"$execptr_load_75", i8* %"$$to_ascii_hello_76_78", i32 5)
+  %"$to_ascii_call_79" = call %String @_to_ascii(i8* %"$execptr_load_75", i8* %"$$to_ascii_hello_76_78", i32 5), !dbg !13
   store %String %"$to_ascii_call_79", %String* %hello_s, align 8, !dbg !13
   %"$gasrem_80" = load i64, i64* @_gasrem, align 8
   %"$gascmp_81" = icmp ugt i64 1, %"$gasrem_80"
@@ -169,12 +169,12 @@ entry:
   %"$to_ascii_86" = extractvalue %Bystr %"$worldx_85", 0
   %"$to_ascii_87" = extractvalue %Bystr %"$worldx_85", 1
   %"$execptr_load_88" = load i8*, i8** @_execptr, align 8
-  %"$to_ascii_call_89" = call %String @_to_ascii(i8* %"$execptr_load_88", i8* %"$to_ascii_86", i32 %"$to_ascii_87")
+  %"$to_ascii_call_89" = call %String @_to_ascii(i8* %"$execptr_load_88", i8* %"$to_ascii_86", i32 %"$to_ascii_87"), !dbg !14
   store %String %"$to_ascii_call_89", %String* %world_s, align 8, !dbg !14
   %"$execptr_load_90" = load i8*, i8** @_execptr, align 8
   %"$hello_s_91" = load %String, %String* %hello_s, align 8
   %"$world_s_92" = load %String, %String* %world_s, align 8
-  %"$concat_call_93" = call %String @_concat_String(i8* %"$execptr_load_90", %String %"$hello_s_91", %String %"$world_s_92")
+  %"$concat_call_93" = call %String @_concat_String(i8* %"$execptr_load_90", %String %"$hello_s_91", %String %"$world_s_92"), !dbg !15
   store %String %"$concat_call_93", %String* %"$expr_0", align 8, !dbg !15
   %"$$expr_0_94" = load %String, %String* %"$expr_0", align 8
   ret %String %"$$expr_0_94"

@@ -993,7 +993,7 @@ entry:
   %"$retval_123" = alloca %Uint32, align 8
   %"$z_667" = load %Uint32, %Uint32* %z, align 4
   %"$one_int_668" = load %Uint32, %Uint32* %one_int, align 4
-  %"$add_call_669" = call %Uint32 @_add_Uint32(%Uint32 %"$z_667", %Uint32 %"$one_int_668")
+  %"$add_call_669" = call %Uint32 @_add_Uint32(%Uint32 %"$z_667", %Uint32 %"$one_int_668"), !dbg !48
   store %Uint32 %"$add_call_669", %Uint32* %"$retval_123", align 4, !dbg !48
   %"$$retval_123_670" = load %Uint32, %Uint32* %"$retval_123", align 4
   ret %Uint32 %"$$retval_123_670"
@@ -2348,7 +2348,7 @@ entry:
   %n0 = alloca %TName_Nat*, align 8
   %"$execptr_load_1271" = load i8*, i8** @_execptr, align 8
   %"$uint0_1272" = load %Uint32, %Uint32* %uint0, align 4
-  %"$to_nat_call_1273" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1271", %Uint32 %"$uint0_1272")
+  %"$to_nat_call_1273" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1271", %Uint32 %"$uint0_1272"), !dbg !121
   store %TName_Nat* %"$to_nat_call_1273", %TName_Nat** %n0, align 8, !dbg !121
   %"$gasrem_1275" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1276" = icmp ugt i64 1, %"$gasrem_1275"
@@ -2364,7 +2364,7 @@ entry:
   %n1 = alloca %TName_Nat*, align 8
   %"$execptr_load_1280" = load i8*, i8** @_execptr, align 8
   %"$uint1_1281" = load %Uint32, %Uint32* %uint1, align 4
-  %"$to_nat_call_1282" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1280", %Uint32 %"$uint1_1281")
+  %"$to_nat_call_1282" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1280", %Uint32 %"$uint1_1281"), !dbg !122
   store %TName_Nat* %"$to_nat_call_1282", %TName_Nat** %n1, align 8, !dbg !122
   %"$gasrem_1284" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1285" = icmp ugt i64 1, %"$gasrem_1284"
@@ -2380,7 +2380,7 @@ entry:
   %n2 = alloca %TName_Nat*, align 8
   %"$execptr_load_1289" = load i8*, i8** @_execptr, align 8
   %"$uint2_1290" = load %Uint32, %Uint32* %uint2, align 4
-  %"$to_nat_call_1291" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1289", %Uint32 %"$uint2_1290")
+  %"$to_nat_call_1291" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1289", %Uint32 %"$uint2_1290"), !dbg !123
   store %TName_Nat* %"$to_nat_call_1291", %TName_Nat** %n2, align 8, !dbg !123
   %"$gasrem_1293" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1294" = icmp ugt i64 1, %"$gasrem_1293"
@@ -2396,7 +2396,7 @@ entry:
   %n3 = alloca %TName_Nat*, align 8
   %"$execptr_load_1298" = load i8*, i8** @_execptr, align 8
   %"$uint3_1299" = load %Uint32, %Uint32* %uint3, align 4
-  %"$to_nat_call_1300" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1298", %Uint32 %"$uint3_1299")
+  %"$to_nat_call_1300" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1298", %Uint32 %"$uint3_1299"), !dbg !124
   store %TName_Nat* %"$to_nat_call_1300", %TName_Nat** %n3, align 8, !dbg !124
   %"$gasrem_1302" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1303" = icmp ugt i64 1, %"$gasrem_1302"
@@ -2412,7 +2412,7 @@ entry:
   %n4 = alloca %TName_Nat*, align 8
   %"$execptr_load_1307" = load i8*, i8** @_execptr, align 8
   %"$uint4_1308" = load %Uint32, %Uint32* %uint4, align 4
-  %"$to_nat_call_1309" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1307", %Uint32 %"$uint4_1308")
+  %"$to_nat_call_1309" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1307", %Uint32 %"$uint4_1308"), !dbg !125
   store %TName_Nat* %"$to_nat_call_1309", %TName_Nat** %n4, align 8, !dbg !125
   %"$gasrem_1311" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1312" = icmp ugt i64 1, %"$gasrem_1311"
@@ -3831,7 +3831,7 @@ entry:
   %sum = alloca %Uint32, align 8
   %"$int01_2045" = load %Uint32, %Uint32* %int01, align 4
   %"$int02_2046" = load %Uint32, %Uint32* %int02, align 4
-  %"$add_call_2047" = call %Uint32 @_add_Uint32(%Uint32 %"$int01_2045", %Uint32 %"$int02_2046")
+  %"$add_call_2047" = call %Uint32 @_add_Uint32(%Uint32 %"$int01_2045", %Uint32 %"$int02_2046"), !dbg !165
   store %Uint32 %"$add_call_2047", %Uint32* %sum, align 4, !dbg !165
   %"$gasrem_2048" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2049" = icmp ugt i64 1, %"$gasrem_2048"
@@ -3847,7 +3847,7 @@ entry:
   %"$sum_0" = alloca %Uint32, align 8
   %"$sum_2053" = load %Uint32, %Uint32* %sum, align 4
   %"$int03_2054" = load %Uint32, %Uint32* %int03, align 4
-  %"$add_call_2055" = call %Uint32 @_add_Uint32(%Uint32 %"$sum_2053", %Uint32 %"$int03_2054")
+  %"$add_call_2055" = call %Uint32 @_add_Uint32(%Uint32 %"$sum_2053", %Uint32 %"$int03_2054"), !dbg !166
   store %Uint32 %"$add_call_2055", %Uint32* %"$sum_0", align 4, !dbg !166
   %"$gasrem_2056" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2057" = icmp ugt i64 1, %"$gasrem_2056"
@@ -3863,7 +3863,7 @@ entry:
   %"$sum_1" = alloca %Uint32, align 8
   %"$$sum_0_2061" = load %Uint32, %Uint32* %"$sum_0", align 4
   %"$int04_2062" = load %Uint32, %Uint32* %int04, align 4
-  %"$add_call_2063" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_0_2061", %Uint32 %"$int04_2062")
+  %"$add_call_2063" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_0_2061", %Uint32 %"$int04_2062"), !dbg !167
   store %Uint32 %"$add_call_2063", %Uint32* %"$sum_1", align 4, !dbg !167
   %"$gasrem_2064" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2065" = icmp ugt i64 1, %"$gasrem_2064"
@@ -3879,7 +3879,7 @@ entry:
   %"$sum_2" = alloca %Uint32, align 8
   %"$$sum_1_2069" = load %Uint32, %Uint32* %"$sum_1", align 4
   %"$int10_2070" = load %Uint32, %Uint32* %int10, align 4
-  %"$add_call_2071" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_1_2069", %Uint32 %"$int10_2070")
+  %"$add_call_2071" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_1_2069", %Uint32 %"$int10_2070"), !dbg !168
   store %Uint32 %"$add_call_2071", %Uint32* %"$sum_2", align 4, !dbg !168
   %"$gasrem_2072" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2073" = icmp ugt i64 1, %"$gasrem_2072"
@@ -3895,7 +3895,7 @@ entry:
   %"$sum_3" = alloca %Uint32, align 8
   %"$$sum_2_2077" = load %Uint32, %Uint32* %"$sum_2", align 4
   %"$int11_2078" = load %Uint32, %Uint32* %int11, align 4
-  %"$add_call_2079" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_2_2077", %Uint32 %"$int11_2078")
+  %"$add_call_2079" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_2_2077", %Uint32 %"$int11_2078"), !dbg !169
   store %Uint32 %"$add_call_2079", %Uint32* %"$sum_3", align 4, !dbg !169
   %"$gasrem_2080" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2081" = icmp ugt i64 1, %"$gasrem_2080"
@@ -3911,7 +3911,7 @@ entry:
   %"$sum_4" = alloca %Uint32, align 8
   %"$$sum_3_2085" = load %Uint32, %Uint32* %"$sum_3", align 4
   %"$int12_2086" = load %Uint32, %Uint32* %int12, align 4
-  %"$add_call_2087" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_3_2085", %Uint32 %"$int12_2086")
+  %"$add_call_2087" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_3_2085", %Uint32 %"$int12_2086"), !dbg !170
   store %Uint32 %"$add_call_2087", %Uint32* %"$sum_4", align 4, !dbg !170
   %"$gasrem_2088" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2089" = icmp ugt i64 1, %"$gasrem_2088"
@@ -3927,7 +3927,7 @@ entry:
   %"$sum_5" = alloca %Uint32, align 8
   %"$$sum_4_2093" = load %Uint32, %Uint32* %"$sum_4", align 4
   %"$int13_2094" = load %Uint32, %Uint32* %int13, align 4
-  %"$add_call_2095" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_4_2093", %Uint32 %"$int13_2094")
+  %"$add_call_2095" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_4_2093", %Uint32 %"$int13_2094"), !dbg !171
   store %Uint32 %"$add_call_2095", %Uint32* %"$sum_5", align 4, !dbg !171
   %"$gasrem_2096" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2097" = icmp ugt i64 1, %"$gasrem_2096"
@@ -3943,7 +3943,7 @@ entry:
   %"$sum_6" = alloca %Uint32, align 8
   %"$$sum_5_2101" = load %Uint32, %Uint32* %"$sum_5", align 4
   %"$int14_2102" = load %Uint32, %Uint32* %int14, align 4
-  %"$add_call_2103" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_5_2101", %Uint32 %"$int14_2102")
+  %"$add_call_2103" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_5_2101", %Uint32 %"$int14_2102"), !dbg !172
   store %Uint32 %"$add_call_2103", %Uint32* %"$sum_6", align 4, !dbg !172
   %"$gasrem_2104" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2105" = icmp ugt i64 1, %"$gasrem_2104"
@@ -3959,7 +3959,7 @@ entry:
   %"$sum_7" = alloca %Uint32, align 8
   %"$$sum_6_2109" = load %Uint32, %Uint32* %"$sum_6", align 4
   %"$int20_2110" = load %Uint32, %Uint32* %int20, align 4
-  %"$add_call_2111" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_6_2109", %Uint32 %"$int20_2110")
+  %"$add_call_2111" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_6_2109", %Uint32 %"$int20_2110"), !dbg !173
   store %Uint32 %"$add_call_2111", %Uint32* %"$sum_7", align 4, !dbg !173
   %"$gasrem_2112" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2113" = icmp ugt i64 1, %"$gasrem_2112"
@@ -3975,7 +3975,7 @@ entry:
   %"$sum_8" = alloca %Uint32, align 8
   %"$$sum_7_2117" = load %Uint32, %Uint32* %"$sum_7", align 4
   %"$int21_2118" = load %Uint32, %Uint32* %int21, align 4
-  %"$add_call_2119" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_7_2117", %Uint32 %"$int21_2118")
+  %"$add_call_2119" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_7_2117", %Uint32 %"$int21_2118"), !dbg !174
   store %Uint32 %"$add_call_2119", %Uint32* %"$sum_8", align 4, !dbg !174
   %"$gasrem_2120" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2121" = icmp ugt i64 1, %"$gasrem_2120"
@@ -3991,7 +3991,7 @@ entry:
   %"$sum_9" = alloca %Uint32, align 8
   %"$$sum_8_2125" = load %Uint32, %Uint32* %"$sum_8", align 4
   %"$int22_2126" = load %Uint32, %Uint32* %int22, align 4
-  %"$add_call_2127" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_8_2125", %Uint32 %"$int22_2126")
+  %"$add_call_2127" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_8_2125", %Uint32 %"$int22_2126"), !dbg !175
   store %Uint32 %"$add_call_2127", %Uint32* %"$sum_9", align 4, !dbg !175
   %"$gasrem_2128" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2129" = icmp ugt i64 1, %"$gasrem_2128"
@@ -4007,7 +4007,7 @@ entry:
   %"$sum_10" = alloca %Uint32, align 8
   %"$$sum_9_2133" = load %Uint32, %Uint32* %"$sum_9", align 4
   %"$int23_2134" = load %Uint32, %Uint32* %int23, align 4
-  %"$add_call_2135" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_9_2133", %Uint32 %"$int23_2134")
+  %"$add_call_2135" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_9_2133", %Uint32 %"$int23_2134"), !dbg !176
   store %Uint32 %"$add_call_2135", %Uint32* %"$sum_10", align 4, !dbg !176
   %"$gasrem_2136" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2137" = icmp ugt i64 1, %"$gasrem_2136"
@@ -4023,7 +4023,7 @@ entry:
   %"$sum_11" = alloca %Uint32, align 8
   %"$$sum_10_2141" = load %Uint32, %Uint32* %"$sum_10", align 4
   %"$int24_2142" = load %Uint32, %Uint32* %int24, align 4
-  %"$add_call_2143" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_10_2141", %Uint32 %"$int24_2142")
+  %"$add_call_2143" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_10_2141", %Uint32 %"$int24_2142"), !dbg !177
   store %Uint32 %"$add_call_2143", %Uint32* %"$sum_11", align 4, !dbg !177
   %"$gasrem_2144" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2145" = icmp ugt i64 1, %"$gasrem_2144"
@@ -4039,7 +4039,7 @@ entry:
   %"$sum_12" = alloca %Uint32, align 8
   %"$$sum_11_2149" = load %Uint32, %Uint32* %"$sum_11", align 4
   %"$int30_2150" = load %Uint32, %Uint32* %int30, align 4
-  %"$add_call_2151" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_11_2149", %Uint32 %"$int30_2150")
+  %"$add_call_2151" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_11_2149", %Uint32 %"$int30_2150"), !dbg !178
   store %Uint32 %"$add_call_2151", %Uint32* %"$sum_12", align 4, !dbg !178
   %"$gasrem_2152" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2153" = icmp ugt i64 1, %"$gasrem_2152"
@@ -4055,7 +4055,7 @@ entry:
   %"$sum_13" = alloca %Uint32, align 8
   %"$$sum_12_2157" = load %Uint32, %Uint32* %"$sum_12", align 4
   %"$int31_2158" = load %Uint32, %Uint32* %int31, align 4
-  %"$add_call_2159" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_12_2157", %Uint32 %"$int31_2158")
+  %"$add_call_2159" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_12_2157", %Uint32 %"$int31_2158"), !dbg !179
   store %Uint32 %"$add_call_2159", %Uint32* %"$sum_13", align 4, !dbg !179
   %"$gasrem_2160" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2161" = icmp ugt i64 1, %"$gasrem_2160"
@@ -4071,7 +4071,7 @@ entry:
   %"$sum_14" = alloca %Uint32, align 8
   %"$$sum_13_2165" = load %Uint32, %Uint32* %"$sum_13", align 4
   %"$int32_2166" = load %Uint32, %Uint32* %int32, align 4
-  %"$add_call_2167" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_13_2165", %Uint32 %"$int32_2166")
+  %"$add_call_2167" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_13_2165", %Uint32 %"$int32_2166"), !dbg !180
   store %Uint32 %"$add_call_2167", %Uint32* %"$sum_14", align 4, !dbg !180
   %"$gasrem_2168" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2169" = icmp ugt i64 1, %"$gasrem_2168"
@@ -4087,7 +4087,7 @@ entry:
   %"$sum_15" = alloca %Uint32, align 8
   %"$$sum_14_2173" = load %Uint32, %Uint32* %"$sum_14", align 4
   %"$int33_2174" = load %Uint32, %Uint32* %int33, align 4
-  %"$add_call_2175" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_14_2173", %Uint32 %"$int33_2174")
+  %"$add_call_2175" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_14_2173", %Uint32 %"$int33_2174"), !dbg !181
   store %Uint32 %"$add_call_2175", %Uint32* %"$sum_15", align 4, !dbg !181
   %"$gasrem_2176" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2177" = icmp ugt i64 1, %"$gasrem_2176"
@@ -4103,7 +4103,7 @@ entry:
   %"$sum_16" = alloca %Uint32, align 8
   %"$$sum_15_2181" = load %Uint32, %Uint32* %"$sum_15", align 4
   %"$int34_2182" = load %Uint32, %Uint32* %int34, align 4
-  %"$add_call_2183" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_15_2181", %Uint32 %"$int34_2182")
+  %"$add_call_2183" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_15_2181", %Uint32 %"$int34_2182"), !dbg !182
   store %Uint32 %"$add_call_2183", %Uint32* %"$sum_16", align 4, !dbg !182
   %"$gasrem_2184" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2185" = icmp ugt i64 1, %"$gasrem_2184"
@@ -4119,7 +4119,7 @@ entry:
   %"$sum_17" = alloca %Uint32, align 8
   %"$$sum_16_2189" = load %Uint32, %Uint32* %"$sum_16", align 4
   %"$int40_2190" = load %Uint32, %Uint32* %int40, align 4
-  %"$add_call_2191" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_16_2189", %Uint32 %"$int40_2190")
+  %"$add_call_2191" = call %Uint32 @_add_Uint32(%Uint32 %"$$sum_16_2189", %Uint32 %"$int40_2190"), !dbg !183
   store %Uint32 %"$add_call_2191", %Uint32* %"$sum_17", align 4, !dbg !183
   %"$gasrem_2192" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2193" = icmp ugt i64 1, %"$gasrem_2192"

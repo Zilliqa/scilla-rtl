@@ -582,7 +582,7 @@ entry:
   %"$schnorr_get_address_p1_296" = alloca [33 x i8], align 1
   %"$p1_297" = load [33 x i8], [33 x i8]* %p1, align 1
   store [33 x i8] %"$p1_297", [33 x i8]* %"$schnorr_get_address_p1_296", align 1
-  %"$schnorr_get_address_call_298" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_295", [33 x i8]* %"$schnorr_get_address_p1_296")
+  %"$schnorr_get_address_call_298" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_295", [33 x i8]* %"$schnorr_get_address_p1_296"), !dbg !34
   %"$schnorr_get_address_300" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_298", align 1
   store [20 x i8] %"$schnorr_get_address_300", [20 x i8]* %a1_gen, align 1, !dbg !34
   %"$gasrem_301" = load i64, i64* @_gasrem, align 8
@@ -606,7 +606,7 @@ entry:
   %"$a1_gen_311" = load [20 x i8], [20 x i8]* %a1_gen, align 1
   store [20 x i8] %"$a1_gen_311", [20 x i8]* %"$eq_a1_gen_310", align 1
   %"$$eq_a1_gen_310_312" = bitcast [20 x i8]* %"$eq_a1_gen_310" to i8*
-  %"$eq_call_313" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_306", i32 20, i8* %"$$eq_a1_307_309", i8* %"$$eq_a1_gen_310_312")
+  %"$eq_call_313" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_306", i32 20, i8* %"$$eq_a1_307_309", i8* %"$$eq_a1_gen_310_312"), !dbg !35
   store %TName_Bool* %"$eq_call_313", %TName_Bool** %r1, align 8, !dbg !35
   %"$gasrem_315" = load i64, i64* @_gasrem, align 8
   %"$gascmp_316" = icmp ugt i64 1, %"$gasrem_315"
@@ -672,7 +672,7 @@ entry:
   %"$schnorr_get_address_p2_341" = alloca [33 x i8], align 1
   %"$p2_342" = load [33 x i8], [33 x i8]* %p2, align 1
   store [33 x i8] %"$p2_342", [33 x i8]* %"$schnorr_get_address_p2_341", align 1
-  %"$schnorr_get_address_call_343" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_340", [33 x i8]* %"$schnorr_get_address_p2_341")
+  %"$schnorr_get_address_call_343" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_340", [33 x i8]* %"$schnorr_get_address_p2_341"), !dbg !38
   %"$schnorr_get_address_345" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_343", align 1
   store [20 x i8] %"$schnorr_get_address_345", [20 x i8]* %a2_gen, align 1, !dbg !38
   %"$gasrem_346" = load i64, i64* @_gasrem, align 8
@@ -696,7 +696,7 @@ entry:
   %"$a2_gen_356" = load [20 x i8], [20 x i8]* %a2_gen, align 1
   store [20 x i8] %"$a2_gen_356", [20 x i8]* %"$eq_a2_gen_355", align 1
   %"$$eq_a2_gen_355_357" = bitcast [20 x i8]* %"$eq_a2_gen_355" to i8*
-  %"$eq_call_358" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_351", i32 20, i8* %"$$eq_a2_352_354", i8* %"$$eq_a2_gen_355_357")
+  %"$eq_call_358" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_351", i32 20, i8* %"$$eq_a2_352_354", i8* %"$$eq_a2_gen_355_357"), !dbg !39
   store %TName_Bool* %"$eq_call_358", %TName_Bool** %r2, align 8, !dbg !39
   %"$gasrem_360" = load i64, i64* @_gasrem, align 8
   %"$gascmp_361" = icmp ugt i64 1, %"$gasrem_360"
@@ -762,7 +762,7 @@ entry:
   %"$schnorr_get_address_p3_386" = alloca [33 x i8], align 1
   %"$p3_387" = load [33 x i8], [33 x i8]* %p3, align 1
   store [33 x i8] %"$p3_387", [33 x i8]* %"$schnorr_get_address_p3_386", align 1
-  %"$schnorr_get_address_call_388" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_385", [33 x i8]* %"$schnorr_get_address_p3_386")
+  %"$schnorr_get_address_call_388" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_385", [33 x i8]* %"$schnorr_get_address_p3_386"), !dbg !42
   %"$schnorr_get_address_390" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_388", align 1
   store [20 x i8] %"$schnorr_get_address_390", [20 x i8]* %a3_gen, align 1, !dbg !42
   %"$gasrem_391" = load i64, i64* @_gasrem, align 8
@@ -786,7 +786,7 @@ entry:
   %"$a3_gen_401" = load [20 x i8], [20 x i8]* %a3_gen, align 1
   store [20 x i8] %"$a3_gen_401", [20 x i8]* %"$eq_a3_gen_400", align 1
   %"$$eq_a3_gen_400_402" = bitcast [20 x i8]* %"$eq_a3_gen_400" to i8*
-  %"$eq_call_403" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_396", i32 20, i8* %"$$eq_a3_397_399", i8* %"$$eq_a3_gen_400_402")
+  %"$eq_call_403" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_396", i32 20, i8* %"$$eq_a3_397_399", i8* %"$$eq_a3_gen_400_402"), !dbg !43
   store %TName_Bool* %"$eq_call_403", %TName_Bool** %r3, align 8, !dbg !43
   %"$gasrem_405" = load i64, i64* @_gasrem, align 8
   %"$gascmp_406" = icmp ugt i64 1, %"$gasrem_405"
@@ -852,7 +852,7 @@ entry:
   %"$schnorr_get_address_p4_431" = alloca [33 x i8], align 1
   %"$p4_432" = load [33 x i8], [33 x i8]* %p4, align 1
   store [33 x i8] %"$p4_432", [33 x i8]* %"$schnorr_get_address_p4_431", align 1
-  %"$schnorr_get_address_call_433" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_430", [33 x i8]* %"$schnorr_get_address_p4_431")
+  %"$schnorr_get_address_call_433" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_430", [33 x i8]* %"$schnorr_get_address_p4_431"), !dbg !46
   %"$schnorr_get_address_435" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_433", align 1
   store [20 x i8] %"$schnorr_get_address_435", [20 x i8]* %a4_gen, align 1, !dbg !46
   %"$gasrem_436" = load i64, i64* @_gasrem, align 8
@@ -876,7 +876,7 @@ entry:
   %"$a4_gen_446" = load [20 x i8], [20 x i8]* %a4_gen, align 1
   store [20 x i8] %"$a4_gen_446", [20 x i8]* %"$eq_a4_gen_445", align 1
   %"$$eq_a4_gen_445_447" = bitcast [20 x i8]* %"$eq_a4_gen_445" to i8*
-  %"$eq_call_448" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_441", i32 20, i8* %"$$eq_a4_442_444", i8* %"$$eq_a4_gen_445_447")
+  %"$eq_call_448" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_441", i32 20, i8* %"$$eq_a4_442_444", i8* %"$$eq_a4_gen_445_447"), !dbg !47
   store %TName_Bool* %"$eq_call_448", %TName_Bool** %r4, align 8, !dbg !47
   %"$gasrem_450" = load i64, i64* @_gasrem, align 8
   %"$gascmp_451" = icmp ugt i64 1, %"$gasrem_450"
@@ -942,7 +942,7 @@ entry:
   %"$schnorr_get_address_p5_476" = alloca [33 x i8], align 1
   %"$p5_477" = load [33 x i8], [33 x i8]* %p5, align 1
   store [33 x i8] %"$p5_477", [33 x i8]* %"$schnorr_get_address_p5_476", align 1
-  %"$schnorr_get_address_call_478" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_475", [33 x i8]* %"$schnorr_get_address_p5_476")
+  %"$schnorr_get_address_call_478" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_475", [33 x i8]* %"$schnorr_get_address_p5_476"), !dbg !50
   %"$schnorr_get_address_480" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_478", align 1
   store [20 x i8] %"$schnorr_get_address_480", [20 x i8]* %a5_gen, align 1, !dbg !50
   %"$gasrem_481" = load i64, i64* @_gasrem, align 8
@@ -966,7 +966,7 @@ entry:
   %"$a5_gen_491" = load [20 x i8], [20 x i8]* %a5_gen, align 1
   store [20 x i8] %"$a5_gen_491", [20 x i8]* %"$eq_a5_gen_490", align 1
   %"$$eq_a5_gen_490_492" = bitcast [20 x i8]* %"$eq_a5_gen_490" to i8*
-  %"$eq_call_493" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_486", i32 20, i8* %"$$eq_a5_487_489", i8* %"$$eq_a5_gen_490_492")
+  %"$eq_call_493" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_486", i32 20, i8* %"$$eq_a5_487_489", i8* %"$$eq_a5_gen_490_492"), !dbg !51
   store %TName_Bool* %"$eq_call_493", %TName_Bool** %r5, align 8, !dbg !51
   %"$gasrem_495" = load i64, i64* @_gasrem, align 8
   %"$gascmp_496" = icmp ugt i64 1, %"$gasrem_495"
@@ -1032,7 +1032,7 @@ entry:
   %"$schnorr_get_address_p6_521" = alloca [33 x i8], align 1
   %"$p6_522" = load [33 x i8], [33 x i8]* %p6, align 1
   store [33 x i8] %"$p6_522", [33 x i8]* %"$schnorr_get_address_p6_521", align 1
-  %"$schnorr_get_address_call_523" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_520", [33 x i8]* %"$schnorr_get_address_p6_521")
+  %"$schnorr_get_address_call_523" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_520", [33 x i8]* %"$schnorr_get_address_p6_521"), !dbg !54
   %"$schnorr_get_address_525" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_523", align 1
   store [20 x i8] %"$schnorr_get_address_525", [20 x i8]* %a6_gen, align 1, !dbg !54
   %"$gasrem_526" = load i64, i64* @_gasrem, align 8
@@ -1056,7 +1056,7 @@ entry:
   %"$a6_gen_536" = load [20 x i8], [20 x i8]* %a6_gen, align 1
   store [20 x i8] %"$a6_gen_536", [20 x i8]* %"$eq_a6_gen_535", align 1
   %"$$eq_a6_gen_535_537" = bitcast [20 x i8]* %"$eq_a6_gen_535" to i8*
-  %"$eq_call_538" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_531", i32 20, i8* %"$$eq_a6_532_534", i8* %"$$eq_a6_gen_535_537")
+  %"$eq_call_538" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_531", i32 20, i8* %"$$eq_a6_532_534", i8* %"$$eq_a6_gen_535_537"), !dbg !55
   store %TName_Bool* %"$eq_call_538", %TName_Bool** %r6, align 8, !dbg !55
   %"$gasrem_540" = load i64, i64* @_gasrem, align 8
   %"$gascmp_541" = icmp ugt i64 1, %"$gasrem_540"
@@ -1122,7 +1122,7 @@ entry:
   %"$schnorr_get_address_p7_566" = alloca [33 x i8], align 1
   %"$p7_567" = load [33 x i8], [33 x i8]* %p7, align 1
   store [33 x i8] %"$p7_567", [33 x i8]* %"$schnorr_get_address_p7_566", align 1
-  %"$schnorr_get_address_call_568" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_565", [33 x i8]* %"$schnorr_get_address_p7_566")
+  %"$schnorr_get_address_call_568" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_565", [33 x i8]* %"$schnorr_get_address_p7_566"), !dbg !58
   %"$schnorr_get_address_570" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_568", align 1
   store [20 x i8] %"$schnorr_get_address_570", [20 x i8]* %a7_gen, align 1, !dbg !58
   %"$gasrem_571" = load i64, i64* @_gasrem, align 8
@@ -1146,7 +1146,7 @@ entry:
   %"$a7_gen_581" = load [20 x i8], [20 x i8]* %a7_gen, align 1
   store [20 x i8] %"$a7_gen_581", [20 x i8]* %"$eq_a7_gen_580", align 1
   %"$$eq_a7_gen_580_582" = bitcast [20 x i8]* %"$eq_a7_gen_580" to i8*
-  %"$eq_call_583" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_576", i32 20, i8* %"$$eq_a7_577_579", i8* %"$$eq_a7_gen_580_582")
+  %"$eq_call_583" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_576", i32 20, i8* %"$$eq_a7_577_579", i8* %"$$eq_a7_gen_580_582"), !dbg !59
   store %TName_Bool* %"$eq_call_583", %TName_Bool** %r7, align 8, !dbg !59
   %"$gasrem_585" = load i64, i64* @_gasrem, align 8
   %"$gascmp_586" = icmp ugt i64 1, %"$gasrem_585"
@@ -1212,7 +1212,7 @@ entry:
   %"$schnorr_get_address_p8_611" = alloca [33 x i8], align 1
   %"$p8_612" = load [33 x i8], [33 x i8]* %p8, align 1
   store [33 x i8] %"$p8_612", [33 x i8]* %"$schnorr_get_address_p8_611", align 1
-  %"$schnorr_get_address_call_613" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_610", [33 x i8]* %"$schnorr_get_address_p8_611")
+  %"$schnorr_get_address_call_613" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_610", [33 x i8]* %"$schnorr_get_address_p8_611"), !dbg !62
   %"$schnorr_get_address_615" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_613", align 1
   store [20 x i8] %"$schnorr_get_address_615", [20 x i8]* %a8_gen, align 1, !dbg !62
   %"$gasrem_616" = load i64, i64* @_gasrem, align 8
@@ -1236,7 +1236,7 @@ entry:
   %"$a8_gen_626" = load [20 x i8], [20 x i8]* %a8_gen, align 1
   store [20 x i8] %"$a8_gen_626", [20 x i8]* %"$eq_a8_gen_625", align 1
   %"$$eq_a8_gen_625_627" = bitcast [20 x i8]* %"$eq_a8_gen_625" to i8*
-  %"$eq_call_628" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_621", i32 20, i8* %"$$eq_a8_622_624", i8* %"$$eq_a8_gen_625_627")
+  %"$eq_call_628" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_621", i32 20, i8* %"$$eq_a8_622_624", i8* %"$$eq_a8_gen_625_627"), !dbg !63
   store %TName_Bool* %"$eq_call_628", %TName_Bool** %r8, align 8, !dbg !63
   %"$gasrem_630" = load i64, i64* @_gasrem, align 8
   %"$gascmp_631" = icmp ugt i64 1, %"$gasrem_630"

@@ -159,7 +159,7 @@ entry:
   %"$sha256hash_header_277" = alloca %Bystr, align 8
   store %Bystr %1, %Bystr* %"$sha256hash_header_277", align 8
   %"$$sha256hash_header_277_278" = bitcast %Bystr* %"$sha256hash_header_277" to i8*
-  %"$sha256hash_call_279" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_276", %_TyDescrTy_Typ* @"$TyDescr_Bystr_43", i8* %"$$sha256hash_header_277_278")
+  %"$sha256hash_call_279" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_276", %_TyDescrTy_Typ* @"$TyDescr_Bystr_43", i8* %"$$sha256hash_header_277_278"), !dbg !8
   %"$sha256hash_281" = load [32 x i8], [32 x i8]* %"$sha256hash_call_279", align 1
   store [32 x i8] %"$sha256hash_281", [32 x i8]* %h1, align 1, !dbg !8
   %"$gasrem_282" = load i64, i64* @_gasrem, align 8
@@ -179,7 +179,7 @@ entry:
   %"$h1_289" = load [32 x i8], [32 x i8]* %h1, align 1
   store [32 x i8] %"$h1_289", [32 x i8]* %"$sha256hash_h1_288", align 1
   %"$$sha256hash_h1_288_290" = bitcast [32 x i8]* %"$sha256hash_h1_288" to i8*
-  %"$sha256hash_call_291" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_287", %_TyDescrTy_Typ* @"$TyDescr_Bystr32_47", i8* %"$$sha256hash_h1_288_290")
+  %"$sha256hash_call_291" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_287", %_TyDescrTy_Typ* @"$TyDescr_Bystr32_47", i8* %"$$sha256hash_h1_288_290"), !dbg !9
   %"$sha256hash_293" = load [32 x i8], [32 x i8]* %"$sha256hash_call_291", align 1
   store [32 x i8] %"$sha256hash_293", [32 x i8]* %h2, align 1, !dbg !9
   %"$execptr_load_294" = load i8*, i8** @_execptr, align 8
@@ -187,7 +187,7 @@ entry:
   %"$h2_296" = load [32 x i8], [32 x i8]* %h2, align 1
   store [32 x i8] %"$h2_296", [32 x i8]* %"$to_bystr_h2_295", align 1
   %"$$to_bystr_h2_295_297" = bitcast [32 x i8]* %"$to_bystr_h2_295" to i8*
-  %"$to_bystr_call_298" = call %Bystr @_to_bystr(i8* %"$execptr_load_294", i32 32, i8* %"$$to_bystr_h2_295_297")
+  %"$to_bystr_call_298" = call %Bystr @_to_bystr(i8* %"$execptr_load_294", i32 32, i8* %"$$to_bystr_h2_295_297"), !dbg !10
   store %Bystr %"$to_bystr_call_298", %Bystr* %"$retval_14", align 8, !dbg !10
   %"$$retval_14_299" = load %Bystr, %Bystr* %"$retval_14", align 8
   ret %Bystr %"$$retval_14_299"
@@ -221,7 +221,7 @@ entry:
   %"$ecdsa_recover_pk_sig_127" = alloca [64 x i8], align 1
   %"$sig_128" = load [64 x i8], [64 x i8]* %sig, align 1
   store [64 x i8] %"$sig_128", [64 x i8]* %"$ecdsa_recover_pk_sig_127", align 1
-  %"$ecdsa_recover_pk_call_129" = call [65 x i8]* @_ecdsa_recover_pk(i8* %"$execptr_load_125", %Bystr %"$msg_126", [64 x i8]* %"$ecdsa_recover_pk_sig_127", %Uint32 %2)
+  %"$ecdsa_recover_pk_call_129" = call [65 x i8]* @_ecdsa_recover_pk(i8* %"$execptr_load_125", %Bystr %"$msg_126", [64 x i8]* %"$ecdsa_recover_pk_sig_127", %Uint32 %2), !dbg !12
   %"$ecdsa_recover_pk_131" = load [65 x i8], [65 x i8]* %"$ecdsa_recover_pk_call_129", align 1
   store [65 x i8] %"$ecdsa_recover_pk_131", [65 x i8]* %pk, align 1, !dbg !12
   %"$gasrem_132" = load i64, i64* @_gasrem, align 8
@@ -289,7 +289,7 @@ entry:
   %"$pk_159" = load [65 x i8], [65 x i8]* %pk, align 1
   store [65 x i8] %"$pk_159", [65 x i8]* %"$to_bystr_pk_158", align 1
   %"$$to_bystr_pk_158_160" = bitcast [65 x i8]* %"$to_bystr_pk_158" to i8*
-  %"$to_bystr_call_161" = call %Bystr @_to_bystr(i8* %"$execptr_load_157", i32 65, i8* %"$$to_bystr_pk_158_160")
+  %"$to_bystr_call_161" = call %Bystr @_to_bystr(i8* %"$execptr_load_157", i32 65, i8* %"$$to_bystr_pk_158_160"), !dbg !15
   store %Bystr %"$to_bystr_call_161", %Bystr* %pk_bs, align 8, !dbg !15
   %"$gasrem_162" = load i64, i64* @_gasrem, align 8
   %"$gascmp_163" = icmp ugt i64 1, %"$gasrem_162"
@@ -307,7 +307,7 @@ entry:
   %"$pk_bs_168" = load %Bystr, %Bystr* %pk_bs, align 8
   %"$pos_169" = load %Uint32, %Uint32* %pos, align 4
   %"$len_170" = load %Uint32, %Uint32* %len, align 4
-  %"$substr_call_171" = call %Bystr @_substr_ByStr(i8* %"$execptr_load_167", %Bystr %"$pk_bs_168", %Uint32 %"$pos_169", %Uint32 %"$len_170")
+  %"$substr_call_171" = call %Bystr @_substr_ByStr(i8* %"$execptr_load_167", %Bystr %"$pk_bs_168", %Uint32 %"$pos_169", %Uint32 %"$len_170"), !dbg !16
   store %Bystr %"$substr_call_171", %Bystr* %pk_, align 8, !dbg !16
   %"$gasrem_172" = load i64, i64* @_gasrem, align 8
   %"$gascmp_173" = icmp ugt i64 1, %"$gasrem_172"
@@ -326,7 +326,7 @@ entry:
   %"$pk__179" = load %Bystr, %Bystr* %pk_, align 8
   store %Bystr %"$pk__179", %Bystr* %"$keccak256hash_pk__178", align 8
   %"$$keccak256hash_pk__178_180" = bitcast %Bystr* %"$keccak256hash_pk__178" to i8*
-  %"$keccak256hash_call_181" = call [32 x i8]* @_keccak256hash(i8* %"$execptr_load_177", %_TyDescrTy_Typ* @"$TyDescr_Bystr_43", i8* %"$$keccak256hash_pk__178_180")
+  %"$keccak256hash_call_181" = call [32 x i8]* @_keccak256hash(i8* %"$execptr_load_177", %_TyDescrTy_Typ* @"$TyDescr_Bystr_43", i8* %"$$keccak256hash_pk__178_180"), !dbg !17
   %"$keccak256hash_183" = load [32 x i8], [32 x i8]* %"$keccak256hash_call_181", align 1
   store [32 x i8] %"$keccak256hash_183", [32 x i8]* %pkHash, align 1, !dbg !17
   %"$gasrem_184" = load i64, i64* @_gasrem, align 8
@@ -346,7 +346,7 @@ entry:
   %"$pkHash_191" = load [32 x i8], [32 x i8]* %pkHash, align 1
   store [32 x i8] %"$pkHash_191", [32 x i8]* %"$to_bystr_pkHash_190", align 1
   %"$$to_bystr_pkHash_190_192" = bitcast [32 x i8]* %"$to_bystr_pkHash_190" to i8*
-  %"$to_bystr_call_193" = call %Bystr @_to_bystr(i8* %"$execptr_load_189", i32 32, i8* %"$$to_bystr_pkHash_190_192")
+  %"$to_bystr_call_193" = call %Bystr @_to_bystr(i8* %"$execptr_load_189", i32 32, i8* %"$$to_bystr_pkHash_190_192"), !dbg !18
   store %Bystr %"$to_bystr_call_193", %Bystr* %pkHash_bs, align 8, !dbg !18
   %"$gasrem_194" = load i64, i64* @_gasrem, align 8
   %"$gascmp_195" = icmp ugt i64 1, %"$gasrem_194"
@@ -412,7 +412,7 @@ entry:
   %"$pkHash_bs_220" = load %Bystr, %Bystr* %pkHash_bs, align 8
   %"$$pos_0_221" = load %Uint32, %Uint32* %"$pos_0", align 4
   %"$$len_1_222" = load %Uint32, %Uint32* %"$len_1", align 4
-  %"$substr_call_223" = call %Bystr @_substr_ByStr(i8* %"$execptr_load_219", %Bystr %"$pkHash_bs_220", %Uint32 %"$$pos_0_221", %Uint32 %"$$len_1_222")
+  %"$substr_call_223" = call %Bystr @_substr_ByStr(i8* %"$execptr_load_219", %Bystr %"$pkHash_bs_220", %Uint32 %"$$pos_0_221", %Uint32 %"$$len_1_222"), !dbg !21
   store %Bystr %"$substr_call_223", %Bystr* %addr_bs, align 8, !dbg !21
   %"$gasrem_224" = load i64, i64* @_gasrem, align 8
   %"$gascmp_225" = icmp ugt i64 1, %"$gasrem_224"
@@ -428,7 +428,7 @@ entry:
   %addr_opt = alloca %TName_Option_ByStr20*, align 8
   %"$execptr_load_229" = load i8*, i8** @_execptr, align 8
   %"$addr_bs_230" = load %Bystr, %Bystr* %addr_bs, align 8
-  %"$to_bystr20_call_231" = call i8* @_bystr_to_bystrx(i8* %"$execptr_load_229", i32 20, %Bystr %"$addr_bs_230")
+  %"$to_bystr20_call_231" = call i8* @_bystr_to_bystrx(i8* %"$execptr_load_229", i32 20, %Bystr %"$addr_bs_230"), !dbg !22
   %"$to_bystr20_232" = bitcast i8* %"$to_bystr20_call_231" to %TName_Option_ByStr20*
   store %TName_Option_ByStr20* %"$to_bystr20_232", %TName_Option_ByStr20** %addr_opt, align 8, !dbg !22
   %"$gasrem_233" = load i64, i64* @_gasrem, align 8
@@ -739,7 +739,7 @@ entry:
   %"$msg_363" = load [1591 x i8], [1591 x i8]* %msg, align 1
   store [1591 x i8] %"$msg_363", [1591 x i8]* %"$to_bystr_msg_362", align 1
   %"$$to_bystr_msg_362_364" = bitcast [1591 x i8]* %"$to_bystr_msg_362" to i8*
-  %"$to_bystr_call_365" = call %Bystr @_to_bystr(i8* %"$execptr_load_361", i32 1591, i8* %"$$to_bystr_msg_362_364")
+  %"$to_bystr_call_365" = call %Bystr @_to_bystr(i8* %"$execptr_load_361", i32 1591, i8* %"$$to_bystr_msg_362_364"), !dbg !41
   store %Bystr %"$to_bystr_call_365", %Bystr* %msg_bs, align 8, !dbg !41
   %"$gasrem_366" = load i64, i64* @_gasrem, align 8
   %"$gascmp_367" = icmp ugt i64 1, %"$gasrem_366"
@@ -856,7 +856,7 @@ entry:
   %"$addr_gold_425" = load [20 x i8], [20 x i8]* %addr_gold, align 1
   store [20 x i8] %"$addr_gold_425", [20 x i8]* %"$eq_addr_gold_424", align 1
   %"$$eq_addr_gold_424_426" = bitcast [20 x i8]* %"$eq_addr_gold_424" to i8*
-  %"$eq_call_427" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_420", i32 20, i8* %"$$eq_addr_computed_421_423", i8* %"$$eq_addr_gold_424_426")
+  %"$eq_call_427" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_420", i32 20, i8* %"$$eq_addr_computed_421_423", i8* %"$$eq_addr_gold_424_426"), !dbg !45
   store %TName_Bool* %"$eq_call_427", %TName_Bool** %"$expr_6", align 8, !dbg !45
   %"$$expr_6_429" = load %TName_Bool*, %TName_Bool** %"$expr_6", align 8
   ret %TName_Bool* %"$$expr_6_429"

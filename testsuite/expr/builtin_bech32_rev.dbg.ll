@@ -134,7 +134,7 @@ entry:
   %"$bystr20_to_bech32_bystr20_addr_74" = alloca [20 x i8], align 1
   %"$bystr20_addr_75" = load [20 x i8], [20 x i8]* %bystr20_addr, align 1
   store [20 x i8] %"$bystr20_addr_75", [20 x i8]* %"$bystr20_to_bech32_bystr20_addr_74", align 1
-  %"$bystr20_to_bech32_call_76" = call %TName_Option_String* @_bystr20_to_bech32(i8* %"$execptr_load_72", %String %"$prefix_73", [20 x i8]* %"$bystr20_to_bech32_bystr20_addr_74")
+  %"$bystr20_to_bech32_call_76" = call %TName_Option_String* @_bystr20_to_bech32(i8* %"$execptr_load_72", %String %"$prefix_73", [20 x i8]* %"$bystr20_to_bech32_bystr20_addr_74"), !dbg !12
   store %TName_Option_String* %"$bystr20_to_bech32_call_76", %TName_Option_String** %"$expr_0", align 8, !dbg !12
   %"$$expr_0_78" = load %TName_Option_String*, %TName_Option_String** %"$expr_0", align 8
   ret %TName_Option_String* %"$$expr_0_78"

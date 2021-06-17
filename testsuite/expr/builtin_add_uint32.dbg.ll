@@ -108,7 +108,7 @@ entry:
   store %Uint32 { i32 2 }, %Uint32* %two, align 4, !dbg !11
   %"$one_56" = load %Uint32, %Uint32* %one, align 4
   %"$two_57" = load %Uint32, %Uint32* %two, align 4
-  %"$add_call_58" = call %Uint32 @_add_Uint32(%Uint32 %"$one_56", %Uint32 %"$two_57")
+  %"$add_call_58" = call %Uint32 @_add_Uint32(%Uint32 %"$one_56", %Uint32 %"$two_57"), !dbg !12
   store %Uint32 %"$add_call_58", %Uint32* %"$expr_0", align 4, !dbg !12
   %"$$expr_0_59" = load %Uint32, %Uint32* %"$expr_0", align 4
   ret %Uint32 %"$$expr_0_59"

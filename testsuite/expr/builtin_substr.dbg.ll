@@ -151,7 +151,7 @@ entry:
   %"$y_76" = load [6 x i8], [6 x i8]* %y, align 1
   store [6 x i8] %"$y_76", [6 x i8]* %"$to_bystr_y_75", align 1
   %"$$to_bystr_y_75_77" = bitcast [6 x i8]* %"$to_bystr_y_75" to i8*
-  %"$to_bystr_call_78" = call %Bystr @_to_bystr(i8* %"$execptr_load_74", i32 6, i8* %"$$to_bystr_y_75_77")
+  %"$to_bystr_call_78" = call %Bystr @_to_bystr(i8* %"$execptr_load_74", i32 6, i8* %"$$to_bystr_y_75_77"), !dbg !12
   store %Bystr %"$to_bystr_call_78", %Bystr* %ybs, align 8, !dbg !12
   %"$gasrem_79" = load i64, i64* @_gasrem, align 8
   %"$gascmp_80" = icmp ugt i64 1, %"$gasrem_79"
@@ -217,7 +217,7 @@ entry:
   %"$x_105" = load %String, %String* %x, align 8
   %"$pos_106" = load %Uint32, %Uint32* %pos, align 4
   %"$len_107" = load %Uint32, %Uint32* %len, align 4
-  %"$substr_call_108" = call %String @_substr_String(i8* %"$execptr_load_104", %String %"$x_105", %Uint32 %"$pos_106", %Uint32 %"$len_107")
+  %"$substr_call_108" = call %String @_substr_String(i8* %"$execptr_load_104", %String %"$x_105", %Uint32 %"$pos_106", %Uint32 %"$len_107"), !dbg !15
   store %String %"$substr_call_108", %String* %x_sub, align 8, !dbg !15
   %"$gasrem_109" = load i64, i64* @_gasrem, align 8
   %"$gascmp_110" = icmp ugt i64 1, %"$gasrem_109"
@@ -235,7 +235,7 @@ entry:
   %"$ybs_115" = load %Bystr, %Bystr* %ybs, align 8
   %"$pos_116" = load %Uint32, %Uint32* %pos, align 4
   %"$len_117" = load %Uint32, %Uint32* %len, align 4
-  %"$substr_call_118" = call %Bystr @_substr_ByStr(i8* %"$execptr_load_114", %Bystr %"$ybs_115", %Uint32 %"$pos_116", %Uint32 %"$len_117")
+  %"$substr_call_118" = call %Bystr @_substr_ByStr(i8* %"$execptr_load_114", %Bystr %"$ybs_115", %Uint32 %"$pos_116", %Uint32 %"$len_117"), !dbg !16
   store %Bystr %"$substr_call_118", %Bystr* %ybs_sub, align 8, !dbg !16
   %"$gasrem_119" = load i64, i64* @_gasrem, align 8
   %"$gascmp_120" = icmp ugt i64 1, %"$gasrem_119"

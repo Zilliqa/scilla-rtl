@@ -136,7 +136,7 @@ entry:
   store %Uint32 %"$$a_0_67", %Uint32* %x, align 4, !dbg !12
   %"$a_68" = load %Uint32, %Uint32* %a, align 4
   %"$x_69" = load %Uint32, %Uint32* %x, align 4
-  %"$add_call_70" = call %Uint32 @_add_Uint32(%Uint32 %"$a_68", %Uint32 %"$x_69")
+  %"$add_call_70" = call %Uint32 @_add_Uint32(%Uint32 %"$a_68", %Uint32 %"$x_69"), !dbg !13
   store %Uint32 %"$add_call_70", %Uint32* %"$expr_1", align 4, !dbg !13
   %"$$expr_1_71" = load %Uint32, %Uint32* %"$expr_1", align 4
   ret %Uint32 %"$$expr_1_71"

@@ -332,7 +332,7 @@ entry:
   %"$i1_168" = load %Uint32, %Uint32* %i1, align 4
   store %Uint32 %"$i1_168", %Uint32* %"$put_i1_167", align 4
   %"$$put_i1_167_169" = bitcast %Uint32* %"$put_i1_167" to i8*
-  %"$put_call_170" = call i8* @_put(i8* %"$execptr_load_161", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$a_162_163", i8* %"$$put_i0_164_166", i8* %"$$put_i1_167_169")
+  %"$put_call_170" = call i8* @_put(i8* %"$execptr_load_161", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$a_162_163", i8* %"$$put_i0_164_166", i8* %"$$put_i1_167_169"), !dbg !21
   %"$put_171" = bitcast i8* %"$put_call_170" to %Map_Uint32_Uint32*
   store %Map_Uint32_Uint32* %"$put_171", %Map_Uint32_Uint32** %a1, align 8, !dbg !21
   %"$gasrem_172" = load i64, i64* @_gasrem, align 8
@@ -416,7 +416,7 @@ entry:
   %"$$put_i1_208_210" = bitcast %Uint32* %"$put_i1_208" to i8*
   %"$o_211" = load %"TName_Option_Map_(Uint32)_(Uint32)"*, %"TName_Option_Map_(Uint32)_(Uint32)"** %o, align 8
   %"$$o_211_212" = bitcast %"TName_Option_Map_(Uint32)_(Uint32)"* %"$o_211" to i8*
-  %"$put_call_213" = call i8* @_put(i8* %"$execptr_load_205", %_TyDescrTy_Typ* @"$TyDescr_Map_46", i8* %"$$b_206_207", i8* %"$$put_i1_208_210", i8* %"$$o_211_212")
+  %"$put_call_213" = call i8* @_put(i8* %"$execptr_load_205", %_TyDescrTy_Typ* @"$TyDescr_Map_46", i8* %"$$b_206_207", i8* %"$$put_i1_208_210", i8* %"$$o_211_212"), !dbg !24
   %"$put_214" = bitcast i8* %"$put_call_213" to %"Map_Uint32_Option_(Map_(Uint32)_(Uint32))"*
   store %"Map_Uint32_Option_(Map_(Uint32)_(Uint32))"* %"$put_214", %"Map_Uint32_Option_(Map_(Uint32)_(Uint32))"** %b1, align 8, !dbg !24
   %"$gasrem_215" = load i64, i64* @_gasrem, align 8
@@ -438,7 +438,7 @@ entry:
   %"$i1_224" = load %Uint32, %Uint32* %i1, align 4
   store %Uint32 %"$i1_224", %Uint32* %"$get_i1_223", align 4
   %"$$get_i1_223_225" = bitcast %Uint32* %"$get_i1_223" to i8*
-  %"$get_call_226" = call i8* @_get(i8* %"$execptr_load_220", %_TyDescrTy_Typ* @"$TyDescr_Map_46", i8* %"$$b1_221_222", i8* %"$$get_i1_223_225")
+  %"$get_call_226" = call i8* @_get(i8* %"$execptr_load_220", %_TyDescrTy_Typ* @"$TyDescr_Map_46", i8* %"$$b1_221_222", i8* %"$$get_i1_223_225"), !dbg !25
   %"$get_227" = bitcast i8* %"$get_call_226" to %"TName_Option_Option_(Map_(Uint32)_(Uint32))"*
   store %"TName_Option_Option_(Map_(Uint32)_(Uint32))"* %"$get_227", %"TName_Option_Option_(Map_(Uint32)_(Uint32))"** %res1, align 8, !dbg !25
   %"$gasrem_228" = load i64, i64* @_gasrem, align 8
@@ -497,7 +497,7 @@ entry:
   %"$i1_295" = load %Uint32, %Uint32* %i1, align 4
   store %Uint32 %"$i1_295", %Uint32* %"$contains_i1_294", align 4
   %"$$contains_i1_294_296" = bitcast %Uint32* %"$contains_i1_294" to i8*
-  %"$contains_call_297" = call %TName_Bool* @_contains(i8* %"$execptr_load_291", %_TyDescrTy_Typ* @"$TyDescr_Map_46", i8* %"$$b1_292_293", i8* %"$$contains_i1_294_296")
+  %"$contains_call_297" = call %TName_Bool* @_contains(i8* %"$execptr_load_291", %_TyDescrTy_Typ* @"$TyDescr_Map_46", i8* %"$$b1_292_293", i8* %"$$contains_i1_294_296"), !dbg !30
   store %TName_Bool* %"$contains_call_297", %TName_Bool** %p11, align 8, !dbg !30
   %"$gasrem_299" = load i64, i64* @_gasrem, align 8
   %"$gascmp_300" = icmp ugt i64 1, %"$gasrem_299"
@@ -550,7 +550,7 @@ entry:
   %"$i0_324" = load %Uint32, %Uint32* %i0, align 4
   store %Uint32 %"$i0_324", %Uint32* %"$contains_i0_323", align 4
   %"$$contains_i0_323_325" = bitcast %Uint32* %"$contains_i0_323" to i8*
-  %"$contains_call_326" = call %TName_Bool* @_contains(i8* %"$execptr_load_320", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$$a1_0_321_322", i8* %"$$contains_i0_323_325")
+  %"$contains_call_326" = call %TName_Bool* @_contains(i8* %"$execptr_load_320", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$$a1_0_321_322", i8* %"$$contains_i0_323_325"), !dbg !34
   store %TName_Bool* %"$contains_call_326", %TName_Bool** %p2, align 8, !dbg !34
   %"$gasrem_328" = load i64, i64* @_gasrem, align 8
   %"$gascmp_329" = icmp ugt i64 1, %"$gasrem_328"
@@ -598,7 +598,7 @@ entry:
   %p3 = alloca %Uint32, align 8
   %"$p1_i_349" = load %Uint32, %Uint32* %p1_i, align 4
   %"$p2_i_350" = load %Uint32, %Uint32* %p2_i, align 4
-  %"$add_call_351" = call %Uint32 @_add_Uint32(%Uint32 %"$p1_i_349", %Uint32 %"$p2_i_350")
+  %"$add_call_351" = call %Uint32 @_add_Uint32(%Uint32 %"$p1_i_349", %Uint32 %"$p2_i_350"), !dbg !36
   store %Uint32 %"$add_call_351", %Uint32* %p3, align 4, !dbg !36
   %"$gasrem_352" = load i64, i64* @_gasrem, align 8
   %"$gascmp_353" = icmp ugt i64 1, %"$gasrem_352"
@@ -615,13 +615,13 @@ entry:
   %"$execptr_load_357" = load i8*, i8** @_execptr, align 8
   %"$$a1_0_358" = load %Map_Uint32_Uint32*, %Map_Uint32_Uint32** %"$a1_0", align 8
   %"$$$a1_0_358_359" = bitcast %Map_Uint32_Uint32* %"$$a1_0_358" to i8*
-  %"$_i1_360" = alloca %Uint32, align 8
+  %"$remove_i1_360" = alloca %Uint32, align 8
   %"$i1_361" = load %Uint32, %Uint32* %i1, align 4
-  store %Uint32 %"$i1_361", %Uint32* %"$_i1_360", align 4
-  %"$$_i1_360_362" = bitcast %Uint32* %"$_i1_360" to i8*
-  %"$_call_363" = call i8* @_remove(i8* %"$execptr_load_357", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$$a1_0_358_359", i8* %"$$_i1_360_362")
-  %"$_364" = bitcast i8* %"$_call_363" to %Map_Uint32_Uint32*
-  store %Map_Uint32_Uint32* %"$_364", %Map_Uint32_Uint32** %a2, align 8, !dbg !37
+  store %Uint32 %"$i1_361", %Uint32* %"$remove_i1_360", align 4
+  %"$$remove_i1_360_362" = bitcast %Uint32* %"$remove_i1_360" to i8*
+  %"$remove_call_363" = call i8* @_remove(i8* %"$execptr_load_357", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$$a1_0_358_359", i8* %"$$remove_i1_360_362"), !dbg !37
+  %"$remove_364" = bitcast i8* %"$remove_call_363" to %Map_Uint32_Uint32*
+  store %Map_Uint32_Uint32* %"$remove_364", %Map_Uint32_Uint32** %a2, align 8, !dbg !37
   %"$gasrem_365" = load i64, i64* @_gasrem, align 8
   %"$gascmp_366" = icmp ugt i64 1, %"$gasrem_365"
   br i1 %"$gascmp_366", label %"$out_of_gas_367", label %"$have_gas_368"
@@ -641,7 +641,7 @@ entry:
   %"$i0_374" = load %Uint32, %Uint32* %i0, align 4
   store %Uint32 %"$i0_374", %Uint32* %"$contains_i0_373", align 4
   %"$$contains_i0_373_375" = bitcast %Uint32* %"$contains_i0_373" to i8*
-  %"$contains_call_376" = call %TName_Bool* @_contains(i8* %"$execptr_load_370", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$a2_371_372", i8* %"$$contains_i0_373_375")
+  %"$contains_call_376" = call %TName_Bool* @_contains(i8* %"$execptr_load_370", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$a2_371_372", i8* %"$$contains_i0_373_375"), !dbg !38
   store %TName_Bool* %"$contains_call_376", %TName_Bool** %p5, align 8, !dbg !38
   %"$gasrem_378" = load i64, i64* @_gasrem, align 8
   %"$gascmp_379" = icmp ugt i64 1, %"$gasrem_378"
@@ -689,7 +689,7 @@ entry:
   %p6 = alloca %Uint32, align 8
   %"$p3_399" = load %Uint32, %Uint32* %p3, align 4
   %"$p5_i_400" = load %Uint32, %Uint32* %p5_i, align 4
-  %"$add_call_401" = call %Uint32 @_add_Uint32(%Uint32 %"$p3_399", %Uint32 %"$p5_i_400")
+  %"$add_call_401" = call %Uint32 @_add_Uint32(%Uint32 %"$p3_399", %Uint32 %"$p5_i_400"), !dbg !40
   store %Uint32 %"$add_call_401", %Uint32* %p6, align 4, !dbg !40
   %"$gasrem_402" = load i64, i64* @_gasrem, align 8
   %"$gascmp_403" = icmp ugt i64 1, %"$gasrem_402"
@@ -714,7 +714,7 @@ entry:
   %"$i0_414" = load %Uint32, %Uint32* %i0, align 4
   store %Uint32 %"$i0_414", %Uint32* %"$put_i0_413", align 4
   %"$$put_i0_413_415" = bitcast %Uint32* %"$put_i0_413" to i8*
-  %"$put_call_416" = call i8* @_put(i8* %"$execptr_load_407", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$$a1_0_408_409", i8* %"$$put_i1_410_412", i8* %"$$put_i0_413_415")
+  %"$put_call_416" = call i8* @_put(i8* %"$execptr_load_407", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$$a1_0_408_409", i8* %"$$put_i1_410_412", i8* %"$$put_i0_413_415"), !dbg !41
   %"$put_417" = bitcast i8* %"$put_call_416" to %Map_Uint32_Uint32*
   store %Map_Uint32_Uint32* %"$put_417", %Map_Uint32_Uint32** %a3, align 8, !dbg !41
   %"$gasrem_418" = load i64, i64* @_gasrem, align 8
@@ -740,7 +740,7 @@ entry:
   %"$p3_430" = load %Uint32, %Uint32* %p3, align 4
   store %Uint32 %"$p3_430", %Uint32* %"$put_p3_429", align 4
   %"$$put_p3_429_431" = bitcast %Uint32* %"$put_p3_429" to i8*
-  %"$put_call_432" = call i8* @_put(i8* %"$execptr_load_423", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$a3_424_425", i8* %"$$put_p6_426_428", i8* %"$$put_p3_429_431")
+  %"$put_call_432" = call i8* @_put(i8* %"$execptr_load_423", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$a3_424_425", i8* %"$$put_p6_426_428", i8* %"$$put_p3_429_431"), !dbg !42
   %"$put_433" = bitcast i8* %"$put_call_432" to %Map_Uint32_Uint32*
   store %Map_Uint32_Uint32* %"$put_433", %Map_Uint32_Uint32** %a4, align 8, !dbg !42
   %"$gasrem_434" = load i64, i64* @_gasrem, align 8
@@ -757,11 +757,11 @@ entry:
   %p7_i = alloca %Uint32, align 8
   %"$a4_439" = load %Map_Uint32_Uint32*, %Map_Uint32_Uint32** %a4, align 8
   %"$$a4_439_440" = bitcast %Map_Uint32_Uint32* %"$a4_439" to i8*
-  %"$size_call_441" = call %Uint32 @_size(i8* %"$$a4_439_440")
+  %"$size_call_441" = call %Uint32 @_size(i8* %"$$a4_439_440"), !dbg !43
   store %Uint32 %"$size_call_441", %Uint32* %p7_i, align 4, !dbg !43
   %"$p6_442" = load %Uint32, %Uint32* %p6, align 4
   %"$p7_i_443" = load %Uint32, %Uint32* %p7_i, align 4
-  %"$add_call_444" = call %Uint32 @_add_Uint32(%Uint32 %"$p6_442", %Uint32 %"$p7_i_443")
+  %"$add_call_444" = call %Uint32 @_add_Uint32(%Uint32 %"$p6_442", %Uint32 %"$p7_i_443"), !dbg !44
   store %Uint32 %"$add_call_444", %Uint32* %"$expr_7", align 4, !dbg !44
   br label %"$matchsucc_277"
 
@@ -794,7 +794,7 @@ entry:
   %"$i0_243" = load %Uint32, %Uint32* %i0, align 4
   store %Uint32 %"$i0_243", %Uint32* %"$contains_i0_242", align 4
   %"$$contains_i0_242_244" = bitcast %Uint32* %"$contains_i0_242" to i8*
-  %"$contains_call_245" = call %TName_Bool* @_contains(i8* %"$execptr_load_239", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$a1_240_241", i8* %"$$contains_i0_242_244")
+  %"$contains_call_245" = call %TName_Bool* @_contains(i8* %"$execptr_load_239", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$a1_240_241", i8* %"$$contains_i0_242_244"), !dbg !45
   store %TName_Bool* %"$contains_call_245", %TName_Bool** %p, align 8, !dbg !45
   %"$gasrem_247" = load i64, i64* @_gasrem, align 8
   %"$gascmp_248" = icmp ugt i64 1, %"$gasrem_247"

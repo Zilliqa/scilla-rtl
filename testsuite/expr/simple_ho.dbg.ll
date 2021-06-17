@@ -93,7 +93,7 @@ entry:
   store i64 %"$consume_81", i64* @_gasrem, align 8
   store %Int32 { i32 1 }, %Int32* %b, align 4, !dbg !8
   %"$b_82" = load %Int32, %Int32* %b, align 4
-  %"$add_call_83" = call %Int32 @_add_Int32(%Int32 %1, %Int32 %"$b_82")
+  %"$add_call_83" = call %Int32 @_add_Int32(%Int32 %1, %Int32 %"$b_82"), !dbg !9
   store %Int32 %"$add_call_83", %Int32* %"$retval_9", align 4, !dbg !9
   %"$$retval_9_84" = load %Int32, %Int32* %"$retval_9", align 4
   ret %Int32 %"$$retval_9_84"

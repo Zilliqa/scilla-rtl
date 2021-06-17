@@ -518,7 +518,7 @@ entry:
   %"$recordOwner_2192" = load [20 x i8], [20 x i8]* %recordOwner, align 1
   store [20 x i8] %"$recordOwner_2192", [20 x i8]* %"$eq_recordOwner_2191", align 1
   %"$$eq_recordOwner_2191_2193" = bitcast [20 x i8]* %"$eq_recordOwner_2191" to i8*
-  %"$eq_call_2194" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_2187", i32 20, i8* %"$$eq_sender_2188_2190", i8* %"$$eq_recordOwner_2191_2193")
+  %"$eq_call_2194" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_2187", i32 20, i8* %"$$eq_sender_2188_2190", i8* %"$$eq_recordOwner_2191_2193"), !dbg !8
   store %TName_Bool* %"$eq_call_2194", %TName_Bool** %isOwner, align 8, !dbg !8
   %"$gasrem_2196" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2197" = icmp ugt i64 1, %"$gasrem_2196"
@@ -588,7 +588,7 @@ entry:
   %"$approved_2230" = load [20 x i8], [20 x i8]* %approved, align 1
   store [20 x i8] %"$approved_2230", [20 x i8]* %"$eq_approved_2229", align 1
   %"$$eq_approved_2229_2231" = bitcast [20 x i8]* %"$eq_approved_2229" to i8*
-  %"$eq_call_2232" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_2225", i32 20, i8* %"$$eq_sender_2226_2228", i8* %"$$eq_approved_2229_2231")
+  %"$eq_call_2232" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_2225", i32 20, i8* %"$$eq_sender_2226_2228", i8* %"$$eq_approved_2229_2231"), !dbg !13
   store %TName_Bool* %"$eq_call_2232", %TName_Bool** %isApproved, align 8, !dbg !13
   br label %"$matchsucc_2206"
 
@@ -925,7 +925,7 @@ entry:
   %"$sha256hash_label_2075" = alloca %String, align 8
   store %String %2, %String* %"$sha256hash_label_2075", align 8
   %"$$sha256hash_label_2075_2076" = bitcast %String* %"$sha256hash_label_2075" to i8*
-  %"$sha256hash_call_2077" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_2074", %_TyDescrTy_Typ* @"$TyDescr_String_292", i8* %"$$sha256hash_label_2075_2076")
+  %"$sha256hash_call_2077" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_2074", %_TyDescrTy_Typ* @"$TyDescr_String_292", i8* %"$$sha256hash_label_2075_2076"), !dbg !30
   %"$sha256hash_2079" = load [32 x i8], [32 x i8]* %"$sha256hash_call_2077", align 1
   store [32 x i8] %"$sha256hash_2079", [32 x i8]* %labelHash, align 1, !dbg !30
   %"$gasrem_2080" = load i64, i64* @_gasrem, align 8
@@ -949,7 +949,7 @@ entry:
   %"$labelHash_2090" = load [32 x i8], [32 x i8]* %labelHash, align 1
   store [32 x i8] %"$labelHash_2090", [32 x i8]* %"$concat_labelHash_2089", align 1
   %"$$concat_labelHash_2089_2091" = bitcast [32 x i8]* %"$concat_labelHash_2089" to i8*
-  %"$concat_call_2092" = call i8* @_concat_ByStrX(i8* %"$execptr_load_2085", i32 32, i8* %"$$concat_parent_2086_2088", i32 32, i8* %"$$concat_labelHash_2089_2091")
+  %"$concat_call_2092" = call i8* @_concat_ByStrX(i8* %"$execptr_load_2085", i32 32, i8* %"$$concat_parent_2086_2088", i32 32, i8* %"$$concat_labelHash_2089_2091"), !dbg !31
   %"$concat_2093" = bitcast i8* %"$concat_call_2092" to [64 x i8]*
   %"$concat_2094" = load [64 x i8], [64 x i8]* %"$concat_2093", align 1
   store [64 x i8] %"$concat_2094", [64 x i8]* %nodeInput, align 1, !dbg !31
@@ -958,7 +958,7 @@ entry:
   %"$nodeInput_2097" = load [64 x i8], [64 x i8]* %nodeInput, align 1
   store [64 x i8] %"$nodeInput_2097", [64 x i8]* %"$sha256hash_nodeInput_2096", align 1
   %"$$sha256hash_nodeInput_2096_2098" = bitcast [64 x i8]* %"$sha256hash_nodeInput_2096" to i8*
-  %"$sha256hash_call_2099" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_2095", %_TyDescrTy_Typ* @"$TyDescr_Bystr64_304", i8* %"$$sha256hash_nodeInput_2096_2098")
+  %"$sha256hash_call_2099" = call [32 x i8]* @_sha256hash(i8* %"$execptr_load_2095", %_TyDescrTy_Typ* @"$TyDescr_Bystr64_304", i8* %"$$sha256hash_nodeInput_2096_2098"), !dbg !32
   %"$sha256hash_2101" = load [32 x i8], [32 x i8]* %"$sha256hash_call_2099", align 1
   store [32 x i8] %"$sha256hash_2101", [32 x i8]* %"$retval_216", align 1, !dbg !32
   %"$$retval_216_2102" = load [32 x i8], [32 x i8]* %"$retval_216", align 1
@@ -1888,7 +1888,7 @@ entry:
   %"$bs_1613" = load [20 x i8], [20 x i8]* %bs, align 1
   store [20 x i8] %"$bs_1613", [20 x i8]* %"$eq_bs_1612", align 1
   %"$$eq_bs_1612_1614" = bitcast [20 x i8]* %"$eq_bs_1612" to i8*
-  %"$eq_call_1615" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_1609", i32 20, i8* %"$$eq_v_1610_1611", i8* %"$$eq_bs_1612_1614")
+  %"$eq_call_1615" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_1609", i32 20, i8* %"$$eq_v_1610_1611", i8* %"$$eq_bs_1612_1614"), !dbg !91
   store %TName_Bool* %"$eq_call_1615", %TName_Bool** %b, align 8, !dbg !91
   %"$gasrem_1617" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1618" = icmp ugt i64 1, %"$gasrem_1617"
@@ -2328,7 +2328,7 @@ entry:
   %"$eq_bs2_1397" = alloca [20 x i8], align 1
   store [20 x i8] %bs2, [20 x i8]* %"$eq_bs2_1397", align 1
   %"$$eq_bs2_1397_1398" = bitcast [20 x i8]* %"$eq_bs2_1397" to i8*
-  %"$eq_call_1399" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_1393", i32 20, i8* %"$$eq_bs1_1394_1396", i8* %"$$eq_bs2_1397_1398")
+  %"$eq_call_1399" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_1393", i32 20, i8* %"$$eq_bs1_1394_1396", i8* %"$$eq_bs2_1397_1398"), !dbg !112
   store %TName_Bool* %"$eq_call_1399", %TName_Bool** %"$retval_266", align 8, !dbg !112
   %"$$retval_266_1401" = load %TName_Bool*, %TName_Bool** %"$retval_266", align 8
   ret %TName_Bool* %"$$retval_266_1401"
@@ -4884,7 +4884,7 @@ entry:
   %"$$put_rootNode_2627_2629" = bitcast [32 x i8]* %"$put_rootNode_2627" to i8*
   %"$rootRecord_2630" = load %TName_ud-registry.Record*, %TName_ud-registry.Record** %rootRecord, align 8
   %"$$rootRecord_2630_2631" = bitcast %TName_ud-registry.Record* %"$rootRecord_2630" to i8*
-  %"$put_call_2632" = call i8* @_put(i8* %"$execptr_load_2624", %_TyDescrTy_Typ* @"$TyDescr_Map_322", i8* %"$$empty_2625_2626", i8* %"$$put_rootNode_2627_2629", i8* %"$$rootRecord_2630_2631")
+  %"$put_call_2632" = call i8* @_put(i8* %"$execptr_load_2624", %_TyDescrTy_Typ* @"$TyDescr_Map_322", i8* %"$$empty_2625_2626", i8* %"$$put_rootNode_2627_2629", i8* %"$$rootRecord_2630_2631"), !dbg !272
   %"$put_2633" = bitcast i8* %"$put_call_2632" to %Map_ByStr32_ud-registry.Record*
   store %Map_ByStr32_ud-registry.Record* %"$put_2633", %Map_ByStr32_ud-registry.Record** %"$records_269", align 8, !dbg !272
   %"$execptr_load_2634" = load i8*, i8** @_execptr, align 8
@@ -5545,7 +5545,7 @@ entry:
   %"$recordOwner_2976" = load [20 x i8], [20 x i8]* %recordOwner, align 1
   store [20 x i8] %"$recordOwner_2976", [20 x i8]* %"$eq_recordOwner_2975", align 1
   %"$$eq_recordOwner_2975_2977" = bitcast [20 x i8]* %"$eq_recordOwner_2975" to i8*
-  %"$eq_call_2978" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_2972", i32 20, i8* %"$$eq__sender_2973_2974", i8* %"$$eq_recordOwner_2975_2977")
+  %"$eq_call_2978" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_2972", i32 20, i8* %"$$eq__sender_2973_2974", i8* %"$$eq_recordOwner_2975_2977"), !dbg !306
   store %TName_Bool* %"$eq_call_2978", %TName_Bool** %isSenderNodeOwner, align 8, !dbg !306
   %"$gasrem_2980" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2981" = icmp ugt i64 2, %"$gasrem_2980"
@@ -5701,7 +5701,7 @@ entry:
   %"$eq_address_3055" = alloca [20 x i8], align 1
   store [20 x i8] %address, [20 x i8]* %"$eq_address_3055", align 1
   %"$$eq_address_3055_3056" = bitcast [20 x i8]* %"$eq_address_3055" to i8*
-  %"$eq_call_3057" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_3051", i32 20, i8* %"$$eq_currentlyApproved_3052_3054", i8* %"$$eq_address_3055_3056")
+  %"$eq_call_3057" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_3051", i32 20, i8* %"$$eq_currentlyApproved_3052_3054", i8* %"$$eq_address_3055_3056"), !dbg !317
   store %TName_Bool* %"$eq_call_3057", %TName_Bool** %b, align 8, !dbg !317
   %"$gasrem_3059" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3060" = icmp ugt i64 1, %"$gasrem_3059"
@@ -9253,7 +9253,7 @@ entry:
   %"$eq__sender_5005" = alloca [20 x i8], align 1
   store [20 x i8] %_sender, [20 x i8]* %"$eq__sender_5005", align 1
   %"$$eq__sender_5005_5006" = bitcast [20 x i8]* %"$eq__sender_5005" to i8*
-  %"$eq_call_5007" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_5001", i32 20, i8* %"$$eq_currentRegistrar_5002_5004", i8* %"$$eq__sender_5005_5006")
+  %"$eq_call_5007" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_5001", i32 20, i8* %"$$eq_currentRegistrar_5002_5004", i8* %"$$eq__sender_5005_5006"), !dbg !465
   store %TName_Bool* %"$eq_call_5007", %TName_Bool** %isSenderRegistrar, align 8, !dbg !465
   %"$gasrem_5009" = load i64, i64* @_gasrem, align 8
   %"$gascmp_5010" = icmp ugt i64 1, %"$gasrem_5009"
@@ -9349,7 +9349,7 @@ entry:
   %"$ud-registry.zeroByStr20_5057" = load [20 x i8], [20 x i8]* @ud-registry.zeroByStr20, align 1
   store [20 x i8] %"$ud-registry.zeroByStr20_5057", [20 x i8]* %"$eq_ud-registry.zeroByStr20_5056", align 1
   %"$$eq_ud-registry.zeroByStr20_5056_5058" = bitcast [20 x i8]* %"$eq_ud-registry.zeroByStr20_5056" to i8*
-  %"$eq_call_5059" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_5052", i32 20, i8* %"$$eq_recordOwner_5053_5055", i8* %"$$eq_ud-registry.zeroByStr20_5056_5058")
+  %"$eq_call_5059" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_5052", i32 20, i8* %"$$eq_recordOwner_5053_5055", i8* %"$$eq_ud-registry.zeroByStr20_5056_5058"), !dbg !468
   store %TName_Bool* %"$eq_call_5059", %TName_Bool** %recordIsUnowned, align 8, !dbg !468
   %"$gasrem_5061" = load i64, i64* @_gasrem, align 8
   %"$gascmp_5062" = icmp ugt i64 1, %"$gasrem_5061"
@@ -9372,7 +9372,7 @@ entry:
   %"$currentRegistrar_5071" = load [20 x i8], [20 x i8]* %currentRegistrar, align 1
   store [20 x i8] %"$currentRegistrar_5071", [20 x i8]* %"$eq_currentRegistrar_5070", align 1
   %"$$eq_currentRegistrar_5070_5072" = bitcast [20 x i8]* %"$eq_currentRegistrar_5070" to i8*
-  %"$eq_call_5073" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_5066", i32 20, i8* %"$$eq_recordOwner_5067_5069", i8* %"$$eq_currentRegistrar_5070_5072")
+  %"$eq_call_5073" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_5066", i32 20, i8* %"$$eq_recordOwner_5067_5069", i8* %"$$eq_currentRegistrar_5070_5072"), !dbg !469
   store %TName_Bool* %"$eq_call_5073", %TName_Bool** %recordIsOwnedByRegistrar, align 8, !dbg !469
   %"$gasrem_5075" = load i64, i64* @_gasrem, align 8
   %"$gascmp_5076" = icmp ugt i64 1, %"$gasrem_5075"
@@ -10265,7 +10265,7 @@ entry:
   %"$ud-registry.zeroByStr20_5544" = load [20 x i8], [20 x i8]* @ud-registry.zeroByStr20, align 1
   store [20 x i8] %"$ud-registry.zeroByStr20_5544", [20 x i8]* %"$eq_ud-registry.zeroByStr20_5543", align 1
   %"$$eq_ud-registry.zeroByStr20_5543_5545" = bitcast [20 x i8]* %"$eq_ud-registry.zeroByStr20_5543" to i8*
-  %"$eq_call_5546" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_5539", i32 20, i8* %"$$eq_recordOwner_5540_5542", i8* %"$$eq_ud-registry.zeroByStr20_5543_5545")
+  %"$eq_call_5546" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_5539", i32 20, i8* %"$$eq_recordOwner_5540_5542", i8* %"$$eq_ud-registry.zeroByStr20_5543_5545"), !dbg !514
   store %TName_Bool* %"$eq_call_5546", %TName_Bool** %isRecordUnowned, align 8, !dbg !514
   %"$gasrem_5548" = load i64, i64* @_gasrem, align 8
   %"$gascmp_5549" = icmp ugt i64 1, %"$gasrem_5548"
@@ -10288,7 +10288,7 @@ entry:
   %"$ud-registry.zeroByStr20_5558" = load [20 x i8], [20 x i8]* @ud-registry.zeroByStr20, align 1
   store [20 x i8] %"$ud-registry.zeroByStr20_5558", [20 x i8]* %"$eq_ud-registry.zeroByStr20_5557", align 1
   %"$$eq_ud-registry.zeroByStr20_5557_5559" = bitcast [20 x i8]* %"$eq_ud-registry.zeroByStr20_5557" to i8*
-  %"$eq_call_5560" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_5553", i32 20, i8* %"$$eq_approved_5554_5556", i8* %"$$eq_ud-registry.zeroByStr20_5557_5559")
+  %"$eq_call_5560" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_5553", i32 20, i8* %"$$eq_approved_5554_5556", i8* %"$$eq_ud-registry.zeroByStr20_5557_5559"), !dbg !515
   store %TName_Bool* %"$eq_call_5560", %TName_Bool** %isUnapproved, align 8, !dbg !515
   %"$gasrem_5562" = load i64, i64* @_gasrem, align 8
   %"$gascmp_5563" = icmp ugt i64 1, %"$gasrem_5562"
@@ -10637,7 +10637,7 @@ entry:
   %"$eq__sender_5760" = alloca [20 x i8], align 1
   store [20 x i8] %_sender, [20 x i8]* %"$eq__sender_5760", align 1
   %"$$eq__sender_5760_5761" = bitcast [20 x i8]* %"$eq__sender_5760" to i8*
-  %"$eq_call_5762" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_5756", i32 20, i8* %"$$eq_resolver_5757_5759", i8* %"$$eq__sender_5760_5761")
+  %"$eq_call_5762" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_5756", i32 20, i8* %"$$eq_resolver_5757_5759", i8* %"$$eq__sender_5760_5761"), !dbg !532
   store %TName_Bool* %"$eq_call_5762", %TName_Bool** %isOk, align 8, !dbg !532
   %"$gasrem_5764" = load i64, i64* @_gasrem, align 8
   %"$gascmp_5765" = icmp ugt i64 2, %"$gasrem_5764"

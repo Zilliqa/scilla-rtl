@@ -293,7 +293,7 @@ entry:
   %z = alloca %Int32, align 8
   %"$$x_0_149" = load %Int32, %Int32* %"$x_0", align 4
   %"$y_150" = load %Int32, %Int32* %y, align 4
-  %"$add_call_151" = call %Int32 @_add_Int32(%Int32 %"$$x_0_149", %Int32 %"$y_150")
+  %"$add_call_151" = call %Int32 @_add_Int32(%Int32 %"$$x_0_149", %Int32 %"$y_150"), !dbg !18
   store %Int32 %"$add_call_151", %Int32* %z, align 4, !dbg !18
   %"$gasrem_152" = load i64, i64* @_gasrem, align 8
   %"$gascmp_153" = icmp ugt i64 1, %"$gasrem_152"

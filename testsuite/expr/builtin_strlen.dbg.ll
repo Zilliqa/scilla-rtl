@@ -193,7 +193,7 @@ entry:
   %"$b1x_89" = load [2 x i8], [2 x i8]* %b1x, align 1
   store [2 x i8] %"$b1x_89", [2 x i8]* %"$to_bystr_b1x_88", align 1
   %"$$to_bystr_b1x_88_90" = bitcast [2 x i8]* %"$to_bystr_b1x_88" to i8*
-  %"$to_bystr_call_91" = call %Bystr @_to_bystr(i8* %"$execptr_load_87", i32 2, i8* %"$$to_bystr_b1x_88_90")
+  %"$to_bystr_call_91" = call %Bystr @_to_bystr(i8* %"$execptr_load_87", i32 2, i8* %"$$to_bystr_b1x_88_90"), !dbg !14
   store %Bystr %"$to_bystr_call_91", %Bystr* %b1, align 8, !dbg !14
   %"$gasrem_92" = load i64, i64* @_gasrem, align 8
   %"$gascmp_93" = icmp ugt i64 1, %"$gasrem_92"
@@ -212,7 +212,7 @@ entry:
   %"$b2x_99" = load [0 x i8], [0 x i8]* %b2x, align 1
   store [0 x i8] %"$b2x_99", [0 x i8]* %"$to_bystr_b2x_98", align 1
   %"$$to_bystr_b2x_98_100" = bitcast [0 x i8]* %"$to_bystr_b2x_98" to i8*
-  %"$to_bystr_call_101" = call %Bystr @_to_bystr(i8* %"$execptr_load_97", i32 0, i8* %"$$to_bystr_b2x_98_100")
+  %"$to_bystr_call_101" = call %Bystr @_to_bystr(i8* %"$execptr_load_97", i32 0, i8* %"$$to_bystr_b2x_98_100"), !dbg !15
   store %Bystr %"$to_bystr_call_101", %Bystr* %b2, align 8, !dbg !15
   %"$gasrem_102" = load i64, i64* @_gasrem, align 8
   %"$gascmp_103" = icmp ugt i64 1, %"$gasrem_102"
@@ -227,7 +227,7 @@ entry:
   store i64 %"$consume_106", i64* @_gasrem, align 8
   %n1 = alloca %Uint32, align 8
   %"$s1_107" = load %String, %String* %s1, align 8
-  %"$strlen_call_108" = call %Uint32 @_strlen_String(%String %"$s1_107")
+  %"$strlen_call_108" = call %Uint32 @_strlen_String(%String %"$s1_107"), !dbg !16
   store %Uint32 %"$strlen_call_108", %Uint32* %n1, align 4, !dbg !16
   %"$gasrem_109" = load i64, i64* @_gasrem, align 8
   %"$gascmp_110" = icmp ugt i64 1, %"$gasrem_109"
@@ -242,7 +242,7 @@ entry:
   store i64 %"$consume_113", i64* @_gasrem, align 8
   %n2 = alloca %Uint32, align 8
   %"$s2_114" = load %String, %String* %s2, align 8
-  %"$strlen_call_115" = call %Uint32 @_strlen_String(%String %"$s2_114")
+  %"$strlen_call_115" = call %Uint32 @_strlen_String(%String %"$s2_114"), !dbg !17
   store %Uint32 %"$strlen_call_115", %Uint32* %n2, align 4, !dbg !17
   %"$gasrem_116" = load i64, i64* @_gasrem, align 8
   %"$gascmp_117" = icmp ugt i64 1, %"$gasrem_116"
@@ -257,7 +257,7 @@ entry:
   store i64 %"$consume_120", i64* @_gasrem, align 8
   %n3 = alloca %Uint32, align 8
   %"$b1_121" = load %Bystr, %Bystr* %b1, align 8
-  %"$strlen_call_122" = call %Uint32 @_strlen_ByStr(%Bystr %"$b1_121")
+  %"$strlen_call_122" = call %Uint32 @_strlen_ByStr(%Bystr %"$b1_121"), !dbg !18
   store %Uint32 %"$strlen_call_122", %Uint32* %n3, align 4, !dbg !18
   %"$gasrem_123" = load i64, i64* @_gasrem, align 8
   %"$gascmp_124" = icmp ugt i64 1, %"$gasrem_123"
@@ -272,7 +272,7 @@ entry:
   store i64 %"$consume_127", i64* @_gasrem, align 8
   %n4 = alloca %Uint32, align 8
   %"$b2_128" = load %Bystr, %Bystr* %b2, align 8
-  %"$strlen_call_129" = call %Uint32 @_strlen_ByStr(%Bystr %"$b2_128")
+  %"$strlen_call_129" = call %Uint32 @_strlen_ByStr(%Bystr %"$b2_128"), !dbg !19
   store %Uint32 %"$strlen_call_129", %Uint32* %n4, align 4, !dbg !19
   %"$gasrem_130" = load i64, i64* @_gasrem, align 8
   %"$gascmp_131" = icmp ugt i64 1, %"$gasrem_130"
@@ -288,7 +288,7 @@ entry:
   %n5 = alloca %Uint32, align 8
   %"$n1_135" = load %Uint32, %Uint32* %n1, align 4
   %"$n2_136" = load %Uint32, %Uint32* %n2, align 4
-  %"$add_call_137" = call %Uint32 @_add_Uint32(%Uint32 %"$n1_135", %Uint32 %"$n2_136")
+  %"$add_call_137" = call %Uint32 @_add_Uint32(%Uint32 %"$n1_135", %Uint32 %"$n2_136"), !dbg !20
   store %Uint32 %"$add_call_137", %Uint32* %n5, align 4, !dbg !20
   %"$gasrem_138" = load i64, i64* @_gasrem, align 8
   %"$gascmp_139" = icmp ugt i64 1, %"$gasrem_138"
@@ -304,11 +304,11 @@ entry:
   %n6 = alloca %Uint32, align 8
   %"$n3_143" = load %Uint32, %Uint32* %n3, align 4
   %"$n4_144" = load %Uint32, %Uint32* %n4, align 4
-  %"$add_call_145" = call %Uint32 @_add_Uint32(%Uint32 %"$n3_143", %Uint32 %"$n4_144")
+  %"$add_call_145" = call %Uint32 @_add_Uint32(%Uint32 %"$n3_143", %Uint32 %"$n4_144"), !dbg !21
   store %Uint32 %"$add_call_145", %Uint32* %n6, align 4, !dbg !21
   %"$n5_146" = load %Uint32, %Uint32* %n5, align 4
   %"$n6_147" = load %Uint32, %Uint32* %n6, align 4
-  %"$add_call_148" = call %Uint32 @_add_Uint32(%Uint32 %"$n5_146", %Uint32 %"$n6_147")
+  %"$add_call_148" = call %Uint32 @_add_Uint32(%Uint32 %"$n5_146", %Uint32 %"$n6_147"), !dbg !22
   store %Uint32 %"$add_call_148", %Uint32* %"$expr_0", align 4, !dbg !22
   %"$$expr_0_149" = load %Uint32, %Uint32* %"$expr_0", align 4
   ret %Uint32 %"$$expr_0_149"

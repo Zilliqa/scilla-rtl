@@ -151,7 +151,7 @@ entry:
   %"$msg_bs_82" = load [32 x i8], [32 x i8]* %msg_bs, align 1
   store [32 x i8] %"$msg_bs_82", [32 x i8]* %"$to_bystr_msg_bs_81", align 1
   %"$$to_bystr_msg_bs_81_83" = bitcast [32 x i8]* %"$to_bystr_msg_bs_81" to i8*
-  %"$to_bystr_call_84" = call %Bystr @_to_bystr(i8* %"$execptr_load_80", i32 32, i8* %"$$to_bystr_msg_bs_81_83")
+  %"$to_bystr_call_84" = call %Bystr @_to_bystr(i8* %"$execptr_load_80", i32 32, i8* %"$$to_bystr_msg_bs_81_83"), !dbg !12
   store %Bystr %"$to_bystr_call_84", %Bystr* %msg, align 8, !dbg !12
   %"$gasrem_85" = load i64, i64* @_gasrem, align 8
   %"$gascmp_86" = icmp ugt i64 1, %"$gasrem_85"
@@ -185,7 +185,7 @@ entry:
   %"$schnorr_verify_sign_99" = alloca [64 x i8], align 1
   %"$sign_100" = load [64 x i8], [64 x i8]* %sign, align 1
   store [64 x i8] %"$sign_100", [64 x i8]* %"$schnorr_verify_sign_99", align 1
-  %"$schnorr_verify_call_101" = call %TName_Bool* @_schnorr_verify(i8* %"$execptr_load_95", [33 x i8]* %"$schnorr_verify_pk_96", %Bystr %"$msg_98", [64 x i8]* %"$schnorr_verify_sign_99")
+  %"$schnorr_verify_call_101" = call %TName_Bool* @_schnorr_verify(i8* %"$execptr_load_95", [33 x i8]* %"$schnorr_verify_pk_96", %Bystr %"$msg_98", [64 x i8]* %"$schnorr_verify_sign_99"), !dbg !14
   store %TName_Bool* %"$schnorr_verify_call_101", %TName_Bool** %"$expr_0", align 8, !dbg !14
   %"$$expr_0_103" = load %TName_Bool*, %TName_Bool** %"$expr_0", align 8
   ret %TName_Bool* %"$$expr_0_103"

@@ -615,13 +615,13 @@ entry:
   %"$execptr_load_357" = load i8*, i8** @_execptr, align 8
   %"$$a1_0_358" = load %Map_Uint32_Uint32*, %Map_Uint32_Uint32** %"$a1_0", align 8
   %"$$$a1_0_358_359" = bitcast %Map_Uint32_Uint32* %"$$a1_0_358" to i8*
-  %"$_i1_360" = alloca %Uint32, align 8
+  %"$remove_i1_360" = alloca %Uint32, align 8
   %"$i1_361" = load %Uint32, %Uint32* %i1, align 4
-  store %Uint32 %"$i1_361", %Uint32* %"$_i1_360", align 4
-  %"$$_i1_360_362" = bitcast %Uint32* %"$_i1_360" to i8*
-  %"$_call_363" = call i8* @_remove(i8* %"$execptr_load_357", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$$a1_0_358_359", i8* %"$$_i1_360_362")
-  %"$_364" = bitcast i8* %"$_call_363" to %Map_Uint32_Uint32*
-  store %Map_Uint32_Uint32* %"$_364", %Map_Uint32_Uint32** %a2, align 8
+  store %Uint32 %"$i1_361", %Uint32* %"$remove_i1_360", align 4
+  %"$$remove_i1_360_362" = bitcast %Uint32* %"$remove_i1_360" to i8*
+  %"$remove_call_363" = call i8* @_remove(i8* %"$execptr_load_357", %_TyDescrTy_Typ* @"$TyDescr_Map_47", i8* %"$$$a1_0_358_359", i8* %"$$remove_i1_360_362")
+  %"$remove_364" = bitcast i8* %"$remove_call_363" to %Map_Uint32_Uint32*
+  store %Map_Uint32_Uint32* %"$remove_364", %Map_Uint32_Uint32** %a2, align 8
   %"$gasrem_365" = load i64, i64* @_gasrem, align 8
   %"$gascmp_366" = icmp ugt i64 1, %"$gasrem_365"
   br i1 %"$gascmp_366", label %"$out_of_gas_367", label %"$have_gas_368"

@@ -138,7 +138,7 @@ entry:
   %"$x_68" = load %String, %String* %x, align 8
   %"$pos_69" = load %Uint32, %Uint32* %pos, align 4
   %"$len_70" = load %Uint32, %Uint32* %len, align 4
-  %"$substr_call_71" = call %String @_substr_String(i8* %"$execptr_load_67", %String %"$x_68", %Uint32 %"$pos_69", %Uint32 %"$len_70")
+  %"$substr_call_71" = call %String @_substr_String(i8* %"$execptr_load_67", %String %"$x_68", %Uint32 %"$pos_69", %Uint32 %"$len_70"), !dbg !13
   store %String %"$substr_call_71", %String* %"$expr_0", align 8, !dbg !13
   %"$$expr_0_72" = load %String, %String* %"$expr_0", align 8
   ret %String %"$$expr_0_72"

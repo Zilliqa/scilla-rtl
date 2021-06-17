@@ -115,7 +115,7 @@ entry:
   store %Int32 %"$simple-map.one_envload_60", %Int32* %simple-map.one, align 4
   %"$retval_2" = alloca %Int32, align 8
   %"$simple-map.one_61" = load %Int32, %Int32* %simple-map.one, align 4
-  %"$add_call_62" = call %Int32 @_add_Int32(%Int32 %1, %Int32 %"$simple-map.one_61")
+  %"$add_call_62" = call %Int32 @_add_Int32(%Int32 %1, %Int32 %"$simple-map.one_61"), !dbg !8
   store %Int32 %"$add_call_62", %Int32* %"$retval_2", align 4, !dbg !8
   %"$$retval_2_63" = load %Int32, %Int32* %"$retval_2", align 4
   ret %Int32 %"$$retval_2_63"
@@ -442,7 +442,7 @@ entry:
   store i64 %"$consume_221", i64* @_gasrem, align 8
   %j = alloca %Int32, align 8
   %"$i_222" = load %Int32, %Int32* %i, align 4
-  %"$add_call_223" = call %Int32 @_add_Int32(%Int32 %"$i_222", %Int32 %n)
+  %"$add_call_223" = call %Int32 @_add_Int32(%Int32 %"$i_222", %Int32 %n), !dbg !29
   store %Int32 %"$add_call_223", %Int32* %j, align 4, !dbg !29
   %"$_literal_cost_j_224" = alloca %Int32, align 8
   %"$j_225" = load %Int32, %Int32* %j, align 4

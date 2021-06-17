@@ -926,7 +926,7 @@ entry:
   %"$retval_50" = alloca %Uint32, align 8
   %"$z_594" = load %Uint32, %Uint32* %z, align 4
   %"$one_int_595" = load %Uint32, %Uint32* %one_int, align 4
-  %"$add_call_596" = call %Uint32 @_add_Uint32(%Uint32 %"$z_594", %Uint32 %"$one_int_595")
+  %"$add_call_596" = call %Uint32 @_add_Uint32(%Uint32 %"$z_594", %Uint32 %"$one_int_595"), !dbg !48
   store %Uint32 %"$add_call_596", %Uint32* %"$retval_50", align 4, !dbg !48
   %"$$retval_50_597" = load %Uint32, %Uint32* %"$retval_50", align 4
   ret %Uint32 %"$$retval_50_597"
@@ -2209,7 +2209,7 @@ entry:
   %m = alloca %TName_Nat*, align 8
   %"$execptr_load_1168" = load i8*, i8** @_execptr, align 8
   %"$uintM_1169" = load %Uint32, %Uint32* %uintM, align 4
-  %"$to_nat_call_1170" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1168", %Uint32 %"$uintM_1169")
+  %"$to_nat_call_1170" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1168", %Uint32 %"$uintM_1169"), !dbg !118
   store %TName_Nat* %"$to_nat_call_1170", %TName_Nat** %m, align 8, !dbg !118
   %"$gasrem_1172" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1173" = icmp ugt i64 1, %"$gasrem_1172"
@@ -2225,7 +2225,7 @@ entry:
   %n = alloca %TName_Nat*, align 8
   %"$execptr_load_1177" = load i8*, i8** @_execptr, align 8
   %"$uintN_1178" = load %Uint32, %Uint32* %uintN, align 4
-  %"$to_nat_call_1179" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1177", %Uint32 %"$uintN_1178")
+  %"$to_nat_call_1179" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_1177", %Uint32 %"$uintN_1178"), !dbg !119
   store %TName_Nat* %"$to_nat_call_1179", %TName_Nat** %n, align 8, !dbg !119
   %"$gasrem_1181" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1182" = icmp ugt i64 1, %"$gasrem_1181"
