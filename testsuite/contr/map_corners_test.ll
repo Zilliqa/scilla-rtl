@@ -564,8 +564,8 @@ entry:
   store i64 %"$consume_188", i64* @_gasrem, align 8
   %"$execptr_load_189" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_190" = call i8* @_new_empty_map(i8* %"$execptr_load_189")
-  %"$Emp_191" = bitcast i8* %"$_new_empty_map_call_190" to %Map_String_String*
-  store %Map_String_String* %"$Emp_191", %Map_String_String** %"$f_m1_27", align 8
+  %"$_new_empty_map_191" = bitcast i8* %"$_new_empty_map_call_190" to %Map_String_String*
+  store %Map_String_String* %"$_new_empty_map_191", %Map_String_String** %"$f_m1_27", align 8
   %"$execptr_load_192" = load i8*, i8** @_execptr, align 8
   %"$$f_m1_27_194" = load %Map_String_String*, %Map_String_String** %"$f_m1_27", align 8
   %"$update_value_195" = bitcast %Map_String_String* %"$$f_m1_27_194" to i8*
@@ -584,8 +584,8 @@ entry:
   store i64 %"$consume_200", i64* @_gasrem, align 8
   %"$execptr_load_201" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_202" = call i8* @_new_empty_map(i8* %"$execptr_load_201")
-  %"$Emp_203" = bitcast i8* %"$_new_empty_map_call_202" to %"Map_String_Map_(String)_(String)"*
-  store %"Map_String_Map_(String)_(String)"* %"$Emp_203", %"Map_String_Map_(String)_(String)"** %"$f_m2_28", align 8
+  %"$_new_empty_map_203" = bitcast i8* %"$_new_empty_map_call_202" to %"Map_String_Map_(String)_(String)"*
+  store %"Map_String_Map_(String)_(String)"* %"$_new_empty_map_203", %"Map_String_Map_(String)_(String)"** %"$f_m2_28", align 8
   %"$execptr_load_204" = load i8*, i8** @_execptr, align 8
   %"$$f_m2_28_206" = load %"Map_String_Map_(String)_(String)"*, %"Map_String_Map_(String)_(String)"** %"$f_m2_28", align 8
   %"$update_value_207" = bitcast %"Map_String_Map_(String)_(String)"* %"$$f_m2_28_206" to i8*
@@ -604,8 +604,8 @@ entry:
   store i64 %"$consume_212", i64* @_gasrem, align 8
   %"$execptr_load_213" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_214" = call i8* @_new_empty_map(i8* %"$execptr_load_213")
-  %"$Emp_215" = bitcast i8* %"$_new_empty_map_call_214" to %"Map_String_Map_(String)_(Map_(String)_(String))"*
-  store %"Map_String_Map_(String)_(Map_(String)_(String))"* %"$Emp_215", %"Map_String_Map_(String)_(Map_(String)_(String))"** %"$f_m3_29", align 8
+  %"$_new_empty_map_215" = bitcast i8* %"$_new_empty_map_call_214" to %"Map_String_Map_(String)_(Map_(String)_(String))"*
+  store %"Map_String_Map_(String)_(Map_(String)_(String))"* %"$_new_empty_map_215", %"Map_String_Map_(String)_(Map_(String)_(String))"** %"$f_m3_29", align 8
   %"$execptr_load_216" = load i8*, i8** @_execptr, align 8
   %"$$f_m3_29_218" = load %"Map_String_Map_(String)_(Map_(String)_(String))"*, %"Map_String_Map_(String)_(Map_(String)_(String))"** %"$f_m3_29", align 8
   %"$update_value_219" = bitcast %"Map_String_Map_(String)_(Map_(String)_(String))"* %"$$f_m3_29_218" to i8*
@@ -624,8 +624,8 @@ entry:
   store i64 %"$consume_224", i64* @_gasrem, align 8
   %"$execptr_load_225" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_226" = call i8* @_new_empty_map(i8* %"$execptr_load_225")
-  %"$Emp_227" = bitcast i8* %"$_new_empty_map_call_226" to %"Map_String_Map_(String)_(String)"*
-  store %"Map_String_Map_(String)_(String)"* %"$Emp_227", %"Map_String_Map_(String)_(String)"** %"$f_m_30", align 8
+  %"$_new_empty_map_227" = bitcast i8* %"$_new_empty_map_call_226" to %"Map_String_Map_(String)_(String)"*
+  store %"Map_String_Map_(String)_(String)"* %"$_new_empty_map_227", %"Map_String_Map_(String)_(String)"** %"$f_m_30", align 8
   %"$execptr_load_228" = load i8*, i8** @_execptr, align 8
   %"$$f_m_30_230" = load %"Map_String_Map_(String)_(String)"*, %"Map_String_Map_(String)_(String)"** %"$f_m_30", align 8
   %"$update_value_231" = bitcast %"Map_String_Map_(String)_(String)"* %"$$f_m_30_230" to i8*
@@ -2209,8 +2209,8 @@ entry:
   store i64 %"$consume_1012", i64* @_gasrem, align 8
   %"$execptr_load_1013" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_1014" = call i8* @_new_empty_map(i8* %"$execptr_load_1013")
-  %"$Emp_1015" = bitcast i8* %"$_new_empty_map_call_1014" to %Map_String_String*
-  store %Map_String_String* %"$Emp_1015", %Map_String_String** %e, align 8
+  %"$_new_empty_map_1015" = bitcast i8* %"$_new_empty_map_call_1014" to %Map_String_String*
+  store %Map_String_String* %"$_new_empty_map_1015", %Map_String_String** %e, align 8
   %"$gasrem_1016" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1017" = icmp ugt i64 1, %"$gasrem_1016"
   br i1 %"$gascmp_1017", label %"$out_of_gas_1018", label %"$have_gas_1019"
@@ -2283,8 +2283,8 @@ entry:
   store %String %"$s1_1050", %String* %"$put_s1_1049", align 8
   %"$$put_s1_1049_1051" = bitcast %String* %"$put_s1_1049" to i8*
   %"$put_call_1052" = call i8* @_put(i8* %"$execptr_load_1043", %_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$e_1044_1045", i8* %"$$put_key2b_1046_1048", i8* %"$$put_s1_1049_1051")
-  %"$_put_1053" = bitcast i8* %"$put_call_1052" to %Map_String_String*
-  store %Map_String_String* %"$_put_1053", %Map_String_String** %m1, align 8
+  %"$put_1053" = bitcast i8* %"$put_call_1052" to %Map_String_String*
+  store %Map_String_String* %"$put_1053", %Map_String_String** %m1, align 8
   %"$gasrem_1054" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1055" = icmp ugt i64 1, %"$gasrem_1054"
   br i1 %"$gascmp_1055", label %"$out_of_gas_1056", label %"$have_gas_1057"
@@ -2345,8 +2345,8 @@ entry:
   store %String %"$s2_1083", %String* %"$put_s2_1082", align 8
   %"$$put_s2_1082_1084" = bitcast %String* %"$put_s2_1082" to i8*
   %"$put_call_1085" = call i8* @_put(i8* %"$execptr_load_1076", %_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$m1_1077_1078", i8* %"$$put_key2c_1079_1081", i8* %"$$put_s2_1082_1084")
-  %"$_put_1086" = bitcast i8* %"$put_call_1085" to %Map_String_String*
-  store %Map_String_String* %"$_put_1086", %Map_String_String** %l_m2, align 8
+  %"$put_1086" = bitcast i8* %"$put_call_1085" to %Map_String_String*
+  store %Map_String_String* %"$put_1086", %Map_String_String** %l_m2, align 8
   %"$gasrem_1087" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1088" = icmp ugt i64 1, %"$gasrem_1087"
   br i1 %"$gascmp_1088", label %"$out_of_gas_1089", label %"$have_gas_1090"
@@ -4763,8 +4763,8 @@ entry:
   store i64 %"$consume_2253", i64* @_gasrem, align 8
   %"$execptr_load_2254" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_2255" = call i8* @_new_empty_map(i8* %"$execptr_load_2254")
-  %"$Emp_2256" = bitcast i8* %"$_new_empty_map_call_2255" to %Map_String_String*
-  store %Map_String_String* %"$Emp_2256", %Map_String_String** %em, align 8
+  %"$_new_empty_map_2256" = bitcast i8* %"$_new_empty_map_call_2255" to %Map_String_String*
+  store %Map_String_String* %"$_new_empty_map_2256", %Map_String_String** %em, align 8
   %"$em_2257" = load %Map_String_String*, %Map_String_String** %em, align 8
   %"$$em_2257_2258" = bitcast %Map_String_String* %"$em_2257" to i8*
   %"$_literal_cost_call_2259" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$em_2257_2258")
@@ -5027,8 +5027,8 @@ entry:
   store %String %"$val_2389", %String* %"$put_val_2388", align 8
   %"$$put_val_2388_2390" = bitcast %String* %"$put_val_2388" to i8*
   %"$put_call_2391" = call i8* @_put(i8* %"$execptr_load_2382", %_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$m1_2383_2384", i8* %"$$put_key1a_2385_2387", i8* %"$$put_val_2388_2390")
-  %"$_put_2392" = bitcast i8* %"$put_call_2391" to %Map_String_String*
-  store %Map_String_String* %"$_put_2392", %Map_String_String** %"$m1_10", align 8
+  %"$put_2392" = bitcast i8* %"$put_call_2391" to %Map_String_String*
+  store %Map_String_String* %"$put_2392", %Map_String_String** %"$m1_10", align 8
   %"$$m1_10_2393" = load %Map_String_String*, %Map_String_String** %"$m1_10", align 8
   %"$$$m1_10_2393_2394" = bitcast %Map_String_String* %"$$m1_10_2393" to i8*
   %"$_literal_cost_call_2395" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$$m1_10_2393_2394")
@@ -5164,8 +5164,8 @@ entry:
   store %String %"$key1a_2462", %String* %"$get_key1a_2461", align 8
   %"$$get_key1a_2461_2463" = bitcast %String* %"$get_key1a_2461" to i8*
   %"$get_call_2464" = call i8* @_get(i8* %"$execptr_load_2458", %_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$m1_2459_2460", i8* %"$$get_key1a_2461_2463")
-  %"$_get_2465" = bitcast i8* %"$get_call_2464" to %TName_Option_String*
-  store %TName_Option_String* %"$_get_2465", %TName_Option_String** %c1, align 8
+  %"$get_2465" = bitcast i8* %"$get_call_2464" to %TName_Option_String*
+  store %TName_Option_String* %"$get_2465", %TName_Option_String** %c1, align 8
   %"$gasrem_2466" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2467" = icmp ugt i64 2, %"$gasrem_2466"
   br i1 %"$gascmp_2467", label %"$out_of_gas_2468", label %"$have_gas_2469"
@@ -5577,8 +5577,8 @@ entry:
   store i64 %"$consume_2661", i64* @_gasrem, align 8
   %"$execptr_load_2662" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_2663" = call i8* @_new_empty_map(i8* %"$execptr_load_2662")
-  %"$Emp_2664" = bitcast i8* %"$_new_empty_map_call_2663" to %"Map_String_Map_(String)_(String)"*
-  store %"Map_String_Map_(String)_(String)"* %"$Emp_2664", %"Map_String_Map_(String)_(String)"** %e2, align 8
+  %"$_new_empty_map_2664" = bitcast i8* %"$_new_empty_map_call_2663" to %"Map_String_Map_(String)_(String)"*
+  store %"Map_String_Map_(String)_(String)"* %"$_new_empty_map_2664", %"Map_String_Map_(String)_(String)"** %e2, align 8
   %"$e2_2665" = load %"Map_String_Map_(String)_(String)"*, %"Map_String_Map_(String)_(String)"** %e2, align 8
   %"$$e2_2665_2666" = bitcast %"Map_String_Map_(String)_(String)"* %"$e2_2665" to i8*
   %"$_literal_cost_call_2667" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_71", i8* %"$$e2_2665_2666")
@@ -5794,8 +5794,8 @@ entry:
   store i64 %"$consume_2772", i64* @_gasrem, align 8
   %"$execptr_load_2773" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_2774" = call i8* @_new_empty_map(i8* %"$execptr_load_2773")
-  %"$Emp_2775" = bitcast i8* %"$_new_empty_map_call_2774" to %Map_String_String*
-  store %Map_String_String* %"$Emp_2775", %Map_String_String** %e1, align 8
+  %"$_new_empty_map_2775" = bitcast i8* %"$_new_empty_map_call_2774" to %Map_String_String*
+  store %Map_String_String* %"$_new_empty_map_2775", %Map_String_String** %e1, align 8
   %"$gasrem_2776" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2777" = icmp ugt i64 1, %"$gasrem_2776"
   br i1 %"$gascmp_2777", label %"$out_of_gas_2778", label %"$have_gas_2779"
@@ -6151,8 +6151,8 @@ entry:
   store i64 %"$consume_2946", i64* @_gasrem, align 8
   %"$execptr_load_2947" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_2948" = call i8* @_new_empty_map(i8* %"$execptr_load_2947")
-  %"$Emp_2949" = bitcast i8* %"$_new_empty_map_call_2948" to %Map_String_String*
-  store %Map_String_String* %"$Emp_2949", %Map_String_String** %m3, align 8
+  %"$_new_empty_map_2949" = bitcast i8* %"$_new_empty_map_call_2948" to %Map_String_String*
+  store %Map_String_String* %"$_new_empty_map_2949", %Map_String_String** %m3, align 8
   %"$gasrem_2950" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2951" = icmp ugt i64 1, %"$gasrem_2950"
   br i1 %"$gascmp_2951", label %"$out_of_gas_2952", label %"$have_gas_2953"
@@ -6214,8 +6214,8 @@ entry:
   store i64 %"$consume_2975", i64* @_gasrem, align 8
   %"$execptr_load_2976" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_2977" = call i8* @_new_empty_map(i8* %"$execptr_load_2976")
-  %"$Emp_2978" = bitcast i8* %"$_new_empty_map_call_2977" to %"Map_String_Map_(String)_(String)"*
-  store %"Map_String_Map_(String)_(String)"* %"$Emp_2978", %"Map_String_Map_(String)_(String)"** %e, align 8
+  %"$_new_empty_map_2978" = bitcast i8* %"$_new_empty_map_call_2977" to %"Map_String_Map_(String)_(String)"*
+  store %"Map_String_Map_(String)_(String)"* %"$_new_empty_map_2978", %"Map_String_Map_(String)_(String)"** %e, align 8
   %"$execptr_load_2979" = load i8*, i8** @_execptr, align 8
   %"$e_2980" = load %"Map_String_Map_(String)_(String)"*, %"Map_String_Map_(String)_(String)"** %e, align 8
   %"$$e_2980_2981" = bitcast %"Map_String_Map_(String)_(String)"* %"$e_2980" to i8*
@@ -6226,8 +6226,8 @@ entry:
   %"$m3_2985" = load %Map_String_String*, %Map_String_String** %m3, align 8
   %"$$m3_2985_2986" = bitcast %Map_String_String* %"$m3_2985" to i8*
   %"$put_call_2987" = call i8* @_put(i8* %"$execptr_load_2979", %_TyDescrTy_Typ* @"$TyDescr_Map_71", i8* %"$$e_2980_2981", i8* %"$$put_key2a_2982_2984", i8* %"$$m3_2985_2986")
-  %"$_put_2988" = bitcast i8* %"$put_call_2987" to %"Map_String_Map_(String)_(String)"*
-  store %"Map_String_Map_(String)_(String)"* %"$_put_2988", %"Map_String_Map_(String)_(String)"** %m2, align 8
+  %"$put_2988" = bitcast i8* %"$put_call_2987" to %"Map_String_Map_(String)_(String)"*
+  store %"Map_String_Map_(String)_(String)"* %"$put_2988", %"Map_String_Map_(String)_(String)"** %m2, align 8
   %"$gasrem_2989" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2990" = icmp ugt i64 1, %"$gasrem_2989"
   br i1 %"$gascmp_2990", label %"$out_of_gas_2991", label %"$have_gas_2992"
@@ -6265,8 +6265,8 @@ entry:
   store i64 %"$consume_3003", i64* @_gasrem, align 8
   %"$execptr_load_3004" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_3005" = call i8* @_new_empty_map(i8* %"$execptr_load_3004")
-  %"$Emp_3006" = bitcast i8* %"$_new_empty_map_call_3005" to %"Map_String_Map_(String)_(Map_(String)_(String))"*
-  store %"Map_String_Map_(String)_(Map_(String)_(String))"* %"$Emp_3006", %"Map_String_Map_(String)_(Map_(String)_(String))"** %e1, align 8
+  %"$_new_empty_map_3006" = bitcast i8* %"$_new_empty_map_call_3005" to %"Map_String_Map_(String)_(Map_(String)_(String))"*
+  store %"Map_String_Map_(String)_(Map_(String)_(String))"* %"$_new_empty_map_3006", %"Map_String_Map_(String)_(Map_(String)_(String))"** %e1, align 8
   %"$execptr_load_3007" = load i8*, i8** @_execptr, align 8
   %"$e_3008" = load %"Map_String_Map_(String)_(Map_(String)_(String))"*, %"Map_String_Map_(String)_(Map_(String)_(String))"** %e1, align 8
   %"$$e_3008_3009" = bitcast %"Map_String_Map_(String)_(Map_(String)_(String))"* %"$e_3008" to i8*
@@ -6277,8 +6277,8 @@ entry:
   %"$m2_3013" = load %"Map_String_Map_(String)_(String)"*, %"Map_String_Map_(String)_(String)"** %m2, align 8
   %"$$m2_3013_3014" = bitcast %"Map_String_Map_(String)_(String)"* %"$m2_3013" to i8*
   %"$put_call_3015" = call i8* @_put(i8* %"$execptr_load_3007", %_TyDescrTy_Typ* @"$TyDescr_Map_70", i8* %"$$e_3008_3009", i8* %"$$put_key1a_3010_3012", i8* %"$$m2_3013_3014")
-  %"$_put_3016" = bitcast i8* %"$put_call_3015" to %"Map_String_Map_(String)_(Map_(String)_(String))"*
-  store %"Map_String_Map_(String)_(Map_(String)_(String))"* %"$_put_3016", %"Map_String_Map_(String)_(Map_(String)_(String))"** %"$m3_11", align 8
+  %"$put_3016" = bitcast i8* %"$put_call_3015" to %"Map_String_Map_(String)_(Map_(String)_(String))"*
+  store %"Map_String_Map_(String)_(Map_(String)_(String))"* %"$put_3016", %"Map_String_Map_(String)_(Map_(String)_(String))"** %"$m3_11", align 8
   %"$$m3_11_3017" = load %"Map_String_Map_(String)_(Map_(String)_(String))"*, %"Map_String_Map_(String)_(Map_(String)_(String))"** %"$m3_11", align 8
   %"$$$m3_11_3017_3018" = bitcast %"Map_String_Map_(String)_(Map_(String)_(String))"* %"$$m3_11_3017" to i8*
   %"$_literal_cost_call_3019" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_70", i8* %"$$$m3_11_3017_3018")
@@ -6494,8 +6494,8 @@ entry:
   store i64 %"$consume_3124", i64* @_gasrem, align 8
   %"$execptr_load_3125" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_3126" = call i8* @_new_empty_map(i8* %"$execptr_load_3125")
-  %"$Emp_3127" = bitcast i8* %"$_new_empty_map_call_3126" to %"Map_String_Map_(String)_(String)"*
-  store %"Map_String_Map_(String)_(String)"* %"$Emp_3127", %"Map_String_Map_(String)_(String)"** %e, align 8
+  %"$_new_empty_map_3127" = bitcast i8* %"$_new_empty_map_call_3126" to %"Map_String_Map_(String)_(String)"*
+  store %"Map_String_Map_(String)_(String)"* %"$_new_empty_map_3127", %"Map_String_Map_(String)_(String)"** %e, align 8
   %"$e_3128" = load %"Map_String_Map_(String)_(String)"*, %"Map_String_Map_(String)_(String)"** %e, align 8
   %"$$e_3128_3129" = bitcast %"Map_String_Map_(String)_(String)"* %"$e_3128" to i8*
   %"$_literal_cost_call_3130" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_71", i8* %"$$e_3128_3129")
@@ -6779,8 +6779,8 @@ entry:
   store %String %"$key1a_3269", %String* %"$get_key1a_3268", align 8
   %"$$get_key1a_3268_3270" = bitcast %String* %"$get_key1a_3268" to i8*
   %"$get_call_3271" = call i8* @_get(i8* %"$execptr_load_3265", %_TyDescrTy_Typ* @"$TyDescr_Map_70", i8* %"$$m3_3266_3267", i8* %"$$get_key1a_3268_3270")
-  %"$_get_3272" = bitcast i8* %"$get_call_3271" to %"TName_Option_Map_(String)_(Map_(String)_(String))"*
-  store %"TName_Option_Map_(String)_(Map_(String)_(String))"* %"$_get_3272", %"TName_Option_Map_(String)_(Map_(String)_(String))"** %m2o, align 8
+  %"$get_3272" = bitcast i8* %"$get_call_3271" to %"TName_Option_Map_(String)_(Map_(String)_(String))"*
+  store %"TName_Option_Map_(String)_(Map_(String)_(String))"* %"$get_3272", %"TName_Option_Map_(String)_(Map_(String)_(String))"** %m2o, align 8
   %"$gasrem_3273" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3274" = icmp ugt i64 2, %"$gasrem_3273"
   br i1 %"$gascmp_3274", label %"$out_of_gas_3275", label %"$have_gas_3276"
@@ -6880,8 +6880,8 @@ entry:
   store %String %"$key2a_3325", %String* %"$get_key2a_3324", align 8
   %"$$get_key2a_3324_3326" = bitcast %String* %"$get_key2a_3324" to i8*
   %"$get_call_3327" = call i8* @_get(i8* %"$execptr_load_3321", %_TyDescrTy_Typ* @"$TyDescr_Map_71", i8* %"$$m2_3322_3323", i8* %"$$get_key2a_3324_3326")
-  %"$_get_3328" = bitcast i8* %"$get_call_3327" to %"TName_Option_Map_(String)_(String)"*
-  store %"TName_Option_Map_(String)_(String)"* %"$_get_3328", %"TName_Option_Map_(String)_(String)"** %m1o, align 8
+  %"$get_3328" = bitcast i8* %"$get_call_3327" to %"TName_Option_Map_(String)_(String)"*
+  store %"TName_Option_Map_(String)_(String)"* %"$get_3328", %"TName_Option_Map_(String)_(String)"** %m1o, align 8
   %"$gasrem_3329" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3330" = icmp ugt i64 2, %"$gasrem_3329"
   br i1 %"$gascmp_3330", label %"$out_of_gas_3331", label %"$have_gas_3332"
@@ -7458,8 +7458,8 @@ entry:
   store i64 %"$consume_3589", i64* @_gasrem, align 8
   %"$execptr_load_3590" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_3591" = call i8* @_new_empty_map(i8* %"$execptr_load_3590")
-  %"$Emp_3592" = bitcast i8* %"$_new_empty_map_call_3591" to %"Map_String_Map_(String)_(String)"*
-  store %"Map_String_Map_(String)_(String)"* %"$Emp_3592", %"Map_String_Map_(String)_(String)"** %m25, align 8
+  %"$_new_empty_map_3592" = bitcast i8* %"$_new_empty_map_call_3591" to %"Map_String_Map_(String)_(String)"*
+  store %"Map_String_Map_(String)_(String)"* %"$_new_empty_map_3592", %"Map_String_Map_(String)_(String)"** %m25, align 8
   %"$gasrem_3593" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3594" = icmp ugt i64 1, %"$gasrem_3593"
   br i1 %"$gascmp_3594", label %"$out_of_gas_3595", label %"$have_gas_3596"
@@ -7485,8 +7485,8 @@ entry:
   store i64 %"$consume_3602", i64* @_gasrem, align 8
   %"$execptr_load_3603" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_3604" = call i8* @_new_empty_map(i8* %"$execptr_load_3603")
-  %"$Emp_3605" = bitcast i8* %"$_new_empty_map_call_3604" to %Map_String_String*
-  store %Map_String_String* %"$Emp_3605", %Map_String_String** %m16, align 8
+  %"$_new_empty_map_3605" = bitcast i8* %"$_new_empty_map_call_3604" to %Map_String_String*
+  store %Map_String_String* %"$_new_empty_map_3605", %Map_String_String** %m16, align 8
   %"$gasrem_3606" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3607" = icmp ugt i64 1, %"$gasrem_3606"
   br i1 %"$gascmp_3607", label %"$out_of_gas_3608", label %"$have_gas_3609"
@@ -7523,8 +7523,8 @@ entry:
   store %String %"$v1_3623", %String* %"$put_v1_3622", align 8
   %"$$put_v1_3622_3624" = bitcast %String* %"$put_v1_3622" to i8*
   %"$put_call_3625" = call i8* @_put(i8* %"$execptr_load_3616", %_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$m1_3617_3618", i8* %"$$put_key2a_3619_3621", i8* %"$$put_v1_3622_3624")
-  %"$_put_3626" = bitcast i8* %"$put_call_3625" to %Map_String_String*
-  store %Map_String_String* %"$_put_3626", %Map_String_String** %m21, align 8
+  %"$put_3626" = bitcast i8* %"$put_call_3625" to %Map_String_String*
+  store %Map_String_String* %"$put_3626", %Map_String_String** %m21, align 8
   %"$gasrem_3627" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3628" = icmp ugt i64 1, %"$gasrem_3627"
   br i1 %"$gascmp_3628", label %"$out_of_gas_3629", label %"$have_gas_3630"
@@ -7549,8 +7549,8 @@ entry:
   store %String %"$v2_3639", %String* %"$put_v2_3638", align 8
   %"$$put_v2_3638_3640" = bitcast %String* %"$put_v2_3638" to i8*
   %"$put_call_3641" = call i8* @_put(i8* %"$execptr_load_3632", %_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$m1_3633_3634", i8* %"$$put_key2b_3635_3637", i8* %"$$put_v2_3638_3640")
-  %"$_put_3642" = bitcast i8* %"$put_call_3641" to %Map_String_String*
-  store %Map_String_String* %"$_put_3642", %Map_String_String** %m22, align 8
+  %"$put_3642" = bitcast i8* %"$put_call_3641" to %Map_String_String*
+  store %Map_String_String* %"$put_3642", %Map_String_String** %m22, align 8
   %"$gasrem_3643" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3644" = icmp ugt i64 1, %"$gasrem_3643"
   br i1 %"$gascmp_3644", label %"$out_of_gas_3645", label %"$have_gas_3646"
@@ -7575,8 +7575,8 @@ entry:
   store %String %"$v3_3655", %String* %"$put_v3_3654", align 8
   %"$$put_v3_3654_3656" = bitcast %String* %"$put_v3_3654" to i8*
   %"$put_call_3657" = call i8* @_put(i8* %"$execptr_load_3648", %_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$m1_3649_3650", i8* %"$$put_key2c_3651_3653", i8* %"$$put_v3_3654_3656")
-  %"$_put_3658" = bitcast i8* %"$put_call_3657" to %Map_String_String*
-  store %Map_String_String* %"$_put_3658", %Map_String_String** %m23, align 8
+  %"$put_3658" = bitcast i8* %"$put_call_3657" to %Map_String_String*
+  store %Map_String_String* %"$put_3658", %Map_String_String** %m23, align 8
   %"$gasrem_3659" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3660" = icmp ugt i64 1, %"$gasrem_3659"
   br i1 %"$gascmp_3660", label %"$out_of_gas_3661", label %"$have_gas_3662"
@@ -7601,8 +7601,8 @@ entry:
   store %String %"$v4_3671", %String* %"$put_v4_3670", align 8
   %"$$put_v4_3670_3672" = bitcast %String* %"$put_v4_3670" to i8*
   %"$put_call_3673" = call i8* @_put(i8* %"$execptr_load_3664", %_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$m1_3665_3666", i8* %"$$put_key2d_3667_3669", i8* %"$$put_v4_3670_3672")
-  %"$_put_3674" = bitcast i8* %"$put_call_3673" to %Map_String_String*
-  store %Map_String_String* %"$_put_3674", %Map_String_String** %m24, align 8
+  %"$put_3674" = bitcast i8* %"$put_call_3673" to %Map_String_String*
+  store %Map_String_String* %"$put_3674", %Map_String_String** %m24, align 8
   %"$gasrem_3675" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3676" = icmp ugt i64 1, %"$gasrem_3675"
   br i1 %"$gascmp_3676", label %"$out_of_gas_3677", label %"$have_gas_3678"
@@ -7625,8 +7625,8 @@ entry:
   %"$m21_3686" = load %Map_String_String*, %Map_String_String** %m21, align 8
   %"$$m21_3686_3687" = bitcast %Map_String_String* %"$m21_3686" to i8*
   %"$put_call_3688" = call i8* @_put(i8* %"$execptr_load_3680", %_TyDescrTy_Typ* @"$TyDescr_Map_71", i8* %"$$m2_3681_3682", i8* %"$$put_key1a_3683_3685", i8* %"$$m21_3686_3687")
-  %"$_put_3689" = bitcast i8* %"$put_call_3688" to %"Map_String_Map_(String)_(String)"*
-  store %"Map_String_Map_(String)_(String)"* %"$_put_3689", %"Map_String_Map_(String)_(String)"** %m11, align 8
+  %"$put_3689" = bitcast i8* %"$put_call_3688" to %"Map_String_Map_(String)_(String)"*
+  store %"Map_String_Map_(String)_(String)"* %"$put_3689", %"Map_String_Map_(String)_(String)"** %m11, align 8
   %"$gasrem_3690" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3691" = icmp ugt i64 1, %"$gasrem_3690"
   br i1 %"$gascmp_3691", label %"$out_of_gas_3692", label %"$have_gas_3693"
@@ -7649,8 +7649,8 @@ entry:
   %"$m22_3701" = load %Map_String_String*, %Map_String_String** %m22, align 8
   %"$$m22_3701_3702" = bitcast %Map_String_String* %"$m22_3701" to i8*
   %"$put_call_3703" = call i8* @_put(i8* %"$execptr_load_3695", %_TyDescrTy_Typ* @"$TyDescr_Map_71", i8* %"$$m11_3696_3697", i8* %"$$put_key1b_3698_3700", i8* %"$$m22_3701_3702")
-  %"$_put_3704" = bitcast i8* %"$put_call_3703" to %"Map_String_Map_(String)_(String)"*
-  store %"Map_String_Map_(String)_(String)"* %"$_put_3704", %"Map_String_Map_(String)_(String)"** %m12, align 8
+  %"$put_3704" = bitcast i8* %"$put_call_3703" to %"Map_String_Map_(String)_(String)"*
+  store %"Map_String_Map_(String)_(String)"* %"$put_3704", %"Map_String_Map_(String)_(String)"** %m12, align 8
   %"$gasrem_3705" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3706" = icmp ugt i64 1, %"$gasrem_3705"
   br i1 %"$gascmp_3706", label %"$out_of_gas_3707", label %"$have_gas_3708"
@@ -7673,8 +7673,8 @@ entry:
   %"$m23_3716" = load %Map_String_String*, %Map_String_String** %m23, align 8
   %"$$m23_3716_3717" = bitcast %Map_String_String* %"$m23_3716" to i8*
   %"$put_call_3718" = call i8* @_put(i8* %"$execptr_load_3710", %_TyDescrTy_Typ* @"$TyDescr_Map_71", i8* %"$$m12_3711_3712", i8* %"$$put_key1c_3713_3715", i8* %"$$m23_3716_3717")
-  %"$_put_3719" = bitcast i8* %"$put_call_3718" to %"Map_String_Map_(String)_(String)"*
-  store %"Map_String_Map_(String)_(String)"* %"$_put_3719", %"Map_String_Map_(String)_(String)"** %m13, align 8
+  %"$put_3719" = bitcast i8* %"$put_call_3718" to %"Map_String_Map_(String)_(String)"*
+  store %"Map_String_Map_(String)_(String)"* %"$put_3719", %"Map_String_Map_(String)_(String)"** %m13, align 8
   %"$gasrem_3720" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3721" = icmp ugt i64 1, %"$gasrem_3720"
   br i1 %"$gascmp_3721", label %"$out_of_gas_3722", label %"$have_gas_3723"
@@ -7697,8 +7697,8 @@ entry:
   %"$m24_3731" = load %Map_String_String*, %Map_String_String** %m24, align 8
   %"$$m24_3731_3732" = bitcast %Map_String_String* %"$m24_3731" to i8*
   %"$put_call_3733" = call i8* @_put(i8* %"$execptr_load_3725", %_TyDescrTy_Typ* @"$TyDescr_Map_71", i8* %"$$m13_3726_3727", i8* %"$$put_key1d_3728_3730", i8* %"$$m24_3731_3732")
-  %"$_put_3734" = bitcast i8* %"$put_call_3733" to %"Map_String_Map_(String)_(String)"*
-  store %"Map_String_Map_(String)_(String)"* %"$_put_3734", %"Map_String_Map_(String)_(String)"** %m14, align 8
+  %"$put_3734" = bitcast i8* %"$put_call_3733" to %"Map_String_Map_(String)_(String)"*
+  store %"Map_String_Map_(String)_(String)"* %"$put_3734", %"Map_String_Map_(String)_(String)"** %m14, align 8
   %"$gasrem_3735" = load i64, i64* @_gasrem, align 8
   %"$gascmp_3736" = icmp ugt i64 1, %"$gasrem_3735"
   br i1 %"$gascmp_3736", label %"$out_of_gas_3737", label %"$have_gas_3738"
@@ -8724,8 +8724,8 @@ entry:
   store i64 %"$consume_4235", i64* @_gasrem, align 8
   %"$execptr_load_4236" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_4237" = call i8* @_new_empty_map(i8* %"$execptr_load_4236")
-  %"$Emp_4238" = bitcast i8* %"$_new_empty_map_call_4237" to %Map_String_String*
-  store %Map_String_String* %"$Emp_4238", %Map_String_String** %e, align 8
+  %"$_new_empty_map_4238" = bitcast i8* %"$_new_empty_map_call_4237" to %Map_String_String*
+  store %Map_String_String* %"$_new_empty_map_4238", %Map_String_String** %e, align 8
   %"$execptr_load_4239" = load i8*, i8** @_execptr, align 8
   %"$e_4240" = load %Map_String_String*, %Map_String_String** %e, align 8
   %"$$e_4240_4241" = bitcast %Map_String_String* %"$e_4240" to i8*
@@ -8738,8 +8738,8 @@ entry:
   store %String %"$v_4246", %String* %"$put_v_4245", align 8
   %"$$put_v_4245_4247" = bitcast %String* %"$put_v_4245" to i8*
   %"$put_call_4248" = call i8* @_put(i8* %"$execptr_load_4239", %_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$e_4240_4241", i8* %"$$put_k_4242_4244", i8* %"$$put_v_4245_4247")
-  %"$_put_4249" = bitcast i8* %"$put_call_4248" to %Map_String_String*
-  store %Map_String_String* %"$_put_4249", %Map_String_String** %m1, align 8
+  %"$put_4249" = bitcast i8* %"$put_call_4248" to %Map_String_String*
+  store %Map_String_String* %"$put_4249", %Map_String_String** %m1, align 8
   %"$m1_4250" = load %Map_String_String*, %Map_String_String** %m1, align 8
   %"$$m1_4250_4251" = bitcast %Map_String_String* %"$m1_4250" to i8*
   %"$_literal_cost_call_4252" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$m1_4250_4251")

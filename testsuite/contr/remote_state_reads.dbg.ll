@@ -616,8 +616,8 @@ entry:
   store i64 %"$consume_355", i64* @_gasrem, align 8
   %"$execptr_load_356" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_357" = call i8* @_new_empty_map(i8* %"$execptr_load_356")
-  %"$Emp_358" = bitcast i8* %"$_new_empty_map_call_357" to %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"*
-  store %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"* %"$Emp_358", %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"** %"$assign_test_10_9", align 8, !dbg !19
+  %"$_new_empty_map_358" = bitcast i8* %"$_new_empty_map_call_357" to %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"*
+  store %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"* %"$_new_empty_map_358", %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"** %"$assign_test_10_9", align 8, !dbg !19
   %"$execptr_load_359" = load i8*, i8** @_execptr, align 8
   %"$$assign_test_10_9_361" = load %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"*, %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"** %"$assign_test_10_9", align 8
   %"$update_value_362" = bitcast %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"* %"$$assign_test_10_9_361" to i8*
@@ -751,8 +751,8 @@ entry:
   store i64 %"$consume_428", i64* @_gasrem, align 8
   %"$execptr_load_429" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_430" = call i8* @_new_empty_map(i8* %"$execptr_load_429")
-  %"$Emp_431" = bitcast i8* %"$_new_empty_map_call_430" to %Map_ByStr20_with_end_Bool*
-  store %Map_ByStr20_with_end_Bool* %"$Emp_431", %Map_ByStr20_with_end_Bool** %"$remote_reads_test_res_3_6_16", align 8, !dbg !26
+  %"$_new_empty_map_431" = bitcast i8* %"$_new_empty_map_call_430" to %Map_ByStr20_with_end_Bool*
+  store %Map_ByStr20_with_end_Bool* %"$_new_empty_map_431", %Map_ByStr20_with_end_Bool** %"$remote_reads_test_res_3_6_16", align 8, !dbg !26
   %"$execptr_load_432" = load i8*, i8** @_execptr, align 8
   %"$$remote_reads_test_res_3_6_16_434" = load %Map_ByStr20_with_end_Bool*, %Map_ByStr20_with_end_Bool** %"$remote_reads_test_res_3_6_16", align 8
   %"$update_value_435" = bitcast %Map_ByStr20_with_end_Bool* %"$$remote_reads_test_res_3_6_16_434" to i8*
@@ -850,8 +850,8 @@ entry:
   store i64 %"$consume_479", i64* @_gasrem, align 8
   %"$execptr_load_480" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_481" = call i8* @_new_empty_map(i8* %"$execptr_load_480")
-  %"$Emp_482" = bitcast i8* %"$_new_empty_map_call_481" to %"Map_Uint32_Map_(ByStr20_with_end)_(Bool)"*
-  store %"Map_Uint32_Map_(ByStr20_with_end)_(Bool)"* %"$Emp_482", %"Map_Uint32_Map_(ByStr20_with_end)_(Bool)"** %"$remote_reads_test_res_3_9_19", align 8, !dbg !30
+  %"$_new_empty_map_482" = bitcast i8* %"$_new_empty_map_call_481" to %"Map_Uint32_Map_(ByStr20_with_end)_(Bool)"*
+  store %"Map_Uint32_Map_(ByStr20_with_end)_(Bool)"* %"$_new_empty_map_482", %"Map_Uint32_Map_(ByStr20_with_end)_(Bool)"** %"$remote_reads_test_res_3_9_19", align 8, !dbg !30
   %"$execptr_load_483" = load i8*, i8** @_execptr, align 8
   %"$$remote_reads_test_res_3_9_19_485" = load %"Map_Uint32_Map_(ByStr20_with_end)_(Bool)"*, %"Map_Uint32_Map_(ByStr20_with_end)_(Bool)"** %"$remote_reads_test_res_3_9_19", align 8
   %"$update_value_486" = bitcast %"Map_Uint32_Map_(ByStr20_with_end)_(Bool)"* %"$$remote_reads_test_res_3_9_19_485" to i8*
@@ -2343,8 +2343,8 @@ entry:
   store i64 %"$consume_1338", i64* @_gasrem, align 8
   %"$execptr_load_1339" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_1340" = call i8* @_new_empty_map(i8* %"$execptr_load_1339")
-  %"$Emp_1341" = bitcast i8* %"$_new_empty_map_call_1340" to %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"*
-  store %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"* %"$Emp_1341", %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"** %n1, align 8, !dbg !95
+  %"$_new_empty_map_1341" = bitcast i8* %"$_new_empty_map_call_1340" to %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"*
+  store %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"* %"$_new_empty_map_1341", %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"** %n1, align 8, !dbg !95
   %"$gasrem_1342" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1343" = icmp ugt i64 1, %"$gasrem_1342"
   br i1 %"$gascmp_1343", label %"$out_of_gas_1344", label %"$have_gas_1345"
@@ -2370,8 +2370,8 @@ entry:
   store i64 %"$consume_1351", i64* @_gasrem, align 8
   %"$execptr_load_1352" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_1353" = call i8* @_new_empty_map(i8* %"$execptr_load_1352")
-  %"$Emp_1354" = bitcast i8* %"$_new_empty_map_call_1353" to %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT*
-  store %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT* %"$Emp_1354", %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT** %sub_n, align 8, !dbg !96
+  %"$_new_empty_map_1354" = bitcast i8* %"$_new_empty_map_call_1353" to %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT*
+  store %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT* %"$_new_empty_map_1354", %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT** %sub_n, align 8, !dbg !96
   %"$gasrem_1355" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1356" = icmp ugt i64 1, %"$gasrem_1355"
   br i1 %"$gascmp_1356", label %"$out_of_gas_1357", label %"$have_gas_1358"
@@ -2418,8 +2418,8 @@ entry:
   %"$x_1376" = load %TName_0x3620c286757a29985cee194eb90064270fb65414.AddressADT*, %TName_0x3620c286757a29985cee194eb90064270fb65414.AddressADT** %x, align 8
   %"$$x_1376_1377" = bitcast %TName_0x3620c286757a29985cee194eb90064270fb65414.AddressADT* %"$x_1376" to i8*
   %"$put_call_1378" = call i8* @_put(i8* %"$execptr_load_1370", %_TyDescrTy_Typ* @"$TyDescr_Map_72", i8* %"$$sub_n_1371_1372", i8* %"$$put_sub_k_1373_1375", i8* %"$$x_1376_1377")
-  %"$_put_1379" = bitcast i8* %"$put_call_1378" to %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT*
-  store %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT* %"$_put_1379", %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT** %sub_res, align 8, !dbg !98
+  %"$put_1379" = bitcast i8* %"$put_call_1378" to %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT*
+  store %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT* %"$put_1379", %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT** %sub_res, align 8, !dbg !98
   %"$execptr_load_1380" = load i8*, i8** @_execptr, align 8
   %"$n_1381" = load %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"*, %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"** %n1, align 8
   %"$$n_1381_1382" = bitcast %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"* %"$n_1381" to i8*
@@ -2430,8 +2430,8 @@ entry:
   %"$sub_res_1386" = load %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT*, %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT** %sub_res, align 8
   %"$$sub_res_1386_1387" = bitcast %Map_Uint128_0x3620c286757a29985cee194eb90064270fb65414.AddressADT* %"$sub_res_1386" to i8*
   %"$put_call_1388" = call i8* @_put(i8* %"$execptr_load_1380", %_TyDescrTy_Typ* @"$TyDescr_Map_73", i8* %"$$n_1381_1382", i8* %"$$put_sub_k_1383_1385", i8* %"$$sub_res_1386_1387")
-  %"$_put_1389" = bitcast i8* %"$put_call_1388" to %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"*
-  store %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"* %"$_put_1389", %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"** %z, align 8, !dbg !99
+  %"$put_1389" = bitcast i8* %"$put_call_1388" to %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"*
+  store %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"* %"$put_1389", %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"** %z, align 8, !dbg !99
   %"$z_1390" = load %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"*, %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"** %z, align 8
   %"$$z_1390_1391" = bitcast %"Map_Uint128_Map_(Uint128)_(0x3620c286757a29985cee194eb90064270fb65414.AddressADT)"* %"$z_1390" to i8*
   %"$_literal_cost_call_1392" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_73", i8* %"$$z_1390_1391")

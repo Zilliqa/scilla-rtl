@@ -4837,8 +4837,8 @@ entry:
   store i64 %"$consume_2597", i64* @_gasrem, align 8
   %"$execptr_load_2598" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_2599" = call i8* @_new_empty_map(i8* %"$execptr_load_2598")
-  %"$Emp_2600" = bitcast i8* %"$_new_empty_map_call_2599" to %Map_ByStr32_ud-registry.Record*
-  store %Map_ByStr32_ud-registry.Record* %"$Emp_2600", %Map_ByStr32_ud-registry.Record** %empty, align 8
+  %"$_new_empty_map_2600" = bitcast i8* %"$_new_empty_map_call_2599" to %Map_ByStr32_ud-registry.Record*
+  store %Map_ByStr32_ud-registry.Record* %"$_new_empty_map_2600", %Map_ByStr32_ud-registry.Record** %empty, align 8
   %"$gasrem_2601" = load i64, i64* @_gasrem, align 8
   %"$gascmp_2602" = icmp ugt i64 1, %"$gasrem_2601"
   br i1 %"$gascmp_2602", label %"$out_of_gas_2603", label %"$have_gas_2604"
@@ -4885,8 +4885,8 @@ entry:
   %"$rootRecord_2624" = load %TName_ud-registry.Record*, %TName_ud-registry.Record** %rootRecord, align 8
   %"$$rootRecord_2624_2625" = bitcast %TName_ud-registry.Record* %"$rootRecord_2624" to i8*
   %"$put_call_2626" = call i8* @_put(i8* %"$execptr_load_2618", %_TyDescrTy_Typ* @"$TyDescr_Map_322", i8* %"$$empty_2619_2620", i8* %"$$put_rootNode_2621_2623", i8* %"$$rootRecord_2624_2625")
-  %"$_put_2627" = bitcast i8* %"$put_call_2626" to %Map_ByStr32_ud-registry.Record*
-  store %Map_ByStr32_ud-registry.Record* %"$_put_2627", %Map_ByStr32_ud-registry.Record** %"$records_269", align 8
+  %"$put_2627" = bitcast i8* %"$put_call_2626" to %Map_ByStr32_ud-registry.Record*
+  store %Map_ByStr32_ud-registry.Record* %"$put_2627", %Map_ByStr32_ud-registry.Record** %"$records_269", align 8
   %"$execptr_load_2628" = load i8*, i8** @_execptr, align 8
   %"$$records_269_2630" = load %Map_ByStr32_ud-registry.Record*, %Map_ByStr32_ud-registry.Record** %"$records_269", align 8
   %"$update_value_2631" = bitcast %Map_ByStr32_ud-registry.Record* %"$$records_269_2630" to i8*
@@ -4925,8 +4925,8 @@ entry:
   store i64 %"$consume_2647", i64* @_gasrem, align 8
   %"$execptr_load_2648" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_2649" = call i8* @_new_empty_map(i8* %"$execptr_load_2648")
-  %"$Emp_2650" = bitcast i8* %"$_new_empty_map_call_2649" to %Map_ByStr32_ByStr20*
-  store %Map_ByStr32_ByStr20* %"$Emp_2650", %Map_ByStr32_ByStr20** %"$approvals_271", align 8
+  %"$_new_empty_map_2650" = bitcast i8* %"$_new_empty_map_call_2649" to %Map_ByStr32_ByStr20*
+  store %Map_ByStr32_ByStr20* %"$_new_empty_map_2650", %Map_ByStr32_ByStr20** %"$approvals_271", align 8
   %"$execptr_load_2651" = load i8*, i8** @_execptr, align 8
   %"$$approvals_271_2653" = load %Map_ByStr32_ByStr20*, %Map_ByStr32_ByStr20** %"$approvals_271", align 8
   %"$update_value_2654" = bitcast %Map_ByStr32_ByStr20* %"$$approvals_271_2653" to i8*
@@ -4945,8 +4945,8 @@ entry:
   store i64 %"$consume_2659", i64* @_gasrem, align 8
   %"$execptr_load_2660" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_2661" = call i8* @_new_empty_map(i8* %"$execptr_load_2660")
-  %"$Emp_2662" = bitcast i8* %"$_new_empty_map_call_2661" to %"Map_ByStr20_List_(ByStr20)"*
-  store %"Map_ByStr20_List_(ByStr20)"* %"$Emp_2662", %"Map_ByStr20_List_(ByStr20)"** %"$operators_272", align 8
+  %"$_new_empty_map_2662" = bitcast i8* %"$_new_empty_map_call_2661" to %"Map_ByStr20_List_(ByStr20)"*
+  store %"Map_ByStr20_List_(ByStr20)"* %"$_new_empty_map_2662", %"Map_ByStr20_List_(ByStr20)"** %"$operators_272", align 8
   %"$execptr_load_2663" = load i8*, i8** @_execptr, align 8
   %"$$operators_272_2665" = load %"Map_ByStr20_List_(ByStr20)"*, %"Map_ByStr20_List_(ByStr20)"** %"$operators_272", align 8
   %"$update_value_2666" = bitcast %"Map_ByStr20_List_(ByStr20)"* %"$$operators_272_2665" to i8*
