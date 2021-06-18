@@ -33,7 +33,6 @@ namespace ScillaRTL {
 class TransitionState {
   SafeUint128 Balance;
   SafeUint128 InAmount;
-  uint64_t *GasRemPtr;
   bool Accepted;
   // Contains the output messages of executing a transition.
   Json::Value OutJ;
@@ -41,17 +40,16 @@ class TransitionState {
   void processMessage(std::string OutType, Json::Value &M);
 
 public:
-  TransitionState(std::string Balance_P, std::string InAmount_P,
-                  uint64_t *GasRemPtr_P)
-      : Balance(Balance_P), InAmount(InAmount_P), GasRemPtr(GasRemPtr_P),
-        Accepted(false), OutJ(Json::objectValue){};
+  TransitionState(std::string Balance_P, std::string InAmount_P)
+      : Balance(Balance_P), InAmount(InAmount_P), Accepted(false),
+        OutJ(Json::objectValue){};
 
   void processSend(Json::Value &M);
   void processEvent(Json::Value &M);
   void processAccept();
 
   // Returns the output of the transition execution. Destroys *this*.
-  Json::Value finalize();
+  Json::Value finalize(uint64_t GasRem);
 };
 
 } // end of namespace ScillaRTL

@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <boost/predef.h>
 #include <boost/multiprecision/gmp.hpp>
+#include <boost/predef.h>
 
 #include "ScillaRTL/Errors.h"
 #include "ScillaRTL/Utils.h"
@@ -199,7 +199,7 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
         auto SP = reinterpret_cast<const ScillaTypes::String *>(V);
         Out += rawToHex(SP->m_buffer, SP->m_length);
       } break;
-      case ScillaTypes::PrimTyp::Bnum_typ:{
+      case ScillaTypes::PrimTyp::Bnum_typ: {
         auto IP = reinterpret_cast<const bmp::gmp_int *>(V);
         try {
           Out += IP->str(std::streamsize(), std::ios_base::fmtflags());

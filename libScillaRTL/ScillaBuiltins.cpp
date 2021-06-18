@@ -62,7 +62,7 @@ void TransitionState::processAccept(void) {
   }
 }
 
-Json::Value TransitionState::finalize(void) {
+Json::Value TransitionState::finalize(uint64_t GasRem) {
   // 1. Process all outgoing "_amount"s and subtract from Balance.
   Json::Value &Ms = OutJ["messages"];
   if (Ms.isArray()) {
@@ -85,7 +85,7 @@ Json::Value TransitionState::finalize(void) {
     Es = Json::arrayValue;
 
   // 3. Fill in other fields.
-  OutJ["gas_remaining"] = std::to_string(*GasRemPtr);
+  OutJ["gas_remaining"] = std::to_string(GasRem);
   OutJ["_accepted"] = Accepted ? "true" : "false";
   OutJ["scilla_major_version"] = "0";
 
