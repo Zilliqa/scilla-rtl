@@ -181,6 +181,8 @@ BOOST_AUTO_TEST_CASE(builtin_ecdsa_recover) {
 }
 BOOST_AUTO_TEST_CASE(builtin_to_string) { testExecExpr("builtin_to_string"); }
 BOOST_AUTO_TEST_CASE(builtin_to_ascii) { testExecExpr("builtin_to_ascii"); }
+BOOST_AUTO_TEST_CASE(builtin_lt) { testExecExpr("builtin_lt"); }
+BOOST_AUTO_TEST_CASE(lit_bnum) { testExecExpr("lit-bnum"); }
 
 BOOST_AUTO_TEST_SUITE_END()
 

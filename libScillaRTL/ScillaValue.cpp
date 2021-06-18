@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <boost/predef.h>
 #include <boost/multiprecision/gmp.hpp>
+#include <boost/predef.h>
 
 #include "ScillaRTL/Errors.h"
 #include "ScillaRTL/Utils.h"
@@ -199,7 +199,7 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
         auto SP = reinterpret_cast<const ScillaTypes::String *>(V);
         Out += rawToHex(SP->m_buffer, SP->m_length);
       } break;
-      case ScillaTypes::PrimTyp::Bnum_typ:{
+      case ScillaTypes::PrimTyp::Bnum_typ: {
         auto IP = reinterpret_cast<const bmp::gmp_int *>(V);
         try {
           Out += IP->str(std::streamsize(), std::ios_base::fmtflags());
@@ -539,7 +539,16 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
       ASSERT(NBytes == MemSize);
       return Mem;
     }
-    case ScillaTypes::PrimTyp::Bnum_typ:
+    case ScillaTypes::PrimTyp::Bnum_typ: {
+      ASSERT_MSG(!Mem && MemSize == 0,
+                 "BNums shouldn't have memory pre-allocated");
+      if (!J.isString()) {
+        CREATE_ERROR("BNum JSON must be a string");
+      }
+      auto *M = OM.create<bmp::gmp_int>();
+      *M = J.asString().c_str();
+      return M;
+    } break;
     case ScillaTypes::PrimTyp::Msg_typ:
     case ScillaTypes::PrimTyp::Event_typ:
     case ScillaTypes::PrimTyp::Exception_typ: {
@@ -702,7 +711,10 @@ void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
       auto X = T->m_sub.m_primt->m_detail.m_bystX;
       Ret.insert(Ret.end(), V, V + X);
     } break;
-    case ScillaTypes::PrimTyp::Bnum_typ:
+    case ScillaTypes::PrimTyp::Bnum_typ: {
+      auto VS = toString(false, T, V);
+      Ret.insert(Ret.end(), VS.begin(), VS.end());
+    } break;
     case ScillaTypes::PrimTyp::Msg_typ:
     case ScillaTypes::PrimTyp::Event_typ:
     case ScillaTypes::PrimTyp::Exception_typ: {
