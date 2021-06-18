@@ -40,13 +40,15 @@ class TransitionState {
   void processMessage(std::string OutType, Json::Value &M);
 
 public:
-  TransitionState(std::string Balance_P, std::string InAmount_P)
+  TransitionState(std::string Balance_P, std::string InAmount_P,
+                  uint64_t CurBlock_P)
       : Balance(Balance_P), InAmount(InAmount_P), Accepted(false),
-        OutJ(Json::objectValue){};
+        OutJ(Json::objectValue), CurBlock(CurBlock_P){};
 
   void processSend(Json::Value &M);
   void processEvent(Json::Value &M);
   void processAccept();
+  const uint64_t CurBlock;
 
   // Returns the output of the transition execution. Destroys *this*.
   Json::Value finalize(uint64_t GasRem);
@@ -295,6 +297,9 @@ void _accept(ScillaRTL::ScillaExecImpl *SJ);
 
 void *_new_bnum(ScillaRTL::ScillaExecImpl *SJ,
                 ScillaRTL::ScillaTypes::String Val);
+
+void *_read_blockchain(ScillaRTL::ScillaExecImpl *SJ,
+                       ScillaRTL::ScillaTypes::String VName);
 
 ScillaRTL::ScillaParams::MapValueT *
 _new_empty_map(ScillaRTL::ScillaExecImpl *SJ);

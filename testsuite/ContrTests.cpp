@@ -42,6 +42,7 @@ struct ContractTest {
     std::string StateFilename;
     std::string ExpectedStateFilename;
     std::string ExpectedOutputFilename;
+    std::string BCFilename;
   };
   std::string ContrFilename;
   std::vector<Input> Inputs;
@@ -93,14 +94,17 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       }
       BOOST_TEST_MESSAGE("Testing " + CT.ContrFilename + " with input " +
                          Input.ID);
-      Json::Value MessageJSON, InitJSON;
+      Json::Value MessageJSON, InitJSON, BCJ;
       std::string Balance = "0";
 
       // Prepare all inputs.
       InitJSON = parseJSONFile(PathPrefix + Input.InitFilename);
+      BCJ = parseJSONFile(PathPrefix + Input.BCFilename);
+      uint64_t CurBlock = parseBlockchainJSON(BCJ);
       if (!Input.MessageFilename.empty()) {
         MessageJSON = parseJSONFile(PathPrefix + Input.MessageFilename);
       }
+
       // If there's a contract-info JSON, it'll give us field names and types.
       if (!Input.ContrInfoFilename.empty()) {
         auto ContrInfoJSON =
@@ -117,9 +121,10 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       {
         ScopeTimer ExecMsgTimer(CT.ContrFilename + ": ScillaExec::execMsg");
         if (Input.MessageFilename.empty()) {
-          OJ = JE->deploy(InitJSON, Config::GasLimit);
+          OJ = JE->deploy(InitJSON, Config::GasLimit, CurBlock);
         } else {
-          OJ = JE->execMsg(Balance, Config::GasLimit, InitJSON, MessageJSON);
+          OJ = JE->execMsg(Balance, Config::GasLimit, CurBlock, InitJSON,
+                           MessageJSON);
         }
       }
 
@@ -184,7 +189,8 @@ void testMessageFail(const std::string &ContrFilename,
                      const std::string &InitFilename,
                      const std::string &ContrInfoFilename,
                      const std::string &StateFilename,
-                     const std::string &ExpectedOutputFilename) {
+                     const std::string &ExpectedOutputFilename,
+                     const std::string &BCFilename) {
   MemStateServer State;
   namespace ph = std::placeholders;
   ScillaParams::FetchState_Type fetchStateValue = std::bind(
@@ -200,11 +206,12 @@ void testMessageFail(const std::string &ContrFilename,
   // Tool to compile the LLVM-IR to a binary shared object.
   CompileToSO CSO(PathPrefix + ContrFilename);
 
-  Json::Value MessageJSON, InitJSON;
+  Json::Value MessageJSON, InitJSON, BCJ;
   std::string Balance = "0";
   try {
     // Prepare all inputs.
     InitJSON = parseJSONFile(PathPrefix + InitFilename);
+    BCJ = parseJSONFile(PathPrefix + BCFilename);
     if (!MessageFilename.empty()) {
       MessageJSON = parseJSONFile(PathPrefix + MessageFilename);
     }
@@ -225,6 +232,8 @@ void testMessageFail(const std::string &ContrFilename,
   std::unique_ptr<ScillaRTL::ScillaContrExec> JE;
   bool CaughtException = false;
   try {
+
+    uint64_t CurBlock = parseBlockchainJSON(BCJ);
     // Create a JIT engine
     {
       ScopeTimer CreateTimer(ContrFilename + ": ScillaExec::create");
@@ -233,9 +242,9 @@ void testMessageFail(const std::string &ContrFilename,
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaExec::execMsg");
       if (MessageFilename.empty()) {
-        JE->deploy(InitJSON, Config::GasLimit);
+        JE->deploy(InitJSON, Config::GasLimit, CurBlock);
       } else {
-        JE->execMsg(Balance, Config::GasLimit, InitJSON, MessageJSON);
+        JE->execMsg(Balance, Config::GasLimit, CurBlock, InitJSON, MessageJSON);
       }
     }
   } catch (const ScillaError &E) {
@@ -259,23 +268,24 @@ BOOST_AUTO_TEST_SUITE(simple_map)
 ContractTest SimpleMapTests = {
     "simple-map.ll",
     {{"state_init", "", "empty_init.json", "simple-map.contrinfo.json", "",
-      "simple-map.state_00.json", "simple-map.init_output.json"},
+      "simple-map.state_00.json", "simple-map.init_output.json",
+      "blockchain_default.json"},
      {"state_00_message_Increment", "simple-map.message_Increment.json",
       "empty_init.json", "simple-map.contrinfo.json",
       "simple-map.state_00.json", "simple-map.state_02.json",
-      "simple-map.output_00_0.json"},
+      "simple-map.output_00_0.json", "blockchain_default.json"},
      {"state_01_message_Increment", "simple-map.message_Increment.json",
       "empty_init.json", "simple-map.contrinfo.json",
       "simple-map.state_01.json", "simple-map.state_03.json",
-      "simple-map.output_01_0.json"},
+      "simple-map.output_01_0.json", "blockchain_default.json"},
      {"state_00_message_IncrementN_1", "simple-map.message_IncrementN_1.json",
       "empty_init.json", "simple-map.contrinfo.json",
       "simple-map.state_00.json", "simple-map.state_04.json",
-      "simple-map.output_00_1.json"},
+      "simple-map.output_00_1.json", "blockchain_default.json"},
      {"state_01_message_IncrementN_1", "simple-map.message_IncrementN_1.json",
       "empty_init.json", "simple-map.contrinfo.json",
       "simple-map.state_01.json", "simple-map.state_05.json",
-      "simple-map.output_01_1.json"}}};
+      "simple-map.output_01_1.json", "blockchain_default.json"}}};
 
 BOOST_AUTO_TEST_CASE(unique_jits) {
   testMessages(SimpleMapTests, false /* CommonJIT */);
@@ -286,9 +296,9 @@ BOOST_AUTO_TEST_CASE(common_jit) {
 }
 
 BOOST_AUTO_TEST_CASE(state_00_message_badinit_fail) {
-  testMessageFail("simple-map.ll", "", "bad_init.json",
-                  "simple-map.contrinfo.json", "",
-                  "simple-map.init_output_fail.json");
+  testMessageFail(
+      "simple-map.ll", "", "bad_init.json", "simple-map.contrinfo.json", "",
+      "simple-map.init_output_fail.json", "blockchain_default.json");
 }
 
 BOOST_AUTO_TEST_SUITE_END() // simple_map
@@ -299,7 +309,7 @@ ContractTest EventTests = {
     "event.ll",
     {{"state_message_CreateEvent", "event.message.json", "empty_init.json",
       "event.contrinfo.json", "event.state.json", "event.state.json",
-      "event.output.json"}}};
+      "event.output.json", "blockchain_default.json"}}};
 
 BOOST_AUTO_TEST_CASE(unique_jits) {
   testMessages(EventTests, false /* CommonJIT */);
@@ -317,10 +327,10 @@ ContractTest SendTests = {
     "send.ll",
     {{"state_message_SendMsg", "send.message_SendMsg.json", "empty_init.json",
       "send.contrinfo.json", "send.state_00.json", "send.state_00.json",
-      "send.output_SendMsg.json"},
+      "send.output_SendMsg.json", "blockchain_default.json"},
      {"state_message_SendMsg2", "send.message_SendMsg2.json", "empty_init.json",
       "send.contrinfo.json", "send.state_01.json", "send.state_00.json",
-      "send.output_SendMsg2.json"}}};
+      "send.output_SendMsg2.json", "blockchain_default.json"}}};
 
 BOOST_AUTO_TEST_CASE(unique_jits) {
   testMessages(SendTests, false /* CommonJIT */);
@@ -337,12 +347,12 @@ BOOST_AUTO_TEST_SUITE(sthrow)
 BOOST_AUTO_TEST_CASE(state_message_ThrowObj) {
   testMessageFail("throw.ll", "throw.message_ThrowObj.json", "empty_init.json",
                   "throw.contrinfo.json", "throw.state.json",
-                  "throw.output_ThrowObj.txt");
+                  "throw.output_ThrowObj.txt", "blockchain_default.json");
 }
 BOOST_AUTO_TEST_CASE(state_message_ThrowEmpty) {
   testMessageFail("throw.ll", "throw.message_ThrowEmpty.json",
                   "empty_init.json", "throw.contrinfo.json", "throw.state.json",
-                  "throw.output_ThrowEmpty.txt");
+                  "throw.output_ThrowEmpty.txt", "blockchain_default.json");
 }
 BOOST_AUTO_TEST_SUITE_END() // throw
 
@@ -352,31 +362,32 @@ ContractTest HelloWorldTests = {
     "helloWorld.ll",
     {{"helloWorld_state_init", "", "helloWorld.init.json",
       "helloWorld.contrinfo.json", "", "helloWorld.state_00.json",
-      "helloWorld.init_output.json"},
+      "helloWorld.init_output.json", "blockchain_default.json"},
      {"state_00_message_setHello_1", "helloWorld.message_setHello_1.json",
       "helloWorld.init.json", "helloWorld.contrinfo.json",
       "helloWorld.state_00.json", "helloWorld.state_01.json",
-      "helloWorld.output_setHello_1.json"},
+      "helloWorld.output_setHello_1.json", "blockchain_default.json"},
      {"state_00_message_setHello_2", "helloWorld.message_setHello_2.json",
       "helloWorld.init.json", "helloWorld.contrinfo.json",
       "helloWorld.state_00.json", "helloWorld.state_00.json",
-      "helloWorld.output_setHello_2.json"},
+      "helloWorld.output_setHello_2.json", "blockchain_default.json"},
      {"state_00_message_getHello", "helloWorld.message_getHello.json",
       "helloWorld.init.json", "helloWorld.contrinfo.json",
       "helloWorld.state_01.json", "helloWorld.state_01.json",
-      "helloWorld.output_getHello.json"},
+      "helloWorld.output_getHello.json", "blockchain_default.json"},
      {"state_00_message_multipleMsgs", "helloWorld.message_multipleMsgs.json",
       "helloWorld.init.json", "helloWorld.contrinfo.json",
       "helloWorld.state_01.json", "helloWorld.state_01.json",
-      "helloWorld.output_multipleMsgs.json"},
+      "helloWorld.output_multipleMsgs.json", "blockchain_default.json"},
      {"state_00_message_contrAddr", "helloWorld.message_contrAddr.json",
       "helloWorld.init.json", "helloWorld.contrinfo.json",
       "helloWorld.state_01.json", "helloWorld.state_01.json",
-      "helloWorld.output_contrAddr.json"},
+      "helloWorld.output_contrAddr.json", "blockchain_default.json"},
      {"state_00_message_printContrParams",
       "helloWorld.message_printContrParams.json", "helloWorld.init.json",
       "helloWorld.contrinfo.json", "helloWorld.state_01.json",
-      "helloWorld.state_01.json", "helloWorld.output_printContrParams.json"}}};
+      "helloWorld.state_01.json", "helloWorld.output_printContrParams.json",
+      "blockchain_default.json"}}};
 
 BOOST_AUTO_TEST_CASE(unique_jits) {
   testMessages(HelloWorldTests, false /* CommonJIT */);
@@ -388,19 +399,41 @@ BOOST_AUTO_TEST_CASE(common_jit) {
 
 BOOST_AUTO_TEST_SUITE_END() // helloWorld
 
+BOOST_AUTO_TEST_SUITE(crowdfunding, *boost::unit_test_framework::disabled())
+
+ContractTest crowdfundingTests = {
+    "crowdfunding.ll",
+    {{"crowdfunding_state_0", "crowdfunding.message_1.json",
+      "crowdfunding.init.json", "crowdfunding.contrinfo.json",
+      "crowdfunding.state_1.json", "crowdfunding.ostate_1.json",
+      "crowdfunding.output_1.json", "blockchain_default.json"}}};
+
+BOOST_AUTO_TEST_CASE(unique_jits) {
+  testMessages(crowdfundingTests, false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(common_jit) {
+  testMessages(crowdfundingTests, true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // crowdfunding
+
 BOOST_AUTO_TEST_SUITE(accept)
 
 ContractTest AcceptTests = {
     "accept.ll",
     {{"state_00_message_Accept1", "accept.message_Accept1.json",
       "empty_init.json", "accept.contrinfo.json", "accept.state_00.json",
-      "accept.state_01.json", "accept.output_Accept1.json"},
+      "accept.state_01.json", "accept.output_Accept1.json",
+      "blockchain_default.json"},
      {"state_00_message_Accept2", "accept.message_Accept2.json",
       "empty_init.json", "accept.contrinfo.json", "accept.state_00.json",
-      "accept.state_00.json", "accept.output_Accept2.json"},
+      "accept.state_00.json", "accept.output_Accept2.json",
+      "blockchain_default.json"},
      {"state_00_message_Accept3_succ", "accept.message_Accept3.json",
       "empty_init.json", "accept.contrinfo.json", "accept.state_01.json",
-      "accept.state_00.json", "accept.output_Accept3_succ.json"}}};
+      "accept.state_00.json", "accept.output_Accept3_succ.json",
+      "blockchain_default.json"}}};
 
 BOOST_AUTO_TEST_CASE(unique_jits) {
   testMessages(AcceptTests, false /* CommonJIT */);
@@ -413,7 +446,7 @@ BOOST_AUTO_TEST_CASE(common_jit) {
 BOOST_AUTO_TEST_CASE(state_00_message_Accept3_fail) {
   testMessageFail("accept.ll", "accept.message_Accept3.json", "empty_init.json",
                   "accept.contrinfo.json", "accept.state_00.json",
-                  "accept.output_Accept3_fail.txt");
+                  "accept.output_Accept3_fail.txt", "blockchain_default.json");
 }
 
 BOOST_AUTO_TEST_SUITE_END() // accept
@@ -424,19 +457,20 @@ ContractTest UDRegistryTests = {
     "ud-registry.ll",
     {{"registry_state_init", "", "ud-registry.init.json",
       "ud-registry.contrinfo.json", "", "ud-registry.state_00.json",
-      "ud-registry.init_output.json"},
+      "ud-registry.init_output.json", "blockchain_default.json"},
      {"registry_state_00_message_setRegistrar",
       "ud-registry.message_setRegistrar.json", "ud-registry.init.json",
       "ud-registry.contrinfo.json", "ud-registry.state_00.json",
-      "ud-registry.state_01.json", "ud-registry.output_setRegistrar.json"},
+      "ud-registry.state_01.json", "ud-registry.output_setRegistrar.json",
+      "blockchain_default.json"},
      {"registry_state_01_message_setAdmin", "ud-registry.message_setAdmin.json",
       "ud-registry.init.json", "ud-registry.contrinfo.json",
       "ud-registry.state_01.json", "ud-registry.state_02.json",
-      "ud-registry.output_setAdmin.json"},
+      "ud-registry.output_setAdmin.json", "blockchain_default.json"},
      {"registry_state_02_message_bestow", "ud-registry.message_bestow.json",
       "ud-registry.init.json", "ud-registry.contrinfo.json",
       "ud-registry.state_02.json", "ud-registry.state_03.json",
-      "ud-registry.output_bestow.json"}}};
+      "ud-registry.output_bestow.json", "blockchain_default.json"}}};
 
 BOOST_AUTO_TEST_CASE(unique_jits_registry) {
   testMessages(UDRegistryTests, false /* CommonJIT */);
@@ -450,7 +484,8 @@ ContractTest UDProxyTests = {
     "ud-proxy.ll",
     {{"proxy_state_00_message_setAdmin", "ud-proxy.message_bestow.json",
       "ud-proxy.init.json", "ud-proxy.contrinfo.json", "ud-proxy.state_00.json",
-      "ud-proxy.state_00.json", "ud-proxy.output_bestow.json"}}};
+      "ud-proxy.state_00.json", "ud-proxy.output_bestow.json",
+      "blockchain_default.json"}}};
 
 BOOST_AUTO_TEST_CASE(unique_jits_proxy) {
   testMessages(UDProxyTests, false /* CommonJIT */);
@@ -468,7 +503,8 @@ BOOST_AUTO_TEST_CASE(pm_empty_state_00_message_t1_true) {
   testMessages({"pm-empty.ll",
                 {{"", "pm-empty.message_t1_true.json", "empty_init.json",
                   "pm-empty.contrinfo.json", "pm-empty.state_00.json",
-                  "pm-empty.state_00.json", "pm-empty.output_t1_true.json"}}},
+                  "pm-empty.state_00.json", "pm-empty.output_t1_true.json",
+                  "blockchain_default.json"}}},
                false);
 }
 
@@ -476,7 +512,8 @@ BOOST_AUTO_TEST_CASE(pm_empty_state_00_message_t1_false) {
   testMessages({"pm-empty.ll",
                 {{"", "pm-empty.message_t1_false.json", "empty_init.json",
                   "pm-empty.contrinfo.json", "pm-empty.state_00.json",
-                  "pm-empty.state_00.json", "pm-empty.output_t1_false.json"}}},
+                  "pm-empty.state_00.json", "pm-empty.output_t1_false.json",
+                  "blockchain_default.json"}}},
                false);
 }
 
@@ -485,7 +522,8 @@ BOOST_AUTO_TEST_CASE(match_assign_state_00_message_t1_true) {
       {"match_assign.ll",
        {{"", "match_assign.message_t1_true.json", "empty_init.json",
          "match_assign.contrinfo.json", "match_assign.state_00.json",
-         "match_assign.state_00.json", "match_assign.output_t1_true.json"}}},
+         "match_assign.state_00.json", "match_assign.output_t1_true.json",
+         "blockchain_default.json"}}},
       false);
 }
 
@@ -494,17 +532,18 @@ BOOST_AUTO_TEST_CASE(match_assign_state_00_message_t1_false) {
       {"match_assign.ll",
        {{"", "match_assign.message_t1_false.json", "empty_init.json",
          "match_assign.contrinfo.json", "match_assign.state_00.json",
-         "match_assign.state_00.json", "match_assign.output_t1_false.json"}}},
+         "match_assign.state_00.json", "match_assign.output_t1_false.json",
+         "blockchain_default.json"}}},
       false);
 }
 
 BOOST_AUTO_TEST_CASE(match_assign2_state_00_message_t1) {
-  testMessages(
-      {"match_assign2.ll",
-       {{"", "match_assign2.message_t1.json", "empty_init.json",
-         "match_assign2.contrinfo.json", "match_assign2.state_00.json",
-         "match_assign2.state_00.json", "match_assign2.output_t1.json"}}},
-      false);
+  testMessages({"match_assign2.ll",
+                {{"", "match_assign2.message_t1.json", "empty_init.json",
+                  "match_assign2.contrinfo.json", "match_assign2.state_00.json",
+                  "match_assign2.state_00.json", "match_assign2.output_t1.json",
+                  "blockchain_default.json"}}},
+               false);
 }
 
 BOOST_AUTO_TEST_CASE(match_assign3_state_00_message_t1_true) {
@@ -512,7 +551,8 @@ BOOST_AUTO_TEST_CASE(match_assign3_state_00_message_t1_true) {
       {"match_assign3.ll",
        {{"", "match_assign3.message_t1_true.json", "empty_init.json",
          "match_assign3.contrinfo.json", "match_assign3.state_00.json",
-         "match_assign3.state_00.json", "match_assign3.output_t1_true.json"}}},
+         "match_assign3.state_00.json", "match_assign3.output_t1_true.json",
+         "blockchain_default.json"}}},
       false);
 }
 
@@ -521,7 +561,8 @@ BOOST_AUTO_TEST_CASE(match_assign3_state_00_message_t1_false) {
       {"match_assign3.ll",
        {{"", "match_assign3.message_t1_false.json", "empty_init.json",
          "match_assign3.contrinfo.json", "match_assign3.state_00.json",
-         "match_assign3.state_00.json", "match_assign3.output_t1_false.json"}}},
+         "match_assign3.state_00.json", "match_assign3.output_t1_false.json",
+         "blockchain_default.json"}}},
       false);
 }
 
@@ -530,7 +571,8 @@ BOOST_AUTO_TEST_CASE(name_clash1_state_00_message_t1_true) {
       {"name_clash1.ll",
        {{"", "name_clash1.message_t1_true.json", "empty_init.json",
          "name_clash1.contrinfo.json", "name_clash1.state_00.json",
-         "name_clash1.state_00.json", "name_clash1.output_t1_true.json"}}},
+         "name_clash1.state_00.json", "name_clash1.output_t1_true.json",
+         "blockchain_default.json"}}},
       false);
 }
 
@@ -539,7 +581,8 @@ BOOST_AUTO_TEST_CASE(name_clash1_state_00_message_t1_false) {
       {"name_clash1.ll",
        {{"", "name_clash1.message_t1_false.json", "empty_init.json",
          "name_clash1.contrinfo.json", "name_clash1.state_00.json",
-         "name_clash1.state_00.json", "name_clash1.output_t1_false.json"}}},
+         "name_clash1.state_00.json", "name_clash1.output_t1_false.json",
+         "blockchain_default.json"}}},
       false);
 }
 
@@ -548,7 +591,8 @@ BOOST_AUTO_TEST_CASE(name_clash2_state_00_message_t1_true) {
       {"name_clash2.ll",
        {{"", "name_clash2.message_t1_true.json", "empty_init.json",
          "name_clash2.contrinfo.json", "name_clash2.state_00.json",
-         "name_clash2.state_00.json", "name_clash2.output_t1_true.json"}}},
+         "name_clash2.state_00.json", "name_clash2.output_t1_true.json",
+         "blockchain_default.json"}}},
       false);
 }
 
@@ -557,7 +601,8 @@ BOOST_AUTO_TEST_CASE(name_clash2_state_00_message_t1_false) {
       {"name_clash2.ll",
        {{"", "name_clash2.message_t1_false.json", "empty_init.json",
          "name_clash2.contrinfo.json", "name_clash2.state_00.json",
-         "name_clash2.state_00.json", "name_clash2.output_t1_false.json"}}},
+         "name_clash2.state_00.json", "name_clash2.output_t1_false.json",
+         "blockchain_default.json"}}},
       false);
 }
 
@@ -566,11 +611,11 @@ BOOST_AUTO_TEST_SUITE_END() // pattern_match
 BOOST_AUTO_TEST_SUITE(map_corners_test)
 
 BOOST_AUTO_TEST_CASE(map_corners_state_init) {
-  testMessages(
-      {"map_corners_test.ll",
-       {{"", "", "empty_init.json", "map_corners_test.contrinfo.json", "",
-         "map_corners_test.state_00.json", "map_corners.init_output.json"}}},
-      false);
+  testMessages({"map_corners_test.ll",
+                {{"", "", "empty_init.json", "map_corners_test.contrinfo.json",
+                  "", "map_corners_test.state_00.json",
+                  "map_corners.init_output.json", "blockchain_default.json"}}},
+               false);
 }
 
 auto prepareMapCornersTests = []() {
@@ -592,7 +637,8 @@ auto prepareMapCornersTests = []() {
                                      StartState,
                                      FinishState,
                                      "map_corners_test.output_" +
-                                         std::to_string(I) + ".json"};
+                                         std::to_string(I) + ".json",
+                                     "blockchain_default.json"};
     MapCornersTests.Inputs.push_back(ThisInput);
   }
   return MapCornersTests;
@@ -633,32 +679,36 @@ ContractTest RemoteStateReadsTests = {
          "remote_state_reads.contrinfo.json",
          "remote_state_reads.init_state.json",
          "remote_state_reads.init_ostate.json",
-         "remote_state_reads.init_output.json"},
+         "remote_state_reads.init_output.json", "blockchain_default.json"},
         /* // https://github.com/Zilliqa/scilla-vm/issues/26
         {"remote_state_reads_init_assignable_map_types", "",
          "remote_state_reads.init_assignable_map_types.json",
          "remote_state_reads.contrinfo.json",
          "remote_state_reads.init_assignable_map_types_state.json",
          "remote_state_reads.init_assignable_map_types_ostate.json",
-         "remote_state_reads.init_assignable_map_types_output.json"}, */
+         "remote_state_reads.init_assignable_map_types_output.json",
+        "blockchain_default.json"}, */
         {"remote_state_reads_init_nonce_no_balance", "",
          "remote_state_reads.init_nonce_no_balance.json",
          "remote_state_reads.contrinfo.json",
          "remote_state_reads.init_nonce_no_balance_state.json",
          "remote_state_reads.init_nonce_no_balance_ostate.json",
-         "remote_state_reads.init_nonce_no_balance_output.json"},
+         "remote_state_reads.init_nonce_no_balance_output.json",
+         "blockchain_default.json"},
         {"remote_state_reads_init_balance_no_nonce", "",
          "remote_state_reads.init_balance_no_nonce.json",
          "remote_state_reads.contrinfo.json",
          "remote_state_reads.init_balance_no_nonce_state.json",
          "remote_state_reads.init_balance_no_nonce_ostate.json",
-         "remote_state_reads.init_balance_no_nonce_output.json"},
+         "remote_state_reads.init_balance_no_nonce_output.json",
+         "blockchain_default.json"},
         {"remote_state_reads_init_balance_and_nonce", "",
          "remote_state_reads.init_balance_and_nonce.json",
          "remote_state_reads.contrinfo.json",
          "remote_state_reads.init_balance_and_nonce_state.json",
          "remote_state_reads.init_balance_and_nonce_ostate.json",
-         "remote_state_reads.init_balance_and_nonce_output.json"},
+         "remote_state_reads.init_balance_and_nonce_output.json",
+         "blockchain_default.json"},
     }};
 
 BOOST_AUTO_TEST_CASE(unique_jits) {
@@ -685,7 +735,8 @@ auto prepareRemoteStateReadsSuccTests = []() {
         "remote_state_reads.contrinfo.json",
         "remote_state_reads.state_" + std::to_string(I) + ".json",
         "remote_state_reads.ostate_" + std::to_string(I) + ".json",
-        "remote_state_reads.output_" + std::to_string(I) + ".json"};
+        "remote_state_reads.output_" + std::to_string(I) + ".json",
+        "blockchain_default.json"};
     RSRSTs.Inputs.push_back(ThisInput);
   }
   return RSRSTs;
@@ -709,7 +760,8 @@ auto prepareRemoteStateReads2SuccTests = []() {
         "remote_state_reads_2.contrinfo.json",
         "remote_state_reads_2.state_" + std::to_string(I) + ".json",
         "remote_state_reads_2.ostate_" + std::to_string(I) + ".json",
-        "remote_state_reads_2.output_" + std::to_string(I) + ".json"};
+        "remote_state_reads_2.output_" + std::to_string(I) + ".json",
+        "blockchain_default.json"};
     RSRSTs.Inputs.push_back(ThisInput);
   }
   return RSRSTs;

@@ -1,0 +1,20 @@
+{
+  "scilla_major_version": "0",
+  "gas_remaining": "7936",
+  "_accepted": "true",
+  "messages": [],
+  "events": [
+    {
+      "_eventname": "DonationSuccess",
+      "params": [
+        {
+          "vname": "donor",
+          "type": "ByStr20",
+          "value": "0x12345678901234567890123456789012345678ab"
+        },
+        { "vname": "amount", "type": "Uint128", "value": "100" },
+        { "vname": "code", "type": "Int32", "value": "1" }
+      ]
+    }
+  ]
+}

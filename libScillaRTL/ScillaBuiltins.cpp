@@ -599,15 +599,13 @@ uint8_t *_eq_ByStrX(ScillaExecImpl *SJ, int X, const uint8_t *Lhs,
   return toScillaBool(SJ->OM, B);
 }
 
-uint8_t *_eq_BNum(ScillaExecImpl *SJ, const uint8_t *Lhs,
-                  const uint8_t *Rhs) {
+uint8_t *_eq_BNum(ScillaExecImpl *SJ, const uint8_t *Lhs, const uint8_t *Rhs) {
   auto *LhsInt = reinterpret_cast<const bmp::gmp_int *>(Lhs);
   auto *RhsInt = reinterpret_cast<const bmp::gmp_int *>(Rhs);
   return toScillaBool(SJ->OM, !LhsInt->compare(*RhsInt));
 }
 
-uint8_t *_lt_BNum(ScillaExecImpl *SJ, const uint8_t *Lhs,
-                  const uint8_t *Rhs) {
+uint8_t *_lt_BNum(ScillaExecImpl *SJ, const uint8_t *Lhs, const uint8_t *Rhs) {
   auto *LhsInt = reinterpret_cast<const bmp::gmp_int *>(Lhs);
   auto *RhsInt = reinterpret_cast<const bmp::gmp_int *>(Rhs);
   return toScillaBool(SJ->OM, LhsInt->compare(*RhsInt) < 0);
@@ -967,6 +965,17 @@ void *_new_bnum(ScillaExecImpl *SJ, ScillaTypes::String Val) {
   auto *BV = SJ->OM.create<bmp::gmp_int>();
   *BV = std::string(Val).c_str();
   return BV;
+}
+
+void *_read_blockchain(ScillaExecImpl *SJ, ScillaTypes::String VName) {
+  auto VNameS = std::string(VName);
+  if (VNameS == "BLOCKNUMBER") {
+    auto *BV = SJ->OM.create<bmp::gmp_int>();
+    *BV = SJ->TS->CurBlock;
+    return BV;
+  } else {
+    CREATE_ERROR("Unknown blockchain read request");
+  }
 }
 
 ScillaParams::MapValueT *_put(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,

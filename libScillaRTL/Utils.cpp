@@ -16,6 +16,7 @@
  */
 
 #include <boost/config/warning_disable.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/process.hpp>
 #include <boost/spirit/include/phoenix.hpp>
 #include <boost/spirit/include/qi.hpp>
@@ -36,28 +37,6 @@ Json::CharReaderBuilder ReadBuilder;
 std::unique_ptr<Json::CharReader> JsonReader(ReadBuilder.newCharReader());
 Json::StreamWriterBuilder WriteBuilder;
 std::unique_ptr<Json::StreamWriter> JsonWriter(WriteBuilder.newStreamWriter());
-
-// Find "vname" in the input JSON array and return its "value".
-// Typical Scilla state JSON format is expected as input.
-std::optional<Json::Value> vNameValue(const Json::Value &Vs,
-                                      const std::string &VName) {
-  if (!Vs.isArray())
-    return {};
-
-  for (const auto &P : Vs) {
-    Json::Value VNameJ, TypeJ, ValueJ;
-    if (!P.isObject() ||
-        (VNameJ = P.get("vname", Json::nullValue)) == Json::nullValue ||
-        (TypeJ = P.get("type", Json::nullValue)) == Json::nullValue ||
-        (ValueJ = P.get("value", Json::nullValue)) == Json::nullValue ||
-        !VNameJ.isString() || !TypeJ.isString()) {
-      return {};
-    }
-    if (VNameJ == VName)
-      return ValueJ;
-  }
-  return {};
-}
 
 } // namespace
 
@@ -93,6 +72,40 @@ std::string serializeJSON(const Json::Value &J) {
   std::ostringstream Oss;
   JsonWriter->write(J, &Oss);
   return Oss.str();
+}
+
+// Find "vname" in the input JSON array and return its "value".
+// Typical Scilla state JSON format is expected as input.
+std::optional<Json::Value> vNameValue(const Json::Value &Vs,
+                                      const std::string &VName) {
+  if (!Vs.isArray())
+    return {};
+
+  for (const auto &P : Vs) {
+    Json::Value VNameJ, TypeJ, ValueJ;
+    if (!P.isObject() ||
+        (VNameJ = P.get("vname", Json::nullValue)) == Json::nullValue ||
+        (TypeJ = P.get("type", Json::nullValue)) == Json::nullValue ||
+        (ValueJ = P.get("value", Json::nullValue)) == Json::nullValue ||
+        !VNameJ.isString() || !TypeJ.isString()) {
+      return {};
+    }
+    if (VNameJ == VName)
+      return ValueJ;
+  }
+  return {};
+}
+
+uint64_t parseBlockchainJSON(const Json::Value &BC) {
+  auto CurBlockS = vNameValue(BC, "BLOCKNUMBER");
+  if (!CurBlockS || !CurBlockS->isString()) {
+    CREATE_ERROR("BLOCKNUMBER not found or invalid");
+  }
+  try {
+    return boost::lexical_cast<uint64_t>(CurBlockS->asString());
+  } catch (boost::bad_lexical_cast &) {
+    CREATE_ERROR("Invalid BLOCKNUMBER");
+  }
 }
 
 CompileToSO::CompileToSO(const std::string &Filename)

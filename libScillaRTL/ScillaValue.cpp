@@ -441,6 +441,9 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
 
   auto *Mem = reinterpret_cast<uint8_t *>(MemV);
 
+  ASSERT_MSG(!ScillaTypes::Typ::isBoxed(T) || (!Mem && MemSize == 0),
+             "Boxed types cannot have memory pre-allocated");
+
   switch (T->m_t) {
   case ScillaTypes::Typ::Prim_typ:
   case ScillaTypes::Typ::Address_typ: {
@@ -449,13 +452,12 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
     }
     auto JS = J.asString();
     // If memory isn't already allocated, allocate now.
-    if (!Mem) {
-      ASSERT(MemSize == 0);
+    ASSERT_MSG((!Mem && MemSize == 0) ||
+                   (Mem && MemSize == ScillaTypes::Typ::sizeOf(T)),
+               "Incorrect memory allocation");
+    if (!ScillaTypes::Typ::isBoxed(T) && !Mem) {
       MemSize = ScillaTypes::Typ::sizeOf(T);
       Mem = reinterpret_cast<uint8_t *>(OM.allocBytes(MemSize));
-    } else {
-      ASSERT_MSG(MemSize == ScillaTypes::Typ::sizeOf(T),
-                 "Incorrect memory allocation");
     }
     if (T->m_t == ScillaTypes::Typ::Address_typ) {
       ASSERT(MemSize == ScillaTypes::AddrByStr_Len);
@@ -548,7 +550,7 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
       auto *M = OM.create<bmp::gmp_int>();
       *M = J.asString().c_str();
       return M;
-    } break;
+    }
     case ScillaTypes::PrimTyp::Msg_typ:
     case ScillaTypes::PrimTyp::Event_typ:
     case ScillaTypes::PrimTyp::Exception_typ: {
@@ -557,9 +559,6 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
     }
   } break;
   case ScillaTypes::Typ::ADT_typ: {
-    ASSERT_MSG(!Mem && MemSize == 0,
-               "ADTs shouldn't have memory pre-allocated");
-
     auto SpeclP = T->m_sub.m_spladt;
     auto ADTP = SpeclP->m_parent;
 
@@ -646,8 +645,6 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
     return Mem;
   } break;
   case ScillaTypes::Typ::Map_typ: {
-    ASSERT_MSG(!Mem && MemSize == 0,
-               "Maps shouldn't have memory pre-allocated");
     if (!J.isArray()) {
       CREATE_ERROR("Map JSON must be an array");
     }
@@ -783,7 +780,7 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
     }
     case ScillaTypes::PrimTyp::Bnum_typ: {
       return 64;
-    } break;
+    }
     case ScillaTypes::PrimTyp::Msg_typ:
     case ScillaTypes::PrimTyp::Event_typ:
     case ScillaTypes::PrimTyp::Exception_typ: {
