@@ -757,7 +757,7 @@ entry:
   store %String { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$stringlit_374", i32 0, i32 0), i32 10 }, %String* %"$msgobj_fname_376", align 8
   %"$msgobj_td_377" = getelementptr i8, i8* %"$msgobj_365", i32 57
   %"$msgobj_td_378" = bitcast i8* %"$msgobj_td_377" to %_TyDescrTy_Typ**
-  store %_TyDescrTy_Typ* @"$TyDescr_Addr_46", %_TyDescrTy_Typ** %"$msgobj_td_378", align 8
+  store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_35", %_TyDescrTy_Typ** %"$msgobj_td_378", align 8
   %"$msgobj_v_379" = getelementptr i8, i8* %"$msgobj_365", i32 65
   %"$msgobj_v_380" = bitcast i8* %"$msgobj_v_379" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %"$msgobj_v_380", align 1
@@ -813,7 +813,7 @@ entry:
   store %String { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$stringlit_408", i32 0, i32 0), i32 10 }, %String* %"$msgobj_fname_410", align 8
   %"$msgobj_td_411" = getelementptr i8, i8* %"$msgobj_399", i32 57
   %"$msgobj_td_412" = bitcast i8* %"$msgobj_td_411" to %_TyDescrTy_Typ**
-  store %_TyDescrTy_Typ* @"$TyDescr_Addr_46", %_TyDescrTy_Typ** %"$msgobj_td_412", align 8
+  store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_35", %_TyDescrTy_Typ** %"$msgobj_td_412", align 8
   %"$msgobj_v_413" = getelementptr i8, i8* %"$msgobj_399", i32 65
   %"$msgobj_v_414" = bitcast i8* %"$msgobj_v_413" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %"$msgobj_v_414", align 1

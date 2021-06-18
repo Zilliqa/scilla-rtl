@@ -399,7 +399,7 @@ BOOST_AUTO_TEST_CASE(common_jit) {
 
 BOOST_AUTO_TEST_SUITE_END() // helloWorld
 
-BOOST_AUTO_TEST_SUITE(crowdfunding, *boost::unit_test_framework::disabled())
+BOOST_AUTO_TEST_SUITE(crowdfunding)
 
 ContractTest crowdfundingTests = {
     "crowdfunding.ll",
@@ -725,7 +725,6 @@ auto prepareRemoteStateReadsSuccTests = []() {
     if (I == 3 || I == 4 ||
         I == 5    /* https://github.com/Zilliqa/scilla-vm/issues/26 */
         || I == 6 /* https://github.com/Zilliqa/scilla-compiler/issues/68 */
-        || I == 7 /* https://github.com/Zilliqa/scilla-compiler/issues/69 */
         || I == 9 /* https://github.com/Zilliqa/scilla-vm/issues/23 */)
       continue;
     ContractTest::Input ThisInput = {
