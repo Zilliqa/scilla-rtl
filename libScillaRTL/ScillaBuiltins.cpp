@@ -17,7 +17,6 @@
 
 #include <Bech32/segwit_addr.h>
 #include <Schnorr.h>
-#include <boost/multiprecision/gmp.hpp>
 #include <ethash/keccak.h>
 #include <openssl/ripemd.h>
 #include <openssl/sha.h>
@@ -600,15 +599,15 @@ uint8_t *_eq_ByStrX(ScillaExecImpl *SJ, int X, const uint8_t *Lhs,
 }
 
 uint8_t *_eq_BNum(ScillaExecImpl *SJ, const uint8_t *Lhs, const uint8_t *Rhs) {
-  auto *LhsInt = reinterpret_cast<const bmp::gmp_int *>(Lhs);
-  auto *RhsInt = reinterpret_cast<const bmp::gmp_int *>(Rhs);
-  return toScillaBool(SJ->OM, !LhsInt->compare(*RhsInt));
+  auto *LhsInt = reinterpret_cast<const BigNum *>(Lhs);
+  auto *RhsInt = reinterpret_cast<const BigNum *>(Rhs);
+  return toScillaBool(SJ->OM, *LhsInt == *RhsInt);
 }
 
 uint8_t *_lt_BNum(ScillaExecImpl *SJ, const uint8_t *Lhs, const uint8_t *Rhs) {
-  auto *LhsInt = reinterpret_cast<const bmp::gmp_int *>(Lhs);
-  auto *RhsInt = reinterpret_cast<const bmp::gmp_int *>(Rhs);
-  return toScillaBool(SJ->OM, LhsInt->compare(*RhsInt) < 0);
+  auto *LhsInt = reinterpret_cast<const BigNum *>(Lhs);
+  auto *RhsInt = reinterpret_cast<const BigNum *>(Rhs);
+  return toScillaBool(SJ->OM, *LhsInt < *RhsInt);
 }
 
 ScillaTypes::String _to_bystr(ScillaExecImpl *SJ, int X, uint8_t *Buf) {
@@ -962,17 +961,13 @@ ScillaParams::MapValueT *_new_empty_map(ScillaExecImpl *SJ) {
 }
 
 void *_new_bnum(ScillaExecImpl *SJ, ScillaTypes::String Val) {
-  auto *BV = SJ->OM.create<bmp::gmp_int>();
-  *BV = std::string(Val).c_str();
-  return BV;
+  return SJ->OM.create<BigNum>(std::string(Val));
 }
 
 void *_read_blockchain(ScillaExecImpl *SJ, ScillaTypes::String VName) {
   auto VNameS = std::string(VName);
   if (VNameS == "BLOCKNUMBER") {
-    auto *BV = SJ->OM.create<bmp::gmp_int>();
-    *BV = SJ->TS->CurBlock;
-    return BV;
+    return SJ->OM.create<BigNum>(SJ->TS->CurBlock);
   } else {
     CREATE_ERROR("Unknown blockchain read request");
   }

@@ -15,7 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <boost/multiprecision/gmp.hpp>
 #include <boost/predef.h>
 
 #include "ScillaRTL/Errors.h"
@@ -200,12 +199,8 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
         Out += rawToHex(SP->m_buffer, SP->m_length);
       } break;
       case ScillaTypes::PrimTyp::Bnum_typ: {
-        auto IP = reinterpret_cast<const bmp::gmp_int *>(V);
-        try {
-          Out += IP->str(std::streamsize(), std::ios_base::fmtflags());
-        } catch (std::runtime_error &E) {
-          CREATE_ERROR(E.what());
-        }
+        auto IP = reinterpret_cast<const BigNum *>(V);
+        Out += IP->toString();
       } break;
       case ScillaTypes::PrimTyp::Msg_typ:
       case ScillaTypes::PrimTyp::Event_typ:
@@ -548,13 +543,7 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
       if (!J.isString()) {
         CREATE_ERROR("BNum JSON must be a string");
       }
-      try {
-        auto *M = OM.create<bmp::gmp_int>();
-        *M = J.asString().c_str();
-        return M;
-      } catch (std::exception &e) {
-        CREATE_ERROR(e.what());
-      }
+      return OM.create<BigNum>(J.asString());
     }
     case ScillaTypes::PrimTyp::Msg_typ:
     case ScillaTypes::PrimTyp::Event_typ:

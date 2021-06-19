@@ -94,6 +94,23 @@ public:
   // Move constructor
   BigNum(BigNum &&) = default;
 
+  // Print to string. Negative numbers can only be in base 10.
+  std::string toString(int Base = 10) const {
+    std::ios_base::fmtflags ff;
+    if (Base == 8) {
+      ff = std::ios_base::oct;
+    } else if (Base == 16) {
+      ff = std::ios_base::hex;
+    } else {
+      ff = std::ios_base::dec;
+    }
+    try {
+      return str(std::streamsize(), ff);
+    } catch (std::runtime_error &E) {
+      CREATE_ERROR(E.what());
+    }
+  }
+
   // Create from any type that can be assigned to mpz_int.
   template <typename T> BigNum(const T &Val) {
     try {
