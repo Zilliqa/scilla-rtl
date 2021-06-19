@@ -50,7 +50,8 @@ class ObjManager {
     T O;
     MemObj(const T &O) : O(O){};
     MemObj(T &&O) : O(std::move(O)){};
-    MemObj() : O(){};
+    template <class... Args>
+    MemObj(Args &&... args) : O(std::forward<Args>(args)...) {}
   };
   std::vector<MemObjBase *> Objs;
   // We use a bump pointer allocator rather than "new"
@@ -58,28 +59,32 @@ class ObjManager {
   BumpPtrAllocator All;
 
 public:
-  template <typename T> T *create() {
-    auto P = All.Allocate<MemObj<T>>();
-    new (P) MemObj<T>();
-    Objs.push_back(P);
-    return &P->O;
-  }
   // Disable implicit instantiations of the form "auto A = create(10)" which
   // only allocates an integer, while intention might be to allocate 10 bytes.
   // allocBytes() must be used to allocate bytes.
   int *create(const int &) = delete;
+  // Copy constructor
   template <typename T> T *create(const T &O) {
     auto P = All.Allocate<MemObj<T>>();
     new (P) MemObj<T>(O);
     Objs.push_back(P);
     return &P->O;
   }
+  // Move constructor
   template <typename T> T *create(T &&O) {
     auto P = All.Allocate<MemObj<T>>();
     new (P) MemObj<T>(std::move(O));
     Objs.push_back(P);
     return &P->O;
   }
+  // Use any constructor to construct.
+  template <typename T, class... Args> T *create(Args &&... args) {
+    auto P = All.Allocate<MemObj<T>>();
+    new (P) MemObj<T>(std::forward<Args>(args)...);
+    Objs.push_back(P);
+    return &P->O;
+  }
+  // Allocate bytes, no object construction.
   void *allocBytes(size_t N) {
     auto Buf = All.Allocate<uint8_t>(N);
     return reinterpret_cast<void *>(Buf);
