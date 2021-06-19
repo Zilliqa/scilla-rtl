@@ -1,9 +1,21 @@
- [
-    { "vname": "_balance", "type": "Uint128", "value": "0" },
-    { "vname": "backers", "type": "Map (ByStr20) (Uint128)", "value": [] },
-    {
-      "vname": "funded",
-      "type": "Bool",
-      "value": { "constructor": "False", "argtypes": [], "arguments": [] }
-    }
-  ]
+[
+   {
+      "type" : "Uint128",
+      "value" : "0",
+      "vname" : "_balance"
+   },
+   {
+      "type" : "Map (ByStr20) (Uint128)",
+      "value" : [],
+      "vname" : "backers"
+   },
+   {
+      "type" : "Bool",
+      "value" : {
+         "argtypes" : [],
+         "arguments" : [],
+         "constructor" : "False"
+      },
+      "vname" : "funded"
+   }
+]

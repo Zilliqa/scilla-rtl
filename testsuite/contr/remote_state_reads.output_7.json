@@ -1,41 +1,41 @@
 {
-  "scilla_major_version": "0",
-  "gas_remaining": "9999674",
-  "_accepted": "false",
-  "messages": [
-    {
-      "_tag": "",
-      "_amount": "0",
-      "_recipient": "0xabfeccdc9012345678901234567890f777564322",
-      "params": [
-        {
-          "vname": "param",
-          "type": "ByStr20",
-          "value": "0x1234567890123456789012345678901234567890"
-        }
-      ]
-    }
-  ],
-  "events": [
-    {
-      "_eventname": "TestEvent",
-      "params": [
-        {
-          "vname": "info",
-          "type": "ByStr20",
-          "value": "0x1234567890123456789012345678901234567890"
-        }
-      ]
-    },
-    {
-      "_eventname": "TestEvent",
-      "params": [
-        {
-          "vname": "info",
-          "type": "ByStr20",
-          "value": "0x1234567890123456789012345678901234567890"
-        }
-      ]
-    }
-  ]
+   "_accepted" : "false",
+   "events" : [
+      {
+         "_eventname" : "TestEvent",
+         "params" : [
+            {
+               "type" : "ByStr20",
+               "value" : "0x1234567890123456789012345678901234567890",
+               "vname" : "info"
+            }
+         ]
+      },
+      {
+         "_eventname" : "TestEvent",
+         "params" : [
+            {
+               "type" : "ByStr20",
+               "value" : "0x1234567890123456789012345678901234567890",
+               "vname" : "info"
+            }
+         ]
+      }
+   ],
+   "gas_remaining" : "9999674",
+   "messages" : [
+      {
+         "_amount" : "0",
+         "_recipient" : "0xabfeccdc9012345678901234567890f777564322",
+         "_tag" : "",
+         "params" : [
+            {
+               "type" : "ByStr20",
+               "value" : "0x1234567890123456789012345678901234567890",
+               "vname" : "param"
+            }
+         ]
+      }
+   ],
+   "scilla_major_version" : "0"
 }

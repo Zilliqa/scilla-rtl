@@ -548,7 +548,7 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
       if (!J.isString()) {
         CREATE_ERROR("BNum JSON must be a string");
       }
-      try  {
+      try {
         auto *M = OM.create<bmp::gmp_int>();
         *M = J.asString().c_str();
         return M;
