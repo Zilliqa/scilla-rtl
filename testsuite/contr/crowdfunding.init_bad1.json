@@ -1,0 +1,32 @@
+[
+    {
+        "vname" : "owner",
+        "type" : "ByStr20", 
+        "value" : "0x12345678kl90123456789012345678901234567890"
+    },
+    {
+        "vname" : "max_block",
+        "type" : "BNum" ,
+        "value" : "199"
+    },
+    { 
+        "vname" : "goal",
+        "type" : "Int",
+        "value" : "500"
+    },
+    { 
+        "vname" : "_scilla_version",
+        "type" : "Uint32",
+        "value" : "0"
+    },
+    {
+        "vname" : "_this_address",
+        "type" : "ByStr20",
+        "value" : "0xabfeccdc9012345678901234567890f777567890"
+    },
+    {
+        "vname" : "_creation_block",
+        "type" : "BNum",
+        "value" : "1"
+    }    
+]

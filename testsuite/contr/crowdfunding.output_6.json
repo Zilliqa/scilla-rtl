@@ -6,12 +6,12 @@
          "params" : [
             {
                "type" : "ByStr20",
-               "value" : "0x12345678901234567890123456789012345678ab",
+               "value" : "0x12345678901234567890123456789012345678cd",
                "vname" : "donor"
             },
             {
                "type" : "Uint128",
-               "value" : "100",
+               "value" : "0",
                "vname" : "amount"
             },
             {
@@ -22,7 +22,7 @@
          ]
       }
    ],
-   "gas_remaining" : "9999760",
+   "gas_remaining" : "9999644",
    "messages" : [],
    "scilla_major_version" : "0"
 }

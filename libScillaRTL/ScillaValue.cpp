@@ -333,6 +333,7 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
         auto V_UC = reinterpret_cast<const uint8_t *>(V);
         int NFields = *(V_UC++);
 
+        Out["params"] = Json::arrayValue;
         for (int I = 0; I < NFields; I++) {
           // 1. Field's name.
           auto *FNameP = reinterpret_cast<const ScillaTypes::String *>(V_UC);
@@ -547,9 +548,13 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
       if (!J.isString()) {
         CREATE_ERROR("BNum JSON must be a string");
       }
-      auto *M = OM.create<bmp::gmp_int>();
-      *M = J.asString().c_str();
-      return M;
+      try  {
+        auto *M = OM.create<bmp::gmp_int>();
+        *M = J.asString().c_str();
+        return M;
+      } catch (std::exception &e) {
+        CREATE_ERROR(e.what());
+      }
     }
     case ScillaTypes::PrimTyp::Msg_typ:
     case ScillaTypes::PrimTyp::Event_typ:

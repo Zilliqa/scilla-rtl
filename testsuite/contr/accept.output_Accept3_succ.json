@@ -6,7 +6,8 @@
       {
          "_amount" : "100",
          "_recipient" : "0x1234567890123456789012345678901234567890",
-         "_tag" : ""
+         "_tag" : "",
+         "params" : []
       }
    ],
    "scilla_major_version" : "0"

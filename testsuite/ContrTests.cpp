@@ -208,6 +208,9 @@ void testMessageFail(const std::string &ContrFilename,
 
   Json::Value MessageJSON, InitJSON, BCJ;
   std::string Balance = "0";
+
+  std::unique_ptr<ScillaRTL::ScillaContrExec> JE;
+  bool CaughtException = false;
   try {
     // Prepare all inputs.
     InitJSON = parseJSONFile(PathPrefix + InitFilename);
@@ -225,14 +228,6 @@ void testMessageFail(const std::string &ContrFilename,
       auto StateJSON = parseJSONFile(PathPrefix + StateFilename);
       Balance = State.initState(InitJSON, StateJSON);
     }
-  } catch (const ScillaError &E) {
-    BOOST_FAIL(E.toString());
-  }
-
-  std::unique_ptr<ScillaRTL::ScillaContrExec> JE;
-  bool CaughtException = false;
-  try {
-
     uint64_t CurBlock = parseBlockchainJSON(BCJ);
     // Create a JIT engine
     {
@@ -401,19 +396,57 @@ BOOST_AUTO_TEST_SUITE_END() // helloWorld
 
 BOOST_AUTO_TEST_SUITE(crowdfunding)
 
-ContractTest crowdfundingTests = {
-    "crowdfunding.ll",
-    {{"crowdfunding_state_0", "crowdfunding.message_1.json",
-      "crowdfunding.init.json", "crowdfunding.contrinfo.json",
-      "crowdfunding.state_1.json", "crowdfunding.ostate_1.json",
-      "crowdfunding.output_1.json", "blockchain_default.json"}}};
+auto prepareCrowdfundingSuccTests = []() {
+  ContractTest CFTs{"crowdfunding.ll", {}};
+  for (int I = 1; I <= 6; I++) {
+    ContractTest::Input ThisInput = {
+        "crowdfunding_succ_" + std::to_string(I),
+        "crowdfunding.message_" + std::to_string(I) + ".json",
+        "crowdfunding.init.json",
+        "crowdfunding.contrinfo.json",
+        "crowdfunding.state_" + std::to_string(I) + ".json",
+        "crowdfunding.ostate_" + std::to_string(I) + ".json",
+        "crowdfunding.output_" + std::to_string(I) + ".json",
+        "crowdfunding.blockchain_" + std::to_string(I) + ".json"};
+    CFTs.Inputs.push_back(ThisInput);
+  }
+  return CFTs;
+};
 
 BOOST_AUTO_TEST_CASE(unique_jits) {
-  testMessages(crowdfundingTests, false /* CommonJIT */);
+  testMessages(prepareCrowdfundingSuccTests(), false /* CommonJIT */);
 }
 
 BOOST_AUTO_TEST_CASE(common_jit) {
-  testMessages(crowdfundingTests, true /* CommonJIT */);
+  testMessages(prepareCrowdfundingSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(deploy) {
+  ContractTest CFDeploy = {
+      "crowdfunding.ll",
+      {{"crowdfunding_deploy", "", "crowdfunding.init.json",
+        "crowdfunding.contrinfo.json", "", "crowdfunding.init_ostate.json",
+        "crowdfunding.init_output.json", "blockchain_default.json"}}};
+  testMessages(CFDeploy, false);
+}
+
+BOOST_AUTO_TEST_CASE(deploy_fail) {
+  testMessageFail("crowdfunding.ll", "", "crowdfunding.init_bad1.json",
+                  "crowdfunding.contrinfo.json", "",
+                  "crowdfunding.init_bad1_output.txt",
+                  "blockchain_default.json");
+  testMessageFail("crowdfunding.ll", "", "crowdfunding.init_bad2.json",
+                  "crowdfunding.contrinfo.json", "",
+                  "crowdfunding.init_bad2_output.txt",
+                  "blockchain_default.json");
+  testMessageFail("crowdfunding.ll", "", "crowdfunding.init_bad3.json",
+                  "crowdfunding.contrinfo.json", "",
+                  "crowdfunding.init_bad3_output.txt",
+                  "blockchain_default.json");
+  testMessageFail("crowdfunding.ll", "", "crowdfunding.init_bad4.json",
+                  "crowdfunding.contrinfo.json", "",
+                  "crowdfunding.init_bad4_output.txt",
+                  "blockchain_default.json");
 }
 
 BOOST_AUTO_TEST_SUITE_END() // crowdfunding

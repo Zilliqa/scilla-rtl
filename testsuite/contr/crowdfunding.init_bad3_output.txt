@@ -1,0 +1,1 @@
+Init JSON doesn't contain proper _this_address entry
