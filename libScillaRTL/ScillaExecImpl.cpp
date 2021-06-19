@@ -39,15 +39,15 @@ ScillaContrExec::ScillaContrExec(const ScillaParams &SPs,
 }
 
 Json::Value ScillaContrExec::execMsg(const std::string &Balance,
-                                     uint64_t GasLimit,
+                                     uint64_t GasLimit, uint64_t CurBlock,
                                      const Json::Value &InitJ,
                                      const Json::Value &Msg) {
-  return PImpl->execMsg(Balance, GasLimit, InitJ, Msg);
+  return PImpl->execMsg(Balance, GasLimit, CurBlock, InitJ, Msg);
 }
 
-Json::Value ScillaContrExec::deploy(const Json::Value &InitJ,
-                                    uint64_t GasLimit) {
-  return PImpl->deploy(InitJ, GasLimit);
+Json::Value ScillaContrExec::deploy(const Json::Value &InitJ, uint64_t GasLimit,
+                                    uint64_t CurBlock) {
+  return PImpl->deploy(InitJ, GasLimit, CurBlock);
 }
 
 uint64_t ScillaContrExec::getGasRem() const { return PImpl->getGasRem(); }
@@ -103,18 +103,9 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
     CREATE_ERROR(ErrMsg);
   }
 
-  // TODO: Remove this when BNum types are supported.
-  uint32_t CPSize = std::accumulate(
-      CP.begin(), CP.end(), 0, [](uint32_t Acc, const Json::Value &IV) {
-        const Json::Value &VName = IV["vname"];
-        return Acc + (VName.isString() && VName.asString() == "_creation_block"
-                          ? 0
-                          : 1);
-      });
-
-  if (CPSize != NCParams) {
+  if (CP.size() != NCParams) {
     CREATE_ERROR("Expected " + std::to_string(NCParams) +
-                 " contract parameters, but got " + std::to_string(CPSize));
+                 " contract parameters, but got " + std::to_string(CP.size()));
   }
   // Let's put the expected contract parameters into a map for fast access.
   std::unordered_map<std::string, ScillaTypes::Typ *> ParamMap;
@@ -183,8 +174,8 @@ uint64_t *ScillaExecImpl::initGasAndLibs(uint64_t GasLimit) {
   return GasRemPtr;
 }
 
-Json::Value ScillaExecImpl::deploy(const Json::Value &InitJ,
-                                   uint64_t GasLimit) {
+Json::Value ScillaExecImpl::deploy(const Json::Value &InitJ, uint64_t GasLimit,
+                                   uint64_t CurBlock) {
 
   // Initialize contract parameters.
   initContrParams(InitJ, true /* DoDynamicTypechecks */);
@@ -192,7 +183,7 @@ Json::Value ScillaExecImpl::deploy(const Json::Value &InitJ,
   auto GasRemPtr = initGasAndLibs(GasLimit);
 
   // Let's setup the TransitionState for this transition.
-  TS = std::make_unique<TransitionState>("0", "0");
+  TS = std::make_unique<TransitionState>("0", "0", CurBlock);
   auto fIS = reinterpret_cast<void (*)(void)>(getAddressFor("_init_state"));
   fIS();
 
@@ -226,7 +217,8 @@ ScillaExecImpl::getTypeDescrTable() const {
 }
 
 Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
-                                    uint64_t GasLimit, const Json::Value &InitJ,
+                                    uint64_t GasLimit, uint64_t CurBlock,
+                                    const Json::Value &InitJ,
                                     const Json::Value &Msg) {
 
   initContrParams(InitJ, false /* DoDynamicTypechecks */);
@@ -243,7 +235,7 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
   auto GasRemPtr = initGasAndLibs(GasLimit);
 
   // Let's setup the TransitionState for this transition.
-  TS = std::make_unique<TransitionState>(Balance, AmountJ.asString());
+  TS = std::make_unique<TransitionState>(Balance, AmountJ.asString(), CurBlock);
 
   // Amount and Sender need to be prepended to the parameter list.
   Json::Value AmountParam;

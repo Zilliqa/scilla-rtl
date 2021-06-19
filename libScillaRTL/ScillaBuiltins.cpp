@@ -17,6 +17,7 @@
 
 #include <Bech32/segwit_addr.h>
 #include <Schnorr.h>
+#include <boost/multiprecision/gmp.hpp>
 #include <ethash/keccak.h>
 #include <openssl/ripemd.h>
 #include <openssl/sha.h>
@@ -32,6 +33,8 @@
 #include "ScillaRTL/Utils.h"
 #include "ScillaTypes.h"
 #include "ScillaValue.h"
+
+namespace bmp = boost::multiprecision;
 
 namespace ScillaRTL {
 
@@ -377,6 +380,54 @@ uint8_t *_eq_Uint256(ScillaExecImpl *SJ, ScillaTypes::Uint256 *Lhs,
   return toScillaBool(SJ->OM, SafeUint256(Lhs) == SafeUint256(Rhs));
 }
 
+uint8_t *_lt_Int32(ScillaExecImpl *SJ, ScillaTypes::Int32 Lhs,
+                   ScillaTypes::Int32 Rhs) {
+
+  return toScillaBool(SJ->OM, SafeInt32(&Lhs) < SafeInt32(&Rhs));
+}
+
+uint8_t *_lt_Int64(ScillaExecImpl *SJ, ScillaTypes::Int64 Lhs,
+                   ScillaTypes::Int64 Rhs) {
+
+  return toScillaBool(SJ->OM, SafeInt64(&Lhs) < SafeInt64(&Rhs));
+}
+
+uint8_t *_lt_Int128(ScillaExecImpl *SJ, ScillaTypes::Int128 Lhs,
+                    ScillaTypes::Int128 Rhs) {
+
+  return toScillaBool(SJ->OM, SafeInt128(&Lhs) < SafeInt128(&Rhs));
+}
+
+uint8_t *_lt_Int256(ScillaExecImpl *SJ, ScillaTypes::Int256 *Lhs,
+                    ScillaTypes::Int256 *Rhs) {
+
+  return toScillaBool(SJ->OM, SafeInt256(Lhs) < SafeInt256(Rhs));
+}
+
+uint8_t *_lt_Uint32(ScillaExecImpl *SJ, ScillaTypes::Uint32 Lhs,
+                    ScillaTypes::Uint32 Rhs) {
+
+  return toScillaBool(SJ->OM, SafeUint32(&Lhs) < SafeUint32(&Rhs));
+}
+
+uint8_t *_lt_Uint64(ScillaExecImpl *SJ, ScillaTypes::Uint64 Lhs,
+                    ScillaTypes::Uint64 Rhs) {
+
+  return toScillaBool(SJ->OM, SafeUint64(&Lhs) < SafeUint64(&Rhs));
+}
+
+uint8_t *_lt_Uint128(ScillaExecImpl *SJ, ScillaTypes::Uint128 Lhs,
+                     ScillaTypes::Uint128 Rhs) {
+
+  return toScillaBool(SJ->OM, SafeUint128(&Lhs) < SafeUint128(&Rhs));
+}
+
+uint8_t *_lt_Uint256(ScillaExecImpl *SJ, ScillaTypes::Uint256 *Lhs,
+                     ScillaTypes::Uint256 *Rhs) {
+
+  return toScillaBool(SJ->OM, SafeUint256(Lhs) < SafeUint256(Rhs));
+}
+
 void *_fetch_field(ScillaExecImpl *SJ, const char *Name,
                    const ScillaTypes::Typ *T, int32_t NumIdx,
                    const uint8_t *Indices, int32_t FetchVal) {
@@ -541,10 +592,23 @@ uint8_t *_eq_ByStr(ScillaExecImpl *SJ, ScillaTypes::String Lhs,
   return toScillaBool(SJ->OM, B);
 }
 
-uint8_t *_eq_ByStrX(ScillaExecImpl *SJ, int X, uint8_t *Lhs, uint8_t *Rhs) {
+uint8_t *_eq_ByStrX(ScillaExecImpl *SJ, int X, const uint8_t *Lhs,
+                    const uint8_t *Rhs) {
 
   auto B = (std::memcmp(Lhs, Rhs, X) == 0);
   return toScillaBool(SJ->OM, B);
+}
+
+uint8_t *_eq_BNum(ScillaExecImpl *SJ, const uint8_t *Lhs, const uint8_t *Rhs) {
+  auto *LhsInt = reinterpret_cast<const bmp::gmp_int *>(Lhs);
+  auto *RhsInt = reinterpret_cast<const bmp::gmp_int *>(Rhs);
+  return toScillaBool(SJ->OM, !LhsInt->compare(*RhsInt));
+}
+
+uint8_t *_lt_BNum(ScillaExecImpl *SJ, const uint8_t *Lhs, const uint8_t *Rhs) {
+  auto *LhsInt = reinterpret_cast<const bmp::gmp_int *>(Lhs);
+  auto *RhsInt = reinterpret_cast<const bmp::gmp_int *>(Rhs);
+  return toScillaBool(SJ->OM, LhsInt->compare(*RhsInt) < 0);
 }
 
 ScillaTypes::String _to_bystr(ScillaExecImpl *SJ, int X, uint8_t *Buf) {
@@ -895,6 +959,23 @@ void _accept(ScillaExecImpl *SJ) { SJ->TS->processAccept(); }
 
 ScillaParams::MapValueT *_new_empty_map(ScillaExecImpl *SJ) {
   return SJ->OM.create<ScillaParams::MapValueT>();
+}
+
+void *_new_bnum(ScillaExecImpl *SJ, ScillaTypes::String Val) {
+  auto *BV = SJ->OM.create<bmp::gmp_int>();
+  *BV = std::string(Val).c_str();
+  return BV;
+}
+
+void *_read_blockchain(ScillaExecImpl *SJ, ScillaTypes::String VName) {
+  auto VNameS = std::string(VName);
+  if (VNameS == "BLOCKNUMBER") {
+    auto *BV = SJ->OM.create<bmp::gmp_int>();
+    *BV = SJ->TS->CurBlock;
+    return BV;
+  } else {
+    CREATE_ERROR("Unknown blockchain read request");
+  }
 }
 
 ScillaParams::MapValueT *_put(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,

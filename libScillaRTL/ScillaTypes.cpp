@@ -245,7 +245,8 @@ int ScillaTypes::Typ::sizeOf(const Typ *T) {
     case PrimTyp::Bystrx_typ:
       return T->m_sub.m_primt->m_detail.m_bystX;
     case PrimTyp::Bnum_typ:
-      CREATE_ERROR("Unimplemented");
+      // BNums are boxed.
+      return sizeof(void *);
     case PrimTyp::Msg_typ:
     case PrimTyp::Event_typ:
     case PrimTyp::Exception_typ:
@@ -269,6 +270,7 @@ bool Typ::isBoxed(const Typ *T) {
   switch (T->m_t) {
   case Prim_typ:
     switch (T->m_sub.m_primt->m_pt) {
+    case PrimTyp::Bnum_typ:
     case PrimTyp::Msg_typ:
     case PrimTyp::Event_typ:
     case PrimTyp::Exception_typ:

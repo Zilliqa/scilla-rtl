@@ -1,0 +1,136 @@
+{
+  "contract_info": {
+    "scilla_major_version": "0",
+    "vname": "Crowdfunding",
+    "params": [
+      { "vname": "owner", "type": "ByStr20" },
+      { "vname": "max_block", "type": "BNum" },
+      { "vname": "goal", "type": "Uint128" }
+    ],
+    "fields": [
+      { "vname": "backers", "type": "Map (ByStr20) (Uint128)", "depth": 1 },
+      { "vname": "funded", "type": "Bool", "depth": 0 }
+    ],
+    "transitions": [
+      { "vname": "Donate", "params": [] },
+      { "vname": "GetFunds", "params": [] },
+      { "vname": "ClaimBack", "params": [] }
+    ],
+    "procedures": [],
+    "events": [
+      {
+        "vname": "ClaimBackSuccess",
+        "params": [
+          { "vname": "caller", "type": "ByStr20" },
+          { "vname": "amount", "type": "Uint128" },
+          { "vname": "code", "type": "Int32" }
+        ]
+      },
+      {
+        "vname": "ClaimBackFailure",
+        "params": [
+          { "vname": "caller", "type": "ByStr20" },
+          { "vname": "amount", "type": "Uint128" },
+          { "vname": "code", "type": "Int32" }
+        ]
+      },
+      {
+        "vname": "GetFundsSuccess",
+        "params": [
+          { "vname": "caller", "type": "ByStr20" },
+          { "vname": "amount", "type": "Uint128" },
+          { "vname": "code", "type": "Int32" }
+        ]
+      },
+      {
+        "vname": "GetFundsFailure",
+        "params": [
+          { "vname": "caller", "type": "ByStr20" },
+          { "vname": "amount", "type": "Uint128" },
+          { "vname": "code", "type": "Int32" }
+        ]
+      },
+      {
+        "vname": "DonationSuccess",
+        "params": [
+          { "vname": "donor", "type": "ByStr20" },
+          { "vname": "amount", "type": "Uint128" },
+          { "vname": "code", "type": "Int32" }
+        ]
+      },
+      {
+        "vname": "DonationFailure",
+        "params": [
+          { "vname": "donor", "type": "ByStr20" },
+          { "vname": "amount", "type": "Uint128" },
+          { "vname": "code", "type": "Int32" }
+        ]
+      }
+    ],
+    "ADTs": [
+      {
+        "tname": "Option",
+        "tparams": [ "'A" ],
+        "tmap": [
+          { "cname": "Some", "argtypes": [ "'A" ] },
+          { "cname": "None", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Bool",
+        "tparams": [],
+        "tmap": [
+          { "cname": "True", "argtypes": [] },
+          { "cname": "False", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Nat",
+        "tparams": [],
+        "tmap": [
+          { "cname": "Zero", "argtypes": [] },
+          { "cname": "Succ", "argtypes": [ "Nat" ] }
+        ]
+      },
+      {
+        "tname": "List",
+        "tparams": [ "'A" ],
+        "tmap": [
+          { "cname": "Cons", "argtypes": [ "'A", "List ('A)" ] },
+          { "cname": "Nil", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Pair",
+        "tparams": [ "'A", "'B" ],
+        "tmap": [ { "cname": "Pair", "argtypes": [ "'A", "'B" ] } ]
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "warning_message": "Consider using in-place Map access",
+      "start_location": {
+        "file":
+          "../../scilla-compiler//tests/codegen/contr/crowdfunding.scilla",
+        "line": 122,
+        "column": 11
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 1
+    },
+    {
+      "warning_message": "Consider using in-place Map access",
+      "start_location": {
+        "file":
+          "../../scilla-compiler//tests/codegen/contr/crowdfunding.scilla",
+        "line": 65,
+        "column": 12
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 1
+    }
+  ],
+  "gas_remaining": "9999"
+}
+

@@ -31,11 +31,11 @@ namespace {
 namespace po = boost::program_options;
 
 void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
-  auto UsageString =
-      "Usage: " + std::string(argv[0]) +
-      " [option...] -i input_contract.ll -n init.json -g gaslimit "
-      "[-c contract_info.json] [-m message.json] [-s state.json]"
-      "\nSupported options";
+  auto UsageString = "Usage: " + std::string(argv[0]) +
+                     " [option...] -i input_contract.ll -n init.json -g "
+                     "gaslimit -b blockchain.json [-c contract_info.json] [-m "
+                     "message.json] [-s state.json]"
+                     "\nSupported options";
   po::options_description Desc(UsageString);
 
   // clang-format off
@@ -44,6 +44,7 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
     ("init,n", po::value<std::string>(), "Specify init JSON to initialize contract parameters")
     ("message,m", po::value<std::string>(), "Specify the message JSON to be executed")
     ("state,s", po::value<std::string>(), "Specify the JSON to use as initial state")
+    ("blockchain,b", po::value<std::string>(), "Specify the JSON to use for blockchain reads")
     ("gaslimit,g", po::value<uint64_t>(), "Gas limit")
     ("contract-info,c", po::value<std::string>(), "Specify the contract info JSON from checker")
     ("output-file,o", po::value<std::string>(), "Specify output filename")
@@ -72,7 +73,7 @@ void parseCLIArgs(int argc, char *argv[], po::variables_map &VM) {
 
   // Ensure that input files are provided.
   if (!VM.count("input-contract") || !VM.count("init") ||
-      !VM.count("gaslimit")) {
+      !VM.count("blockchain") || !VM.count("gaslimit")) {
     std::cerr << "Missing mandatory command line arguments\n" << Desc << "\n";
     exit(EXIT_FAILURE);
   }
@@ -120,11 +121,14 @@ int main(int argc, char *argv[]) {
     auto InputFilename = VM["input-contract"].as<std::string>();
     auto InitFilename = VM["init"].as<std::string>();
     auto GasLimit = VM["gaslimit"].as<uint64_t>();
+    auto BCFilename = VM["blockchain"].as<std::string>();
 
     // Tool to compile the LLVM-IR to a binary shared object.
     CompileToSO CSO(InputFilename);
-    // Parse the init JSON.
+    // Parse the init JSON and blockchain JSONs
     auto IJ = parseJSONFile(InitFilename);
+    auto BCJ = parseJSONFile(BCFilename);
+    uint64_t CurBlock = parseBlockchainJSON(BCJ);
 
     // If there's a contract-info provided, use its field name / type info.
     if (VM.count("contract-info")) {
@@ -150,10 +154,10 @@ int main(int argc, char *argv[]) {
       auto MessageFilename = VM["message"].as<std::string>();
       auto MJ = parseJSONFile(MessageFilename);
       // Execute message
-      OutJ = JE.execMsg(Balance, GasLimit, IJ, MJ);
+      OutJ = JE.execMsg(Balance, GasLimit, CurBlock, IJ, MJ);
     } else {
       // Deployment
-      OutJ = JE.deploy(IJ, GasLimit);
+      OutJ = JE.deploy(IJ, GasLimit, CurBlock);
     }
 
     auto OSJ = State.dumpToJSON();

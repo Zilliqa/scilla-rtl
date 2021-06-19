@@ -288,6 +288,7 @@ target triple = "x86_64-unknown-linux-gnu"
 @ud-registry.getIsOAO = global { { { { %TName_Bool* (i8*, %"TName_Option_List_(ByStr20)"*)*, i8* } (i8*, %TName_Option_ByStr20*)*, i8* } (i8*, [20 x i8]*)*, i8* } (i8*, [20 x i8]*)*, i8* } zeroinitializer
 @_scilla_version = global %Uint32 zeroinitializer
 @_this_address = global [20 x i8] zeroinitializer
+@_creation_block = global i8* null
 @initialOwner = global [20 x i8] zeroinitializer
 @rootNode = global [32 x i8] zeroinitializer
 @"$records_2635" = unnamed_addr constant [8 x i8] c"records\00"
@@ -389,89 +390,90 @@ target triple = "x86_64-unknown-linux-gnu"
 @_tydescr_table_length = constant i32 28
 @"$pname__scilla_version_5827" = unnamed_addr constant [15 x i8] c"_scilla_version"
 @"$pname__this_address_5828" = unnamed_addr constant [13 x i8] c"_this_address"
-@"$pname_initialOwner_5829" = unnamed_addr constant [12 x i8] c"initialOwner"
-@"$pname_rootNode_5830" = unnamed_addr constant [8 x i8] c"rootNode"
-@_contract_parameters = constant [4 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([15 x i8], [15 x i8]* @"$pname__scilla_version_5827", i32 0, i32 0), i32 15 }, %_TyDescrTy_Typ* @"$TyDescr_Uint32_278" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$pname__this_address_5828", i32 0, i32 0), i32 13 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([12 x i8], [12 x i8]* @"$pname_initialOwner_5829", i32 0, i32 0), i32 12 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$pname_rootNode_5830", i32 0, i32 0), i32 8 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }]
-@_contract_parameters_length = constant i32 4
-@"$tpname__amount_5831" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_5832" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_5833" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_address_5834" = unnamed_addr constant [7 x i8] c"address"
-@"$tpname_isApproved_5835" = unnamed_addr constant [10 x i8] c"isApproved"
-@"$tparams_setAdmin_5836" = unnamed_addr constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5831", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5832", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5833", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname_address_5834", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$tpname_isApproved_5835", i32 0, i32 0), i32 10 }, %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_318" }]
-@"$tname_setAdmin_5837" = unnamed_addr constant [8 x i8] c"setAdmin"
-@"$tpname__amount_5838" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_5839" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_5840" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_node_5841" = unnamed_addr constant [4 x i8] c"node"
-@"$tpname_address_5842" = unnamed_addr constant [7 x i8] c"address"
-@"$tparams_approve_5843" = unnamed_addr constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5838", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5839", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5840", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$tpname_node_5841", i32 0, i32 0), i32 4 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname_address_5842", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
-@"$tname_approve_5844" = unnamed_addr constant [7 x i8] c"approve"
-@"$tpname__amount_5845" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_5846" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_5847" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_address_5848" = unnamed_addr constant [7 x i8] c"address"
-@"$tpname_isApproved_5849" = unnamed_addr constant [10 x i8] c"isApproved"
-@"$tparams_approveFor_5850" = unnamed_addr constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5845", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5846", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5847", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname_address_5848", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$tpname_isApproved_5849", i32 0, i32 0), i32 10 }, %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_318" }]
-@"$tname_approveFor_5851" = unnamed_addr constant [10 x i8] c"approveFor"
-@"$tpname__amount_5852" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_5853" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_5854" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_node_5855" = unnamed_addr constant [4 x i8] c"node"
-@"$tpname_owner_5856" = unnamed_addr constant [5 x i8] c"owner"
-@"$tpname_resolver_5857" = unnamed_addr constant [8 x i8] c"resolver"
-@"$tparams_configureNode_5858" = unnamed_addr constant [6 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5852", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5853", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5854", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$tpname_node_5855", i32 0, i32 0), i32 4 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_owner_5856", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tpname_resolver_5857", i32 0, i32 0), i32 8 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
-@"$tname_configureNode_5859" = unnamed_addr constant [13 x i8] c"configureNode"
-@"$tpname__amount_5860" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_5861" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_5862" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_node_5863" = unnamed_addr constant [4 x i8] c"node"
-@"$tpname_resolver_5864" = unnamed_addr constant [8 x i8] c"resolver"
-@"$tparams_configureResolver_5865" = unnamed_addr constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5860", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5861", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5862", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$tpname_node_5863", i32 0, i32 0), i32 4 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tpname_resolver_5864", i32 0, i32 0), i32 8 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
-@"$tname_configureResolver_5866" = unnamed_addr constant [17 x i8] c"configureResolver"
-@"$tpname__amount_5867" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_5868" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_5869" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_node_5870" = unnamed_addr constant [4 x i8] c"node"
-@"$tpname_owner_5871" = unnamed_addr constant [5 x i8] c"owner"
-@"$tparams_transfer_5872" = unnamed_addr constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5867", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5868", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5869", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$tpname_node_5870", i32 0, i32 0), i32 4 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_owner_5871", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
-@"$tname_transfer_5873" = unnamed_addr constant [8 x i8] c"transfer"
-@"$tpname__amount_5874" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_5875" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_5876" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_parent_5877" = unnamed_addr constant [6 x i8] c"parent"
-@"$tpname_label_5878" = unnamed_addr constant [5 x i8] c"label"
-@"$tpname_owner_5879" = unnamed_addr constant [5 x i8] c"owner"
-@"$tparams_assign_5880" = unnamed_addr constant [6 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5874", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5875", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5876", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tpname_parent_5877", i32 0, i32 0), i32 6 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_label_5878", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_String_292" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_owner_5879", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
-@"$tname_assign_5881" = unnamed_addr constant [6 x i8] c"assign"
-@"$tpname__amount_5882" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_5883" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_5884" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_label_5885" = unnamed_addr constant [5 x i8] c"label"
-@"$tpname_owner_5886" = unnamed_addr constant [5 x i8] c"owner"
-@"$tpname_resolver_5887" = unnamed_addr constant [8 x i8] c"resolver"
-@"$tparams_bestow_5888" = unnamed_addr constant [6 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5882", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5883", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5884", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_label_5885", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_String_292" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_owner_5886", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tpname_resolver_5887", i32 0, i32 0), i32 8 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
-@"$tname_bestow_5889" = unnamed_addr constant [6 x i8] c"bestow"
-@"$tpname__amount_5890" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_5891" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_5892" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_address_5893" = unnamed_addr constant [7 x i8] c"address"
-@"$tparams_setRegistrar_5894" = unnamed_addr constant [4 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5890", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5891", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5892", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname_address_5893", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
-@"$tname_setRegistrar_5895" = unnamed_addr constant [12 x i8] c"setRegistrar"
-@"$tpname__amount_5896" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_5897" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_5898" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_parent_5899" = unnamed_addr constant [6 x i8] c"parent"
-@"$tpname_label_5900" = unnamed_addr constant [5 x i8] c"label"
-@"$tparams_register_5901" = unnamed_addr constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5896", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5897", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5898", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tpname_parent_5899", i32 0, i32 0), i32 6 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_label_5900", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_String_292" }]
-@"$tname_register_5902" = unnamed_addr constant [8 x i8] c"register"
-@"$tpname__amount_5903" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_5904" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_5905" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_node_5906" = unnamed_addr constant [4 x i8] c"node"
-@"$tparams_onResolverConfigured_5907" = unnamed_addr constant [4 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5903", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5904", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5905", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$tpname_node_5906", i32 0, i32 0), i32 4 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }]
-@"$tname_onResolverConfigured_5908" = unnamed_addr constant [20 x i8] c"onResolverConfigured"
-@_transition_parameters = constant [11 x %"$TransDescr_5826"] [%"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tname_setAdmin_5837", i32 0, i32 0), i32 8 }, i32 5, %"$ParamDescr_5825"* getelementptr inbounds ([5 x %"$ParamDescr_5825"], [5 x %"$ParamDescr_5825"]* @"$tparams_setAdmin_5836", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tname_approve_5844", i32 0, i32 0), i32 7 }, i32 5, %"$ParamDescr_5825"* getelementptr inbounds ([5 x %"$ParamDescr_5825"], [5 x %"$ParamDescr_5825"]* @"$tparams_approve_5843", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$tname_approveFor_5851", i32 0, i32 0), i32 10 }, i32 5, %"$ParamDescr_5825"* getelementptr inbounds ([5 x %"$ParamDescr_5825"], [5 x %"$ParamDescr_5825"]* @"$tparams_approveFor_5850", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$tname_configureNode_5859", i32 0, i32 0), i32 13 }, i32 6, %"$ParamDescr_5825"* getelementptr inbounds ([6 x %"$ParamDescr_5825"], [6 x %"$ParamDescr_5825"]* @"$tparams_configureNode_5858", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([17 x i8], [17 x i8]* @"$tname_configureResolver_5866", i32 0, i32 0), i32 17 }, i32 5, %"$ParamDescr_5825"* getelementptr inbounds ([5 x %"$ParamDescr_5825"], [5 x %"$ParamDescr_5825"]* @"$tparams_configureResolver_5865", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tname_transfer_5873", i32 0, i32 0), i32 8 }, i32 5, %"$ParamDescr_5825"* getelementptr inbounds ([5 x %"$ParamDescr_5825"], [5 x %"$ParamDescr_5825"]* @"$tparams_transfer_5872", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tname_assign_5881", i32 0, i32 0), i32 6 }, i32 6, %"$ParamDescr_5825"* getelementptr inbounds ([6 x %"$ParamDescr_5825"], [6 x %"$ParamDescr_5825"]* @"$tparams_assign_5880", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tname_bestow_5889", i32 0, i32 0), i32 6 }, i32 6, %"$ParamDescr_5825"* getelementptr inbounds ([6 x %"$ParamDescr_5825"], [6 x %"$ParamDescr_5825"]* @"$tparams_bestow_5888", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([12 x i8], [12 x i8]* @"$tname_setRegistrar_5895", i32 0, i32 0), i32 12 }, i32 4, %"$ParamDescr_5825"* getelementptr inbounds ([4 x %"$ParamDescr_5825"], [4 x %"$ParamDescr_5825"]* @"$tparams_setRegistrar_5894", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tname_register_5902", i32 0, i32 0), i32 8 }, i32 5, %"$ParamDescr_5825"* getelementptr inbounds ([5 x %"$ParamDescr_5825"], [5 x %"$ParamDescr_5825"]* @"$tparams_register_5901", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([20 x i8], [20 x i8]* @"$tname_onResolverConfigured_5908", i32 0, i32 0), i32 20 }, i32 4, %"$ParamDescr_5825"* getelementptr inbounds ([4 x %"$ParamDescr_5825"], [4 x %"$ParamDescr_5825"]* @"$tparams_onResolverConfigured_5907", i32 0, i32 0) }]
+@"$pname__creation_block_5829" = unnamed_addr constant [15 x i8] c"_creation_block"
+@"$pname_initialOwner_5830" = unnamed_addr constant [12 x i8] c"initialOwner"
+@"$pname_rootNode_5831" = unnamed_addr constant [8 x i8] c"rootNode"
+@_contract_parameters = constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([15 x i8], [15 x i8]* @"$pname__scilla_version_5827", i32 0, i32 0), i32 15 }, %_TyDescrTy_Typ* @"$TyDescr_Uint32_278" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$pname__this_address_5828", i32 0, i32 0), i32 13 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([15 x i8], [15 x i8]* @"$pname__creation_block_5829", i32 0, i32 0), i32 15 }, %_TyDescrTy_Typ* @"$TyDescr_Bnum_294" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([12 x i8], [12 x i8]* @"$pname_initialOwner_5830", i32 0, i32 0), i32 12 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$pname_rootNode_5831", i32 0, i32 0), i32 8 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }]
+@_contract_parameters_length = constant i32 5
+@"$tpname__amount_5832" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_5833" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_5834" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_address_5835" = unnamed_addr constant [7 x i8] c"address"
+@"$tpname_isApproved_5836" = unnamed_addr constant [10 x i8] c"isApproved"
+@"$tparams_setAdmin_5837" = unnamed_addr constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5832", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5833", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5834", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname_address_5835", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$tpname_isApproved_5836", i32 0, i32 0), i32 10 }, %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_318" }]
+@"$tname_setAdmin_5838" = unnamed_addr constant [8 x i8] c"setAdmin"
+@"$tpname__amount_5839" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_5840" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_5841" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_node_5842" = unnamed_addr constant [4 x i8] c"node"
+@"$tpname_address_5843" = unnamed_addr constant [7 x i8] c"address"
+@"$tparams_approve_5844" = unnamed_addr constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5839", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5840", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5841", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$tpname_node_5842", i32 0, i32 0), i32 4 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname_address_5843", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
+@"$tname_approve_5845" = unnamed_addr constant [7 x i8] c"approve"
+@"$tpname__amount_5846" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_5847" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_5848" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_address_5849" = unnamed_addr constant [7 x i8] c"address"
+@"$tpname_isApproved_5850" = unnamed_addr constant [10 x i8] c"isApproved"
+@"$tparams_approveFor_5851" = unnamed_addr constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5846", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5847", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5848", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname_address_5849", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$tpname_isApproved_5850", i32 0, i32 0), i32 10 }, %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_318" }]
+@"$tname_approveFor_5852" = unnamed_addr constant [10 x i8] c"approveFor"
+@"$tpname__amount_5853" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_5854" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_5855" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_node_5856" = unnamed_addr constant [4 x i8] c"node"
+@"$tpname_owner_5857" = unnamed_addr constant [5 x i8] c"owner"
+@"$tpname_resolver_5858" = unnamed_addr constant [8 x i8] c"resolver"
+@"$tparams_configureNode_5859" = unnamed_addr constant [6 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5853", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5854", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5855", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$tpname_node_5856", i32 0, i32 0), i32 4 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_owner_5857", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tpname_resolver_5858", i32 0, i32 0), i32 8 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
+@"$tname_configureNode_5860" = unnamed_addr constant [13 x i8] c"configureNode"
+@"$tpname__amount_5861" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_5862" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_5863" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_node_5864" = unnamed_addr constant [4 x i8] c"node"
+@"$tpname_resolver_5865" = unnamed_addr constant [8 x i8] c"resolver"
+@"$tparams_configureResolver_5866" = unnamed_addr constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5861", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5862", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5863", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$tpname_node_5864", i32 0, i32 0), i32 4 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tpname_resolver_5865", i32 0, i32 0), i32 8 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
+@"$tname_configureResolver_5867" = unnamed_addr constant [17 x i8] c"configureResolver"
+@"$tpname__amount_5868" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_5869" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_5870" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_node_5871" = unnamed_addr constant [4 x i8] c"node"
+@"$tpname_owner_5872" = unnamed_addr constant [5 x i8] c"owner"
+@"$tparams_transfer_5873" = unnamed_addr constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5868", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5869", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5870", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$tpname_node_5871", i32 0, i32 0), i32 4 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_owner_5872", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
+@"$tname_transfer_5874" = unnamed_addr constant [8 x i8] c"transfer"
+@"$tpname__amount_5875" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_5876" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_5877" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_parent_5878" = unnamed_addr constant [6 x i8] c"parent"
+@"$tpname_label_5879" = unnamed_addr constant [5 x i8] c"label"
+@"$tpname_owner_5880" = unnamed_addr constant [5 x i8] c"owner"
+@"$tparams_assign_5881" = unnamed_addr constant [6 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5875", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5876", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5877", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tpname_parent_5878", i32 0, i32 0), i32 6 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_label_5879", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_String_292" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_owner_5880", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
+@"$tname_assign_5882" = unnamed_addr constant [6 x i8] c"assign"
+@"$tpname__amount_5883" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_5884" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_5885" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_label_5886" = unnamed_addr constant [5 x i8] c"label"
+@"$tpname_owner_5887" = unnamed_addr constant [5 x i8] c"owner"
+@"$tpname_resolver_5888" = unnamed_addr constant [8 x i8] c"resolver"
+@"$tparams_bestow_5889" = unnamed_addr constant [6 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5883", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5884", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5885", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_label_5886", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_String_292" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_owner_5887", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tpname_resolver_5888", i32 0, i32 0), i32 8 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
+@"$tname_bestow_5890" = unnamed_addr constant [6 x i8] c"bestow"
+@"$tpname__amount_5891" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_5892" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_5893" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_address_5894" = unnamed_addr constant [7 x i8] c"address"
+@"$tparams_setRegistrar_5895" = unnamed_addr constant [4 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5891", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5892", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5893", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname_address_5894", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308" }]
+@"$tname_setRegistrar_5896" = unnamed_addr constant [12 x i8] c"setRegistrar"
+@"$tpname__amount_5897" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_5898" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_5899" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_parent_5900" = unnamed_addr constant [6 x i8] c"parent"
+@"$tpname_label_5901" = unnamed_addr constant [5 x i8] c"label"
+@"$tparams_register_5902" = unnamed_addr constant [5 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5897", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5898", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5899", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tpname_parent_5900", i32 0, i32 0), i32 6 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tpname_label_5901", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_String_292" }]
+@"$tname_register_5903" = unnamed_addr constant [8 x i8] c"register"
+@"$tpname__amount_5904" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_5905" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_5906" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_node_5907" = unnamed_addr constant [4 x i8] c"node"
+@"$tparams_onResolverConfigured_5908" = unnamed_addr constant [4 x %"$ParamDescr_5825"] [%"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_5904", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_286" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_5905", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_5906", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_325" }, %"$ParamDescr_5825" { %ParamDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$tpname_node_5907", i32 0, i32 0), i32 4 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr32_306" }]
+@"$tname_onResolverConfigured_5909" = unnamed_addr constant [20 x i8] c"onResolverConfigured"
+@_transition_parameters = constant [11 x %"$TransDescr_5826"] [%"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tname_setAdmin_5838", i32 0, i32 0), i32 8 }, i32 5, %"$ParamDescr_5825"* getelementptr inbounds ([5 x %"$ParamDescr_5825"], [5 x %"$ParamDescr_5825"]* @"$tparams_setAdmin_5837", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tname_approve_5845", i32 0, i32 0), i32 7 }, i32 5, %"$ParamDescr_5825"* getelementptr inbounds ([5 x %"$ParamDescr_5825"], [5 x %"$ParamDescr_5825"]* @"$tparams_approve_5844", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$tname_approveFor_5852", i32 0, i32 0), i32 10 }, i32 5, %"$ParamDescr_5825"* getelementptr inbounds ([5 x %"$ParamDescr_5825"], [5 x %"$ParamDescr_5825"]* @"$tparams_approveFor_5851", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$tname_configureNode_5860", i32 0, i32 0), i32 13 }, i32 6, %"$ParamDescr_5825"* getelementptr inbounds ([6 x %"$ParamDescr_5825"], [6 x %"$ParamDescr_5825"]* @"$tparams_configureNode_5859", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([17 x i8], [17 x i8]* @"$tname_configureResolver_5867", i32 0, i32 0), i32 17 }, i32 5, %"$ParamDescr_5825"* getelementptr inbounds ([5 x %"$ParamDescr_5825"], [5 x %"$ParamDescr_5825"]* @"$tparams_configureResolver_5866", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tname_transfer_5874", i32 0, i32 0), i32 8 }, i32 5, %"$ParamDescr_5825"* getelementptr inbounds ([5 x %"$ParamDescr_5825"], [5 x %"$ParamDescr_5825"]* @"$tparams_transfer_5873", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tname_assign_5882", i32 0, i32 0), i32 6 }, i32 6, %"$ParamDescr_5825"* getelementptr inbounds ([6 x %"$ParamDescr_5825"], [6 x %"$ParamDescr_5825"]* @"$tparams_assign_5881", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tname_bestow_5890", i32 0, i32 0), i32 6 }, i32 6, %"$ParamDescr_5825"* getelementptr inbounds ([6 x %"$ParamDescr_5825"], [6 x %"$ParamDescr_5825"]* @"$tparams_bestow_5889", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([12 x i8], [12 x i8]* @"$tname_setRegistrar_5896", i32 0, i32 0), i32 12 }, i32 4, %"$ParamDescr_5825"* getelementptr inbounds ([4 x %"$ParamDescr_5825"], [4 x %"$ParamDescr_5825"]* @"$tparams_setRegistrar_5895", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tname_register_5903", i32 0, i32 0), i32 8 }, i32 5, %"$ParamDescr_5825"* getelementptr inbounds ([5 x %"$ParamDescr_5825"], [5 x %"$ParamDescr_5825"]* @"$tparams_register_5902", i32 0, i32 0) }, %"$TransDescr_5826" { %ParamDescrString { i8* getelementptr inbounds ([20 x i8], [20 x i8]* @"$tname_onResolverConfigured_5909", i32 0, i32 0), i32 20 }, i32 4, %"$ParamDescr_5825"* getelementptr inbounds ([4 x %"$ParamDescr_5825"], [4 x %"$ParamDescr_5825"]* @"$tparams_onResolverConfigured_5908", i32 0, i32 0) }]
 @_transition_parameters_length = constant i32 11
 
 define internal %TName_Bool* @"$fundef_211"(%"$$fundef_211_env_402"* %0, %"TName_Option_List_(ByStr20)"* %1) {
@@ -6756,7 +6758,7 @@ entry:
   store %String { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$stringlit_3612", i32 0, i32 0), i32 10 }, %String* %"$msgobj_fname_3614", align 8
   %"$msgobj_td_3615" = getelementptr i8, i8* %"$msgobj_3582", i32 197
   %"$msgobj_td_3616" = bitcast i8* %"$msgobj_td_3615" to %_TyDescrTy_Typ**
-  store %_TyDescrTy_Typ* @"$TyDescr_Addr_325", %_TyDescrTy_Typ** %"$msgobj_td_3616", align 8
+  store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308", %_TyDescrTy_Typ** %"$msgobj_td_3616", align 8
   %"$msgobj_v_3617" = getelementptr i8, i8* %"$msgobj_3582", i32 205
   %"$msgobj_v_3618" = bitcast i8* %"$msgobj_v_3617" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %"$msgobj_v_3618", align 1
@@ -6956,7 +6958,7 @@ entry:
   store %String { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$stringlit_3726", i32 0, i32 0), i32 10 }, %String* %"$msgobj_fname_3728", align 8
   %"$msgobj_td_3729" = getelementptr i8, i8* %"$msgobj_3695", i32 197
   %"$msgobj_td_3730" = bitcast i8* %"$msgobj_td_3729" to %_TyDescrTy_Typ**
-  store %_TyDescrTy_Typ* @"$TyDescr_Addr_325", %_TyDescrTy_Typ** %"$msgobj_td_3730", align 8
+  store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308", %_TyDescrTy_Typ** %"$msgobj_td_3730", align 8
   %"$msgobj_v_3731" = getelementptr i8, i8* %"$msgobj_3695", i32 205
   %"$msgobj_v_3732" = bitcast i8* %"$msgobj_v_3731" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %"$msgobj_v_3732", align 1
@@ -7889,7 +7891,7 @@ entry:
   store %String { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$stringlit_4238", i32 0, i32 0), i32 10 }, %String* %"$msgobj_fname_4240", align 8
   %"$msgobj_td_4241" = getelementptr i8, i8* %"$msgobj_4208", i32 197
   %"$msgobj_td_4242" = bitcast i8* %"$msgobj_td_4241" to %_TyDescrTy_Typ**
-  store %_TyDescrTy_Typ* @"$TyDescr_Addr_325", %_TyDescrTy_Typ** %"$msgobj_td_4242", align 8
+  store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308", %_TyDescrTy_Typ** %"$msgobj_td_4242", align 8
   %"$msgobj_v_4243" = getelementptr i8, i8* %"$msgobj_4208", i32 205
   %"$msgobj_v_4244" = bitcast i8* %"$msgobj_v_4243" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %"$msgobj_v_4244", align 1
@@ -8088,7 +8090,7 @@ entry:
   store %String { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$stringlit_4351", i32 0, i32 0), i32 10 }, %String* %"$msgobj_fname_4353", align 8
   %"$msgobj_td_4354" = getelementptr i8, i8* %"$msgobj_4321", i32 197
   %"$msgobj_td_4355" = bitcast i8* %"$msgobj_td_4354" to %_TyDescrTy_Typ**
-  store %_TyDescrTy_Typ* @"$TyDescr_Addr_325", %_TyDescrTy_Typ** %"$msgobj_td_4355", align 8
+  store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308", %_TyDescrTy_Typ** %"$msgobj_td_4355", align 8
   %"$msgobj_v_4356" = getelementptr i8, i8* %"$msgobj_4321", i32 205
   %"$msgobj_v_4357" = bitcast i8* %"$msgobj_v_4356" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %"$msgobj_v_4357", align 1
@@ -8752,7 +8754,7 @@ entry:
   store %String { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$stringlit_4718", i32 0, i32 0), i32 10 }, %String* %"$msgobj_fname_4720", align 8
   %"$msgobj_td_4721" = getelementptr i8, i8* %"$msgobj_4681", i32 237
   %"$msgobj_td_4722" = bitcast i8* %"$msgobj_td_4721" to %_TyDescrTy_Typ**
-  store %_TyDescrTy_Typ* @"$TyDescr_Addr_325", %_TyDescrTy_Typ** %"$msgobj_td_4722", align 8
+  store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308", %_TyDescrTy_Typ** %"$msgobj_td_4722", align 8
   %"$msgobj_v_4723" = getelementptr i8, i8* %"$msgobj_4681", i32 245
   %"$msgobj_v_4724" = bitcast i8* %"$msgobj_v_4723" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %"$msgobj_v_4724", align 1
@@ -8961,7 +8963,7 @@ entry:
   store %String { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$stringlit_4839", i32 0, i32 0), i32 10 }, %String* %"$msgobj_fname_4841", align 8
   %"$msgobj_td_4842" = getelementptr i8, i8* %"$msgobj_4801", i32 237
   %"$msgobj_td_4843" = bitcast i8* %"$msgobj_td_4842" to %_TyDescrTy_Typ**
-  store %_TyDescrTy_Typ* @"$TyDescr_Addr_325", %_TyDescrTy_Typ** %"$msgobj_td_4843", align 8
+  store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308", %_TyDescrTy_Typ** %"$msgobj_td_4843", align 8
   %"$msgobj_v_4844" = getelementptr i8, i8* %"$msgobj_4801", i32 245
   %"$msgobj_v_4845" = bitcast i8* %"$msgobj_v_4844" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %"$msgobj_v_4845", align 1
@@ -10424,7 +10426,7 @@ entry:
   store %String { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$stringlit_5635", i32 0, i32 0), i32 6 }, %String* %"$msgobj_fname_5637", align 8
   %"$msgobj_td_5638" = getelementptr i8, i8* %"$msgobj_5611", i32 141
   %"$msgobj_td_5639" = bitcast i8* %"$msgobj_td_5638" to %_TyDescrTy_Typ**
-  store %_TyDescrTy_Typ* @"$TyDescr_Addr_325", %_TyDescrTy_Typ** %"$msgobj_td_5639", align 8
+  store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_308", %_TyDescrTy_Typ** %"$msgobj_td_5639", align 8
   %"$msgobj_v_5640" = getelementptr i8, i8* %"$msgobj_5611", i32 149
   %"$msgobj_v_5641" = bitcast i8* %"$msgobj_v_5640" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %"$msgobj_v_5641", align 1

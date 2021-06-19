@@ -47,10 +47,12 @@ public:
   uint64_t *initGasAndLibs(uint64_t GasRem);
   // Execute a message.
   Json::Value execMsg(const std::string &Balance, uint64_t GasLimit,
-                      const Json::Value &InitJ, const Json::Value &Msg);
+                      uint64_t CurBlock, const Json::Value &InitJ,
+                      const Json::Value &Msg);
   // Initialize the contract state to field initialization values in the source.
   // This is to be called only during deployment of the contract. Never again.
-  Json::Value deploy(const Json::Value &InitJ, uint64_t GasLimit);
+  Json::Value deploy(const Json::Value &InitJ, uint64_t GasLimit,
+                     uint64_t CurBlock);
   // What's the gas remaining from previous execution (deploy / execMsg).
   // Useful if execution was interrupted due to an exception.
   // Use with care if you don't want to end up with a stale value.

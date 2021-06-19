@@ -1,0 +1,35 @@
+{
+   "_accepted" : "false",
+   "events" : [
+      {
+         "_eventname" : "ClaimBackSuccess",
+         "params" : [
+            {
+               "type" : "ByStr20",
+               "value" : "0x12345678901234567890123456789012345678ab",
+               "vname" : "caller"
+            },
+            {
+               "type" : "Uint128",
+               "value" : "100",
+               "vname" : "amount"
+            },
+            {
+               "type" : "Int32",
+               "value" : "9",
+               "vname" : "code"
+            }
+         ]
+      }
+   ],
+   "gas_remaining" : "9999501",
+   "messages" : [
+      {
+         "_amount" : "100",
+         "_recipient" : "0x12345678901234567890123456789012345678ab",
+         "_tag" : "",
+         "params" : []
+      }
+   ],
+   "scilla_major_version" : "0"
+}

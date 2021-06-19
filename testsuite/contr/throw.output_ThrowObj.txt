@@ -1,3 +1,4 @@
 Exception thrown: {
-   "_exception" : "Foo"
+   "_exception" : "Foo",
+   "params" : []
 }

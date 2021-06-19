@@ -1,0 +1,28 @@
+{
+   "_accepted" : "true",
+   "events" : [
+      {
+         "_eventname" : "DonationSuccess",
+         "params" : [
+            {
+               "type" : "ByStr20",
+               "value" : "0x12345678901234567890123456789012345678cd",
+               "vname" : "donor"
+            },
+            {
+               "type" : "Uint128",
+               "value" : "200",
+               "vname" : "amount"
+            },
+            {
+               "type" : "Int32",
+               "value" : "1",
+               "vname" : "code"
+            }
+         ]
+      }
+   ],
+   "gas_remaining" : "9999644",
+   "messages" : [],
+   "scilla_major_version" : "0"
+}
