@@ -8,6 +8,7 @@ add_executable(${TARGET_SCILLA_TESTS}
   TypeDescrs.cpp
   StateJsonTests.cpp
   StateJsonUtils.cpp
+  SafeIntTests.cpp
 )
 
 target_include_directories(${TARGET_SCILLA_TESTS} PUBLIC ${PROJECT_SOURCE_DIR}/include)
