@@ -127,4 +127,9 @@ template class SafeInt<64, SafeIntKind::Unsigned>;
 template class SafeInt<128, SafeIntKind::Unsigned>;
 template class SafeInt<256, SafeIntKind::Unsigned>;
 
+std::ostream &operator<<(std::ostream &Out, const BigNum &c) {
+  Out << c.toString();
+  return Out;
+}
+
 } // namespace ScillaRTL

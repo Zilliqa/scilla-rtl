@@ -86,7 +86,7 @@ typedef SafeInt<256, SafeIntKind::Unsigned> SafeUint256;
 
 namespace bmp = boost::multiprecision;
 
-class BigNum : public boost::multiprecision::mpz_int {
+class BigNum : private boost::multiprecision::mpz_int {
 public:
   BigNum() = default;
   // Copy constructor
@@ -212,5 +212,7 @@ public:
     }
   }
 };
+
+std::ostream &operator<<(std::ostream &Out, const BigNum &c);
 
 } // namespace ScillaRTL
