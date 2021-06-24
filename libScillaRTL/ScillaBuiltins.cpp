@@ -37,6 +37,8 @@ namespace bmp = boost::multiprecision;
 
 namespace ScillaRTL {
 
+SafeUint128 TransitionState::getCurBal() const { return Balance; }
+
 void TransitionState::processMessage(std::string OutType, Json::Value &M) {
   if (OutJ.empty()) {
     OutJ[OutType] = Json::arrayValue;
@@ -431,6 +433,18 @@ void *_fetch_field(ScillaExecImpl *SJ, const char *Name,
                    const ScillaTypes::Typ *T, int32_t NumIdx,
                    const uint8_t *Indices, int32_t FetchVal) {
 
+  if (std::string(Name) == "_balance") {
+    // TODO: This is inefficient, making two copies. It also allocates
+    // memory on every read of `_balance`. For better ideas, see
+    // https://github.com/Zilliqa/scilla-compiler/issues/73. On the other hand,
+    // because of https://github.com/Zilliqa/scilla/issues/1007,
+    // we may want to get rid of this special handling altogether.
+    size_t S = sizeof(ScillaTypes::Uint128);
+    auto BalMem = SJ->OM.allocBytes(S);
+    auto BalRaw = static_cast<ScillaTypes::Uint128>(SJ->TS->getCurBal());
+    std::memcpy(BalMem, BalRaw.buf, S);
+    return BalMem;
+  }
   return fetchFieldHelper(SJ, std::string(), Name, T, NumIdx, Indices,
                           FetchVal);
 }

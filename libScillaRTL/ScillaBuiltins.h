@@ -48,6 +48,7 @@ public:
   void processSend(Json::Value &M);
   void processEvent(Json::Value &M);
   void processAccept();
+  SafeUint128 getCurBal() const;
   const uint64_t CurBlock;
 
   // Returns the output of the transition execution. Destroys *this*.
