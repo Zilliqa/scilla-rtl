@@ -38,8 +38,8 @@ BOOST_AUTO_TEST_CASE(tydescrs_sanity) {
   using namespace TypeDescrs;
 
   for (size_t I = 0; I < NTyDescrs; I++) {
-    BOOST_REQUIRE_MESSAGE(Typ::areAddressFieldsSorted(AllTyDescrs[I]),
-                          Typ::toString(AllTyDescrs[I]));
+    BOOST_CHECK_MESSAGE(Typ::areAddressFieldsSorted(AllTyDescrs[I]),
+                        Typ::toString(AllTyDescrs[I]));
   }
 }
 
@@ -47,24 +47,24 @@ BOOST_AUTO_TEST_CASE(tydescrs_sanity) {
 BOOST_AUTO_TEST_CASE(tydescrs_print) {
   using namespace TypeDescrs;
 
-  BOOST_REQUIRE(Typ::toString(&Int32_typ) == "Int32");
-  BOOST_REQUIRE(Typ::toString(&Int64_typ) == "Int64");
-  BOOST_REQUIRE(Typ::toString(&Int128_typ) == "Int128");
-  BOOST_REQUIRE(Typ::toString(&Int256_typ) == "Int256");
-  BOOST_REQUIRE(Typ::toString(&Uint32_typ) == "Uint32");
-  BOOST_REQUIRE(Typ::toString(&Uint64_typ) == "Uint64");
-  BOOST_REQUIRE(Typ::toString(&Uint128_typ) == "Uint128");
-  BOOST_REQUIRE(Typ::toString(&Uint256_typ) == "Uint256");
-  BOOST_REQUIRE(Typ::toString(&String_typ) == "String");
-  BOOST_REQUIRE(Typ::toString(&List_int32_typ) == "List (Int32)");
-  BOOST_REQUIRE(Typ::toString(&List_int64_typ) == "List (Int64)");
-  BOOST_REQUIRE(Typ::toString(&ByStr20_typ) == "ByStr20");
-  BOOST_REQUIRE(Typ::toString(&ByStr_typ) == "ByStr");
-  BOOST_REQUIRE(Typ::toString(&Bool_typ) == "Bool");
-  BOOST_REQUIRE(Typ::toString(&Option_Int256_typ) == "Option (Int256)");
-  BOOST_REQUIRE(Typ::toString(&ByStr20_with_1_field_Typ) ==
-                "ByStr20 with contract field foo0 : Int32 end");
-  BOOST_REQUIRE(
+  BOOST_TEST(Typ::toString(&Int32_typ) == "Int32");
+  BOOST_TEST(Typ::toString(&Int64_typ) == "Int64");
+  BOOST_TEST(Typ::toString(&Int128_typ) == "Int128");
+  BOOST_TEST(Typ::toString(&Int256_typ) == "Int256");
+  BOOST_TEST(Typ::toString(&Uint32_typ) == "Uint32");
+  BOOST_TEST(Typ::toString(&Uint64_typ) == "Uint64");
+  BOOST_TEST(Typ::toString(&Uint128_typ) == "Uint128");
+  BOOST_TEST(Typ::toString(&Uint256_typ) == "Uint256");
+  BOOST_TEST(Typ::toString(&String_typ) == "String");
+  BOOST_TEST(Typ::toString(&List_int32_typ) == "List (Int32)");
+  BOOST_TEST(Typ::toString(&List_int64_typ) == "List (Int64)");
+  BOOST_TEST(Typ::toString(&ByStr20_typ) == "ByStr20");
+  BOOST_TEST(Typ::toString(&ByStr_typ) == "ByStr");
+  BOOST_TEST(Typ::toString(&Bool_typ) == "Bool");
+  BOOST_TEST(Typ::toString(&Option_Int256_typ) == "Option (Int256)");
+  BOOST_TEST(Typ::toString(&ByStr20_with_1_field_Typ) ==
+             "ByStr20 with contract field foo0 : Int32 end");
+  BOOST_TEST(
       Typ::toString(&ByStr20_with_2_fields_Typ) ==
       "ByStr20 with contract field bar1 : Pair (List (Int32)) (Int64), field "
       "foo1 : Map (Int64) (Pair (Int32) (List (Int64))) end");
@@ -75,30 +75,33 @@ const Typ *parseTypeString(const std::string TS) {
   try {
     return Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, TS);
   } catch (const ScillaRTL::ScillaError &E) {
-    BOOST_FAIL(E.toString());
+    BOOST_ERROR(E.toString());
   }
   BOOST_UNREACHABLE_RETURN();
 }
 
 void testMapDepthOfTypeString(const std::string TypeStr, int ExpectedDepth) {
   auto DepthFromString = ScillaRTL::mapDepthOfTypeString(TypeStr);
-  BOOST_REQUIRE_MESSAGE(DepthFromString, "Map depth parser failed " << TypeStr);
-  BOOST_REQUIRE_MESSAGE(ExpectedDepth == *DepthFromString,
+  if (DepthFromString) {
+    BOOST_CHECK_MESSAGE(ExpectedDepth == *DepthFromString,
                         "Mismatch in map depth for "
                             << TypeStr << ": expected " << ExpectedDepth
                             << " but got " << *DepthFromString);
+  } else {
+    BOOST_ERROR("Map depth parser failed " << TypeStr);
+  }
 }
 
 void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
   try {
     const Typ *T = parseTypeString(Input);
-    BOOST_REQUIRE_MESSAGE(Typ::toString(T) == ExpectedO,
-                          "Failed matching " << ExpectedO << " vs "
-                                             << Typ::toString(T));
+    BOOST_CHECK_MESSAGE(Typ::toString(T) == ExpectedO,
+                        "Failed matching " << ExpectedO << " vs "
+                                           << Typ::toString(T));
     auto DepthFromType = Typ::getMapDepth(T);
     testMapDepthOfTypeString(Input, DepthFromType);
   } catch (const ScillaRTL::ScillaError &E) {
-    BOOST_FAIL(E.toString());
+    BOOST_ERROR(E.toString());
   }
 }
 
@@ -111,8 +114,8 @@ void parserTestFail(const std::string &Input) {
     CaughtError = true;
     BOOST_TEST_MESSAGE("\tCaught expected exception: " << E.toString());
   }
-  BOOST_REQUIRE_MESSAGE(CaughtError,
-                        "Type parser should have failed, but did not.");
+  BOOST_CHECK_MESSAGE(CaughtError,
+                      "Type parser should have failed, but did not.");
 }
 
 BOOST_AUTO_TEST_CASE(parse_prims) {
@@ -304,19 +307,19 @@ BOOST_AUTO_TEST_CASE(equivalent_types) {
 
   const size_t NEqEntries = sizeof(EqTypes) / (sizeof(std::string) * 2);
   for (size_t I = 0; I < NEqEntries; I++) {
-    BOOST_REQUIRE_MESSAGE(Typ::equal(parseTypeString(EqTypes[I][0]),
-                                     parseTypeString(EqTypes[I][1])),
-                          I);
+    BOOST_CHECK_MESSAGE(Typ::equal(parseTypeString(EqTypes[I][0]),
+                                   parseTypeString(EqTypes[I][1])),
+                        I);
   }
   for (size_t I = 0; I < NEqEntries; I++) {
-    BOOST_REQUIRE_MESSAGE(Typ::assignable(parseTypeString(EqTypes[I][0]),
-                                          parseTypeString(EqTypes[I][1])),
-                          I);
+    BOOST_CHECK_MESSAGE(Typ::assignable(parseTypeString(EqTypes[I][0]),
+                                        parseTypeString(EqTypes[I][1])),
+                        I);
   }
   for (size_t I = 0; I < NEqEntries; I++) {
-    BOOST_REQUIRE_MESSAGE(Typ::assignable(parseTypeString(EqTypes[I][1]),
-                                          parseTypeString(EqTypes[I][0])),
-                          I);
+    BOOST_CHECK_MESSAGE(Typ::assignable(parseTypeString(EqTypes[I][1]),
+                                        parseTypeString(EqTypes[I][0])),
+                        I);
   }
 }
 
@@ -356,19 +359,19 @@ BOOST_AUTO_TEST_CASE(assignable_but_not_equivalent_types) {
 
   const size_t NAssEntries = sizeof(AssTypes) / (sizeof(std::string) * 2);
   for (size_t I = 0; I < NAssEntries; I++) {
-    BOOST_REQUIRE_MESSAGE(Typ::assignable(parseTypeString(AssTypes[I][0]),
-                                          parseTypeString(AssTypes[I][1])),
-                          I);
+    BOOST_CHECK_MESSAGE(Typ::assignable(parseTypeString(AssTypes[I][0]),
+                                        parseTypeString(AssTypes[I][1])),
+                        I);
   }
   for (size_t I = 0; I < NAssEntries; I++) {
-    BOOST_REQUIRE_MESSAGE(!Typ::assignable(parseTypeString(AssTypes[I][1]),
-                                           parseTypeString(AssTypes[I][0])),
-                          I);
+    BOOST_CHECK_MESSAGE(!Typ::assignable(parseTypeString(AssTypes[I][1]),
+                                         parseTypeString(AssTypes[I][0])),
+                        I);
   }
   for (size_t I = 0; I < NAssEntries; I++) {
-    BOOST_REQUIRE_MESSAGE(!Typ::equal(parseTypeString(AssTypes[I][0]),
-                                      parseTypeString(AssTypes[I][1])),
-                          I);
+    BOOST_CHECK_MESSAGE(!Typ::equal(parseTypeString(AssTypes[I][0]),
+                                    parseTypeString(AssTypes[I][1])),
+                        I);
   }
 }
 
@@ -406,19 +409,19 @@ BOOST_AUTO_TEST_CASE(not_assignable_in_either_direction_types) {
 
   const size_t NNAssEntries = sizeof(NAssTypes) / (sizeof(std::string) * 2);
   for (size_t I = 0; I < NNAssEntries; I++) {
-    BOOST_REQUIRE_MESSAGE(!Typ::assignable(parseTypeString(NAssTypes[I][0]),
-                                           parseTypeString(NAssTypes[I][1])),
-                          I);
+    BOOST_CHECK_MESSAGE(!Typ::assignable(parseTypeString(NAssTypes[I][0]),
+                                         parseTypeString(NAssTypes[I][1])),
+                        I);
   }
   for (size_t I = 0; I < NNAssEntries; I++) {
-    BOOST_REQUIRE_MESSAGE(!Typ::assignable(parseTypeString(NAssTypes[I][1]),
-                                           parseTypeString(NAssTypes[I][0])),
-                          I);
+    BOOST_CHECK_MESSAGE(!Typ::assignable(parseTypeString(NAssTypes[I][1]),
+                                         parseTypeString(NAssTypes[I][0])),
+                        I);
   }
   for (size_t I = 0; I < NNAssEntries; I++) {
-    BOOST_REQUIRE_MESSAGE(!Typ::equal(parseTypeString(NAssTypes[I][0]),
-                                      parseTypeString(NAssTypes[I][1])),
-                          I);
+    BOOST_CHECK_MESSAGE(!Typ::equal(parseTypeString(NAssTypes[I][0]),
+                                    parseTypeString(NAssTypes[I][1])),
+                        I);
   }
 }
 
@@ -438,13 +441,13 @@ BOOST_AUTO_TEST_CASE(map_depth_from_type_str_tests) {
 }
 
 BOOST_AUTO_TEST_CASE(map_depth_from_type_str_tests_fail) {
-  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("Map"));
-  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("List Map"));
-  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("Map Map"));
-  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("Map Map Map"));
-  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("Map (Map) Map"));
-  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("Map Uint32 Map"));
-  BOOST_REQUIRE(!ScillaRTL::mapDepthOfTypeString("Map Uint32 (List Map)"));
+  BOOST_CHECK(!ScillaRTL::mapDepthOfTypeString("Map"));
+  BOOST_CHECK(!ScillaRTL::mapDepthOfTypeString("List Map"));
+  BOOST_CHECK(!ScillaRTL::mapDepthOfTypeString("Map Map"));
+  BOOST_CHECK(!ScillaRTL::mapDepthOfTypeString("Map Map Map"));
+  BOOST_CHECK(!ScillaRTL::mapDepthOfTypeString("Map (Map) Map"));
+  BOOST_CHECK(!ScillaRTL::mapDepthOfTypeString("Map Uint32 Map"));
+  BOOST_CHECK(!ScillaRTL::mapDepthOfTypeString("Map Uint32 (List Map)"));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

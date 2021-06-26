@@ -26,49 +26,53 @@ BOOST_AUTO_TEST_CASE(succ) {
   BigNum A("1");
   BigNum B(2);
   BigNum C(A);
-  BOOST_CHECK_MESSAGE(A == 1 && B == 2 && C == 1, A << ", " << B << ", " << C);
+  BOOST_TEST(A == 1);
+  BOOST_TEST(B == 2);
+  BOOST_TEST(C == 1);
 
   A += 4;
-  BOOST_CHECK_MESSAGE(A == 5, A);
+  BOOST_TEST(A == 5);
   B -= 200;
-  BOOST_CHECK_MESSAGE(B == -198, B);
+  BOOST_TEST(B == -198);
   A *= B;
-  BOOST_CHECK_MESSAGE(A == -990, A);
+  BOOST_TEST(A == -990);
   A = BigNum("1");
   C /= A;
-  BOOST_CHECK_MESSAGE(C == 1, C);
+  BOOST_TEST(C == 1);
   A = B;
-  BOOST_CHECK_MESSAGE(A == B, A << ", " << B);
+  BOOST_TEST(A == B);
 
   // std::move acts as swap().
-  BOOST_CHECK_MESSAGE(B == -198 && C == 1, B << ", " << C);
+  BOOST_TEST(B == -198);
+  BOOST_TEST(C == 1);
   B = std::move(C);
-  BOOST_CHECK_MESSAGE(B == 1 && C == -198, B << ", " << C);
+  BOOST_TEST(B == 1);
+  BOOST_TEST(C == -198);
 
   B++;
-  BOOST_CHECK_MESSAGE(B == 2, B);
+  BOOST_TEST(B == 2);
   A--;
-  BOOST_CHECK_MESSAGE(A == -199, A);
+  BOOST_TEST(A == -199);
   A = A * 2;
-  BOOST_CHECK_MESSAGE(A == -398, A);
+  BOOST_TEST(A == -398);
   A = A - 2;
-  BOOST_CHECK_MESSAGE(A == -400, A);
+  BOOST_TEST(A == -400);
   A = A + 2;
-  BOOST_CHECK_MESSAGE(A == -398, A);
+  BOOST_TEST(A == -398);
   A = B / 2;
-  BOOST_CHECK_MESSAGE(A == 1, A);
-  BOOST_CHECK_MESSAGE(C < A, C << ", " << A);
-  BOOST_CHECK_MESSAGE(C <= A, C << ", " << A);
-  BOOST_CHECK_MESSAGE(A > C, A << ", " << C);
-  BOOST_CHECK_MESSAGE(A >= C, A << ", " << C);
-  BOOST_CHECK_MESSAGE(A != C, A << ", " << C);
-  BOOST_CHECK_MESSAGE(A > -1, A);
-  BOOST_CHECK_MESSAGE(A >= -1, A);
-  BOOST_CHECK_MESSAGE(A >= 1, A);
-  BOOST_CHECK_MESSAGE(A <= 1, A);
-  BOOST_CHECK_MESSAGE(A < 2, A);
-  BOOST_CHECK_MESSAGE(A != 2, A);
-  BOOST_CHECK_MESSAGE((A + A) == 2, A);
+  BOOST_TEST(A == 1);
+  BOOST_TEST(C < A);
+  BOOST_TEST(C <= A);
+  BOOST_TEST(A > C);
+  BOOST_TEST(A >= C);
+  BOOST_TEST(A != C);
+  BOOST_TEST(A > -1);
+  BOOST_TEST(A >= -1);
+  BOOST_TEST(A >= 1);
+  BOOST_TEST(A <= 1);
+  BOOST_TEST(A < 2);
+  BOOST_TEST(A != 2);
+  BOOST_TEST((A + A) == 2);
 }
 
 BOOST_AUTO_TEST_CASE(fail) {

@@ -31,9 +31,9 @@ void checkEqStateVariables(const Json::Value &Expected,
   for (Json::Value::ArrayIndex I = 0; I < Expected.size(); I++) {
     const auto &ESV = Expected[I];
     const auto &OSV = Got[I];
-    BOOST_REQUIRE_MESSAGE(ESV == OSV, "Comparison failed:\nExpected:\n" +
-                                          ESV.toStyledString() + "\nGot:\n" +
-                                          OSV.toStyledString());
+    BOOST_CHECK_MESSAGE(ESV == OSV, "Comparison failed:\nExpected:\n" +
+                                        ESV.toStyledString() + "\nGot:\n" +
+                                        OSV.toStyledString());
   }
 }
 

@@ -163,9 +163,9 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       }
       auto EOJ = parseJSONFile(PathPrefix + Input.ExpectedOutputFilename);
       // Compare output to expected output.
-      BOOST_REQUIRE_MESSAGE(EOJ == OJ, "Comparison failed:\nExpected:\n" +
-                                           EOJ.toStyledString() + "\nGot:\n" +
-                                           OJ.toStyledString());
+      BOOST_CHECK_MESSAGE(EOJ == OJ, "Comparison failed:\nExpected:\n" +
+                                         EOJ.toStyledString() + "\nGot:\n" +
+                                         OJ.toStyledString());
     }
   } catch (const ScillaError &E) {
     BOOST_FAIL(E.toString());
