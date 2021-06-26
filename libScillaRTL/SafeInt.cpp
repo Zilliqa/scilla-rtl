@@ -49,6 +49,10 @@ SafeInt<Bits, Signedness>::SafeInt(const std::string &IS) : Container(IS) {
       typename std::tuple_element<0, decltype(SafeIntImpl::limbs)>::type;
   static_assert(len * sizeof(elmty) >= Bits / 8,
                 "Internal error: SafeInt container does not have enough space");
+  if (Container.to_string() != IS) {
+    // TODO: https://github.com/Zilliqa/scilla/pull/982
+    CREATE_ERROR("SafeInt: Invalid string input: " + IS);
+  }
 }
 
 template <unsigned Bits, SafeIntKind Signedness>

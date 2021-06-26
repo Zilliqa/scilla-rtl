@@ -113,6 +113,7 @@ BOOST_AUTO_TEST_CASE(builtin_add_uint256) {
   testExecExpr("builtin_add_uint256");
 }
 BOOST_AUTO_TEST_CASE(name_clash) { testExecExpr("name_clash"); }
+BOOST_AUTO_TEST_CASE(name_clash1) { testExecExpr("name_clash1"); }
 BOOST_AUTO_TEST_CASE(name_clash2) { testExecExpr("name_clash2"); }
 BOOST_AUTO_TEST_CASE(lit_int32_1) { testExecExpr("lit-int32-1"); }
 BOOST_AUTO_TEST_CASE(simple_fun) { testExecExpr("simple-fun"); }
@@ -183,6 +184,8 @@ BOOST_AUTO_TEST_CASE(builtin_to_string) { testExecExpr("builtin_to_string"); }
 BOOST_AUTO_TEST_CASE(builtin_to_ascii) { testExecExpr("builtin_to_ascii"); }
 BOOST_AUTO_TEST_CASE(builtin_lt) { testExecExpr("builtin_lt"); }
 BOOST_AUTO_TEST_CASE(lit_bnum) { testExecExpr("lit-bnum"); }
+BOOST_AUTO_TEST_CASE(builtin_to_uint) { testExecExpr("builtin_to_uint"); }
+BOOST_AUTO_TEST_CASE(builtin_to_int) { testExecExpr("builtin_to_int"); }
 
 BOOST_AUTO_TEST_SUITE_END()
 

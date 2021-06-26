@@ -276,6 +276,32 @@ void byStrXToUint(ScillaTypes::RawInt<X> &UI, void *BX, int L) {
 #endif
 }
 
+template <unsigned Bits, SafeIntKind Signedness>
+void *toIntHelper(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *V) {
+  static_assert(Bits == 32 || Bits == 64 || Bits == 128 || Bits == 256,
+                "Invalid instantiation of toIntHelper");
+  // TODO: Make this efficient. Currently there's a decimal conversion
+  //       and two copies involved.
+  std::string VStr = ScillaValues::toString(false /*PrintType */, T, V);
+  try {
+    constexpr size_t MemSize = (Bits / 8) + 1;
+    SafeInt<Bits, Signedness> SIVal(VStr);
+    auto Res = static_cast<ScillaTypes::RawInt<Bits>>(SIVal);
+    auto *Mem = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(MemSize));
+    static_assert(sizeof(Res) == MemSize - 1,
+                  "toIntHelper: Size of integer mismatch");
+    std::memcpy(Mem + 1, &Res, MemSize - 1);
+    *Mem = ScillaTypes::Option_Some_Tag;
+    return Mem;
+  } catch (const ScillaError &) {
+    // Return None, which is just a tag.
+    size_t MemSize = 1;
+    auto *Mem = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(MemSize));
+    *Mem = ScillaTypes::Option_None_Tag;
+    return Mem;
+  }
+}
+
 } // namespace
 
 extern "C" {
@@ -427,6 +453,33 @@ uint8_t *_lt_Uint256(ScillaExecImpl *SJ, ScillaTypes::Uint256 *Lhs,
                      ScillaTypes::Uint256 *Rhs) {
 
   return toScillaBool(SJ->OM, SafeUint256(Lhs) < SafeUint256(Rhs));
+}
+
+void *_to_uint32(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *Val) {
+  return toIntHelper<32, Unsigned>(SJ, T, Val);
+}
+
+void *_to_uint64(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *Val) {
+  return toIntHelper<64, Unsigned>(SJ, T, Val);
+}
+void *_to_uint128(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *Val) {
+  return toIntHelper<128, Unsigned>(SJ, T, Val);
+}
+void *_to_uint256(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *Val) {
+  return toIntHelper<256, Unsigned>(SJ, T, Val);
+}
+
+void *_to_int32(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *Val) {
+  return toIntHelper<32, Signed>(SJ, T, Val);
+}
+void *_to_int64(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *Val) {
+  return toIntHelper<64, Signed>(SJ, T, Val);
+}
+void *_to_int128(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *Val) {
+  return toIntHelper<128, Signed>(SJ, T, Val);
+}
+void *_to_int256(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *Val) {
+  return toIntHelper<256, Signed>(SJ, T, Val);
 }
 
 void *_fetch_field(ScillaExecImpl *SJ, const char *Name,
