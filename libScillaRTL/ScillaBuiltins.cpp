@@ -833,16 +833,24 @@ uint8_t *_eq_ByStrX(ScillaExecImpl *SJ, int X, const uint8_t *Lhs,
   return toScillaBool(SJ->OM, B);
 }
 
-uint8_t *_eq_BNum(ScillaExecImpl *SJ, const uint8_t *Lhs, const uint8_t *Rhs) {
-  auto *LhsInt = reinterpret_cast<const BigNum *>(Lhs);
-  auto *RhsInt = reinterpret_cast<const BigNum *>(Rhs);
-  return toScillaBool(SJ->OM, *LhsInt == *RhsInt);
+uint8_t *_eq_BNum(ScillaExecImpl *SJ, const BigNum *Lhs, const BigNum *Rhs) {
+  return toScillaBool(SJ->OM, *Lhs == *Rhs);
 }
 
-uint8_t *_lt_BNum(ScillaExecImpl *SJ, const uint8_t *Lhs, const uint8_t *Rhs) {
-  auto *LhsInt = reinterpret_cast<const BigNum *>(Lhs);
-  auto *RhsInt = reinterpret_cast<const BigNum *>(Rhs);
-  return toScillaBool(SJ->OM, *LhsInt < *RhsInt);
+uint8_t *_lt_BNum(ScillaExecImpl *SJ, const BigNum *Lhs, const BigNum *Rhs) {
+  return toScillaBool(SJ->OM, *Lhs < *Rhs);
+}
+
+BigNum *_badd(ScillaExecImpl *SJ, const BigNum *BVal,
+              const ScillaTypes::Typ *ValT, const void *UIVal) {
+  return SJ->OM.create<BigNum>(
+      *BVal + BigNum(ScillaValues::toString(false, ValT, UIVal)));
+}
+
+ScillaTypes::Int256 *_bsub(ScillaRTL::ScillaExecImpl *SJ, const BigNum *BVal1,
+                           const BigNum *BVal2) {
+  SafeInt256 Res((*BVal1 - *BVal2).toString());
+  return SJ->OM.create<ScillaTypes::Int256>(Res);
 }
 
 ScillaTypes::String _to_bystr(ScillaExecImpl *SJ, int X, uint8_t *Buf) {

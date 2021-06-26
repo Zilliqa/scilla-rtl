@@ -119,6 +119,7 @@ BOOST_AUTO_TEST_CASE(builtin_mul) { testExecExpr("builtin_mul"); }
 BOOST_AUTO_TEST_CASE(builtin_div_rem, *boost::unit_test_framework::disabled()) {
   testExecExpr("builtin_div_rem");
 }
+BOOST_AUTO_TEST_CASE(builtin_baddsub) { testExecExpr("builtin_baddsub"); }
 BOOST_AUTO_TEST_CASE(name_clash) { testExecExpr("name_clash"); }
 BOOST_AUTO_TEST_CASE(name_clash1) { testExecExpr("name_clash1"); }
 BOOST_AUTO_TEST_CASE(name_clash2) { testExecExpr("name_clash2"); }

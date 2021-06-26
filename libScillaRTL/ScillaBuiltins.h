@@ -307,11 +307,20 @@ uint8_t *_eq_ByStr(ScillaRTL::ScillaExecImpl *SJ,
 uint8_t *_eq_ByStrX(ScillaRTL::ScillaExecImpl *SJ, int X, const uint8_t *Lhs,
                     const uint8_t *Rhs);
 
-uint8_t *_eq_BNum(ScillaRTL::ScillaExecImpl *SJ, const uint8_t *Lhs,
-                  const uint8_t *Rhs);
+uint8_t *_eq_BNum(ScillaRTL::ScillaExecImpl *SJ, const ScillaRTL::BigNum *Lhs,
+                  const ScillaRTL::BigNum *Rhs);
 
-uint8_t *_lt_BNum(ScillaRTL::ScillaExecImpl *SJ, const uint8_t *Lhs,
-                  const uint8_t *Rhs);
+uint8_t *_lt_BNum(ScillaRTL::ScillaExecImpl *SJ, const ScillaRTL::BigNum *Lhs,
+                  const ScillaRTL::BigNum *Rhs);
+
+ScillaRTL::BigNum *_badd(ScillaRTL::ScillaExecImpl *SJ,
+                         const ScillaRTL::BigNum *BVal,
+                         const ScillaRTL::ScillaTypes::Typ *ValT,
+                         const void *UIVal);
+
+ScillaRTL::ScillaTypes::Int256 *_bsub(ScillaRTL::ScillaExecImpl *SJ,
+                                      const ScillaRTL::BigNum *BVal1,
+                                      const ScillaRTL::BigNum *BVal2);
 
 ScillaRTL::ScillaTypes::String _to_bystr(ScillaRTL::ScillaExecImpl *SJ, int X,
                                          uint8_t *Buf);
