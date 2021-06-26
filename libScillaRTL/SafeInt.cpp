@@ -84,6 +84,30 @@ operator-(const SafeInt<Bits, Signedness> &Rhs) const {
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator*(const SafeInt<Bits, Signedness> &Rhs) const {
+  // TODO: Implement safety semantics.
+  SafeInt<Bits, Signedness> Result(this->Container * Rhs.Container);
+  return Result;
+}
+
+template <unsigned Bits, SafeIntKind Signedness>
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator/(const SafeInt<Bits, Signedness> &Rhs) const {
+  // TODO: Implement safety semantics.
+  SafeInt<Bits, Signedness> Result(this->Container / Rhs.Container);
+  return Result;
+}
+
+template <unsigned Bits, SafeIntKind Signedness>
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator%(const SafeInt<Bits, Signedness> &Rhs) const {
+  // TODO: Implement safety semantics.
+  SafeInt<Bits, Signedness> Result(this->Container % Rhs.Container);
+  return Result;
+}
+
+template <unsigned Bits, SafeIntKind Signedness>
 bool SafeInt<Bits, Signedness>::
 operator==(const SafeInt<Bits, Signedness> &Rhs) const {
 

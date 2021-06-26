@@ -114,6 +114,95 @@ _add_Uint256(ScillaRTL::ScillaExecImpl *SJ,
              ScillaRTL::ScillaTypes::Uint256 *Lhs,
              ScillaRTL::ScillaTypes::Uint256 *Rhs);
 
+// Integer subtraction builtins
+ScillaRTL::ScillaTypes::Int32 _sub_Int32(ScillaRTL::ScillaTypes::Int32,
+                                         ScillaRTL::ScillaTypes::Int32);
+ScillaRTL::ScillaTypes::Int64 _sub_Int64(ScillaRTL::ScillaTypes::Int64,
+                                         ScillaRTL::ScillaTypes::Int64);
+ScillaRTL::ScillaTypes::Int128 _sub_Int128(ScillaRTL::ScillaTypes::Int128,
+                                           ScillaRTL::ScillaTypes::Int128);
+ScillaRTL::ScillaTypes::Int256 *
+_sub_Int256(ScillaRTL::ScillaExecImpl *SJ, ScillaRTL::ScillaTypes::Int256 *Lhs,
+            ScillaRTL::ScillaTypes::Int256 *Rhs);
+
+ScillaRTL::ScillaTypes::Uint32 _sub_Uint32(ScillaRTL::ScillaTypes::Uint32,
+                                           ScillaRTL::ScillaTypes::Uint32);
+ScillaRTL::ScillaTypes::Uint64 _sub_Uint64(ScillaRTL::ScillaTypes::Uint64,
+                                           ScillaRTL::ScillaTypes::Uint64);
+ScillaRTL::ScillaTypes::Uint128 _sub_Uint128(ScillaRTL::ScillaTypes::Uint128,
+                                             ScillaRTL::ScillaTypes::Uint128);
+ScillaRTL::ScillaTypes::Uint256 *
+_sub_Uint256(ScillaRTL::ScillaExecImpl *SJ,
+             ScillaRTL::ScillaTypes::Uint256 *Lhs,
+             ScillaRTL::ScillaTypes::Uint256 *Rhs);
+
+// Integer multiplication builtins
+ScillaRTL::ScillaTypes::Int32 _mul_Int32(ScillaRTL::ScillaTypes::Int32,
+                                         ScillaRTL::ScillaTypes::Int32);
+ScillaRTL::ScillaTypes::Int64 _mul_Int64(ScillaRTL::ScillaTypes::Int64,
+                                         ScillaRTL::ScillaTypes::Int64);
+ScillaRTL::ScillaTypes::Int128 _mul_Int128(ScillaRTL::ScillaTypes::Int128,
+                                           ScillaRTL::ScillaTypes::Int128);
+ScillaRTL::ScillaTypes::Int256 *
+_mul_Int256(ScillaRTL::ScillaExecImpl *SJ, ScillaRTL::ScillaTypes::Int256 *Lhs,
+            ScillaRTL::ScillaTypes::Int256 *Rhs);
+
+ScillaRTL::ScillaTypes::Uint32 _mul_Uint32(ScillaRTL::ScillaTypes::Uint32,
+                                           ScillaRTL::ScillaTypes::Uint32);
+ScillaRTL::ScillaTypes::Uint64 _mul_Uint64(ScillaRTL::ScillaTypes::Uint64,
+                                           ScillaRTL::ScillaTypes::Uint64);
+ScillaRTL::ScillaTypes::Uint128 _mul_Uint128(ScillaRTL::ScillaTypes::Uint128,
+                                             ScillaRTL::ScillaTypes::Uint128);
+ScillaRTL::ScillaTypes::Uint256 *
+_mul_Uint256(ScillaRTL::ScillaExecImpl *SJ,
+             ScillaRTL::ScillaTypes::Uint256 *Lhs,
+             ScillaRTL::ScillaTypes::Uint256 *Rhs);
+
+// Integer division builtins
+ScillaRTL::ScillaTypes::Int32 _div_Int32(ScillaRTL::ScillaTypes::Int32,
+                                         ScillaRTL::ScillaTypes::Int32);
+ScillaRTL::ScillaTypes::Int64 _div_Int64(ScillaRTL::ScillaTypes::Int64,
+                                         ScillaRTL::ScillaTypes::Int64);
+ScillaRTL::ScillaTypes::Int128 _div_Int128(ScillaRTL::ScillaTypes::Int128,
+                                           ScillaRTL::ScillaTypes::Int128);
+ScillaRTL::ScillaTypes::Int256 *
+_div_Int256(ScillaRTL::ScillaExecImpl *SJ, ScillaRTL::ScillaTypes::Int256 *Lhs,
+            ScillaRTL::ScillaTypes::Int256 *Rhs);
+
+ScillaRTL::ScillaTypes::Uint32 _div_Uint32(ScillaRTL::ScillaTypes::Uint32,
+                                           ScillaRTL::ScillaTypes::Uint32);
+ScillaRTL::ScillaTypes::Uint64 _div_Uint64(ScillaRTL::ScillaTypes::Uint64,
+                                           ScillaRTL::ScillaTypes::Uint64);
+ScillaRTL::ScillaTypes::Uint128 _div_Uint128(ScillaRTL::ScillaTypes::Uint128,
+                                             ScillaRTL::ScillaTypes::Uint128);
+ScillaRTL::ScillaTypes::Uint256 *
+_div_Uint256(ScillaRTL::ScillaExecImpl *SJ,
+             ScillaRTL::ScillaTypes::Uint256 *Lhs,
+             ScillaRTL::ScillaTypes::Uint256 *Rhs);
+
+// Integer reminder builtins
+ScillaRTL::ScillaTypes::Int32 _rem_Int32(ScillaRTL::ScillaTypes::Int32,
+                                         ScillaRTL::ScillaTypes::Int32);
+ScillaRTL::ScillaTypes::Int64 _rem_Int64(ScillaRTL::ScillaTypes::Int64,
+                                         ScillaRTL::ScillaTypes::Int64);
+ScillaRTL::ScillaTypes::Int128 _rem_Int128(ScillaRTL::ScillaTypes::Int128,
+                                           ScillaRTL::ScillaTypes::Int128);
+ScillaRTL::ScillaTypes::Int256 *
+_rem_Int256(ScillaRTL::ScillaExecImpl *SJ, ScillaRTL::ScillaTypes::Int256 *Lhs,
+            ScillaRTL::ScillaTypes::Int256 *Rhs);
+
+ScillaRTL::ScillaTypes::Uint32 _rem_Uint32(ScillaRTL::ScillaTypes::Uint32,
+                                           ScillaRTL::ScillaTypes::Uint32);
+ScillaRTL::ScillaTypes::Uint64 _rem_Uint64(ScillaRTL::ScillaTypes::Uint64,
+                                           ScillaRTL::ScillaTypes::Uint64);
+ScillaRTL::ScillaTypes::Uint128 _rem_Uint128(ScillaRTL::ScillaTypes::Uint128,
+                                             ScillaRTL::ScillaTypes::Uint128);
+
+ScillaRTL::ScillaTypes::Uint256 *
+_mul_Uint256(ScillaRTL::ScillaExecImpl *SJ,
+             ScillaRTL::ScillaTypes::Uint256 *Lhs,
+             ScillaRTL::ScillaTypes::Uint256 *Rhs);
+
 uint8_t *_eq_Int32(ScillaRTL::ScillaExecImpl *SJ,
                    ScillaRTL::ScillaTypes::Int32 Lhs,
                    ScillaRTL::ScillaTypes::Int32 Rhs);
