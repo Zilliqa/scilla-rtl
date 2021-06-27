@@ -30,26 +30,19 @@ namespace ScillaRTL {
 using namespace ScillaTypes;
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness>::SafeInt(const void *V) {
-  // Make sure that Container's buffer has enough space to hold our data.
-  constexpr auto len = std::tuple_size<decltype(SafeIntImpl::limbs)>::value;
-  using elmty =
-      typename std::tuple_element<0, decltype(SafeIntImpl::limbs)>::type;
-  static_assert(len * sizeof(elmty) >= Bits / 8,
-                "Internal error: SafeInt container does not have enough space");
+SafeInt<Bits, Signedness>::SafeInt(const void *V)
+    : UnsafeWideInt<Bits, Signedness>(
+          *reinterpret_cast<const UnsafeWideInt<Bits, Signedness> *>(V)) {
 
-  std::memcpy(Container.limbs.data(), V, Bits / 8);
+  // Raw byte serialization work only when sizeof(this) == Bits / 8.
+  static_assert(sizeof(SafeInt<Bits, Signedness>) == Bits / 8);
+  static_assert(sizeof(UnsafeWideInt<Bits, Signedness>) == Bits / 8);
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness>::SafeInt(const std::string &IS) : Container(IS) {
-  // Make sure that Container's buffer has enough space to hold our data.
-  constexpr auto len = std::tuple_size<decltype(SafeIntImpl::limbs)>::value;
-  using elmty =
-      typename std::tuple_element<0, decltype(SafeIntImpl::limbs)>::type;
-  static_assert(len * sizeof(elmty) >= Bits / 8,
-                "Internal error: SafeInt container does not have enough space");
-  if (Container.to_string() != IS) {
+SafeInt<Bits, Signedness>::SafeInt(const std::string &IS)
+    : UnsafeWideInt<Bits, Signedness>(IS.c_str()) {
+  if (toString() != IS) {
     // TODO: https://github.com/Zilliqa/scilla/pull/982
     CREATE_ERROR("SafeInt: Invalid string input: " + IS);
   }
@@ -57,92 +50,114 @@ SafeInt<Bits, Signedness>::SafeInt(const std::string &IS) : Container(IS) {
 
 template <unsigned Bits, SafeIntKind Signedness>
 std::string SafeInt<Bits, Signedness>::toString() const {
-  return Container.to_string();
+  char Buf[this->wr_string_max_buffer_size_dec];
+  this->wr_string(Buf, 10U);
+  return std::string(Buf);
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness>::operator RawInt<Bits>() const {
   RawInt<Bits> Ret;
-  std::memcpy(Ret.buf, Container.limbs.data(), Bits / 8);
+  std::memcpy(Ret.buf, this, Bits / 8);
   return Ret;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
 operator+(const SafeInt<Bits, Signedness> &Rhs) const {
+  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(this->Container + Rhs.Container);
+  SafeInt<Bits, Signedness> Result(LhsBase + RhsBase);
   return Result;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
 operator-(const SafeInt<Bits, Signedness> &Rhs) const {
+  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(this->Container - Rhs.Container);
+  SafeInt<Bits, Signedness> Result(LhsBase - RhsBase);
   return Result;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
 operator*(const SafeInt<Bits, Signedness> &Rhs) const {
+  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(this->Container * Rhs.Container);
+  SafeInt<Bits, Signedness> Result(LhsBase * RhsBase);
   return Result;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
 operator/(const SafeInt<Bits, Signedness> &Rhs) const {
+  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(this->Container / Rhs.Container);
+  SafeInt<Bits, Signedness> Result(LhsBase / RhsBase);
   return Result;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
 operator%(const SafeInt<Bits, Signedness> &Rhs) const {
+  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(this->Container % Rhs.Container);
+  SafeInt<Bits, Signedness> Result(LhsBase % RhsBase);
   return Result;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 bool SafeInt<Bits, Signedness>::
 operator==(const SafeInt<Bits, Signedness> &Rhs) const {
-
-  return Container.op_eq(Rhs.Container);
+  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return LhsBase == RhsBase;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 bool SafeInt<Bits, Signedness>::
 operator!=(const SafeInt<Bits, Signedness> &Rhs) const {
-
-  return Container.op_neq(Rhs.Container);
+  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return LhsBase != RhsBase;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 bool SafeInt<Bits, Signedness>::
 operator>(const SafeInt<Bits, Signedness> &Rhs) const {
-  return Container.op_gt(Rhs.Container);
+  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return LhsBase > RhsBase;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 bool SafeInt<Bits, Signedness>::
 operator>=(const SafeInt<Bits, Signedness> &Rhs) const {
-  return Container.op_gte(Rhs.Container);
+  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return LhsBase >= RhsBase;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 bool SafeInt<Bits, Signedness>::
 operator<(const SafeInt<Bits, Signedness> &Rhs) const {
-  return Container.op_lt(Rhs.Container);
+  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return LhsBase < RhsBase;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 bool SafeInt<Bits, Signedness>::
 operator<=(const SafeInt<Bits, Signedness> &Rhs) const {
-  return Container.op_lte(Rhs.Container);
+  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return LhsBase <= RhsBase;
 }
 
 // Let's instantiate for all widths that we want.
@@ -155,8 +170,8 @@ template class SafeInt<64, SafeIntKind::Unsigned>;
 template class SafeInt<128, SafeIntKind::Unsigned>;
 template class SafeInt<256, SafeIntKind::Unsigned>;
 
-std::ostream &operator<<(std::ostream &Out, const BigNum &c) {
-  Out << c.toString();
+std::ostream &operator<<(std::ostream &Out, const BigNum &C) {
+  Out << C.toString();
   return Out;
 }
 

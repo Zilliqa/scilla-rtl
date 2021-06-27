@@ -20,7 +20,7 @@
 #include <string>
 
 #include <boost/multiprecision/gmp.hpp>
-#include <wideint.h>
+#include <math/wide_integer/uintwide_t.h>
 
 #include "ScillaTypes.h"
 #include <ScillaRTL/Errors.h>
@@ -35,13 +35,22 @@ enum SafeIntKind {
   Signed = true,
 };
 
-template <unsigned Bits, SafeIntKind Signedness> class SafeInt {
+template <unsigned Bits, SafeIntKind Signedness>
+using UnsafeWideInt =
+    math::wide_integer::uintwide_t<Bits, std::uint32_t, void, Signedness>;
+
+template <unsigned Bits, SafeIntKind Signedness>
+class SafeInt : private UnsafeWideInt<Bits, Signedness> {
 public:
   static_assert(Bits % 8 == 0,
                 "Cannot instantiate SafeInt with non byte-aligned size");
 
-  // 0 initializing constructor
-  SafeInt(){};
+  SafeInt() = default;
+  SafeInt(const SafeInt &) = default;
+  SafeInt(SafeInt &&) = default;
+  SafeInt &operator=(const SafeInt &) = default;
+  SafeInt &operator=(SafeInt &&) = default;
+
   // Initialize from Scilla RawInt
   SafeInt(const ScillaTypes::RawInt<Bits> *IW) : SafeInt(IW->buf) {}
   // Initialize from decimal string
@@ -50,6 +59,13 @@ public:
   std::string toString() const;
   // Convert to RawInt
   operator ScillaTypes::RawInt<Bits>() const;
+
+#if 0 // Enable this when RawInt interface is removed.
+  // Create from any integer type that can be assigned to UnsafeWideInt
+  template <typename T,
+            typename = typename std::enable_if<std::is_integral<T>::value>>
+  SafeInt(const T &Val) : UnsafeWideInt<Bits, Signedness>(Val) {}
+#endif
 
   bool operator==(const SafeInt &Rhs) const;
   bool operator!=(const SafeInt &Rhs) const;
@@ -65,18 +81,30 @@ public:
   SafeInt operator/(const SafeInt &Rhs) const;
   SafeInt operator%(const SafeInt &Rhs) const;
 
-  static SafeInt constexpr max() { return SafeInt(SafeIntImpl::max()); };
-  static SafeInt constexpr min() { return SafeInt(SafeIntImpl::min()); };
+  static constexpr SafeInt max() {
+    return std::numeric_limits<UnsafeWideInt<Bits, Signedness>>::max();
+  }
+  static constexpr SafeInt min() {
+    return std::numeric_limits<UnsafeWideInt<Bits, Signedness>>::min();
+  }
 
 private:
   // Initialize from raw bytes
   SafeInt(const void *V);
+  // Construct from base class object.
+  SafeInt(const UnsafeWideInt<Bits, Signedness> &B)
+      : UnsafeWideInt<Bits, Signedness>(B){};
 
-  using SafeIntImpl = wideint<Bits, Signedness>;
-  SafeIntImpl Container;
-
-  SafeInt(const SafeIntImpl &C) : Container(C){};
+  template <unsigned T1, SafeIntKind T2>
+  friend std::ostream &operator<<(std::ostream &Out, const SafeInt<T1, T2> &C);
 };
+
+template <unsigned Bits, SafeIntKind Signedness>
+std::ostream &operator<<(std::ostream &Out,
+                         const SafeInt<Bits, Signedness> &C) {
+  Out << static_cast<const UnsafeWideInt<Bits, Signedness> &>(C);
+  return Out;
+}
 
 typedef SafeInt<32, SafeIntKind::Signed> SafeInt32;
 typedef SafeInt<64, SafeIntKind::Signed> SafeInt64;
@@ -216,6 +244,6 @@ public:
   }
 };
 
-std::ostream &operator<<(std::ostream &Out, const BigNum &c);
+std::ostream &operator<<(std::ostream &Out, const BigNum &C);
 
 } // namespace ScillaRTL
