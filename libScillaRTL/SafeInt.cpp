@@ -30,21 +30,11 @@ namespace ScillaRTL {
 using namespace ScillaTypes;
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness>::SafeInt(const void *V)
-    : UnsafeWideInt<Bits, Signedness>(
-          *reinterpret_cast<const UnsafeWideInt<Bits, Signedness> *>(V)) {
-
-  // Raw byte serialization work only when sizeof(this) == Bits / 8.
-  static_assert(sizeof(SafeInt<Bits, Signedness>) == Bits / 8);
-  static_assert(sizeof(UnsafeWideInt<Bits, Signedness>) == Bits / 8);
-}
-
-template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness>::SafeInt(const std::string &IS)
-    : UnsafeWideInt<Bits, Signedness>(IS.c_str()) {
+SafeInt<Bits, Signedness>::SafeInt(const char *IS)
+    : UnsafeWideInt<Bits, Signedness>(IS) {
   if (toString() != IS) {
     // TODO: https://github.com/Zilliqa/scilla/pull/982
-    CREATE_ERROR("SafeInt: Invalid string input: " + IS);
+    CREATE_ERROR("SafeInt: Invalid string input: " + std::string(IS));
   }
 }
 
@@ -53,13 +43,6 @@ std::string SafeInt<Bits, Signedness>::toString() const {
   char Buf[this->wr_string_max_buffer_size_dec];
   this->wr_string(Buf, 10U);
   return std::string(Buf);
-}
-
-template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness>::operator RawInt<Bits>() const {
-  RawInt<Bits> Ret;
-  std::memcpy(Ret.buf, this, Bits / 8);
-  return Ret;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>

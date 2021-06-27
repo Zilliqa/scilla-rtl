@@ -147,20 +147,20 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
         auto BW = T->m_sub.m_primt->m_detail.m_intBW;
         switch (BW) {
         case ScillaTypes::PrimTyp::Bits32: {
-          auto VV = SafeInt32(reinterpret_cast<const Int32 *>(V));
-          Out += VV.toString();
+          auto *VV = reinterpret_cast<const SafeInt32 *>(V);
+          Out += VV->toString();
         } break;
         case ScillaTypes::PrimTyp::Bits64: {
-          auto VV = SafeInt64(reinterpret_cast<const Int64 *>(V));
-          Out += VV.toString();
+          auto *VV = reinterpret_cast<const SafeInt64 *>(V);
+          Out += VV->toString();
         } break;
         case ScillaTypes::PrimTyp::Bits128: {
-          auto VV = SafeInt128(reinterpret_cast<const Int128 *>(V));
-          Out += VV.toString();
+          auto *VV = reinterpret_cast<const SafeInt128 *>(V);
+          Out += VV->toString();
         } break;
         case ScillaTypes::PrimTyp::Bits256: {
-          auto VV = SafeInt256(reinterpret_cast<const Int256 *>(V));
-          Out += VV.toString();
+          auto *VV = reinterpret_cast<const SafeInt256 *>(V);
+          Out += VV->toString();
         } break;
         }
       } break;
@@ -169,20 +169,20 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
         auto BW = T->m_sub.m_primt->m_detail.m_intBW;
         switch (BW) {
         case ScillaTypes::PrimTyp::Bits32: {
-          auto VV = SafeUint32(reinterpret_cast<const Uint32 *>(V));
-          Out += VV.toString();
+          auto *VV = reinterpret_cast<const SafeUint32 *>(V);
+          Out += VV->toString();
         } break;
         case ScillaTypes::PrimTyp::Bits64: {
-          auto VV = SafeUint64(reinterpret_cast<const Uint64 *>(V));
-          Out += VV.toString();
+          auto *VV = reinterpret_cast<const SafeUint64 *>(V);
+          Out += VV->toString();
         } break;
         case ScillaTypes::PrimTyp::Bits128: {
-          auto VV = SafeUint128(reinterpret_cast<const Uint128 *>(V));
-          Out += VV.toString();
+          auto *VV = reinterpret_cast<const SafeUint128 *>(V);
+          Out += VV->toString();
         } break;
         case ScillaTypes::PrimTyp::Bits256: {
-          auto VV = SafeUint256(reinterpret_cast<const Uint256 *>(V));
-          Out += VV.toString();
+          auto *VV = reinterpret_cast<const SafeUint256 *>(V);
+          Out += VV->toString();
         } break;
         }
       } break;
@@ -468,24 +468,20 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
       auto BW = T->m_sub.m_primt->m_detail.m_intBW;
       switch (BW) {
       case ScillaTypes::PrimTyp::Bits32: {
-        new (Mem) Int32(static_cast<Int32>(SafeInt32(JS)));
-        ASSERT(sizeof(Int32) == MemSize);
-        return Mem;
+        ASSERT(sizeof(SafeInt32) == MemSize);
+        return new (Mem) SafeInt32(JS);
       }
       case ScillaTypes::PrimTyp::Bits64: {
-        new (Mem) Int64(static_cast<Int64>(SafeInt64(JS)));
-        ASSERT(sizeof(Int64) == MemSize);
-        return Mem;
+        ASSERT(sizeof(SafeInt64) == MemSize);
+        return new (Mem) SafeInt64(JS);
       }
       case ScillaTypes::PrimTyp::Bits128: {
-        new (Mem) Int128(static_cast<Int128>(SafeInt128(JS)));
-        ASSERT(sizeof(Int128) == MemSize);
-        return Mem;
+        ASSERT(sizeof(SafeInt128) == MemSize);
+        return new (Mem) SafeInt128(JS);
       }
       case ScillaTypes::PrimTyp::Bits256: {
-        new (Mem) Int256(static_cast<Int256>(SafeInt256(JS)));
-        ASSERT(sizeof(Int256) == MemSize);
-        return Mem;
+        ASSERT(sizeof(SafeInt256) == MemSize);
+        return new (Mem) SafeInt256(JS);
       }
       }
     } break;
@@ -494,24 +490,20 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
       auto BW = T->m_sub.m_primt->m_detail.m_intBW;
       switch (BW) {
       case ScillaTypes::PrimTyp::Bits32: {
-        new (Mem) Uint32(static_cast<Uint32>(SafeUint32(JS)));
-        ASSERT(sizeof(Uint32) == MemSize);
-        return Mem;
+        ASSERT(sizeof(SafeUint32) == MemSize);
+        return new (Mem) SafeUint32(JS);
       }
       case ScillaTypes::PrimTyp::Bits64: {
-        new (Mem) Uint64(static_cast<Uint64>(SafeUint64(JS)));
-        ASSERT(sizeof(Uint64) == MemSize);
-        return Mem;
+        ASSERT(sizeof(SafeUint64) == MemSize);
+        return new (Mem) SafeUint64(JS);
       }
       case ScillaTypes::PrimTyp::Bits128: {
-        new (Mem) Uint128(static_cast<Uint128>(SafeUint128(JS)));
-        ASSERT(sizeof(Uint128) == MemSize);
-        return Mem;
+        ASSERT(sizeof(SafeUint128) == MemSize);
+        return new (Mem) SafeUint128(JS);
       }
       case ScillaTypes::PrimTyp::Bits256: {
-        new (Mem) Uint256(static_cast<Uint256>(SafeUint256(JS)));
-        ASSERT(sizeof(Uint256) == MemSize);
-        return Mem;
+        ASSERT(sizeof(SafeUint256) == MemSize);
+        return new (Mem) SafeUint256(JS);
       }
       }
     } break;

@@ -287,9 +287,9 @@ void *toIntHelper(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *V) {
     SafeInt<Bits, Signedness> SIVal(VStr);
     auto *Mem = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(MemSize));
     *Mem = ScillaTypes::Option_Some_Tag;
-    static_assert(sizeof(ScillaTypes::RawInt<Bits>) == MemSize - 1,
+    static_assert(sizeof(SafeInt<Bits, Signedness>) == MemSize - 1,
                   "toIntHelper: Size of integer mismatch");
-    new (Mem + 1) ScillaTypes::RawInt<Bits>(SafeInt<Bits, Signedness>(VStr));
+    new (Mem + 1) SafeInt<Bits, Signedness>(VStr);
     return Mem;
   } catch (const ScillaError &) {
     // Return None, which is just a tag.
@@ -298,6 +298,59 @@ void *toIntHelper(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *V) {
     *Mem = ScillaTypes::Option_None_Tag;
     return Mem;
   }
+}
+
+template <unsigned Bits, SafeIntKind Signedness>
+ScillaTypes::RawInt<Bits> inline safeAdd(ScillaTypes::RawInt<Bits> *Lhs,
+                                         ScillaTypes::RawInt<Bits> *Rhs) {
+  static_assert(
+      sizeof(UnsafeWideInt<Bits, Signedness>) ==
+              sizeof(ScillaTypes::RawInt<Bits>) &&
+          sizeof(SafeInt<Bits, Signedness>) ==
+              sizeof(UnsafeWideInt<Bits, Signedness>) &&
+          // std::is_trivially_copyable<SafeInt<Bits, Signedness>>::value &&
+          std::is_standard_layout<SafeInt<Bits, Signedness>>::value,
+      "Objects of this class cannot be exchanged with C");
+  SafeInt<Bits, Signedness> Res =
+      *reinterpret_cast<SafeInt<Bits, Signedness> *>(Lhs) +
+      *reinterpret_cast<SafeInt<Bits, Signedness> *>(Rhs);
+  return *(reinterpret_cast<ScillaTypes::RawInt<Bits> *>(&Res));
+}
+
+template <unsigned Bits, SafeIntKind Signedness>
+ScillaTypes::RawInt<Bits> inline safeSub(ScillaTypes::RawInt<Bits> *Lhs,
+                                         ScillaTypes::RawInt<Bits> *Rhs) {
+  SafeInt<Bits, Signedness> Res =
+      *reinterpret_cast<SafeInt<Bits, Signedness> *>(Lhs) -
+      *reinterpret_cast<SafeInt<Bits, Signedness> *>(Rhs);
+  return *(reinterpret_cast<ScillaTypes::RawInt<Bits> *>(&Res));
+}
+
+template <unsigned Bits, SafeIntKind Signedness>
+ScillaTypes::RawInt<Bits> inline safeMul(ScillaTypes::RawInt<Bits> *Lhs,
+                                         ScillaTypes::RawInt<Bits> *Rhs) {
+  SafeInt<Bits, Signedness> Res =
+      *reinterpret_cast<SafeInt<Bits, Signedness> *>(Lhs) *
+      *reinterpret_cast<SafeInt<Bits, Signedness> *>(Rhs);
+  return *(reinterpret_cast<ScillaTypes::RawInt<Bits> *>(&Res));
+}
+
+template <unsigned Bits, SafeIntKind Signedness>
+ScillaTypes::RawInt<Bits> inline safeDiv(ScillaTypes::RawInt<Bits> *Lhs,
+                                         ScillaTypes::RawInt<Bits> *Rhs) {
+  SafeInt<Bits, Signedness> Res =
+      *reinterpret_cast<SafeInt<Bits, Signedness> *>(Lhs) /
+      *reinterpret_cast<SafeInt<Bits, Signedness> *>(Rhs);
+  return *(reinterpret_cast<ScillaTypes::RawInt<Bits> *>(&Res));
+}
+
+template <unsigned Bits, SafeIntKind Signedness>
+ScillaTypes::RawInt<Bits> inline safeRem(ScillaTypes::RawInt<Bits> *Lhs,
+                                         ScillaTypes::RawInt<Bits> *Rhs) {
+  SafeInt<Bits, Signedness> Res =
+      *reinterpret_cast<SafeInt<Bits, Signedness> *>(Lhs) %
+      *reinterpret_cast<SafeInt<Bits, Signedness> *>(Rhs);
+  return *(reinterpret_cast<ScillaTypes::RawInt<Bits> *>(&Res));
 }
 
 } // namespace
@@ -315,309 +368,310 @@ void *_salloc(ScillaExecImpl *SJ, size_t size) {
 void _out_of_gas() { SCILLA_EXCEPTION("Ran out of gas"); }
 
 ScillaTypes::Int32 _add_Int32(ScillaTypes::Int32 Lhs, ScillaTypes::Int32 Rhs) {
-  return SafeInt32(&Lhs) + SafeInt32(&Rhs);
+  return safeAdd<32U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int64 _add_Int64(ScillaTypes::Int64 Lhs, ScillaTypes::Int64 Rhs) {
-  return SafeInt64(&Lhs) + SafeInt64(&Rhs);
+  return safeAdd<64U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int128 _add_Int128(ScillaTypes::Int128 Lhs,
                                 ScillaTypes::Int128 Rhs) {
-  return SafeInt128(&Lhs) + SafeInt128(&Rhs);
+  return safeAdd<128U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int256 *_add_Int256(ScillaExecImpl *SJ, ScillaTypes::Int256 *Lhs,
                                  ScillaTypes::Int256 *Rhs) {
-
-  return SJ->OM.create<ScillaTypes::Int256>(SafeInt256(Lhs) + SafeInt256(Rhs));
+  return SJ->OM.create<ScillaTypes::Int256>(safeAdd<256U, Signed>(Lhs, Rhs));
 }
 
 ScillaTypes::Uint32 _add_Uint32(ScillaTypes::Uint32 Lhs,
                                 ScillaTypes::Uint32 Rhs) {
-  return SafeUint32(&Lhs) + SafeUint32(&Rhs);
+  return safeAdd<32U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint64 _add_Uint64(ScillaTypes::Uint64 Lhs,
                                 ScillaTypes::Uint64 Rhs) {
-  return SafeUint64(&Lhs) + SafeUint64(&Rhs);
+  return safeAdd<64U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint128 _add_Uint128(ScillaTypes::Uint128 Lhs,
                                   ScillaTypes::Uint128 Rhs) {
-  return SafeUint128(&Lhs) + SafeUint128(&Rhs);
+  return safeAdd<128U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint256 *_add_Uint256(ScillaExecImpl *SJ,
                                    ScillaTypes::Uint256 *Lhs,
                                    ScillaTypes::Uint256 *Rhs) {
-
-  return SJ->OM.create<ScillaTypes::Uint256>(SafeUint256(Lhs) +
-                                             SafeUint256(Rhs));
+  return SJ->OM.create<ScillaTypes::Uint256>(safeAdd<256U, Unsigned>(Lhs, Rhs));
 }
 
 ScillaTypes::Int32 _sub_Int32(ScillaTypes::Int32 Lhs, ScillaTypes::Int32 Rhs) {
-  return SafeInt32(&Lhs) - SafeInt32(&Rhs);
+  return safeSub<32U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int64 _sub_Int64(ScillaTypes::Int64 Lhs, ScillaTypes::Int64 Rhs) {
-  return SafeInt64(&Lhs) - SafeInt64(&Rhs);
+  return safeSub<64U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int128 _sub_Int128(ScillaTypes::Int128 Lhs,
                                 ScillaTypes::Int128 Rhs) {
-  return SafeInt128(&Lhs) - SafeInt128(&Rhs);
+  return safeSub<128U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int256 *_sub_Int256(ScillaExecImpl *SJ, ScillaTypes::Int256 *Lhs,
                                  ScillaTypes::Int256 *Rhs) {
-
-  return SJ->OM.create<ScillaTypes::Int256>(SafeInt256(Lhs) - SafeInt256(Rhs));
+  return SJ->OM.create<ScillaTypes::Int256>(safeSub<256U, Signed>(Lhs, Rhs));
 }
 
 ScillaTypes::Uint32 _sub_Uint32(ScillaTypes::Uint32 Lhs,
                                 ScillaTypes::Uint32 Rhs) {
-  return SafeUint32(&Lhs) - SafeUint32(&Rhs);
+  return safeSub<32U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint64 _sub_Uint64(ScillaTypes::Uint64 Lhs,
                                 ScillaTypes::Uint64 Rhs) {
-  return SafeUint64(&Lhs) - SafeUint64(&Rhs);
+  return safeSub<64U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint128 _sub_Uint128(ScillaTypes::Uint128 Lhs,
                                   ScillaTypes::Uint128 Rhs) {
-  return SafeUint128(&Lhs) - SafeUint128(&Rhs);
+  return safeSub<128U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint256 *_sub_Uint256(ScillaExecImpl *SJ,
                                    ScillaTypes::Uint256 *Lhs,
                                    ScillaTypes::Uint256 *Rhs) {
-
-  return SJ->OM.create<ScillaTypes::Uint256>(SafeUint256(Lhs) -
-                                             SafeUint256(Rhs));
+  return SJ->OM.create<ScillaTypes::Uint256>(safeSub<256U, Unsigned>(Lhs, Rhs));
 }
 
 ScillaTypes::Int32 _mul_Int32(ScillaTypes::Int32 Lhs, ScillaTypes::Int32 Rhs) {
-  return SafeInt32(&Lhs) * SafeInt32(&Rhs);
+  return safeMul<32U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int64 _mul_Int64(ScillaTypes::Int64 Lhs, ScillaTypes::Int64 Rhs) {
-  return SafeInt64(&Lhs) * SafeInt64(&Rhs);
+  return safeMul<64U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int128 _mul_Int128(ScillaTypes::Int128 Lhs,
                                 ScillaTypes::Int128 Rhs) {
-  return SafeInt128(&Lhs) * SafeInt128(&Rhs);
+  return safeMul<128U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int256 *_mul_Int256(ScillaExecImpl *SJ, ScillaTypes::Int256 *Lhs,
                                  ScillaTypes::Int256 *Rhs) {
-
-  return SJ->OM.create<ScillaTypes::Int256>(SafeInt256(Lhs) * SafeInt256(Rhs));
+  return SJ->OM.create<ScillaTypes::Int256>(safeMul<256U, Signed>(Lhs, Rhs));
 }
 
 ScillaTypes::Uint32 _mul_Uint32(ScillaTypes::Uint32 Lhs,
                                 ScillaTypes::Uint32 Rhs) {
-  return SafeUint32(&Lhs) * SafeUint32(&Rhs);
+  return safeMul<32U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint64 _mul_Uint64(ScillaTypes::Uint64 Lhs,
                                 ScillaTypes::Uint64 Rhs) {
-  return SafeUint64(&Lhs) * SafeUint64(&Rhs);
+  return safeMul<64U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint128 _mul_Uint128(ScillaTypes::Uint128 Lhs,
                                   ScillaTypes::Uint128 Rhs) {
-  return SafeUint128(&Lhs) * SafeUint128(&Rhs);
+  return safeMul<128U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint256 *_mul_Uint256(ScillaExecImpl *SJ,
                                    ScillaTypes::Uint256 *Lhs,
                                    ScillaTypes::Uint256 *Rhs) {
-
-  return SJ->OM.create<ScillaTypes::Uint256>(SafeUint256(Lhs) *
-                                             SafeUint256(Rhs));
+  return SJ->OM.create<ScillaTypes::Uint256>(safeMul<256U, Unsigned>(Lhs, Rhs));
 }
 
 ScillaTypes::Int32 _div_Int32(ScillaTypes::Int32 Lhs, ScillaTypes::Int32 Rhs) {
-  return SafeInt32(&Lhs) / SafeInt32(&Rhs);
+  return safeDiv<32U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int64 _div_Int64(ScillaTypes::Int64 Lhs, ScillaTypes::Int64 Rhs) {
-  return SafeInt64(&Lhs) / SafeInt64(&Rhs);
+  return safeDiv<64U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int128 _div_Int128(ScillaTypes::Int128 Lhs,
                                 ScillaTypes::Int128 Rhs) {
-  return SafeInt128(&Lhs) / SafeInt128(&Rhs);
+  return safeDiv<128U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int256 *_div_Int256(ScillaExecImpl *SJ, ScillaTypes::Int256 *Lhs,
                                  ScillaTypes::Int256 *Rhs) {
-
-  return SJ->OM.create<ScillaTypes::Int256>(SafeInt256(Lhs) / SafeInt256(Rhs));
+  return SJ->OM.create<ScillaTypes::Int256>(safeDiv<256U, Signed>(Lhs, Rhs));
 }
 
 ScillaTypes::Uint32 _div_Uint32(ScillaTypes::Uint32 Lhs,
                                 ScillaTypes::Uint32 Rhs) {
-  return SafeUint32(&Lhs) / SafeUint32(&Rhs);
+  return safeDiv<32U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint64 _div_Uint64(ScillaTypes::Uint64 Lhs,
                                 ScillaTypes::Uint64 Rhs) {
-  return SafeUint64(&Lhs) / SafeUint64(&Rhs);
+  return safeDiv<64U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint128 _div_Uint128(ScillaTypes::Uint128 Lhs,
                                   ScillaTypes::Uint128 Rhs) {
-  return SafeUint128(&Lhs) / SafeUint128(&Rhs);
+  return safeDiv<128U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint256 *_div_Uint256(ScillaExecImpl *SJ,
                                    ScillaTypes::Uint256 *Lhs,
                                    ScillaTypes::Uint256 *Rhs) {
-
-  return SJ->OM.create<ScillaTypes::Uint256>(SafeUint256(Lhs) /
-                                             SafeUint256(Rhs));
+  return SJ->OM.create<ScillaTypes::Uint256>(safeDiv<256U, Unsigned>(Lhs, Rhs));
 }
 
 ScillaTypes::Int32 _rem_Int32(ScillaTypes::Int32 Lhs, ScillaTypes::Int32 Rhs) {
-  return SafeInt32(&Lhs) % SafeInt32(&Rhs);
+  return safeRem<32U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int64 _rem_Int64(ScillaTypes::Int64 Lhs, ScillaTypes::Int64 Rhs) {
-  return SafeInt64(&Lhs) % SafeInt64(&Rhs);
+  return safeRem<64U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int128 _rem_Int128(ScillaTypes::Int128 Lhs,
                                 ScillaTypes::Int128 Rhs) {
-  return SafeInt128(&Lhs) % SafeInt128(&Rhs);
+  return safeRem<128U, Signed>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Int256 *_rem_Int256(ScillaExecImpl *SJ, ScillaTypes::Int256 *Lhs,
                                  ScillaTypes::Int256 *Rhs) {
-
-  return SJ->OM.create<ScillaTypes::Int256>(SafeInt256(Lhs) % SafeInt256(Rhs));
+  return SJ->OM.create<ScillaTypes::Int256>(safeRem<256U, Signed>(Lhs, Rhs));
 }
 
 ScillaTypes::Uint32 _rem_Uint32(ScillaTypes::Uint32 Lhs,
                                 ScillaTypes::Uint32 Rhs) {
-  return SafeUint32(&Lhs) % SafeUint32(&Rhs);
+  return safeRem<32U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint64 _rem_Uint64(ScillaTypes::Uint64 Lhs,
                                 ScillaTypes::Uint64 Rhs) {
-  return SafeUint64(&Lhs) % SafeUint64(&Rhs);
+  return safeRem<64U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint128 _rem_Uint128(ScillaTypes::Uint128 Lhs,
                                   ScillaTypes::Uint128 Rhs) {
-  return SafeUint128(&Lhs) % SafeUint128(&Rhs);
+  return safeRem<128U, Unsigned>(&Lhs, &Rhs);
 }
 
 ScillaTypes::Uint256 *_rem_Uint256(ScillaExecImpl *SJ,
                                    ScillaTypes::Uint256 *Lhs,
                                    ScillaTypes::Uint256 *Rhs) {
-
-  return SJ->OM.create<ScillaTypes::Uint256>(SafeUint256(Lhs) %
-                                             SafeUint256(Rhs));
+  return SJ->OM.create<ScillaTypes::Uint256>(safeRem<256U, Unsigned>(Lhs, Rhs));
 }
 
 uint8_t *_eq_Int32(ScillaExecImpl *SJ, ScillaTypes::Int32 Lhs,
                    ScillaTypes::Int32 Rhs) {
 
-  return toScillaBool(SJ->OM, SafeInt32(&Lhs) == SafeInt32(&Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeInt32 *>(&Lhs) ==
+                                  *reinterpret_cast<SafeInt32 *>(&Rhs));
 }
 
 uint8_t *_eq_Int64(ScillaExecImpl *SJ, ScillaTypes::Int64 Lhs,
                    ScillaTypes::Int64 Rhs) {
 
-  return toScillaBool(SJ->OM, SafeInt64(&Lhs) == SafeInt64(&Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeInt64 *>(&Lhs) ==
+                                  *reinterpret_cast<SafeInt64 *>(&Rhs));
 }
 
 uint8_t *_eq_Int128(ScillaExecImpl *SJ, ScillaTypes::Int128 Lhs,
                     ScillaTypes::Int128 Rhs) {
 
-  return toScillaBool(SJ->OM, SafeInt128(&Lhs) == SafeInt128(&Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeInt128 *>(&Lhs) ==
+                                  *reinterpret_cast<SafeInt128 *>(&Rhs));
 }
 
 uint8_t *_eq_Int256(ScillaExecImpl *SJ, ScillaTypes::Int256 *Lhs,
                     ScillaTypes::Int256 *Rhs) {
 
-  return toScillaBool(SJ->OM, SafeInt256(Lhs) == SafeInt256(Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeInt256 *>(Lhs) ==
+                                  *reinterpret_cast<SafeInt256 *>(Rhs));
 }
 
 uint8_t *_eq_Uint32(ScillaExecImpl *SJ, ScillaTypes::Uint32 Lhs,
                     ScillaTypes::Uint32 Rhs) {
 
-  return toScillaBool(SJ->OM, SafeUint32(&Lhs) == SafeUint32(&Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeUint32 *>(&Lhs) ==
+                                  *reinterpret_cast<SafeUint32 *>(&Rhs));
 }
 
 uint8_t *_eq_Uint64(ScillaExecImpl *SJ, ScillaTypes::Uint64 Lhs,
                     ScillaTypes::Uint64 Rhs) {
 
-  return toScillaBool(SJ->OM, SafeUint64(&Lhs) == SafeUint64(&Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeUint64 *>(&Lhs) ==
+                                  *reinterpret_cast<SafeUint64 *>(&Rhs));
 }
 
 uint8_t *_eq_Uint128(ScillaExecImpl *SJ, ScillaTypes::Uint128 Lhs,
                      ScillaTypes::Uint128 Rhs) {
 
-  return toScillaBool(SJ->OM, SafeUint128(&Lhs) == SafeUint128(&Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeUint128 *>(&Lhs) ==
+                                  *reinterpret_cast<SafeUint128 *>(&Rhs));
 }
 
 uint8_t *_eq_Uint256(ScillaExecImpl *SJ, ScillaTypes::Uint256 *Lhs,
                      ScillaTypes::Uint256 *Rhs) {
 
-  return toScillaBool(SJ->OM, SafeUint256(Lhs) == SafeUint256(Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeUint256 *>(Lhs) ==
+                                  *reinterpret_cast<SafeUint256 *>(Rhs));
 }
 
 uint8_t *_lt_Int32(ScillaExecImpl *SJ, ScillaTypes::Int32 Lhs,
                    ScillaTypes::Int32 Rhs) {
 
-  return toScillaBool(SJ->OM, SafeInt32(&Lhs) < SafeInt32(&Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeInt32 *>(&Lhs) <
+                                  *reinterpret_cast<SafeInt32 *>(&Rhs));
 }
 
 uint8_t *_lt_Int64(ScillaExecImpl *SJ, ScillaTypes::Int64 Lhs,
                    ScillaTypes::Int64 Rhs) {
 
-  return toScillaBool(SJ->OM, SafeInt64(&Lhs) < SafeInt64(&Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeInt64 *>(&Lhs) <
+                                  *reinterpret_cast<SafeInt64 *>(&Rhs));
 }
 
 uint8_t *_lt_Int128(ScillaExecImpl *SJ, ScillaTypes::Int128 Lhs,
                     ScillaTypes::Int128 Rhs) {
 
-  return toScillaBool(SJ->OM, SafeInt128(&Lhs) < SafeInt128(&Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeInt128 *>(&Lhs) <
+                                  *reinterpret_cast<SafeInt128 *>(&Rhs));
 }
 
 uint8_t *_lt_Int256(ScillaExecImpl *SJ, ScillaTypes::Int256 *Lhs,
                     ScillaTypes::Int256 *Rhs) {
 
-  return toScillaBool(SJ->OM, SafeInt256(Lhs) < SafeInt256(Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeInt256 *>(Lhs) <
+                                  *reinterpret_cast<SafeInt256 *>(Rhs));
 }
 
 uint8_t *_lt_Uint32(ScillaExecImpl *SJ, ScillaTypes::Uint32 Lhs,
                     ScillaTypes::Uint32 Rhs) {
 
-  return toScillaBool(SJ->OM, SafeUint32(&Lhs) < SafeUint32(&Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeUint32 *>(&Lhs) <
+                                  *reinterpret_cast<SafeUint32 *>(&Rhs));
 }
 
 uint8_t *_lt_Uint64(ScillaExecImpl *SJ, ScillaTypes::Uint64 Lhs,
                     ScillaTypes::Uint64 Rhs) {
 
-  return toScillaBool(SJ->OM, SafeUint64(&Lhs) < SafeUint64(&Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeUint64 *>(&Lhs) <
+                                  *reinterpret_cast<SafeUint64 *>(&Rhs));
 }
 
 uint8_t *_lt_Uint128(ScillaExecImpl *SJ, ScillaTypes::Uint128 Lhs,
                      ScillaTypes::Uint128 Rhs) {
 
-  return toScillaBool(SJ->OM, SafeUint128(&Lhs) < SafeUint128(&Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeUint128 *>(&Lhs) <
+                                  *reinterpret_cast<SafeUint128 *>(&Rhs));
 }
 
 uint8_t *_lt_Uint256(ScillaExecImpl *SJ, ScillaTypes::Uint256 *Lhs,
                      ScillaTypes::Uint256 *Rhs) {
 
-  return toScillaBool(SJ->OM, SafeUint256(Lhs) < SafeUint256(Rhs));
+  return toScillaBool(SJ->OM, *reinterpret_cast<SafeUint256 *>(Lhs) <
+                                  *reinterpret_cast<SafeUint256 *>(Rhs));
 }
 
 void *_to_uint32(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *Val) {
@@ -656,10 +710,7 @@ void *_fetch_field(ScillaExecImpl *SJ, const char *Name,
     // A better idea: https://github.com/Zilliqa/scilla-compiler/issues/73.
     // On the other hand, due to https://github.com/Zilliqa/scilla/issues/1007,
     // we may want to get rid of this special handling altogether.
-    size_t S = sizeof(ScillaTypes::Uint128);
-    auto BalMem = SJ->OM.allocBytes(S);
-    new (BalMem) ScillaTypes::Uint128(SJ->TS->getCurBal());
-    return BalMem;
+    return SJ->OM.create<SafeUint128>(SJ->TS->getCurBal());
   }
   return fetchFieldHelper(SJ, std::string(), Name, T, NumIdx, Indices,
                           FetchVal);
@@ -844,8 +895,8 @@ BigNum *_badd(ScillaExecImpl *SJ, const BigNum *BVal,
 
 ScillaTypes::Int256 *_bsub(ScillaRTL::ScillaExecImpl *SJ, const BigNum *BVal1,
                            const BigNum *BVal2) {
-  SafeInt256 Res((*BVal1 - *BVal2).toString());
-  return SJ->OM.create<ScillaTypes::Int256>(Res);
+  return reinterpret_cast<ScillaTypes::Int256 *>(
+      SJ->OM.create<SafeInt256>((*BVal1 - *BVal2).toString()));
 }
 
 ScillaTypes::String _to_bystr(ScillaExecImpl *SJ, int X, uint8_t *Buf) {

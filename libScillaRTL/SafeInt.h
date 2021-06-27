@@ -51,21 +51,18 @@ public:
   SafeInt &operator=(const SafeInt &) = default;
   SafeInt &operator=(SafeInt &&) = default;
 
-  // Initialize from Scilla RawInt
-  SafeInt(const ScillaTypes::RawInt<Bits> *IW) : SafeInt(IW->buf) {}
   // Initialize from decimal string
-  SafeInt(const std::string &IS);
+  SafeInt(const std::string &IS) : SafeInt(IS.c_str()){};
+  // Initialize from decimal string
+  SafeInt(const char *);
   // Convert to decimal string
   std::string toString() const;
-  // Convert to RawInt
-  operator ScillaTypes::RawInt<Bits>() const;
 
-#if 0 // Enable this when RawInt interface is removed.
   // Create from any integer type that can be assigned to UnsafeWideInt
-  template <typename T,
-            typename = typename std::enable_if<std::is_integral<T>::value>>
-  SafeInt(const T &Val) : UnsafeWideInt<Bits, Signedness>(Val) {}
-#endif
+  template <typename T> SafeInt(T Val) : UnsafeWideInt<Bits, Signedness>(Val) {
+    static_assert(std::is_integral<T>::value,
+                  "SafeInt can be built only from integral values");
+  }
 
   bool operator==(const SafeInt &Rhs) const;
   bool operator!=(const SafeInt &Rhs) const;
@@ -89,8 +86,6 @@ public:
   }
 
 private:
-  // Initialize from raw bytes
-  SafeInt(const void *V);
   // Construct from base class object.
   SafeInt(const UnsafeWideInt<Bits, Signedness> &B)
       : UnsafeWideInt<Bits, Signedness>(B){};
