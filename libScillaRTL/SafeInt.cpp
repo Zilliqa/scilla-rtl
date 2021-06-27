@@ -40,7 +40,7 @@ SafeInt<Bits, Signedness>::SafeInt(const char *IS)
 
 template <unsigned Bits, SafeIntKind Signedness>
 std::string SafeInt<Bits, Signedness>::toString() const {
-  char Buf[this->wr_string_max_buffer_size_dec];
+  char Buf[UnsafeWideInt<Bits, Signedness>::wr_string_max_buffer_size_dec];
   this->wr_string(Buf, 10U);
   return std::string(Buf);
 }

@@ -142,7 +142,7 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
           auto M = reinterpret_cast<const ScillaParams::MapValueT *>(Val);
           ObjManager OM;
           return std::all_of(
-              M->begin(), M->end(), [&OM, SJ, MT, recurser](auto Itr) {
+              M->begin(), M->end(), [&OM, MT, recurser](auto Itr) {
                 auto KeyT = MT->m_keyTyp;
                 auto ValT = MT->m_valTyp;
                 Json::Value KeyJ = parseJSONString(Itr.first);

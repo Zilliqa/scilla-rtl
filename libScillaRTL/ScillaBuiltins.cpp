@@ -304,10 +304,9 @@ template <unsigned Bits, SafeIntKind Signedness>
 ScillaTypes::RawInt<Bits> inline safeAdd(ScillaTypes::RawInt<Bits> *Lhs,
                                          ScillaTypes::RawInt<Bits> *Rhs) {
   static_assert(
-      sizeof(UnsafeWideInt<Bits, Signedness>) ==
-              sizeof(ScillaTypes::RawInt<Bits>) &&
-          sizeof(SafeInt<Bits, Signedness>) ==
-              sizeof(UnsafeWideInt<Bits, Signedness>) &&
+      sizeof(SafeInt<Bits, Signedness>) == sizeof(ScillaTypes::RawInt<Bits>) &&
+          // TODO: If this were trivially copyable, we wouldn't need RawInt.
+          //   Using SafeInt directly with C is crashing programs.
           // std::is_trivially_copyable<SafeInt<Bits, Signedness>>::value &&
           std::is_standard_layout<SafeInt<Bits, Signedness>>::value,
       "Objects of this class cannot be exchanged with C");

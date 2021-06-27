@@ -33,6 +33,7 @@ template <unsigned Bits> struct RawInt {
                 "Cannot instantiate RawInt with non byte-aligned size");
   uint8_t buf[Bits / 8];
 };
+
 typedef RawInt<32> Int32;
 typedef RawInt<32> Uint32;
 typedef RawInt<64> Int64;
@@ -41,6 +42,24 @@ typedef RawInt<128> Int128;
 typedef RawInt<128> Uint128;
 typedef RawInt<256> Int256;
 typedef RawInt<256> Uint256;
+static_assert(std::is_trivially_copyable<Int32>::value &&
+                  std::is_trivially_copyable<Uint32>::value &&
+                  std::is_trivially_copyable<Int64>::value &&
+                  std::is_trivially_copyable<Uint64>::value &&
+                  std::is_trivially_copyable<Int128>::value &&
+                  std::is_trivially_copyable<Uint128>::value &&
+                  std::is_trivially_copyable<Int256>::value &&
+                  std::is_trivially_copyable<Uint256>::value &&
+                  std::is_standard_layout<Int32>::value &&
+                  std::is_standard_layout<Uint32>::value &&
+                  std::is_standard_layout<Int64>::value &&
+                  std::is_standard_layout<Uint64>::value &&
+                  std::is_standard_layout<Int128>::value &&
+                  std::is_standard_layout<Uint128>::value &&
+                  std::is_standard_layout<Int256>::value &&
+                  std::is_standard_layout<Uint256>::value,
+              "RawInt interacts with C code. It must be trivially copyable "
+              "with standard layout");
 
 // Equivalent of scilla_bytes_ty in the compiler code.
 // No constructor is provided because we want
@@ -51,6 +70,11 @@ struct String {
 
   explicit operator std::string() const;
 };
+
+static_assert(std::is_trivially_copyable<String>::value &&
+                  std::is_standard_layout<String>::value,
+              "String interacts with C code. It must be trivially copyable "
+              "with standard layout.");
 
 // ADT tags, based on the definitions in Datatypes.ml.
 // TODO: Remove them and replace uses with actual type
@@ -151,6 +175,10 @@ struct ParamDescr {
   String m_PName;
   Typ *m_PTy;
 };
+static_assert(std::is_trivially_copyable<ParamDescr>::value &&
+                  std::is_standard_layout<ParamDescr>::value,
+              "ParamDescr interacts with C code. It must be trivially copyable "
+              "with standard layout.");
 
 // Transition descriptor.
 struct TransDescr {
@@ -158,6 +186,10 @@ struct TransDescr {
   int32_t m_NParams;
   ParamDescr *m_Params;
 };
+static_assert(std::is_trivially_copyable<TransDescr>::value &&
+                  std::is_standard_layout<TransDescr>::value,
+              "TransDescr interacts with C code. It must be trivially copyable "
+              "with standard layout.");
 
 class TypParserPartialCache {
   std::unordered_map<std::string, const Typ *> PrimMap;
@@ -231,6 +263,10 @@ struct Typ {
   // Are values of type T1 and T2 structurally same?
   static bool valueCompatible(const Typ *T1, const Typ *T2);
 };
+static_assert(std::is_trivially_copyable<Typ>::value &&
+                  std::is_standard_layout<Typ>::value,
+              "Typ interacts with C code. It must be trivially copyable "
+              "with standard layout.");
 
 } // namespace ScillaTypes
 

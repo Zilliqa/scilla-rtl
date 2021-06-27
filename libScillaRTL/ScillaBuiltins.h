@@ -57,9 +57,6 @@ public:
 
 } // end of namespace ScillaRTL
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wreturn-type-c-linkage"
-
 extern "C" {
 
 // Print Scilla value @V whose type is described by @T to ScillaStdout .
@@ -442,4 +439,3 @@ uint64_t _literal_cost(const ScillaRTL::ScillaTypes::Typ *T, const void *V);
 uint64_t _mapsortcost(const ScillaRTL::ScillaParams::MapValueT *M);
 
 } // extern "C"
-#pragma clang diagnostic pop
