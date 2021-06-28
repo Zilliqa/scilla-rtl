@@ -28,39 +28,6 @@ namespace ScillaRTL {
 // Any changes to the definitions here must be synchronized with the compiler.
 namespace ScillaTypes {
 
-template <unsigned Bits> struct RawInt {
-  static_assert(Bits % 8 == 0,
-                "Cannot instantiate RawInt with non byte-aligned size");
-  uint8_t buf[Bits / 8];
-};
-
-typedef RawInt<32> Int32;
-typedef RawInt<32> Uint32;
-typedef RawInt<64> Int64;
-typedef RawInt<64> Uint64;
-typedef RawInt<128> Int128;
-typedef RawInt<128> Uint128;
-typedef RawInt<256> Int256;
-typedef RawInt<256> Uint256;
-static_assert(std::is_trivially_copyable<Int32>::value &&
-                  std::is_trivially_copyable<Uint32>::value &&
-                  std::is_trivially_copyable<Int64>::value &&
-                  std::is_trivially_copyable<Uint64>::value &&
-                  std::is_trivially_copyable<Int128>::value &&
-                  std::is_trivially_copyable<Uint128>::value &&
-                  std::is_trivially_copyable<Int256>::value &&
-                  std::is_trivially_copyable<Uint256>::value &&
-                  std::is_standard_layout<Int32>::value &&
-                  std::is_standard_layout<Uint32>::value &&
-                  std::is_standard_layout<Int64>::value &&
-                  std::is_standard_layout<Uint64>::value &&
-                  std::is_standard_layout<Int128>::value &&
-                  std::is_standard_layout<Uint128>::value &&
-                  std::is_standard_layout<Int256>::value &&
-                  std::is_standard_layout<Uint256>::value,
-              "RawInt interacts with C code. It must be trivially copyable "
-              "with standard layout");
-
 // Equivalent of scilla_bytes_ty in the compiler code.
 // No constructor is provided because we want
 // to use this in a union, it must remain POD.
