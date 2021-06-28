@@ -30,11 +30,11 @@ namespace ScillaRTL {
 using namespace ScillaTypes;
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness>::SafeInt(const char *IS)
-    : UnsafeWideInt<Bits, Signedness>(IS) {
+SafeInt<Bits, Signedness>::SafeInt(const std::string &IS)
+    : UnsafeWideInt<Bits, Signedness>(IS.c_str()) {
   if (toString() != IS) {
     // TODO: https://github.com/Zilliqa/scilla/pull/982
-    CREATE_ERROR("SafeInt: Invalid string input: " + std::string(IS));
+    CREATE_ERROR("SafeInt: Invalid string input: " + IS);
   }
 }
 

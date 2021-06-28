@@ -52,16 +52,14 @@ public:
   SafeInt &operator=(SafeInt &&) = default;
 
   // Initialize from decimal string
-  SafeInt(const std::string &IS) : SafeInt(IS.c_str()){};
-  // Initialize from decimal string
-  SafeInt(const char *);
+  SafeInt(const std::string &IS);
   // Convert to decimal string
   std::string toString() const;
 
   // Create from any integer type that can be assigned to UnsafeWideInt
   template <typename T> SafeInt(T Val) : UnsafeWideInt<Bits, Signedness>(Val) {
     static_assert(std::is_integral<T>::value,
-                  "SafeInt can be built only from integral values");
+                  "SafeInt can be built only from integral and string values");
   }
 
   bool operator==(const SafeInt &Rhs) const;
