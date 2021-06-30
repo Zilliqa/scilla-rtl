@@ -298,6 +298,25 @@ BOOST_AUTO_TEST_CASE(state_00_message_badinit_fail) {
 
 BOOST_AUTO_TEST_SUITE_END() // simple_map
 
+BOOST_AUTO_TEST_SUITE(simple_iterate)
+
+ContractTest EventTests = {
+    "simple-iterate.ll",
+    {{"message_NEvents", "simple-iterate.message_NEvents.json",
+      "empty_init.json", "simple-iterate.contrinfo.json",
+      "simple-iterate.state.json", "simple-iterate.state.json",
+      "simple-iterate.output.json", "blockchain_default.json"}}};
+
+BOOST_AUTO_TEST_CASE(unique_jits) {
+  testMessages(EventTests, false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(common_jit) {
+  testMessages(EventTests, true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // simple_iterate
+
 BOOST_AUTO_TEST_SUITE(event)
 
 ContractTest EventTests = {

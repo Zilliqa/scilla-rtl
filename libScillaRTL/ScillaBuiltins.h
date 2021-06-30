@@ -387,5 +387,6 @@ ScillaRTL::SafeUint32 _size(const ScillaRTL::ScillaParams::MapValueT *M);
 
 uint64_t _literal_cost(const ScillaRTL::ScillaTypes::Typ *T, const void *V);
 uint64_t _mapsortcost(const ScillaRTL::ScillaParams::MapValueT *M);
+uint64_t _lengthof(const ScillaRTL::ScillaTypes::Typ *T, const void *V);
 
 } // extern "C"
