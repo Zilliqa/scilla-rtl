@@ -643,6 +643,9 @@ void *_to_nat(ScillaExecImpl *SJ, SafeUint32 UI) {
 }
 
 void _send(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, const void *V) {
+  ASSERT_MSG(T->m_t == ScillaTypes::Typ::ADT_typ &&
+                 std::string(T->m_sub.m_spladt->m_parent->m_tName) == "List",
+             "_lengthof: List expected, got " + ScillaTypes::Typ::toString(T));
   ScillaValues::iterScillaList(
       T, V, [SJ](const ScillaTypes::Typ *ElmT, const void *ElmV) -> void {
         auto J = ScillaValues::toJSON(ElmT, ElmV);
@@ -1170,10 +1173,9 @@ uint64_t _lengthof(const ScillaTypes::Typ *T, const void *V) {
   }
   case ScillaTypes::Typ::ADT_typ: {
     ScillaTypes::ADTTyp::Specl *Sp = T->m_sub.m_spladt;
-    if (std::string(Sp->m_parent->m_tName) != "List") {
-      CREATE_ERROR("_lengthof: List expected, got " +
+    ASSERT_MSG(std::string(Sp->m_parent->m_tName) == "List",
+               "_lengthof: List expected, got " +
                    (std::string(Sp->m_parent->m_tName)));
-    }
     uint64_t Len = 0;
     ScillaValues::iterScillaList(
         T, V, [&Len](const ScillaTypes::Typ *, const void *) { Len++; });

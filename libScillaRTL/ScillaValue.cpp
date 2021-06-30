@@ -869,9 +869,9 @@ void iterScillaList(const ScillaTypes::Typ *T, const void *Val,
   auto Tag = *reinterpret_cast<const uint8_t *>(V);
   while (Tag == List_Cons_Tag) {
     ASSERT(std::string(Sp->m_constrs[Tag]->m_cName) == "Cons" &&
-        Sp->m_constrs[Tag]->m_numArgs == 2 &&
-        Sp->m_constrs[Tag]->m_args[0] == ElmT &&
-        Sp->m_constrs[Tag]->m_args[1] == T);
+           Sp->m_constrs[Tag]->m_numArgs == 2 &&
+           Sp->m_constrs[Tag]->m_args[0] == ElmT &&
+           Sp->m_constrs[Tag]->m_args[1] == T);
 
     auto VP = reinterpret_cast<const uint8_t *>(V);
     // Increment VP once to go past the Tag.
@@ -883,7 +883,7 @@ void iterScillaList(const ScillaTypes::Typ *T, const void *Val,
     // Go past this element to the next sublist.
     VP += ScillaTypes::Typ::sizeOf(ElmT);
     // Update the iterators.
-    V = *reinterpret_cast<const void * const*>(VP);
+    V = *reinterpret_cast<const void *const *>(VP);
     Tag = *reinterpret_cast<const uint8_t *>(V);
   }
 }
