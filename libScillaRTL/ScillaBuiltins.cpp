@@ -1172,10 +1172,9 @@ uint64_t _lengthof(const ScillaTypes::Typ *T, const void *V) {
     return M->size();
   }
   case ScillaTypes::Typ::ADT_typ: {
-    ScillaTypes::ADTTyp::Specl *Sp = T->m_sub.m_spladt;
-    ASSERT_MSG(std::string(Sp->m_parent->m_tName) == "List",
+    ASSERT_MSG(std::string(T->m_sub.m_spladt->m_parent->m_tName) == "List",
                "_lengthof: List expected, got " +
-                   (std::string(Sp->m_parent->m_tName)));
+                   (std::string(T->m_sub.m_spladt->m_parent->m_tName)));
     uint64_t Len = 0;
     ScillaValues::iterScillaList(
         T, V, [&Len](const ScillaTypes::Typ *, const void *) { Len++; });
