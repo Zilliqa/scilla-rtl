@@ -854,5 +854,39 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
   CREATE_ERROR("Unreachable");
 }
 
+void iterScillaList(const ScillaTypes::Typ *T, const void *Val,
+                    ScillaValueCallback F) {
+
+  using namespace ScillaTypes;
+  ASSERT(T->m_t == ScillaTypes::Typ::ADT_typ);
+  ADTTyp::Specl *Sp = T->m_sub.m_spladt;
+  ASSERT(std::string(Sp->m_parent->m_tName) == "List");
+  ASSERT(Sp->m_parent->m_numTArgs == 1);
+
+  const ScillaTypes::Typ *ElmT = Sp->m_TArgs[0];
+
+  const void *V = Val;
+  auto Tag = *reinterpret_cast<const uint8_t *>(V);
+  while (Tag == List_Cons_Tag) {
+    ASSERT(std::string(Sp->m_constrs[Tag]->m_cName) == "Cons" &&
+        Sp->m_constrs[Tag]->m_numArgs == 2 &&
+        Sp->m_constrs[Tag]->m_args[0] == ElmT &&
+        Sp->m_constrs[Tag]->m_args[1] == T);
+
+    auto VP = reinterpret_cast<const uint8_t *>(V);
+    // Increment VP once to go past the Tag.
+    VP++;
+    if (ScillaTypes::Typ::isBoxed(ElmT))
+      F(ElmT, *reinterpret_cast<const void *const *>(VP));
+    else
+      F(ElmT, reinterpret_cast<const void *>(VP));
+    // Go past this element to the next sublist.
+    VP += ScillaTypes::Typ::sizeOf(ElmT);
+    // Update the iterators.
+    V = *reinterpret_cast<const void * const*>(VP);
+    Tag = *reinterpret_cast<const uint8_t *>(V);
+  }
+}
+
 } // namespace ScillaValues
 } // namespace ScillaRTL

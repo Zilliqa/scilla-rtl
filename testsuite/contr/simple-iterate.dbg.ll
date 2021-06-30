@@ -201,9 +201,9 @@ entry:
   store i64 %"$consume_105", i64* @_gasrem, align 8
   %"$nlist_0" = alloca %TName_List_Int32*, align 8
   store %TName_List_Int32* %nlist, %TName_List_Int32** %"$nlist_0", align 8, !dbg !14
-  br label %"$loop_succ_106"
+  br label %"$loop_header_107"
 
-"$loop_header_107":                               ; preds = %"$Cons_113"
+"$loop_header_107":                               ; preds = %"$Cons_113", %"$have_gas_104"
   %"$$nlist_0_109" = load %TName_List_Int32*, %TName_List_Int32** %"$nlist_0", align 8
   %"$$nlist_0_tag_110" = getelementptr inbounds %TName_List_Int32, %TName_List_Int32* %"$$nlist_0_109", i32 0, i32 0
   %"$$nlist_0_tag_111" = load i8, i8* %"$$nlist_0_tag_110", align 1
@@ -242,7 +242,7 @@ entry:
 "$matchsucc_108":                                 ; preds = %"$Nil_123", %"$empty_default_112"
   br label %"$loop_succ_106"
 
-"$loop_succ_106":                                 ; preds = %"$matchsucc_108", %"$have_gas_104"
+"$loop_succ_106":                                 ; preds = %"$matchsucc_108"
   ret void
 }
 

@@ -643,31 +643,11 @@ void *_to_nat(ScillaExecImpl *SJ, SafeUint32 UI) {
 }
 
 void _send(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, const void *V) {
-  auto J = ScillaValues::toJSON(T, V);
-  // J is a Scilla list of Messages. Form a JSON array instead.
-  // TODO: Consider having a Scilla List -> std::vector and calling
-  //       that before toJSON is called above.
-  auto *JJ = &J;
-  auto ErrMsg = "Invalid JSON constructed from send";
-  while (true) {
-    if (!JJ->isObject())
-      CREATE_ERROR(ErrMsg);
-    auto *JConstr = &(JJ->operator[]("constructor"));
-    if (!JConstr->isString())
-      CREATE_ERROR(ErrMsg);
-    auto CName = JConstr->asString();
-    if (CName == "Cons") {
-      auto *JArgs = &(JJ->operator[]("arguments"));
-      if (!JArgs->isArray() || JArgs->size() != 2)
-        CREATE_ERROR(ErrMsg);
-      SJ->TS->processSend(JArgs->operator[](0));
-      JJ = &(JArgs->operator[](1));
-    } else if (CName == "Nil") {
-      break;
-    } else {
-      CREATE_ERROR(ErrMsg);
-    }
-  }
+  ScillaValues::iterScillaList(
+      T, V, [SJ](const ScillaTypes::Typ *ElmT, const void *ElmV) -> void {
+        auto J = ScillaValues::toJSON(ElmT, ElmV);
+        SJ->TS->processSend(J);
+      });
 }
 
 uint64_t _literal_cost(const ScillaTypes::Typ *T, const void *V) {
@@ -1180,6 +1160,28 @@ SafeUint32 _size(const ScillaParams::MapValueT *M) {
   }
 
   return SafeUint32(S32);
+}
+
+uint64_t _lengthof(const ScillaTypes::Typ *T, const void *V) {
+  switch (T->m_t) {
+  case ScillaTypes::Typ::Map_typ: {
+    auto *M = reinterpret_cast<const ScillaParams::MapValueT *>(V);
+    return M->size();
+  }
+  case ScillaTypes::Typ::ADT_typ: {
+    ScillaTypes::ADTTyp::Specl *Sp = T->m_sub.m_spladt;
+    if (std::string(Sp->m_parent->m_tName) != "List") {
+      CREATE_ERROR("_lengthof: List expected, got " +
+                   (std::string(Sp->m_parent->m_tName)));
+    }
+    uint64_t Len = 0;
+    ScillaValues::iterScillaList(
+        T, V, [&Len](const ScillaTypes::Typ *, const void *) { Len++; });
+    return Len;
+  }
+  default:
+    CREATE_ERROR("_lengthof: Invalid input value");
+  }
 }
 
 } // end of extern "C".

@@ -301,7 +301,7 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
         (TypeJ = P.get("type", Json::nullValue)) == Json::nullValue ||
         (ValueJ = P.get("value", Json::nullValue)) == Json::nullValue ||
         !VNameJ.isString() || !TypeJ.isString()) {
-      CREATE_ERROR("Incorrect paramter format in message JSON.");
+      CREATE_ERROR("Incorrect parameter format in message JSON.");
     }
     auto *T = parseTypeString(TypeJ.asString());
     ParamTypes.push_back(T);
