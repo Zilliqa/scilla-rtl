@@ -67,13 +67,22 @@ void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
 // Compatible with literal_cost in Gas.ml in Scilla_base.
 uint64_t literalCost(const ScillaTypes::Typ *T, const void *V);
 
+using ScillaValueCallback =
+    std::function<void(const ScillaTypes::Typ *T, const void *)>;
+
+// Iterate over the constructor arguments of a Scilla ADT value,
+// calling back F for each argument, also passing the argument's type.
+// As usual:
+//  - for boxed values, the pointer passed is the boxing pointer.
+//  - for non-boxed values, their address is passed and must be loaded from.
+void iterScillaADTConstrArgs(const ScillaTypes::Typ *T, const void *V,
+                             ScillaValueCallback F);
+
 // Iterate over a Scilla list, apply F to each element.
 // F is passed the element type and the element.
 // As usual:
 //  - for boxed values, the pointer passed is the boxing pointer.
 //  - for non-boxed values, their address is passed and must be loaded from.
-using ScillaValueCallback =
-    std::function<void(const ScillaTypes::Typ *T, const void *)>;
 void iterScillaList(const ScillaTypes::Typ *T, const void *V,
                     ScillaValueCallback F);
 

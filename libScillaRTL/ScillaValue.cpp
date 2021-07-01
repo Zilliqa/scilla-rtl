@@ -216,22 +216,14 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
       // Print the constructor name.
       Out += std::string(ConstrP->m_cName);
       // Now print each argument.
-      auto VP = reinterpret_cast<const uint8_t *>(V);
-      // Increment VP once to go past the Tag.
-      VP++;
-      for (int I = 0; I < ConstrP->m_numArgs; I++) {
-        auto ArgT = ConstrP->m_args[I];
-        Out += "(";
-        if (ScillaTypes::Typ::isBoxed(ArgT))
-          recurser(ArgT, Tab, *reinterpret_cast<const void *const *>(VP));
-        else
-          recurser(ArgT, Tab, reinterpret_cast<const void *>(VP));
-        Out += ")";
-        // Increment our data pointer equal to the size we just finised.
-        // structs containing ADTs are packed, so that we don't have to
-        // worry about padding here.
-        VP += ScillaTypes::Typ::sizeOf(ArgT);
-      }
+      iterScillaADTConstrArgs(
+          T, V,
+          [&Out, &recurser, Tab](const ScillaTypes::Typ *ArgT,
+                                 const void *ArgV) {
+            Out += "(";
+            recurser(ArgT, Tab, ArgV);
+            Out += ")";
+          });
     } break;
     case ScillaTypes::Typ::Map_typ: {
       auto KeyT = T->m_sub.m_mapt->m_keyTyp;
@@ -375,24 +367,13 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
             Json::Value(ScillaTypes::Typ::toString(SpeclP->m_TArgs[i])));
       }
       // Now print each argument.
-      Out["arguments"] = Json::Value(Json::arrayValue);
-      auto VP = reinterpret_cast<const uint8_t *>(V);
-      // Increment VP once to go past the Tag.
-      VP++;
       Out["arguments"] = Json::arrayValue;
-      for (int I = 0; I < ConstrP->m_numArgs; I++) {
-        auto ArgT = ConstrP->m_args[I];
-        Json::Value Arg;
-        if (ScillaTypes::Typ::isBoxed(ArgT))
-          recurser(ArgT, *reinterpret_cast<const void *const *>(VP), Arg);
-        else
-          recurser(ArgT, reinterpret_cast<const void *>(VP), Arg);
-        Out["arguments"].append(Arg);
-        // Increment our data pointer equal to the size we just finised.
-        // structs containing ADTs are packed, so that we don't have to
-        // worry about padding here.
-        VP += ScillaTypes::Typ::sizeOf(ArgT);
-      }
+      iterScillaADTConstrArgs(
+          T, V, [&Out, &recurser](const ScillaTypes::Typ *ArgT, const void *V) {
+            Json::Value Arg;
+            recurser(ArgT, V, Arg);
+            Out["arguments"].append(Arg);
+          });
     } break;
     case ScillaTypes::Typ::Map_typ: {
       auto ValT = T->m_sub.m_mapt->m_valTyp;
@@ -712,22 +693,10 @@ void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
     // Append the constructor name.
     Ret.insert(Ret.end(), ConstrP->m_cName.m_buffer,
                ConstrP->m_cName.m_buffer + ConstrP->m_cName.m_length);
-    // Now append each argument.
-    auto VP = reinterpret_cast<const uint8_t *>(V);
-    // Increment VP once to go past the Tag.
-    VP++;
-    for (int I = 0; I < ConstrP->m_numArgs; I++) {
-      auto ArgT = ConstrP->m_args[I];
-      if (ScillaTypes::Typ::isBoxed(ArgT))
-        serializeForHashing(Ret, ArgT,
-                            *reinterpret_cast<const void *const *>(VP));
-      else
-        serializeForHashing(Ret, ArgT, reinterpret_cast<const void *>(VP));
-      // Increment our data pointer equal to the size we just finised.
-      // structs containing ADTs are packed, so that we don't have to
-      // worry about padding here.
-      VP += ScillaTypes::Typ::sizeOf(ArgT);
-    }
+    iterScillaADTConstrArgs(T, V,
+                            [&Ret](const ScillaTypes::Typ *T, const void *V) {
+                              serializeForHashing(Ret, T, V);
+                            });
   } break;
   case ScillaTypes::Typ::Map_typ: {
     CREATE_ERROR("Unimplemented");
@@ -802,23 +771,10 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
   }
   case ScillaTypes::Typ::ADT_typ: {
     uint64_t Acc = 0;
-    auto Tag = *reinterpret_cast<const uint8_t *>(V);
-    auto SpeclP = T->m_sub.m_spladt;
-    auto ConstrP = SpeclP->m_constrs[Tag];
-    auto VP = reinterpret_cast<const uint8_t *>(V);
-    // Increment VP once to go past the Tag.
-    VP++;
-    for (int I = 0; I < ConstrP->m_numArgs; I++) {
-      auto ArgT = ConstrP->m_args[I];
-      if (ScillaTypes::Typ::isBoxed(ArgT))
-        Acc += literalCost(ArgT, *reinterpret_cast<const void *const *>(VP));
-      else
-        Acc += literalCost(ArgT, reinterpret_cast<const void *>(VP));
-      // Increment our data pointer equal to the size we just finised.
-      // structs containing ADTs are packed, so that we don't have to
-      // worry about padding here.
-      VP += ScillaTypes::Typ::sizeOf(ArgT);
-    }
+    iterScillaADTConstrArgs(T, V,
+                            [&Acc](const ScillaTypes::Typ *T, const void *V) {
+                              Acc += literalCost(T, V);
+                            });
     return Acc;
   };
   case ScillaTypes::Typ::Map_typ: {
@@ -885,6 +841,29 @@ void iterScillaList(const ScillaTypes::Typ *T, const void *Val,
     // Update the iterators.
     V = *reinterpret_cast<const void *const *>(VP);
     Tag = *reinterpret_cast<const uint8_t *>(V);
+  }
+}
+
+void iterScillaADTConstrArgs(const ScillaTypes::Typ *T, const void *V,
+                             ScillaValueCallback F) {
+
+  ASSERT(T->m_t == ScillaTypes::Typ::ADT_typ);
+  auto Tag = *reinterpret_cast<const uint8_t *>(V);
+  auto SpeclP = T->m_sub.m_spladt;
+  auto ConstrP = SpeclP->m_constrs[Tag];
+  auto VP = reinterpret_cast<const uint8_t *>(V);
+  // Increment VP once to go past the Tag.
+  VP++;
+  for (int I = 0; I < ConstrP->m_numArgs; I++) {
+    auto ArgT = ConstrP->m_args[I];
+    if (ScillaTypes::Typ::isBoxed(ArgT))
+      F(ArgT, *reinterpret_cast<const void *const *>(VP));
+    else
+      F(ArgT, reinterpret_cast<const void *>(VP));
+    // Increment our data pointer equal to the size we just finised.
+    // structs containing ADTs are packed, so that we don't have to
+    // worry about padding here.
+    VP += ScillaTypes::Typ::sizeOf(ArgT);
   }
 }
 
