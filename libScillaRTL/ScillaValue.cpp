@@ -317,38 +317,25 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
         default:
           CREATE_ERROR("Unreachable");
         }
-        auto V_UC = reinterpret_cast<const uint8_t *>(V);
-        int NFields = *(V_UC++);
-
         Out["params"] = Json::arrayValue;
-        for (int I = 0; I < NFields; I++) {
-          // 1. Field's name.
-          auto *FNameP = reinterpret_cast<const ScillaTypes::String *>(V_UC);
-          auto FName = FNameP->operator std::string();
-          V_UC += sizeof(ScillaTypes::String);
-          // 2. Type descriptor for the value.
-          auto *TD = *reinterpret_cast<const ScillaTypes::Typ *const *>(V_UC);
-          V_UC += sizeof(const ScillaTypes::Typ *);
-          // 3. The value itself.
-          Json::Value VJ;
-          if (ScillaTypes::Typ::isBoxed(TD)) {
-            recurser(TD, *reinterpret_cast<const void *const *>(V_UC), VJ);
-          } else {
-            recurser(TD, V_UC, VJ);
-          }
-          V_UC += ScillaTypes::Typ::sizeOf(TD);
-          // Bundle all the data into E.
-          if (FName == Name || (Name == "_tag" && (FName == "_recipient" ||
-                                                   FName == "_amount"))) {
-            Out[FName] = VJ;
-          } else {
-            Json::Value VV;
-            VV["vname"] = FName;
-            VV["type"] = ScillaTypes::Typ::toString(TD);
-            VV["value"] = VJ;
-            Out["params"].append(VV);
-          }
-        }
+        iterScillaMsgObjectElms(
+            T, V,
+            [&recurser, &Out, &Name](const ScillaTypes::Typ *T, const void *V,
+                                     const std::string &FName) {
+              Json::Value VJ;
+              recurser(T, V, VJ);
+              // Bundle all the data into E.
+              if (FName == Name || (Name == "_tag" && (FName == "_recipient" ||
+                                                       FName == "_amount"))) {
+                Out[FName] = VJ;
+              } else {
+                Json::Value VV;
+                VV["vname"] = FName;
+                VV["type"] = ScillaTypes::Typ::toString(T);
+                VV["value"] = VJ;
+                Out["params"].append(VV);
+              }
+            });
         break;
       }
       }
@@ -739,31 +726,14 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
     case ScillaTypes::PrimTyp::Msg_typ:
     case ScillaTypes::PrimTyp::Event_typ:
     case ScillaTypes::PrimTyp::Exception_typ: {
-      if (!V) {
-        ASSERT(T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Exception_typ);
-        return 0;
-      }
-
-      auto V_UC = reinterpret_cast<const uint8_t *>(V);
-      int NFields = *(V_UC++);
-
       uint64_t Acc = 0;
-      for (int I = 0; I < NFields; I++) {
-        // 1. Field's name.
-        auto *FNameP = reinterpret_cast<const ScillaTypes::String *>(V_UC);
-        Acc += stringLengthNormalize(FNameP->m_length);
-        V_UC += sizeof(ScillaTypes::String);
-        // 2. Type descriptor for the value.
-        auto *TD = *reinterpret_cast<const ScillaTypes::Typ *const *>(V_UC);
-        V_UC += sizeof(const ScillaTypes::Typ *);
-        // 3. The value itself.
-        if (ScillaTypes::Typ::isBoxed(TD)) {
-          Acc += literalCost(TD, *reinterpret_cast<const void *const *>(V_UC));
-        } else {
-          Acc += literalCost(TD, V_UC);
-        }
-        V_UC += ScillaTypes::Typ::sizeOf(TD);
-      }
+      iterScillaMsgObjectElms(T, V,
+                              [&Acc, &stringLengthNormalize](
+                                  const ScillaTypes::Typ *T, const void *V,
+                                  const std::string &FName) {
+                                Acc += stringLengthNormalize(FName.size());
+                                Acc += literalCost(T, V);
+                              });
       return Acc;
     }
     }
@@ -864,6 +834,45 @@ void iterScillaADTConstrArgs(const ScillaTypes::Typ *T, const void *V,
     // structs containing ADTs are packed, so that we don't have to
     // worry about padding here.
     VP += ScillaTypes::Typ::sizeOf(ArgT);
+  }
+}
+
+void iterScillaMsgObjectElms(const ScillaTypes::Typ *T, const void *V,
+                             ScillaNamedValueCallback F) {
+
+  ASSERT(T->m_t == ScillaTypes::Typ::Prim_typ);
+  switch (T->m_sub.m_primt->m_pt) {
+  case ScillaTypes::PrimTyp::Msg_typ:
+  case ScillaTypes::PrimTyp::Event_typ:
+  case ScillaTypes::PrimTyp::Exception_typ: {
+    if (!V) {
+      ASSERT(T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Exception_typ);
+      return;
+    }
+  } break;
+  default:
+    CREATE_ERROR("Expected Scilla Message object");
+  }
+
+  auto V_UC = reinterpret_cast<const uint8_t *>(V);
+  int NFields = *(V_UC++);
+
+  for (int I = 0; I < NFields; I++) {
+    // 1. Field's name.
+    auto *FNameP = reinterpret_cast<const ScillaTypes::String *>(V_UC);
+    auto FName = FNameP->operator std::string();
+    V_UC += sizeof(ScillaTypes::String);
+    // 2. Type descriptor for the value.
+    auto *TD = *reinterpret_cast<const ScillaTypes::Typ *const *>(V_UC);
+    V_UC += sizeof(const ScillaTypes::Typ *);
+    // 3. The value itself.
+    Json::Value VJ;
+    if (ScillaTypes::Typ::isBoxed(TD)) {
+      F(TD, *reinterpret_cast<const void *const *>(V_UC), FName);
+    } else {
+      F(TD, V_UC, FName);
+    }
+    V_UC += ScillaTypes::Typ::sizeOf(TD);
   }
 }
 

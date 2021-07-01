@@ -86,5 +86,16 @@ void iterScillaADTConstrArgs(const ScillaTypes::Typ *T, const void *V,
 void iterScillaList(const ScillaTypes::Typ *T, const void *V,
                     ScillaValueCallback F);
 
+using ScillaNamedValueCallback = std::function<void(
+    const ScillaTypes::Typ *T, const void *, const std::string &)>;
+
+// Iterate over the fields of a Scilla Msg object, apply F to each field.
+// F is passed the element type, the element and the field name.
+// As usual:
+//  - for boxed values, the pointer passed is the boxing pointer.
+//  - for non-boxed values, their address is passed and must be loaded from.
+void iterScillaMsgObjectElms(const ScillaTypes::Typ *T, const void *V,
+                             ScillaNamedValueCallback F);
+
 } // namespace ScillaValues
 } // namespace ScillaRTL
