@@ -216,22 +216,14 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
       // Print the constructor name.
       Out += std::string(ConstrP->m_cName);
       // Now print each argument.
-      auto VP = reinterpret_cast<const uint8_t *>(V);
-      // Increment VP once to go past the Tag.
-      VP++;
-      for (int I = 0; I < ConstrP->m_numArgs; I++) {
-        auto ArgT = ConstrP->m_args[I];
-        Out += "(";
-        if (ScillaTypes::Typ::isBoxed(ArgT))
-          recurser(ArgT, Tab, *reinterpret_cast<const void *const *>(VP));
-        else
-          recurser(ArgT, Tab, reinterpret_cast<const void *>(VP));
-        Out += ")";
-        // Increment our data pointer equal to the size we just finised.
-        // structs containing ADTs are packed, so that we don't have to
-        // worry about padding here.
-        VP += ScillaTypes::Typ::sizeOf(ArgT);
-      }
+      iterScillaADTConstrArgs(
+          T, V,
+          [&Out, &recurser, Tab](const ScillaTypes::Typ *ArgT,
+                                 const void *ArgV) {
+            Out += "(";
+            recurser(ArgT, Tab, ArgV);
+            Out += ")";
+          });
     } break;
     case ScillaTypes::Typ::Map_typ: {
       auto KeyT = T->m_sub.m_mapt->m_keyTyp;
@@ -325,38 +317,25 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
         default:
           CREATE_ERROR("Unreachable");
         }
-        auto V_UC = reinterpret_cast<const uint8_t *>(V);
-        int NFields = *(V_UC++);
-
         Out["params"] = Json::arrayValue;
-        for (int I = 0; I < NFields; I++) {
-          // 1. Field's name.
-          auto *FNameP = reinterpret_cast<const ScillaTypes::String *>(V_UC);
-          auto FName = FNameP->operator std::string();
-          V_UC += sizeof(ScillaTypes::String);
-          // 2. Type descriptor for the value.
-          auto *TD = *reinterpret_cast<const ScillaTypes::Typ *const *>(V_UC);
-          V_UC += sizeof(const ScillaTypes::Typ *);
-          // 3. The value itself.
-          Json::Value VJ;
-          if (ScillaTypes::Typ::isBoxed(TD)) {
-            recurser(TD, *reinterpret_cast<const void *const *>(V_UC), VJ);
-          } else {
-            recurser(TD, V_UC, VJ);
-          }
-          V_UC += ScillaTypes::Typ::sizeOf(TD);
-          // Bundle all the data into E.
-          if (FName == Name || (Name == "_tag" && (FName == "_recipient" ||
-                                                   FName == "_amount"))) {
-            Out[FName] = VJ;
-          } else {
-            Json::Value VV;
-            VV["vname"] = FName;
-            VV["type"] = ScillaTypes::Typ::toString(TD);
-            VV["value"] = VJ;
-            Out["params"].append(VV);
-          }
-        }
+        iterScillaMsgObjectElms(
+            T, V,
+            [&recurser, &Out, &Name](const ScillaTypes::Typ *T, const void *V,
+                                     const std::string &FName) {
+              Json::Value VJ;
+              recurser(T, V, VJ);
+              // Bundle all the data into E.
+              if (FName == Name || (Name == "_tag" && (FName == "_recipient" ||
+                                                       FName == "_amount"))) {
+                Out[FName] = VJ;
+              } else {
+                Json::Value VV;
+                VV["vname"] = FName;
+                VV["type"] = ScillaTypes::Typ::toString(T);
+                VV["value"] = VJ;
+                Out["params"].append(VV);
+              }
+            });
         break;
       }
       }
@@ -375,24 +354,13 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
             Json::Value(ScillaTypes::Typ::toString(SpeclP->m_TArgs[i])));
       }
       // Now print each argument.
-      Out["arguments"] = Json::Value(Json::arrayValue);
-      auto VP = reinterpret_cast<const uint8_t *>(V);
-      // Increment VP once to go past the Tag.
-      VP++;
       Out["arguments"] = Json::arrayValue;
-      for (int I = 0; I < ConstrP->m_numArgs; I++) {
-        auto ArgT = ConstrP->m_args[I];
-        Json::Value Arg;
-        if (ScillaTypes::Typ::isBoxed(ArgT))
-          recurser(ArgT, *reinterpret_cast<const void *const *>(VP), Arg);
-        else
-          recurser(ArgT, reinterpret_cast<const void *>(VP), Arg);
-        Out["arguments"].append(Arg);
-        // Increment our data pointer equal to the size we just finised.
-        // structs containing ADTs are packed, so that we don't have to
-        // worry about padding here.
-        VP += ScillaTypes::Typ::sizeOf(ArgT);
-      }
+      iterScillaADTConstrArgs(
+          T, V, [&Out, &recurser](const ScillaTypes::Typ *ArgT, const void *V) {
+            Json::Value Arg;
+            recurser(ArgT, V, Arg);
+            Out["arguments"].append(Arg);
+          });
     } break;
     case ScillaTypes::Typ::Map_typ: {
       auto ValT = T->m_sub.m_mapt->m_valTyp;
@@ -712,22 +680,10 @@ void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
     // Append the constructor name.
     Ret.insert(Ret.end(), ConstrP->m_cName.m_buffer,
                ConstrP->m_cName.m_buffer + ConstrP->m_cName.m_length);
-    // Now append each argument.
-    auto VP = reinterpret_cast<const uint8_t *>(V);
-    // Increment VP once to go past the Tag.
-    VP++;
-    for (int I = 0; I < ConstrP->m_numArgs; I++) {
-      auto ArgT = ConstrP->m_args[I];
-      if (ScillaTypes::Typ::isBoxed(ArgT))
-        serializeForHashing(Ret, ArgT,
-                            *reinterpret_cast<const void *const *>(VP));
-      else
-        serializeForHashing(Ret, ArgT, reinterpret_cast<const void *>(VP));
-      // Increment our data pointer equal to the size we just finised.
-      // structs containing ADTs are packed, so that we don't have to
-      // worry about padding here.
-      VP += ScillaTypes::Typ::sizeOf(ArgT);
-    }
+    iterScillaADTConstrArgs(T, V,
+                            [&Ret](const ScillaTypes::Typ *T, const void *V) {
+                              serializeForHashing(Ret, T, V);
+                            });
   } break;
   case ScillaTypes::Typ::Map_typ: {
     CREATE_ERROR("Unimplemented");
@@ -770,31 +726,14 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
     case ScillaTypes::PrimTyp::Msg_typ:
     case ScillaTypes::PrimTyp::Event_typ:
     case ScillaTypes::PrimTyp::Exception_typ: {
-      if (!V) {
-        ASSERT(T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Exception_typ);
-        return 0;
-      }
-
-      auto V_UC = reinterpret_cast<const uint8_t *>(V);
-      int NFields = *(V_UC++);
-
       uint64_t Acc = 0;
-      for (int I = 0; I < NFields; I++) {
-        // 1. Field's name.
-        auto *FNameP = reinterpret_cast<const ScillaTypes::String *>(V_UC);
-        Acc += stringLengthNormalize(FNameP->m_length);
-        V_UC += sizeof(ScillaTypes::String);
-        // 2. Type descriptor for the value.
-        auto *TD = *reinterpret_cast<const ScillaTypes::Typ *const *>(V_UC);
-        V_UC += sizeof(const ScillaTypes::Typ *);
-        // 3. The value itself.
-        if (ScillaTypes::Typ::isBoxed(TD)) {
-          Acc += literalCost(TD, *reinterpret_cast<const void *const *>(V_UC));
-        } else {
-          Acc += literalCost(TD, V_UC);
-        }
-        V_UC += ScillaTypes::Typ::sizeOf(TD);
-      }
+      iterScillaMsgObjectElms(T, V,
+                              [&Acc, &stringLengthNormalize](
+                                  const ScillaTypes::Typ *T, const void *V,
+                                  const std::string &FName) {
+                                Acc += stringLengthNormalize(FName.size());
+                                Acc += literalCost(T, V);
+                              });
       return Acc;
     }
     }
@@ -802,23 +741,10 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
   }
   case ScillaTypes::Typ::ADT_typ: {
     uint64_t Acc = 0;
-    auto Tag = *reinterpret_cast<const uint8_t *>(V);
-    auto SpeclP = T->m_sub.m_spladt;
-    auto ConstrP = SpeclP->m_constrs[Tag];
-    auto VP = reinterpret_cast<const uint8_t *>(V);
-    // Increment VP once to go past the Tag.
-    VP++;
-    for (int I = 0; I < ConstrP->m_numArgs; I++) {
-      auto ArgT = ConstrP->m_args[I];
-      if (ScillaTypes::Typ::isBoxed(ArgT))
-        Acc += literalCost(ArgT, *reinterpret_cast<const void *const *>(VP));
-      else
-        Acc += literalCost(ArgT, reinterpret_cast<const void *>(VP));
-      // Increment our data pointer equal to the size we just finised.
-      // structs containing ADTs are packed, so that we don't have to
-      // worry about padding here.
-      VP += ScillaTypes::Typ::sizeOf(ArgT);
-    }
+    iterScillaADTConstrArgs(T, V,
+                            [&Acc](const ScillaTypes::Typ *T, const void *V) {
+                              Acc += literalCost(T, V);
+                            });
     return Acc;
   };
   case ScillaTypes::Typ::Map_typ: {
@@ -885,6 +811,68 @@ void iterScillaList(const ScillaTypes::Typ *T, const void *Val,
     // Update the iterators.
     V = *reinterpret_cast<const void *const *>(VP);
     Tag = *reinterpret_cast<const uint8_t *>(V);
+  }
+}
+
+void iterScillaADTConstrArgs(const ScillaTypes::Typ *T, const void *V,
+                             ScillaValueCallback F) {
+
+  ASSERT(T->m_t == ScillaTypes::Typ::ADT_typ);
+  auto Tag = *reinterpret_cast<const uint8_t *>(V);
+  auto SpeclP = T->m_sub.m_spladt;
+  auto ConstrP = SpeclP->m_constrs[Tag];
+  auto VP = reinterpret_cast<const uint8_t *>(V);
+  // Increment VP once to go past the Tag.
+  VP++;
+  for (int I = 0; I < ConstrP->m_numArgs; I++) {
+    auto ArgT = ConstrP->m_args[I];
+    if (ScillaTypes::Typ::isBoxed(ArgT))
+      F(ArgT, *reinterpret_cast<const void *const *>(VP));
+    else
+      F(ArgT, reinterpret_cast<const void *>(VP));
+    // Increment our data pointer equal to the size we just finised.
+    // structs containing ADTs are packed, so that we don't have to
+    // worry about padding here.
+    VP += ScillaTypes::Typ::sizeOf(ArgT);
+  }
+}
+
+void iterScillaMsgObjectElms(const ScillaTypes::Typ *T, const void *V,
+                             ScillaNamedValueCallback F) {
+
+  ASSERT(T->m_t == ScillaTypes::Typ::Prim_typ);
+  switch (T->m_sub.m_primt->m_pt) {
+  case ScillaTypes::PrimTyp::Msg_typ:
+  case ScillaTypes::PrimTyp::Event_typ:
+  case ScillaTypes::PrimTyp::Exception_typ: {
+    if (!V) {
+      ASSERT(T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Exception_typ);
+      return;
+    }
+  } break;
+  default:
+    CREATE_ERROR("Expected Scilla Message object");
+  }
+
+  auto V_UC = reinterpret_cast<const uint8_t *>(V);
+  int NFields = *(V_UC++);
+
+  for (int I = 0; I < NFields; I++) {
+    // 1. Field's name.
+    auto *FNameP = reinterpret_cast<const ScillaTypes::String *>(V_UC);
+    auto FName = FNameP->operator std::string();
+    V_UC += sizeof(ScillaTypes::String);
+    // 2. Type descriptor for the value.
+    auto *TD = *reinterpret_cast<const ScillaTypes::Typ *const *>(V_UC);
+    V_UC += sizeof(const ScillaTypes::Typ *);
+    // 3. The value itself.
+    Json::Value VJ;
+    if (ScillaTypes::Typ::isBoxed(TD)) {
+      F(TD, *reinterpret_cast<const void *const *>(V_UC), FName);
+    } else {
+      F(TD, V_UC, FName);
+    }
+    V_UC += ScillaTypes::Typ::sizeOf(TD);
   }
 }
 

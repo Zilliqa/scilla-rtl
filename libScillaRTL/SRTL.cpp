@@ -114,28 +114,16 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
         case Typ::Prim_typ:
           return true;
         case Typ::ADT_typ: {
-          const ScillaTypes::ADTTyp::Specl *Specl = ExpectedT->m_sub.m_spladt;
-          auto VP = reinterpret_cast<const uint8_t *>(Val);
-          auto Tag = *VP;
-          // Increment VP once to go past the Tag.
-          VP++;
-          auto ConstrP = Specl->m_constrs[Tag];
-          // Check all arguments of this ADT constructor.
-          for (int I = 0; I < ConstrP->m_numArgs; I++) {
-            auto *ArgT = ConstrP->m_args[I];
-            if (ScillaTypes::Typ::isBoxed(ArgT)) {
-              if (!recurser(ArgT, *reinterpret_cast<const void *const *>(VP)))
-                return false;
-            } else {
-              if (!recurser(ArgT, reinterpret_cast<const void *>(VP)))
-                return false;
-            }
-            // Increment our data pointer equal to the size we just finised.
-            // structs containing ADTs are packed, so that we don't have to
-            // worry about padding here.
-            VP += ScillaTypes::Typ::sizeOf(ArgT);
-          }
-          return true;
+          bool Res = true;
+          ScillaValues::iterScillaADTConstrArgs(
+              ExpectedT, Val,
+              [&recurser, &Res](const ScillaTypes::Typ *T, const void *V) {
+                if (!Res) {
+                  return;
+                }
+                Res = recurser(T, V);
+              });
+          return Res;
         }
         case Typ::Map_typ: {
           ScillaTypes::MapTyp *MT = ExpectedT->m_sub.m_mapt;
