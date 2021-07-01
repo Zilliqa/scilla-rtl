@@ -480,11 +480,6 @@ declare i8* @_salloc(i8*, i64)
 
 define void @_init_libs() !dbg !27 {
 entry:
-  ret void
-}
-
-define internal %TName_Bool* @_scilla_expr_fun(i8* %0) !dbg !29 {
-entry:
   %"$gasrem_251" = load i64, i64* @_gasrem, align 8
   %"$gascmp_252" = icmp ugt i64 1, %"$gasrem_251"
   br i1 %"$gascmp_252", label %"$out_of_gas_253", label %"$have_gas_254"
@@ -496,7 +491,7 @@ entry:
 "$have_gas_254":                                  ; preds = %"$out_of_gas_253", %entry
   %"$consume_255" = sub i64 %"$gasrem_251", 1
   store i64 %"$consume_255", i64* @_gasrem, align 8
-  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_24_env_86"*, %TName_Bool*)* @"$fundef_24" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8, !dbg !30
+  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_24_env_86"*, %TName_Bool*)* @"$fundef_24" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8, !dbg !29
   %"$gasrem_259" = load i64, i64* @_gasrem, align 8
   %"$gascmp_260" = icmp ugt i64 1, %"$gasrem_259"
   br i1 %"$gascmp_260", label %"$out_of_gas_261", label %"$have_gas_262"
@@ -516,17 +511,22 @@ entry:
   %"$$fundef_16_env_BoolUtils.andb_268" = getelementptr inbounds %"$$fundef_16_env_84", %"$$fundef_16_env_84"* %"$$fundef_16_envp_264", i32 0, i32 0
   %"$BoolUtils.andb_269" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
   store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_269", { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$$fundef_16_env_BoolUtils.andb_268", align 8
-  store { { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$fundef_16_cloval_267", { { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.and_4, align 8, !dbg !31
+  store { { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$fundef_16_cloval_267", { { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.and_4, align 8, !dbg !30
+  ret void
+}
+
+define internal %TName_Bool* @_scilla_expr_fun(i8* %0) !dbg !31 {
+entry:
   %"$expr_28" = alloca %TName_Bool*, align 8
   %"$gasrem_270" = load i64, i64* @_gasrem, align 8
   %"$gascmp_271" = icmp ugt i64 1, %"$gasrem_270"
   br i1 %"$gascmp_271", label %"$out_of_gas_272", label %"$have_gas_273"
 
-"$out_of_gas_272":                                ; preds = %"$have_gas_262"
+"$out_of_gas_272":                                ; preds = %entry
   call void @_out_of_gas()
   br label %"$have_gas_273"
 
-"$have_gas_273":                                  ; preds = %"$out_of_gas_272", %"$have_gas_262"
+"$have_gas_273":                                  ; preds = %"$out_of_gas_272", %entry
   %"$consume_274" = sub i64 %"$gasrem_270", 1
   store i64 %"$consume_274", i64* @_gasrem, align 8
   %p1 = alloca [33 x i8], align 1
@@ -1466,41 +1466,41 @@ entry:
 !26 = !DILocation(line: 8, column: 5, scope: !25)
 !27 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !28, file: !28, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
 !28 = !DIFile(filename: ".", directory: ".")
-!29 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !5, file: !5, line: 7, type: !6, scopeLine: 7, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!30 = !DILocation(line: 7, column: 3, scope: !29)
-!31 = !DILocation(line: 51, column: 21, scope: !29)
-!32 = !DILocation(line: 3, column: 9, scope: !29)
-!33 = !DILocation(line: 4, column: 10, scope: !29)
-!34 = !DILocation(line: 5, column: 14, scope: !29)
-!35 = !DILocation(line: 6, column: 10, scope: !29)
-!36 = !DILocation(line: 8, column: 9, scope: !29)
-!37 = !DILocation(line: 9, column: 10, scope: !29)
-!38 = !DILocation(line: 10, column: 14, scope: !29)
-!39 = !DILocation(line: 11, column: 10, scope: !29)
-!40 = !DILocation(line: 13, column: 9, scope: !29)
-!41 = !DILocation(line: 14, column: 10, scope: !29)
-!42 = !DILocation(line: 15, column: 14, scope: !29)
-!43 = !DILocation(line: 16, column: 10, scope: !29)
-!44 = !DILocation(line: 18, column: 9, scope: !29)
-!45 = !DILocation(line: 19, column: 10, scope: !29)
-!46 = !DILocation(line: 20, column: 14, scope: !29)
-!47 = !DILocation(line: 21, column: 10, scope: !29)
-!48 = !DILocation(line: 23, column: 9, scope: !29)
-!49 = !DILocation(line: 24, column: 10, scope: !29)
-!50 = !DILocation(line: 25, column: 14, scope: !29)
-!51 = !DILocation(line: 26, column: 10, scope: !29)
-!52 = !DILocation(line: 28, column: 9, scope: !29)
-!53 = !DILocation(line: 29, column: 10, scope: !29)
-!54 = !DILocation(line: 30, column: 14, scope: !29)
-!55 = !DILocation(line: 31, column: 10, scope: !29)
-!56 = !DILocation(line: 33, column: 9, scope: !29)
-!57 = !DILocation(line: 34, column: 10, scope: !29)
-!58 = !DILocation(line: 35, column: 14, scope: !29)
-!59 = !DILocation(line: 36, column: 10, scope: !29)
-!60 = !DILocation(line: 38, column: 9, scope: !29)
-!61 = !DILocation(line: 39, column: 10, scope: !29)
-!62 = !DILocation(line: 40, column: 14, scope: !29)
-!63 = !DILocation(line: 41, column: 10, scope: !29)
-!64 = !DILocation(line: 48, column: 12, scope: !29)
-!65 = !DILocation(line: 49, column: 12, scope: !29)
-!66 = !DILocation(line: 51, column: 1, scope: !29)
+!29 = !DILocation(line: 7, column: 3, scope: !27)
+!30 = !DILocation(line: 51, column: 21, scope: !27)
+!31 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 3, type: !6, scopeLine: 3, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!32 = !DILocation(line: 3, column: 9, scope: !31)
+!33 = !DILocation(line: 4, column: 10, scope: !31)
+!34 = !DILocation(line: 5, column: 14, scope: !31)
+!35 = !DILocation(line: 6, column: 10, scope: !31)
+!36 = !DILocation(line: 8, column: 9, scope: !31)
+!37 = !DILocation(line: 9, column: 10, scope: !31)
+!38 = !DILocation(line: 10, column: 14, scope: !31)
+!39 = !DILocation(line: 11, column: 10, scope: !31)
+!40 = !DILocation(line: 13, column: 9, scope: !31)
+!41 = !DILocation(line: 14, column: 10, scope: !31)
+!42 = !DILocation(line: 15, column: 14, scope: !31)
+!43 = !DILocation(line: 16, column: 10, scope: !31)
+!44 = !DILocation(line: 18, column: 9, scope: !31)
+!45 = !DILocation(line: 19, column: 10, scope: !31)
+!46 = !DILocation(line: 20, column: 14, scope: !31)
+!47 = !DILocation(line: 21, column: 10, scope: !31)
+!48 = !DILocation(line: 23, column: 9, scope: !31)
+!49 = !DILocation(line: 24, column: 10, scope: !31)
+!50 = !DILocation(line: 25, column: 14, scope: !31)
+!51 = !DILocation(line: 26, column: 10, scope: !31)
+!52 = !DILocation(line: 28, column: 9, scope: !31)
+!53 = !DILocation(line: 29, column: 10, scope: !31)
+!54 = !DILocation(line: 30, column: 14, scope: !31)
+!55 = !DILocation(line: 31, column: 10, scope: !31)
+!56 = !DILocation(line: 33, column: 9, scope: !31)
+!57 = !DILocation(line: 34, column: 10, scope: !31)
+!58 = !DILocation(line: 35, column: 14, scope: !31)
+!59 = !DILocation(line: 36, column: 10, scope: !31)
+!60 = !DILocation(line: 38, column: 9, scope: !31)
+!61 = !DILocation(line: 39, column: 10, scope: !31)
+!62 = !DILocation(line: 40, column: 14, scope: !31)
+!63 = !DILocation(line: 41, column: 10, scope: !31)
+!64 = !DILocation(line: 48, column: 12, scope: !31)
+!65 = !DILocation(line: 49, column: 12, scope: !31)
+!66 = !DILocation(line: 51, column: 1, scope: !31)

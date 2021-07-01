@@ -1897,11 +1897,6 @@ declare %Uint32 @_add_Uint32(%Uint32, %Uint32)
 
 define void @_init_libs() !dbg !101 {
 entry:
-  ret void
-}
-
-define internal %Uint32 @_scilla_expr_fun(i8* %0) !dbg !103 {
-entry:
   %"$gasrem_1047" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1048" = icmp ugt i64 1, %"$gasrem_1047"
   br i1 %"$gascmp_1048", label %"$out_of_gas_1049", label %"$have_gas_1050"
@@ -1926,7 +1921,7 @@ entry:
   %"$dyndisp_gep_1066" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_1061", i32 2
   %"$dyndisp_pcast_1067" = bitcast { i8*, i8* }* %"$dyndisp_gep_1066" to { { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* })*, i8* } (i8*)*, i8* }*
   store { { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* })*, i8* } (i8*)*, i8* } { { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* })*, i8* } (i8*)* bitcast ({ { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* })*, i8* } (%"$$fundef_110_env_227"*)* @"$fundef_110" to { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* })*, i8* } (i8*)*), i8* null }, { { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* })*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_1067", align 8
-  store { i8*, i8* }* %"$dyndisp_table_1061", { i8*, i8* }** @nat_fold, align 8, !dbg !104
+  store { i8*, i8* }* %"$dyndisp_table_1061", { i8*, i8* }** @nat_fold, align 8, !dbg !103
   %"$gasrem_1068" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1069" = icmp ugt i64 1, %"$gasrem_1068"
   br i1 %"$gascmp_1069", label %"$out_of_gas_1070", label %"$have_gas_1071"
@@ -1946,17 +1941,22 @@ entry:
   %"$$fundef_118_env_nat_fold_1077" = getelementptr inbounds %"$$fundef_118_env_223", %"$$fundef_118_env_223"* %"$$fundef_118_envp_1073", i32 0, i32 0
   %"$nat_fold_1078" = load { i8*, i8* }*, { i8*, i8* }** @nat_fold, align 8
   store { i8*, i8* }* %"$nat_fold_1078", { i8*, i8* }** %"$$fundef_118_env_nat_fold_1077", align 8
-  store { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$$fundef_118_cloval_1076", { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int, align 8, !dbg !105
+  store { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$$fundef_118_cloval_1076", { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int, align 8, !dbg !104
+  ret void
+}
+
+define internal %Uint32 @_scilla_expr_fun(i8* %0) !dbg !105 {
+entry:
   %"$expr_124" = alloca %Uint32, align 8
   %"$gasrem_1079" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1080" = icmp ugt i64 1, %"$gasrem_1079"
   br i1 %"$gascmp_1080", label %"$out_of_gas_1081", label %"$have_gas_1082"
 
-"$out_of_gas_1081":                               ; preds = %"$have_gas_1071"
+"$out_of_gas_1081":                               ; preds = %entry
   call void @_out_of_gas()
   br label %"$have_gas_1082"
 
-"$have_gas_1082":                                 ; preds = %"$out_of_gas_1081", %"$have_gas_1071"
+"$have_gas_1082":                                 ; preds = %"$out_of_gas_1081", %entry
   %"$consume_1083" = sub i64 %"$gasrem_1079", 1
   store i64 %"$consume_1083", i64* @_gasrem, align 8
   %nat_succ = alloca { %TName_Nat* (i8*, %TName_Nat*)*, i8* }, align 8
@@ -4259,85 +4259,85 @@ entry:
 !100 = !DILocation(line: 1, column: 18, scope: !99)
 !101 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !102, file: !102, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
 !102 = !DIFile(filename: ".", directory: ".")
-!103 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !59, file: !59, line: 1, type: !5, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!104 = !DILocation(line: 1, column: 18, scope: !103)
-!105 = !DILocation(line: 52, column: 5, scope: !103)
-!106 = !DILocation(line: 3, column: 20, scope: !103)
-!107 = !DILocation(line: 8, column: 3, scope: !103)
-!108 = !DILocation(line: 18, column: 19, scope: !103)
-!109 = !DILocation(line: 18, column: 18, scope: !103)
-!110 = !DILocation(line: 19, column: 23, scope: !103)
-!111 = !DILocation(line: 19, column: 22, scope: !103)
-!112 = !DILocation(line: 20, column: 14, scope: !103)
-!113 = !DILocation(line: 21, column: 13, scope: !103)
-!114 = !DILocation(line: 23, column: 5, scope: !103)
-!115 = !DILocation(line: 25, column: 23, scope: !103)
-!116 = !DILocation(line: 29, column: 13, scope: !103)
-!117 = !DILocation(line: 30, column: 13, scope: !103)
-!118 = !DILocation(line: 31, column: 13, scope: !103)
-!119 = !DILocation(line: 32, column: 13, scope: !103)
-!120 = !DILocation(line: 33, column: 13, scope: !103)
-!121 = !DILocation(line: 35, column: 10, scope: !103)
-!122 = !DILocation(line: 36, column: 10, scope: !103)
-!123 = !DILocation(line: 37, column: 10, scope: !103)
-!124 = !DILocation(line: 38, column: 10, scope: !103)
-!125 = !DILocation(line: 39, column: 10, scope: !103)
-!126 = !DILocation(line: 41, column: 13, scope: !103)
-!127 = !DILocation(line: 43, column: 13, scope: !103)
-!128 = !DILocation(line: 44, column: 13, scope: !103)
-!129 = !DILocation(line: 45, column: 13, scope: !103)
-!130 = !DILocation(line: 46, column: 13, scope: !103)
-!131 = !DILocation(line: 47, column: 13, scope: !103)
-!132 = !DILocation(line: 48, column: 13, scope: !103)
-!133 = !DILocation(line: 49, column: 13, scope: !103)
-!134 = !DILocation(line: 50, column: 13, scope: !103)
-!135 = !DILocation(line: 51, column: 13, scope: !103)
-!136 = !DILocation(line: 52, column: 13, scope: !103)
-!137 = !DILocation(line: 53, column: 13, scope: !103)
-!138 = !DILocation(line: 54, column: 13, scope: !103)
-!139 = !DILocation(line: 56, column: 13, scope: !103)
-!140 = !DILocation(line: 57, column: 13, scope: !103)
-!141 = !DILocation(line: 58, column: 13, scope: !103)
-!142 = !DILocation(line: 59, column: 13, scope: !103)
-!143 = !DILocation(line: 60, column: 13, scope: !103)
-!144 = !DILocation(line: 61, column: 13, scope: !103)
-!145 = !DILocation(line: 63, column: 13, scope: !103)
-!146 = !DILocation(line: 64, column: 13, scope: !103)
-!147 = !DILocation(line: 65, column: 13, scope: !103)
-!148 = !DILocation(line: 66, column: 13, scope: !103)
-!149 = !DILocation(line: 67, column: 13, scope: !103)
-!150 = !DILocation(line: 68, column: 13, scope: !103)
-!151 = !DILocation(line: 69, column: 13, scope: !103)
-!152 = !DILocation(line: 70, column: 13, scope: !103)
-!153 = !DILocation(line: 71, column: 13, scope: !103)
-!154 = !DILocation(line: 72, column: 13, scope: !103)
-!155 = !DILocation(line: 73, column: 13, scope: !103)
-!156 = !DILocation(line: 74, column: 13, scope: !103)
-!157 = !DILocation(line: 75, column: 13, scope: !103)
-!158 = !DILocation(line: 76, column: 13, scope: !103)
-!159 = !DILocation(line: 77, column: 13, scope: !103)
-!160 = !DILocation(line: 78, column: 13, scope: !103)
-!161 = !DILocation(line: 79, column: 13, scope: !103)
-!162 = !DILocation(line: 80, column: 13, scope: !103)
-!163 = !DILocation(line: 81, column: 13, scope: !103)
-!164 = !DILocation(line: 82, column: 13, scope: !103)
-!165 = !DILocation(line: 84, column: 11, scope: !103)
-!166 = !DILocation(line: 85, column: 11, scope: !103)
-!167 = !DILocation(line: 86, column: 11, scope: !103)
-!168 = !DILocation(line: 87, column: 11, scope: !103)
-!169 = !DILocation(line: 88, column: 11, scope: !103)
-!170 = !DILocation(line: 89, column: 11, scope: !103)
-!171 = !DILocation(line: 90, column: 11, scope: !103)
-!172 = !DILocation(line: 91, column: 11, scope: !103)
-!173 = !DILocation(line: 92, column: 11, scope: !103)
-!174 = !DILocation(line: 93, column: 11, scope: !103)
-!175 = !DILocation(line: 94, column: 11, scope: !103)
-!176 = !DILocation(line: 95, column: 11, scope: !103)
-!177 = !DILocation(line: 96, column: 11, scope: !103)
-!178 = !DILocation(line: 97, column: 11, scope: !103)
-!179 = !DILocation(line: 98, column: 11, scope: !103)
-!180 = !DILocation(line: 99, column: 11, scope: !103)
-!181 = !DILocation(line: 100, column: 11, scope: !103)
-!182 = !DILocation(line: 101, column: 11, scope: !103)
-!183 = !DILocation(line: 102, column: 11, scope: !103)
-!184 = !DILocation(line: 104, column: 1, scope: !103)
+!103 = !DILocation(line: 1, column: 18, scope: !101)
+!104 = !DILocation(line: 52, column: 5, scope: !101)
+!105 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 3, type: !5, scopeLine: 3, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!106 = !DILocation(line: 3, column: 20, scope: !105)
+!107 = !DILocation(line: 8, column: 3, scope: !105)
+!108 = !DILocation(line: 18, column: 19, scope: !105)
+!109 = !DILocation(line: 18, column: 18, scope: !105)
+!110 = !DILocation(line: 19, column: 23, scope: !105)
+!111 = !DILocation(line: 19, column: 22, scope: !105)
+!112 = !DILocation(line: 20, column: 14, scope: !105)
+!113 = !DILocation(line: 21, column: 13, scope: !105)
+!114 = !DILocation(line: 23, column: 5, scope: !105)
+!115 = !DILocation(line: 25, column: 23, scope: !105)
+!116 = !DILocation(line: 29, column: 13, scope: !105)
+!117 = !DILocation(line: 30, column: 13, scope: !105)
+!118 = !DILocation(line: 31, column: 13, scope: !105)
+!119 = !DILocation(line: 32, column: 13, scope: !105)
+!120 = !DILocation(line: 33, column: 13, scope: !105)
+!121 = !DILocation(line: 35, column: 10, scope: !105)
+!122 = !DILocation(line: 36, column: 10, scope: !105)
+!123 = !DILocation(line: 37, column: 10, scope: !105)
+!124 = !DILocation(line: 38, column: 10, scope: !105)
+!125 = !DILocation(line: 39, column: 10, scope: !105)
+!126 = !DILocation(line: 41, column: 13, scope: !105)
+!127 = !DILocation(line: 43, column: 13, scope: !105)
+!128 = !DILocation(line: 44, column: 13, scope: !105)
+!129 = !DILocation(line: 45, column: 13, scope: !105)
+!130 = !DILocation(line: 46, column: 13, scope: !105)
+!131 = !DILocation(line: 47, column: 13, scope: !105)
+!132 = !DILocation(line: 48, column: 13, scope: !105)
+!133 = !DILocation(line: 49, column: 13, scope: !105)
+!134 = !DILocation(line: 50, column: 13, scope: !105)
+!135 = !DILocation(line: 51, column: 13, scope: !105)
+!136 = !DILocation(line: 52, column: 13, scope: !105)
+!137 = !DILocation(line: 53, column: 13, scope: !105)
+!138 = !DILocation(line: 54, column: 13, scope: !105)
+!139 = !DILocation(line: 56, column: 13, scope: !105)
+!140 = !DILocation(line: 57, column: 13, scope: !105)
+!141 = !DILocation(line: 58, column: 13, scope: !105)
+!142 = !DILocation(line: 59, column: 13, scope: !105)
+!143 = !DILocation(line: 60, column: 13, scope: !105)
+!144 = !DILocation(line: 61, column: 13, scope: !105)
+!145 = !DILocation(line: 63, column: 13, scope: !105)
+!146 = !DILocation(line: 64, column: 13, scope: !105)
+!147 = !DILocation(line: 65, column: 13, scope: !105)
+!148 = !DILocation(line: 66, column: 13, scope: !105)
+!149 = !DILocation(line: 67, column: 13, scope: !105)
+!150 = !DILocation(line: 68, column: 13, scope: !105)
+!151 = !DILocation(line: 69, column: 13, scope: !105)
+!152 = !DILocation(line: 70, column: 13, scope: !105)
+!153 = !DILocation(line: 71, column: 13, scope: !105)
+!154 = !DILocation(line: 72, column: 13, scope: !105)
+!155 = !DILocation(line: 73, column: 13, scope: !105)
+!156 = !DILocation(line: 74, column: 13, scope: !105)
+!157 = !DILocation(line: 75, column: 13, scope: !105)
+!158 = !DILocation(line: 76, column: 13, scope: !105)
+!159 = !DILocation(line: 77, column: 13, scope: !105)
+!160 = !DILocation(line: 78, column: 13, scope: !105)
+!161 = !DILocation(line: 79, column: 13, scope: !105)
+!162 = !DILocation(line: 80, column: 13, scope: !105)
+!163 = !DILocation(line: 81, column: 13, scope: !105)
+!164 = !DILocation(line: 82, column: 13, scope: !105)
+!165 = !DILocation(line: 84, column: 11, scope: !105)
+!166 = !DILocation(line: 85, column: 11, scope: !105)
+!167 = !DILocation(line: 86, column: 11, scope: !105)
+!168 = !DILocation(line: 87, column: 11, scope: !105)
+!169 = !DILocation(line: 88, column: 11, scope: !105)
+!170 = !DILocation(line: 89, column: 11, scope: !105)
+!171 = !DILocation(line: 90, column: 11, scope: !105)
+!172 = !DILocation(line: 91, column: 11, scope: !105)
+!173 = !DILocation(line: 92, column: 11, scope: !105)
+!174 = !DILocation(line: 93, column: 11, scope: !105)
+!175 = !DILocation(line: 94, column: 11, scope: !105)
+!176 = !DILocation(line: 95, column: 11, scope: !105)
+!177 = !DILocation(line: 96, column: 11, scope: !105)
+!178 = !DILocation(line: 97, column: 11, scope: !105)
+!179 = !DILocation(line: 98, column: 11, scope: !105)
+!180 = !DILocation(line: 99, column: 11, scope: !105)
+!181 = !DILocation(line: 100, column: 11, scope: !105)
+!182 = !DILocation(line: 101, column: 11, scope: !105)
+!183 = !DILocation(line: 102, column: 11, scope: !105)
+!184 = !DILocation(line: 104, column: 1, scope: !105)

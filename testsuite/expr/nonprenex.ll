@@ -1503,11 +1503,6 @@ declare %Uint32 @_add_Uint32(%Uint32, %Uint32)
 
 define void @_init_libs() {
 entry:
-  ret void
-}
-
-define internal %Uint32 @_scilla_expr_fun(i8* %0) {
-entry:
   %"$gasrem_790" = load i64, i64* @_gasrem, align 8
   %"$gascmp_791" = icmp ugt i64 1, %"$gasrem_790"
   br i1 %"$gascmp_791", label %"$out_of_gas_792", label %"$have_gas_793"
@@ -1562,16 +1557,21 @@ entry:
   %"$dyndisp_pcast_824" = bitcast { i8*, i8* }* %"$dyndisp_gep_823" to { { %Uint32 (i8*, %TName_List_ByStr20*)*, i8* } (i8*)*, i8* }*
   store { { %Uint32 (i8*, %TName_List_ByStr20*)*, i8* } (i8*)*, i8* } %"$$fundef_38_cloval_819", { { %Uint32 (i8*, %TName_List_ByStr20*)*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_824", align 8
   store { i8*, i8* }* %"$dyndisp_table_820", { i8*, i8* }** @ListUtils.list_length, align 8
+  ret void
+}
+
+define internal %Uint32 @_scilla_expr_fun(i8* %0) {
+entry:
   %"$expr_44" = alloca %Uint32, align 8
   %"$gasrem_825" = load i64, i64* @_gasrem, align 8
   %"$gascmp_826" = icmp ugt i64 1, %"$gasrem_825"
   br i1 %"$gascmp_826", label %"$out_of_gas_827", label %"$have_gas_828"
 
-"$out_of_gas_827":                                ; preds = %"$have_gas_809"
+"$out_of_gas_827":                                ; preds = %entry
   call void @_out_of_gas()
   br label %"$have_gas_828"
 
-"$have_gas_828":                                  ; preds = %"$out_of_gas_827", %"$have_gas_809"
+"$have_gas_828":                                  ; preds = %"$out_of_gas_827", %entry
   %"$consume_829" = sub i64 %"$gasrem_825", 1
   store i64 %"$consume_829", i64* @_gasrem, align 8
   %list_length2 = alloca { i8*, i8* }*, align 8

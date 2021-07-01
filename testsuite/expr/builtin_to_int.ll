@@ -417,11 +417,6 @@ declare i8* @_salloc(i8*, i64)
 
 define void @_init_libs() {
 entry:
-  ret void
-}
-
-define internal %TName_Bool* @_scilla_expr_fun(i8* %0) {
-entry:
   %"$gasrem_204" = load i64, i64* @_gasrem, align 8
   %"$gascmp_205" = icmp ugt i64 1, %"$gasrem_204"
   br i1 %"$gascmp_205", label %"$out_of_gas_206", label %"$have_gas_207"
@@ -434,16 +429,21 @@ entry:
   %"$consume_208" = sub i64 %"$gasrem_204", 1
   store i64 %"$consume_208", i64* @_gasrem, align 8
   store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_75_env_162"*, %TName_Bool*)* @"$fundef_75" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  ret void
+}
+
+define internal %TName_Bool* @_scilla_expr_fun(i8* %0) {
+entry:
   %"$expr_79" = alloca %TName_Bool*, align 8
   %"$gasrem_212" = load i64, i64* @_gasrem, align 8
   %"$gascmp_213" = icmp ugt i64 1, %"$gasrem_212"
   br i1 %"$gascmp_213", label %"$out_of_gas_214", label %"$have_gas_215"
 
-"$out_of_gas_214":                                ; preds = %"$have_gas_207"
+"$out_of_gas_214":                                ; preds = %entry
   call void @_out_of_gas()
   br label %"$have_gas_215"
 
-"$have_gas_215":                                  ; preds = %"$out_of_gas_214", %"$have_gas_207"
+"$have_gas_215":                                  ; preds = %"$out_of_gas_214", %entry
   %"$consume_216" = sub i64 %"$gasrem_212", 1
   store i64 %"$consume_216", i64* @_gasrem, align 8
   %false = alloca %TName_Bool*, align 8

@@ -739,11 +739,6 @@ declare %Int32 @_add_Int32(%Int32, %Int32)
 
 define void @_init_libs() !dbg !43 {
 entry:
-  ret void
-}
-
-define internal %Int32 @_scilla_expr_fun(i8* %0) !dbg !45 {
-entry:
   %"$gasrem_381" = load i64, i64* @_gasrem, align 8
   %"$gascmp_382" = icmp ugt i64 1, %"$gasrem_381"
   br i1 %"$gascmp_382", label %"$out_of_gas_383", label %"$have_gas_384"
@@ -762,17 +757,22 @@ entry:
   %"$dyndisp_gep_390" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_389", i32 0
   %"$dyndisp_pcast_391" = bitcast { i8*, i8* }* %"$dyndisp_gep_390" to { { { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*, i8* }*
   store { { { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*, i8* } { { { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)* bitcast ({ { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (%"$$fundef_11_env_90"*)* @"$fundef_11" to { { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*), i8* null }, { { { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_391", align 8
-  store { i8*, i8* }* %"$dyndisp_table_389", { i8*, i8* }** @nat_fold, align 8, !dbg !46
+  store { i8*, i8* }* %"$dyndisp_table_389", { i8*, i8* }** @nat_fold, align 8, !dbg !45
+  ret void
+}
+
+define internal %Int32 @_scilla_expr_fun(i8* %0) !dbg !46 {
+entry:
   %"$expr_19" = alloca %Int32, align 8
   %"$gasrem_392" = load i64, i64* @_gasrem, align 8
   %"$gascmp_393" = icmp ugt i64 1, %"$gasrem_392"
   br i1 %"$gascmp_393", label %"$out_of_gas_394", label %"$have_gas_395"
 
-"$out_of_gas_394":                                ; preds = %"$have_gas_384"
+"$out_of_gas_394":                                ; preds = %entry
   call void @_out_of_gas()
   br label %"$have_gas_395"
 
-"$have_gas_395":                                  ; preds = %"$out_of_gas_394", %"$have_gas_384"
+"$have_gas_395":                                  ; preds = %"$out_of_gas_394", %entry
   %"$consume_396" = sub i64 %"$gasrem_392", 1
   store i64 %"$consume_396", i64* @_gasrem, align 8
   %zero = alloca %TName_Nat*, align 8
@@ -1142,15 +1142,15 @@ entry:
 !42 = !DILocation(line: 1, column: 18, scope: !41)
 !43 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !44, file: !44, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
 !44 = !DIFile(filename: ".", directory: ".")
-!45 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !29, file: !29, line: 1, type: !5, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!46 = !DILocation(line: 1, column: 18, scope: !45)
-!47 = !DILocation(line: 3, column: 12, scope: !45)
-!48 = !DILocation(line: 4, column: 12, scope: !45)
-!49 = !DILocation(line: 5, column: 12, scope: !45)
-!50 = !DILocation(line: 6, column: 13, scope: !45)
-!51 = !DILocation(line: 7, column: 12, scope: !45)
-!52 = !DILocation(line: 8, column: 12, scope: !45)
-!53 = !DILocation(line: 9, column: 11, scope: !45)
-!54 = !DILocation(line: 10, column: 13, scope: !45)
-!55 = !DILocation(line: 13, column: 3, scope: !45)
-!56 = !DILocation(line: 32, column: 1, scope: !45)
+!45 = !DILocation(line: 1, column: 18, scope: !43)
+!46 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 3, type: !5, scopeLine: 3, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!47 = !DILocation(line: 3, column: 12, scope: !46)
+!48 = !DILocation(line: 4, column: 12, scope: !46)
+!49 = !DILocation(line: 5, column: 12, scope: !46)
+!50 = !DILocation(line: 6, column: 13, scope: !46)
+!51 = !DILocation(line: 7, column: 12, scope: !46)
+!52 = !DILocation(line: 8, column: 12, scope: !46)
+!53 = !DILocation(line: 9, column: 11, scope: !46)
+!54 = !DILocation(line: 10, column: 13, scope: !46)
+!55 = !DILocation(line: 13, column: 3, scope: !46)
+!56 = !DILocation(line: 32, column: 1, scope: !46)

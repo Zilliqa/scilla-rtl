@@ -1830,11 +1830,6 @@ declare %Uint32 @_add_Uint32(%Uint32, %Uint32)
 
 define void @_init_libs() !dbg !101 {
 entry:
-  ret void
-}
-
-define internal %Uint32 @_scilla_expr_fun(i8* %0) !dbg !103 {
-entry:
   %"$gasrem_974" = load i64, i64* @_gasrem, align 8
   %"$gascmp_975" = icmp ugt i64 1, %"$gasrem_974"
   br i1 %"$gascmp_975", label %"$out_of_gas_976", label %"$have_gas_977"
@@ -1859,7 +1854,7 @@ entry:
   %"$dyndisp_gep_993" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_988", i32 2
   %"$dyndisp_pcast_994" = bitcast { i8*, i8* }* %"$dyndisp_gep_993" to { { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* })*, i8* } (i8*)*, i8* }*
   store { { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* })*, i8* } (i8*)*, i8* } { { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* })*, i8* } (i8*)* bitcast ({ { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* })*, i8* } (%"$$fundef_37_env_154"*)* @"$fundef_37" to { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* })*, i8* } (i8*)*), i8* null }, { { { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* } (i8*, { { %TName_Nat* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Nat*)*, i8* })*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_994", align 8
-  store { i8*, i8* }* %"$dyndisp_table_988", { i8*, i8* }** @nat_fold, align 8, !dbg !104
+  store { i8*, i8* }* %"$dyndisp_table_988", { i8*, i8* }** @nat_fold, align 8, !dbg !103
   %"$gasrem_995" = load i64, i64* @_gasrem, align 8
   %"$gascmp_996" = icmp ugt i64 1, %"$gasrem_995"
   br i1 %"$gascmp_996", label %"$out_of_gas_997", label %"$have_gas_998"
@@ -1879,17 +1874,22 @@ entry:
   %"$$fundef_45_env_nat_fold_1004" = getelementptr inbounds %"$$fundef_45_env_150", %"$$fundef_45_env_150"* %"$$fundef_45_envp_1000", i32 0, i32 0
   %"$nat_fold_1005" = load { i8*, i8* }*, { i8*, i8* }** @nat_fold, align 8
   store { i8*, i8* }* %"$nat_fold_1005", { i8*, i8* }** %"$$fundef_45_env_nat_fold_1004", align 8
-  store { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$$fundef_45_cloval_1003", { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int, align 8, !dbg !105
+  store { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$$fundef_45_cloval_1003", { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int, align 8, !dbg !104
+  ret void
+}
+
+define internal %Uint32 @_scilla_expr_fun(i8* %0) !dbg !105 {
+entry:
   %"$expr_51" = alloca %Uint32, align 8
   %"$gasrem_1006" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1007" = icmp ugt i64 1, %"$gasrem_1006"
   br i1 %"$gascmp_1007", label %"$out_of_gas_1008", label %"$have_gas_1009"
 
-"$out_of_gas_1008":                               ; preds = %"$have_gas_998"
+"$out_of_gas_1008":                               ; preds = %entry
   call void @_out_of_gas()
   br label %"$have_gas_1009"
 
-"$have_gas_1009":                                 ; preds = %"$out_of_gas_1008", %"$have_gas_998"
+"$have_gas_1009":                                 ; preds = %"$out_of_gas_1008", %entry
   %"$consume_1010" = sub i64 %"$gasrem_1006", 1
   store i64 %"$consume_1010", i64* @_gasrem, align 8
   %nat_succ = alloca { %TName_Nat* (i8*, %TName_Nat*)*, i8* }, align 8
@@ -2436,23 +2436,23 @@ entry:
 !100 = !DILocation(line: 1, column: 18, scope: !99)
 !101 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !102, file: !102, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
 !102 = !DIFile(filename: ".", directory: ".")
-!103 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !59, file: !59, line: 1, type: !5, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!104 = !DILocation(line: 1, column: 18, scope: !103)
-!105 = !DILocation(line: 52, column: 5, scope: !103)
-!106 = !DILocation(line: 3, column: 20, scope: !103)
-!107 = !DILocation(line: 8, column: 3, scope: !103)
-!108 = !DILocation(line: 18, column: 19, scope: !103)
-!109 = !DILocation(line: 18, column: 18, scope: !103)
-!110 = !DILocation(line: 19, column: 23, scope: !103)
-!111 = !DILocation(line: 19, column: 22, scope: !103)
-!112 = !DILocation(line: 20, column: 14, scope: !103)
-!113 = !DILocation(line: 21, column: 13, scope: !103)
-!114 = !DILocation(line: 23, column: 5, scope: !103)
-!115 = !DILocation(line: 25, column: 23, scope: !103)
-!116 = !DILocation(line: 29, column: 13, scope: !103)
-!117 = !DILocation(line: 30, column: 13, scope: !103)
-!118 = !DILocation(line: 32, column: 9, scope: !103)
-!119 = !DILocation(line: 33, column: 9, scope: !103)
-!120 = !DILocation(line: 35, column: 13, scope: !103)
-!121 = !DILocation(line: 36, column: 13, scope: !103)
-!122 = !DILocation(line: 37, column: 1, scope: !103)
+!103 = !DILocation(line: 1, column: 18, scope: !101)
+!104 = !DILocation(line: 52, column: 5, scope: !101)
+!105 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 3, type: !5, scopeLine: 3, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!106 = !DILocation(line: 3, column: 20, scope: !105)
+!107 = !DILocation(line: 8, column: 3, scope: !105)
+!108 = !DILocation(line: 18, column: 19, scope: !105)
+!109 = !DILocation(line: 18, column: 18, scope: !105)
+!110 = !DILocation(line: 19, column: 23, scope: !105)
+!111 = !DILocation(line: 19, column: 22, scope: !105)
+!112 = !DILocation(line: 20, column: 14, scope: !105)
+!113 = !DILocation(line: 21, column: 13, scope: !105)
+!114 = !DILocation(line: 23, column: 5, scope: !105)
+!115 = !DILocation(line: 25, column: 23, scope: !105)
+!116 = !DILocation(line: 29, column: 13, scope: !105)
+!117 = !DILocation(line: 30, column: 13, scope: !105)
+!118 = !DILocation(line: 32, column: 9, scope: !105)
+!119 = !DILocation(line: 33, column: 9, scope: !105)
+!120 = !DILocation(line: 35, column: 13, scope: !105)
+!121 = !DILocation(line: 36, column: 13, scope: !105)
+!122 = !DILocation(line: 37, column: 1, scope: !105)

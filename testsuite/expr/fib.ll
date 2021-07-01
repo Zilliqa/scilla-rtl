@@ -739,11 +739,6 @@ declare %Int32 @_add_Int32(%Int32, %Int32)
 
 define void @_init_libs() {
 entry:
-  ret void
-}
-
-define internal %Int32 @_scilla_expr_fun(i8* %0) {
-entry:
   %"$gasrem_381" = load i64, i64* @_gasrem, align 8
   %"$gascmp_382" = icmp ugt i64 1, %"$gasrem_381"
   br i1 %"$gascmp_382", label %"$out_of_gas_383", label %"$have_gas_384"
@@ -763,16 +758,21 @@ entry:
   %"$dyndisp_pcast_391" = bitcast { i8*, i8* }* %"$dyndisp_gep_390" to { { { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*, i8* }*
   store { { { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*, i8* } { { { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)* bitcast ({ { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (%"$$fundef_11_env_90"*)* @"$fundef_11" to { { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*), i8* null }, { { { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* } (i8*, { { %TName_Pair_Int32_Int32* (i8*, %TName_Nat*)*, i8* } (i8*, %TName_Pair_Int32_Int32*)*, i8* })*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_391", align 8
   store { i8*, i8* }* %"$dyndisp_table_389", { i8*, i8* }** @nat_fold, align 8
+  ret void
+}
+
+define internal %Int32 @_scilla_expr_fun(i8* %0) {
+entry:
   %"$expr_19" = alloca %Int32, align 8
   %"$gasrem_392" = load i64, i64* @_gasrem, align 8
   %"$gascmp_393" = icmp ugt i64 1, %"$gasrem_392"
   br i1 %"$gascmp_393", label %"$out_of_gas_394", label %"$have_gas_395"
 
-"$out_of_gas_394":                                ; preds = %"$have_gas_384"
+"$out_of_gas_394":                                ; preds = %entry
   call void @_out_of_gas()
   br label %"$have_gas_395"
 
-"$have_gas_395":                                  ; preds = %"$out_of_gas_394", %"$have_gas_384"
+"$have_gas_395":                                  ; preds = %"$out_of_gas_394", %entry
   %"$consume_396" = sub i64 %"$gasrem_392", 1
   store i64 %"$consume_396", i64* @_gasrem, align 8
   %zero = alloca %TName_Nat*, align 8

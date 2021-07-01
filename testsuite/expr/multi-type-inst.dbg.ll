@@ -1498,11 +1498,6 @@ declare %Uint32 @_add_Uint32(%Uint32, %Uint32)
 
 define void @_init_libs() !dbg !85 {
 entry:
-  ret void
-}
-
-define internal %Uint32 @_scilla_expr_fun(i8* %0) !dbg !87 {
-entry:
   %"$gasrem_776" = load i64, i64* @_gasrem, align 8
   %"$gascmp_777" = icmp ugt i64 1, %"$gasrem_776"
   br i1 %"$gascmp_777", label %"$out_of_gas_778", label %"$have_gas_779"
@@ -1524,7 +1519,7 @@ entry:
   %"$dyndisp_gep_790" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_787", i32 2
   %"$dyndisp_pcast_791" = bitcast { i8*, i8* }* %"$dyndisp_gep_790" to { { i8*, i8* }* (i8*)*, i8* }*
   store { { i8*, i8* }* (i8*)*, i8* } { { i8*, i8* }* (i8*)* bitcast ({ i8*, i8* }* (%"$$fundef_20_env_148"*)* @"$fundef_20" to { i8*, i8* }* (i8*)*), i8* null }, { { i8*, i8* }* (i8*)*, i8* }* %"$dyndisp_pcast_791", align 8
-  store { i8*, i8* }* %"$dyndisp_table_787", { i8*, i8* }** @list_foldl, align 8, !dbg !88
+  store { i8*, i8* }* %"$dyndisp_table_787", { i8*, i8* }** @list_foldl, align 8, !dbg !87
   %"$gasrem_792" = load i64, i64* @_gasrem, align 8
   %"$gascmp_793" = icmp ugt i64 1, %"$gasrem_792"
   br i1 %"$gascmp_793", label %"$out_of_gas_794", label %"$have_gas_795"
@@ -1556,17 +1551,22 @@ entry:
   %"$dyndisp_gep_809" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_806", i32 2
   %"$dyndisp_pcast_810" = bitcast { i8*, i8* }* %"$dyndisp_gep_809" to { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* }*
   store { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* } %"$$fundef_36_cloval_805", { { %Uint32 (i8*, %TName_List_Int64*)*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_810", align 8
-  store { i8*, i8* }* %"$dyndisp_table_806", { i8*, i8* }** @ListUtils.list_length, align 8, !dbg !89
+  store { i8*, i8* }* %"$dyndisp_table_806", { i8*, i8* }** @ListUtils.list_length, align 8, !dbg !88
+  ret void
+}
+
+define internal %Uint32 @_scilla_expr_fun(i8* %0) !dbg !89 {
+entry:
   %"$expr_42" = alloca %Uint32, align 8
   %"$gasrem_811" = load i64, i64* @_gasrem, align 8
   %"$gascmp_812" = icmp ugt i64 1, %"$gasrem_811"
   br i1 %"$gascmp_812", label %"$out_of_gas_813", label %"$have_gas_814"
 
-"$out_of_gas_813":                                ; preds = %"$have_gas_795"
+"$out_of_gas_813":                                ; preds = %entry
   call void @_out_of_gas()
   br label %"$have_gas_814"
 
-"$have_gas_814":                                  ; preds = %"$out_of_gas_813", %"$have_gas_795"
+"$have_gas_814":                                  ; preds = %"$out_of_gas_813", %entry
   %"$consume_815" = sub i64 %"$gasrem_811", 1
   store i64 %"$consume_815", i64* @_gasrem, align 8
   %t1 = alloca { i8*, i8* }*, align 8
@@ -2169,23 +2169,23 @@ entry:
 !84 = !DILocation(line: 1, column: 17, scope: !83)
 !85 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !86, file: !86, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
 !86 = !DIFile(filename: ".", directory: ".")
-!87 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !53, file: !53, line: 1, type: !5, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!88 = !DILocation(line: 1, column: 17, scope: !87)
-!89 = !DILocation(line: 100, column: 3, scope: !87)
-!90 = !DILocation(line: 2, column: 3, scope: !87)
-!91 = !DILocation(line: 9, column: 3, scope: !87)
-!92 = !DILocation(line: 16, column: 17, scope: !87)
-!93 = !DILocation(line: 18, column: 3, scope: !87)
+!87 = !DILocation(line: 1, column: 17, scope: !85)
+!88 = !DILocation(line: 100, column: 3, scope: !85)
+!89 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 2, type: !5, scopeLine: 2, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!90 = !DILocation(line: 2, column: 3, scope: !89)
+!91 = !DILocation(line: 9, column: 3, scope: !89)
+!92 = !DILocation(line: 16, column: 17, scope: !89)
+!93 = !DILocation(line: 18, column: 3, scope: !89)
 !94 = !DILocation(line: 19, column: 13, scope: !95)
-!95 = distinct !DILexicalBlock(scope: !96, file: !53, line: 19, column: 5)
-!96 = distinct !DILexicalBlock(scope: !87, file: !53, line: 18, column: 3)
+!95 = distinct !DILexicalBlock(scope: !96, file: !2, line: 19, column: 5)
+!96 = distinct !DILexicalBlock(scope: !89, file: !2, line: 18, column: 3)
 !97 = !DILocation(line: 20, column: 14, scope: !98)
-!98 = distinct !DILexicalBlock(scope: !96, file: !53, line: 20, column: 5)
-!99 = !DILocation(line: 24, column: 18, scope: !87)
-!100 = !DILocation(line: 25, column: 1, scope: !87)
+!98 = distinct !DILexicalBlock(scope: !96, file: !2, line: 20, column: 5)
+!99 = !DILocation(line: 24, column: 18, scope: !89)
+!100 = !DILocation(line: 25, column: 1, scope: !89)
 !101 = !DILocation(line: 27, column: 13, scope: !102)
-!102 = distinct !DILexicalBlock(scope: !103, file: !53, line: 26, column: 3)
-!103 = distinct !DILexicalBlock(scope: !87, file: !53, line: 25, column: 1)
+!102 = distinct !DILexicalBlock(scope: !103, file: !2, line: 26, column: 3)
+!103 = distinct !DILexicalBlock(scope: !89, file: !2, line: 25, column: 1)
 !104 = !DILocation(line: 27, column: 12, scope: !102)
 !105 = !DILocation(line: 28, column: 14, scope: !102)
 !106 = !DILocation(line: 28, column: 13, scope: !102)
@@ -2193,7 +2193,7 @@ entry:
 !108 = !DILocation(line: 30, column: 13, scope: !102)
 !109 = !DILocation(line: 31, column: 3, scope: !102)
 !110 = !DILocation(line: 33, column: 13, scope: !111)
-!111 = distinct !DILexicalBlock(scope: !103, file: !53, line: 32, column: 3)
+!111 = distinct !DILexicalBlock(scope: !103, file: !2, line: 32, column: 3)
 !112 = !DILocation(line: 33, column: 12, scope: !111)
 !113 = !DILocation(line: 34, column: 14, scope: !111)
 !114 = !DILocation(line: 34, column: 13, scope: !111)

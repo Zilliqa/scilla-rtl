@@ -1830,11 +1830,6 @@ declare %Uint32 @_add_Uint32(%Uint32, %Uint32)
 
 define void @_init_libs() {
 entry:
-  ret void
-}
-
-define internal %Uint32 @_scilla_expr_fun(i8* %0) {
-entry:
   %"$gasrem_974" = load i64, i64* @_gasrem, align 8
   %"$gascmp_975" = icmp ugt i64 1, %"$gasrem_974"
   br i1 %"$gascmp_975", label %"$out_of_gas_976", label %"$have_gas_977"
@@ -1880,16 +1875,21 @@ entry:
   %"$nat_fold_1005" = load { i8*, i8* }*, { i8*, i8* }** @nat_fold, align 8
   store { i8*, i8* }* %"$nat_fold_1005", { i8*, i8* }** %"$$fundef_45_env_nat_fold_1004", align 8
   store { %Uint32 (i8*, %TName_Nat*)*, i8* } %"$$fundef_45_cloval_1003", { %Uint32 (i8*, %TName_Nat*)*, i8* }* @NatUtils.nat_to_int, align 8
+  ret void
+}
+
+define internal %Uint32 @_scilla_expr_fun(i8* %0) {
+entry:
   %"$expr_51" = alloca %Uint32, align 8
   %"$gasrem_1006" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1007" = icmp ugt i64 1, %"$gasrem_1006"
   br i1 %"$gascmp_1007", label %"$out_of_gas_1008", label %"$have_gas_1009"
 
-"$out_of_gas_1008":                               ; preds = %"$have_gas_998"
+"$out_of_gas_1008":                               ; preds = %entry
   call void @_out_of_gas()
   br label %"$have_gas_1009"
 
-"$have_gas_1009":                                 ; preds = %"$out_of_gas_1008", %"$have_gas_998"
+"$have_gas_1009":                                 ; preds = %"$out_of_gas_1008", %entry
   %"$consume_1010" = sub i64 %"$gasrem_1006", 1
   store i64 %"$consume_1010", i64* @_gasrem, align 8
   %nat_succ = alloca { %TName_Nat* (i8*, %TName_Nat*)*, i8* }, align 8

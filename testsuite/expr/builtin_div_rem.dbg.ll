@@ -271,11 +271,6 @@ declare i8* @_salloc(i8*, i64)
 
 define void @_init_libs() !dbg !17 {
 entry:
-  ret void
-}
-
-define internal %TName_Bool* @_scilla_expr_fun(i8* %0) !dbg !19 {
-entry:
   %"$gasrem_171" = load i64, i64* @_gasrem, align 8
   %"$gascmp_172" = icmp ugt i64 1, %"$gasrem_171"
   br i1 %"$gascmp_172", label %"$out_of_gas_173", label %"$have_gas_174"
@@ -287,17 +282,22 @@ entry:
 "$have_gas_174":                                  ; preds = %"$out_of_gas_173", %entry
   %"$consume_175" = sub i64 %"$gasrem_171", 1
   store i64 %"$consume_175", i64* @_gasrem, align 8
-  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_75_env_129"*, %TName_Bool*)* @"$fundef_75" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8, !dbg !20
+  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_75_env_129"*, %TName_Bool*)* @"$fundef_75" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8, !dbg !19
+  ret void
+}
+
+define internal %TName_Bool* @_scilla_expr_fun(i8* %0) !dbg !20 {
+entry:
   %"$expr_79" = alloca %TName_Bool*, align 8
   %"$gasrem_179" = load i64, i64* @_gasrem, align 8
   %"$gascmp_180" = icmp ugt i64 1, %"$gasrem_179"
   br i1 %"$gascmp_180", label %"$out_of_gas_181", label %"$have_gas_182"
 
-"$out_of_gas_181":                                ; preds = %"$have_gas_174"
+"$out_of_gas_181":                                ; preds = %entry
   call void @_out_of_gas()
   br label %"$have_gas_182"
 
-"$have_gas_182":                                  ; preds = %"$out_of_gas_181", %"$have_gas_174"
+"$have_gas_182":                                  ; preds = %"$out_of_gas_181", %entry
   %"$consume_183" = sub i64 %"$gasrem_179", 1
   store i64 %"$consume_183", i64* @_gasrem, align 8
   %"$gasrem_184" = load i64, i64* @_gasrem, align 8
@@ -1890,67 +1890,67 @@ entry:
 !16 = !DILocation(line: 8, column: 5, scope: !15)
 !17 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !18, file: !18, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
 !18 = !DIFile(filename: ".", directory: ".")
-!19 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !5, file: !5, line: 7, type: !6, scopeLine: 7, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!20 = !DILocation(line: 7, column: 3, scope: !19)
-!21 = !DILocation(line: 2, column: 12, scope: !19)
-!22 = !DILocation(line: 4, column: 12, scope: !19)
-!23 = !DILocation(line: 5, column: 12, scope: !19)
-!24 = !DILocation(line: 7, column: 13, scope: !19)
-!25 = !DILocation(line: 8, column: 14, scope: !19)
-!26 = !DILocation(line: 9, column: 15, scope: !19)
-!27 = !DILocation(line: 10, column: 3, scope: !19)
-!28 = !DILocation(line: 13, column: 12, scope: !19)
-!29 = !DILocation(line: 14, column: 12, scope: !19)
-!30 = !DILocation(line: 16, column: 13, scope: !19)
-!31 = !DILocation(line: 17, column: 14, scope: !19)
-!32 = !DILocation(line: 18, column: 15, scope: !19)
-!33 = !DILocation(line: 19, column: 3, scope: !19)
-!34 = !DILocation(line: 22, column: 12, scope: !19)
-!35 = !DILocation(line: 23, column: 12, scope: !19)
-!36 = !DILocation(line: 25, column: 13, scope: !19)
-!37 = !DILocation(line: 26, column: 14, scope: !19)
-!38 = !DILocation(line: 27, column: 15, scope: !19)
-!39 = !DILocation(line: 28, column: 3, scope: !19)
-!40 = !DILocation(line: 31, column: 12, scope: !19)
-!41 = !DILocation(line: 32, column: 12, scope: !19)
-!42 = !DILocation(line: 34, column: 13, scope: !19)
-!43 = !DILocation(line: 35, column: 14, scope: !19)
-!44 = !DILocation(line: 36, column: 15, scope: !19)
-!45 = !DILocation(line: 37, column: 3, scope: !19)
-!46 = !DILocation(line: 40, column: 12, scope: !19)
-!47 = !DILocation(line: 41, column: 12, scope: !19)
-!48 = !DILocation(line: 43, column: 13, scope: !19)
-!49 = !DILocation(line: 44, column: 14, scope: !19)
-!50 = !DILocation(line: 45, column: 15, scope: !19)
-!51 = !DILocation(line: 46, column: 3, scope: !19)
-!52 = !DILocation(line: 49, column: 12, scope: !19)
-!53 = !DILocation(line: 50, column: 12, scope: !19)
-!54 = !DILocation(line: 52, column: 13, scope: !19)
-!55 = !DILocation(line: 53, column: 14, scope: !19)
-!56 = !DILocation(line: 54, column: 15, scope: !19)
-!57 = !DILocation(line: 55, column: 3, scope: !19)
-!58 = !DILocation(line: 58, column: 12, scope: !19)
-!59 = !DILocation(line: 59, column: 12, scope: !19)
-!60 = !DILocation(line: 61, column: 13, scope: !19)
-!61 = !DILocation(line: 62, column: 14, scope: !19)
-!62 = !DILocation(line: 63, column: 15, scope: !19)
-!63 = !DILocation(line: 64, column: 3, scope: !19)
-!64 = !DILocation(line: 67, column: 12, scope: !19)
-!65 = !DILocation(line: 68, column: 12, scope: !19)
-!66 = !DILocation(line: 70, column: 13, scope: !19)
-!67 = !DILocation(line: 71, column: 14, scope: !19)
-!68 = !DILocation(line: 72, column: 15, scope: !19)
-!69 = !DILocation(line: 73, column: 3, scope: !19)
-!70 = !DILocation(line: 76, column: 12, scope: !19)
-!71 = !DILocation(line: 77, column: 12, scope: !19)
-!72 = !DILocation(line: 79, column: 13, scope: !19)
-!73 = !DILocation(line: 80, column: 14, scope: !19)
-!74 = !DILocation(line: 81, column: 15, scope: !19)
-!75 = !DILocation(line: 82, column: 3, scope: !19)
-!76 = !DILocation(line: 85, column: 12, scope: !19)
-!77 = !DILocation(line: 86, column: 12, scope: !19)
-!78 = !DILocation(line: 88, column: 13, scope: !19)
-!79 = !DILocation(line: 89, column: 14, scope: !19)
-!80 = !DILocation(line: 90, column: 15, scope: !19)
-!81 = !DILocation(line: 91, column: 3, scope: !19)
-!82 = !DILocation(line: 94, column: 1, scope: !19)
+!19 = !DILocation(line: 7, column: 3, scope: !17)
+!20 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!21 = !DILocation(line: 2, column: 12, scope: !20)
+!22 = !DILocation(line: 4, column: 12, scope: !20)
+!23 = !DILocation(line: 5, column: 12, scope: !20)
+!24 = !DILocation(line: 7, column: 13, scope: !20)
+!25 = !DILocation(line: 8, column: 14, scope: !20)
+!26 = !DILocation(line: 9, column: 15, scope: !20)
+!27 = !DILocation(line: 10, column: 3, scope: !20)
+!28 = !DILocation(line: 13, column: 12, scope: !20)
+!29 = !DILocation(line: 14, column: 12, scope: !20)
+!30 = !DILocation(line: 16, column: 13, scope: !20)
+!31 = !DILocation(line: 17, column: 14, scope: !20)
+!32 = !DILocation(line: 18, column: 15, scope: !20)
+!33 = !DILocation(line: 19, column: 3, scope: !20)
+!34 = !DILocation(line: 22, column: 12, scope: !20)
+!35 = !DILocation(line: 23, column: 12, scope: !20)
+!36 = !DILocation(line: 25, column: 13, scope: !20)
+!37 = !DILocation(line: 26, column: 14, scope: !20)
+!38 = !DILocation(line: 27, column: 15, scope: !20)
+!39 = !DILocation(line: 28, column: 3, scope: !20)
+!40 = !DILocation(line: 31, column: 12, scope: !20)
+!41 = !DILocation(line: 32, column: 12, scope: !20)
+!42 = !DILocation(line: 34, column: 13, scope: !20)
+!43 = !DILocation(line: 35, column: 14, scope: !20)
+!44 = !DILocation(line: 36, column: 15, scope: !20)
+!45 = !DILocation(line: 37, column: 3, scope: !20)
+!46 = !DILocation(line: 40, column: 12, scope: !20)
+!47 = !DILocation(line: 41, column: 12, scope: !20)
+!48 = !DILocation(line: 43, column: 13, scope: !20)
+!49 = !DILocation(line: 44, column: 14, scope: !20)
+!50 = !DILocation(line: 45, column: 15, scope: !20)
+!51 = !DILocation(line: 46, column: 3, scope: !20)
+!52 = !DILocation(line: 49, column: 12, scope: !20)
+!53 = !DILocation(line: 50, column: 12, scope: !20)
+!54 = !DILocation(line: 52, column: 13, scope: !20)
+!55 = !DILocation(line: 53, column: 14, scope: !20)
+!56 = !DILocation(line: 54, column: 15, scope: !20)
+!57 = !DILocation(line: 55, column: 3, scope: !20)
+!58 = !DILocation(line: 58, column: 12, scope: !20)
+!59 = !DILocation(line: 59, column: 12, scope: !20)
+!60 = !DILocation(line: 61, column: 13, scope: !20)
+!61 = !DILocation(line: 62, column: 14, scope: !20)
+!62 = !DILocation(line: 63, column: 15, scope: !20)
+!63 = !DILocation(line: 64, column: 3, scope: !20)
+!64 = !DILocation(line: 67, column: 12, scope: !20)
+!65 = !DILocation(line: 68, column: 12, scope: !20)
+!66 = !DILocation(line: 70, column: 13, scope: !20)
+!67 = !DILocation(line: 71, column: 14, scope: !20)
+!68 = !DILocation(line: 72, column: 15, scope: !20)
+!69 = !DILocation(line: 73, column: 3, scope: !20)
+!70 = !DILocation(line: 76, column: 12, scope: !20)
+!71 = !DILocation(line: 77, column: 12, scope: !20)
+!72 = !DILocation(line: 79, column: 13, scope: !20)
+!73 = !DILocation(line: 80, column: 14, scope: !20)
+!74 = !DILocation(line: 81, column: 15, scope: !20)
+!75 = !DILocation(line: 82, column: 3, scope: !20)
+!76 = !DILocation(line: 85, column: 12, scope: !20)
+!77 = !DILocation(line: 86, column: 12, scope: !20)
+!78 = !DILocation(line: 88, column: 13, scope: !20)
+!79 = !DILocation(line: 89, column: 14, scope: !20)
+!80 = !DILocation(line: 90, column: 15, scope: !20)
+!81 = !DILocation(line: 91, column: 3, scope: !20)
+!82 = !DILocation(line: 94, column: 1, scope: !20)

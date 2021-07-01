@@ -1503,11 +1503,6 @@ declare %Uint32 @_add_Uint32(%Uint32, %Uint32)
 
 define void @_init_libs() !dbg !90 {
 entry:
-  ret void
-}
-
-define internal %Uint32 @_scilla_expr_fun(i8* %0) !dbg !92 {
-entry:
   %"$gasrem_790" = load i64, i64* @_gasrem, align 8
   %"$gascmp_791" = icmp ugt i64 1, %"$gasrem_790"
   br i1 %"$gascmp_791", label %"$out_of_gas_792", label %"$have_gas_793"
@@ -1529,7 +1524,7 @@ entry:
   %"$dyndisp_gep_804" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_801", i32 2
   %"$dyndisp_pcast_805" = bitcast { i8*, i8* }* %"$dyndisp_gep_804" to { { i8*, i8* }* (i8*)*, i8* }*
   store { { i8*, i8* }* (i8*)*, i8* } { { i8*, i8* }* (i8*)* bitcast ({ i8*, i8* }* (%"$$fundef_22_env_149"*)* @"$fundef_22" to { i8*, i8* }* (i8*)*), i8* null }, { { i8*, i8* }* (i8*)*, i8* }* %"$dyndisp_pcast_805", align 8
-  store { i8*, i8* }* %"$dyndisp_table_801", { i8*, i8* }** @list_foldl, align 8, !dbg !93
+  store { i8*, i8* }* %"$dyndisp_table_801", { i8*, i8* }** @list_foldl, align 8, !dbg !92
   %"$gasrem_806" = load i64, i64* @_gasrem, align 8
   %"$gascmp_807" = icmp ugt i64 1, %"$gasrem_806"
   br i1 %"$gascmp_807", label %"$out_of_gas_808", label %"$have_gas_809"
@@ -1561,17 +1556,22 @@ entry:
   %"$dyndisp_gep_823" = getelementptr { i8*, i8* }, { i8*, i8* }* %"$dyndisp_table_820", i32 2
   %"$dyndisp_pcast_824" = bitcast { i8*, i8* }* %"$dyndisp_gep_823" to { { %Uint32 (i8*, %TName_List_ByStr20*)*, i8* } (i8*)*, i8* }*
   store { { %Uint32 (i8*, %TName_List_ByStr20*)*, i8* } (i8*)*, i8* } %"$$fundef_38_cloval_819", { { %Uint32 (i8*, %TName_List_ByStr20*)*, i8* } (i8*)*, i8* }* %"$dyndisp_pcast_824", align 8
-  store { i8*, i8* }* %"$dyndisp_table_820", { i8*, i8* }** @ListUtils.list_length, align 8, !dbg !94
+  store { i8*, i8* }* %"$dyndisp_table_820", { i8*, i8* }** @ListUtils.list_length, align 8, !dbg !93
+  ret void
+}
+
+define internal %Uint32 @_scilla_expr_fun(i8* %0) !dbg !94 {
+entry:
   %"$expr_44" = alloca %Uint32, align 8
   %"$gasrem_825" = load i64, i64* @_gasrem, align 8
   %"$gascmp_826" = icmp ugt i64 1, %"$gasrem_825"
   br i1 %"$gascmp_826", label %"$out_of_gas_827", label %"$have_gas_828"
 
-"$out_of_gas_827":                                ; preds = %"$have_gas_809"
+"$out_of_gas_827":                                ; preds = %entry
   call void @_out_of_gas()
   br label %"$have_gas_828"
 
-"$have_gas_828":                                  ; preds = %"$out_of_gas_827", %"$have_gas_809"
+"$have_gas_828":                                  ; preds = %"$out_of_gas_827", %entry
   %"$consume_829" = sub i64 %"$gasrem_825", 1
   store i64 %"$consume_829", i64* @_gasrem, align 8
   %list_length2 = alloca { i8*, i8* }*, align 8
@@ -2009,19 +2009,19 @@ entry:
 !89 = !DILocation(line: 1, column: 17, scope: !88)
 !90 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !91, file: !91, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
 !91 = !DIFile(filename: ".", directory: ".")
-!92 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !58, file: !58, line: 1, type: !5, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!93 = !DILocation(line: 1, column: 17, scope: !92)
-!94 = !DILocation(line: 100, column: 3, scope: !92)
-!95 = !DILocation(line: 2, column: 3, scope: !92)
-!96 = !DILocation(line: 12, column: 3, scope: !92)
-!97 = !DILocation(line: 20, column: 12, scope: !92)
-!98 = !DILocation(line: 22, column: 9, scope: !92)
-!99 = !DILocation(line: 24, column: 17, scope: !92)
-!100 = !DILocation(line: 24, column: 16, scope: !92)
-!101 = !DILocation(line: 25, column: 18, scope: !92)
-!102 = !DILocation(line: 25, column: 17, scope: !92)
-!103 = !DILocation(line: 26, column: 18, scope: !92)
-!104 = !DILocation(line: 27, column: 19, scope: !92)
-!105 = !DILocation(line: 29, column: 9, scope: !92)
-!106 = !DILocation(line: 30, column: 9, scope: !92)
-!107 = !DILocation(line: 31, column: 1, scope: !92)
+!92 = !DILocation(line: 1, column: 17, scope: !90)
+!93 = !DILocation(line: 100, column: 3, scope: !90)
+!94 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 2, type: !5, scopeLine: 2, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!95 = !DILocation(line: 2, column: 3, scope: !94)
+!96 = !DILocation(line: 12, column: 3, scope: !94)
+!97 = !DILocation(line: 20, column: 12, scope: !94)
+!98 = !DILocation(line: 22, column: 9, scope: !94)
+!99 = !DILocation(line: 24, column: 17, scope: !94)
+!100 = !DILocation(line: 24, column: 16, scope: !94)
+!101 = !DILocation(line: 25, column: 18, scope: !94)
+!102 = !DILocation(line: 25, column: 17, scope: !94)
+!103 = !DILocation(line: 26, column: 18, scope: !94)
+!104 = !DILocation(line: 27, column: 19, scope: !94)
+!105 = !DILocation(line: 29, column: 9, scope: !94)
+!106 = !DILocation(line: 30, column: 9, scope: !94)
+!107 = !DILocation(line: 31, column: 1, scope: !94)
