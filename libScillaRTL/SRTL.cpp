@@ -178,6 +178,6 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
       };
 
   return recurser(TargetT, Val);
-} // namespace ScillaRTL
+}
 
 } // namespace ScillaRTL
