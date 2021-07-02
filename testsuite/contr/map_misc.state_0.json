@@ -1,0 +1,17 @@
+[
+      {
+         "type" : "Uint128",
+         "value" : "0",
+         "vname" : "_balance"
+      },
+      {
+         "type" : "Map (Int32) (Map (BNum) (Int32))",
+         "value" : [],
+         "vname" : "m2"
+      },
+      {
+         "type" : "Map (BNum) (Int32)",
+         "value" : [],
+         "vname" : "m1"
+      }
+]
