@@ -128,9 +128,10 @@ void prepareStateAccessIndices(
     const uint8_t *Indices, std::vector<std::string> &SerializedIndices) {
   for (int I = 0, Off = 0; I < NumIdx; I++) {
     auto *KT = KeyTypes[I];
+    ASSERT(KT->m_t == ScillaTypes::Typ::Prim_typ ||
+           KT->m_t == ScillaTypes::Typ::Address_typ);
     const void *VPtr;
     if (ScillaTypes::Typ::isBoxed(KT)) {
-      ASSERT_MSG(false, "Key type must be primitive, cannot be boxed");
       VPtr = *reinterpret_cast<void *const *>(Indices + Off);
     } else {
       VPtr = reinterpret_cast<const void *>(Indices + Off);
@@ -153,8 +154,9 @@ uint8_t *toScillaBool(ObjManager &OM, bool B) {
 }
 
 // Wrap the result of a map acess with Scilla Option type.
+// Map values are "consumed" (moved) into the result.
 uint8_t *wrapMapAccessResult(ObjManager &OM, bool Found,
-                             const std::any &StringOrMapVal,
+                             std::any &StringOrMapVal,
                              const ScillaTypes::Typ *ValT) {
   if (Found) {
     // Wrap with "Some".
@@ -166,8 +168,7 @@ uint8_t *wrapMapAccessResult(ObjManager &OM, bool Found,
     // i.e., We are constructing a Scilla "Some" object overall.
     if (ScillaTypes::Typ::isBoxed(ValT)) {
       if (ValT->m_t == ScillaTypes::Typ::Map_typ) {
-        auto &MapVal =
-            std::any_cast<const ScillaParams::MapValueT &>(StringOrMapVal);
+        auto &MapVal = std::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
         *reinterpret_cast<void **>(Mem + 1) =
             OM.create<ScillaParams::MapValueT>((std::move(MapVal)));
       } else {
@@ -1128,8 +1129,8 @@ void *_get(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,
   auto Itr = M->find(KeyS);
 
   bool Found = Itr != M->end();
-  const std::any Dummy;
-  const std::any &Val = Found ? Itr->second : Dummy;
+  std::any Dummy;
+  std::any Val = Found ? Itr->second : Dummy;
   // Wrap with "Option".
   return wrapMapAccessResult(SJ->OM, Found, Val, ValT);
 }
@@ -1163,6 +1164,72 @@ SafeUint32 _size(const ScillaParams::MapValueT *M) {
   }
 
   return SafeUint32(S32);
+}
+
+void *_map_to_list(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,
+                   const ScillaParams::MapValueT *M) {
+
+  ASSERT(T->m_t == ScillaTypes::Typ::Map_typ);
+  auto *KeyT = T->m_sub.m_mapt->m_keyTyp;
+  auto *ValT = T->m_sub.m_mapt->m_valTyp;
+  auto PairAllocSize =
+      1 + ScillaTypes::Typ::sizeOf(KeyT) + ScillaTypes::Typ::sizeOf(ValT);
+  // We don't bother to find the type descriptor for the list we're building
+  // because we know that it's `List (Pair ...)`. The element type being an
+  // ADT itself guarantees us that it's boxed, and hence a pointer.
+  auto ListAllocSize = 1 + sizeof(void *) + sizeof(void *);
+
+  auto *Nil = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(ListAllocSize));
+  *Nil = ScillaTypes::List_Nil_Tag;
+
+  void *NextListElm = Nil;
+  for (const auto Itr : *M) {
+    uint8_t *PairP =
+        reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(PairAllocSize));
+    auto NextElm = PairP;
+    *NextElm = static_cast<uint8_t>(0); // The Tag for Pair is always 0.
+    NextElm++;
+
+    // Build the Scilla value for Key.
+    ASSERT(KeyT->m_t == ScillaTypes::Typ::Prim_typ ||
+           KeyT->m_t == ScillaTypes::Typ::Address_typ);
+    Json::Value KeyJ = parseJSONString(Itr.first);
+    if (ScillaTypes::Typ::isBoxed(KeyT)) {
+      *reinterpret_cast<void **>(NextElm) =
+          ScillaValues::fromJSON(SJ->OM, KeyT, KeyJ);
+    } else {
+      ScillaValues::fromJSONToMem(SJ->OM, NextElm,
+                                  ScillaTypes::Typ::sizeOf(KeyT), KeyT, KeyJ);
+    }
+    NextElm += ScillaTypes::Typ::sizeOf(KeyT);
+
+    // Build the Scilla value for Val.
+    if (ScillaTypes::Typ::isBoxed(ValT)) {
+      if (ValT->m_t == ScillaTypes::Typ::Map_typ) {
+        auto &MapVal =
+            std::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+        *reinterpret_cast<void **>(NextElm) =
+            SJ->OM.create<ScillaParams::MapValueT>(MapVal);
+      } else {
+        auto StringVal = std::any_cast<std::string>(Itr.second);
+        Json::Value ValJ = parseJSONString(StringVal);
+        *reinterpret_cast<void **>(NextElm) =
+            ScillaValues::fromJSON(SJ->OM, ValT, ValJ);
+      }
+    } else {
+      auto StringVal = std::any_cast<std::string>(Itr.second);
+      Json::Value ValJ = parseJSONString(StringVal);
+      ScillaValues::fromJSONToMem(SJ->OM, NextElm,
+                                  ScillaTypes::Typ::sizeOf(ValT), ValT, ValJ);
+    }
+    auto *Cons = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(ListAllocSize));
+    *Cons = ScillaTypes::List_Cons_Tag;
+    *reinterpret_cast<void **>(Cons + 1) = PairP;
+    *reinterpret_cast<void **>(Cons + 1 + sizeof(void *)) = NextListElm;
+    NextListElm = Cons;
+  }
+
+  return NextListElm;
 }
 
 uint64_t _lengthof(const ScillaTypes::Typ *T, const void *V) {

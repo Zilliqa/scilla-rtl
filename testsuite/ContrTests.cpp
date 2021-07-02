@@ -300,7 +300,7 @@ BOOST_AUTO_TEST_SUITE_END() // simple_map
 
 BOOST_AUTO_TEST_SUITE(simple_iterate)
 
-ContractTest EventTests = {
+ContractTest SimpleIterateTests = {
     "simple-iterate.ll",
     {{"message_NEvents", "simple-iterate.message_NEvents.json",
       "empty_init.json", "simple-iterate.contrinfo.json",
@@ -308,14 +308,37 @@ ContractTest EventTests = {
       "simple-iterate.output.json", "blockchain_default.json"}}};
 
 BOOST_AUTO_TEST_CASE(unique_jits) {
-  testMessages(EventTests, false /* CommonJIT */);
+  testMessages(SimpleIterateTests, false /* CommonJIT */);
 }
 
 BOOST_AUTO_TEST_CASE(common_jit) {
-  testMessages(EventTests, true /* CommonJIT */);
+  testMessages(SimpleIterateTests, true /* CommonJIT */);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // simple_iterate
+
+BOOST_AUTO_TEST_SUITE(map_misc)
+
+ContractTest MapMiscTests = {
+    "map_misc.ll",
+    {{"message_Push", "map_misc.message_Push.json", "empty_init.json",
+      "map_misc.contrinfo.json", "map_misc.state_0.json",
+      "map_misc.state_1.json", "map_misc.output_1.json",
+      "blockchain_default.json"},
+     {"message_PullPush", "map_misc.message_PullPush.json", "empty_init.json",
+      "map_misc.contrinfo.json", "map_misc.state_1.json",
+      "map_misc.state_2.json", "map_misc.output_2.json",
+      "blockchain_default.json"}}};
+
+BOOST_AUTO_TEST_CASE(unique_jits) {
+  testMessages(MapMiscTests, false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(common_jit) {
+  testMessages(MapMiscTests, true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // map_misc
 
 BOOST_AUTO_TEST_SUITE(event)
 

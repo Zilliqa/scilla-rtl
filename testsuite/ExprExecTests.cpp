@@ -190,6 +190,8 @@ BOOST_AUTO_TEST_CASE(builtin_lt) { testExecExpr("builtin_lt"); }
 BOOST_AUTO_TEST_CASE(lit_bnum) { testExecExpr("lit-bnum"); }
 BOOST_AUTO_TEST_CASE(builtin_to_uint) { testExecExpr("builtin_to_uint"); }
 BOOST_AUTO_TEST_CASE(builtin_to_int) { testExecExpr("builtin_to_int"); }
+BOOST_AUTO_TEST_CASE(map_to_int) { testExecExpr("map_to_list"); }
+BOOST_AUTO_TEST_CASE(map_to_int2) { testExecExpr("map_to_list2"); }
 
 BOOST_AUTO_TEST_SUITE_END()
 
