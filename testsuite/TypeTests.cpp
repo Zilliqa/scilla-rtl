@@ -18,11 +18,17 @@
 #include <algorithm>
 
 #include <boost/test/unit_test.hpp>
+#include <optional>
 
 #include "../libScillaRTL/ScillaTypes.h"
 #include "TypeDescrs.h"
 #include <ScillaRTL/Errors.h>
 #include <ScillaRTL/Utils.h>
+
+namespace ScillaRTL {
+// Parse a Scilla type and return its map depth if successfully parsed.
+std::optional<int> mapDepthOfTypeString(const std::string &TypeStr);
+}
 
 namespace {
 // Type parser partial cache for faster run across tests.

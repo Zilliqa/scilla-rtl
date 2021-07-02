@@ -25,6 +25,7 @@
 #include <jsoncpp/json/value.h>
 #include <jsoncpp/json/writer.h>
 #include <memory>
+#include <optional>
 
 #include "ScillaRTL/Errors.h"
 #include "ScillaRTL/Utils.h"

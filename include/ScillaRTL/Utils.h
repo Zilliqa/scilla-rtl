@@ -23,7 +23,6 @@
 #include <any>
 #include <boost/filesystem.hpp>
 #include <jsoncpp/json/value.h>
-#include <optional>
 
 #include "ScillaExec.h"
 
@@ -42,14 +41,8 @@ namespace ScillaRTL {
 std::string readFile(const std::string &Filename);
 Json::Value parseJSONString(const std::string &JS);
 Json::Value parseJSONFile(const std::string &Filename);
-// Parse a Scilla type and return its map depth if successfully parsed.
-std::optional<int> mapDepthOfTypeString(const std::string &TypeStr);
 // Serialize a JSON for storage.
 std::string serializeJSON(const Json::Value &J);
-// Find "vname" in the input JSON array and return its "value".
-// Typical Scilla state JSON format is expected as input.
-std::optional<Json::Value> vNameValue(const Json::Value &Vs,
-                                      const std::string &VName);
 // Parse blockchain.json and return the current block number.
 // Creates error if unable to parse successfully.
 uint64_t parseBlockchainJSON(const Json::Value &BC);
