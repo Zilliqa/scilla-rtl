@@ -156,7 +156,7 @@ uint8_t *toScillaBool(ObjManager &OM, bool B) {
 // Wrap the result of a map acess with Scilla Option type.
 // Map values are "consumed" (moved) into the result.
 uint8_t *wrapMapAccessResult(ObjManager &OM, bool Found,
-                             std::any &StringOrMapVal,
+                             boost::any &StringOrMapVal,
                              const ScillaTypes::Typ *ValT) {
   if (Found) {
     // Wrap with "Some".
@@ -168,17 +168,17 @@ uint8_t *wrapMapAccessResult(ObjManager &OM, bool Found,
     // i.e., We are constructing a Scilla "Some" object overall.
     if (ScillaTypes::Typ::isBoxed(ValT)) {
       if (ValT->m_t == ScillaTypes::Typ::Map_typ) {
-        auto &MapVal = std::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
+        auto &MapVal = boost::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
         *reinterpret_cast<void **>(Mem + 1) =
             OM.create<ScillaParams::MapValueT>((std::move(MapVal)));
       } else {
-        auto StringVal = std::any_cast<std::string>(StringOrMapVal);
+        auto StringVal = boost::any_cast<std::string>(StringOrMapVal);
         Json::Value ValJ = parseJSONString(StringVal);
         *reinterpret_cast<void **>(Mem + 1) =
             ScillaValues::fromJSON(OM, ValT, ValJ);
       }
     } else {
-      auto StringVal = std::any_cast<std::string>(StringOrMapVal);
+      auto StringVal = boost::any_cast<std::string>(StringOrMapVal);
       Json::Value ValJ = parseJSONString(StringVal);
       ScillaValues::fromJSONToMem(OM, (Mem + 1), MemSize - 1, ValT, ValJ);
     }
@@ -209,7 +209,7 @@ void *fetchFieldHelper(ScillaExecImpl *SJ, const std::string &Addr,
   ScillaParams::StateQuery SQ = {std::string(Name), (int)KeyTypes.size(),
                                  SerializedIndices, !FetchVal};
 
-  std::any StringOrMapVal;
+  boost::any StringOrMapVal;
   bool Found = false;
   ASSERT_MSG(SJ->SPs.fetchStateValue && SJ->SPs.fetchRemoteStateValue,
              "Incorrect ScillaParams provided to ScillaExecImpl");
@@ -230,11 +230,11 @@ void *fetchFieldHelper(ScillaExecImpl *SJ, const std::string &Addr,
     if (MapValueAccess) {
       ASSERT(ScillaTypes::Typ::mapAccessType(T, NumIdx)->m_t ==
              ScillaTypes::Typ::Map_typ);
-      auto &MapVal = std::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
+      auto &MapVal = boost::any_cast<ScillaParams::MapValueT &>(StringOrMapVal);
       return reinterpret_cast<void *>(
           SJ->OM.create<ScillaParams::MapValueT>(std::move(MapVal)));
     } else {
-      auto Val = std::any_cast<std::string>(StringOrMapVal);
+      auto Val = boost::any_cast<std::string>(StringOrMapVal);
       Json::Value ValJ = parseJSONString(Val);
       return ScillaValues::fromJSON(SJ->OM, T, ValJ);
     }
@@ -616,7 +616,7 @@ void _update_field(ScillaRTL::ScillaExecImpl *SJ, const char *Name,
   } else {
     ASSERT_MSG(!SerializedIndices.empty(),
                "Value deletion is possible only for indexed map access");
-    std::any EmptyVal;
+    boost::any EmptyVal;
     if (!SJ->SPs.updateStateValue(SQ, EmptyVal)) {
       CREATE_ERROR("State update query failed for " + SQ.Name);
     }
@@ -667,7 +667,7 @@ uint64_t _mapsortcost(const ScillaParams::MapValueT *M) {
       break;
     }
     ASSERT(std::has_type<ScillaParams::MapValueT>(Itr.second));
-    auto *SubM = &std::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+    auto *SubM = &boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
     Cost += _mapsortcost(SubM);
   }
 
@@ -1129,8 +1129,8 @@ void *_get(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,
   auto Itr = M->find(KeyS);
 
   bool Found = Itr != M->end();
-  std::any Dummy;
-  std::any Val = Found ? Itr->second : Dummy;
+  boost::any Dummy;
+  boost::any Val = Found ? Itr->second : Dummy;
   // Wrap with "Option".
   return wrapMapAccessResult(SJ->OM, Found, Val, ValT);
 }
@@ -1207,17 +1207,17 @@ void *_map_to_list(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,
     if (ScillaTypes::Typ::isBoxed(ValT)) {
       if (ValT->m_t == ScillaTypes::Typ::Map_typ) {
         auto &MapVal =
-            std::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+            boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
         *reinterpret_cast<void **>(NextElm) =
             SJ->OM.create<ScillaParams::MapValueT>(MapVal);
       } else {
-        auto StringVal = std::any_cast<std::string>(Itr.second);
+        auto StringVal = boost::any_cast<std::string>(Itr.second);
         Json::Value ValJ = parseJSONString(StringVal);
         *reinterpret_cast<void **>(NextElm) =
             ScillaValues::fromJSON(SJ->OM, ValT, ValJ);
       }
     } else {
-      auto StringVal = std::any_cast<std::string>(Itr.second);
+      auto StringVal = boost::any_cast<std::string>(Itr.second);
       Json::Value ValJ = parseJSONString(StringVal);
       ScillaValues::fromJSONToMem(SJ->OM, NextElm,
                                   ScillaTypes::Typ::sizeOf(ValT), ValT, ValJ);

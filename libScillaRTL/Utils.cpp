@@ -291,14 +291,14 @@ std::optional<int> mapDepthOfTypeString(const std::string &TypeStr) {
 }
 
 bool MemStateServer::fetchStateValue(const ScillaParams::StateQuery &Query,
-                                     std::any &RetVal, bool &Found) {
+                                     boost::any &RetVal, bool &Found) {
   std::string Type;
   return fetchRemoteStateValue(ThisAddress, Query, RetVal, Found, Type);
 }
 
 bool MemStateServer::fetchRemoteStateValue(
     const std::string &Addr, const ScillaParams::StateQuery &Query,
-    std::any &RetVal, bool &Found, std::string &Type) {
+    boost::any &RetVal, bool &Found, std::string &Type) {
 
   Found = false;
 
@@ -314,19 +314,19 @@ bool MemStateServer::fetchRemoteStateValue(
   if (FieldItr == ContractState.end())
     return true;
 
-  std::any &Field = FieldItr->second;
+  boost::any &Field = FieldItr->second;
 
   Type = FieldTypes[Addr][FieldName];
   ASSERT_MSG(!Type.empty(),
              "Type not found for " + FieldName + " but value exists.");
 
   if (Query.MapDepth > 0) {
-    std::any *Val = &Field;
+    boost::any *Val = &Field;
     for (size_t I = 0; I < Query.Indices.size(); I++) {
-      if (!Val->has_value()) {
+      if (Val->empty()) {
         return true;
       }
-      MapValueT &Map = (std::any_cast<MapValueT &>(*Val));
+      MapValueT &Map = (boost::any_cast<MapValueT &>(*Val));
       auto IVal = Map.find(Query.Indices[I]);
       if (IVal == Map.end()) {
         // not found
@@ -340,48 +340,48 @@ bool MemStateServer::fetchRemoteStateValue(
       if (Query.IgnoreVal) {
         return true;
       }
-      RetVal = std::any_cast<std::string>(*Val);
+      RetVal = boost::any_cast<std::string>(*Val);
       return true;
     }
     // partial access
-    MapValueT &Mdb = std::any_cast<MapValueT &>(*Val);
+    MapValueT &Mdb = boost::any_cast<MapValueT &>(*Val);
     RetVal = Mdb;
     return true;
   }
 
   Found = true;
   if (!Query.IgnoreVal) {
-    RetVal = std::any_cast<std::string>(Field);
+    RetVal = boost::any_cast<std::string>(Field);
   }
 
   return true;
 }
 
 bool MemStateServer::updateStateValue(const ScillaParams::StateQuery &Query,
-                                      const std::any &Value) {
+                                      const boost::any &Value) {
   return updateRemoteStateValue(ThisAddress, Query, Value);
 }
 
 bool MemStateServer::updateRemoteStateValue(
     const std::string &Addr, const ScillaParams::StateQuery &Query,
-    const std::any &Value) {
+    const boost::any &Value) {
 
   using MapValueT = ScillaParams::MapValueT;
   std::string FieldName = Query.Name;
-  std::any &Field = BCState[Addr][FieldName];
+  boost::any &Field = BCState[Addr][FieldName];
 
   if (Query.MapDepth > 0) {
     // Map field
-    std::any *Val = &Field;
+    boost::any *Val = &Field;
     for (size_t I = 0; I < Query.Indices.size(); I++) {
-      if (!Val->has_value()) {
+      if (Val->empty()) {
         if (Query.IgnoreVal) {
           // Key doesn't exist. Don't create one.
           return true;
         }
         *Val = MapValueT();
       }
-      MapValueT &Map = (std::any_cast<MapValueT &>(*Val));
+      MapValueT &Map = (boost::any_cast<MapValueT &>(*Val));
       auto IVal = Map.find(Query.Indices[I]);
       if (Query.IgnoreVal) {
         if (IVal == Map.end()) {
@@ -398,16 +398,16 @@ bool MemStateServer::updateRemoteStateValue(
     }
     if (Query.Indices.size() == (size_t)Query.MapDepth) {
       // complete access
-      *Val = std::any_cast<std::string>(Value);
+      *Val = boost::any_cast<std::string>(Value);
     } else {
       // partial access
-      *Val = std::any_cast<MapValueT>(Value);
+      *Val = boost::any_cast<MapValueT>(Value);
     }
   } else {
     // Not a map value.
     // ignoreval is only for map entries.
     ASSERT(!Query.IgnoreVal);
-    Field = std::any_cast<std::string>(Value);
+    Field = boost::any_cast<std::string>(Value);
   }
 
   return true;
@@ -502,9 +502,9 @@ std::string MemStateServer::initState(const Json::Value &InitJ,
           }
           auto Depth = *DepthOpt;
 
-          std::any V;
-          std::function<void(int, std::any &, const Json::Value &)> jsonToSV =
-              [&jsonToSV, &VName](int Depth, std::any &SV,
+          boost::any V;
+          std::function<void(int, boost::any &, const Json::Value &)> jsonToSV =
+              [&jsonToSV, &VName](int Depth, boost::any &SV,
                                   const Json::Value &JSONV) -> void {
             if (Depth == 0) {
               SV = serializeJSON(JSONV);
@@ -516,11 +516,11 @@ std::string MemStateServer::initState(const Json::Value &InitJ,
             }
 
             // If SV doesn't hold a value yet, create one.
-            if (!SV.has_value())
+            if (SV.empty())
               SV = ScillaParams::MapValueT();
 
             ASSERT(std::has_type<ScillaParams::MapValueT>(SV));
-            auto &MapV = std::any_cast<ScillaParams::MapValueT &>(SV);
+            auto &MapV = boost::any_cast<ScillaParams::MapValueT &>(SV);
             for (auto &Entry : JSONV) {
               if (!Entry.isObject() || !Entry.isMember("key") ||
                   !Entry.isMember("val")) {
@@ -553,13 +553,13 @@ Json::Value MemStateServer::dumpToJSON() {
     if (FieldName == "_balance")
       continue;
 
-    std::function<Json::Value(std::any &)> svToJSON =
-        [&svToJSON](std::any &SV) -> Json::Value {
+    std::function<Json::Value(boost::any &)> svToJSON =
+        [&svToJSON](boost::any &SV) -> Json::Value {
       if (std::has_type<std::string>(SV)) {
-        return parseJSONString(std::any_cast<std::string>(SV));
+        return parseJSONString(boost::any_cast<std::string>(SV));
       } else {
         Json::Value MapVal = Json::arrayValue;
-        auto &SVMap = std::any_cast<ScillaParams::MapValueT &>(SV);
+        auto &SVMap = boost::any_cast<ScillaParams::MapValueT &>(SV);
         for (auto &KV : SVMap) {
           Json::Value KVJ(Json::objectValue);
           KVJ["key"] = parseJSONString(KV.first);

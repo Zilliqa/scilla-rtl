@@ -28,11 +28,11 @@
 #include "ScillaExec.h"
 
 namespace std {
-// Does an std::any object hold a value of type T.
-template <typename T> bool has_type(const std::any &a) {
+// Does an boost::any object hold a value of type T.
+template <typename T> bool has_type(const boost::any &a) {
   return a.type() == typeid(T);
 }
-template <typename T> bool has_type(const std::any *a) {
+template <typename T> bool has_type(const boost::any *a) {
   return a->type() == typeid(T);
 }
 } // namespace std
@@ -79,7 +79,7 @@ class Typ;
 
 // A state server implementation with no persistence.
 class MemStateServer {
-  std::unordered_map<std::string, std::unordered_map<std::string, std::any>>
+  std::unordered_map<std::string, std::unordered_map<std::string, boost::any>>
       BCState;
   // We store the type (when initialized from JSON) for later printing to JSON.
   std::unordered_map<std::string, std::unordered_map<std::string, std::string>>
@@ -89,19 +89,19 @@ class MemStateServer {
   // Update (part of) the state. Returns false on error.
   bool updateRemoteStateValue(const std::string &Addr,
                               const ScillaParams::StateQuery &Query,
-                              const std::any &Value);
+                              const boost::any &Value);
 
 public:
   // Fetch (part of) state variable for ThisAddress. Returns false on error.
-  bool fetchStateValue(const ScillaParams::StateQuery &Query, std::any &RetVal,
+  bool fetchStateValue(const ScillaParams::StateQuery &Query, boost::any &RetVal,
                        bool &Found);
   // Fetch (part of) state variable. Returns false on error.
   bool fetchRemoteStateValue(const std::string &Addr,
                              const ScillaParams::StateQuery &Query,
-                             std::any &RetVal, bool &Found, std::string &Type);
+                             boost::any &RetVal, bool &Found, std::string &Type);
   // Update (part of) the state for ThisAddress. Returns false on error.
   bool updateStateValue(const ScillaParams::StateQuery &Query,
-                        const std::any &Value);
+                        const boost::any &Value);
 
   // (Re)initialize the state from the provided state JSON.
   // Requires init JSON for noting down _this_address.

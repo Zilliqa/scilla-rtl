@@ -47,7 +47,7 @@ remoteFieldType(const ScillaExecImpl *SJ, const std::string &Addr,
                 const std::string &FName) {
 
   ScillaParams::StateQuery Q = {FName, 0, {}, true};
-  std::any IgnoreVal;
+  boost::any IgnoreVal;
   std::string TypeS;
   bool Found;
   if (!SJ->SPs.fetchRemoteStateValue(Addr, Q, IgnoreVal, Found, TypeS)) {
@@ -65,7 +65,7 @@ bool isContrAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
 bool isUserAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
   ScillaParams::StateQuery SQBalance = {"_balance", 0, {}, false};
   ScillaParams::StateQuery SQNonce = {"_nonce", 0, {}, false};
-  std::any BalanceVal, NonceVal;
+  boost::any BalanceVal, NonceVal;
   std::string BalanceType, NonceType;
   bool FoundBalance, FoundNonce;
   if (!SJ->SPs.fetchRemoteStateValue(Addr, SQBalance, BalanceVal, FoundBalance,
@@ -84,8 +84,8 @@ bool isUserAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
   }
 
   // The values are quoted numbers.
-  auto BalanceS = std::any_cast<std::string>(BalanceVal);
-  auto NonceS = std::any_cast<std::string>(NonceVal);
+  auto BalanceS = boost::any_cast<std::string>(BalanceVal);
+  auto NonceS = boost::any_cast<std::string>(NonceVal);
   unquoteString(BalanceS);
   unquoteString(NonceS);
 
@@ -140,12 +140,12 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
                 }
                 switch (ValT->m_t) {
                 case ScillaTypes::Typ::Map_typ: {
-                  auto &ValJS = std::any_cast<const ScillaParams::MapValueT &>(
+                  auto &ValJS = boost::any_cast<const ScillaParams::MapValueT &>(
                       Itr.second);
                   return recurser(ValT, &ValJS);
                 }
                 default: {
-                  auto &ValJS = std::any_cast<const std::string &>(Itr.second);
+                  auto &ValJS = boost::any_cast<const std::string &>(Itr.second);
                   Json::Value ValJ = parseJSONString(ValJS);
                   auto *ValV = ScillaValues::fromJSON(OM, ValT, ValJ);
                   return recurser(ValT, ValV);
