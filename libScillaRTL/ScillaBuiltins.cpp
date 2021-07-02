@@ -128,7 +128,8 @@ void prepareStateAccessIndices(
     const uint8_t *Indices, std::vector<std::string> &SerializedIndices) {
   for (int I = 0, Off = 0; I < NumIdx; I++) {
     auto *KT = KeyTypes[I];
-    ASSERT(KT->m_t == ScillaTypes::Typ::Prim_typ);
+    ASSERT(KT->m_t == ScillaTypes::Typ::Prim_typ ||
+           KT->m_t == ScillaTypes::Typ::Address_typ);
     const void *VPtr;
     if (ScillaTypes::Typ::isBoxed(KT)) {
       VPtr = *reinterpret_cast<void *const *>(Indices + Off);
@@ -1190,7 +1191,8 @@ void *_map_to_list(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,
     NextElm++;
 
     // Build the Scilla value for Key.
-    ASSERT(KeyT->m_t == ScillaTypes::Typ::Prim_typ);
+    ASSERT(KeyT->m_t == ScillaTypes::Typ::Prim_typ ||
+           KeyT->m_t == ScillaTypes::Typ::Address_typ);
     Json::Value KeyJ = parseJSONString(Itr.first);
     if (ScillaTypes::Typ::isBoxed(KeyT)) {
       *reinterpret_cast<void **>(NextElm) =
