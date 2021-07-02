@@ -663,10 +663,10 @@ uint64_t _mapsortcost(const ScillaParams::MapValueT *M) {
 
   // First calculate cost for sub-maps (if any).
   for (auto &Itr : *M) {
-    if (std::has_type<std::string>(Itr.second)) {
+    if (boost::has_type<std::string>(Itr.second)) {
       break;
     }
-    ASSERT(std::has_type<ScillaParams::MapValueT>(Itr.second));
+    ASSERT(boost::has_type<ScillaParams::MapValueT>(Itr.second));
     auto *SubM = &boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
     Cost += _mapsortcost(SubM);
   }

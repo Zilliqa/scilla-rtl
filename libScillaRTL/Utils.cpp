@@ -520,7 +520,7 @@ std::string MemStateServer::initState(const Json::Value &InitJ,
             if (SV.empty())
               SV = ScillaParams::MapValueT();
 
-            ASSERT(std::has_type<ScillaParams::MapValueT>(SV));
+            ASSERT(boost::has_type<ScillaParams::MapValueT>(SV));
             auto &MapV = boost::any_cast<ScillaParams::MapValueT &>(SV);
             for (auto &Entry : JSONV) {
               if (!Entry.isObject() || !Entry.isMember("key") ||
@@ -556,7 +556,7 @@ Json::Value MemStateServer::dumpToJSON() {
 
     std::function<Json::Value(boost::any &)> svToJSON =
         [&svToJSON](boost::any &SV) -> Json::Value {
-      if (std::has_type<std::string>(SV)) {
+      if (boost::has_type<std::string>(SV)) {
         return parseJSONString(boost::any_cast<std::string>(SV));
       } else {
         Json::Value MapVal = Json::arrayValue;

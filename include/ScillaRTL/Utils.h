@@ -26,7 +26,7 @@
 
 #include "ScillaExec.h"
 
-namespace std {
+namespace boost {
 // Does an boost::any object hold a value of type T.
 template <typename T> bool has_type(const boost::any &a) {
   return a.type() == typeid(T);
