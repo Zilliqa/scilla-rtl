@@ -385,6 +385,11 @@ void *_remove(ScillaRTL::ScillaExecImpl *SJ,
 // Scilla builtin _size : The size of a map.
 ScillaRTL::SafeUint32 _size(const ScillaRTL::ScillaParams::MapValueT *M);
 
+// Convert a map to a list of (Pair (KeyT) (ValT))
+void *_map_to_list(ScillaRTL::ScillaExecImpl *SJ,
+                   const ScillaRTL::ScillaTypes::Typ *T,
+                   const ScillaRTL::ScillaParams::MapValueT *M);
+
 uint64_t _literal_cost(const ScillaRTL::ScillaTypes::Typ *T, const void *V);
 uint64_t _mapsortcost(const ScillaRTL::ScillaParams::MapValueT *M);
 uint64_t _lengthof(const ScillaRTL::ScillaTypes::Typ *T, const void *V);
