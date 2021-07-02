@@ -124,7 +124,7 @@ int main(int argc, char *argv[]) {
     auto BCFilename = VM["blockchain"].as<std::string>();
 
     // Tool to compile the LLVM-IR to a binary shared object.
-    CompileToSO CSO(InputFilename);
+    CompileLLVMToTempSO CSO(InputFilename);
     // Parse the init JSON and blockchain JSONs
     auto IJ = parseJSONFile(InitFilename);
     auto BCJ = parseJSONFile(BCFilename);

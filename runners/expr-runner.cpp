@@ -112,7 +112,7 @@ int main(int argc, char *argv[]) {
   try {
     auto InputFilename = VM["input-file"].as<std::string>();
     // Tool to compile the LLVM-IR to a binary shared object.
-    CompileToSO CSO(InputFilename);
+    CompileLLVMToTempSO CSO(InputFilename);
 
     auto GasLimit = VM["gaslimit"].as<uint64_t>();
     ScillaExprExec SJ(ScillaParams(), CSO.compile());

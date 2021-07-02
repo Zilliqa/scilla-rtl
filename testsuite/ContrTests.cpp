@@ -72,7 +72,7 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
 
   std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
   // Tool to compile the LLVM-IR to a binary shared object.
-  CompileToSO CSO(PathPrefix + CT.ContrFilename);
+  CompileLLVMToTempSO CSO(PathPrefix + CT.ContrFilename);
 
   std::unique_ptr<ScillaRTL::ScillaContrExec> JE;
   try {
@@ -204,7 +204,7 @@ void testMessageFail(const std::string &ContrFilename,
 
   std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
   // Tool to compile the LLVM-IR to a binary shared object.
-  CompileToSO CSO(PathPrefix + ContrFilename);
+  CompileLLVMToTempSO CSO(PathPrefix + ContrFilename);
 
   Json::Value MessageJSON, InitJSON, BCJ;
   std::string Balance = "0";

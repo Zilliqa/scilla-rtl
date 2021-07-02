@@ -108,24 +108,30 @@ uint64_t parseBlockchainJSON(const Json::Value &BC) {
   }
 }
 
-CompileToSO::CompileToSO(const std::string &Filename)
-    : SOFile(bf::temp_directory_path() / bf::unique_path()),
-      InputFile(Filename) {}
-
-std::string CompileToSO::compile() const {
+void compileLLVMToSO(const std::string &InputFile,
+                     const std::string &OutputFile) {
   try {
     auto ExecP = bp::search_path("clang-10");
-    if (bp::system(ExecP, "-fPIC", "-shared", InputFile, "-o",
-                   SOFile.native())) {
+    if (bp::system(ExecP, "-fPIC", "-shared", InputFile, "-o", OutputFile)) {
       CREATE_ERROR("Compilation of " + InputFile + " failed.");
     }
   } catch (std::system_error &E) {
     CREATE_ERROR(E.what());
   }
+}
+
+CompileLLVMToTempSO::CompileLLVMToTempSO(const std::string &Filename)
+    : SOFile(bf::temp_directory_path() / bf::unique_path()),
+      InputFile(Filename) {}
+
+std::string CompileLLVMToTempSO::compile() const {
+  compileLLVMToSO(InputFile, SOFile.native());
   return SOFile.native();
 }
 
-CompileToSO::~CompileToSO() { boost::filesystem::remove(SOFile); }
+CompileLLVMToTempSO::~CompileLLVMToTempSO() {
+  boost::filesystem::remove(SOFile);
+}
 
 std::optional<int> mapDepthOfTypeString(const std::string &TypeStr) {
 

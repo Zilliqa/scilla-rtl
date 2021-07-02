@@ -54,18 +54,23 @@ std::optional<Json::Value> vNameValue(const Json::Value &Vs,
 // Creates error if unable to parse successfully.
 uint64_t parseBlockchainJSON(const Json::Value &BC);
 
+// Compile Scilla LLVM-IR / LLVM bitcode file to a shared object.
+// Raises an error if compilation fails.
+void compileLLVMToSO(const std::string &InputFile,
+                     const std::string &OutputFile);
+
 // Compile an LLVM IR/bitcode file and return path to binary shared object.
 // The shared object's lifetime is that of this object.
-class CompileToSO {
+class CompileLLVMToTempSO {
   const boost::filesystem::path SOFile;
   const std::string InputFile;
 
 public:
-  CompileToSO(const std::string &Filename);
+  CompileLLVMToTempSO(const std::string &Filename);
   // Compile the file to a shared object and return the .so filename.
   // Raises an error if compilation fails.
   std::string compile() const;
-  ~CompileToSO();
+  ~CompileLLVMToTempSO();
 };
 
 namespace ScillaTypes {

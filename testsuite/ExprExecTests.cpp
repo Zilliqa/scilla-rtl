@@ -36,7 +36,7 @@ void testExecExprHelper(const std::string &Filename,
   std::string ScillaOutput;
   try {
     // Tool to compile the LLVM-IR to a binary shared object.
-    CompileToSO CSO(Filename);
+    CompileLLVMToTempSO CSO(Filename);
     // Setup a Scilla expression execution object.
     ScillaExprExec SJ(ScillaRTL::ScillaParams(), CSO.compile());
     BOOST_TEST_CHECKPOINT(Filename + ": Loaded compiled shared object.");
@@ -72,7 +72,7 @@ void testExecFailExpr(const std::string &Testname) {
   std::string ScillaOutput;
   try {
     // Tool to compile the LLVM-IR to a binary shared object.
-    CompileToSO CSO(Filename);
+    CompileLLVMToTempSO CSO(Filename);
     // Setup a Scilla expression execution object.
     ScillaExprExec SJ(ScillaRTL::ScillaParams(), CSO.compile());
     BOOST_TEST_CHECKPOINT(Filename + ": Loaded compiled shared object.");
