@@ -173,7 +173,7 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
                   // Parse RTS into a (possibly incomplete) type.
                   auto TyDescrs = SJ->getTypeDescrTable();
                   ObjManager OM;
-                  auto RT = ScillaTypes::Typ::fromStringUnsafe(
+                  auto RT = ScillaTypes::Typ::constructTyp(
                       SJ->TPPC.get(), TyDescrs.first, TyDescrs.second, *RTS,
                       &OM);
                   return ScillaTypes::Typ::assignable(F.m_FTyp, RT);

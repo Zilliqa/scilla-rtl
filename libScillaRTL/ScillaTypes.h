@@ -23,6 +23,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "ScillaRTL/Utils.h"
+
 namespace ScillaRTL {
 
 class ObjManager;
@@ -85,6 +87,14 @@ struct PrimTyp {
 };
 
 struct Typ;
+
+struct CompleteTyp {
+  const Typ *T;
+};
+struct IncompleteTyp {
+  const Typ *T;
+};
+using ConstructedTyp = std::variant<CompleteTyp, IncompleteTyp>;
 
 // Describes a monomorphic Scilla ADT.
 struct ADTTyp {
@@ -229,12 +239,12 @@ struct Typ {
   static const Typ *fromString(TypParserPartialCache *TPPC, const Typ *Ts[],
                                int NT, const std::string &Input);
 
-  // Unsafe version of "fromString". Attempts building (incomplete) types.
+  // General version of "fromString". Attempts building (incomplete) types.
   // This function is only for use in attempting to parse remote field types.
   // If unable to parse the string to a known type (i.e., in @Ts),
   // a new (possibly incomplete) Typ (owned by ObjManager) is created.
   // For example, ADT specializations and constructors are set to 0 / nullptr.
-  static const Typ *fromStringUnsafe(TypParserPartialCache *TPPC,
+  static ConstructedTyp constructTyp(TypParserPartialCache *TPPC,
                                      const Typ *Ts[], int NT,
                                      const std::string &Input,
                                      std::optional<ObjManager *>);
@@ -250,7 +260,7 @@ struct Typ {
   // Are two types equal?
   static bool equal(const Typ *LHS, const Typ *RHS);
   // Can RHS be assigned to LHS?
-  static bool assignable(const Typ *LHS, const Typ *RHS);
+  static bool assignable(const Typ *LHS, ConstructedTyp RHS);
   // Are values of type T1 and T2 structurally same?
   static bool valueCompatible(const Typ *T1, const Typ *T2);
 };

@@ -312,14 +312,16 @@ BOOST_AUTO_TEST_CASE(equivalent_types) {
                         I);
   }
   for (size_t I = 0; I < NEqEntries; I++) {
-    BOOST_CHECK_MESSAGE(Typ::assignable(parseTypeString(EqTypes[I][0]),
-                                        parseTypeString(EqTypes[I][1])),
-                        I);
+    BOOST_CHECK_MESSAGE(
+        Typ::assignable(parseTypeString(EqTypes[I][0]),
+                        CompleteTyp({parseTypeString(EqTypes[I][1])})),
+        I);
   }
   for (size_t I = 0; I < NEqEntries; I++) {
-    BOOST_CHECK_MESSAGE(Typ::assignable(parseTypeString(EqTypes[I][1]),
-                                        parseTypeString(EqTypes[I][0])),
-                        I);
+    BOOST_CHECK_MESSAGE(
+        Typ::assignable(parseTypeString(EqTypes[I][1]),
+                        CompleteTyp({parseTypeString(EqTypes[I][0])})),
+        I);
   }
 }
 
@@ -359,14 +361,16 @@ BOOST_AUTO_TEST_CASE(assignable_but_not_equivalent_types) {
 
   const size_t NAssEntries = sizeof(AssTypes) / (sizeof(std::string) * 2);
   for (size_t I = 0; I < NAssEntries; I++) {
-    BOOST_CHECK_MESSAGE(Typ::assignable(parseTypeString(AssTypes[I][0]),
-                                        parseTypeString(AssTypes[I][1])),
-                        I);
+    BOOST_CHECK_MESSAGE(
+        Typ::assignable(parseTypeString(AssTypes[I][0]),
+                        CompleteTyp({parseTypeString(AssTypes[I][1])})),
+        I);
   }
   for (size_t I = 0; I < NAssEntries; I++) {
-    BOOST_CHECK_MESSAGE(!Typ::assignable(parseTypeString(AssTypes[I][1]),
-                                         parseTypeString(AssTypes[I][0])),
-                        I);
+    BOOST_CHECK_MESSAGE(
+        !Typ::assignable(parseTypeString(AssTypes[I][1]),
+                         CompleteTyp({parseTypeString(AssTypes[I][0])})),
+        I);
   }
   for (size_t I = 0; I < NAssEntries; I++) {
     BOOST_CHECK_MESSAGE(!Typ::equal(parseTypeString(AssTypes[I][0]),
@@ -409,14 +413,16 @@ BOOST_AUTO_TEST_CASE(not_assignable_in_either_direction_types) {
 
   const size_t NNAssEntries = sizeof(NAssTypes) / (sizeof(std::string) * 2);
   for (size_t I = 0; I < NNAssEntries; I++) {
-    BOOST_CHECK_MESSAGE(!Typ::assignable(parseTypeString(NAssTypes[I][0]),
-                                         parseTypeString(NAssTypes[I][1])),
-                        I);
+    BOOST_CHECK_MESSAGE(
+        !Typ::assignable(parseTypeString(NAssTypes[I][0]),
+                         CompleteTyp({parseTypeString(NAssTypes[I][1])})),
+        I);
   }
   for (size_t I = 0; I < NNAssEntries; I++) {
-    BOOST_CHECK_MESSAGE(!Typ::assignable(parseTypeString(NAssTypes[I][1]),
-                                         parseTypeString(NAssTypes[I][0])),
-                        I);
+    BOOST_CHECK_MESSAGE(
+        !Typ::assignable(parseTypeString(NAssTypes[I][1]),
+                         CompleteTyp({parseTypeString(NAssTypes[I][0])})),
+        I);
   }
   for (size_t I = 0; I < NNAssEntries; I++) {
     BOOST_CHECK_MESSAGE(!Typ::equal(parseTypeString(NAssTypes[I][0]),

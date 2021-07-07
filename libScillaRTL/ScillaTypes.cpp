@@ -44,15 +44,39 @@ bool Typ::equal(const Typ *LHS, const Typ *RHS) {
   return static_cast<const void *>(LHS) == static_cast<const void *>(RHS);
 }
 
-bool Typ::assignable(const Typ *To, const Typ *From) {
+bool Typ::assignable(const Typ *To, ConstructedTyp FromW) {
+
+  const Typ *From;
+  bool RhsIsComplete;
+  // This function can handle both complete and incomplete types.
+  switch (FromW.index()) {
+  case std::indexof<ConstructedTyp, CompleteTyp>():
+    From = std::get<CompleteTyp>(FromW).T;
+    RhsIsComplete = true;
+    break;
+  case std::indexof<ConstructedTyp, IncompleteTyp>():
+    From = std::get<IncompleteTyp>(FromW).T;
+    RhsIsComplete = false;
+    break;
+  default:
+    CREATE_ERROR("Unhandled ConstructedTyp");
+  }
+
+  auto CWrapper = [&RhsIsComplete](const Typ *T) -> ConstructedTyp {
+    if (RhsIsComplete) {
+      return CompleteTyp({T});
+    } else {
+      return IncompleteTyp({T});
+    };
+  };
 
   // A lambda to check assignability of two address types.
   // Every field F_Sub in "Subset" must exist as F_Sup in "Superset"
   //   AND
   // assignable(F_Sub, F_Sup).
   // (Subset->m_numFields < 0), i.e., Subset is (Address None) will return true.
-  auto checkAddressSubset = [](const AddressTyp *Subset,
-                               const AddressTyp *Superset) -> bool {
+  auto checkAddressSubset = [&CWrapper](const AddressTyp *Subset,
+                                        const AddressTyp *Superset) -> bool {
     if (Subset->m_numFields > Superset->m_numFields) {
       return false;
     }
@@ -69,7 +93,8 @@ bool Typ::assignable(const Typ *To, const Typ *From) {
                                 return std::string(F_Sup.m_Name) ==
                                        std::string(F_Sub.m_Name);
                               });
-      if (Itr == SearchFromItrEnd || !assignable(F_Sub.m_FTyp, Itr->m_FTyp)) {
+      if (Itr == SearchFromItrEnd ||
+          !assignable(F_Sub.m_FTyp, CWrapper(Itr->m_FTyp))) {
         // Either we don't have that field in Superset, or it isn't assignable
         // to the one we have in Subset. Both qualify for non-assignability.
         return false;
@@ -102,8 +127,8 @@ bool Typ::assignable(const Typ *To, const Typ *From) {
       return false;
     const MapTyp *To_MT = To->m_sub.m_mapt;
     const MapTyp *From_MT = From->m_sub.m_mapt;
-    return assignable(To_MT->m_keyTyp, From_MT->m_keyTyp) &&
-           assignable(To_MT->m_valTyp, From_MT->m_valTyp);
+    return assignable(To_MT->m_keyTyp, CWrapper(From_MT->m_keyTyp)) &&
+           assignable(To_MT->m_valTyp, CWrapper(From_MT->m_valTyp));
   }
   case ADT_typ: {
     if (To->m_t != ADT_typ)
@@ -118,7 +143,7 @@ bool Typ::assignable(const Typ *To, const Typ *From) {
     ASSERT(To_Specls->m_parent == From_Specls->m_parent);
     int NTArgs = To_Specls->m_parent->m_numTArgs;
     for (int I = 0; I < NTArgs; I++) {
-      if (!assignable(To_Specls->m_TArgs[I], From_Specls->m_TArgs[I]))
+      if (!assignable(To_Specls->m_TArgs[I], CWrapper(From_Specls->m_TArgs[I])))
         return false;
     }
     return true;
@@ -132,7 +157,7 @@ bool Typ::assignable(const Typ *To, const Typ *From) {
 }
 
 bool Typ::valueCompatible(const Typ *T1, const Typ *T2) {
-  return assignable(T1, T2) || assignable(T2, T1);
+  return assignable(T1, CompleteTyp({T2})) || assignable(T2, CompleteTyp({T1}));
 }
 
 std::string Typ::toString(const Typ *T) {
@@ -385,10 +410,16 @@ namespace ScillaTypes {
 
 const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
                            const std::string &Input) {
-  return fromStringUnsafe(TPPC, Ts, NT, Input, std::nullopt);
+  auto Res = constructTyp(TPPC, Ts, NT, Input, std::nullopt);
+  switch (Res.index()) {
+  case std::indexof<ConstructedTyp, CompleteTyp>():
+    return std::get<CompleteTyp>(Res).T;
+  default:
+    CREATE_ERROR("Error parsing " + Input + " to a known type");
+  }
 }
 
-const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
+ConstructedTyp Typ::constructTyp(TypParserPartialCache *TPPC, const Typ *Ts[],
                                  int NT, const std::string &Input,
                                  std::optional<ObjManager *> OM) {
 
@@ -437,6 +468,7 @@ const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
     MapListLocal = TPPC->MapList;
     AddrListLocal = TPPC->AddrList;
   }
+  bool IsIncompleteType = false;
 
   auto &PrimMap = OM ? PrimMapLocal : TPPC->PrimMap;
   auto &ADTMap = OM ? ADTMapLocal : TPPC->ADTMap;
@@ -488,7 +520,7 @@ const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
     (qi::lit("ByStr20") >> qi::lit("with") >> qi::lit("end"))
       [qi::_val = px::bind
         (
-          [&AddrList, &OM] () -> const Typ* {
+          [&AddrList, &OM, &IsIncompleteType] () -> const Typ* {
             for (auto &T : AddrList) {
               ASSERT_MSG(T->m_t == Typ::Address_typ,
                 "Non-Address type classified incorrectly as Address");
@@ -497,6 +529,7 @@ const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
               }
             }
             if (OM) {
+              IsIncompleteType = true;
               auto *AT = (*OM)->create<const AddressTyp>({-1, nullptr});
               auto *T = (*OM)->create<const Typ>
                 ({Typ::Address_typ, Typ::TypU(AT)});
@@ -515,7 +548,7 @@ const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
         -((qi::lit("field") >> FieldTypePair_R) % ',') >> qi::lit("end"))
       [qi::_val = px::bind
         (
-          [&AddrList, &OM]
+          [&AddrList, &OM, &IsIncompleteType]
           (const boost::optional<std::vector<FieldTypePair> > &FieldsOpt) 
             -> const Typ* {
             const auto &Fields =
@@ -545,6 +578,7 @@ const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
               }
             }
             if (OM) {
+              IsIncompleteType = true;
               auto FieldsSorted = reinterpret_cast<AddressTyp::Field*>(
                 (Fields.size() > 0) ?
                 (*OM)->allocBytes(sizeof(AddressTyp::Field) * Fields.size()) : 
@@ -605,7 +639,7 @@ const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
     |  (qi::lit("Map") >> T_R >> T_R) // Rule-3 for Map
         [qi::_val = px::bind
           (
-            [&MapList, &OM]
+            [&MapList, &OM, &IsIncompleteType]
             (const Typ *KTyp, const Typ *VTyp) -> const Typ * {
               for (const Typ *T : MapList) {
                 ASSERT_MSG(T->m_t == Typ::Map_typ, "Non MapTyp classfied incorrectly");
@@ -616,6 +650,7 @@ const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
                 }
               }
               if (OM) {
+                IsIncompleteType = true;
                 auto *MT = (*OM)->create<const MapTyp>({KTyp, VTyp});
                 auto *T = (*OM)->create<const Typ>({Typ::Map_typ, Typ::TypU(MT)});
                 MapList.push_back(T);
@@ -631,7 +666,7 @@ const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
     | (QualifiedTypeName_R >> *TArg_R) // Rule-4 for ADTs
         [qi::_val = px::bind
           (
-            [&ADTMap, &OM]
+            [&ADTMap, &OM, &IsIncompleteType]
             (const std::string &TName, const std::vector<const Typ *> &TArgs)
               -> const Typ * {
               const ADTTyp *ADT_Parent = nullptr;
@@ -659,6 +694,7 @@ const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
                 }
               }
               if (OM) {
+                IsIncompleteType = true;
                 if (!ADT_Parent) {
                   // If there isn't already a parent ADT struct, create one.
                   ADT_Parent = (*OM)->create<const ADTTyp>({
@@ -715,7 +751,7 @@ const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
     | QualifiedTypeName_R
       [qi::_val = px::bind
         (
-          [&PrimMap, &ADTMap, &OM]
+          [&PrimMap, &ADTMap, &OM, &IsIncompleteType]
           (const std::string &TName) {
             auto itrPrim = PrimMap.find(TName);
             if (itrPrim != PrimMap.end()) {
@@ -736,6 +772,7 @@ const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
               return T;
             }
             if (OM) {
+              IsIncompleteType = true;
               // If there isn't already a parent ADT struct, create one.
               auto *ADT_Parent = (*OM)->create<const ADTTyp>({
                 String::fromStdString(**OM, TName), // m_TName
@@ -781,7 +818,11 @@ const Typ *Typ::fromStringUnsafe(TypParserPartialCache *TPPC, const Typ *Ts[],
   if (!phrase_parse(Input.begin(), Input.end(), Start_R, ascii::space, T) || !T)
     CREATE_ERROR("Parsing type " + Input + " failed");
 
-  return T;
+  if (IsIncompleteType) {
+    return IncompleteTyp({T});
+  } else {
+    return CompleteTyp({T});
+  }
 }
 
 } // namespace ScillaTypes
