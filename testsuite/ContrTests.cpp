@@ -755,14 +755,13 @@ ContractTest RemoteStateReadsTests = {
          "remote_state_reads.init_state.json",
          "remote_state_reads.init_ostate.json",
          "remote_state_reads.init_output.json", "blockchain_default.json"},
-        /* // https://github.com/Zilliqa/scilla-vm/issues/26
         {"remote_state_reads_init_assignable_map_types", "",
          "remote_state_reads.init_assignable_map_types.json",
          "remote_state_reads.contrinfo.json",
          "remote_state_reads.init_assignable_map_types_state.json",
          "remote_state_reads.init_assignable_map_types_ostate.json",
          "remote_state_reads.init_assignable_map_types_output.json",
-        "blockchain_default.json"}, */
+         "blockchain_default.json"},
         {"remote_state_reads_init_nonce_no_balance", "",
          "remote_state_reads.init_nonce_no_balance.json",
          "remote_state_reads.contrinfo.json",
@@ -797,8 +796,7 @@ BOOST_AUTO_TEST_CASE(common_jit) {
 auto prepareRemoteStateReadsSuccTests = []() {
   ContractTest RSRSTs{"remote_state_reads.ll", {}};
   for (int I = 1; I <= 11; I++) {
-    if (I == 6 /* https://github.com/Zilliqa/scilla-compiler/issues/68 */
-        || I == 9 /* https://github.com/Zilliqa/scilla-vm/issues/23 */)
+    if (I == 9 /* https://github.com/Zilliqa/scilla-vm/issues/23 */)
       continue;
     ContractTest::Input ThisInput = {
         "remote_state_reads_succ_" + std::to_string(I),
