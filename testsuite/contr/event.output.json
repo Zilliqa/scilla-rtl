@@ -8,11 +8,16 @@
                "type" : "String",
                "value" : "World",
                "vname" : "msg"
+            },
+            {
+               "type" : "BNum",
+               "value" : "1",
+               "vname" : "creation"
             }
          ]
       }
    ],
-   "gas_remaining" : "9999918",
+   "gas_remaining" : "9999834",
    "messages" : [],
    "scilla_major_version" : "0"
 }

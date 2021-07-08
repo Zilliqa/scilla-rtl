@@ -125,10 +125,6 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
       CREATE_ERROR(ErrMsg);
     }
 
-    // TODO: The compiler doesn't yet support BNum types.
-    if (VName.asString() == "_creation_block")
-      continue;
-
     auto ExpectedT = ParamMap.find(VName.asString());
     if (ExpectedT == ParamMap.end()) {
       CREATE_ERROR("Unknown contract parameter in JSON " + VName.asString());
