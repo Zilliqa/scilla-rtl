@@ -183,7 +183,7 @@ Json::Value ScillaExecImpl::deploy(const Json::Value &InitJ, uint64_t GasLimit,
   auto GasRemPtr = initGasAndLibs(GasLimit);
 
   // Let's setup the TransitionState for this transition.
-  TS = std::make_unique<TransitionState>("0", "0", CurBlock);
+  TS = std::make_unique<TransitionState>("0", "0", CurBlock, "");
   auto fIS = reinterpret_cast<void (*)(void)>(getAddressFor("_init_state"));
   fIS();
 
@@ -235,7 +235,8 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
   auto GasRemPtr = initGasAndLibs(GasLimit);
 
   // Let's setup the TransitionState for this transition.
-  TS = std::make_unique<TransitionState>(Balance, AmountJ.asString(), CurBlock);
+  TS = std::make_unique<TransitionState>(Balance, AmountJ.asString(), CurBlock,
+                                         SenderJ.asString());
 
   // Amount and Sender need to be prepended to the parameter list.
   Json::Value AmountParam;
