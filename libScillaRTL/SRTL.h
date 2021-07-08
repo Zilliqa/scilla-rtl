@@ -42,9 +42,9 @@ const auto Ecdsa_Pubkey_Uncompressed_Len = 65;
 const auto Zilliqa_Address_Len = 20;
 
 // Fetch the type of a remote field, if it exists.
-std::optional<const ScillaTypes::Typ *>
-remoteFieldType(const ScillaExecImpl *SJ, const std::string &Addr,
-                const std::string &FName);
+std::optional<std::string> remoteFieldType(const ScillaExecImpl *SJ,
+                                           const std::string &Addr,
+                                           const std::string &FName);
 
 // Is the given address a contract?
 bool isContrAddr(const ScillaExecImpl *SJ, const std::string &Addr);

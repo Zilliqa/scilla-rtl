@@ -33,6 +33,9 @@ private:
   // Get the type descriptors table and its length.
   std::pair<const ScillaTypes::Typ **, int> getTypeDescrTable() const;
   std::unique_ptr<SharedObject> SO;
+  friend bool dynamicTypecheck(const ScillaExecImpl *SJ,
+                               const ScillaTypes::Typ *TargetT,
+                               const ScillaTypes::Typ *ParsedT, void *Val);
 
 public:
   // @ContrBin is the path to a contract's shared object `foo.so`

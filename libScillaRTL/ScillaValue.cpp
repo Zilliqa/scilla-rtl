@@ -553,7 +553,7 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
     // Let's search for this constructor in our type descriptor.
     uint8_t Tag;
     int I;
-    ScillaTypes::ADTTyp::Constr *ConstrP;
+    const ScillaTypes::ADTTyp::Constr *ConstrP;
     for (I = 0; I < ADTP->m_numConstrs; I++) {
       ConstrP = SpeclP->m_constrs[I];
       if (ConstrP->m_cName.m_length == (int)CnstS.length() &&
@@ -584,7 +584,7 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
     Offset++;
     // Place all constructor arguments in the allocated memory.
     for (I = 0; I < (int)ArgsJ.size(); I++) {
-      ScillaTypes::Typ *IT = ConstrP->m_args[I];
+      const ScillaTypes::Typ *IT = ConstrP->m_args[I];
       auto ISize = ScillaTypes::Typ::sizeOf(IT);
       if (ScillaTypes::Typ::isBoxed(IT)) {
         uint8_t *BoxedSub = reinterpret_cast<uint8_t *>(
@@ -785,7 +785,7 @@ void iterScillaList(const ScillaTypes::Typ *T, const void *Val,
 
   using namespace ScillaTypes;
   ASSERT(T->m_t == ScillaTypes::Typ::ADT_typ);
-  ADTTyp::Specl *Sp = T->m_sub.m_spladt;
+  const ADTTyp::Specl *Sp = T->m_sub.m_spladt;
   ASSERT(std::string(Sp->m_parent->m_tName) == "List");
   ASSERT(Sp->m_parent->m_numTArgs == 1);
 
@@ -796,8 +796,8 @@ void iterScillaList(const ScillaTypes::Typ *T, const void *Val,
   while (Tag == List_Cons_Tag) {
     ASSERT(std::string(Sp->m_constrs[Tag]->m_cName) == "Cons" &&
            Sp->m_constrs[Tag]->m_numArgs == 2 &&
-           Sp->m_constrs[Tag]->m_args[0] == ElmT &&
-           Sp->m_constrs[Tag]->m_args[1] == T);
+           ScillaTypes::Typ::equal(Sp->m_constrs[Tag]->m_args[0], ElmT) &&
+           ScillaTypes::Typ::equal(Sp->m_constrs[Tag]->m_args[1], T));
 
     auto VP = reinterpret_cast<const uint8_t *>(V);
     // Increment VP once to go past the Tag.
