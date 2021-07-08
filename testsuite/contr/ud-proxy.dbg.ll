@@ -121,11 +121,11 @@ target triple = "x86_64-unknown-linux-gnu"
 @ud-proxy.eError = global i8* null
 @"$stringlit_192" = unnamed_addr constant [10 x i8] c"_eventname"
 @"$stringlit_197" = unnamed_addr constant [5 x i8] c"Error"
-@_scilla_version = global %Uint32 zeroinitializer
-@_this_address = global [20 x i8] zeroinitializer
-@_creation_block = global i8* null
-@initialAdmin = global [20 x i8] zeroinitializer
-@registry = global [20 x i8] zeroinitializer
+@_cparam__scilla_version = global %Uint32 zeroinitializer
+@_cparam__this_address = global [20 x i8] zeroinitializer
+@_cparam__creation_block = global i8* null
+@_cparam_initialAdmin = global [20 x i8] zeroinitializer
+@_cparam_registry = global [20 x i8] zeroinitializer
 @"$admins_225" = unnamed_addr constant [7 x i8] c"admins\00"
 @"$admins_234" = unnamed_addr constant [7 x i8] c"admins\00"
 @"$admins_306" = unnamed_addr constant [7 x i8] c"admins\00"
@@ -418,7 +418,7 @@ entry:
   %"$empty_215" = load %Map_ByStr20_Bool*, %Map_ByStr20_Bool** %empty, align 8
   %"$$empty_215_216" = bitcast %Map_ByStr20_Bool* %"$empty_215" to i8*
   %"$put_initialAdmin_217" = alloca [20 x i8], align 1
-  %"$initialAdmin_218" = load [20 x i8], [20 x i8]* @initialAdmin, align 1
+  %"$initialAdmin_218" = load [20 x i8], [20 x i8]* @_cparam_initialAdmin, align 1
   store [20 x i8] %"$initialAdmin_218", [20 x i8]* %"$put_initialAdmin_217", align 1
   %"$$put_initialAdmin_217_219" = bitcast [20 x i8]* %"$put_initialAdmin_217" to i8*
   %"$ud-proxy.true_220" = load %TName_Bool*, %TName_Bool** @ud-proxy.true, align 8
@@ -891,7 +891,7 @@ entry:
   %"$msgobj_td_456" = getelementptr i8, i8* %"$msgobj_444", i32 57
   %"$msgobj_td_457" = bitcast i8* %"$msgobj_td_456" to %_TyDescrTy_Typ**
   store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_40", %_TyDescrTy_Typ** %"$msgobj_td_457", align 8
-  %"$registry_458" = load [20 x i8], [20 x i8]* @registry, align 1
+  %"$registry_458" = load [20 x i8], [20 x i8]* @_cparam_registry, align 1
   %"$msgobj_v_459" = getelementptr i8, i8* %"$msgobj_444", i32 65
   %"$msgobj_v_460" = bitcast i8* %"$msgobj_v_459" to [20 x i8]*
   store [20 x i8] %"$registry_458", [20 x i8]* %"$msgobj_v_460", align 1

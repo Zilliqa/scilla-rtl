@@ -143,7 +143,7 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
                    ScillaTypes::Typ::toString(ExpectedT->second) +
                    " specified in the contract.");
     }
-    void *P = (getAddressFor(VName.asString()));
+    void *P = (getAddressFor("_cparam_" + VName.asString()));
     void *ValP;
     if (ScillaTypes::Typ::isBoxed(T)) {
       // Boxed types are just pointers.

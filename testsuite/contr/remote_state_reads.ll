@@ -288,12 +288,12 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_AddrFields_265" = unnamed_addr constant [0 x %"$TyDescr_AddrFieldTyp_85"] zeroinitializer
 @"$TyDescr_AddrFields_266" = unnamed_addr constant %"$TyDescr_AddrTyp_86" { i32 0, %"$TyDescr_AddrFieldTyp_85"* getelementptr inbounds ([0 x %"$TyDescr_AddrFieldTyp_85"], [0 x %"$TyDescr_AddrFieldTyp_85"]* @"$TyDescr_AddrFields_265", i32 0, i32 0) }
 @"$TyDescr_AddrFields_267" = unnamed_addr constant %"$TyDescr_AddrTyp_86" { i32 -1, %"$TyDescr_AddrFieldTyp_85"* null }
-@_scilla_version = global %Uint32 zeroinitializer
-@_this_address = global [20 x i8] zeroinitializer
-@_creation_block = global i8* null
-@cparam1 = global [20 x i8] zeroinitializer
-@cparam2 = global [20 x i8] zeroinitializer
-@cparam3 = global [20 x i8] zeroinitializer
+@_cparam__scilla_version = global %Uint32 zeroinitializer
+@_cparam__this_address = global [20 x i8] zeroinitializer
+@_cparam__creation_block = global i8* null
+@_cparam_cparam1 = global [20 x i8] zeroinitializer
+@_cparam_cparam2 = global [20 x i8] zeroinitializer
+@_cparam_cparam3 = global [20 x i8] zeroinitializer
 @"$assign_test_1_275" = unnamed_addr constant [14 x i8] c"assign_test_1\00"
 @"$assign_test_2_286" = unnamed_addr constant [14 x i8] c"assign_test_2\00"
 @"$assign_test_3_297" = unnamed_addr constant [14 x i8] c"assign_test_3\00"
@@ -444,7 +444,7 @@ entry:
 "$have_gas_271":                                  ; preds = %"$out_of_gas_270", %entry
   %"$consume_272" = sub i64 %"$gasrem_268", 1
   store i64 %"$consume_272", i64* @_gasrem, align 8
-  %"$cparam3_273" = load [20 x i8], [20 x i8]* @cparam3, align 1
+  %"$cparam3_273" = load [20 x i8], [20 x i8]* @_cparam_cparam3, align 1
   store [20 x i8] %"$cparam3_273", [20 x i8]* %"$assign_test_1_3", align 1
   %"$execptr_load_274" = load i8*, i8** @_execptr, align 8
   %"$$assign_test_1_3_276" = load [20 x i8], [20 x i8]* %"$assign_test_1_3", align 1
@@ -464,7 +464,7 @@ entry:
 "$have_gas_282":                                  ; preds = %"$out_of_gas_281", %"$have_gas_271"
   %"$consume_283" = sub i64 %"$gasrem_279", 1
   store i64 %"$consume_283", i64* @_gasrem, align 8
-  %"$cparam3_284" = load [20 x i8], [20 x i8]* @cparam3, align 1
+  %"$cparam3_284" = load [20 x i8], [20 x i8]* @_cparam_cparam3, align 1
   store [20 x i8] %"$cparam3_284", [20 x i8]* %"$assign_test_2_4", align 1
   %"$execptr_load_285" = load i8*, i8** @_execptr, align 8
   %"$$assign_test_2_4_287" = load [20 x i8], [20 x i8]* %"$assign_test_2_4", align 1
@@ -484,7 +484,7 @@ entry:
 "$have_gas_293":                                  ; preds = %"$out_of_gas_292", %"$have_gas_282"
   %"$consume_294" = sub i64 %"$gasrem_290", 1
   store i64 %"$consume_294", i64* @_gasrem, align 8
-  %"$cparam3_295" = load [20 x i8], [20 x i8]* @cparam3, align 1
+  %"$cparam3_295" = load [20 x i8], [20 x i8]* @_cparam_cparam3, align 1
   store [20 x i8] %"$cparam3_295", [20 x i8]* %"$assign_test_3_5", align 1
   %"$execptr_load_296" = load i8*, i8** @_execptr, align 8
   %"$$assign_test_3_5_298" = load [20 x i8], [20 x i8]* %"$assign_test_3_5", align 1
@@ -504,7 +504,7 @@ entry:
 "$have_gas_304":                                  ; preds = %"$out_of_gas_303", %"$have_gas_293"
   %"$consume_305" = sub i64 %"$gasrem_301", 1
   store i64 %"$consume_305", i64* @_gasrem, align 8
-  %"$cparam3_306" = load [20 x i8], [20 x i8]* @cparam3, align 1
+  %"$cparam3_306" = load [20 x i8], [20 x i8]* @_cparam_cparam3, align 1
   store [20 x i8] %"$cparam3_306", [20 x i8]* %"$assign_test_4_6", align 1
   %"$execptr_load_307" = load i8*, i8** @_execptr, align 8
   %"$$assign_test_4_6_309" = load [20 x i8], [20 x i8]* %"$assign_test_4_6", align 1
@@ -524,7 +524,7 @@ entry:
 "$have_gas_315":                                  ; preds = %"$out_of_gas_314", %"$have_gas_304"
   %"$consume_316" = sub i64 %"$gasrem_312", 1
   store i64 %"$consume_316", i64* @_gasrem, align 8
-  %"$cparam3_317" = load [20 x i8], [20 x i8]* @cparam3, align 1
+  %"$cparam3_317" = load [20 x i8], [20 x i8]* @_cparam_cparam3, align 1
   store [20 x i8] %"$cparam3_317", [20 x i8]* %"$assign_test_5_7", align 1
   %"$execptr_load_318" = load i8*, i8** @_execptr, align 8
   %"$$assign_test_5_7_320" = load [20 x i8], [20 x i8]* %"$assign_test_5_7", align 1
@@ -544,7 +544,7 @@ entry:
 "$have_gas_326":                                  ; preds = %"$out_of_gas_325", %"$have_gas_315"
   %"$consume_327" = sub i64 %"$gasrem_323", 1
   store i64 %"$consume_327", i64* @_gasrem, align 8
-  %"$cparam3_328" = load [20 x i8], [20 x i8]* @cparam3, align 1
+  %"$cparam3_328" = load [20 x i8], [20 x i8]* @_cparam_cparam3, align 1
   store [20 x i8] %"$cparam3_328", [20 x i8]* %"$assign_test_6_8", align 1
   %"$execptr_load_329" = load i8*, i8** @_execptr, align 8
   %"$$assign_test_6_8_331" = load [20 x i8], [20 x i8]* %"$assign_test_6_8", align 1
@@ -564,7 +564,7 @@ entry:
 "$have_gas_337":                                  ; preds = %"$out_of_gas_336", %"$have_gas_326"
   %"$consume_338" = sub i64 %"$gasrem_334", 1
   store i64 %"$consume_338", i64* @_gasrem, align 8
-  %"$cparam3_339" = load [20 x i8], [20 x i8]* @cparam3, align 1
+  %"$cparam3_339" = load [20 x i8], [20 x i8]* @_cparam_cparam3, align 1
   store [20 x i8] %"$cparam3_339", [20 x i8]* %"$assign_test_7_9", align 1
   %"$execptr_load_340" = load i8*, i8** @_execptr, align 8
   %"$$assign_test_7_9_342" = load [20 x i8], [20 x i8]* %"$assign_test_7_9", align 1
@@ -584,7 +584,7 @@ entry:
 "$have_gas_348":                                  ; preds = %"$out_of_gas_347", %"$have_gas_337"
   %"$consume_349" = sub i64 %"$gasrem_345", 1
   store i64 %"$consume_349", i64* @_gasrem, align 8
-  %"$cparam1_350" = load [20 x i8], [20 x i8]* @cparam1, align 1
+  %"$cparam1_350" = load [20 x i8], [20 x i8]* @_cparam_cparam1, align 1
   %"$adtval_351_load" = load i8*, i8** @_execptr, align 8
   %"$adtval_351_salloc" = call i8* @_salloc(i8* %"$adtval_351_load", i64 21)
   %"$adtval_351" = bitcast i8* %"$adtval_351_salloc" to %CName_0x3620c286757a29985cee194eb90064270fb65414.Address1*
@@ -729,7 +729,7 @@ entry:
 "$have_gas_426":                                  ; preds = %"$out_of_gas_425", %"$have_gas_416"
   %"$consume_427" = sub i64 %"$gasrem_423", 1
   store i64 %"$consume_427", i64* @_gasrem, align 8
-  %"$cparam3_428" = load [20 x i8], [20 x i8]* @cparam3, align 1
+  %"$cparam3_428" = load [20 x i8], [20 x i8]* @_cparam_cparam3, align 1
   store [20 x i8] %"$cparam3_428", [20 x i8]* %"$remote_reads_test_res_3_4_17", align 1
   %"$execptr_load_429" = load i8*, i8** @_execptr, align 8
   %"$$remote_reads_test_res_3_4_17_431" = load [20 x i8], [20 x i8]* %"$remote_reads_test_res_3_4_17", align 1
@@ -1864,7 +1864,7 @@ entry:
   %"$msgobj_td_1095" = getelementptr i8, i8* %"$msgobj_1069", i32 141
   %"$msgobj_td_1096" = bitcast i8* %"$msgobj_td_1095" to %_TyDescrTy_Typ**
   store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_60", %_TyDescrTy_Typ** %"$msgobj_td_1096", align 8
-  %"$cparam3_1097" = load [20 x i8], [20 x i8]* @cparam3, align 1
+  %"$cparam3_1097" = load [20 x i8], [20 x i8]* @_cparam_cparam3, align 1
   %"$msgobj_v_1098" = getelementptr i8, i8* %"$msgobj_1069", i32 149
   %"$msgobj_v_1099" = bitcast i8* %"$msgobj_v_1098" to [20 x i8]*
   store [20 x i8] %"$cparam3_1097", [20 x i8]* %"$msgobj_v_1099", align 1
@@ -1995,7 +1995,7 @@ entry:
   %"$msgobj_td_1163" = getelementptr i8, i8* %"$msgobj_1151", i32 57
   %"$msgobj_td_1164" = bitcast i8* %"$msgobj_td_1163" to %_TyDescrTy_Typ**
   store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_60", %_TyDescrTy_Typ** %"$msgobj_td_1164", align 8
-  %"$cparam2_1165" = load [20 x i8], [20 x i8]* @cparam2, align 1
+  %"$cparam2_1165" = load [20 x i8], [20 x i8]* @_cparam_cparam2, align 1
   %"$msgobj_v_1166" = getelementptr i8, i8* %"$msgobj_1151", i32 65
   %"$msgobj_v_1167" = bitcast i8* %"$msgobj_v_1166" to [20 x i8]*
   store [20 x i8] %"$cparam2_1165", [20 x i8]* %"$msgobj_v_1167", align 1
@@ -2059,7 +2059,7 @@ entry:
   %"$msgobj_td_1201" = getelementptr i8, i8* %"$msgobj_1189", i32 57
   %"$msgobj_td_1202" = bitcast i8* %"$msgobj_td_1201" to %_TyDescrTy_Typ**
   store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_60", %_TyDescrTy_Typ** %"$msgobj_td_1202", align 8
-  %"$cparam3_1203" = load [20 x i8], [20 x i8]* @cparam3, align 1
+  %"$cparam3_1203" = load [20 x i8], [20 x i8]* @_cparam_cparam3, align 1
   %"$msgobj_v_1204" = getelementptr i8, i8* %"$msgobj_1189", i32 65
   %"$msgobj_v_1205" = bitcast i8* %"$msgobj_v_1204" to [20 x i8]*
   store [20 x i8] %"$cparam3_1203", [20 x i8]* %"$msgobj_v_1205", align 1
@@ -2147,7 +2147,7 @@ entry:
   %"$msgobj_td_1249" = getelementptr i8, i8* %"$msgobj_1237", i32 57
   %"$msgobj_td_1250" = bitcast i8* %"$msgobj_td_1249" to %_TyDescrTy_Typ**
   store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_60", %_TyDescrTy_Typ** %"$msgobj_td_1250", align 8
-  %"$cparam3_1251" = load [20 x i8], [20 x i8]* @cparam3, align 1
+  %"$cparam3_1251" = load [20 x i8], [20 x i8]* @_cparam_cparam3, align 1
   %"$msgobj_v_1252" = getelementptr i8, i8* %"$msgobj_1237", i32 65
   %"$msgobj_v_1253" = bitcast i8* %"$msgobj_v_1252" to [20 x i8]*
   store [20 x i8] %"$cparam3_1251", [20 x i8]* %"$msgobj_v_1253", align 1
@@ -2213,7 +2213,7 @@ entry:
 "$have_gas_1283":                                 ; preds = %"$out_of_gas_1282", %"$have_gas_1278"
   %"$consume_1284" = sub i64 %"$gasrem_1280", 1
   store i64 %"$consume_1284", i64* @_gasrem, align 8
-  %"$cparam3_1285" = load [20 x i8], [20 x i8]* @cparam3, align 1
+  %"$cparam3_1285" = load [20 x i8], [20 x i8]* @_cparam_cparam3, align 1
   %"$adtval_1286_load" = load i8*, i8** @_execptr, align 8
   %"$adtval_1286_salloc" = call i8* @_salloc(i8* %"$adtval_1286_load", i64 21)
   %"$adtval_1286" = bitcast i8* %"$adtval_1286_salloc" to %CName_0x3620c286757a29985cee194eb90064270fb65414.Address2*

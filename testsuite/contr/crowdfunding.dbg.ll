@@ -148,12 +148,12 @@ target triple = "x86_64-unknown-linux-gnu"
 @crowdfunding.cannot_get_funds = global %Int32 zeroinitializer
 @crowdfunding.cannot_reclaim_code = global %Int32 zeroinitializer
 @crowdfunding.reclaimed_code = global %Int32 zeroinitializer
-@_scilla_version = global %Uint32 zeroinitializer
-@_this_address = global [20 x i8] zeroinitializer
-@_creation_block = global i8* null
-@owner = global [20 x i8] zeroinitializer
-@max_block = global i8* null
-@goal = global %Uint128 zeroinitializer
+@_cparam__scilla_version = global %Uint32 zeroinitializer
+@_cparam__this_address = global [20 x i8] zeroinitializer
+@_cparam__creation_block = global i8* null
+@_cparam_owner = global [20 x i8] zeroinitializer
+@_cparam_max_block = global i8* null
+@_cparam_goal = global %Uint128 zeroinitializer
 @"$backers_532" = unnamed_addr constant [8 x i8] c"backers\00"
 @"$funded_544" = unnamed_addr constant [7 x i8] c"funded\00"
 @"$read_blockchain_555" = unnamed_addr constant [11 x i8] c"BLOCKNUMBER"
@@ -1190,7 +1190,7 @@ entry:
   %"$$crowdfunding.blk_leq_5_574" = load { %TName_Bool* (i8*, i8*)*, i8* }, { %TName_Bool* (i8*, i8*)*, i8* }* %"$crowdfunding.blk_leq_5", align 8
   %"$$crowdfunding.blk_leq_5_fptr_575" = extractvalue { %TName_Bool* (i8*, i8*)*, i8* } %"$$crowdfunding.blk_leq_5_574", 0
   %"$$crowdfunding.blk_leq_5_envptr_576" = extractvalue { %TName_Bool* (i8*, i8*)*, i8* } %"$$crowdfunding.blk_leq_5_574", 1
-  %"$max_block_577" = load i8*, i8** @max_block, align 8
+  %"$max_block_577" = load i8*, i8** @_cparam_max_block, align 8
   %"$$crowdfunding.blk_leq_5_call_578" = call %TName_Bool* %"$$crowdfunding.blk_leq_5_fptr_575"(i8* %"$$crowdfunding.blk_leq_5_envptr_576", i8* %"$max_block_577"), !dbg !77
   store %TName_Bool* %"$$crowdfunding.blk_leq_5_call_578", %TName_Bool** %"$crowdfunding.blk_leq_6", align 8, !dbg !77
   %"$$crowdfunding.blk_leq_6_579" = load %TName_Bool*, %TName_Bool** %"$crowdfunding.blk_leq_6", align 8
@@ -1653,7 +1653,7 @@ entry:
   %is_owner = alloca %TName_Bool*, align 8
   %"$execptr_load_840" = load i8*, i8** @_execptr, align 8
   %"$eq_owner_841" = alloca [20 x i8], align 1
-  %"$owner_842" = load [20 x i8], [20 x i8]* @owner, align 1
+  %"$owner_842" = load [20 x i8], [20 x i8]* @_cparam_owner, align 1
   store [20 x i8] %"$owner_842", [20 x i8]* %"$eq_owner_841", align 1
   %"$$eq_owner_841_843" = bitcast [20 x i8]* %"$eq_owner_841" to i8*
   %"$eq__sender_844" = alloca [20 x i8], align 1
@@ -1817,7 +1817,7 @@ entry:
   %"$$crowdfunding.blk_leq_12_938" = load { %TName_Bool* (i8*, i8*)*, i8* }, { %TName_Bool* (i8*, i8*)*, i8* }* %"$crowdfunding.blk_leq_12", align 8
   %"$$crowdfunding.blk_leq_12_fptr_939" = extractvalue { %TName_Bool* (i8*, i8*)*, i8* } %"$$crowdfunding.blk_leq_12_938", 0
   %"$$crowdfunding.blk_leq_12_envptr_940" = extractvalue { %TName_Bool* (i8*, i8*)*, i8* } %"$$crowdfunding.blk_leq_12_938", 1
-  %"$max_block_941" = load i8*, i8** @max_block, align 8
+  %"$max_block_941" = load i8*, i8** @_cparam_max_block, align 8
   %"$$crowdfunding.blk_leq_12_call_942" = call %TName_Bool* %"$$crowdfunding.blk_leq_12_fptr_939"(i8* %"$$crowdfunding.blk_leq_12_envptr_940", i8* %"$max_block_941"), !dbg !107
   store %TName_Bool* %"$$crowdfunding.blk_leq_12_call_942", %TName_Bool** %"$crowdfunding.blk_leq_13", align 8, !dbg !107
   %"$$crowdfunding.blk_leq_13_943" = load %TName_Bool*, %TName_Bool** %"$crowdfunding.blk_leq_13", align 8
@@ -1891,7 +1891,7 @@ entry:
   %c2 = alloca %TName_Bool*, align 8
   %"$execptr_load_980" = load i8*, i8** @_execptr, align 8
   %"$bal_981" = load %Uint128, %Uint128* %bal, align 8
-  %"$goal_982" = load %Uint128, %Uint128* @goal, align 8
+  %"$goal_982" = load %Uint128, %Uint128* @_cparam_goal, align 8
   %"$lt_call_983" = call %TName_Bool* @_lt_Uint128(i8* %"$execptr_load_980", %Uint128 %"$bal_981", %Uint128 %"$goal_982"), !dbg !110
   store %TName_Bool* %"$lt_call_983", %TName_Bool** %c2, align 8, !dbg !110
   %"$gasrem_985" = load i64, i64* @_gasrem, align 8
@@ -2163,7 +2163,7 @@ entry:
   %"$msgobj_td_1135" = getelementptr i8, i8* %"$msgobj_1123", i32 57
   %"$msgobj_td_1136" = bitcast i8* %"$msgobj_td_1135" to %_TyDescrTy_Typ**
   store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_74", %_TyDescrTy_Typ** %"$msgobj_td_1136", align 8
-  %"$owner_1137" = load [20 x i8], [20 x i8]* @owner, align 1
+  %"$owner_1137" = load [20 x i8], [20 x i8]* @_cparam_owner, align 1
   %"$msgobj_v_1138" = getelementptr i8, i8* %"$msgobj_1123", i32 65
   %"$msgobj_v_1139" = bitcast i8* %"$msgobj_v_1138" to [20 x i8]*
   store [20 x i8] %"$owner_1137", [20 x i8]* %"$msgobj_v_1139", align 1
@@ -2253,7 +2253,7 @@ entry:
   %"$msgobj_td_1187" = getelementptr i8, i8* %"$msgobj_1175", i32 57
   %"$msgobj_td_1188" = bitcast i8* %"$msgobj_td_1187" to %_TyDescrTy_Typ**
   store %_TyDescrTy_Typ* @"$TyDescr_Bystr20_74", %_TyDescrTy_Typ** %"$msgobj_td_1188", align 8
-  %"$owner_1189" = load [20 x i8], [20 x i8]* @owner, align 1
+  %"$owner_1189" = load [20 x i8], [20 x i8]* @_cparam_owner, align 1
   %"$msgobj_v_1190" = getelementptr i8, i8* %"$msgobj_1175", i32 65
   %"$msgobj_v_1191" = bitcast i8* %"$msgobj_v_1190" to [20 x i8]*
   store [20 x i8] %"$owner_1189", [20 x i8]* %"$msgobj_v_1191", align 1
@@ -2377,7 +2377,7 @@ entry:
   store i64 %"$consume_1252", i64* @_gasrem, align 8
   %after_deadline = alloca %TName_Bool*, align 8
   %"$execptr_load_1253" = load i8*, i8** @_execptr, align 8
-  %"$max_block_1254" = load i8*, i8** @max_block, align 8
+  %"$max_block_1254" = load i8*, i8** @_cparam_max_block, align 8
   %"$blk_1255" = load i8*, i8** %blk, align 8
   %"$blt_call_1256" = call %TName_Bool* @_lt_BNum(i8* %"$execptr_load_1253", i8* %"$max_block_1254", i8* %"$blk_1255"), !dbg !130
   store %TName_Bool* %"$blt_call_1256", %TName_Bool** %after_deadline, align 8, !dbg !130
@@ -2568,7 +2568,7 @@ entry:
   %c1 = alloca %TName_Bool*, align 8
   %"$execptr_load_1373" = load i8*, i8** @_execptr, align 8
   %"$bal_1374" = load %Uint128, %Uint128* %bal, align 8
-  %"$goal_1375" = load %Uint128, %Uint128* @goal, align 8
+  %"$goal_1375" = load %Uint128, %Uint128* @_cparam_goal, align 8
   %"$lt_call_1376" = call %TName_Bool* @_lt_Uint128(i8* %"$execptr_load_1373", %Uint128 %"$bal_1374", %Uint128 %"$goal_1375"), !dbg !140
   store %TName_Bool* %"$lt_call_1376", %TName_Bool** %c1, align 8, !dbg !140
   %"$gasrem_1378" = load i64, i64* @_gasrem, align 8
