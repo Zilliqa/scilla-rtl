@@ -23,6 +23,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include <boost/variant.hpp>
+
 #include "ScillaRTL/Utils.h"
 
 namespace ScillaRTL {
@@ -94,7 +96,7 @@ struct CompleteTyp {
 struct IncompleteTyp {
   const Typ *T;
 };
-using ConstructedTyp = std::variant<CompleteTyp, IncompleteTyp>;
+using ConstructedTyp = boost::variant<CompleteTyp, IncompleteTyp>;
 
 // Describes a monomorphic Scilla ADT.
 struct ADTTyp {

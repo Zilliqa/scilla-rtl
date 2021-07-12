@@ -49,16 +49,13 @@ bool Typ::assignable(const Typ *To, ConstructedTyp FromW) {
   const Typ *From;
   bool RhsIsComplete;
   // This function can handle both complete and incomplete types.
-  switch (FromW.index()) {
-  case std::indexof<ConstructedTyp, CompleteTyp>():
-    From = std::get<CompleteTyp>(FromW).T;
+  if (const CompleteTyp *CT = boost::get<CompleteTyp>(&FromW)) {
+    From = CT->T;
     RhsIsComplete = true;
-    break;
-  case std::indexof<ConstructedTyp, IncompleteTyp>():
-    From = std::get<IncompleteTyp>(FromW).T;
+  } else if (const IncompleteTyp *IT = boost::get<IncompleteTyp>(&FromW)) {
+    From = IT->T;
     RhsIsComplete = false;
-    break;
-  default:
+  } else {
     CREATE_ERROR("Unhandled ConstructedTyp");
   }
 
@@ -431,10 +428,9 @@ namespace ScillaTypes {
 const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
                            const std::string &Input) {
   auto Res = constructTyp(TPPC, Ts, NT, Input, std::nullopt);
-  switch (Res.index()) {
-  case std::indexof<ConstructedTyp, CompleteTyp>():
-    return std::get<CompleteTyp>(Res).T;
-  default:
+  if (const CompleteTyp *CT = boost::get<CompleteTyp>(&Res)) {
+    return CT->T;
+  } else {
     CREATE_ERROR("Error parsing " + Input + " to a known type");
   }
 }

@@ -19,7 +19,6 @@
 
 #include <string>
 #include <unordered_map>
-#include <variant>
 
 #include <any>
 #include <boost/filesystem.hpp>
@@ -34,21 +33,6 @@ template <typename T> bool has_type(const boost::any &a) {
 }
 template <typename T> bool has_type(const boost::any *a) {
   return a->type() == typeid(T);
-}
-
-// Given a VariantType and one of its constituent type,
-// return the index of the constituent type.
-// https://stackoverflow.com/a/52303671/2128804
-template <typename VariantType, typename T, std::size_t index = 0>
-constexpr std::size_t indexof() {
-  if constexpr (index == std::variant_size_v<VariantType>) {
-    return index;
-  } else if constexpr (std::is_same_v<
-                           std::variant_alternative_t<index, VariantType>, T>) {
-    return index;
-  } else {
-    return indexof<VariantType, T, index + 1>();
-  }
 }
 
 } // namespace std
