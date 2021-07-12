@@ -66,6 +66,8 @@ void TransitionState::processAccept(void) {
   }
 }
 
+bool TransitionState::HasAccepted(void) const { return Accepted; }
+
 Json::Value TransitionState::finalize(uint64_t GasRem) {
   // 1. Process all outgoing "_amount"s and subtract from Balance.
   Json::Value &Ms = OutJ["messages"];
@@ -236,7 +238,20 @@ void *fetchFieldHelper(ScillaExecImpl *SJ, const std::string &Addr,
     } else {
       auto Val = boost::any_cast<std::string>(StringOrMapVal);
       Json::Value ValJ = parseJSONString(Val);
-      return ScillaValues::fromJSON(SJ->OM, T, ValJ);
+      auto Res = ScillaValues::fromJSON(SJ->OM, T, ValJ);
+      // If the query is for `_sender`'s  `_balance`, and we've accepted
+      // money being sent in, then that must be subtracted and shown.
+      if (std::string(Name) == "_balance" && !Addr.empty() &&
+          Addr == SJ->TS->SenderAddr && SJ->TS->HasAccepted()) {
+        // Assert that the value we're returning is indeed Uint128.
+        ASSERT(T->m_t == ScillaTypes::Typ::Prim_typ &&
+               T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Uint_typ &&
+               T->m_sub.m_primt->m_detail.m_intBW ==
+                   ScillaTypes::PrimTyp::Bits128);
+        auto *SenderBal = reinterpret_cast<SafeUint128 *>(Res);
+        *SenderBal = *SenderBal - SJ->TS->InAmount;
+      }
+      return Res;
     }
   }
 

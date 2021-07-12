@@ -47,7 +47,7 @@ is printed.
 ```
 $build/bin/expr-runner -g 1000 testsuite/expr/lit-pair-list-int.ll
 
-$build/bin/scilla-runner -g 10000 --input-contract testsuite/contr/simple-map.ll --message testsuite/contr/simple-map.message_Increment.json --contract-info testsuite/contr/simple-map.contrinfo.json --state testsuite/contr/simple-map.state_00.json --init testsuite/contr/empty_init.json
+$build/bin/scilla-runner -g 10000 --input-contract testsuite/contr/simple-map.ll --message testsuite/contr/simple-map.message_Increment.json --contract-info testsuite/contr/simple-map.contrinfo.json --state testsuite/contr/simple-map.state_00.json --init testsuite/contr/empty_init.json --blockchain testsuite/contr/blockchain_default.json
 ```
 
 ## Developer Notes

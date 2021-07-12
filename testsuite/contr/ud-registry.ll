@@ -286,11 +286,11 @@ target triple = "x86_64-unknown-linux-gnu"
 @ud-registry.recordMemberOwner = global { void (i8*, [20 x i8]*, %TName_Option_ud-registry.Record*)*, i8* } zeroinitializer
 @ud-registry.parentLabelToNode = global { { void (i8*, [32 x i8]*, %String)*, i8* } (i8*, [32 x i8]*)*, i8* } zeroinitializer
 @ud-registry.getIsOAO = global { { { { %TName_Bool* (i8*, %"TName_Option_List_(ByStr20)"*)*, i8* } (i8*, %TName_Option_ByStr20*)*, i8* } (i8*, [20 x i8]*)*, i8* } (i8*, [20 x i8]*)*, i8* } zeroinitializer
-@_scilla_version = global %Uint32 zeroinitializer
-@_this_address = global [20 x i8] zeroinitializer
-@_creation_block = global i8* null
-@initialOwner = global [20 x i8] zeroinitializer
-@rootNode = global [32 x i8] zeroinitializer
+@_cparam__scilla_version = global %Uint32 zeroinitializer
+@_cparam__this_address = global [20 x i8] zeroinitializer
+@_cparam__creation_block = global i8* null
+@_cparam_initialOwner = global [20 x i8] zeroinitializer
+@_cparam_rootNode = global [32 x i8] zeroinitializer
 @"$records_2638" = unnamed_addr constant [8 x i8] c"records\00"
 @"$registrar_2648" = unnamed_addr constant [10 x i8] c"registrar\00"
 @"$approvals_2661" = unnamed_addr constant [10 x i8] c"approvals\00"
@@ -4864,7 +4864,7 @@ entry:
 "$have_gas_2618":                                 ; preds = %"$out_of_gas_2617", %"$have_gas_2613"
   %"$consume_2619" = sub i64 %"$gasrem_2615", 1
   store i64 %"$consume_2619", i64* @_gasrem, align 8
-  %"$initialOwner_2620" = load [20 x i8], [20 x i8]* @initialOwner, align 1
+  %"$initialOwner_2620" = load [20 x i8], [20 x i8]* @_cparam_initialOwner, align 1
   %"$ud-registry.zeroByStr20_2621" = load [20 x i8], [20 x i8]* @ud-registry.zeroByStr20, align 1
   %"$adtval_2622_load" = load i8*, i8** @_execptr, align 8
   %"$adtval_2622_salloc" = call i8* @_salloc(i8* %"$adtval_2622_load", i64 41)
@@ -4881,7 +4881,7 @@ entry:
   %"$empty_2628" = load %Map_ByStr32_ud-registry.Record*, %Map_ByStr32_ud-registry.Record** %empty, align 8
   %"$$empty_2628_2629" = bitcast %Map_ByStr32_ud-registry.Record* %"$empty_2628" to i8*
   %"$put_rootNode_2630" = alloca [32 x i8], align 1
-  %"$rootNode_2631" = load [32 x i8], [32 x i8]* @rootNode, align 1
+  %"$rootNode_2631" = load [32 x i8], [32 x i8]* @_cparam_rootNode, align 1
   store [32 x i8] %"$rootNode_2631", [32 x i8]* %"$put_rootNode_2630", align 1
   %"$$put_rootNode_2630_2632" = bitcast [32 x i8]* %"$put_rootNode_2630" to i8*
   %"$rootRecord_2633" = load %TName_ud-registry.Record*, %TName_ud-registry.Record** %rootRecord, align 8
@@ -4965,7 +4965,7 @@ entry:
 "$have_gas_2679":                                 ; preds = %"$out_of_gas_2678", %"$have_gas_2667"
   %"$consume_2680" = sub i64 %"$gasrem_2676", 1
   store i64 %"$consume_2680", i64* @_gasrem, align 8
-  %"$initialOwner_2681" = load [20 x i8], [20 x i8]* @initialOwner, align 1
+  %"$initialOwner_2681" = load [20 x i8], [20 x i8]* @_cparam_initialOwner, align 1
   %"$ud-registry.nilByStr20_2682" = load %TName_List_ByStr20*, %TName_List_ByStr20** @ud-registry.nilByStr20, align 8
   %"$adtval_2683_load" = load i8*, i8** @_execptr, align 8
   %"$adtval_2683_salloc" = call i8* @_salloc(i8* %"$adtval_2683_load", i64 29)
@@ -9088,7 +9088,7 @@ entry:
   %"$ud-registry.parentLabelToNode_fptr_4913" = extractvalue { { void (i8*, [32 x i8]*, %String)*, i8* } (i8*, [32 x i8]*)*, i8* } %"$ud-registry.parentLabelToNode_4912", 0
   %"$ud-registry.parentLabelToNode_envptr_4914" = extractvalue { { void (i8*, [32 x i8]*, %String)*, i8* } (i8*, [32 x i8]*)*, i8* } %"$ud-registry.parentLabelToNode_4912", 1
   %"$ud-registry.parentLabelToNode_rootNode_4915" = alloca [32 x i8], align 1
-  %"$rootNode_4916" = load [32 x i8], [32 x i8]* @rootNode, align 1
+  %"$rootNode_4916" = load [32 x i8], [32 x i8]* @_cparam_rootNode, align 1
   store [32 x i8] %"$rootNode_4916", [32 x i8]* %"$ud-registry.parentLabelToNode_rootNode_4915", align 1
   %"$ud-registry.parentLabelToNode_call_4917" = call { void (i8*, [32 x i8]*, %String)*, i8* } %"$ud-registry.parentLabelToNode_fptr_4913"(i8* %"$ud-registry.parentLabelToNode_envptr_4914", [32 x i8]* %"$ud-registry.parentLabelToNode_rootNode_4915")
   store { void (i8*, [32 x i8]*, %String)*, i8* } %"$ud-registry.parentLabelToNode_call_4917", { void (i8*, [32 x i8]*, %String)*, i8* }* %"$ud-registry.parentLabelToNode_132", align 8
@@ -9550,7 +9550,7 @@ entry:
   %"$ud-registry.eNewDomain_fptr_5171" = extractvalue { { i8* (i8*, %String)*, i8* } (i8*, [32 x i8]*)*, i8* } %"$ud-registry.eNewDomain_5170", 0
   %"$ud-registry.eNewDomain_envptr_5172" = extractvalue { { i8* (i8*, %String)*, i8* } (i8*, [32 x i8]*)*, i8* } %"$ud-registry.eNewDomain_5170", 1
   %"$ud-registry.eNewDomain_rootNode_5173" = alloca [32 x i8], align 1
-  %"$rootNode_5174" = load [32 x i8], [32 x i8]* @rootNode, align 1
+  %"$rootNode_5174" = load [32 x i8], [32 x i8]* @_cparam_rootNode, align 1
   store [32 x i8] %"$rootNode_5174", [32 x i8]* %"$ud-registry.eNewDomain_rootNode_5173", align 1
   %"$ud-registry.eNewDomain_call_5175" = call { i8* (i8*, %String)*, i8* } %"$ud-registry.eNewDomain_fptr_5171"(i8* %"$ud-registry.eNewDomain_envptr_5172", [32 x i8]* %"$ud-registry.eNewDomain_rootNode_5173")
   store { i8* (i8*, %String)*, i8* } %"$ud-registry.eNewDomain_call_5175", { i8* (i8*, %String)*, i8* }* %"$ud-registry.eNewDomain_118", align 8

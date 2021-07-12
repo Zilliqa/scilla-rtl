@@ -104,10 +104,10 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_AddrField_85" = unnamed_addr constant [5 x i8] c"admin"
 @"$TyDescr_AddrFields_86" = unnamed_addr constant [1 x %"$TyDescr_AddrFieldTyp_42"] [%"$TyDescr_AddrFieldTyp_42" { %TyDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$TyDescr_AddrField_85", i32 0, i32 0), i32 5 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_34" }]
 @"$TyDescr_AddrFields_87" = unnamed_addr constant %"$TyDescr_AddrTyp_43" { i32 1, %"$TyDescr_AddrFieldTyp_42"* getelementptr inbounds ([1 x %"$TyDescr_AddrFieldTyp_42"], [1 x %"$TyDescr_AddrFieldTyp_42"]* @"$TyDescr_AddrFields_86", i32 0, i32 0) }
-@_scilla_version = global %Uint32 zeroinitializer
-@_this_address = global [20 x i8] zeroinitializer
-@_creation_block = global i8* null
-@cparam = global [20 x i8] zeroinitializer
+@_cparam__scilla_version = global %Uint32 zeroinitializer
+@_cparam__this_address = global [20 x i8] zeroinitializer
+@_cparam__creation_block = global i8* null
+@_cparam_cparam = global [20 x i8] zeroinitializer
 @"$remote_read_remote_read_res_1_94" = unnamed_addr constant [30 x i8] c"remote_read_remote_read_res_1\00"
 @"$remote_read_remote_read_res_2_107" = unnamed_addr constant [30 x i8] c"remote_read_remote_read_res_2\00"
 @"$remote_read_remote_read_res_3_117" = unnamed_addr constant [30 x i8] c"remote_read_remote_read_res_3\00"
@@ -224,7 +224,7 @@ entry:
 "$have_gas_113":                                  ; preds = %"$out_of_gas_112", %"$have_gas_101"
   %"$consume_114" = sub i64 %"$gasrem_110", 1
   store i64 %"$consume_114", i64* @_gasrem, align 8
-  %"$_this_address_115" = load [20 x i8], [20 x i8]* @_this_address, align 1
+  %"$_this_address_115" = load [20 x i8], [20 x i8]* @_cparam__this_address, align 1
   store [20 x i8] %"$_this_address_115", [20 x i8]* %"$remote_read_remote_read_res_3_2", align 1
   %"$execptr_load_116" = load i8*, i8** @_execptr, align 8
   %"$$remote_read_remote_read_res_3_2_118" = load [20 x i8], [20 x i8]* %"$remote_read_remote_read_res_3_2", align 1
@@ -544,7 +544,7 @@ entry:
   %ad = alloca [20 x i8], align 1
   %"$execptr_load_301" = load i8*, i8** @_execptr, align 8
   %"$ad_cparam_302" = alloca [20 x i8], align 1
-  %"$cparam_303" = load [20 x i8], [20 x i8]* @cparam, align 1
+  %"$cparam_303" = load [20 x i8], [20 x i8]* @_cparam_cparam, align 1
   store [20 x i8] %"$cparam_303", [20 x i8]* %"$ad_cparam_302", align 1
   %"$ad_call_304" = call i8* @_fetch_remote_field(i8* %"$execptr_load_301", [20 x i8]* %"$ad_cparam_302", i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$admin_300", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Bystr20_34", i32 0, i8* null, i32 1)
   %"$ad_305" = bitcast i8* %"$ad_call_304" to [20 x i8]*
@@ -634,7 +634,7 @@ entry:
   store i64 %"$consume_350", i64* @_gasrem, align 8
   store %Uint128 zeroinitializer, %Uint128* %zero, align 8
   %"$_literal_cost_cparam_351" = alloca [20 x i8], align 1
-  %"$cparam_352" = load [20 x i8], [20 x i8]* @cparam, align 1
+  %"$cparam_352" = load [20 x i8], [20 x i8]* @_cparam_cparam, align 1
   store [20 x i8] %"$cparam_352", [20 x i8]* %"$_literal_cost_cparam_351", align 1
   %"$$_literal_cost_cparam_351_353" = bitcast [20 x i8]* %"$_literal_cost_cparam_351" to i8*
   %"$_literal_cost_call_354" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Addr_51", i8* %"$$_literal_cost_cparam_351_353")
@@ -659,7 +659,7 @@ entry:
   %indices_cast = bitcast i8* %"$indices_gep_363" to %Uint128*
   store %Uint128 %"$zero_362", %Uint128* %indices_cast, align 8
   %"$execptr_load_364" = load i8*, i8** @_execptr, align 8
-  %"$cparam_366" = load [20 x i8], [20 x i8]* @cparam, align 1
+  %"$cparam_366" = load [20 x i8], [20 x i8]* @_cparam_cparam, align 1
   %"$update_value_367" = alloca [20 x i8], align 1
   store [20 x i8] %"$cparam_366", [20 x i8]* %"$update_value_367", align 1
   %"$update_value_368" = bitcast [20 x i8]* %"$update_value_367" to i8*
@@ -751,7 +751,7 @@ entry:
   store %Uint128 %"$zero_414", %Uint128* %"$put_zero_413", align 8
   %"$$put_zero_413_415" = bitcast %Uint128* %"$put_zero_413" to i8*
   %"$put_cparam_416" = alloca [20 x i8], align 1
-  %"$cparam_417" = load [20 x i8], [20 x i8]* @cparam, align 1
+  %"$cparam_417" = load [20 x i8], [20 x i8]* @_cparam_cparam, align 1
   store [20 x i8] %"$cparam_417", [20 x i8]* %"$put_cparam_416", align 1
   %"$$put_cparam_416_418" = bitcast [20 x i8]* %"$put_cparam_416" to i8*
   %"$put_call_419" = call i8* @_put(i8* %"$execptr_load_410", %_TyDescrTy_Typ* @"$TyDescr_Map_41", i8* %"$$emp_map_411_412", i8* %"$$put_zero_413_415", i8* %"$$put_cparam_416_418")

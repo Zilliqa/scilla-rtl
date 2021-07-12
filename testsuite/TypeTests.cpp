@@ -20,6 +20,7 @@
 #include <boost/test/unit_test.hpp>
 #include <optional>
 
+#include "../libScillaRTL/ObjManager.h"
 #include "../libScillaRTL/ScillaTypes.h"
 #include "TypeDescrs.h"
 #include <ScillaRTL/Errors.h>
@@ -76,14 +77,26 @@ BOOST_AUTO_TEST_CASE(tydescrs_print) {
       "foo1 : Map (Int64) (Pair (Int32) (List (Int64))) end");
 }
 
-const Typ *parseTypeString(const std::string TS) {
+std::optional<const Typ *> parseTypeString(const std::string &TS) {
   using namespace TypeDescrs;
   try {
     return Typ::fromString(&TPPC, AllTyDescrs, NTyDescrs, TS);
   } catch (const ScillaRTL::ScillaError &E) {
     BOOST_ERROR(E.toString());
   }
-  BOOST_UNREACHABLE_RETURN();
+  return std::nullopt;
+}
+
+std::optional<ConstructedTyp> constructTypFromString(ScillaRTL::ObjManager &OM,
+                                                     const std::string &TS) {
+  using namespace TypeDescrs;
+  ScillaRTL::ScillaTypes::ConstructedTyp Res;
+  try {
+    return Typ::constructTyp(&TPPC, AllTyDescrs, NTyDescrs, TS, &OM);
+  } catch (const ScillaRTL::ScillaError &E) {
+    BOOST_ERROR(E.toString());
+  }
+  return std::nullopt;
 }
 
 void testMapDepthOfTypeString(const std::string TypeStr, int ExpectedDepth) {
@@ -100,11 +113,11 @@ void testMapDepthOfTypeString(const std::string TypeStr, int ExpectedDepth) {
 
 void parserTestSuccess(const std::string &Input, const std::string &ExpectedO) {
   try {
-    const Typ *T = parseTypeString(Input);
-    BOOST_CHECK_MESSAGE(Typ::toString(T) == ExpectedO,
+    std::optional<const Typ *> T = parseTypeString(Input);
+    BOOST_CHECK_MESSAGE(T && Typ::toString(*T) == ExpectedO,
                         "Failed matching " << ExpectedO << " vs "
-                                           << Typ::toString(T));
-    auto DepthFromType = Typ::getMapDepth(T);
+                                           << Typ::toString(*T));
+    auto DepthFromType = Typ::getMapDepth(*T);
     testMapDepthOfTypeString(Input, DepthFromType);
   } catch (const ScillaRTL::ScillaError &E) {
     BOOST_ERROR(E.toString());
@@ -122,6 +135,20 @@ void parserTestFail(const std::string &Input) {
   }
   BOOST_CHECK_MESSAGE(CaughtError,
                       "Type parser should have failed, but did not.");
+}
+
+void constructTypFail(const std::string &Input) {
+  using namespace TypeDescrs;
+  bool CaughtError = false;
+  ScillaRTL::ObjManager OM;
+  try {
+    Typ::constructTyp(&TPPC, AllTyDescrs, NTyDescrs, Input, &OM);
+  } catch (const ScillaRTL::ScillaError &E) {
+    CaughtError = true;
+    BOOST_TEST_MESSAGE("\tCaught expected exception: " << E.toString());
+  }
+  BOOST_CHECK_MESSAGE(CaughtError,
+                      "Type parser should have failed, but did not: " + Input);
 }
 
 BOOST_AUTO_TEST_CASE(parse_prims) {
@@ -313,19 +340,21 @@ BOOST_AUTO_TEST_CASE(equivalent_types) {
 
   const size_t NEqEntries = sizeof(EqTypes) / (sizeof(std::string) * 2);
   for (size_t I = 0; I < NEqEntries; I++) {
-    BOOST_CHECK_MESSAGE(Typ::equal(parseTypeString(EqTypes[I][0]),
-                                   parseTypeString(EqTypes[I][1])),
-                        I);
+    auto Lhs = parseTypeString(EqTypes[I][0]);
+    auto Rhs = parseTypeString(EqTypes[I][1]);
+    BOOST_CHECK_MESSAGE(Lhs && Rhs && Typ::equal(*Lhs, *Rhs), I);
   }
   for (size_t I = 0; I < NEqEntries; I++) {
-    BOOST_CHECK_MESSAGE(Typ::assignable(parseTypeString(EqTypes[I][0]),
-                                        parseTypeString(EqTypes[I][1])),
-                        I);
+    auto Lhs = parseTypeString(EqTypes[I][0]);
+    auto Rhs = parseTypeString(EqTypes[I][1]);
+    BOOST_CHECK_MESSAGE(
+        Lhs && Rhs && Typ::assignable(*Lhs, CompleteTyp({*Rhs})), I);
   }
   for (size_t I = 0; I < NEqEntries; I++) {
-    BOOST_CHECK_MESSAGE(Typ::assignable(parseTypeString(EqTypes[I][1]),
-                                        parseTypeString(EqTypes[I][0])),
-                        I);
+    auto Lhs = parseTypeString(EqTypes[I][1]);
+    auto Rhs = parseTypeString(EqTypes[I][0]);
+    BOOST_CHECK_MESSAGE(
+        Lhs && Rhs && Typ::assignable(*Lhs, CompleteTyp({*Rhs})), I);
   }
 }
 
@@ -365,19 +394,21 @@ BOOST_AUTO_TEST_CASE(assignable_but_not_equivalent_types) {
 
   const size_t NAssEntries = sizeof(AssTypes) / (sizeof(std::string) * 2);
   for (size_t I = 0; I < NAssEntries; I++) {
-    BOOST_CHECK_MESSAGE(Typ::assignable(parseTypeString(AssTypes[I][0]),
-                                        parseTypeString(AssTypes[I][1])),
-                        I);
+    auto Lhs = parseTypeString(AssTypes[I][0]);
+    auto Rhs = parseTypeString(AssTypes[I][1]);
+    BOOST_CHECK_MESSAGE(
+        Lhs && Rhs && Typ::assignable(*Lhs, CompleteTyp({*Rhs})), I);
   }
   for (size_t I = 0; I < NAssEntries; I++) {
-    BOOST_CHECK_MESSAGE(!Typ::assignable(parseTypeString(AssTypes[I][1]),
-                                         parseTypeString(AssTypes[I][0])),
-                        I);
+    auto Lhs = parseTypeString(AssTypes[I][1]);
+    auto Rhs = parseTypeString(AssTypes[I][0]);
+    BOOST_CHECK_MESSAGE(
+        Lhs && Rhs && !Typ::assignable(*Lhs, CompleteTyp({*Rhs})), I);
   }
   for (size_t I = 0; I < NAssEntries; I++) {
-    BOOST_CHECK_MESSAGE(!Typ::equal(parseTypeString(AssTypes[I][0]),
-                                    parseTypeString(AssTypes[I][1])),
-                        I);
+    auto Lhs = parseTypeString(AssTypes[I][0]);
+    auto Rhs = parseTypeString(AssTypes[I][1]);
+    BOOST_CHECK_MESSAGE(Lhs && Rhs && !Typ::equal(*Lhs, *Rhs), I);
   }
 }
 
@@ -415,19 +446,21 @@ BOOST_AUTO_TEST_CASE(not_assignable_in_either_direction_types) {
 
   const size_t NNAssEntries = sizeof(NAssTypes) / (sizeof(std::string) * 2);
   for (size_t I = 0; I < NNAssEntries; I++) {
-    BOOST_CHECK_MESSAGE(!Typ::assignable(parseTypeString(NAssTypes[I][0]),
-                                         parseTypeString(NAssTypes[I][1])),
-                        I);
+    auto Lhs = parseTypeString(NAssTypes[I][0]);
+    auto Rhs = parseTypeString(NAssTypes[I][1]);
+    BOOST_CHECK_MESSAGE(
+        Lhs && Rhs && !Typ::assignable(*Lhs, CompleteTyp({*Rhs})), I);
   }
   for (size_t I = 0; I < NNAssEntries; I++) {
-    BOOST_CHECK_MESSAGE(!Typ::assignable(parseTypeString(NAssTypes[I][1]),
-                                         parseTypeString(NAssTypes[I][0])),
-                        I);
+    auto Lhs = parseTypeString(NAssTypes[I][1]);
+    auto Rhs = parseTypeString(NAssTypes[I][0]);
+    BOOST_CHECK_MESSAGE(
+        Lhs && Rhs && !Typ::assignable(*Lhs, CompleteTyp({*Rhs})), I);
   }
   for (size_t I = 0; I < NNAssEntries; I++) {
-    BOOST_CHECK_MESSAGE(!Typ::equal(parseTypeString(NAssTypes[I][0]),
-                                    parseTypeString(NAssTypes[I][1])),
-                        I);
+    auto Lhs = parseTypeString(NAssTypes[I][0]);
+    auto Rhs = parseTypeString(NAssTypes[I][1]);
+    BOOST_CHECK_MESSAGE(Lhs && Rhs && !Typ::equal(*Lhs, *Rhs), I);
   }
 }
 
@@ -454,6 +487,114 @@ BOOST_AUTO_TEST_CASE(map_depth_from_type_str_tests_fail) {
   BOOST_CHECK(!ScillaRTL::mapDepthOfTypeString("Map (Map) Map"));
   BOOST_CHECK(!ScillaRTL::mapDepthOfTypeString("Map Uint32 Map"));
   BOOST_CHECK(!ScillaRTL::mapDepthOfTypeString("Map Uint32 (List Map)"));
+}
+
+BOOST_AUTO_TEST_CASE(constructed_typs_fail) {
+  constructTypFail("end");
+  constructTypFail("ByStr20 with");
+  constructTypFail("ByStr30 with end");
+  constructTypFail("ByStr20 with contract field f1 : nt256 end");
+  constructTypFail("List");
+  constructTypFail("(List)");
+  constructTypFail("List Map");
+  constructTypFail("List (Map)");
+  constructTypFail("Map");
+  constructTypFail("Map List List");
+  constructTypFail("Map List");
+  constructTypFail("Map List MyAdtNew");
+  constructTypFail("Map (List) MyAdtNew");
+  constructTypFail("Map (List MyAdt)");
+  constructTypFail("Map (List MyAdt) Map");
+  constructTypFail("(Map)");
+  constructTypFail("ByStr20 with contract field x : Uint32, xxx : Int32 end");
+}
+
+BOOST_AUTO_TEST_CASE(constructed_typs_succ) {
+  ScillaRTL::ObjManager OM;
+  constructTypFromString(OM, "List (List ByStr20)");
+  constructTypFromString(OM, "Map1 ByStr20 ByStr30");
+  constructTypFromString(OM, "ByStr20 with contract field f1 : Int256 end");
+  constructTypFromString(OM, "ByStr40");
+  constructTypFromString(OM, "MyADTNew");
+  constructTypFromString(OM, "Map (List MyAdt) Int32");
+  constructTypFromString(OM, "ByStr20 with contract field f1 : MyADTNew end");
+}
+
+BOOST_AUTO_TEST_CASE(constructed_typs_assign) {
+  std::string NAssTypes[][2] = {
+      {"ByStr20", "ByStr20"},
+      {"ByStr20", "ByStr20 with contract field f1 : List (List ByStr20) end"},
+      {"ByStr20 with contract end",
+       "ByStr20 with contract field f1 : ByStr30 end"},
+      {"ByStr20 with contract field x : Uint32 end",
+       "ByStr20 with contract field x : Uint32, field xxx : Int32 end"},
+      {"ByStr20 with contract field x : Uint32 end",
+       "ByStr20 with contract field x : Uint32, field xxx : MyADTNew end"},
+      {"ByStr20 with contract field x : Uint32 end",
+       "ByStr20 with contract field x : Uint32, field y : ByStr20 with "
+       "contract "
+       "field y1 : Option MyADTNew, field y2 : ByStr20 end end"},
+      {"Map (ByStr20 with contract end) (ByStr20 with contract field x : "
+       "Uint32 end)",
+       "Map (ByStr20 with contract field xx : Int32 end) (ByStr20 with "
+       "contract field x : Uint32 end)"},
+  };
+  const size_t NNAssEntries = sizeof(NAssTypes) / (sizeof(std::string) * 2);
+  for (size_t I = 0; I < NNAssEntries; I++) {
+    ScillaRTL::ObjManager OM;
+    auto Lhs = parseTypeString(NAssTypes[I][0]);
+    auto Rhs = constructTypFromString(OM, NAssTypes[I][1]);
+    BOOST_CHECK_MESSAGE(Lhs && Rhs && Typ::assignable(*Lhs, *Rhs), I);
+  }
+}
+
+BOOST_AUTO_TEST_CASE(constructed_typs_noassign) {
+  std::string NAssTypes[][2] = {
+      {"ByStr20", "ByStr42"},
+      {"Map ByStr20 (ByStr20 with contract field x : Uint32 end)",
+       "Map (ByStr20 with contract field x : Uint32, field y : ByStr20 with "
+       "end end) ByStr20"},
+      {"Map ByStr20 (ByStr20 with contract field x : Uint32 end)",
+       "Map ByStr20 ByStr20"},
+      {"Map Int64 (Pair Int32 (List Int64))",
+       "Map1 Int64 (Pair Int32 (List Int64))"},
+  };
+
+  const size_t NNAssEntries = sizeof(NAssTypes) / (sizeof(std::string) * 2);
+  for (size_t I = 0; I < NNAssEntries; I++) {
+    ScillaRTL::ObjManager OM;
+    auto Lhs = parseTypeString(NAssTypes[I][0]);
+    auto Rhs = constructTypFromString(OM, NAssTypes[I][1]);
+    BOOST_CHECK_MESSAGE(Lhs && Rhs && !Typ::assignable(*Lhs, *Rhs), I);
+  }
+}
+
+BOOST_AUTO_TEST_CASE(no_contains_addr_test) {
+  std::vector<std::string> Ts = {
+      "ByStr20",
+      "Int32",
+      "Map ByStr20 Int64",
+      "Option ByStr20",
+  };
+  for (const auto &S : Ts) {
+    auto T = parseTypeString(S);
+    BOOST_CHECK(T && !ScillaRTL::ScillaTypes::Typ::containsAddress(*T));
+  }
+}
+
+BOOST_AUTO_TEST_CASE(contains_addr_test) {
+  std::vector<std::string> Ts = {
+      "ByStr20 with end",
+      "ByStr20 with contract end",
+      "ByStr20 with contract field foo0 : Int32 end",
+      "Option (ByStr20 with end)",
+      "Map (ByStr20 with contract field x : Uint32, field y : ByStr20 with end "
+      "end) (ByStr20)",
+  };
+  for (const auto &S : Ts) {
+    auto T = parseTypeString(S);
+    BOOST_CHECK(T && ScillaRTL::ScillaTypes::Typ::containsAddress(*T));
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END()

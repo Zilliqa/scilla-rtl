@@ -108,7 +108,7 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
                  " contract parameters, but got " + std::to_string(CP.size()));
   }
   // Let's put the expected contract parameters into a map for fast access.
-  std::unordered_map<std::string, ScillaTypes::Typ *> ParamMap;
+  std::unordered_map<std::string, const ScillaTypes::Typ *> ParamMap;
   std::for_each_n(CParams, NCParams,
                   [&ParamMap](const ScillaTypes::ParamDescr &PD) {
                     ParamMap[std::string(PD.m_PName)] = PD.m_PTy;
@@ -125,10 +125,6 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
       CREATE_ERROR(ErrMsg);
     }
 
-    // TODO: The compiler doesn't yet support BNum types.
-    if (VName.asString() == "_creation_block")
-      continue;
-
     auto ExpectedT = ParamMap.find(VName.asString());
     if (ExpectedT == ParamMap.end()) {
       CREATE_ERROR("Unknown contract parameter in JSON " + VName.asString());
@@ -143,7 +139,7 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
                    ScillaTypes::Typ::toString(ExpectedT->second) +
                    " specified in the contract.");
     }
-    void *P = (getAddressFor(VName.asString()));
+    void *P = (getAddressFor("_cparam_" + VName.asString()));
     void *ValP;
     if (ScillaTypes::Typ::isBoxed(T)) {
       // Boxed types are just pointers.
@@ -155,9 +151,14 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
       ScillaValues::fromJSONToMem(OM, ValP, ScillaTypes::Typ::sizeOf(T), T,
                                   Value);
     }
+    if (ScillaTypes::Typ::containsAddress(T)) {
+      CREATE_ERROR("JSON inputs cannot contain address types: " +
+                   ScillaTypes::Typ::toString(T));
+    }
     if (DoDynamicTypechecks &&
         !dynamicTypecheck(this, ExpectedT->second, T, ValP)) {
-      CREATE_ERROR("Dynamic typecheck failed: " + VName.asString());
+      CREATE_ERROR("Dynamic typecheck failed: " + VName.asString() + " : " +
+                   ScillaValues::toString(true, ExpectedT->second, ValP));
     }
   }
 }
@@ -183,7 +184,7 @@ Json::Value ScillaExecImpl::deploy(const Json::Value &InitJ, uint64_t GasLimit,
   auto GasRemPtr = initGasAndLibs(GasLimit);
 
   // Let's setup the TransitionState for this transition.
-  TS = std::make_unique<TransitionState>("0", "0", CurBlock);
+  TS = std::make_unique<TransitionState>("0", "0", CurBlock, "");
   auto fIS = reinterpret_cast<void (*)(void)>(getAddressFor("_init_state"));
   fIS();
 
@@ -235,7 +236,8 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
   auto GasRemPtr = initGasAndLibs(GasLimit);
 
   // Let's setup the TransitionState for this transition.
-  TS = std::make_unique<TransitionState>(Balance, AmountJ.asString(), CurBlock);
+  TS = std::make_unique<TransitionState>(Balance, AmountJ.asString(), CurBlock,
+                                         SenderJ.asString());
 
   // Amount and Sender need to be prepended to the parameter list.
   Json::Value AmountParam;
@@ -281,7 +283,7 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
   if (ThisTParams == TParams + TCParams) {
     CREATE_ERROR("Unknown transition " + TransName);
   }
-  ScillaTypes::ParamDescr *PD = ThisTParams->m_Params;
+  const ScillaTypes::ParamDescr *PD = ThisTParams->m_Params;
   uint32_t NPD = ThisTParams->m_NParams;
   if (NPD != AllParamsJ.size()) {
     CREATE_ERROR("Incorrect number of parameters to transition " + TransName);
@@ -331,10 +333,15 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
     if (ExpectedT == TParamsMap.end()) {
       CREATE_ERROR("Unknown transition parameter " + ParamNames[I]);
     }
+    if (ScillaTypes::Typ::containsAddress(T)) {
+      CREATE_ERROR("JSON inputs cannot contain address types: " +
+                   ScillaTypes::Typ::toString(T));
+    }
     // _sender and _origin are trusted addresses. Otherwise, we must verify.
     if (ParamNames[I] != "_sender" && ParamNames[I] != "_origin" &&
         !dynamicTypecheck(this, ExpectedT->second, T, ValP)) {
-      CREATE_ERROR("Dyanamic typecheck failed: " + ParamNames[I]);
+      CREATE_ERROR("Dynamic typecheck failed: " + ParamNames[I] + " : " +
+                   ScillaValues::toString(true, ExpectedT->second, ValP));
     }
 
     Off += Size;

@@ -42,9 +42,9 @@ void unquoteString(std::string &Input) {
 
 namespace ScillaRTL {
 
-std::optional<const ScillaTypes::Typ *>
-remoteFieldType(const ScillaExecImpl *SJ, const std::string &Addr,
-                const std::string &FName) {
+std::optional<std::string> remoteFieldType(const ScillaExecImpl *SJ,
+                                           const std::string &Addr,
+                                           const std::string &FName) {
 
   ScillaParams::StateQuery Q = {FName, 0, {}, true};
   boost::any IgnoreVal;
@@ -54,8 +54,7 @@ remoteFieldType(const ScillaExecImpl *SJ, const std::string &Addr,
     CREATE_ERROR("Error querying " + Addr + " for " + FName);
   }
 
-  return (Found ? std::make_optional(SJ->parseTypeString(TypeS))
-                : std::nullopt);
+  return (Found ? std::make_optional(TypeS) : std::nullopt);
 }
 
 bool isContrAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
@@ -126,7 +125,7 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
           return Res;
         }
         case Typ::Map_typ: {
-          ScillaTypes::MapTyp *MT = ExpectedT->m_sub.m_mapt;
+          const ScillaTypes::MapTyp *MT = ExpectedT->m_sub.m_mapt;
           auto M = reinterpret_cast<const ScillaParams::MapValueT *>(Val);
           ObjManager OM;
           return std::all_of(
@@ -157,7 +156,7 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
           std::string Addr =
               ScillaValues::rawToHex(reinterpret_cast<const uint8_t *>(Val),
                                      ScillaTypes::AddrByStr_Len);
-          AddressTyp *AT = ExpectedT->m_sub.m_addrt;
+          const AddressTyp *AT = ExpectedT->m_sub.m_addrt;
           if (AT->m_numFields < 0) {
             return isUserAddr(SJ, Addr) || isContrAddr(SJ, Addr);
           } else {
@@ -168,8 +167,16 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
             return std::all_of(
                 AT->m_fields, AT->m_fields + AT->m_numFields,
                 [SJ, &Addr](const ScillaTypes::AddressTyp::Field &F) {
-                  auto RT = remoteFieldType(SJ, Addr, std::string(F.m_Name));
-                  return RT && ScillaTypes::Typ::assignable(F.m_FTyp, *RT);
+                  auto RTS = remoteFieldType(SJ, Addr, std::string(F.m_Name));
+                  if (!RTS)
+                    return false;
+                  // Parse RTS into a (possibly incomplete) type.
+                  auto TyDescrs = SJ->getTypeDescrTable();
+                  ObjManager OM;
+                  auto RT = ScillaTypes::Typ::constructTyp(
+                      SJ->TPPC.get(), TyDescrs.first, TyDescrs.second, *RTS,
+                      &OM);
+                  return ScillaTypes::Typ::assignable(F.m_FTyp, RT);
                 });
           }
         }

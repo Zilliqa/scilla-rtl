@@ -16,8 +16,10 @@
  */
 
 #include <algorithm>
+#include <cstring>
 #include <functional>
 
+#include "ObjManager.h"
 #include "SRTL.h"
 #include "ScillaRTL/Errors.h"
 #include "ScillaTypes.h"
@@ -30,37 +32,69 @@ String::operator std::string() const {
   return std::string(m_buffer, m_buffer + m_length);
 }
 
+String String::fromStdString(ObjManager &OM, const std::string &S) {
+  auto *Buf = reinterpret_cast<uint8_t *>(OM.allocBytes(S.size()));
+  std::memcpy(Buf, S.data(), S.size());
+  return {Buf, static_cast<int32_t>(S.size())};
+}
+
 bool Typ::equal(const Typ *LHS, const Typ *RHS) {
   // Currently only one Typ instance of each type exists.
   // So a pointer equality is sufficient.
   return static_cast<const void *>(LHS) == static_cast<const void *>(RHS);
 }
 
-bool Typ::assignable(const Typ *To, const Typ *From) {
+bool Typ::assignable(const Typ *To, ConstructedTyp FromW) {
+
+  const Typ *From;
+  bool RhsIsComplete;
+  // This function can handle both complete and incomplete types.
+  switch (FromW.index()) {
+  case std::indexof<ConstructedTyp, CompleteTyp>():
+    From = std::get<CompleteTyp>(FromW).T;
+    RhsIsComplete = true;
+    break;
+  case std::indexof<ConstructedTyp, IncompleteTyp>():
+    From = std::get<IncompleteTyp>(FromW).T;
+    RhsIsComplete = false;
+    break;
+  default:
+    CREATE_ERROR("Unhandled ConstructedTyp");
+  }
+
+  auto CWrapper = [&RhsIsComplete](const Typ *T) -> ConstructedTyp {
+    if (RhsIsComplete) {
+      return CompleteTyp({T});
+    } else {
+      return IncompleteTyp({T});
+    };
+  };
 
   // A lambda to check assignability of two address types.
   // Every field F_Sub in "Subset" must exist as F_Sup in "Superset"
   //   AND
   // assignable(F_Sub, F_Sup).
   // (Subset->m_numFields < 0), i.e., Subset is (Address None) will return true.
-  auto checkAddressSubset = [](AddressTyp *Subset,
-                               AddressTyp *Superset) -> bool {
+  auto checkAddressSubset = [&CWrapper](const AddressTyp *Subset,
+                                        const AddressTyp *Superset) -> bool {
     if (Subset->m_numFields > Superset->m_numFields) {
       return false;
     }
-    AddressTyp::Field *SearchFromItr = Superset->m_fields;
-    AddressTyp::Field *SearchFromItrEnd = SearchFromItr + Superset->m_numFields;
+    const AddressTyp::Field *SearchFromItr = Superset->m_fields;
+    const AddressTyp::Field *SearchFromItrEnd =
+        SearchFromItr + Superset->m_numFields;
     // The search below is linear and relies on a strict ordering based on
     // the field names (i.e., the fields in AddressTyp must be sorted).
     for (int I = 0; I < Subset->m_numFields; I++) {
-      AddressTyp::Field &F_Sub = Subset->m_fields[I];
+      const AddressTyp::Field &F_Sub = Subset->m_fields[I];
       // This field must exist in "Superset".
       auto Itr = std::find_if(SearchFromItr, SearchFromItrEnd,
                               [&F_Sub](const AddressTyp::Field &F_Sup) {
                                 return std::string(F_Sup.m_Name) ==
                                        std::string(F_Sub.m_Name);
                               });
-      if (Itr == SearchFromItrEnd || !assignable(F_Sub.m_FTyp, Itr->m_FTyp)) {
+      if (Itr == SearchFromItrEnd ||
+          !assignable(F_Sub.m_FTyp, CWrapper(Itr->m_FTyp))) {
         // Either we don't have that field in Superset, or it isn't assignable
         // to the one we have in Subset. Both qualify for non-assignability.
         return false;
@@ -74,12 +108,12 @@ bool Typ::assignable(const Typ *To, const Typ *From) {
   switch (From->m_t) {
   case Address_typ: {
     // "From" is an Address.
-    AddressTyp *From_AT = From->m_sub.m_addrt;
+    const AddressTyp *From_AT = From->m_sub.m_addrt;
     if (To->m_t == Address_typ) {
       // Check assignable(To, From).
       return checkAddressSubset(To->m_sub.m_addrt, From_AT);
     } else if (To->m_t == Prim_typ) {
-      PrimTyp *T_PT = To->m_sub.m_primt;
+      const PrimTyp *T_PT = To->m_sub.m_primt;
       if (T_PT->m_pt == PrimTyp::Bystrx_typ &&
           T_PT->m_detail.m_bystX == Zilliqa_Address_Len) {
         // Any address is assignable to ByStr20.
@@ -91,16 +125,16 @@ bool Typ::assignable(const Typ *To, const Typ *From) {
   case Map_typ: {
     if (To->m_t != Map_typ)
       return false;
-    MapTyp *To_MT = To->m_sub.m_mapt;
-    MapTyp *From_MT = From->m_sub.m_mapt;
-    return assignable(To_MT->m_keyTyp, From_MT->m_keyTyp) &&
-           assignable(To_MT->m_valTyp, From_MT->m_valTyp);
+    const MapTyp *To_MT = To->m_sub.m_mapt;
+    const MapTyp *From_MT = From->m_sub.m_mapt;
+    return assignable(To_MT->m_keyTyp, CWrapper(From_MT->m_keyTyp)) &&
+           assignable(To_MT->m_valTyp, CWrapper(From_MT->m_valTyp));
   }
   case ADT_typ: {
     if (To->m_t != ADT_typ)
       return false;
-    ADTTyp::Specl *To_Specls = To->m_sub.m_spladt;
-    ADTTyp::Specl *From_Specls = From->m_sub.m_spladt;
+    const ADTTyp::Specl *To_Specls = To->m_sub.m_spladt;
+    const ADTTyp::Specl *From_Specls = From->m_sub.m_spladt;
     // They must be the same ADT, otherwise it doesn't make much sense.
     if (std::string(To_Specls->m_parent->m_tName) !=
         std::string(From_Specls->m_parent->m_tName))
@@ -109,7 +143,7 @@ bool Typ::assignable(const Typ *To, const Typ *From) {
     ASSERT(To_Specls->m_parent == From_Specls->m_parent);
     int NTArgs = To_Specls->m_parent->m_numTArgs;
     for (int I = 0; I < NTArgs; I++) {
-      if (!assignable(To_Specls->m_TArgs[I], From_Specls->m_TArgs[I]))
+      if (!assignable(To_Specls->m_TArgs[I], CWrapper(From_Specls->m_TArgs[I])))
         return false;
     }
     return true;
@@ -123,7 +157,7 @@ bool Typ::assignable(const Typ *To, const Typ *From) {
 }
 
 bool Typ::valueCompatible(const Typ *T1, const Typ *T2) {
-  return assignable(T1, T2) || assignable(T2, T1);
+  return assignable(T1, CompleteTyp({T2})) || assignable(T2, CompleteTyp({T1}));
 }
 
 std::string Typ::toString(const Typ *T) {
@@ -179,7 +213,7 @@ std::string Typ::toString(const Typ *T) {
       }
     } break;
     case Typ::ADT_typ: {
-      ADTTyp::Specl *SP = T->m_sub.m_spladt;
+      const ADTTyp::Specl *SP = T->m_sub.m_spladt;
       Out += std::string((SP->m_parent->m_tName));
       for (int i = 0; i < SP->m_parent->m_numTArgs; i++) {
         Out += " (";
@@ -188,7 +222,7 @@ std::string Typ::toString(const Typ *T) {
       }
     } break;
     case Typ::Map_typ: {
-      MapTyp *MP = T->m_sub.m_mapt;
+      const MapTyp *MP = T->m_sub.m_mapt;
       Out += "Map (";
       recurser(MP->m_keyTyp);
       Out += ") (";
@@ -196,7 +230,7 @@ std::string Typ::toString(const Typ *T) {
       Out += ")";
     } break;
     case Typ::Address_typ: {
-      AddressTyp *AT = T->m_sub.m_addrt;
+      const AddressTyp *AT = T->m_sub.m_addrt;
       if (AT->m_numFields < 0) {
         Out += "ByStr20 with end";
         break;
@@ -364,6 +398,26 @@ bool Typ::areAddressFieldsSorted(const Typ *T) {
   CREATE_ERROR("Unreachable executed");
 }
 
+bool Typ::containsAddress(const Typ *T) {
+  switch (T->m_t) {
+  case Typ::Prim_typ:
+    return false;
+  case Typ::ADT_typ: {
+    auto *Specl = T->m_sub.m_spladt;
+    int NumTArgs = Specl->m_parent->m_numTArgs;
+    return std::any_of(Specl->m_TArgs, Specl->m_TArgs + NumTArgs,
+                       containsAddress);
+  }
+  case Typ::Map_typ: {
+    auto *MT = T->m_sub.m_mapt;
+    return containsAddress(MT->m_keyTyp) || containsAddress(MT->m_valTyp);
+  }
+  case Typ::Address_typ:
+    return true;
+  }
+  CREATE_ERROR("Unreachable executed");
+}
+
 } // namespace ScillaTypes
 } // namespace ScillaRTL
 
@@ -376,16 +430,24 @@ namespace ScillaTypes {
 
 const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
                            const std::string &Input) {
+  auto Res = constructTyp(TPPC, Ts, NT, Input, std::nullopt);
+  switch (Res.index()) {
+  case std::indexof<ConstructedTyp, CompleteTyp>():
+    return std::get<CompleteTyp>(Res).T;
+  default:
+    CREATE_ERROR("Error parsing " + Input + " to a known type");
+  }
+}
+
+ConstructedTyp Typ::constructTyp(TypParserPartialCache *TPPC, const Typ *Ts[],
+                                 int NT, const std::string &Input,
+                                 std::optional<ObjManager *> OM) {
 
   std::unique_ptr<TypParserPartialCache> TempTPPC;
   if (!TPPC) {
     TempTPPC = std::make_unique<TypParserPartialCache>();
     TPPC = TempTPPC.get();
   }
-  auto &PrimMap = TPPC->PrimMap;
-  auto &ADTMap = TPPC->ADTMap;
-  auto &MapList = TPPC->MapList;
-  auto &AddrList = TPPC->AddrList;
 
   // Classify Ts into PrimTypes, ADTs and Map types.
   if (TPPC->empty()) {
@@ -394,22 +456,44 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
       switch (Ts[I]->m_t) {
       case Prim_typ:
         // Direct mapping for prim types.
-        PrimMap[toString(Ts[I])] = Ts[I];
+        TPPC->PrimMap[toString(Ts[I])] = Ts[I];
         break;
       case ADT_typ:
         // List down all Typ objects for this ADT.
-        ADTMap[(std::string)Ts[I]->m_sub.m_spladt->m_parent->m_tName].push_back(
-            Ts[I]);
+        TPPC->ADTMap[(std::string)Ts[I]->m_sub.m_spladt->m_parent->m_tName]
+            .push_back(Ts[I]);
         break;
       case Map_typ:
-        MapList.push_back(Ts[I]);
+        TPPC->MapList.push_back(Ts[I]);
         break;
       case Address_typ:
-        AddrList.push_back(Ts[I]);
+        TPPC->AddrList.push_back(Ts[I]);
         break;
       }
     }
   }
+
+  std::unordered_map<std::string, const ScillaRTL::ScillaTypes::Typ *>
+      PrimMapLocal;
+  std::unordered_map<std::string,
+                     std::vector<const ScillaRTL::ScillaTypes::Typ *>>
+      ADTMapLocal;
+  std::vector<const ScillaRTL::ScillaTypes::Typ *> MapListLocal;
+  std::vector<const ScillaRTL::ScillaTypes::Typ *> AddrListLocal;
+
+  // If we must create new types than the ones in Ts, we make a copy for it.
+  if (OM) {
+    PrimMapLocal = TPPC->PrimMap;
+    ADTMapLocal = TPPC->ADTMap;
+    MapListLocal = TPPC->MapList;
+    AddrListLocal = TPPC->AddrList;
+  }
+  bool IsIncompleteType = false;
+
+  auto &PrimMap = OM ? PrimMapLocal : TPPC->PrimMap;
+  auto &ADTMap = OM ? ADTMapLocal : TPPC->ADTMap;
+  auto &MapList = OM ? MapListLocal : TPPC->MapList;
+  auto &AddrList = OM ? AddrListLocal : TPPC->AddrList;
 
   typedef std::pair<std::string, const Typ *> FieldTypePair;
 
@@ -456,7 +540,7 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
     (qi::lit("ByStr20") >> qi::lit("with") >> qi::lit("end"))
       [qi::_val = px::bind
         (
-          [&AddrList] () {
+          [&AddrList, &OM, &IsIncompleteType] () -> const Typ* {
             for (auto &T : AddrList) {
               ASSERT_MSG(T->m_t == Typ::Address_typ,
                 "Non-Address type classified incorrectly as Address");
@@ -464,7 +548,16 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
                 return T;
               }
             }
-            CREATE_ERROR("Non-contract Address type not found");
+            if (OM) {
+              IsIncompleteType = true;
+              auto *AT = (*OM)->create<const AddressTyp>({-1, nullptr});
+              auto *T = (*OM)->create<const Typ>
+                ({Typ::Address_typ, Typ::TypU(AT)});
+              AddrList.push_back(T);
+              return T;
+            } else {
+              CREATE_ERROR("Non-contract Address type not found");
+            }
           }
         )
       ]
@@ -475,7 +568,9 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
         -((qi::lit("field") >> FieldTypePair_R) % ',') >> qi::lit("end"))
       [qi::_val = px::bind
         (
-          [&AddrList](const boost::optional<std::vector<FieldTypePair> > &FieldsOpt) {
+          [&AddrList, &OM, &IsIncompleteType]
+          (const boost::optional<std::vector<FieldTypePair> > &FieldsOpt) 
+            -> const Typ* {
             const auto &Fields =
               FieldsOpt ? FieldsOpt.get() : std::vector<FieldTypePair>();
             for (auto &T : AddrList) {
@@ -502,13 +597,39 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
                   return T;
               }
             }
-            std::string ErrTyp = "\"ByStr20 with contract ";
-            for (auto &P : Fields) {
-              ErrTyp += std::string("field ") + P.first +
-                  " : " + toString(P.second) + " ";
+            if (OM) {
+              IsIncompleteType = true;
+              auto FieldsSorted = reinterpret_cast<AddressTyp::Field*>(
+                (Fields.size() > 0) ?
+                (*OM)->allocBytes(sizeof(AddressTyp::Field) * Fields.size()) : 
+                nullptr);
+              // Copy over the data before we sort.
+              for (size_t I = 0; I < Fields.size(); I++) {
+                FieldsSorted[I] = {
+                  String::fromStdString(**OM, Fields[I].first),
+                  Fields[I].second
+                };
+              }
+              std::sort(FieldsSorted, FieldsSorted + Fields.size(), 
+                [](const AddressTyp::Field &Lhs, const AddressTyp::Field &Rhs) {
+                  return std::string(Lhs.m_Name) < std::string(Rhs.m_Name);
+                });
+              // Create an new type.
+              auto *AT = (*OM)->create<const AddressTyp>
+                ({static_cast<int32_t>(Fields.size()), FieldsSorted});
+              auto *T = (*OM)->create<const Typ>
+                ({Typ::Address_typ, Typ::TypU(AT)});
+              AddrList.push_back(T);
+              return T;
+            } else {
+              std::string ErrTyp = "\"ByStr20 with contract ";
+              for (auto &P : Fields) {
+                ErrTyp += std::string("field ") + P.first +
+                    " : " + toString(P.second) + " ";
+              }
+              ErrTyp += "end\"";
+              CREATE_ERROR("Type " + ErrTyp + " not found");
             }
-            ErrTyp += "end\"";
-            CREATE_ERROR("Type " + ErrTyp + " not found");
           },
           qi::_1
         )
@@ -522,15 +643,36 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
     | TByStr_R)
        [qi::_val = px::bind
         (
-          [&PrimMap]
+          [&PrimMap, &OM]
           (const std::string &TName) {
               auto itrPrim = PrimMap.find(TName);
-              if (itrPrim == PrimMap.end()) {
+              if (itrPrim != PrimMap.end()) {
+                const Typ *T = itrPrim->second;
+                ASSERT_MSG(T->m_t == Typ::Prim_typ,
+                  TName + " classified incorrectly");
+                return T;
+              }
+              auto PrefixLen = strlen("ByStr");
+              if (OM && TName.size() > PrefixLen &&
+                  TName.substr(0, PrefixLen) == "ByStr")
+              {
+                // Except for ByStrX, all other primitive types have
+                // type descriptors generated by the compiler.
+                auto NumS = TName.substr(PrefixLen, std::string::npos);
+                unsigned long X;
+                try {
+                   X = std::stoul (NumS, nullptr, 10);
+                } catch (...) {
+                  CREATE_ERROR("Invalid ByStrX type " + TName);
+                }
+                auto *PT = (*OM)->create<const PrimTyp>
+                  ({PrimTyp::Bystrx_typ, PrimTyp::PrimU(static_cast<uint32_t>(X))});
+                auto *T = (*OM)->create<const Typ>({Typ::Prim_typ, Typ::TypU(PT)});
+                PrimMap[TName] = T;
+                return T;
+              } else {
                 CREATE_ERROR("PrimTyp " + TName + " not found");
               }
-              const Typ *T = itrPrim->second;
-              ASSERT_MSG(T->m_t == Typ::Prim_typ, TName + " classified incorrectly");
-              return T;
             },
             qi::_1
           )
@@ -538,8 +680,8 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
     |  (qi::lit("Map") >> T_R >> T_R) // Rule-3 for Map
         [qi::_val = px::bind
           (
-            [&MapList]
-            (const Typ *KTyp, const Typ *VTyp) {
+            [&MapList, &OM, &IsIncompleteType]
+            (const Typ *KTyp, const Typ *VTyp) -> const Typ * {
               for (const Typ *T : MapList) {
                 ASSERT_MSG(T->m_t == Typ::Map_typ, "Non MapTyp classfied incorrectly");
                 if (equal(T->m_sub.m_mapt->m_keyTyp, KTyp) &&
@@ -548,8 +690,16 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
                   return T;
                 }
               }
-              CREATE_ERROR("MapTyp (" + Typ::toString(KTyp) + ") (" +
-                Typ::toString(VTyp) + ") not found");
+              if (OM) {
+                IsIncompleteType = true;
+                auto *MT = (*OM)->create<const MapTyp>({KTyp, VTyp});
+                auto *T = (*OM)->create<const Typ>({Typ::Map_typ, Typ::TypU(MT)});
+                MapList.push_back(T);
+                return T;
+              } else {
+                CREATE_ERROR("MapTyp (" + Typ::toString(KTyp) + ") (" +
+                  Typ::toString(VTyp) + ") not found");
+              }
             },
             qi::_1, qi::_2
           )
@@ -557,15 +707,20 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
     | (QualifiedTypeName_R >> *TArg_R) // Rule-4 for ADTs
         [qi::_val = px::bind
           (
-            [&ADTMap]
-            (const std::string &TName, const std::vector<const Typ *> &TArgs) {
+            [&ADTMap, &OM, &IsIncompleteType]
+            (const std::string &TName, const std::vector<const Typ *> &TArgs)
+              -> const Typ * {
+              const ADTTyp *ADT_Parent = nullptr;
               // Check if this is an ADT
               auto itrADT = ADTMap.find(TName);
               if (itrADT != ADTMap.end()) {
                 std::vector<const Typ *> &Ts = itrADT->second;
+                ASSERT(!Ts.empty());
                 for (auto *T : Ts) {
                   ASSERT_MSG(T->m_t == Typ::ADT_typ,TName + " classfied incorrectly");
-                  ADTTyp::Specl *Spl = T->m_sub.m_spladt;
+                  const ADTTyp::Specl *Spl = T->m_sub.m_spladt;
+                  ASSERT(!ADT_Parent || ADT_Parent == Spl->m_parent);
+                  ADT_Parent = Spl->m_parent;
                   if (Spl->m_parent->m_numTArgs != (int)TArgs.size()) {
                     CREATE_ERROR(TName + " expects " +
                       std::to_string(Spl->m_parent->m_numTArgs) +
@@ -579,8 +734,34 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
                   }
                 }
               }
-              // No success matching this type.
-              CREATE_ERROR("Unknown type " + TName);
+              if (OM && TName != "Map") {
+                IsIncompleteType = true;
+                if (!ADT_Parent) {
+                  // If there isn't already a parent ADT struct, create one.
+                  ADT_Parent = (*OM)->create<const ADTTyp>({
+                    String::fromStdString(**OM, TName), // m_TName
+                    static_cast<int32_t>(TArgs.size()), // m_numTArgs,
+                    0,                                  // m_numConstrs
+                    0,                                  // m_numSpecls
+                    nullptr                             // m_specls
+                  });
+                }
+                auto *TArgsMem = reinterpret_cast<Typ **>
+                  ((*OM)->allocBytes(sizeof(Typ*) * TArgs.size()));
+                std::memcpy(TArgsMem, TArgs.data(), TArgs.size());
+                auto *SpeclP = (*OM)->create<const ADTTyp::Specl>({
+                  TArgsMem,          // m_TArgs
+                  nullptr,           // m_constrs
+                  ADT_Parent         // m_parent
+                });
+                auto *ADTP = (*OM)->create<const Typ>
+                  ({Typ::ADT_typ, Typ::TypU(SpeclP)});
+                ADTMap[TName].push_back(ADTP);
+                return ADTP;
+              } else {
+                // No success matching this type.
+                CREATE_ERROR("Unknown type " + TName);
+              }
             },
             qi::_1, qi::_2
           )
@@ -611,7 +792,7 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
     | QualifiedTypeName_R
       [qi::_val = px::bind
         (
-          [&PrimMap, &ADTMap]
+          [&PrimMap, &ADTMap, &OM, &IsIncompleteType]
           (const std::string &TName) {
             auto itrPrim = PrimMap.find(TName);
             if (itrPrim != PrimMap.end()) {
@@ -622,9 +803,7 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
             auto itrADT = ADTMap.find(TName);
             if (itrADT != ADTMap.end()) {
               std::vector<const Typ *> &Ts = itrADT->second;
-              if (Ts.empty()) {
-                CREATE_ERROR("No specialization found for ADT " + TName);
-              }
+              ASSERT(!Ts.empty());
               const Typ *T = Ts[0];
               ASSERT_MSG(T->m_t == Typ::ADT_typ, TName + " classfied incorrectly");
               // We mimic the behaviour of the OCaml parser here and
@@ -633,7 +812,28 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
               //  "Incorrect number of type arguments to ADT " + TName);
               return T;
             }
-            CREATE_ERROR("Unknown type " + TName);
+            if (OM && TName != "Map") {
+              IsIncompleteType = true;
+              // If there isn't already a parent ADT struct, create one.
+              auto *ADT_Parent = (*OM)->create<const ADTTyp>({
+                String::fromStdString(**OM, TName), // m_TName
+                0,                                  // m_numTArgs,
+                0,                                  // m_numConstrs
+                0,                                  // m_numSpecls
+                nullptr                             // m_specls
+              });
+              auto *SpeclP = (*OM)->create<const ADTTyp::Specl>({
+                nullptr,           // m_TArgs
+                nullptr,           // m_constrs
+                ADT_Parent         // m_parent
+              });
+              auto *ADTP = (*OM)->create<const Typ>
+                ({Typ::ADT_typ, Typ::TypU(SpeclP)});
+              ADTMap[TName].push_back(ADTP);
+              return ADTP;
+            } else {
+              CREATE_ERROR("Unknown type " + TName);
+            }
           },
           qi::_1
         )
@@ -659,7 +859,11 @@ const Typ *Typ::fromString(TypParserPartialCache *TPPC, const Typ *Ts[], int NT,
   if (!phrase_parse(Input.begin(), Input.end(), Start_R, ascii::space, T) || !T)
     CREATE_ERROR("Parsing type " + Input + " failed");
 
-  return T;
+  if (IsIncompleteType) {
+    return IncompleteTyp({T});
+  } else {
+    return CompleteTyp({T});
+  }
 }
 
 } // namespace ScillaTypes

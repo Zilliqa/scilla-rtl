@@ -9,7 +9,10 @@
     "events": [
       {
         "vname": "Hello",
-        "params": [ { "vname": "msg", "type": "String" } ]
+        "params": [
+          { "vname": "msg", "type": "String" },
+          { "vname": "creation", "type": "BNum" }
+        ]
       }
     ],
     "ADTs": [
