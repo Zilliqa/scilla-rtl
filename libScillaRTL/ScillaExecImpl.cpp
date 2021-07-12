@@ -151,9 +151,14 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
       ScillaValues::fromJSONToMem(OM, ValP, ScillaTypes::Typ::sizeOf(T), T,
                                   Value);
     }
+    if (ScillaTypes::Typ::containsAddress(T)) {
+      CREATE_ERROR("JSON inputs cannot contain address types: " +
+                   ScillaTypes::Typ::toString(T));
+    }
     if (DoDynamicTypechecks &&
         !dynamicTypecheck(this, ExpectedT->second, T, ValP)) {
-      CREATE_ERROR("Dynamic typecheck failed: " + VName.asString());
+      CREATE_ERROR("Dynamic typecheck failed: " + VName.asString() + " : " +
+                   ScillaValues::toString(true, ExpectedT->second, ValP));
     }
   }
 }
@@ -328,10 +333,15 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
     if (ExpectedT == TParamsMap.end()) {
       CREATE_ERROR("Unknown transition parameter " + ParamNames[I]);
     }
+    if (ScillaTypes::Typ::containsAddress(T)) {
+      CREATE_ERROR("JSON inputs cannot contain address types: " +
+                   ScillaTypes::Typ::toString(T));
+    }
     // _sender and _origin are trusted addresses. Otherwise, we must verify.
     if (ParamNames[I] != "_sender" && ParamNames[I] != "_origin" &&
         !dynamicTypecheck(this, ExpectedT->second, T, ValP)) {
-      CREATE_ERROR("Dyanamic typecheck failed: " + ParamNames[I]);
+      CREATE_ERROR("Dynamic typecheck failed: " + ParamNames[I] + " : " +
+                   ScillaValues::toString(true, ExpectedT->second, ValP));
     }
 
     Off += Size;

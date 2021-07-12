@@ -94,6 +94,9 @@ AddressTyp::Field buildTyp_Field(const char *Name, const Typ *T) {
   return AddressTyp::Field({buildString(Name), T});
 }
 
+AddressTyp ByStr20_with_end_Addr = {-1, nullptr};
+Typ ByStr20_with_end_typ = buildTyp_Address(&ByStr20_with_end_Addr);
+
 ADTTyp::Constr Bool_True = {buildString("True"), 0 /* m_numArgs */,
                             nullptr /* m_args */};
 ADTTyp::Constr Bool_False = {buildString("False"), 0 /* m_numArgs */,
@@ -117,11 +120,30 @@ const ADTTyp::Constr *Option_Int256_constrs[2] = {&Option_Some_Int256,
 extern ADTTyp Option_adttyp;
 ADTTyp::Specl Option_Int256_specl = {Option_Int256_targs, Option_Int256_constrs,
                                      &Option_adttyp};
-ADTTyp::Specl *Option_specls[1] = {&Option_Int256_specl};
+Typ *Option_ByStr20_targs[] = {&ByStr20_typ};
+ADTTyp::Constr Option_Some_ByStr20 = {buildString("Some"), 1 /* m_numArgs */,
+                                      Option_ByStr20_targs /* m_args */};
+const ADTTyp::Constr *Option_ByStr20_constrs[2] = {&Option_Some_ByStr20,
+                                                   &Option_None};
+ADTTyp::Specl Option_ByStr20_specl = {Option_ByStr20_targs,
+                                      Option_ByStr20_constrs, &Option_adttyp};
+Typ *Option_ByStr20_with_end_targs[] = {&ByStr20_with_end_typ};
+ADTTyp::Constr Option_Some_ByStr20_with_end = {
+    buildString("Some"), 1 /* m_numArgs */,
+    Option_ByStr20_with_end_targs /* m_args */};
+const ADTTyp::Constr *Option_ByStr20_with_end_constrs[2] = {
+    &Option_Some_ByStr20_with_end, &Option_None};
+ADTTyp::Specl Option_ByStr20_with_end_specl = {Option_ByStr20_with_end_targs,
+                                               Option_ByStr20_with_end_constrs,
+                                               &Option_adttyp};
+ADTTyp::Specl *Option_specls[3] = {&Option_Int256_specl, &Option_ByStr20_specl,
+                                   &Option_ByStr20_with_end_specl};
 ADTTyp Option_adttyp = {buildString("Option"), 1 /* m_numTArgs */,
                         2 /* m_numConstrs */, 1 /* m_numSpecls */,
                         Option_specls /* specializations */};
 Typ Option_Int256_typ = buildTyp_ADT(&Option_Int256_specl);
+Typ Option_ByStr20_typ = buildTyp_ADT(&Option_ByStr20_specl);
+Typ Option_ByStr20_with_end_typ = buildTyp_ADT(&Option_ByStr20_with_end_specl);
 
 Typ List_int32_typ = buildTyp_ADT(List_specls[0]);
 Typ List_int64_typ = buildTyp_ADT(List_specls[1]);
@@ -180,9 +202,6 @@ Typ Map_int64_pair_int32_list_int64_typ =
 MapTyp Map_int32_map_int32_string_MapTyp = {&Int32_typ, &Map_int32_string_typ};
 Typ Map_int32_map_int32_string_typ =
     buildTyp_Map(&Map_int32_map_int32_string_MapTyp);
-
-AddressTyp ByStr20_with_end_Addr = {-1, nullptr};
-Typ ByStr20_with_end_typ = buildTyp_Address(&ByStr20_with_end_Addr);
 
 AddressTyp ByStr20_with_contract_end_Addr = {0, nullptr};
 Typ ByStr20_with_contract_end_typ =
@@ -403,6 +422,10 @@ MapTyp Map_ByStr20_ByStr20withcontrfield_MT = {&ByStr20_typ,
 Typ Map_ByStr20_ByStr20withcontrfield_Typ =
     buildTyp_Map(&Map_ByStr20_ByStr20withcontrfield_MT);
 
+// Map ByStr20 Int64
+MapTyp Map_ByStr20_Int64_MT = {&ByStr20_typ, &Int64_typ};
+Typ Map_ByStr20_Int64_Typ = buildTyp_Map(&Map_ByStr20_Int64_MT);
+
 // Map (ByStr20 with end) (ByStr20 with contract field x : Uint32 end)
 MapTyp Map_ByStr20addr_ByStr20withcontrfield_MT = {&ByStr20_with_end_typ,
                                                    &Address_contract_x_Typ};
@@ -419,7 +442,7 @@ Typ Map_ByStr20withcontr_ByStr20withcontr_Typ =
 const Typ* AllTyDescrs[] = {
   &Int32_typ, &Int64_typ, &Int128_typ, &Int256_typ,
   &Uint32_typ, &Uint64_typ, &Uint128_typ, &Uint256_typ,
-  &Option_Int256_typ, &Bool_typ,
+  &Option_Int256_typ, &Option_ByStr20_typ, &Bool_typ,
   &String_typ, &BNum_typ, &List_int32_typ, &List_int64_typ,
   &Pair_list_int32_int64_typ, &Pair_int32_list_int64_typ,
   &Map_int32_string_typ, &Map_int64_pair_int32_list_int64_typ,
@@ -441,8 +464,8 @@ const Typ* AllTyDescrs[] = {
   &Address_contract_xcontraddr_y1Uint32_Typ, &Address_contract_xcontraddr_y1Int32_Typ,
   &Address_contract_y2Int32_Typ, &Address_contract_xcontraddr_Y2Int32_Typ,
   &Map_ByStr20withcontrfield_ByStr20withcontr_Typ, &Address_contract_yUint32_Typ,
-  &Map_ByStr20withcontr_ByStr20withcontrfieldYUint32_Typ,
-  &Map_ByStr20withcontrfieldYUint32_ByStr20withcontr_Typ
+  &Map_ByStr20withcontr_ByStr20withcontrfieldYUint32_Typ, &Map_ByStr20_Int64_Typ,
+  &Map_ByStr20withcontrfieldYUint32_ByStr20withcontr_Typ, &Option_ByStr20_with_end_typ,
 };
 size_t NTyDescrs = sizeof(AllTyDescrs) / sizeof(const Typ *);
 
