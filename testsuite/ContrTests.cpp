@@ -843,6 +843,20 @@ BOOST_AUTO_TEST_CASE(succ_common_jit_2) {
   testMessages(prepareRemoteStateReads2SuccTests(), true /* CommonJIT */);
 }
 
+BOOST_AUTO_TEST_CASE(fail_unique_jits) {
+  for (int I = 101; I <= 131; I++) {
+    if (I == 127 || I == 129)
+      continue;
+    testMessageFail("remote_state_reads.ll",
+                    "remote_state_reads.message_" + std::to_string(I) + ".json",
+                    "remote_state_reads.init.json",
+                    "remote_state_reads.contrinfo.json",
+                    "remote_state_reads.state_" + std::to_string(I) + ".json",
+                    "remote_state_reads.output_" + std::to_string(I) + ".json",
+                    "blockchain_default.json");
+  }
+}
+
 BOOST_AUTO_TEST_SUITE_END() // remote_state_reads
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec
