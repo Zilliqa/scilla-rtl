@@ -410,8 +410,7 @@ bool Typ::containsAddress(const Typ *T) {
   }
   case Typ::Map_typ: {
     auto *MT = T->m_sub.m_mapt;
-    return containsAddress(MT->m_keyTyp) ||
-           containsAddress(MT->m_valTyp);
+    return containsAddress(MT->m_keyTyp) || containsAddress(MT->m_valTyp);
   }
   case Typ::Address_typ:
     return true;
