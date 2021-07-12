@@ -843,11 +843,11 @@ BOOST_AUTO_TEST_CASE(succ_common_jit_2) {
   testMessages(prepareRemoteStateReads2SuccTests(), true /* CommonJIT */);
 }
 
-BOOST_AUTO_TEST_CASE(fail_unique_jits) {
+BOOST_AUTO_TEST_CASE(fail_msgs) {
   for (int I = 101; I <= 131; I++) {
     if (I == 127)
       continue;
-    BOOST_TEST_MESSAGE("Executing remote_state_reads_fail_" << I);
+    BOOST_TEST_CHECKPOINT("Executing remote_state_reads_fail_" << I);
     testMessageFail("remote_state_reads.ll",
                     "remote_state_reads.message_" + std::to_string(I) + ".json",
                     "remote_state_reads.init.json",
@@ -856,6 +856,55 @@ BOOST_AUTO_TEST_CASE(fail_unique_jits) {
                     "remote_state_reads.output_" + std::to_string(I) + ".json",
                     "blockchain_default.json");
   }
+}
+
+BOOST_AUTO_TEST_CASE(fail_init) {
+  BOOST_TEST_CHECKPOINT("Executing remote_state_reads_fail_init_no_address");
+  testMessageFail("remote_state_reads.ll", "",
+                  "remote_state_reads.init_no_address.json",
+                  "remote_state_reads.contrinfo.json",
+                  "remote_state_reads.init_no_address_state.json",
+                  "remote_state_reads.init_no_address_output.json",
+                  "blockchain_default.json");
+  BOOST_TEST_CHECKPOINT("Executing remote_state_reads_fail_init_missing_field");
+  testMessageFail("remote_state_reads.ll", "",
+                  "remote_state_reads.init_missing_field.json",
+                  "remote_state_reads.contrinfo.json",
+                  "remote_state_reads.init_missing_field_state.json",
+                  "remote_state_reads.init_missing_field_output.json",
+                  "blockchain_default.json");
+  BOOST_TEST_CHECKPOINT(
+      "Executing remote_state_reads_fail_init_wrong_field_type");
+  testMessageFail("remote_state_reads.ll", "",
+                  "remote_state_reads.init_wrong_field_type.json",
+                  "remote_state_reads.contrinfo.json",
+                  "remote_state_reads.init_wrong_field_type_state.json",
+                  "remote_state_reads.init_wrong_field_type_output.json",
+                  "blockchain_default.json");
+  BOOST_TEST_CHECKPOINT(
+      "Executing remote_state_reads_fail_init_wrong_address_field_type");
+  testMessageFail(
+      "remote_state_reads.ll", "",
+      "remote_state_reads.init_wrong_address_field_type.json",
+      "remote_state_reads.contrinfo.json",
+      "remote_state_reads.init_wrong_address_field_type_state.json",
+      "remote_state_reads.init_wrong_address_field_type_output.json",
+      "blockchain_default.json");
+  BOOST_TEST_CHECKPOINT(
+      "Executing remote_state_reads_fail_init_wrong_map_type");
+  testMessageFail("remote_state_reads.ll", "",
+                  "remote_state_reads.init_wrong_map_type.json",
+                  "remote_state_reads.contrinfo.json",
+                  "remote_state_reads.init_wrong_map_type_state.json",
+                  "remote_state_reads.init_wrong_map_type_output.json",
+                  "blockchain_default.json");
+  BOOST_TEST_CHECKPOINT("Executing remote_state_reads_fail_init_address_type");
+  testMessageFail("remote_state_reads.ll", "",
+                  "remote_state_reads.init_address_type.json",
+                  "remote_state_reads.contrinfo.json",
+                  "remote_state_reads.init_address_type_state.json",
+                  "remote_state_reads.init_address_type_output.json",
+                  "blockchain_default.json");
 }
 
 BOOST_AUTO_TEST_SUITE_END() // remote_state_reads

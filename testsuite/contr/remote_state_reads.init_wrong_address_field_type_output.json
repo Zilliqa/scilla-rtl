@@ -1,0 +1,1 @@
+Dynamic typecheck failed: cparam3 : 0x1234567890123456789012345678901234567890 : ByStr20 with contract field admin : ByStr20 with end, field other_map : Map (Uint128) (ByStr20 with end), field owners : Map (ByStr20 with end) (Bool), field signatures : Map (Uint32) (Map (ByStr20 with end) (Bool)), field transactionCount : Uint32 end
