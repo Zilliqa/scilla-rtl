@@ -398,6 +398,27 @@ bool Typ::areAddressFieldsSorted(const Typ *T) {
   CREATE_ERROR("Unreachable executed");
 }
 
+bool Typ::containsAddress(const Typ *T) {
+  switch (T->m_t) {
+  case Typ::Prim_typ:
+    return false;
+  case Typ::ADT_typ: {
+    auto *Specl = T->m_sub.m_spladt;
+    int NumTArgs = Specl->m_parent->m_numTArgs;
+    return std::any_of(Specl->m_TArgs, Specl->m_TArgs + NumTArgs,
+                       containsAddress);
+  }
+  case Typ::Map_typ: {
+    auto *MT = T->m_sub.m_mapt;
+    return containsAddress(MT->m_keyTyp) ||
+           containsAddress(MT->m_valTyp);
+  }
+  case Typ::Address_typ:
+    return true;
+  }
+  CREATE_ERROR("Unreachable executed");
+}
+
 } // namespace ScillaTypes
 } // namespace ScillaRTL
 

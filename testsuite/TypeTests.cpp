@@ -563,4 +563,32 @@ BOOST_AUTO_TEST_CASE(constructed_typs_noassign) {
   }
 }
 
+BOOST_AUTO_TEST_CASE(no_contains_addr_test) {
+  std::vector<std::string> Ts = {
+      "ByStr20",
+      "Int32",
+      "Map ByStr20 Int64",
+      "Option ByStr20",
+  };
+  for (const auto &S : Ts) {
+    auto T = parseTypeString(S);
+    BOOST_CHECK(T && !ScillaRTL::ScillaTypes::Typ::containsAddress(*T));
+  }
+}
+
+BOOST_AUTO_TEST_CASE(contains_addr_test) {
+  std::vector<std::string> Ts = {
+      "ByStr20 with end",
+      "ByStr20 with contract end",
+      "ByStr20 with contract field foo0 : Int32 end",
+      "Option (ByStr20 with end)",
+      "Map (ByStr20 with contract field x : Uint32, field y : ByStr20 with end "
+      "end) (ByStr20)",
+  };
+  for (const auto &S : Ts) {
+    auto T = parseTypeString(S);
+    BOOST_CHECK(T && ScillaRTL::ScillaTypes::Typ::containsAddress(*T));
+  }
+}
+
 BOOST_AUTO_TEST_SUITE_END()

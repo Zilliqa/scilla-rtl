@@ -256,6 +256,8 @@ struct Typ {
   static const Typ *mapAccessType(const Typ *MT, int NumIdx);
   // Checks that the fields of an Address type are sorted
   static bool areAddressFieldsSorted(const Typ *T);
+  // Is this an address type or does it contain an address type?
+  static bool containsAddress(const Typ *T);
 
   // Are two types equal?
   static bool equal(const Typ *LHS, const Typ *RHS);

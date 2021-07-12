@@ -845,8 +845,9 @@ BOOST_AUTO_TEST_CASE(succ_common_jit_2) {
 
 BOOST_AUTO_TEST_CASE(fail_unique_jits) {
   for (int I = 101; I <= 131; I++) {
-    if (I == 127 || I == 129)
+    if (I == 127)
       continue;
+    BOOST_TEST_MESSAGE("Executing remote_state_reads_fail_" << I);
     testMessageFail("remote_state_reads.ll",
                     "remote_state_reads.message_" + std::to_string(I) + ".json",
                     "remote_state_reads.init.json",
