@@ -97,7 +97,7 @@ bool isUserAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
 }
 
 bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
-                      const ScillaTypes::Typ *ParsedT, void *Val) {
+                      const ScillaTypes::Typ *ParsedT, const void *Val) {
 
   if (!ScillaTypes::Typ::valueCompatible(ParsedT, TargetT)) {
     CREATE_ERROR("Value of type " + ScillaTypes::Typ::toString(ParsedT) +

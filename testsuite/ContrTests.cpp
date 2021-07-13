@@ -85,6 +85,7 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
     }
 
     for (const auto &Input : CT.Inputs) {
+      State.clear();
       if (!CommonJIT) {
         BOOST_TEST_CHECKPOINT("Creating unique JIT for " + CT.ContrFilename);
         {
@@ -910,5 +911,34 @@ BOOST_AUTO_TEST_CASE(fail_init) {
 }
 
 BOOST_AUTO_TEST_SUITE_END() // remote_state_reads
+
+BOOST_AUTO_TEST_SUITE(type_casts)
+
+auto prepareTypeCastsSuccTests = []() {
+  ContractTest RSRSTs{"type_casts.ll", {}};
+  for (int I = 1; I <= 37; I++) {
+    ContractTest::Input ThisInput = {
+        "type_casts_succ_" + std::to_string(I),
+        "type_casts.message_" + std::to_string(I) + ".json",
+        "type_casts.init.json",
+        "type_casts.contrinfo.json",
+        "type_casts.state_" + std::to_string(I) + ".json",
+        "type_casts.ostate_" + std::to_string(I) + ".json",
+        "type_casts.output_" + std::to_string(I) + ".json",
+        "blockchain_default.json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits) {
+  testMessages(prepareTypeCastsSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit) {
+  testMessages(prepareTypeCastsSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // type_casts
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

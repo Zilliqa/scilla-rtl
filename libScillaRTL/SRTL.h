@@ -55,6 +55,6 @@ bool isUserAddr(const ScillaExecImpl *SJ, const std::string &Addr);
 // @ParsedT is the type specified in the JSON from which @Val is parsed.
 // The dynamic typecheck itself is essentially ensuring that Addresses conform.
 bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *Target,
-                      const ScillaTypes::Typ *ParsedT, void *Val);
+                      const ScillaTypes::Typ *ParsedT, const void *Val);
 
 } // namespace ScillaRTL

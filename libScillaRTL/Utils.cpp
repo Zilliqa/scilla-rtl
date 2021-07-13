@@ -413,6 +413,12 @@ bool MemStateServer::updateRemoteStateValue(
   return true;
 }
 
+void MemStateServer::clear() {
+  BCState.clear();
+  FieldTypes.clear();
+  ThisAddress.clear();;
+}
+
 // Initialize the server with only field types and no values.
 // The contract-info JSON is parsed to get the field types.
 void MemStateServer::initFieldTypes(const Json::Value &InitJ,

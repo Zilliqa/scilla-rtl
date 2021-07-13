@@ -132,6 +132,9 @@ public:
 
   // Print the full state into a JSON.
   Json::Value dumpToJSON();
+
+  // Erase all data.
+  void clear();
 };
 
 } // namespace ScillaRTL

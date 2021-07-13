@@ -35,7 +35,8 @@ private:
   std::unique_ptr<SharedObject> SO;
   friend bool dynamicTypecheck(const ScillaExecImpl *SJ,
                                const ScillaTypes::Typ *TargetT,
-                               const ScillaTypes::Typ *ParsedT, void *Val);
+                               const ScillaTypes::Typ *ParsedT,
+                               const void *Val);
 
 public:
   // @ContrBin is the path to a contract's shared object `foo.so`
