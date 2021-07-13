@@ -1267,4 +1267,32 @@ uint64_t _lengthof(const ScillaTypes::Typ *T, const void *V) {
   }
 }
 
+void *_dynamic_typecast(ScillaExecImpl *SJ, const void *V,
+                        const ScillaTypes::Typ *T) {
+  ASSERT_MSG(
+      T->m_t == ScillaTypes::Typ::Address_typ ||
+          (T->m_t == ScillaTypes::Typ::Prim_typ &&
+           T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Bystrx_typ &&
+           T->m_sub.m_primt->m_detail.m_bystX == ScillaTypes::AddrByStr_Len),
+      "Expected address compatible type for dynamic typecast");
+
+  bool Succ = dynamicTypecheck(SJ, T, T, V);
+
+  if (Succ) {
+    // Wrap with "Some".
+    // Allocate memory for "Some" = sizeOf (T) + 1 byte for Tag.
+    int MemSize = ScillaTypes::Typ::sizeOf(T) + 1;
+    auto Mem = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(MemSize));
+    *Mem = ScillaTypes::Option_Some_Tag;
+    std::memcpy((Mem + 1), V, MemSize - 1);
+    return Mem;
+  } else {
+    // Wrap with Scilla object "None", which has only a Tag.
+    int MemSize = 1;
+    auto Mem = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(MemSize));
+    *Mem = ScillaTypes::Option_None_Tag;
+    return Mem;
+  }
+}
+
 } // end of extern "C".
