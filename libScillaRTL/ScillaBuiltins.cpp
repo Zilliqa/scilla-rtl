@@ -1281,6 +1281,7 @@ void *_dynamic_typecast(ScillaExecImpl *SJ, const void *V,
   if (Succ) {
     // Wrap with "Some".
     // Allocate memory for "Some" = sizeOf (T) + 1 byte for Tag.
+    ASSERT(!ScillaTypes::Typ::isBoxed(T));
     int MemSize = ScillaTypes::Typ::sizeOf(T) + 1;
     auto Mem = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(MemSize));
     *Mem = ScillaTypes::Option_Some_Tag;
