@@ -416,7 +416,8 @@ bool MemStateServer::updateRemoteStateValue(
 void MemStateServer::clear() {
   BCState.clear();
   FieldTypes.clear();
-  ThisAddress.clear();;
+  ThisAddress.clear();
+  ;
 }
 
 // Initialize the server with only field types and no values.

@@ -472,6 +472,26 @@ SafeUint256 *_isqrt_Uint256(ScillaExecImpl *SJ, SafeUint256 *Lhs) {
   return SJ->OM.create<SafeUint256>(Lhs->sqrt());
 }
 
+SafeInt32 _pow_Int32(SafeInt32 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeInt64 _pow_Int64(SafeInt64 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeInt128 _pow_Int128(SafeInt128 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeInt256 *_pow_Int256(ScillaExecImpl *SJ, SafeInt256 *Lhs, uint32_t P) {
+  return SJ->OM.create<SafeInt256>(Lhs->pow(P));
+}
+
+SafeUint32 _pow_Uint32(SafeUint32 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeUint64 _pow_Uint64(SafeUint64 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeUint128 _pow_Uint128(SafeUint128 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeUint256 *_pow_Uint256(ScillaExecImpl *SJ, SafeUint256 *Lhs, uint32_t P) {
+  return SJ->OM.create<SafeUint256>(Lhs->pow(P));
+}
+
 uint8_t *_eq_Int32(ScillaExecImpl *SJ, SafeInt32 Lhs, SafeInt32 Rhs) {
 
   return toScillaBool(SJ->OM, Lhs == Rhs);

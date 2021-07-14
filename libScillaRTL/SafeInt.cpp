@@ -46,8 +46,8 @@ std::string SafeInt<Bits, Signedness>::toString() const {
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator+(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator+(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   // TODO: Implement safety semantics.
@@ -56,8 +56,8 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator+(
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator-(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator-(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   // TODO: Implement safety semantics.
@@ -66,8 +66,8 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator-(
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator*(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator*(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   // TODO: Implement safety semantics.
@@ -76,8 +76,8 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator*(
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator/(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator/(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   // TODO: Implement safety semantics.
@@ -86,8 +86,8 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator/(
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator%(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator%(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   // TODO: Implement safety semantics.
@@ -103,48 +103,56 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::sqrt(void) const {
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::operator==(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::pow(uint32_t P) const {
+  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  // TODO: Implement safety semantics.
+  SafeInt<Bits, Signedness> Result(math::wide_integer::pow(LhsBase, P));
+  return Result;
+}
+
+template <unsigned Bits, SafeIntKind Signedness>
+bool SafeInt<Bits, Signedness>::
+operator==(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   return LhsBase == RhsBase;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::operator!=(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+bool SafeInt<Bits, Signedness>::
+operator!=(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   return LhsBase != RhsBase;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::operator>(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+bool SafeInt<Bits, Signedness>::
+operator>(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   return LhsBase > RhsBase;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::operator>=(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+bool SafeInt<Bits, Signedness>::
+operator>=(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   return LhsBase >= RhsBase;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::operator<(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+bool SafeInt<Bits, Signedness>::
+operator<(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   return LhsBase < RhsBase;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::operator<=(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+bool SafeInt<Bits, Signedness>::
+operator<=(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   return LhsBase <= RhsBase;
