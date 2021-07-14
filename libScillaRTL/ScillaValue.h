@@ -37,7 +37,7 @@ std::string rawToHex(const uint8_t *Data, int Len);
 uint8_t *hex2Raw(ObjManager &OM, uint8_t *Bin, int BinLen,
                  const std::string &Hex, int &NBytes);
 // Reverse the byte order in a byte string, in-place.
-void swapEndian(uint8_t *Buf, int Len);
+void revBytes(uint8_t *Buf, int Len);
 // Is this a valid Scilla String literal. Certain chars aren't allowed.
 bool validateStringLiteral(const uint8_t Buf[], size_t Len);
 

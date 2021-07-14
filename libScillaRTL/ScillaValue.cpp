@@ -105,8 +105,7 @@ uint8_t *hex2Raw(ObjManager &OM, uint8_t *Bin, int BinLen,
   return Bin;
 }
 
-// Little-endian <-> Big-endian
-void swapEndian(uint8_t *Buf, int Len) {
+void revBytes(uint8_t *Buf, int Len) {
   for (int I = 0; I < Len / 2; I++) {
     auto T = Buf[I];
     Buf[I] = Buf[Len - I - 1];
@@ -650,7 +649,7 @@ void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
       Ret.insert(Ret.end(), V, V + Len);
 #if BOOST_ENDIAN_LITTLE_BYTE
       // Native integer is little-endian. Convert it to big-endian.
-      swapEndian(Ret.data() + Ret.size() - Len, Len);
+      revBytes(Ret.data() + Ret.size() - Len, Len);
 #endif
     } break;
     case ScillaTypes::PrimTyp::String_typ:

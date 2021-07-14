@@ -75,6 +75,8 @@ public:
   SafeInt operator*(const SafeInt &Rhs) const;
   SafeInt operator/(const SafeInt &Rhs) const;
   SafeInt operator%(const SafeInt &Rhs) const;
+  SafeInt sqrt(void) const;
+  SafeInt pow(uint32_t) const;
 
   static constexpr SafeInt max() {
     return std::numeric_limits<UnsafeWideInt<Bits, Signedness>>::max();

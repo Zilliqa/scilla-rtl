@@ -273,7 +273,7 @@ void *uintToByStrX(ScillaExecImpl *SJ, SafeInt<X, Unsigned> I) {
   std::memcpy(Mem, &I, Len);
 #if BOOST_ENDIAN_LITTLE_BYTE
   // Native integer is little-endian. Convert it to big-endian.
-  ScillaValues::swapEndian(reinterpret_cast<uint8_t *>(Mem), Len);
+  ScillaValues::revBytes(reinterpret_cast<uint8_t *>(Mem), Len);
 #endif
   return Mem;
 }
@@ -287,7 +287,7 @@ void byStrXToUint(SafeInt<X, Unsigned> &UI, void *BX, int L) {
   std::memcpy(UIAddr + (Len - L), BX, L);
 #if BOOST_ENDIAN_LITTLE_BYTE
   // Native integer is little-endian. Convert it to big-endian.
-  ScillaValues::swapEndian(UIAddr, Len);
+  ScillaValues::revBytes(UIAddr, Len);
 #endif
 }
 
@@ -460,6 +460,36 @@ SafeUint128 _rem_Uint128(SafeUint128 Lhs, SafeUint128 Rhs) { return Lhs % Rhs; }
 SafeUint256 *_rem_Uint256(ScillaExecImpl *SJ, SafeUint256 *Lhs,
                           SafeUint256 *Rhs) {
   return SJ->OM.create<SafeUint256>(*Lhs % *Rhs);
+}
+
+SafeUint32 _isqrt_Uint32(SafeUint32 Lhs) { return Lhs.sqrt(); }
+
+SafeUint64 _isqrt_Uint64(SafeUint64 Lhs) { return Lhs.sqrt(); }
+
+SafeUint128 _isqrt_Uint128(SafeUint128 Lhs) { return Lhs.sqrt(); }
+
+SafeUint256 *_isqrt_Uint256(ScillaExecImpl *SJ, SafeUint256 *Lhs) {
+  return SJ->OM.create<SafeUint256>(Lhs->sqrt());
+}
+
+SafeInt32 _pow_Int32(SafeInt32 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeInt64 _pow_Int64(SafeInt64 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeInt128 _pow_Int128(SafeInt128 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeInt256 *_pow_Int256(ScillaExecImpl *SJ, SafeInt256 *Lhs, uint32_t P) {
+  return SJ->OM.create<SafeInt256>(Lhs->pow(P));
+}
+
+SafeUint32 _pow_Uint32(SafeUint32 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeUint64 _pow_Uint64(SafeUint64 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeUint128 _pow_Uint128(SafeUint128 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeUint256 *_pow_Uint256(ScillaExecImpl *SJ, SafeUint256 *Lhs, uint32_t P) {
+  return SJ->OM.create<SafeUint256>(Lhs->pow(P));
 }
 
 uint8_t *_eq_Int32(ScillaExecImpl *SJ, SafeInt32 Lhs, SafeInt32 Rhs) {
@@ -1051,6 +1081,30 @@ void *_concat_ByStrX(ScillaExecImpl *SJ, int X1, uint8_t *Lhs, int X2,
   auto *Buf = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(X1 + X2));
   std::memcpy(Buf, Lhs, X1);
   std::memcpy(Buf + X1, Rhs, X2);
+  return Buf;
+}
+
+ScillaTypes::String _strrev_String(ScillaExecImpl *SJ,
+                                   ScillaTypes::String Lhs) {
+
+  ScillaTypes::String Ret;
+  Ret.m_length = Lhs.m_length;
+  auto Buf = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(Ret.m_length));
+  std::memcpy(Buf, Lhs.m_buffer, Lhs.m_length);
+  ScillaValues::revBytes(Buf, Ret.m_length);
+  Ret.m_buffer = Buf;
+  return Ret;
+}
+
+ScillaTypes::String _strrev_ByStr(ScillaExecImpl *SJ, ScillaTypes::String Lhs) {
+  return _strrev_String(SJ, Lhs);
+}
+
+void *_strrev_ByStrX(ScillaExecImpl *SJ, int X1, uint8_t *Lhs) {
+
+  auto *Buf = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(X1));
+  std::memcpy(Buf, Lhs, X1);
+  ScillaValues::revBytes(Buf, X1);
   return Buf;
 }
 
