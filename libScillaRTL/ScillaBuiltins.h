@@ -348,6 +348,16 @@ void *_concat_ByStrX(ScillaRTL::ScillaExecImpl *SJ, int X1, uint8_t *Lhs,
                      int X2, uint8_t *Rhs);
 
 ScillaRTL::ScillaTypes::String
+_strrev_String(ScillaRTL::ScillaExecImpl *SJ,
+               ScillaRTL::ScillaTypes::String Lhs);
+
+ScillaRTL::ScillaTypes::String
+_strrev_ByStr(ScillaRTL::ScillaExecImpl *SJ,
+              ScillaRTL::ScillaTypes::String Lhs);
+
+void *_strrev_ByStrX(ScillaRTL::ScillaExecImpl *SJ, int X1, uint8_t *Lhs);
+
+ScillaRTL::ScillaTypes::String
 _substr_String(ScillaRTL::ScillaExecImpl *SJ,
                ScillaRTL::ScillaTypes::String Str, ScillaRTL::SafeUint32 Pos,
                ScillaRTL::SafeUint32 Len);

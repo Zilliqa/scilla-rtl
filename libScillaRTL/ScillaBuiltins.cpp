@@ -273,7 +273,7 @@ void *uintToByStrX(ScillaExecImpl *SJ, SafeInt<X, Unsigned> I) {
   std::memcpy(Mem, &I, Len);
 #if BOOST_ENDIAN_LITTLE_BYTE
   // Native integer is little-endian. Convert it to big-endian.
-  ScillaValues::swapEndian(reinterpret_cast<uint8_t *>(Mem), Len);
+  ScillaValues::revBytes(reinterpret_cast<uint8_t *>(Mem), Len);
 #endif
   return Mem;
 }
@@ -287,7 +287,7 @@ void byStrXToUint(SafeInt<X, Unsigned> &UI, void *BX, int L) {
   std::memcpy(UIAddr + (Len - L), BX, L);
 #if BOOST_ENDIAN_LITTLE_BYTE
   // Native integer is little-endian. Convert it to big-endian.
-  ScillaValues::swapEndian(UIAddr, Len);
+  ScillaValues::revBytes(UIAddr, Len);
 #endif
 }
 
@@ -1051,6 +1051,30 @@ void *_concat_ByStrX(ScillaExecImpl *SJ, int X1, uint8_t *Lhs, int X2,
   auto *Buf = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(X1 + X2));
   std::memcpy(Buf, Lhs, X1);
   std::memcpy(Buf + X1, Rhs, X2);
+  return Buf;
+}
+
+ScillaTypes::String _strrev_String(ScillaExecImpl *SJ,
+                                   ScillaTypes::String Lhs) {
+
+  ScillaTypes::String Ret;
+  Ret.m_length = Lhs.m_length;
+  auto Buf = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(Ret.m_length));
+  std::memcpy(Buf, Lhs.m_buffer, Lhs.m_length);
+  ScillaValues::revBytes(Buf, Ret.m_length);
+  Ret.m_buffer = Buf;
+  return Ret;
+}
+
+ScillaTypes::String _strrev_ByStr(ScillaExecImpl *SJ, ScillaTypes::String Lhs) {
+  return _strrev_String(SJ, Lhs);
+}
+
+void *_strrev_ByStrX(ScillaExecImpl *SJ, int X1, uint8_t *Lhs) {
+
+  auto *Buf = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(X1));
+  std::memcpy(Buf, Lhs, X1);
+  ScillaValues::revBytes(Buf, X1);
   return Buf;
 }
 
