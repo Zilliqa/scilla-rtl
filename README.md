@@ -107,6 +107,7 @@ See `--help` for all options provided by `boost`. These options must all be prov
 
 The `testsuite_dir` argument following `--` is a [custom argument](https://www.boost.org/doc/libs/1_70_0/libs/test/doc/html/boost_test/runtime_config/custom_command_line_arguments.html)
 that tells the testsuite where to find the tests and their inputs.
+The custom flag `--update-result` can be provided to update test results instead of comparing.
 
 For convenience a `CMake` target `runtests` has been provided to run the testsuite. This can be
 executed as `make runtests` in the build directory.

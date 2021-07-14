@@ -112,7 +112,8 @@ void compileLLVMToSO(const std::string &InputFile,
                      const std::string &OutputFile) {
   try {
     auto ExecP = bp::search_path("clang-10");
-    if (bp::system(ExecP, "-fPIC", "-shared", InputFile, "-o", OutputFile)) {
+    if (bp::system(ExecP, "-Wno-override-module", "-fPIC", "-shared", InputFile,
+                   "-o", OutputFile)) {
       CREATE_ERROR("Compilation of " + InputFile + " failed.");
     }
   } catch (std::system_error &E) {
