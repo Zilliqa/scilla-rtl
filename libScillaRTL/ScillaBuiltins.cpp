@@ -462,6 +462,16 @@ SafeUint256 *_rem_Uint256(ScillaExecImpl *SJ, SafeUint256 *Lhs,
   return SJ->OM.create<SafeUint256>(*Lhs % *Rhs);
 }
 
+SafeUint32 _isqrt_Uint32(SafeUint32 Lhs) { return Lhs.sqrt(); }
+
+SafeUint64 _isqrt_Uint64(SafeUint64 Lhs) { return Lhs.sqrt(); }
+
+SafeUint128 _isqrt_Uint128(SafeUint128 Lhs) { return Lhs.sqrt(); }
+
+SafeUint256 *_isqrt_Uint256(ScillaExecImpl *SJ, SafeUint256 *Lhs) {
+  return SJ->OM.create<SafeUint256>(Lhs->sqrt());
+}
+
 uint8_t *_eq_Int32(ScillaExecImpl *SJ, SafeInt32 Lhs, SafeInt32 Rhs) {
 
   return toScillaBool(SJ->OM, Lhs == Rhs);
