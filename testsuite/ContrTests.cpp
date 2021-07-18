@@ -941,4 +941,33 @@ BOOST_AUTO_TEST_CASE(succ_common_jit) {
 
 BOOST_AUTO_TEST_SUITE_END() // type_casts
 
+BOOST_AUTO_TEST_SUITE(accounting_tests)
+
+auto prepareAccountingSuccTests = []() {
+  ContractTest RSRSTs{"accounting_tests.ll", {}};
+  for (int I = 1; I <= 21; I++) {
+    ContractTest::Input ThisInput = {
+        "accounting_tests_succ_" + std::to_string(I),
+        "accounting_tests.message_" + std::to_string(I) + ".json",
+        "accounting_tests.init.json",
+        "accounting_tests.contrinfo.json",
+        "accounting_tests.state_" + std::to_string(I) + ".json",
+        "accounting_tests.ostate_" + std::to_string(I) + ".json",
+        "accounting_tests.output_" + std::to_string(I) + ".json",
+        "blockchain_default.json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits) {
+  testMessages(prepareAccountingSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit) {
+  testMessages(prepareAccountingSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // accounting_tests
+
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

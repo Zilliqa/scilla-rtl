@@ -1,0 +1,14 @@
+{
+    "scilla_major_version": "0",
+    "gas_remaining": "7934",
+    "_accepted": "false",
+    "messages": [
+        {
+            "_tag": "AcceptTwiceAndCheckBalance",
+            "_amount": "10",
+            "_recipient": "0xabfeccdc9012345678901234567890f777564323",
+            "params": []
+        }
+    ],
+    "events": []
+}

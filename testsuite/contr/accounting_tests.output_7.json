@@ -1,0 +1,20 @@
+{
+    "scilla_major_version": "0",
+    "gas_remaining": "7943",
+    "_accepted": "false",
+    "messages": [
+        {
+            "_tag": "StoreString",
+            "_amount": "0",
+            "_recipient": "0xabfeccdc9012345678901234567890f777564323",
+            "params": [
+                {
+                    "vname": "s",
+                    "type": "String",
+                    "value": "Hello"
+                }
+            ]
+        }
+    ],
+    "events": []
+}
