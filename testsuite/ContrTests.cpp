@@ -796,7 +796,7 @@ BOOST_AUTO_TEST_CASE(common_jit) {
 
 auto prepareRemoteStateReadsSuccTests = []() {
   ContractTest RSRSTs{"remote_state_reads.ll", {}};
-  for (int I = 1; I <= 11; I++) {
+  for (int I = 1; I <= 10; I++) {
     ContractTest::Input ThisInput = {
         "remote_state_reads_succ_" + std::to_string(I),
         "remote_state_reads.message_" + std::to_string(I) + ".json",
@@ -845,7 +845,7 @@ BOOST_AUTO_TEST_CASE(succ_common_jit_2) {
 }
 
 BOOST_AUTO_TEST_CASE(fail_msgs) {
-  for (int I = 101; I <= 131; I++) {
+  for (int I = 101; I <= 130; I++) {
     if (I == 127) {
       // https://github.com/Zilliqa/scilla-rtl/issues/46
       continue;
