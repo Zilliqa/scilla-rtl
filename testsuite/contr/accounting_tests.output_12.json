@@ -1,26 +1,26 @@
 {
-    "scilla_major_version": "0",
-    "gas_remaining": "7913",
-    "_accepted": "false",
-    "messages": [
-        {
-            "_tag": "NonAccept",
-            "_amount": "10",
-            "_recipient": "0xabfeccdc9012345678901234567890f777564323",
-            "params": []
-        },
-        {
-            "_tag": "CheckSenderBalance",
-            "_amount": "0",
-            "_recipient": "0x3620c286757a29985cee194eb90064270fb65414",
-            "params": [
-                {
-                    "vname": "expected_balance",
-                    "type": "Uint128",
-                    "value": "30"
-                }
-            ]
-        }
-    ],
-    "events": []
+   "_accepted" : "false",
+   "events" : [],
+   "gas_remaining" : "9999613",
+   "messages" : [
+      {
+         "_amount" : "10",
+         "_recipient" : "0xabfeccdc9012345678901234567890f777564323",
+         "_tag" : "NonAccept",
+         "params" : []
+      },
+      {
+         "_amount" : "0",
+         "_recipient" : "0x3620c286757a29985cee194eb90064270fb65414",
+         "_tag" : "CheckSenderBalance",
+         "params" : [
+            {
+               "type" : "Uint128",
+               "value" : "30",
+               "vname" : "expected_balance"
+            }
+         ]
+      }
+   ],
+   "scilla_major_version" : "0"
 }

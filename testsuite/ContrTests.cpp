@@ -49,7 +49,7 @@ struct ContractTest {
 };
 
 // Give a file foo.ll, return foo.dbg.ll.
-std::string deriveDbgFilename(std::string Filename) {
+std::string deriveDbgFilename(const std::string &Filename) {
   auto BaseName = boost::filesystem::basename(Filename);
   auto Extension = boost::filesystem::extension(Filename);
   return BaseName + ".dbg" + Extension;
@@ -181,7 +181,7 @@ void testMessages(const ContractTest &CT, bool CommonJIT) {
   testMessagesHelper(CT, CommonJIT);
   BOOST_TEST_CHECKPOINT("Testing " + CT.ContrFilename + " with debug LLVM-IR");
   auto CTDbg(CT);
-  deriveDbgFilename(CTDbg.ContrFilename);
+  CTDbg.ContrFilename = deriveDbgFilename(CTDbg.ContrFilename);
   testMessagesHelper(CTDbg, CommonJIT);
 }
 

@@ -1,14 +1,14 @@
 {
-    "scilla_major_version": "0",
-    "gas_remaining": "7935",
-    "_accepted": "false",
-    "messages": [
-        {
-            "_tag": "Accept",
-            "_amount": "30",
-            "_recipient": "0xabfeccdc9012345678901234567890f777564323",
-            "params": []
-        }
-    ],
-    "events": []
+   "_accepted" : "false",
+   "events" : [],
+   "gas_remaining" : "9999788",
+   "messages" : [
+      {
+         "_amount" : "30",
+         "_recipient" : "0xabfeccdc9012345678901234567890f777564323",
+         "_tag" : "Accept",
+         "params" : []
+      }
+   ],
+   "scilla_major_version" : "0"
 }
