@@ -1,0 +1,26 @@
+{
+   "_accepted" : "false",
+   "events" : [],
+   "gas_remaining" : "9999610",
+   "messages" : [
+      {
+         "_amount" : "10",
+         "_recipient" : "0xabfeccdc9012345678901234567890f777564323",
+         "_tag" : "AcceptAndCheckBalance",
+         "params" : []
+      },
+      {
+         "_amount" : "0",
+         "_recipient" : "0x3620c286757a29985cee194eb90064270fb65414",
+         "_tag" : "CheckRecipientBalance",
+         "params" : [
+            {
+               "type" : "Uint128",
+               "value" : "52",
+               "vname" : "expected_balance"
+            }
+         ]
+      }
+   ],
+   "scilla_major_version" : "0"
+}

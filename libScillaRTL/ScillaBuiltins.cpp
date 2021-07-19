@@ -52,7 +52,19 @@ void TransitionState::processMessage(std::string OutType, Json::Value &M) {
 }
 
 void TransitionState::processSend(Json::Value &M) {
-  processMessage("messages", M);
+  Json::Value AmtJ = M.get("_amount", Json::nullValue);
+  if (AmtJ.isString()) {
+    auto AmtV = SafeUint128(AmtJ.asString());
+    if (AmtV > Balance) {
+      CREATE_ERROR("Not enough balance to send _amount in message.\n" +
+                   M.toStyledString());
+    }
+    Balance = Balance - AmtV;
+    processMessage("messages", M);
+  } else {
+    CREATE_ERROR("Invalid outgoing message. _amount not found.\n" +
+                 M.toStyledString());
+  }
 }
 
 void TransitionState::processEvent(Json::Value &M) {
@@ -69,19 +81,9 @@ void TransitionState::processAccept(void) {
 bool TransitionState::HasAccepted(void) const { return Accepted; }
 
 Json::Value TransitionState::finalize(uint64_t GasRem) {
-  // 1. Process all outgoing "_amount"s and subtract from Balance.
+  // 1. If there are no ougoing messages, set an empty array.
   Json::Value &Ms = OutJ["messages"];
-  if (Ms.isArray()) {
-    for (const Json::Value &M : Ms) {
-      auto Amount = M["_amount"];
-      ASSERT(Amount.isString());
-      SafeUint128 AmountSUI(Amount.asString());
-      if (AmountSUI > Balance) {
-        SCILLA_EXCEPTION("Not enough balance to send _amount in all messages");
-      }
-      Balance = Balance - AmountSUI;
-    }
-  } else {
+  if (!Ms.isArray()) {
     Ms = Json::arrayValue;
   }
 
@@ -238,20 +240,7 @@ void *fetchFieldHelper(ScillaExecImpl *SJ, const std::string &Addr,
     } else {
       auto Val = std::any_cast<std::string>(StringOrMapVal);
       Json::Value ValJ = parseJSONString(Val);
-      auto Res = ScillaValues::fromJSON(SJ->OM, T, ValJ);
-      // If the query is for `_sender`'s  `_balance`, and we've accepted
-      // money being sent in, then that must be subtracted and shown.
-      if (std::string(Name) == "_balance" && !Addr.empty() &&
-          Addr == SJ->TS->SenderAddr && SJ->TS->HasAccepted()) {
-        // Assert that the value we're returning is indeed Uint128.
-        ASSERT(T->m_t == ScillaTypes::Typ::Prim_typ &&
-               T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Uint_typ &&
-               T->m_sub.m_primt->m_detail.m_intBW ==
-                   ScillaTypes::PrimTyp::Bits128);
-        auto *SenderBal = reinterpret_cast<SafeUint128 *>(Res);
-        *SenderBal = *SenderBal - SJ->TS->InAmount;
-      }
-      return Res;
+      return ScillaValues::fromJSON(SJ->OM, T, ValJ);
     }
   }
 
@@ -606,8 +595,6 @@ void *_fetch_field(ScillaExecImpl *SJ, const char *Name,
   if (std::string(Name) == "_balance") {
     // TODO: This is inefficient, It also allocates memory on every call.
     // A better idea: https://github.com/Zilliqa/scilla-compiler/issues/73.
-    // On the other hand, due to https://github.com/Zilliqa/scilla/issues/1007,
-    // we may want to get rid of this special handling altogether.
     return SJ->OM.create<SafeUint128>(SJ->TS->getCurBal());
   }
   return fetchFieldHelper(SJ, std::string(), Name, T, NumIdx, Indices,

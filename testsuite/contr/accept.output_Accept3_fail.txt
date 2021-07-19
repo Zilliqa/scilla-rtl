@@ -1,1 +1,7 @@
-Not enough balance to send _amount in all messages
+Not enough balance to send _amount in message.
+{
+   "_amount" : "100",
+   "_recipient" : "0x1234567890123456789012345678901234567890",
+   "_tag" : "",
+   "params" : []
+}

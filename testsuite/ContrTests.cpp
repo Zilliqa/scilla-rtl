@@ -49,7 +49,7 @@ struct ContractTest {
 };
 
 // Give a file foo.ll, return foo.dbg.ll.
-std::string deriveDbgFilename(std::string Filename) {
+std::string deriveDbgFilename(const std::string &Filename) {
   auto BaseName = boost::filesystem::basename(Filename);
   auto Extension = boost::filesystem::extension(Filename);
   return BaseName + ".dbg" + Extension;
@@ -181,7 +181,7 @@ void testMessages(const ContractTest &CT, bool CommonJIT) {
   testMessagesHelper(CT, CommonJIT);
   BOOST_TEST_CHECKPOINT("Testing " + CT.ContrFilename + " with debug LLVM-IR");
   auto CTDbg(CT);
-  deriveDbgFilename(CTDbg.ContrFilename);
+  CTDbg.ContrFilename = deriveDbgFilename(CTDbg.ContrFilename);
   testMessagesHelper(CTDbg, CommonJIT);
 }
 
@@ -796,7 +796,7 @@ BOOST_AUTO_TEST_CASE(common_jit) {
 
 auto prepareRemoteStateReadsSuccTests = []() {
   ContractTest RSRSTs{"remote_state_reads.ll", {}};
-  for (int I = 1; I <= 11; I++) {
+  for (int I = 1; I <= 10; I++) {
     ContractTest::Input ThisInput = {
         "remote_state_reads_succ_" + std::to_string(I),
         "remote_state_reads.message_" + std::to_string(I) + ".json",
@@ -845,11 +845,7 @@ BOOST_AUTO_TEST_CASE(succ_common_jit_2) {
 }
 
 BOOST_AUTO_TEST_CASE(fail_msgs) {
-  for (int I = 101; I <= 131; I++) {
-    if (I == 127) {
-      // https://github.com/Zilliqa/scilla-rtl/issues/46
-      continue;
-    }
+  for (int I = 101; I <= 130; I++) {
     BOOST_TEST_CHECKPOINT("Executing remote_state_reads_fail_" << I);
     testMessageFail("remote_state_reads.ll",
                     "remote_state_reads.message_" + std::to_string(I) + ".json",
@@ -940,5 +936,72 @@ BOOST_AUTO_TEST_CASE(succ_common_jit) {
 }
 
 BOOST_AUTO_TEST_SUITE_END() // type_casts
+
+BOOST_AUTO_TEST_SUITE(accounting_tests)
+
+auto prepareAccountingSuccTests = []() {
+  ContractTest RSRSTs{"accounting_tests.ll", {}};
+  for (int I = 1; I <= 21; I++) {
+    ContractTest::Input ThisInput = {
+        "accounting_tests_succ_" + std::to_string(I),
+        "accounting_tests.message_" + std::to_string(I) + ".json",
+        "accounting_tests.init.json",
+        "accounting_tests.contrinfo.json",
+        "accounting_tests.state_" + std::to_string(I) + ".json",
+        "accounting_tests.ostate_" + std::to_string(I) + ".json",
+        "accounting_tests.output_" + std::to_string(I) + ".json",
+        "blockchain_default.json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits) {
+  testMessages(prepareAccountingSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit) {
+  testMessages(prepareAccountingSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(expfail) {
+  for (int I = 100; I <= 109; I++) {
+    BOOST_TEST_CHECKPOINT("Executing accounting_tests_fail_" << I);
+    testMessageFail("accounting_tests.ll",
+                    "accounting_tests.message_" + std::to_string(I) + ".json",
+                    "accounting_tests.init.json",
+                    "accounting_tests.contrinfo.json",
+                    "accounting_tests.state_" + std::to_string(I) + ".json",
+                    "accounting_tests.output_" + std::to_string(I) + ".json",
+                    "blockchain_default.json");
+  }
+}
+
+auto prepareAccountingSupportSuccTests = []() {
+  ContractTest RSRSTs{"accounting_tests_support.ll", {}};
+  for (int I = 1; I <= 6; I++) {
+    ContractTest::Input ThisInput = {
+        "accounting_tests_support_succ_" + std::to_string(I),
+        "accounting_tests_support.message_" + std::to_string(I) + ".json",
+        "empty_init.json",
+        "accounting_tests_support.contrinfo.json",
+        "accounting_tests_support.state_" + std::to_string(I) + ".json",
+        "accounting_tests_support.ostate_" + std::to_string(I) + ".json",
+        "accounting_tests_support.output_" + std::to_string(I) + ".json",
+        "blockchain_default.json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(support_succ_unique_jits) {
+  testMessages(prepareAccountingSupportSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(support_succ_common_jit) {
+  testMessages(prepareAccountingSupportSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // accounting_tests
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

@@ -1,0 +1,15 @@
+Exception thrown: {
+   "_exception" : "Unexpected balance",
+   "params" : [
+      {
+         "type" : "Uint128",
+         "value" : "30",
+         "vname" : "expected"
+      },
+      {
+         "type" : "Uint128",
+         "value" : "20",
+         "vname" : "actual"
+      }
+   ]
+}

@@ -1,0 +1,56 @@
+Exception thrown: {
+   "_exception" : "Test_Send failed",
+   "params" : [
+      {
+         "type" : "Uint128",
+         "value" : "1",
+         "vname" : "test_no"
+      },
+      {
+         "type" : "List (String)",
+         "value" : {
+            "argtypes" : [ "String" ],
+            "arguments" : [
+               "World",
+               {
+                  "argtypes" : [ "String" ],
+                  "arguments" : [
+                     "Hello",
+                     {
+                        "argtypes" : [ "String" ],
+                        "arguments" : [],
+                        "constructor" : "Nil"
+                     }
+                  ],
+                  "constructor" : "Cons"
+               }
+            ],
+            "constructor" : "Cons"
+         },
+         "vname" : "expected"
+      },
+      {
+         "type" : "List (String)",
+         "value" : {
+            "argtypes" : [ "String" ],
+            "arguments" : [
+               "Hello",
+               {
+                  "argtypes" : [ "String" ],
+                  "arguments" : [
+                     "World",
+                     {
+                        "argtypes" : [ "String" ],
+                        "arguments" : [],
+                        "constructor" : "Nil"
+                     }
+                  ],
+                  "constructor" : "Cons"
+               }
+            ],
+            "constructor" : "Cons"
+         },
+         "vname" : "actual"
+      }
+   ]
+}

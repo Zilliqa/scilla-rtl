@@ -1,0 +1,7 @@
+Not enough balance to send _amount in message.
+{
+   "_amount" : "10",
+   "_recipient" : "0xabfeccdc9012345678901234567890f777564323",
+   "_tag" : "NonAccept",
+   "params" : []
+}
