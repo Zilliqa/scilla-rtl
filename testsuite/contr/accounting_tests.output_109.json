@@ -1,0 +1,15 @@
+Exception thrown: {
+   "_exception" : "Main contract read unexpected support contract balance",
+   "params" : [
+      {
+         "type" : "Uint128",
+         "value" : "52",
+         "vname" : "expected"
+      },
+      {
+         "type" : "Uint128",
+         "value" : "42",
+         "vname" : "actual"
+      }
+   ]
+}

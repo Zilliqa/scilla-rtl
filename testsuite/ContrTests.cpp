@@ -964,6 +964,19 @@ BOOST_AUTO_TEST_CASE(succ_common_jit) {
   testMessages(prepareAccountingSuccTests(), true /* CommonJIT */);
 }
 
+BOOST_AUTO_TEST_CASE(expfail) {
+  for (int I = 100; I <= 109; I++) {
+    BOOST_TEST_CHECKPOINT("Executing accounting_tests_fail_" << I);
+    testMessageFail("accounting_tests.ll",
+                    "accounting_tests.message_" + std::to_string(I) + ".json",
+                    "accounting_tests.init.json",
+                    "accounting_tests.contrinfo.json",
+                    "accounting_tests.state_" + std::to_string(I) + ".json",
+                    "accounting_tests.output_" + std::to_string(I) + ".json",
+                    "blockchain_default.json");
+  }
+}
+
 BOOST_AUTO_TEST_SUITE_END() // accounting_tests
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec
