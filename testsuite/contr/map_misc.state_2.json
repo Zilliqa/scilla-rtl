@@ -1,48 +1,48 @@
 [
-      {
-         "type" : "Uint128",
-         "value" : "0",
-         "vname" : "_balance"
-      },
-      {
-         "type" : "Map (Int32) (Map (BNum) (Int32))",
-         "value" : [
-            {
-               "key" : "42",
-               "val" : [
-                  {
-                     "key" : "1",
-                     "val" : "42"
-                  },
-                  {
-                     "key" : "2",
-                     "val" : "239"
-                  },
-                  {
-                     "key" : "3",
-                     "val" : "112"
-                  }
-               ]
-            }
-         ],
-         "vname" : "m2"
-      },
-      {
-         "type" : "Map (BNum) (Int32)",
-         "value" : [
-            {
-               "key" : "1",
-               "val" : "42"
-            },
-            {
-               "key" : "2",
-               "val" : "239"
-            },
-            {
-               "key" : "3",
-               "val" : "112"
-            }
-         ],
-         "vname" : "m1"
-      }
+   {
+      "type" : "Uint128",
+      "value" : "0",
+      "vname" : "_balance"
+   },
+   {
+      "type" : "Map (BNum) (Int32)",
+      "value" : [
+         {
+            "key" : "1",
+            "val" : "42"
+         },
+         {
+            "key" : "2",
+            "val" : "239"
+         },
+         {
+            "key" : "3",
+            "val" : "112"
+         }
+      ],
+      "vname" : "m1"
+   },
+   {
+      "type" : "Map (Int32) (Map (BNum) (Int32))",
+      "value" : [
+         {
+            "key" : "42",
+            "val" : [
+               {
+                  "key" : "1",
+                  "val" : "42"
+               },
+               {
+                  "key" : "2",
+                  "val" : "239"
+               },
+               {
+                  "key" : "3",
+                  "val" : "112"
+               }
+            ]
+         }
+      ],
+      "vname" : "m2"
+   }
 ]
