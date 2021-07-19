@@ -846,10 +846,6 @@ BOOST_AUTO_TEST_CASE(succ_common_jit_2) {
 
 BOOST_AUTO_TEST_CASE(fail_msgs) {
   for (int I = 101; I <= 130; I++) {
-    if (I == 127) {
-      // https://github.com/Zilliqa/scilla-rtl/issues/46
-      continue;
-    }
     BOOST_TEST_CHECKPOINT("Executing remote_state_reads_fail_" << I);
     testMessageFail("remote_state_reads.ll",
                     "remote_state_reads.message_" + std::to_string(I) + ".json",
