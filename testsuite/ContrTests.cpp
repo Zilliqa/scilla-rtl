@@ -977,6 +977,31 @@ BOOST_AUTO_TEST_CASE(expfail) {
   }
 }
 
+auto prepareAccountingSupportSuccTests = []() {
+  ContractTest RSRSTs{"accounting_tests_support.ll", {}};
+  for (int I = 1; I <= 6; I++) {
+    ContractTest::Input ThisInput = {
+        "accounting_tests_support_succ_" + std::to_string(I),
+        "accounting_tests_support.message_" + std::to_string(I) + ".json",
+        "empty_init.json",
+        "accounting_tests_support.contrinfo.json",
+        "accounting_tests_support.state_" + std::to_string(I) + ".json",
+        "accounting_tests_support.ostate_" + std::to_string(I) + ".json",
+        "accounting_tests_support.output_" + std::to_string(I) + ".json",
+        "blockchain_default.json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(support_succ_unique_jits) {
+  testMessages(prepareAccountingSupportSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(support_succ_common_jit) {
+  testMessages(prepareAccountingSupportSuccTests(), true /* CommonJIT */);
+}
+
 BOOST_AUTO_TEST_SUITE_END() // accounting_tests
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec
