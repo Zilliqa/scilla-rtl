@@ -111,7 +111,7 @@ uint64_t parseBlockchainJSON(const Json::Value &BC) {
 void compileLLVMToSO(const std::string &InputFile,
                      const std::string &OutputFile) {
   try {
-    auto ExecP = bp::search_path("clang-10");
+    auto ExecP = bp::search_path("clang-12");
     if (bp::system(ExecP, "-Wno-override-module", "-fPIC", "-shared", InputFile,
                    "-o", OutputFile)) {
       CREATE_ERROR("Compilation of " + InputFile + " failed.");
