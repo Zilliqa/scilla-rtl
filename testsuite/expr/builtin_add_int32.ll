@@ -8,9 +8,9 @@ target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
-%"$ParamDescr_64" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_69" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_65" = type { %ParamDescrString, i32, %"$ParamDescr_64"* }
+%"$TransDescr_70" = type { %ParamDescrString, i32, %"$ParamDescr_69"* }
 %Int32 = type { i32 }
 
 @_execptr = global i8* null
@@ -45,9 +45,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Bystr_29" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_1"* @"$TyDescr_Bystr_Prim_28" to i8*) }
 @_tydescr_table = constant [14 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_25", %_TyDescrTy_Typ* @"$TyDescr_Int64_7", %_TyDescrTy_Typ* @"$TyDescr_Uint256_17", %_TyDescrTy_Typ* @"$TyDescr_Uint32_5", %_TyDescrTy_Typ* @"$TyDescr_Uint64_9", %_TyDescrTy_Typ* @"$TyDescr_Bnum_21", %_TyDescrTy_Typ* @"$TyDescr_Uint128_13", %_TyDescrTy_Typ* @"$TyDescr_Exception_27", %_TyDescrTy_Typ* @"$TyDescr_String_19", %_TyDescrTy_Typ* @"$TyDescr_Int256_15", %_TyDescrTy_Typ* @"$TyDescr_Int128_11", %_TyDescrTy_Typ* @"$TyDescr_Bystr_29", %_TyDescrTy_Typ* @"$TyDescr_Message_23", %_TyDescrTy_Typ* @"$TyDescr_Int32_3"]
 @_tydescr_table_length = constant i32 14
-@_contract_parameters = constant [0 x %"$ParamDescr_64"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_69"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_65"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_70"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define void @_init_libs() {
@@ -106,12 +106,23 @@ entry:
   %"$consume_55" = sub i64 %"$gasrem_51", 1
   store i64 %"$consume_55", i64* @_gasrem, align 8
   store %Int32 { i32 2 }, %Int32* %two, align 4
-  %"$one_56" = load %Int32, %Int32* %one, align 4
-  %"$two_57" = load %Int32, %Int32* %two, align 4
-  %"$add_call_58" = call %Int32 @_add_Int32(%Int32 %"$one_56", %Int32 %"$two_57")
-  store %Int32 %"$add_call_58", %Int32* %"$expr_0", align 4
-  %"$$expr_0_59" = load %Int32, %Int32* %"$expr_0", align 4
-  ret %Int32 %"$$expr_0_59"
+  %"$gasrem_56" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_57" = icmp ugt i64 4, %"$gasrem_56"
+  br i1 %"$gascmp_57", label %"$out_of_gas_58", label %"$have_gas_59"
+
+"$out_of_gas_58":                                 ; preds = %"$have_gas_54"
+  call void @_out_of_gas()
+  br label %"$have_gas_59"
+
+"$have_gas_59":                                   ; preds = %"$out_of_gas_58", %"$have_gas_54"
+  %"$consume_60" = sub i64 %"$gasrem_56", 4
+  store i64 %"$consume_60", i64* @_gasrem, align 8
+  %"$one_61" = load %Int32, %Int32* %one, align 4
+  %"$two_62" = load %Int32, %Int32* %two, align 4
+  %"$add_call_63" = call %Int32 @_add_Int32(%Int32 %"$one_61", %Int32 %"$two_62")
+  store %Int32 %"$add_call_63", %Int32* %"$expr_0", align 4
+  %"$$expr_0_64" = load %Int32, %Int32* %"$expr_0", align 4
+  ret %Int32 %"$$expr_0_64"
 }
 
 declare void @_out_of_gas()
@@ -122,11 +133,11 @@ declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_60" = call %Int32 @_scilla_expr_fun(i8* null)
-  %"$pval_61" = alloca %Int32, align 8
-  %"$memvoidcast_62" = bitcast %Int32* %"$pval_61" to i8*
-  store %Int32 %"$exprval_60", %Int32* %"$pval_61", align 4
-  %"$execptr_load_63" = load i8*, i8** @_execptr, align 8
-  call void @_print_scilla_val(i8* %"$execptr_load_63", %_TyDescrTy_Typ* @"$TyDescr_Int32_3", i8* %"$memvoidcast_62")
+  %"$exprval_65" = call %Int32 @_scilla_expr_fun(i8* null)
+  %"$pval_66" = alloca %Int32, align 8
+  %"$memvoidcast_67" = bitcast %Int32* %"$pval_66" to i8*
+  store %Int32 %"$exprval_65", %Int32* %"$pval_66", align 4
+  %"$execptr_load_68" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_68", %_TyDescrTy_Typ* @"$TyDescr_Int32_3", i8* %"$memvoidcast_67")
   ret void
 }

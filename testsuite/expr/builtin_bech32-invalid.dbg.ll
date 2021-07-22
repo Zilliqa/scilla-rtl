@@ -12,9 +12,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %TyDescrString = type { i8*, i32 }
 %"$TyDescrTy_ADTTyp_Specl_32" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_34"**, %"$TyDescrTy_ADTTyp_33"* }
 %"$TyDescrTy_ADTTyp_Constr_34" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
-%"$ParamDescr_82" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_97" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_83" = type { %ParamDescrString, i32, %"$ParamDescr_82"* }
+%"$TransDescr_98" = type { %ParamDescrString, i32, %"$ParamDescr_97"* }
 %TName_Option_ByStr20 = type { i8, %CName_Some_ByStr20*, %CName_None_ByStr20* }
 %CName_Some_ByStr20 = type <{ i8, [20 x i8] }>
 %CName_None_ByStr20 = type <{ i8 }>
@@ -69,9 +69,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$stringlit_72" = unnamed_addr constant [3 x i8] c"zil"
 @_tydescr_table = constant [16 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_25", %_TyDescrTy_Typ* @"$TyDescr_Int64_7", %_TyDescrTy_Typ* @"$TyDescr_ADT_Option_ByStr20_35", %_TyDescrTy_Typ* @"$TyDescr_Bystr20_31", %_TyDescrTy_Typ* @"$TyDescr_Uint256_17", %_TyDescrTy_Typ* @"$TyDescr_Uint32_5", %_TyDescrTy_Typ* @"$TyDescr_Uint64_9", %_TyDescrTy_Typ* @"$TyDescr_Bnum_21", %_TyDescrTy_Typ* @"$TyDescr_Uint128_13", %_TyDescrTy_Typ* @"$TyDescr_Exception_27", %_TyDescrTy_Typ* @"$TyDescr_String_19", %_TyDescrTy_Typ* @"$TyDescr_Int256_15", %_TyDescrTy_Typ* @"$TyDescr_Int128_11", %_TyDescrTy_Typ* @"$TyDescr_Bystr_29", %_TyDescrTy_Typ* @"$TyDescr_Message_23", %_TyDescrTy_Typ* @"$TyDescr_Int32_3"]
 @_tydescr_table_length = constant i32 16
-@_contract_parameters = constant [0 x %"$ParamDescr_82"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_97"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_83"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_98"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define void @_init_libs() !dbg !4 {
@@ -130,16 +130,41 @@ entry:
   %"$consume_71" = sub i64 %"$gasrem_67", 1
   store i64 %"$consume_71", i64* @_gasrem, align 8
   store %String { i8* getelementptr inbounds ([3 x i8], [3 x i8]* @"$stringlit_72", i32 0, i32 0), i32 3 }, %String* %prefix, align 8, !dbg !11
-  %"$execptr_load_73" = load i8*, i8** @_execptr, align 8
+  %"$_literal_cost_prefix_73" = alloca %String, align 8
   %"$prefix_74" = load %String, %String* %prefix, align 8
-  %"$bech32str_75" = load %String, %String* %bech32str, align 8
-  %"$bech32_to_bystr20_call_76" = call %TName_Option_ByStr20* @_bech32_to_bystr20(i8* %"$execptr_load_73", %String %"$prefix_74", %String %"$bech32str_75"), !dbg !12
-  store %TName_Option_ByStr20* %"$bech32_to_bystr20_call_76", %TName_Option_ByStr20** %"$expr_0", align 8, !dbg !12
-  %"$$expr_0_78" = load %TName_Option_ByStr20*, %TName_Option_ByStr20** %"$expr_0", align 8
-  ret %TName_Option_ByStr20* %"$$expr_0_78"
+  store %String %"$prefix_74", %String* %"$_literal_cost_prefix_73", align 8
+  %"$$_literal_cost_prefix_73_75" = bitcast %String* %"$_literal_cost_prefix_73" to i8*
+  %"$_literal_cost_call_76" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$$_literal_cost_prefix_73_75")
+  %"$_literal_cost_bech32str_77" = alloca %String, align 8
+  %"$bech32str_78" = load %String, %String* %bech32str, align 8
+  store %String %"$bech32str_78", %String* %"$_literal_cost_bech32str_77", align 8
+  %"$$_literal_cost_bech32str_77_79" = bitcast %String* %"$_literal_cost_bech32str_77" to i8*
+  %"$_literal_cost_call_80" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$$_literal_cost_bech32str_77_79")
+  %"$gasadd_81" = add i64 %"$_literal_cost_call_76", %"$_literal_cost_call_80"
+  %"$gasmul_82" = mul i64 %"$gasadd_81", 4
+  %"$gasrem_83" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_84" = icmp ugt i64 %"$gasmul_82", %"$gasrem_83"
+  br i1 %"$gascmp_84", label %"$out_of_gas_85", label %"$have_gas_86"
+
+"$out_of_gas_85":                                 ; preds = %"$have_gas_70"
+  call void @_out_of_gas()
+  br label %"$have_gas_86"
+
+"$have_gas_86":                                   ; preds = %"$out_of_gas_85", %"$have_gas_70"
+  %"$consume_87" = sub i64 %"$gasrem_83", %"$gasmul_82"
+  store i64 %"$consume_87", i64* @_gasrem, align 8
+  %"$execptr_load_88" = load i8*, i8** @_execptr, align 8
+  %"$prefix_89" = load %String, %String* %prefix, align 8
+  %"$bech32str_90" = load %String, %String* %bech32str, align 8
+  %"$bech32_to_bystr20_call_91" = call %TName_Option_ByStr20* @_bech32_to_bystr20(i8* %"$execptr_load_88", %String %"$prefix_89", %String %"$bech32str_90"), !dbg !12
+  store %TName_Option_ByStr20* %"$bech32_to_bystr20_call_91", %TName_Option_ByStr20** %"$expr_0", align 8, !dbg !12
+  %"$$expr_0_93" = load %TName_Option_ByStr20*, %TName_Option_ByStr20** %"$expr_0", align 8
+  ret %TName_Option_ByStr20* %"$$expr_0_93"
 }
 
 declare void @_out_of_gas()
+
+declare i64 @_literal_cost(%_TyDescrTy_Typ*, i8*)
 
 declare %TName_Option_ByStr20* @_bech32_to_bystr20(i8*, %String, %String)
 
@@ -147,10 +172,10 @@ declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_79" = call %TName_Option_ByStr20* @_scilla_expr_fun(i8* null)
-  %"$memvoidcast_80" = bitcast %TName_Option_ByStr20* %"$exprval_79" to i8*
-  %"$execptr_load_81" = load i8*, i8** @_execptr, align 8
-  call void @_print_scilla_val(i8* %"$execptr_load_81", %_TyDescrTy_Typ* @"$TyDescr_ADT_Option_ByStr20_35", i8* %"$memvoidcast_80")
+  %"$exprval_94" = call %TName_Option_ByStr20* @_scilla_expr_fun(i8* null)
+  %"$memvoidcast_95" = bitcast %TName_Option_ByStr20* %"$exprval_94" to i8*
+  %"$execptr_load_96" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_96", %_TyDescrTy_Typ* @"$TyDescr_ADT_Option_ByStr20_35", i8* %"$memvoidcast_95")
   ret void
 }
 

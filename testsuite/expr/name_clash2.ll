@@ -11,9 +11,9 @@ target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_5" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
-%"$ParamDescr_94" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_99" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_95" = type { %ParamDescrString, i32, %"$ParamDescr_94"* }
+%"$TransDescr_100" = type { %ParamDescrString, i32, %"$ParamDescr_99"* }
 %"$$fundef_3_env_40" = type {}
 %Uint32 = type { i32 }
 
@@ -49,9 +49,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Bystr_33" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_5"* @"$TyDescr_Bystr_Prim_32" to i8*) }
 @_tydescr_table = constant [14 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_29", %_TyDescrTy_Typ* @"$TyDescr_Int64_11", %_TyDescrTy_Typ* @"$TyDescr_Uint256_21", %_TyDescrTy_Typ* @"$TyDescr_Uint32_9", %_TyDescrTy_Typ* @"$TyDescr_Uint64_13", %_TyDescrTy_Typ* @"$TyDescr_Bnum_25", %_TyDescrTy_Typ* @"$TyDescr_Uint128_17", %_TyDescrTy_Typ* @"$TyDescr_Exception_31", %_TyDescrTy_Typ* @"$TyDescr_String_23", %_TyDescrTy_Typ* @"$TyDescr_Int256_19", %_TyDescrTy_Typ* @"$TyDescr_Int128_15", %_TyDescrTy_Typ* @"$TyDescr_Bystr_33", %_TyDescrTy_Typ* @"$TyDescr_Message_27", %_TyDescrTy_Typ* @"$TyDescr_Int32_7"]
 @_tydescr_table_length = constant i32 14
-@_contract_parameters = constant [0 x %"$ParamDescr_94"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_99"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_95"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_100"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define internal %Uint32 @"$fundef_3"(%"$$fundef_3_env_40"* %0, %Uint32 %1) {
@@ -163,12 +163,23 @@ entry:
   store %Uint32 %"$f_call_84", %Uint32* %"$f_1", align 4
   %"$$f_1_85" = load %Uint32, %Uint32* %"$f_1", align 4
   store %Uint32 %"$$f_1_85", %Uint32* %b, align 4
-  %"$a_86" = load %Uint32, %Uint32* %a, align 4
-  %"$b_87" = load %Uint32, %Uint32* %b, align 4
-  %"$add_call_88" = call %Uint32 @_add_Uint32(%Uint32 %"$a_86", %Uint32 %"$b_87")
-  store %Uint32 %"$add_call_88", %Uint32* %"$expr_2", align 4
-  %"$$expr_2_89" = load %Uint32, %Uint32* %"$expr_2", align 4
-  ret %Uint32 %"$$expr_2_89"
+  %"$gasrem_86" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_87" = icmp ugt i64 4, %"$gasrem_86"
+  br i1 %"$gascmp_87", label %"$out_of_gas_88", label %"$have_gas_89"
+
+"$out_of_gas_88":                                 ; preds = %"$have_gas_78"
+  call void @_out_of_gas()
+  br label %"$have_gas_89"
+
+"$have_gas_89":                                   ; preds = %"$out_of_gas_88", %"$have_gas_78"
+  %"$consume_90" = sub i64 %"$gasrem_86", 4
+  store i64 %"$consume_90", i64* @_gasrem, align 8
+  %"$a_91" = load %Uint32, %Uint32* %a, align 4
+  %"$b_92" = load %Uint32, %Uint32* %b, align 4
+  %"$add_call_93" = call %Uint32 @_add_Uint32(%Uint32 %"$a_91", %Uint32 %"$b_92")
+  store %Uint32 %"$add_call_93", %Uint32* %"$expr_2", align 4
+  %"$$expr_2_94" = load %Uint32, %Uint32* %"$expr_2", align 4
+  ret %Uint32 %"$$expr_2_94"
 }
 
 declare %Uint32 @_add_Uint32(%Uint32, %Uint32)
@@ -177,11 +188,11 @@ declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_90" = call %Uint32 @_scilla_expr_fun(i8* null)
-  %"$pval_91" = alloca %Uint32, align 8
-  %"$memvoidcast_92" = bitcast %Uint32* %"$pval_91" to i8*
-  store %Uint32 %"$exprval_90", %Uint32* %"$pval_91", align 4
-  %"$execptr_load_93" = load i8*, i8** @_execptr, align 8
-  call void @_print_scilla_val(i8* %"$execptr_load_93", %_TyDescrTy_Typ* @"$TyDescr_Uint32_9", i8* %"$memvoidcast_92")
+  %"$exprval_95" = call %Uint32 @_scilla_expr_fun(i8* null)
+  %"$pval_96" = alloca %Uint32, align 8
+  %"$memvoidcast_97" = bitcast %Uint32* %"$pval_96" to i8*
+  store %Uint32 %"$exprval_95", %Uint32* %"$pval_96", align 4
+  %"$execptr_load_98" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_98", %_TyDescrTy_Typ* @"$TyDescr_Uint32_9", i8* %"$memvoidcast_97")
   ret void
 }
