@@ -11,9 +11,9 @@ target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_2" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
-%"$ParamDescr_76" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_81" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_77" = type { %ParamDescrString, i32, %"$ParamDescr_76"* }
+%"$TransDescr_82" = type { %ParamDescrString, i32, %"$ParamDescr_81"* }
 %Uint32 = type { i32 }
 
 @_execptr = global i8* null
@@ -48,9 +48,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Bystr_30" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_2"* @"$TyDescr_Bystr_Prim_29" to i8*) }
 @_tydescr_table = constant [14 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_26", %_TyDescrTy_Typ* @"$TyDescr_Int64_8", %_TyDescrTy_Typ* @"$TyDescr_Uint256_18", %_TyDescrTy_Typ* @"$TyDescr_Uint32_6", %_TyDescrTy_Typ* @"$TyDescr_Uint64_10", %_TyDescrTy_Typ* @"$TyDescr_Bnum_22", %_TyDescrTy_Typ* @"$TyDescr_Uint128_14", %_TyDescrTy_Typ* @"$TyDescr_Exception_28", %_TyDescrTy_Typ* @"$TyDescr_String_20", %_TyDescrTy_Typ* @"$TyDescr_Int256_16", %_TyDescrTy_Typ* @"$TyDescr_Int128_12", %_TyDescrTy_Typ* @"$TyDescr_Bystr_30", %_TyDescrTy_Typ* @"$TyDescr_Message_24", %_TyDescrTy_Typ* @"$TyDescr_Int32_4"]
 @_tydescr_table_length = constant i32 14
-@_contract_parameters = constant [0 x %"$ParamDescr_76"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_81"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_77"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_82"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define void @_init_libs() !dbg !4 {
@@ -134,12 +134,23 @@ entry:
   store i64 %"$consume_66", i64* @_gasrem, align 8
   %"$$a_0_67" = load %Uint32, %Uint32* %"$a_0", align 4
   store %Uint32 %"$$a_0_67", %Uint32* %x, align 4, !dbg !12
-  %"$a_68" = load %Uint32, %Uint32* %a, align 4
-  %"$x_69" = load %Uint32, %Uint32* %x, align 4
-  %"$add_call_70" = call %Uint32 @_add_Uint32(%Uint32 %"$a_68", %Uint32 %"$x_69"), !dbg !13
-  store %Uint32 %"$add_call_70", %Uint32* %"$expr_1", align 4, !dbg !13
-  %"$$expr_1_71" = load %Uint32, %Uint32* %"$expr_1", align 4
-  ret %Uint32 %"$$expr_1_71"
+  %"$gasrem_68" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_69" = icmp ugt i64 4, %"$gasrem_68"
+  br i1 %"$gascmp_69", label %"$out_of_gas_70", label %"$have_gas_71"
+
+"$out_of_gas_70":                                 ; preds = %"$have_gas_65"
+  call void @_out_of_gas()
+  br label %"$have_gas_71"
+
+"$have_gas_71":                                   ; preds = %"$out_of_gas_70", %"$have_gas_65"
+  %"$consume_72" = sub i64 %"$gasrem_68", 4
+  store i64 %"$consume_72", i64* @_gasrem, align 8
+  %"$a_73" = load %Uint32, %Uint32* %a, align 4
+  %"$x_74" = load %Uint32, %Uint32* %x, align 4
+  %"$add_call_75" = call %Uint32 @_add_Uint32(%Uint32 %"$a_73", %Uint32 %"$x_74"), !dbg !13
+  store %Uint32 %"$add_call_75", %Uint32* %"$expr_1", align 4, !dbg !13
+  %"$$expr_1_76" = load %Uint32, %Uint32* %"$expr_1", align 4
+  ret %Uint32 %"$$expr_1_76"
 }
 
 declare void @_out_of_gas()
@@ -150,12 +161,12 @@ declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_72" = call %Uint32 @_scilla_expr_fun(i8* null)
-  %"$pval_73" = alloca %Uint32, align 8
-  %"$memvoidcast_74" = bitcast %Uint32* %"$pval_73" to i8*
-  store %Uint32 %"$exprval_72", %Uint32* %"$pval_73", align 4
-  %"$execptr_load_75" = load i8*, i8** @_execptr, align 8
-  call void @_print_scilla_val(i8* %"$execptr_load_75", %_TyDescrTy_Typ* @"$TyDescr_Uint32_6", i8* %"$memvoidcast_74")
+  %"$exprval_77" = call %Uint32 @_scilla_expr_fun(i8* null)
+  %"$pval_78" = alloca %Uint32, align 8
+  %"$memvoidcast_79" = bitcast %Uint32* %"$pval_78" to i8*
+  store %Uint32 %"$exprval_77", %Uint32* %"$pval_78", align 4
+  %"$execptr_load_80" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_80", %_TyDescrTy_Typ* @"$TyDescr_Uint32_6", i8* %"$memvoidcast_79")
   ret void
 }
 

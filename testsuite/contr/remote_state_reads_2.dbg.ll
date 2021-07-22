@@ -16,9 +16,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %"$TyDescr_AddrFieldTyp_42" = type { %TyDescrString, %_TyDescrTy_Typ* }
 %"$TyDescr_AddrTyp_43" = type { i32, %"$TyDescr_AddrFieldTyp_42"* }
 %Uint32 = type { i32 }
-%"$ParamDescr_440" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_449" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_441" = type { %ParamDescrString, i32, %"$ParamDescr_440"* }
+%"$TransDescr_450" = type { %ParamDescrString, i32, %"$ParamDescr_449"* }
 %Uint128 = type { i128 }
 %TName_Option_Uint128 = type { i8, %CName_Some_Uint128*, %CName_None_Uint128* }
 %CName_Some_Uint128 = type <{ i8, %Uint128 }>
@@ -124,43 +124,43 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$remote_read_remote_read_res_3_327" = unnamed_addr constant [30 x i8] c"remote_read_remote_read_res_3\00"
 @"$address_type_erasure_test_res_1_365" = unnamed_addr constant [32 x i8] c"address_type_erasure_test_res_1\00"
 @"$address_type_erasure_test_res_1_389" = unnamed_addr constant [32 x i8] c"address_type_erasure_test_res_1\00"
-@"$address_type_erasure_test_res_1_430" = unnamed_addr constant [32 x i8] c"address_type_erasure_test_res_1\00"
+@"$address_type_erasure_test_res_1_439" = unnamed_addr constant [32 x i8] c"address_type_erasure_test_res_1\00"
 @_tydescr_table = constant [26 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Addr_49", %_TyDescrTy_Typ* @"$TyDescr_Event_28", %_TyDescrTy_Typ* @"$TyDescr_Int64_10", %_TyDescrTy_Typ* @"$TyDescr_Addr_50", %_TyDescrTy_Typ* @"$TyDescr_Bystr20_34", %_TyDescrTy_Typ* @"$TyDescr_Uint256_20", %_TyDescrTy_Typ* @"$TyDescr_Uint32_8", %_TyDescrTy_Typ* @"$TyDescr_Uint64_12", %_TyDescrTy_Typ* @"$TyDescr_Addr_45", %_TyDescrTy_Typ* @"$TyDescr_Bnum_24", %_TyDescrTy_Typ* @"$TyDescr_Uint128_16", %_TyDescrTy_Typ* @"$TyDescr_Addr_47", %_TyDescrTy_Typ* @"$TyDescr_Addr_44", %_TyDescrTy_Typ* @"$TyDescr_Exception_30", %_TyDescrTy_Typ* @"$TyDescr_String_22", %_TyDescrTy_Typ* @"$TyDescr_Addr_51", %_TyDescrTy_Typ* @"$TyDescr_Map_40", %_TyDescrTy_Typ* @"$TyDescr_Int256_18", %_TyDescrTy_Typ* @"$TyDescr_Int128_14", %_TyDescrTy_Typ* @"$TyDescr_Addr_48", %_TyDescrTy_Typ* @"$TyDescr_ADT_Option_Uint128_38", %_TyDescrTy_Typ* @"$TyDescr_Bystr_32", %_TyDescrTy_Typ* @"$TyDescr_Message_26", %_TyDescrTy_Typ* @"$TyDescr_Map_41", %_TyDescrTy_Typ* @"$TyDescr_Addr_46", %_TyDescrTy_Typ* @"$TyDescr_Int32_6"]
 @_tydescr_table_length = constant i32 26
-@"$pname__scilla_version_442" = unnamed_addr constant [15 x i8] c"_scilla_version"
-@"$pname__this_address_443" = unnamed_addr constant [13 x i8] c"_this_address"
-@"$pname__creation_block_444" = unnamed_addr constant [15 x i8] c"_creation_block"
-@"$pname_cparam_445" = unnamed_addr constant [6 x i8] c"cparam"
-@_contract_parameters = constant [4 x %"$ParamDescr_440"] [%"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([15 x i8], [15 x i8]* @"$pname__scilla_version_442", i32 0, i32 0), i32 15 }, %_TyDescrTy_Typ* @"$TyDescr_Uint32_8" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$pname__this_address_443", i32 0, i32 0), i32 13 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_34" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([15 x i8], [15 x i8]* @"$pname__creation_block_444", i32 0, i32 0), i32 15 }, %_TyDescrTy_Typ* @"$TyDescr_Bnum_24" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$pname_cparam_445", i32 0, i32 0), i32 6 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_51" }]
+@"$pname__scilla_version_451" = unnamed_addr constant [15 x i8] c"_scilla_version"
+@"$pname__this_address_452" = unnamed_addr constant [13 x i8] c"_this_address"
+@"$pname__creation_block_453" = unnamed_addr constant [15 x i8] c"_creation_block"
+@"$pname_cparam_454" = unnamed_addr constant [6 x i8] c"cparam"
+@_contract_parameters = constant [4 x %"$ParamDescr_449"] [%"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([15 x i8], [15 x i8]* @"$pname__scilla_version_451", i32 0, i32 0), i32 15 }, %_TyDescrTy_Typ* @"$TyDescr_Uint32_8" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$pname__this_address_452", i32 0, i32 0), i32 13 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_34" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([15 x i8], [15 x i8]* @"$pname__creation_block_453", i32 0, i32 0), i32 15 }, %_TyDescrTy_Typ* @"$TyDescr_Bnum_24" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$pname_cparam_454", i32 0, i32 0), i32 6 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_51" }]
 @_contract_parameters_length = constant i32 4
-@"$tpname__amount_446" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_447" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_448" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_remote_449" = unnamed_addr constant [6 x i8] c"remote"
-@"$tparams_RemoteReadsOfRemoteRead_450" = unnamed_addr constant [4 x %"$ParamDescr_440"] [%"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_446", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_16" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_447", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_448", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tpname_remote_449", i32 0, i32 0), i32 6 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_49" }]
-@"$tname_RemoteReadsOfRemoteRead_451" = unnamed_addr constant [23 x i8] c"RemoteReadsOfRemoteRead"
-@"$tpname__amount_452" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_453" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_454" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tpname_remote_455" = unnamed_addr constant [6 x i8] c"remote"
-@"$tparams_RemoteReadsOfRemoteMap_456" = unnamed_addr constant [4 x %"$ParamDescr_440"] [%"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_452", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_16" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_453", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_454", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tpname_remote_455", i32 0, i32 0), i32 6 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_46" }]
-@"$tname_RemoteReadsOfRemoteMap_457" = unnamed_addr constant [22 x i8] c"RemoteReadsOfRemoteMap"
-@"$tpname__amount_458" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_459" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_460" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tparams_RemoteReadsContractParam_461" = unnamed_addr constant [3 x %"$ParamDescr_440"] [%"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_458", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_16" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_459", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_460", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }]
-@"$tname_RemoteReadsContractParam_462" = unnamed_addr constant [24 x i8] c"RemoteReadsContractParam"
-@"$tpname__amount_463" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_464" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_465" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tparams_AddressTypeErasureTest1_466" = unnamed_addr constant [3 x %"$ParamDescr_440"] [%"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_463", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_16" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_464", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_465", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }]
-@"$tname_AddressTypeErasureTest1_467" = unnamed_addr constant [23 x i8] c"AddressTypeErasureTest1"
-@"$tpname__amount_468" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_469" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_470" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tparams_AddressTypeErasureTest2_471" = unnamed_addr constant [3 x %"$ParamDescr_440"] [%"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_468", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_16" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_469", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_440" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_470", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }]
-@"$tname_AddressTypeErasureTest2_472" = unnamed_addr constant [23 x i8] c"AddressTypeErasureTest2"
-@_transition_parameters = constant [5 x %"$TransDescr_441"] [%"$TransDescr_441" { %ParamDescrString { i8* getelementptr inbounds ([23 x i8], [23 x i8]* @"$tname_RemoteReadsOfRemoteRead_451", i32 0, i32 0), i32 23 }, i32 4, %"$ParamDescr_440"* getelementptr inbounds ([4 x %"$ParamDescr_440"], [4 x %"$ParamDescr_440"]* @"$tparams_RemoteReadsOfRemoteRead_450", i32 0, i32 0) }, %"$TransDescr_441" { %ParamDescrString { i8* getelementptr inbounds ([22 x i8], [22 x i8]* @"$tname_RemoteReadsOfRemoteMap_457", i32 0, i32 0), i32 22 }, i32 4, %"$ParamDescr_440"* getelementptr inbounds ([4 x %"$ParamDescr_440"], [4 x %"$ParamDescr_440"]* @"$tparams_RemoteReadsOfRemoteMap_456", i32 0, i32 0) }, %"$TransDescr_441" { %ParamDescrString { i8* getelementptr inbounds ([24 x i8], [24 x i8]* @"$tname_RemoteReadsContractParam_462", i32 0, i32 0), i32 24 }, i32 3, %"$ParamDescr_440"* getelementptr inbounds ([3 x %"$ParamDescr_440"], [3 x %"$ParamDescr_440"]* @"$tparams_RemoteReadsContractParam_461", i32 0, i32 0) }, %"$TransDescr_441" { %ParamDescrString { i8* getelementptr inbounds ([23 x i8], [23 x i8]* @"$tname_AddressTypeErasureTest1_467", i32 0, i32 0), i32 23 }, i32 3, %"$ParamDescr_440"* getelementptr inbounds ([3 x %"$ParamDescr_440"], [3 x %"$ParamDescr_440"]* @"$tparams_AddressTypeErasureTest1_466", i32 0, i32 0) }, %"$TransDescr_441" { %ParamDescrString { i8* getelementptr inbounds ([23 x i8], [23 x i8]* @"$tname_AddressTypeErasureTest2_472", i32 0, i32 0), i32 23 }, i32 3, %"$ParamDescr_440"* getelementptr inbounds ([3 x %"$ParamDescr_440"], [3 x %"$ParamDescr_440"]* @"$tparams_AddressTypeErasureTest2_471", i32 0, i32 0) }]
+@"$tpname__amount_455" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_456" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_457" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_remote_458" = unnamed_addr constant [6 x i8] c"remote"
+@"$tparams_RemoteReadsOfRemoteRead_459" = unnamed_addr constant [4 x %"$ParamDescr_449"] [%"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_455", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_16" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_456", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_457", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tpname_remote_458", i32 0, i32 0), i32 6 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_49" }]
+@"$tname_RemoteReadsOfRemoteRead_460" = unnamed_addr constant [23 x i8] c"RemoteReadsOfRemoteRead"
+@"$tpname__amount_461" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_462" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_463" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tpname_remote_464" = unnamed_addr constant [6 x i8] c"remote"
+@"$tparams_RemoteReadsOfRemoteMap_465" = unnamed_addr constant [4 x %"$ParamDescr_449"] [%"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_461", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_16" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_462", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_463", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tpname_remote_464", i32 0, i32 0), i32 6 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_46" }]
+@"$tname_RemoteReadsOfRemoteMap_466" = unnamed_addr constant [22 x i8] c"RemoteReadsOfRemoteMap"
+@"$tpname__amount_467" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_468" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_469" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tparams_RemoteReadsContractParam_470" = unnamed_addr constant [3 x %"$ParamDescr_449"] [%"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_467", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_16" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_468", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_469", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }]
+@"$tname_RemoteReadsContractParam_471" = unnamed_addr constant [24 x i8] c"RemoteReadsContractParam"
+@"$tpname__amount_472" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_473" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_474" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tparams_AddressTypeErasureTest1_475" = unnamed_addr constant [3 x %"$ParamDescr_449"] [%"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_472", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_16" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_473", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_474", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }]
+@"$tname_AddressTypeErasureTest1_476" = unnamed_addr constant [23 x i8] c"AddressTypeErasureTest1"
+@"$tpname__amount_477" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_478" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_479" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tparams_AddressTypeErasureTest2_480" = unnamed_addr constant [3 x %"$ParamDescr_449"] [%"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_477", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_16" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_478", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }, %"$ParamDescr_449" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_479", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_50" }]
+@"$tname_AddressTypeErasureTest2_481" = unnamed_addr constant [23 x i8] c"AddressTypeErasureTest2"
+@_transition_parameters = constant [5 x %"$TransDescr_450"] [%"$TransDescr_450" { %ParamDescrString { i8* getelementptr inbounds ([23 x i8], [23 x i8]* @"$tname_RemoteReadsOfRemoteRead_460", i32 0, i32 0), i32 23 }, i32 4, %"$ParamDescr_449"* getelementptr inbounds ([4 x %"$ParamDescr_449"], [4 x %"$ParamDescr_449"]* @"$tparams_RemoteReadsOfRemoteRead_459", i32 0, i32 0) }, %"$TransDescr_450" { %ParamDescrString { i8* getelementptr inbounds ([22 x i8], [22 x i8]* @"$tname_RemoteReadsOfRemoteMap_466", i32 0, i32 0), i32 22 }, i32 4, %"$ParamDescr_449"* getelementptr inbounds ([4 x %"$ParamDescr_449"], [4 x %"$ParamDescr_449"]* @"$tparams_RemoteReadsOfRemoteMap_465", i32 0, i32 0) }, %"$TransDescr_450" { %ParamDescrString { i8* getelementptr inbounds ([24 x i8], [24 x i8]* @"$tname_RemoteReadsContractParam_471", i32 0, i32 0), i32 24 }, i32 3, %"$ParamDescr_449"* getelementptr inbounds ([3 x %"$ParamDescr_449"], [3 x %"$ParamDescr_449"]* @"$tparams_RemoteReadsContractParam_470", i32 0, i32 0) }, %"$TransDescr_450" { %ParamDescrString { i8* getelementptr inbounds ([23 x i8], [23 x i8]* @"$tname_AddressTypeErasureTest1_476", i32 0, i32 0), i32 23 }, i32 3, %"$ParamDescr_449"* getelementptr inbounds ([3 x %"$ParamDescr_449"], [3 x %"$ParamDescr_449"]* @"$tparams_AddressTypeErasureTest1_475", i32 0, i32 0) }, %"$TransDescr_450" { %ParamDescrString { i8* getelementptr inbounds ([23 x i8], [23 x i8]* @"$tname_AddressTypeErasureTest2_481", i32 0, i32 0), i32 23 }, i32 3, %"$ParamDescr_449"* getelementptr inbounds ([3 x %"$ParamDescr_449"], [3 x %"$ParamDescr_449"]* @"$tparams_AddressTypeErasureTest2_480", i32 0, i32 0) }]
 @_transition_parameters_length = constant i32 5
 
 define void @_init_libs() !dbg !4 {
@@ -743,38 +743,53 @@ entry:
   %"$consume_409" = sub i64 %"$gasrem_405", 1
   store i64 %"$consume_409", i64* @_gasrem, align 8
   %new_map = alloca %Map_Uint128_ByStr20_with_end*, align 8
-  %"$execptr_load_410" = load i8*, i8** @_execptr, align 8
-  %"$emp_map_411" = load %Map_Uint128_ByStr20_with_end*, %Map_Uint128_ByStr20_with_end** %emp_map, align 8
-  %"$$emp_map_411_412" = bitcast %Map_Uint128_ByStr20_with_end* %"$emp_map_411" to i8*
-  %"$put_zero_413" = alloca %Uint128, align 8
-  %"$zero_414" = load %Uint128, %Uint128* %zero, align 8
-  store %Uint128 %"$zero_414", %Uint128* %"$put_zero_413", align 8
-  %"$$put_zero_413_415" = bitcast %Uint128* %"$put_zero_413" to i8*
-  %"$put_cparam_416" = alloca [20 x i8], align 1
-  %"$cparam_417" = load [20 x i8], [20 x i8]* @_cparam_cparam, align 1
-  store [20 x i8] %"$cparam_417", [20 x i8]* %"$put_cparam_416", align 1
-  %"$$put_cparam_416_418" = bitcast [20 x i8]* %"$put_cparam_416" to i8*
-  %"$put_call_419" = call i8* @_put(i8* %"$execptr_load_410", %_TyDescrTy_Typ* @"$TyDescr_Map_41", i8* %"$$emp_map_411_412", i8* %"$$put_zero_413_415", i8* %"$$put_cparam_416_418"), !dbg !42
-  %"$put_420" = bitcast i8* %"$put_call_419" to %Map_Uint128_ByStr20_with_end*
-  store %Map_Uint128_ByStr20_with_end* %"$put_420", %Map_Uint128_ByStr20_with_end** %new_map, align 8, !dbg !42
-  %"$new_map_421" = load %Map_Uint128_ByStr20_with_end*, %Map_Uint128_ByStr20_with_end** %new_map, align 8
-  %"$$new_map_421_422" = bitcast %Map_Uint128_ByStr20_with_end* %"$new_map_421" to i8*
-  %"$_literal_cost_call_423" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_41", i8* %"$$new_map_421_422")
-  %"$gasrem_424" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_425" = icmp ugt i64 %"$_literal_cost_call_423", %"$gasrem_424"
-  br i1 %"$gascmp_425", label %"$out_of_gas_426", label %"$have_gas_427"
+  %"$emp_map_410" = load %Map_Uint128_ByStr20_with_end*, %Map_Uint128_ByStr20_with_end** %emp_map, align 8
+  %"$$emp_map_410_411" = bitcast %Map_Uint128_ByStr20_with_end* %"$emp_map_410" to i8*
+  %"$_lengthof_call_412" = call i64 @_lengthof(%_TyDescrTy_Typ* @"$TyDescr_Map_41", i8* %"$$emp_map_410_411")
+  %"$gasadd_413" = add i64 1, %"$_lengthof_call_412"
+  %"$gasrem_414" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_415" = icmp ugt i64 %"$gasadd_413", %"$gasrem_414"
+  br i1 %"$gascmp_415", label %"$out_of_gas_416", label %"$have_gas_417"
 
-"$out_of_gas_426":                                ; preds = %"$have_gas_408"
+"$out_of_gas_416":                                ; preds = %"$have_gas_408"
   call void @_out_of_gas()
-  br label %"$have_gas_427"
+  br label %"$have_gas_417"
 
-"$have_gas_427":                                  ; preds = %"$out_of_gas_426", %"$have_gas_408"
-  %"$consume_428" = sub i64 %"$gasrem_424", %"$_literal_cost_call_423"
-  store i64 %"$consume_428", i64* @_gasrem, align 8
-  %"$execptr_load_429" = load i8*, i8** @_execptr, align 8
-  %"$new_map_431" = load %Map_Uint128_ByStr20_with_end*, %Map_Uint128_ByStr20_with_end** %new_map, align 8
-  %"$update_value_432" = bitcast %Map_Uint128_ByStr20_with_end* %"$new_map_431" to i8*
-  call void @_update_field(i8* %"$execptr_load_429", i8* getelementptr inbounds ([32 x i8], [32 x i8]* @"$address_type_erasure_test_res_1_430", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_41", i32 0, i8* null, i8* %"$update_value_432"), !dbg !43
+"$have_gas_417":                                  ; preds = %"$out_of_gas_416", %"$have_gas_408"
+  %"$consume_418" = sub i64 %"$gasrem_414", %"$gasadd_413"
+  store i64 %"$consume_418", i64* @_gasrem, align 8
+  %"$execptr_load_419" = load i8*, i8** @_execptr, align 8
+  %"$emp_map_420" = load %Map_Uint128_ByStr20_with_end*, %Map_Uint128_ByStr20_with_end** %emp_map, align 8
+  %"$$emp_map_420_421" = bitcast %Map_Uint128_ByStr20_with_end* %"$emp_map_420" to i8*
+  %"$put_zero_422" = alloca %Uint128, align 8
+  %"$zero_423" = load %Uint128, %Uint128* %zero, align 8
+  store %Uint128 %"$zero_423", %Uint128* %"$put_zero_422", align 8
+  %"$$put_zero_422_424" = bitcast %Uint128* %"$put_zero_422" to i8*
+  %"$put_cparam_425" = alloca [20 x i8], align 1
+  %"$cparam_426" = load [20 x i8], [20 x i8]* @_cparam_cparam, align 1
+  store [20 x i8] %"$cparam_426", [20 x i8]* %"$put_cparam_425", align 1
+  %"$$put_cparam_425_427" = bitcast [20 x i8]* %"$put_cparam_425" to i8*
+  %"$put_call_428" = call i8* @_put(i8* %"$execptr_load_419", %_TyDescrTy_Typ* @"$TyDescr_Map_41", i8* %"$$emp_map_420_421", i8* %"$$put_zero_422_424", i8* %"$$put_cparam_425_427"), !dbg !42
+  %"$put_429" = bitcast i8* %"$put_call_428" to %Map_Uint128_ByStr20_with_end*
+  store %Map_Uint128_ByStr20_with_end* %"$put_429", %Map_Uint128_ByStr20_with_end** %new_map, align 8, !dbg !42
+  %"$new_map_430" = load %Map_Uint128_ByStr20_with_end*, %Map_Uint128_ByStr20_with_end** %new_map, align 8
+  %"$$new_map_430_431" = bitcast %Map_Uint128_ByStr20_with_end* %"$new_map_430" to i8*
+  %"$_literal_cost_call_432" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_41", i8* %"$$new_map_430_431")
+  %"$gasrem_433" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_434" = icmp ugt i64 %"$_literal_cost_call_432", %"$gasrem_433"
+  br i1 %"$gascmp_434", label %"$out_of_gas_435", label %"$have_gas_436"
+
+"$out_of_gas_435":                                ; preds = %"$have_gas_417"
+  call void @_out_of_gas()
+  br label %"$have_gas_436"
+
+"$have_gas_436":                                  ; preds = %"$out_of_gas_435", %"$have_gas_417"
+  %"$consume_437" = sub i64 %"$gasrem_433", %"$_literal_cost_call_432"
+  store i64 %"$consume_437", i64* @_gasrem, align 8
+  %"$execptr_load_438" = load i8*, i8** @_execptr, align 8
+  %"$new_map_440" = load %Map_Uint128_ByStr20_with_end*, %Map_Uint128_ByStr20_with_end** %new_map, align 8
+  %"$update_value_441" = bitcast %Map_Uint128_ByStr20_with_end* %"$new_map_440" to i8*
+  call void @_update_field(i8* %"$execptr_load_438", i8* getelementptr inbounds ([32 x i8], [32 x i8]* @"$address_type_erasure_test_res_1_439", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_41", i32 0, i8* null, i8* %"$update_value_441"), !dbg !43
   ret void
 }
 
@@ -782,18 +797,20 @@ declare i8* @_fetch_field(i8*, i8*, %_TyDescrTy_Typ*, i32, i8*, i32)
 
 declare i64 @_mapsortcost(i8*)
 
+declare i64 @_lengthof(%_TyDescrTy_Typ*, i8*)
+
 declare i8* @_put(i8*, %_TyDescrTy_Typ*, i8*, i8*, i8*)
 
 define void @AddressTypeErasureTest2(i8* %0) !dbg !44 {
 entry:
-  %"$_amount_434" = getelementptr i8, i8* %0, i32 0
-  %"$_amount_435" = bitcast i8* %"$_amount_434" to %Uint128*
-  %_amount = load %Uint128, %Uint128* %"$_amount_435", align 8
-  %"$_origin_436" = getelementptr i8, i8* %0, i32 16
-  %"$_origin_437" = bitcast i8* %"$_origin_436" to [20 x i8]*
-  %"$_sender_438" = getelementptr i8, i8* %0, i32 36
-  %"$_sender_439" = bitcast i8* %"$_sender_438" to [20 x i8]*
-  call void @"$AddressTypeErasureTest2_376"(%Uint128 %_amount, [20 x i8]* %"$_origin_437", [20 x i8]* %"$_sender_439"), !dbg !45
+  %"$_amount_443" = getelementptr i8, i8* %0, i32 0
+  %"$_amount_444" = bitcast i8* %"$_amount_443" to %Uint128*
+  %_amount = load %Uint128, %Uint128* %"$_amount_444", align 8
+  %"$_origin_445" = getelementptr i8, i8* %0, i32 16
+  %"$_origin_446" = bitcast i8* %"$_origin_445" to [20 x i8]*
+  %"$_sender_447" = getelementptr i8, i8* %0, i32 36
+  %"$_sender_448" = bitcast i8* %"$_sender_447" to [20 x i8]*
+  call void @"$AddressTypeErasureTest2_376"(%Uint128 %_amount, [20 x i8]* %"$_origin_446", [20 x i8]* %"$_sender_448"), !dbg !45
   ret void
 }
 

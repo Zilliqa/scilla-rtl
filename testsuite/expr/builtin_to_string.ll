@@ -41,9 +41,9 @@ target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_9" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
-%"$ParamDescr_338" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_559" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_339" = type { %ParamDescrString, i32, %"$ParamDescr_338"* }
+%"$TransDescr_560" = type { %ParamDescrString, i32, %"$ParamDescr_559"* }
 %String = type { i8*, i32 }
 %Uint32 = type { i32 }
 %Int32 = type { i32 }
@@ -83,9 +83,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_Bystr4_39" = global %_TyDescrTy_Typ { i32 0, i8* bitcast (%"$TyDescrTy_PrimTyp_9"* @"$TyDescr_Bystr4_Prim_38" to i8*) }
 @_tydescr_table = constant [15 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_33", %_TyDescrTy_Typ* @"$TyDescr_Int64_15", %_TyDescrTy_Typ* @"$TyDescr_Uint256_25", %_TyDescrTy_Typ* @"$TyDescr_Uint32_13", %_TyDescrTy_Typ* @"$TyDescr_Uint64_17", %_TyDescrTy_Typ* @"$TyDescr_Bnum_29", %_TyDescrTy_Typ* @"$TyDescr_Uint128_21", %_TyDescrTy_Typ* @"$TyDescr_Bystr4_39", %_TyDescrTy_Typ* @"$TyDescr_Exception_35", %_TyDescrTy_Typ* @"$TyDescr_String_27", %_TyDescrTy_Typ* @"$TyDescr_Int256_23", %_TyDescrTy_Typ* @"$TyDescr_Int128_19", %_TyDescrTy_Typ* @"$TyDescr_Bystr_37", %_TyDescrTy_Typ* @"$TyDescr_Message_31", %_TyDescrTy_Typ* @"$TyDescr_Int32_11"]
 @_tydescr_table_length = constant i32 15
-@_contract_parameters = constant [0 x %"$ParamDescr_338"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_559"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_339"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_560"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define void @_init_libs() {
@@ -324,203 +324,199 @@ entry:
   %"$consume_140" = sub i64 %"$gasrem_136", 1
   store i64 %"$consume_140", i64* @_gasrem, align 8
   %bystr_val = alloca %Bystr, align 8
-  %"$execptr_load_141" = load i8*, i8** @_execptr, align 8
-  %"$to_bystr_bystrx_val_142" = alloca [4 x i8], align 1
-  %"$bystrx_val_143" = load [4 x i8], [4 x i8]* %bystrx_val, align 1
-  store [4 x i8] %"$bystrx_val_143", [4 x i8]* %"$to_bystr_bystrx_val_142", align 1
-  %"$$to_bystr_bystrx_val_142_144" = bitcast [4 x i8]* %"$to_bystr_bystrx_val_142" to i8*
-  %"$to_bystr_call_145" = call %Bystr @_to_bystr(i8* %"$execptr_load_141", i32 4, i8* %"$$to_bystr_bystrx_val_142_144")
-  store %Bystr %"$to_bystr_call_145", %Bystr* %bystr_val, align 8
-  %"$gasrem_146" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_147" = icmp ugt i64 1, %"$gasrem_146"
-  br i1 %"$gascmp_147", label %"$out_of_gas_148", label %"$have_gas_149"
+  %"$gasrem_141" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_142" = icmp ugt i64 4, %"$gasrem_141"
+  br i1 %"$gascmp_142", label %"$out_of_gas_143", label %"$have_gas_144"
 
-"$out_of_gas_148":                                ; preds = %"$have_gas_139"
+"$out_of_gas_143":                                ; preds = %"$have_gas_139"
   call void @_out_of_gas()
-  br label %"$have_gas_149"
+  br label %"$have_gas_144"
 
-"$have_gas_149":                                  ; preds = %"$out_of_gas_148", %"$have_gas_139"
-  %"$consume_150" = sub i64 %"$gasrem_146", 1
-  store i64 %"$consume_150", i64* @_gasrem, align 8
+"$have_gas_144":                                  ; preds = %"$out_of_gas_143", %"$have_gas_139"
+  %"$consume_145" = sub i64 %"$gasrem_141", 4
+  store i64 %"$consume_145", i64* @_gasrem, align 8
+  %"$execptr_load_146" = load i8*, i8** @_execptr, align 8
+  %"$to_bystr_bystrx_val_147" = alloca [4 x i8], align 1
+  %"$bystrx_val_148" = load [4 x i8], [4 x i8]* %bystrx_val, align 1
+  store [4 x i8] %"$bystrx_val_148", [4 x i8]* %"$to_bystr_bystrx_val_147", align 1
+  %"$$to_bystr_bystrx_val_147_149" = bitcast [4 x i8]* %"$to_bystr_bystrx_val_147" to i8*
+  %"$to_bystr_call_150" = call %Bystr @_to_bystr(i8* %"$execptr_load_146", i32 4, i8* %"$$to_bystr_bystrx_val_147_149")
+  store %Bystr %"$to_bystr_call_150", %Bystr* %bystr_val, align 8
+  %"$gasrem_151" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_152" = icmp ugt i64 1, %"$gasrem_151"
+  br i1 %"$gascmp_152", label %"$out_of_gas_153", label %"$have_gas_154"
+
+"$out_of_gas_153":                                ; preds = %"$have_gas_144"
+  call void @_out_of_gas()
+  br label %"$have_gas_154"
+
+"$have_gas_154":                                  ; preds = %"$out_of_gas_153", %"$have_gas_144"
+  %"$consume_155" = sub i64 %"$gasrem_151", 1
+  store i64 %"$consume_155", i64* @_gasrem, align 8
   %uint32_str = alloca %String, align 8
-  %"$execptr_load_151" = load i8*, i8** @_execptr, align 8
-  %"$to_string_uint32_val_152" = alloca %Uint32, align 8
-  %"$uint32_val_153" = load %Uint32, %Uint32* %uint32_val, align 4
-  store %Uint32 %"$uint32_val_153", %Uint32* %"$to_string_uint32_val_152", align 4
-  %"$$to_string_uint32_val_152_154" = bitcast %Uint32* %"$to_string_uint32_val_152" to i8*
-  %"$to_string_call_155" = call %String @_to_string(i8* %"$execptr_load_151", %_TyDescrTy_Typ* @"$TyDescr_Uint32_13", i8* %"$$to_string_uint32_val_152_154")
-  store %String %"$to_string_call_155", %String* %uint32_str, align 8
-  %"$gasrem_156" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_157" = icmp ugt i64 1, %"$gasrem_156"
-  br i1 %"$gascmp_157", label %"$out_of_gas_158", label %"$have_gas_159"
+  %"$_literal_cost_uint32_val_156" = alloca %Uint32, align 8
+  %"$uint32_val_157" = load %Uint32, %Uint32* %uint32_val, align 4
+  store %Uint32 %"$uint32_val_157", %Uint32* %"$_literal_cost_uint32_val_156", align 4
+  %"$$_literal_cost_uint32_val_156_158" = bitcast %Uint32* %"$_literal_cost_uint32_val_156" to i8*
+  %"$_literal_cost_call_159" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Uint32_13", i8* %"$$_literal_cost_uint32_val_156_158")
+  %"$gasrem_160" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_161" = icmp ugt i64 %"$_literal_cost_call_159", %"$gasrem_160"
+  br i1 %"$gascmp_161", label %"$out_of_gas_162", label %"$have_gas_163"
 
-"$out_of_gas_158":                                ; preds = %"$have_gas_149"
+"$out_of_gas_162":                                ; preds = %"$have_gas_154"
   call void @_out_of_gas()
-  br label %"$have_gas_159"
+  br label %"$have_gas_163"
 
-"$have_gas_159":                                  ; preds = %"$out_of_gas_158", %"$have_gas_149"
-  %"$consume_160" = sub i64 %"$gasrem_156", 1
-  store i64 %"$consume_160", i64* @_gasrem, align 8
+"$have_gas_163":                                  ; preds = %"$out_of_gas_162", %"$have_gas_154"
+  %"$consume_164" = sub i64 %"$gasrem_160", %"$_literal_cost_call_159"
+  store i64 %"$consume_164", i64* @_gasrem, align 8
+  %"$execptr_load_165" = load i8*, i8** @_execptr, align 8
+  %"$to_string_uint32_val_166" = alloca %Uint32, align 8
+  %"$uint32_val_167" = load %Uint32, %Uint32* %uint32_val, align 4
+  store %Uint32 %"$uint32_val_167", %Uint32* %"$to_string_uint32_val_166", align 4
+  %"$$to_string_uint32_val_166_168" = bitcast %Uint32* %"$to_string_uint32_val_166" to i8*
+  %"$to_string_call_169" = call %String @_to_string(i8* %"$execptr_load_165", %_TyDescrTy_Typ* @"$TyDescr_Uint32_13", i8* %"$$to_string_uint32_val_166_168")
+  store %String %"$to_string_call_169", %String* %uint32_str, align 8
+  %"$gasrem_170" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_171" = icmp ugt i64 1, %"$gasrem_170"
+  br i1 %"$gascmp_171", label %"$out_of_gas_172", label %"$have_gas_173"
+
+"$out_of_gas_172":                                ; preds = %"$have_gas_163"
+  call void @_out_of_gas()
+  br label %"$have_gas_173"
+
+"$have_gas_173":                                  ; preds = %"$out_of_gas_172", %"$have_gas_163"
+  %"$consume_174" = sub i64 %"$gasrem_170", 1
+  store i64 %"$consume_174", i64* @_gasrem, align 8
   %uint64_str = alloca %String, align 8
-  %"$execptr_load_161" = load i8*, i8** @_execptr, align 8
-  %"$to_string_uint64_val_162" = alloca %Uint32, align 8
-  %"$uint64_val_163" = load %Uint32, %Uint32* %uint64_val, align 4
-  store %Uint32 %"$uint64_val_163", %Uint32* %"$to_string_uint64_val_162", align 4
-  %"$$to_string_uint64_val_162_164" = bitcast %Uint32* %"$to_string_uint64_val_162" to i8*
-  %"$to_string_call_165" = call %String @_to_string(i8* %"$execptr_load_161", %_TyDescrTy_Typ* @"$TyDescr_Uint32_13", i8* %"$$to_string_uint64_val_162_164")
-  store %String %"$to_string_call_165", %String* %uint64_str, align 8
-  %"$gasrem_166" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_167" = icmp ugt i64 1, %"$gasrem_166"
-  br i1 %"$gascmp_167", label %"$out_of_gas_168", label %"$have_gas_169"
+  %"$_literal_cost_uint64_val_175" = alloca %Uint32, align 8
+  %"$uint64_val_176" = load %Uint32, %Uint32* %uint64_val, align 4
+  store %Uint32 %"$uint64_val_176", %Uint32* %"$_literal_cost_uint64_val_175", align 4
+  %"$$_literal_cost_uint64_val_175_177" = bitcast %Uint32* %"$_literal_cost_uint64_val_175" to i8*
+  %"$_literal_cost_call_178" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Uint32_13", i8* %"$$_literal_cost_uint64_val_175_177")
+  %"$gasrem_179" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_180" = icmp ugt i64 %"$_literal_cost_call_178", %"$gasrem_179"
+  br i1 %"$gascmp_180", label %"$out_of_gas_181", label %"$have_gas_182"
 
-"$out_of_gas_168":                                ; preds = %"$have_gas_159"
+"$out_of_gas_181":                                ; preds = %"$have_gas_173"
   call void @_out_of_gas()
-  br label %"$have_gas_169"
+  br label %"$have_gas_182"
 
-"$have_gas_169":                                  ; preds = %"$out_of_gas_168", %"$have_gas_159"
-  %"$consume_170" = sub i64 %"$gasrem_166", 1
-  store i64 %"$consume_170", i64* @_gasrem, align 8
+"$have_gas_182":                                  ; preds = %"$out_of_gas_181", %"$have_gas_173"
+  %"$consume_183" = sub i64 %"$gasrem_179", %"$_literal_cost_call_178"
+  store i64 %"$consume_183", i64* @_gasrem, align 8
+  %"$execptr_load_184" = load i8*, i8** @_execptr, align 8
+  %"$to_string_uint64_val_185" = alloca %Uint32, align 8
+  %"$uint64_val_186" = load %Uint32, %Uint32* %uint64_val, align 4
+  store %Uint32 %"$uint64_val_186", %Uint32* %"$to_string_uint64_val_185", align 4
+  %"$$to_string_uint64_val_185_187" = bitcast %Uint32* %"$to_string_uint64_val_185" to i8*
+  %"$to_string_call_188" = call %String @_to_string(i8* %"$execptr_load_184", %_TyDescrTy_Typ* @"$TyDescr_Uint32_13", i8* %"$$to_string_uint64_val_185_187")
+  store %String %"$to_string_call_188", %String* %uint64_str, align 8
+  %"$gasrem_189" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_190" = icmp ugt i64 1, %"$gasrem_189"
+  br i1 %"$gascmp_190", label %"$out_of_gas_191", label %"$have_gas_192"
+
+"$out_of_gas_191":                                ; preds = %"$have_gas_182"
+  call void @_out_of_gas()
+  br label %"$have_gas_192"
+
+"$have_gas_192":                                  ; preds = %"$out_of_gas_191", %"$have_gas_182"
+  %"$consume_193" = sub i64 %"$gasrem_189", 1
+  store i64 %"$consume_193", i64* @_gasrem, align 8
   %uint128_str = alloca %String, align 8
-  %"$execptr_load_171" = load i8*, i8** @_execptr, align 8
-  %"$to_string_uint128_val_172" = alloca %Uint32, align 8
-  %"$uint128_val_173" = load %Uint32, %Uint32* %uint128_val, align 4
-  store %Uint32 %"$uint128_val_173", %Uint32* %"$to_string_uint128_val_172", align 4
-  %"$$to_string_uint128_val_172_174" = bitcast %Uint32* %"$to_string_uint128_val_172" to i8*
-  %"$to_string_call_175" = call %String @_to_string(i8* %"$execptr_load_171", %_TyDescrTy_Typ* @"$TyDescr_Uint32_13", i8* %"$$to_string_uint128_val_172_174")
-  store %String %"$to_string_call_175", %String* %uint128_str, align 8
-  %"$gasrem_176" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_177" = icmp ugt i64 1, %"$gasrem_176"
-  br i1 %"$gascmp_177", label %"$out_of_gas_178", label %"$have_gas_179"
+  %"$_literal_cost_uint128_val_194" = alloca %Uint32, align 8
+  %"$uint128_val_195" = load %Uint32, %Uint32* %uint128_val, align 4
+  store %Uint32 %"$uint128_val_195", %Uint32* %"$_literal_cost_uint128_val_194", align 4
+  %"$$_literal_cost_uint128_val_194_196" = bitcast %Uint32* %"$_literal_cost_uint128_val_194" to i8*
+  %"$_literal_cost_call_197" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Uint32_13", i8* %"$$_literal_cost_uint128_val_194_196")
+  %"$gasrem_198" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_199" = icmp ugt i64 %"$_literal_cost_call_197", %"$gasrem_198"
+  br i1 %"$gascmp_199", label %"$out_of_gas_200", label %"$have_gas_201"
 
-"$out_of_gas_178":                                ; preds = %"$have_gas_169"
+"$out_of_gas_200":                                ; preds = %"$have_gas_192"
   call void @_out_of_gas()
-  br label %"$have_gas_179"
+  br label %"$have_gas_201"
 
-"$have_gas_179":                                  ; preds = %"$out_of_gas_178", %"$have_gas_169"
-  %"$consume_180" = sub i64 %"$gasrem_176", 1
-  store i64 %"$consume_180", i64* @_gasrem, align 8
+"$have_gas_201":                                  ; preds = %"$out_of_gas_200", %"$have_gas_192"
+  %"$consume_202" = sub i64 %"$gasrem_198", %"$_literal_cost_call_197"
+  store i64 %"$consume_202", i64* @_gasrem, align 8
+  %"$execptr_load_203" = load i8*, i8** @_execptr, align 8
+  %"$to_string_uint128_val_204" = alloca %Uint32, align 8
+  %"$uint128_val_205" = load %Uint32, %Uint32* %uint128_val, align 4
+  store %Uint32 %"$uint128_val_205", %Uint32* %"$to_string_uint128_val_204", align 4
+  %"$$to_string_uint128_val_204_206" = bitcast %Uint32* %"$to_string_uint128_val_204" to i8*
+  %"$to_string_call_207" = call %String @_to_string(i8* %"$execptr_load_203", %_TyDescrTy_Typ* @"$TyDescr_Uint32_13", i8* %"$$to_string_uint128_val_204_206")
+  store %String %"$to_string_call_207", %String* %uint128_str, align 8
+  %"$gasrem_208" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_209" = icmp ugt i64 1, %"$gasrem_208"
+  br i1 %"$gascmp_209", label %"$out_of_gas_210", label %"$have_gas_211"
+
+"$out_of_gas_210":                                ; preds = %"$have_gas_201"
+  call void @_out_of_gas()
+  br label %"$have_gas_211"
+
+"$have_gas_211":                                  ; preds = %"$out_of_gas_210", %"$have_gas_201"
+  %"$consume_212" = sub i64 %"$gasrem_208", 1
+  store i64 %"$consume_212", i64* @_gasrem, align 8
   %uint256_str = alloca %String, align 8
-  %"$execptr_load_181" = load i8*, i8** @_execptr, align 8
-  %"$to_string_uint256_val_182" = alloca %Uint32, align 8
-  %"$uint256_val_183" = load %Uint32, %Uint32* %uint256_val, align 4
-  store %Uint32 %"$uint256_val_183", %Uint32* %"$to_string_uint256_val_182", align 4
-  %"$$to_string_uint256_val_182_184" = bitcast %Uint32* %"$to_string_uint256_val_182" to i8*
-  %"$to_string_call_185" = call %String @_to_string(i8* %"$execptr_load_181", %_TyDescrTy_Typ* @"$TyDescr_Uint32_13", i8* %"$$to_string_uint256_val_182_184")
-  store %String %"$to_string_call_185", %String* %uint256_str, align 8
-  %"$gasrem_186" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_187" = icmp ugt i64 1, %"$gasrem_186"
-  br i1 %"$gascmp_187", label %"$out_of_gas_188", label %"$have_gas_189"
+  %"$_literal_cost_uint256_val_213" = alloca %Uint32, align 8
+  %"$uint256_val_214" = load %Uint32, %Uint32* %uint256_val, align 4
+  store %Uint32 %"$uint256_val_214", %Uint32* %"$_literal_cost_uint256_val_213", align 4
+  %"$$_literal_cost_uint256_val_213_215" = bitcast %Uint32* %"$_literal_cost_uint256_val_213" to i8*
+  %"$_literal_cost_call_216" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Uint32_13", i8* %"$$_literal_cost_uint256_val_213_215")
+  %"$gasrem_217" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_218" = icmp ugt i64 %"$_literal_cost_call_216", %"$gasrem_217"
+  br i1 %"$gascmp_218", label %"$out_of_gas_219", label %"$have_gas_220"
 
-"$out_of_gas_188":                                ; preds = %"$have_gas_179"
+"$out_of_gas_219":                                ; preds = %"$have_gas_211"
   call void @_out_of_gas()
-  br label %"$have_gas_189"
+  br label %"$have_gas_220"
 
-"$have_gas_189":                                  ; preds = %"$out_of_gas_188", %"$have_gas_179"
-  %"$consume_190" = sub i64 %"$gasrem_186", 1
-  store i64 %"$consume_190", i64* @_gasrem, align 8
+"$have_gas_220":                                  ; preds = %"$out_of_gas_219", %"$have_gas_211"
+  %"$consume_221" = sub i64 %"$gasrem_217", %"$_literal_cost_call_216"
+  store i64 %"$consume_221", i64* @_gasrem, align 8
+  %"$execptr_load_222" = load i8*, i8** @_execptr, align 8
+  %"$to_string_uint256_val_223" = alloca %Uint32, align 8
+  %"$uint256_val_224" = load %Uint32, %Uint32* %uint256_val, align 4
+  store %Uint32 %"$uint256_val_224", %Uint32* %"$to_string_uint256_val_223", align 4
+  %"$$to_string_uint256_val_223_225" = bitcast %Uint32* %"$to_string_uint256_val_223" to i8*
+  %"$to_string_call_226" = call %String @_to_string(i8* %"$execptr_load_222", %_TyDescrTy_Typ* @"$TyDescr_Uint32_13", i8* %"$$to_string_uint256_val_223_225")
+  store %String %"$to_string_call_226", %String* %uint256_str, align 8
+  %"$gasrem_227" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_228" = icmp ugt i64 1, %"$gasrem_227"
+  br i1 %"$gascmp_228", label %"$out_of_gas_229", label %"$have_gas_230"
+
+"$out_of_gas_229":                                ; preds = %"$have_gas_220"
+  call void @_out_of_gas()
+  br label %"$have_gas_230"
+
+"$have_gas_230":                                  ; preds = %"$out_of_gas_229", %"$have_gas_220"
+  %"$consume_231" = sub i64 %"$gasrem_227", 1
+  store i64 %"$consume_231", i64* @_gasrem, align 8
   %int32_str = alloca %String, align 8
-  %"$execptr_load_191" = load i8*, i8** @_execptr, align 8
-  %"$to_string_int32_val_192" = alloca %Int32, align 8
-  %"$int32_val_193" = load %Int32, %Int32* %int32_val, align 4
-  store %Int32 %"$int32_val_193", %Int32* %"$to_string_int32_val_192", align 4
-  %"$$to_string_int32_val_192_194" = bitcast %Int32* %"$to_string_int32_val_192" to i8*
-  %"$to_string_call_195" = call %String @_to_string(i8* %"$execptr_load_191", %_TyDescrTy_Typ* @"$TyDescr_Int32_11", i8* %"$$to_string_int32_val_192_194")
-  store %String %"$to_string_call_195", %String* %int32_str, align 8
-  %"$gasrem_196" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_197" = icmp ugt i64 1, %"$gasrem_196"
-  br i1 %"$gascmp_197", label %"$out_of_gas_198", label %"$have_gas_199"
-
-"$out_of_gas_198":                                ; preds = %"$have_gas_189"
-  call void @_out_of_gas()
-  br label %"$have_gas_199"
-
-"$have_gas_199":                                  ; preds = %"$out_of_gas_198", %"$have_gas_189"
-  %"$consume_200" = sub i64 %"$gasrem_196", 1
-  store i64 %"$consume_200", i64* @_gasrem, align 8
-  %int64_str = alloca %String, align 8
-  %"$execptr_load_201" = load i8*, i8** @_execptr, align 8
-  %"$to_string_int64_val_202" = alloca %Int32, align 8
-  %"$int64_val_203" = load %Int32, %Int32* %int64_val, align 4
-  store %Int32 %"$int64_val_203", %Int32* %"$to_string_int64_val_202", align 4
-  %"$$to_string_int64_val_202_204" = bitcast %Int32* %"$to_string_int64_val_202" to i8*
-  %"$to_string_call_205" = call %String @_to_string(i8* %"$execptr_load_201", %_TyDescrTy_Typ* @"$TyDescr_Int32_11", i8* %"$$to_string_int64_val_202_204")
-  store %String %"$to_string_call_205", %String* %int64_str, align 8
-  %"$gasrem_206" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_207" = icmp ugt i64 1, %"$gasrem_206"
-  br i1 %"$gascmp_207", label %"$out_of_gas_208", label %"$have_gas_209"
-
-"$out_of_gas_208":                                ; preds = %"$have_gas_199"
-  call void @_out_of_gas()
-  br label %"$have_gas_209"
-
-"$have_gas_209":                                  ; preds = %"$out_of_gas_208", %"$have_gas_199"
-  %"$consume_210" = sub i64 %"$gasrem_206", 1
-  store i64 %"$consume_210", i64* @_gasrem, align 8
-  %int128_str = alloca %String, align 8
-  %"$execptr_load_211" = load i8*, i8** @_execptr, align 8
-  %"$to_string_int128_val_212" = alloca %Int32, align 8
-  %"$int128_val_213" = load %Int32, %Int32* %int128_val, align 4
-  store %Int32 %"$int128_val_213", %Int32* %"$to_string_int128_val_212", align 4
-  %"$$to_string_int128_val_212_214" = bitcast %Int32* %"$to_string_int128_val_212" to i8*
-  %"$to_string_call_215" = call %String @_to_string(i8* %"$execptr_load_211", %_TyDescrTy_Typ* @"$TyDescr_Int32_11", i8* %"$$to_string_int128_val_212_214")
-  store %String %"$to_string_call_215", %String* %int128_str, align 8
-  %"$gasrem_216" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_217" = icmp ugt i64 1, %"$gasrem_216"
-  br i1 %"$gascmp_217", label %"$out_of_gas_218", label %"$have_gas_219"
-
-"$out_of_gas_218":                                ; preds = %"$have_gas_209"
-  call void @_out_of_gas()
-  br label %"$have_gas_219"
-
-"$have_gas_219":                                  ; preds = %"$out_of_gas_218", %"$have_gas_209"
-  %"$consume_220" = sub i64 %"$gasrem_216", 1
-  store i64 %"$consume_220", i64* @_gasrem, align 8
-  %int256_str = alloca %String, align 8
-  %"$execptr_load_221" = load i8*, i8** @_execptr, align 8
-  %"$to_string_int256_val_222" = alloca %Int32, align 8
-  %"$int256_val_223" = load %Int32, %Int32* %int256_val, align 4
-  store %Int32 %"$int256_val_223", %Int32* %"$to_string_int256_val_222", align 4
-  %"$$to_string_int256_val_222_224" = bitcast %Int32* %"$to_string_int256_val_222" to i8*
-  %"$to_string_call_225" = call %String @_to_string(i8* %"$execptr_load_221", %_TyDescrTy_Typ* @"$TyDescr_Int32_11", i8* %"$$to_string_int256_val_222_224")
-  store %String %"$to_string_call_225", %String* %int256_str, align 8
-  %"$gasrem_226" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_227" = icmp ugt i64 1, %"$gasrem_226"
-  br i1 %"$gascmp_227", label %"$out_of_gas_228", label %"$have_gas_229"
-
-"$out_of_gas_228":                                ; preds = %"$have_gas_219"
-  call void @_out_of_gas()
-  br label %"$have_gas_229"
-
-"$have_gas_229":                                  ; preds = %"$out_of_gas_228", %"$have_gas_219"
-  %"$consume_230" = sub i64 %"$gasrem_226", 1
-  store i64 %"$consume_230", i64* @_gasrem, align 8
-  %bystrx_str = alloca %String, align 8
-  %"$execptr_load_231" = load i8*, i8** @_execptr, align 8
-  %"$to_string_bystrx_val_232" = alloca [4 x i8], align 1
-  %"$bystrx_val_233" = load [4 x i8], [4 x i8]* %bystrx_val, align 1
-  store [4 x i8] %"$bystrx_val_233", [4 x i8]* %"$to_string_bystrx_val_232", align 1
-  %"$$to_string_bystrx_val_232_234" = bitcast [4 x i8]* %"$to_string_bystrx_val_232" to i8*
-  %"$to_string_call_235" = call %String @_to_string(i8* %"$execptr_load_231", %_TyDescrTy_Typ* @"$TyDescr_Bystr4_39", i8* %"$$to_string_bystrx_val_232_234")
-  store %String %"$to_string_call_235", %String* %bystrx_str, align 8
+  %"$_literal_cost_int32_val_232" = alloca %Int32, align 8
+  %"$int32_val_233" = load %Int32, %Int32* %int32_val, align 4
+  store %Int32 %"$int32_val_233", %Int32* %"$_literal_cost_int32_val_232", align 4
+  %"$$_literal_cost_int32_val_232_234" = bitcast %Int32* %"$_literal_cost_int32_val_232" to i8*
+  %"$_literal_cost_call_235" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Int32_11", i8* %"$$_literal_cost_int32_val_232_234")
   %"$gasrem_236" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_237" = icmp ugt i64 1, %"$gasrem_236"
+  %"$gascmp_237" = icmp ugt i64 %"$_literal_cost_call_235", %"$gasrem_236"
   br i1 %"$gascmp_237", label %"$out_of_gas_238", label %"$have_gas_239"
 
-"$out_of_gas_238":                                ; preds = %"$have_gas_229"
+"$out_of_gas_238":                                ; preds = %"$have_gas_230"
   call void @_out_of_gas()
   br label %"$have_gas_239"
 
-"$have_gas_239":                                  ; preds = %"$out_of_gas_238", %"$have_gas_229"
-  %"$consume_240" = sub i64 %"$gasrem_236", 1
+"$have_gas_239":                                  ; preds = %"$out_of_gas_238", %"$have_gas_230"
+  %"$consume_240" = sub i64 %"$gasrem_236", %"$_literal_cost_call_235"
   store i64 %"$consume_240", i64* @_gasrem, align 8
-  %bystr_str = alloca %String, align 8
   %"$execptr_load_241" = load i8*, i8** @_execptr, align 8
-  %"$to_string_bystr_val_242" = alloca %Bystr, align 8
-  %"$bystr_val_243" = load %Bystr, %Bystr* %bystr_val, align 8
-  store %Bystr %"$bystr_val_243", %Bystr* %"$to_string_bystr_val_242", align 8
-  %"$$to_string_bystr_val_242_244" = bitcast %Bystr* %"$to_string_bystr_val_242" to i8*
-  %"$to_string_call_245" = call %String @_to_string(i8* %"$execptr_load_241", %_TyDescrTy_Typ* @"$TyDescr_Bystr_37", i8* %"$$to_string_bystr_val_242_244")
-  store %String %"$to_string_call_245", %String* %bystr_str, align 8
+  %"$to_string_int32_val_242" = alloca %Int32, align 8
+  %"$int32_val_243" = load %Int32, %Int32* %int32_val, align 4
+  store %Int32 %"$int32_val_243", %Int32* %"$to_string_int32_val_242", align 4
+  %"$$to_string_int32_val_242_244" = bitcast %Int32* %"$to_string_int32_val_242" to i8*
+  %"$to_string_call_245" = call %String @_to_string(i8* %"$execptr_load_241", %_TyDescrTy_Typ* @"$TyDescr_Int32_11", i8* %"$$to_string_int32_val_242_244")
+  store %String %"$to_string_call_245", %String* %int32_str, align 8
   %"$gasrem_246" = load i64, i64* @_gasrem, align 8
   %"$gascmp_247" = icmp ugt i64 1, %"$gasrem_246"
   br i1 %"$gascmp_247", label %"$out_of_gas_248", label %"$have_gas_249"
@@ -532,14 +528,14 @@ entry:
 "$have_gas_249":                                  ; preds = %"$out_of_gas_248", %"$have_gas_239"
   %"$consume_250" = sub i64 %"$gasrem_246", 1
   store i64 %"$consume_250", i64* @_gasrem, align 8
-  %s_acc = alloca %String, align 8
-  %"$execptr_load_251" = load i8*, i8** @_execptr, align 8
-  %"$uint32_str_252" = load %String, %String* %uint32_str, align 8
-  %"$uint64_str_253" = load %String, %String* %uint64_str, align 8
-  %"$concat_call_254" = call %String @_concat_String(i8* %"$execptr_load_251", %String %"$uint32_str_252", %String %"$uint64_str_253")
-  store %String %"$concat_call_254", %String* %s_acc, align 8
+  %int64_str = alloca %String, align 8
+  %"$_literal_cost_int64_val_251" = alloca %Int32, align 8
+  %"$int64_val_252" = load %Int32, %Int32* %int64_val, align 4
+  store %Int32 %"$int64_val_252", %Int32* %"$_literal_cost_int64_val_251", align 4
+  %"$$_literal_cost_int64_val_251_253" = bitcast %Int32* %"$_literal_cost_int64_val_251" to i8*
+  %"$_literal_cost_call_254" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Int32_11", i8* %"$$_literal_cost_int64_val_251_253")
   %"$gasrem_255" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_256" = icmp ugt i64 1, %"$gasrem_255"
+  %"$gascmp_256" = icmp ugt i64 %"$_literal_cost_call_254", %"$gasrem_255"
   br i1 %"$gascmp_256", label %"$out_of_gas_257", label %"$have_gas_258"
 
 "$out_of_gas_257":                                ; preds = %"$have_gas_249"
@@ -547,153 +543,528 @@ entry:
   br label %"$have_gas_258"
 
 "$have_gas_258":                                  ; preds = %"$out_of_gas_257", %"$have_gas_249"
-  %"$consume_259" = sub i64 %"$gasrem_255", 1
+  %"$consume_259" = sub i64 %"$gasrem_255", %"$_literal_cost_call_254"
   store i64 %"$consume_259", i64* @_gasrem, align 8
-  %"$s_acc_0" = alloca %String, align 8
   %"$execptr_load_260" = load i8*, i8** @_execptr, align 8
-  %"$s_acc_261" = load %String, %String* %s_acc, align 8
-  %"$uint128_str_262" = load %String, %String* %uint128_str, align 8
-  %"$concat_call_263" = call %String @_concat_String(i8* %"$execptr_load_260", %String %"$s_acc_261", %String %"$uint128_str_262")
-  store %String %"$concat_call_263", %String* %"$s_acc_0", align 8
-  %"$gasrem_264" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_265" = icmp ugt i64 1, %"$gasrem_264"
-  br i1 %"$gascmp_265", label %"$out_of_gas_266", label %"$have_gas_267"
+  %"$to_string_int64_val_261" = alloca %Int32, align 8
+  %"$int64_val_262" = load %Int32, %Int32* %int64_val, align 4
+  store %Int32 %"$int64_val_262", %Int32* %"$to_string_int64_val_261", align 4
+  %"$$to_string_int64_val_261_263" = bitcast %Int32* %"$to_string_int64_val_261" to i8*
+  %"$to_string_call_264" = call %String @_to_string(i8* %"$execptr_load_260", %_TyDescrTy_Typ* @"$TyDescr_Int32_11", i8* %"$$to_string_int64_val_261_263")
+  store %String %"$to_string_call_264", %String* %int64_str, align 8
+  %"$gasrem_265" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_266" = icmp ugt i64 1, %"$gasrem_265"
+  br i1 %"$gascmp_266", label %"$out_of_gas_267", label %"$have_gas_268"
 
-"$out_of_gas_266":                                ; preds = %"$have_gas_258"
+"$out_of_gas_267":                                ; preds = %"$have_gas_258"
   call void @_out_of_gas()
-  br label %"$have_gas_267"
+  br label %"$have_gas_268"
 
-"$have_gas_267":                                  ; preds = %"$out_of_gas_266", %"$have_gas_258"
-  %"$consume_268" = sub i64 %"$gasrem_264", 1
-  store i64 %"$consume_268", i64* @_gasrem, align 8
+"$have_gas_268":                                  ; preds = %"$out_of_gas_267", %"$have_gas_258"
+  %"$consume_269" = sub i64 %"$gasrem_265", 1
+  store i64 %"$consume_269", i64* @_gasrem, align 8
+  %int128_str = alloca %String, align 8
+  %"$_literal_cost_int128_val_270" = alloca %Int32, align 8
+  %"$int128_val_271" = load %Int32, %Int32* %int128_val, align 4
+  store %Int32 %"$int128_val_271", %Int32* %"$_literal_cost_int128_val_270", align 4
+  %"$$_literal_cost_int128_val_270_272" = bitcast %Int32* %"$_literal_cost_int128_val_270" to i8*
+  %"$_literal_cost_call_273" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Int32_11", i8* %"$$_literal_cost_int128_val_270_272")
+  %"$gasrem_274" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_275" = icmp ugt i64 %"$_literal_cost_call_273", %"$gasrem_274"
+  br i1 %"$gascmp_275", label %"$out_of_gas_276", label %"$have_gas_277"
+
+"$out_of_gas_276":                                ; preds = %"$have_gas_268"
+  call void @_out_of_gas()
+  br label %"$have_gas_277"
+
+"$have_gas_277":                                  ; preds = %"$out_of_gas_276", %"$have_gas_268"
+  %"$consume_278" = sub i64 %"$gasrem_274", %"$_literal_cost_call_273"
+  store i64 %"$consume_278", i64* @_gasrem, align 8
+  %"$execptr_load_279" = load i8*, i8** @_execptr, align 8
+  %"$to_string_int128_val_280" = alloca %Int32, align 8
+  %"$int128_val_281" = load %Int32, %Int32* %int128_val, align 4
+  store %Int32 %"$int128_val_281", %Int32* %"$to_string_int128_val_280", align 4
+  %"$$to_string_int128_val_280_282" = bitcast %Int32* %"$to_string_int128_val_280" to i8*
+  %"$to_string_call_283" = call %String @_to_string(i8* %"$execptr_load_279", %_TyDescrTy_Typ* @"$TyDescr_Int32_11", i8* %"$$to_string_int128_val_280_282")
+  store %String %"$to_string_call_283", %String* %int128_str, align 8
+  %"$gasrem_284" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_285" = icmp ugt i64 1, %"$gasrem_284"
+  br i1 %"$gascmp_285", label %"$out_of_gas_286", label %"$have_gas_287"
+
+"$out_of_gas_286":                                ; preds = %"$have_gas_277"
+  call void @_out_of_gas()
+  br label %"$have_gas_287"
+
+"$have_gas_287":                                  ; preds = %"$out_of_gas_286", %"$have_gas_277"
+  %"$consume_288" = sub i64 %"$gasrem_284", 1
+  store i64 %"$consume_288", i64* @_gasrem, align 8
+  %int256_str = alloca %String, align 8
+  %"$_literal_cost_int256_val_289" = alloca %Int32, align 8
+  %"$int256_val_290" = load %Int32, %Int32* %int256_val, align 4
+  store %Int32 %"$int256_val_290", %Int32* %"$_literal_cost_int256_val_289", align 4
+  %"$$_literal_cost_int256_val_289_291" = bitcast %Int32* %"$_literal_cost_int256_val_289" to i8*
+  %"$_literal_cost_call_292" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Int32_11", i8* %"$$_literal_cost_int256_val_289_291")
+  %"$gasrem_293" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_294" = icmp ugt i64 %"$_literal_cost_call_292", %"$gasrem_293"
+  br i1 %"$gascmp_294", label %"$out_of_gas_295", label %"$have_gas_296"
+
+"$out_of_gas_295":                                ; preds = %"$have_gas_287"
+  call void @_out_of_gas()
+  br label %"$have_gas_296"
+
+"$have_gas_296":                                  ; preds = %"$out_of_gas_295", %"$have_gas_287"
+  %"$consume_297" = sub i64 %"$gasrem_293", %"$_literal_cost_call_292"
+  store i64 %"$consume_297", i64* @_gasrem, align 8
+  %"$execptr_load_298" = load i8*, i8** @_execptr, align 8
+  %"$to_string_int256_val_299" = alloca %Int32, align 8
+  %"$int256_val_300" = load %Int32, %Int32* %int256_val, align 4
+  store %Int32 %"$int256_val_300", %Int32* %"$to_string_int256_val_299", align 4
+  %"$$to_string_int256_val_299_301" = bitcast %Int32* %"$to_string_int256_val_299" to i8*
+  %"$to_string_call_302" = call %String @_to_string(i8* %"$execptr_load_298", %_TyDescrTy_Typ* @"$TyDescr_Int32_11", i8* %"$$to_string_int256_val_299_301")
+  store %String %"$to_string_call_302", %String* %int256_str, align 8
+  %"$gasrem_303" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_304" = icmp ugt i64 1, %"$gasrem_303"
+  br i1 %"$gascmp_304", label %"$out_of_gas_305", label %"$have_gas_306"
+
+"$out_of_gas_305":                                ; preds = %"$have_gas_296"
+  call void @_out_of_gas()
+  br label %"$have_gas_306"
+
+"$have_gas_306":                                  ; preds = %"$out_of_gas_305", %"$have_gas_296"
+  %"$consume_307" = sub i64 %"$gasrem_303", 1
+  store i64 %"$consume_307", i64* @_gasrem, align 8
+  %bystrx_str = alloca %String, align 8
+  %"$_literal_cost_bystrx_val_308" = alloca [4 x i8], align 1
+  %"$bystrx_val_309" = load [4 x i8], [4 x i8]* %bystrx_val, align 1
+  store [4 x i8] %"$bystrx_val_309", [4 x i8]* %"$_literal_cost_bystrx_val_308", align 1
+  %"$$_literal_cost_bystrx_val_308_310" = bitcast [4 x i8]* %"$_literal_cost_bystrx_val_308" to i8*
+  %"$_literal_cost_call_311" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Bystr4_39", i8* %"$$_literal_cost_bystrx_val_308_310")
+  %"$gasrem_312" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_313" = icmp ugt i64 %"$_literal_cost_call_311", %"$gasrem_312"
+  br i1 %"$gascmp_313", label %"$out_of_gas_314", label %"$have_gas_315"
+
+"$out_of_gas_314":                                ; preds = %"$have_gas_306"
+  call void @_out_of_gas()
+  br label %"$have_gas_315"
+
+"$have_gas_315":                                  ; preds = %"$out_of_gas_314", %"$have_gas_306"
+  %"$consume_316" = sub i64 %"$gasrem_312", %"$_literal_cost_call_311"
+  store i64 %"$consume_316", i64* @_gasrem, align 8
+  %"$execptr_load_317" = load i8*, i8** @_execptr, align 8
+  %"$to_string_bystrx_val_318" = alloca [4 x i8], align 1
+  %"$bystrx_val_319" = load [4 x i8], [4 x i8]* %bystrx_val, align 1
+  store [4 x i8] %"$bystrx_val_319", [4 x i8]* %"$to_string_bystrx_val_318", align 1
+  %"$$to_string_bystrx_val_318_320" = bitcast [4 x i8]* %"$to_string_bystrx_val_318" to i8*
+  %"$to_string_call_321" = call %String @_to_string(i8* %"$execptr_load_317", %_TyDescrTy_Typ* @"$TyDescr_Bystr4_39", i8* %"$$to_string_bystrx_val_318_320")
+  store %String %"$to_string_call_321", %String* %bystrx_str, align 8
+  %"$gasrem_322" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_323" = icmp ugt i64 1, %"$gasrem_322"
+  br i1 %"$gascmp_323", label %"$out_of_gas_324", label %"$have_gas_325"
+
+"$out_of_gas_324":                                ; preds = %"$have_gas_315"
+  call void @_out_of_gas()
+  br label %"$have_gas_325"
+
+"$have_gas_325":                                  ; preds = %"$out_of_gas_324", %"$have_gas_315"
+  %"$consume_326" = sub i64 %"$gasrem_322", 1
+  store i64 %"$consume_326", i64* @_gasrem, align 8
+  %bystr_str = alloca %String, align 8
+  %"$_literal_cost_bystr_val_327" = alloca %Bystr, align 8
+  %"$bystr_val_328" = load %Bystr, %Bystr* %bystr_val, align 8
+  store %Bystr %"$bystr_val_328", %Bystr* %"$_literal_cost_bystr_val_327", align 8
+  %"$$_literal_cost_bystr_val_327_329" = bitcast %Bystr* %"$_literal_cost_bystr_val_327" to i8*
+  %"$_literal_cost_call_330" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Bystr_37", i8* %"$$_literal_cost_bystr_val_327_329")
+  %"$gasrem_331" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_332" = icmp ugt i64 %"$_literal_cost_call_330", %"$gasrem_331"
+  br i1 %"$gascmp_332", label %"$out_of_gas_333", label %"$have_gas_334"
+
+"$out_of_gas_333":                                ; preds = %"$have_gas_325"
+  call void @_out_of_gas()
+  br label %"$have_gas_334"
+
+"$have_gas_334":                                  ; preds = %"$out_of_gas_333", %"$have_gas_325"
+  %"$consume_335" = sub i64 %"$gasrem_331", %"$_literal_cost_call_330"
+  store i64 %"$consume_335", i64* @_gasrem, align 8
+  %"$execptr_load_336" = load i8*, i8** @_execptr, align 8
+  %"$to_string_bystr_val_337" = alloca %Bystr, align 8
+  %"$bystr_val_338" = load %Bystr, %Bystr* %bystr_val, align 8
+  store %Bystr %"$bystr_val_338", %Bystr* %"$to_string_bystr_val_337", align 8
+  %"$$to_string_bystr_val_337_339" = bitcast %Bystr* %"$to_string_bystr_val_337" to i8*
+  %"$to_string_call_340" = call %String @_to_string(i8* %"$execptr_load_336", %_TyDescrTy_Typ* @"$TyDescr_Bystr_37", i8* %"$$to_string_bystr_val_337_339")
+  store %String %"$to_string_call_340", %String* %bystr_str, align 8
+  %"$gasrem_341" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_342" = icmp ugt i64 1, %"$gasrem_341"
+  br i1 %"$gascmp_342", label %"$out_of_gas_343", label %"$have_gas_344"
+
+"$out_of_gas_343":                                ; preds = %"$have_gas_334"
+  call void @_out_of_gas()
+  br label %"$have_gas_344"
+
+"$have_gas_344":                                  ; preds = %"$out_of_gas_343", %"$have_gas_334"
+  %"$consume_345" = sub i64 %"$gasrem_341", 1
+  store i64 %"$consume_345", i64* @_gasrem, align 8
+  %s_acc = alloca %String, align 8
+  %"$_literal_cost_uint32_str_346" = alloca %String, align 8
+  %"$uint32_str_347" = load %String, %String* %uint32_str, align 8
+  store %String %"$uint32_str_347", %String* %"$_literal_cost_uint32_str_346", align 8
+  %"$$_literal_cost_uint32_str_346_348" = bitcast %String* %"$_literal_cost_uint32_str_346" to i8*
+  %"$_literal_cost_call_349" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_uint32_str_346_348")
+  %"$_literal_cost_uint64_str_350" = alloca %String, align 8
+  %"$uint64_str_351" = load %String, %String* %uint64_str, align 8
+  store %String %"$uint64_str_351", %String* %"$_literal_cost_uint64_str_350", align 8
+  %"$$_literal_cost_uint64_str_350_352" = bitcast %String* %"$_literal_cost_uint64_str_350" to i8*
+  %"$_literal_cost_call_353" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_uint64_str_350_352")
+  %"$gasadd_354" = add i64 %"$_literal_cost_call_349", %"$_literal_cost_call_353"
+  %"$gasrem_355" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_356" = icmp ugt i64 %"$gasadd_354", %"$gasrem_355"
+  br i1 %"$gascmp_356", label %"$out_of_gas_357", label %"$have_gas_358"
+
+"$out_of_gas_357":                                ; preds = %"$have_gas_344"
+  call void @_out_of_gas()
+  br label %"$have_gas_358"
+
+"$have_gas_358":                                  ; preds = %"$out_of_gas_357", %"$have_gas_344"
+  %"$consume_359" = sub i64 %"$gasrem_355", %"$gasadd_354"
+  store i64 %"$consume_359", i64* @_gasrem, align 8
+  %"$execptr_load_360" = load i8*, i8** @_execptr, align 8
+  %"$uint32_str_361" = load %String, %String* %uint32_str, align 8
+  %"$uint64_str_362" = load %String, %String* %uint64_str, align 8
+  %"$concat_call_363" = call %String @_concat_String(i8* %"$execptr_load_360", %String %"$uint32_str_361", %String %"$uint64_str_362")
+  store %String %"$concat_call_363", %String* %s_acc, align 8
+  %"$gasrem_364" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_365" = icmp ugt i64 1, %"$gasrem_364"
+  br i1 %"$gascmp_365", label %"$out_of_gas_366", label %"$have_gas_367"
+
+"$out_of_gas_366":                                ; preds = %"$have_gas_358"
+  call void @_out_of_gas()
+  br label %"$have_gas_367"
+
+"$have_gas_367":                                  ; preds = %"$out_of_gas_366", %"$have_gas_358"
+  %"$consume_368" = sub i64 %"$gasrem_364", 1
+  store i64 %"$consume_368", i64* @_gasrem, align 8
+  %"$s_acc_0" = alloca %String, align 8
+  %"$_literal_cost_s_acc_369" = alloca %String, align 8
+  %"$s_acc_370" = load %String, %String* %s_acc, align 8
+  store %String %"$s_acc_370", %String* %"$_literal_cost_s_acc_369", align 8
+  %"$$_literal_cost_s_acc_369_371" = bitcast %String* %"$_literal_cost_s_acc_369" to i8*
+  %"$_literal_cost_call_372" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_s_acc_369_371")
+  %"$_literal_cost_uint128_str_373" = alloca %String, align 8
+  %"$uint128_str_374" = load %String, %String* %uint128_str, align 8
+  store %String %"$uint128_str_374", %String* %"$_literal_cost_uint128_str_373", align 8
+  %"$$_literal_cost_uint128_str_373_375" = bitcast %String* %"$_literal_cost_uint128_str_373" to i8*
+  %"$_literal_cost_call_376" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_uint128_str_373_375")
+  %"$gasadd_377" = add i64 %"$_literal_cost_call_372", %"$_literal_cost_call_376"
+  %"$gasrem_378" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_379" = icmp ugt i64 %"$gasadd_377", %"$gasrem_378"
+  br i1 %"$gascmp_379", label %"$out_of_gas_380", label %"$have_gas_381"
+
+"$out_of_gas_380":                                ; preds = %"$have_gas_367"
+  call void @_out_of_gas()
+  br label %"$have_gas_381"
+
+"$have_gas_381":                                  ; preds = %"$out_of_gas_380", %"$have_gas_367"
+  %"$consume_382" = sub i64 %"$gasrem_378", %"$gasadd_377"
+  store i64 %"$consume_382", i64* @_gasrem, align 8
+  %"$execptr_load_383" = load i8*, i8** @_execptr, align 8
+  %"$s_acc_384" = load %String, %String* %s_acc, align 8
+  %"$uint128_str_385" = load %String, %String* %uint128_str, align 8
+  %"$concat_call_386" = call %String @_concat_String(i8* %"$execptr_load_383", %String %"$s_acc_384", %String %"$uint128_str_385")
+  store %String %"$concat_call_386", %String* %"$s_acc_0", align 8
+  %"$gasrem_387" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_388" = icmp ugt i64 1, %"$gasrem_387"
+  br i1 %"$gascmp_388", label %"$out_of_gas_389", label %"$have_gas_390"
+
+"$out_of_gas_389":                                ; preds = %"$have_gas_381"
+  call void @_out_of_gas()
+  br label %"$have_gas_390"
+
+"$have_gas_390":                                  ; preds = %"$out_of_gas_389", %"$have_gas_381"
+  %"$consume_391" = sub i64 %"$gasrem_387", 1
+  store i64 %"$consume_391", i64* @_gasrem, align 8
   %"$s_acc_1" = alloca %String, align 8
-  %"$execptr_load_269" = load i8*, i8** @_execptr, align 8
-  %"$$s_acc_0_270" = load %String, %String* %"$s_acc_0", align 8
-  %"$uint256_str_271" = load %String, %String* %uint256_str, align 8
-  %"$concat_call_272" = call %String @_concat_String(i8* %"$execptr_load_269", %String %"$$s_acc_0_270", %String %"$uint256_str_271")
-  store %String %"$concat_call_272", %String* %"$s_acc_1", align 8
-  %"$gasrem_273" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_274" = icmp ugt i64 1, %"$gasrem_273"
-  br i1 %"$gascmp_274", label %"$out_of_gas_275", label %"$have_gas_276"
+  %"$_literal_cost_$s_acc_0_392" = alloca %String, align 8
+  %"$$s_acc_0_393" = load %String, %String* %"$s_acc_0", align 8
+  store %String %"$$s_acc_0_393", %String* %"$_literal_cost_$s_acc_0_392", align 8
+  %"$$_literal_cost_$s_acc_0_392_394" = bitcast %String* %"$_literal_cost_$s_acc_0_392" to i8*
+  %"$_literal_cost_call_395" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_$s_acc_0_392_394")
+  %"$_literal_cost_uint256_str_396" = alloca %String, align 8
+  %"$uint256_str_397" = load %String, %String* %uint256_str, align 8
+  store %String %"$uint256_str_397", %String* %"$_literal_cost_uint256_str_396", align 8
+  %"$$_literal_cost_uint256_str_396_398" = bitcast %String* %"$_literal_cost_uint256_str_396" to i8*
+  %"$_literal_cost_call_399" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_uint256_str_396_398")
+  %"$gasadd_400" = add i64 %"$_literal_cost_call_395", %"$_literal_cost_call_399"
+  %"$gasrem_401" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_402" = icmp ugt i64 %"$gasadd_400", %"$gasrem_401"
+  br i1 %"$gascmp_402", label %"$out_of_gas_403", label %"$have_gas_404"
 
-"$out_of_gas_275":                                ; preds = %"$have_gas_267"
+"$out_of_gas_403":                                ; preds = %"$have_gas_390"
   call void @_out_of_gas()
-  br label %"$have_gas_276"
+  br label %"$have_gas_404"
 
-"$have_gas_276":                                  ; preds = %"$out_of_gas_275", %"$have_gas_267"
-  %"$consume_277" = sub i64 %"$gasrem_273", 1
-  store i64 %"$consume_277", i64* @_gasrem, align 8
+"$have_gas_404":                                  ; preds = %"$out_of_gas_403", %"$have_gas_390"
+  %"$consume_405" = sub i64 %"$gasrem_401", %"$gasadd_400"
+  store i64 %"$consume_405", i64* @_gasrem, align 8
+  %"$execptr_load_406" = load i8*, i8** @_execptr, align 8
+  %"$$s_acc_0_407" = load %String, %String* %"$s_acc_0", align 8
+  %"$uint256_str_408" = load %String, %String* %uint256_str, align 8
+  %"$concat_call_409" = call %String @_concat_String(i8* %"$execptr_load_406", %String %"$$s_acc_0_407", %String %"$uint256_str_408")
+  store %String %"$concat_call_409", %String* %"$s_acc_1", align 8
+  %"$gasrem_410" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_411" = icmp ugt i64 1, %"$gasrem_410"
+  br i1 %"$gascmp_411", label %"$out_of_gas_412", label %"$have_gas_413"
+
+"$out_of_gas_412":                                ; preds = %"$have_gas_404"
+  call void @_out_of_gas()
+  br label %"$have_gas_413"
+
+"$have_gas_413":                                  ; preds = %"$out_of_gas_412", %"$have_gas_404"
+  %"$consume_414" = sub i64 %"$gasrem_410", 1
+  store i64 %"$consume_414", i64* @_gasrem, align 8
   %"$s_acc_2" = alloca %String, align 8
-  %"$execptr_load_278" = load i8*, i8** @_execptr, align 8
-  %"$$s_acc_1_279" = load %String, %String* %"$s_acc_1", align 8
-  %"$int32_str_280" = load %String, %String* %int32_str, align 8
-  %"$concat_call_281" = call %String @_concat_String(i8* %"$execptr_load_278", %String %"$$s_acc_1_279", %String %"$int32_str_280")
-  store %String %"$concat_call_281", %String* %"$s_acc_2", align 8
-  %"$gasrem_282" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_283" = icmp ugt i64 1, %"$gasrem_282"
-  br i1 %"$gascmp_283", label %"$out_of_gas_284", label %"$have_gas_285"
+  %"$_literal_cost_$s_acc_1_415" = alloca %String, align 8
+  %"$$s_acc_1_416" = load %String, %String* %"$s_acc_1", align 8
+  store %String %"$$s_acc_1_416", %String* %"$_literal_cost_$s_acc_1_415", align 8
+  %"$$_literal_cost_$s_acc_1_415_417" = bitcast %String* %"$_literal_cost_$s_acc_1_415" to i8*
+  %"$_literal_cost_call_418" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_$s_acc_1_415_417")
+  %"$_literal_cost_int32_str_419" = alloca %String, align 8
+  %"$int32_str_420" = load %String, %String* %int32_str, align 8
+  store %String %"$int32_str_420", %String* %"$_literal_cost_int32_str_419", align 8
+  %"$$_literal_cost_int32_str_419_421" = bitcast %String* %"$_literal_cost_int32_str_419" to i8*
+  %"$_literal_cost_call_422" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_int32_str_419_421")
+  %"$gasadd_423" = add i64 %"$_literal_cost_call_418", %"$_literal_cost_call_422"
+  %"$gasrem_424" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_425" = icmp ugt i64 %"$gasadd_423", %"$gasrem_424"
+  br i1 %"$gascmp_425", label %"$out_of_gas_426", label %"$have_gas_427"
 
-"$out_of_gas_284":                                ; preds = %"$have_gas_276"
+"$out_of_gas_426":                                ; preds = %"$have_gas_413"
   call void @_out_of_gas()
-  br label %"$have_gas_285"
+  br label %"$have_gas_427"
 
-"$have_gas_285":                                  ; preds = %"$out_of_gas_284", %"$have_gas_276"
-  %"$consume_286" = sub i64 %"$gasrem_282", 1
-  store i64 %"$consume_286", i64* @_gasrem, align 8
+"$have_gas_427":                                  ; preds = %"$out_of_gas_426", %"$have_gas_413"
+  %"$consume_428" = sub i64 %"$gasrem_424", %"$gasadd_423"
+  store i64 %"$consume_428", i64* @_gasrem, align 8
+  %"$execptr_load_429" = load i8*, i8** @_execptr, align 8
+  %"$$s_acc_1_430" = load %String, %String* %"$s_acc_1", align 8
+  %"$int32_str_431" = load %String, %String* %int32_str, align 8
+  %"$concat_call_432" = call %String @_concat_String(i8* %"$execptr_load_429", %String %"$$s_acc_1_430", %String %"$int32_str_431")
+  store %String %"$concat_call_432", %String* %"$s_acc_2", align 8
+  %"$gasrem_433" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_434" = icmp ugt i64 1, %"$gasrem_433"
+  br i1 %"$gascmp_434", label %"$out_of_gas_435", label %"$have_gas_436"
+
+"$out_of_gas_435":                                ; preds = %"$have_gas_427"
+  call void @_out_of_gas()
+  br label %"$have_gas_436"
+
+"$have_gas_436":                                  ; preds = %"$out_of_gas_435", %"$have_gas_427"
+  %"$consume_437" = sub i64 %"$gasrem_433", 1
+  store i64 %"$consume_437", i64* @_gasrem, align 8
   %"$s_acc_3" = alloca %String, align 8
-  %"$execptr_load_287" = load i8*, i8** @_execptr, align 8
-  %"$$s_acc_2_288" = load %String, %String* %"$s_acc_2", align 8
-  %"$int64_str_289" = load %String, %String* %int64_str, align 8
-  %"$concat_call_290" = call %String @_concat_String(i8* %"$execptr_load_287", %String %"$$s_acc_2_288", %String %"$int64_str_289")
-  store %String %"$concat_call_290", %String* %"$s_acc_3", align 8
-  %"$gasrem_291" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_292" = icmp ugt i64 1, %"$gasrem_291"
-  br i1 %"$gascmp_292", label %"$out_of_gas_293", label %"$have_gas_294"
+  %"$_literal_cost_$s_acc_2_438" = alloca %String, align 8
+  %"$$s_acc_2_439" = load %String, %String* %"$s_acc_2", align 8
+  store %String %"$$s_acc_2_439", %String* %"$_literal_cost_$s_acc_2_438", align 8
+  %"$$_literal_cost_$s_acc_2_438_440" = bitcast %String* %"$_literal_cost_$s_acc_2_438" to i8*
+  %"$_literal_cost_call_441" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_$s_acc_2_438_440")
+  %"$_literal_cost_int64_str_442" = alloca %String, align 8
+  %"$int64_str_443" = load %String, %String* %int64_str, align 8
+  store %String %"$int64_str_443", %String* %"$_literal_cost_int64_str_442", align 8
+  %"$$_literal_cost_int64_str_442_444" = bitcast %String* %"$_literal_cost_int64_str_442" to i8*
+  %"$_literal_cost_call_445" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_int64_str_442_444")
+  %"$gasadd_446" = add i64 %"$_literal_cost_call_441", %"$_literal_cost_call_445"
+  %"$gasrem_447" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_448" = icmp ugt i64 %"$gasadd_446", %"$gasrem_447"
+  br i1 %"$gascmp_448", label %"$out_of_gas_449", label %"$have_gas_450"
 
-"$out_of_gas_293":                                ; preds = %"$have_gas_285"
+"$out_of_gas_449":                                ; preds = %"$have_gas_436"
   call void @_out_of_gas()
-  br label %"$have_gas_294"
+  br label %"$have_gas_450"
 
-"$have_gas_294":                                  ; preds = %"$out_of_gas_293", %"$have_gas_285"
-  %"$consume_295" = sub i64 %"$gasrem_291", 1
-  store i64 %"$consume_295", i64* @_gasrem, align 8
+"$have_gas_450":                                  ; preds = %"$out_of_gas_449", %"$have_gas_436"
+  %"$consume_451" = sub i64 %"$gasrem_447", %"$gasadd_446"
+  store i64 %"$consume_451", i64* @_gasrem, align 8
+  %"$execptr_load_452" = load i8*, i8** @_execptr, align 8
+  %"$$s_acc_2_453" = load %String, %String* %"$s_acc_2", align 8
+  %"$int64_str_454" = load %String, %String* %int64_str, align 8
+  %"$concat_call_455" = call %String @_concat_String(i8* %"$execptr_load_452", %String %"$$s_acc_2_453", %String %"$int64_str_454")
+  store %String %"$concat_call_455", %String* %"$s_acc_3", align 8
+  %"$gasrem_456" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_457" = icmp ugt i64 1, %"$gasrem_456"
+  br i1 %"$gascmp_457", label %"$out_of_gas_458", label %"$have_gas_459"
+
+"$out_of_gas_458":                                ; preds = %"$have_gas_450"
+  call void @_out_of_gas()
+  br label %"$have_gas_459"
+
+"$have_gas_459":                                  ; preds = %"$out_of_gas_458", %"$have_gas_450"
+  %"$consume_460" = sub i64 %"$gasrem_456", 1
+  store i64 %"$consume_460", i64* @_gasrem, align 8
   %"$s_acc_4" = alloca %String, align 8
-  %"$execptr_load_296" = load i8*, i8** @_execptr, align 8
-  %"$$s_acc_3_297" = load %String, %String* %"$s_acc_3", align 8
-  %"$int128_str_298" = load %String, %String* %int128_str, align 8
-  %"$concat_call_299" = call %String @_concat_String(i8* %"$execptr_load_296", %String %"$$s_acc_3_297", %String %"$int128_str_298")
-  store %String %"$concat_call_299", %String* %"$s_acc_4", align 8
-  %"$gasrem_300" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_301" = icmp ugt i64 1, %"$gasrem_300"
-  br i1 %"$gascmp_301", label %"$out_of_gas_302", label %"$have_gas_303"
+  %"$_literal_cost_$s_acc_3_461" = alloca %String, align 8
+  %"$$s_acc_3_462" = load %String, %String* %"$s_acc_3", align 8
+  store %String %"$$s_acc_3_462", %String* %"$_literal_cost_$s_acc_3_461", align 8
+  %"$$_literal_cost_$s_acc_3_461_463" = bitcast %String* %"$_literal_cost_$s_acc_3_461" to i8*
+  %"$_literal_cost_call_464" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_$s_acc_3_461_463")
+  %"$_literal_cost_int128_str_465" = alloca %String, align 8
+  %"$int128_str_466" = load %String, %String* %int128_str, align 8
+  store %String %"$int128_str_466", %String* %"$_literal_cost_int128_str_465", align 8
+  %"$$_literal_cost_int128_str_465_467" = bitcast %String* %"$_literal_cost_int128_str_465" to i8*
+  %"$_literal_cost_call_468" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_int128_str_465_467")
+  %"$gasadd_469" = add i64 %"$_literal_cost_call_464", %"$_literal_cost_call_468"
+  %"$gasrem_470" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_471" = icmp ugt i64 %"$gasadd_469", %"$gasrem_470"
+  br i1 %"$gascmp_471", label %"$out_of_gas_472", label %"$have_gas_473"
 
-"$out_of_gas_302":                                ; preds = %"$have_gas_294"
+"$out_of_gas_472":                                ; preds = %"$have_gas_459"
   call void @_out_of_gas()
-  br label %"$have_gas_303"
+  br label %"$have_gas_473"
 
-"$have_gas_303":                                  ; preds = %"$out_of_gas_302", %"$have_gas_294"
-  %"$consume_304" = sub i64 %"$gasrem_300", 1
-  store i64 %"$consume_304", i64* @_gasrem, align 8
+"$have_gas_473":                                  ; preds = %"$out_of_gas_472", %"$have_gas_459"
+  %"$consume_474" = sub i64 %"$gasrem_470", %"$gasadd_469"
+  store i64 %"$consume_474", i64* @_gasrem, align 8
+  %"$execptr_load_475" = load i8*, i8** @_execptr, align 8
+  %"$$s_acc_3_476" = load %String, %String* %"$s_acc_3", align 8
+  %"$int128_str_477" = load %String, %String* %int128_str, align 8
+  %"$concat_call_478" = call %String @_concat_String(i8* %"$execptr_load_475", %String %"$$s_acc_3_476", %String %"$int128_str_477")
+  store %String %"$concat_call_478", %String* %"$s_acc_4", align 8
+  %"$gasrem_479" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_480" = icmp ugt i64 1, %"$gasrem_479"
+  br i1 %"$gascmp_480", label %"$out_of_gas_481", label %"$have_gas_482"
+
+"$out_of_gas_481":                                ; preds = %"$have_gas_473"
+  call void @_out_of_gas()
+  br label %"$have_gas_482"
+
+"$have_gas_482":                                  ; preds = %"$out_of_gas_481", %"$have_gas_473"
+  %"$consume_483" = sub i64 %"$gasrem_479", 1
+  store i64 %"$consume_483", i64* @_gasrem, align 8
   %"$s_acc_5" = alloca %String, align 8
-  %"$execptr_load_305" = load i8*, i8** @_execptr, align 8
-  %"$$s_acc_4_306" = load %String, %String* %"$s_acc_4", align 8
-  %"$int256_str_307" = load %String, %String* %int256_str, align 8
-  %"$concat_call_308" = call %String @_concat_String(i8* %"$execptr_load_305", %String %"$$s_acc_4_306", %String %"$int256_str_307")
-  store %String %"$concat_call_308", %String* %"$s_acc_5", align 8
-  %"$gasrem_309" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_310" = icmp ugt i64 1, %"$gasrem_309"
-  br i1 %"$gascmp_310", label %"$out_of_gas_311", label %"$have_gas_312"
+  %"$_literal_cost_$s_acc_4_484" = alloca %String, align 8
+  %"$$s_acc_4_485" = load %String, %String* %"$s_acc_4", align 8
+  store %String %"$$s_acc_4_485", %String* %"$_literal_cost_$s_acc_4_484", align 8
+  %"$$_literal_cost_$s_acc_4_484_486" = bitcast %String* %"$_literal_cost_$s_acc_4_484" to i8*
+  %"$_literal_cost_call_487" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_$s_acc_4_484_486")
+  %"$_literal_cost_int256_str_488" = alloca %String, align 8
+  %"$int256_str_489" = load %String, %String* %int256_str, align 8
+  store %String %"$int256_str_489", %String* %"$_literal_cost_int256_str_488", align 8
+  %"$$_literal_cost_int256_str_488_490" = bitcast %String* %"$_literal_cost_int256_str_488" to i8*
+  %"$_literal_cost_call_491" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_int256_str_488_490")
+  %"$gasadd_492" = add i64 %"$_literal_cost_call_487", %"$_literal_cost_call_491"
+  %"$gasrem_493" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_494" = icmp ugt i64 %"$gasadd_492", %"$gasrem_493"
+  br i1 %"$gascmp_494", label %"$out_of_gas_495", label %"$have_gas_496"
 
-"$out_of_gas_311":                                ; preds = %"$have_gas_303"
+"$out_of_gas_495":                                ; preds = %"$have_gas_482"
   call void @_out_of_gas()
-  br label %"$have_gas_312"
+  br label %"$have_gas_496"
 
-"$have_gas_312":                                  ; preds = %"$out_of_gas_311", %"$have_gas_303"
-  %"$consume_313" = sub i64 %"$gasrem_309", 1
-  store i64 %"$consume_313", i64* @_gasrem, align 8
+"$have_gas_496":                                  ; preds = %"$out_of_gas_495", %"$have_gas_482"
+  %"$consume_497" = sub i64 %"$gasrem_493", %"$gasadd_492"
+  store i64 %"$consume_497", i64* @_gasrem, align 8
+  %"$execptr_load_498" = load i8*, i8** @_execptr, align 8
+  %"$$s_acc_4_499" = load %String, %String* %"$s_acc_4", align 8
+  %"$int256_str_500" = load %String, %String* %int256_str, align 8
+  %"$concat_call_501" = call %String @_concat_String(i8* %"$execptr_load_498", %String %"$$s_acc_4_499", %String %"$int256_str_500")
+  store %String %"$concat_call_501", %String* %"$s_acc_5", align 8
+  %"$gasrem_502" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_503" = icmp ugt i64 1, %"$gasrem_502"
+  br i1 %"$gascmp_503", label %"$out_of_gas_504", label %"$have_gas_505"
+
+"$out_of_gas_504":                                ; preds = %"$have_gas_496"
+  call void @_out_of_gas()
+  br label %"$have_gas_505"
+
+"$have_gas_505":                                  ; preds = %"$out_of_gas_504", %"$have_gas_496"
+  %"$consume_506" = sub i64 %"$gasrem_502", 1
+  store i64 %"$consume_506", i64* @_gasrem, align 8
   %"$s_acc_6" = alloca %String, align 8
-  %"$execptr_load_314" = load i8*, i8** @_execptr, align 8
-  %"$$s_acc_5_315" = load %String, %String* %"$s_acc_5", align 8
-  %"$bystrx_str_316" = load %String, %String* %bystrx_str, align 8
-  %"$concat_call_317" = call %String @_concat_String(i8* %"$execptr_load_314", %String %"$$s_acc_5_315", %String %"$bystrx_str_316")
-  store %String %"$concat_call_317", %String* %"$s_acc_6", align 8
-  %"$gasrem_318" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_319" = icmp ugt i64 1, %"$gasrem_318"
-  br i1 %"$gascmp_319", label %"$out_of_gas_320", label %"$have_gas_321"
+  %"$_literal_cost_$s_acc_5_507" = alloca %String, align 8
+  %"$$s_acc_5_508" = load %String, %String* %"$s_acc_5", align 8
+  store %String %"$$s_acc_5_508", %String* %"$_literal_cost_$s_acc_5_507", align 8
+  %"$$_literal_cost_$s_acc_5_507_509" = bitcast %String* %"$_literal_cost_$s_acc_5_507" to i8*
+  %"$_literal_cost_call_510" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_$s_acc_5_507_509")
+  %"$_literal_cost_bystrx_str_511" = alloca %String, align 8
+  %"$bystrx_str_512" = load %String, %String* %bystrx_str, align 8
+  store %String %"$bystrx_str_512", %String* %"$_literal_cost_bystrx_str_511", align 8
+  %"$$_literal_cost_bystrx_str_511_513" = bitcast %String* %"$_literal_cost_bystrx_str_511" to i8*
+  %"$_literal_cost_call_514" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_bystrx_str_511_513")
+  %"$gasadd_515" = add i64 %"$_literal_cost_call_510", %"$_literal_cost_call_514"
+  %"$gasrem_516" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_517" = icmp ugt i64 %"$gasadd_515", %"$gasrem_516"
+  br i1 %"$gascmp_517", label %"$out_of_gas_518", label %"$have_gas_519"
 
-"$out_of_gas_320":                                ; preds = %"$have_gas_312"
+"$out_of_gas_518":                                ; preds = %"$have_gas_505"
   call void @_out_of_gas()
-  br label %"$have_gas_321"
+  br label %"$have_gas_519"
 
-"$have_gas_321":                                  ; preds = %"$out_of_gas_320", %"$have_gas_312"
-  %"$consume_322" = sub i64 %"$gasrem_318", 1
-  store i64 %"$consume_322", i64* @_gasrem, align 8
+"$have_gas_519":                                  ; preds = %"$out_of_gas_518", %"$have_gas_505"
+  %"$consume_520" = sub i64 %"$gasrem_516", %"$gasadd_515"
+  store i64 %"$consume_520", i64* @_gasrem, align 8
+  %"$execptr_load_521" = load i8*, i8** @_execptr, align 8
+  %"$$s_acc_5_522" = load %String, %String* %"$s_acc_5", align 8
+  %"$bystrx_str_523" = load %String, %String* %bystrx_str, align 8
+  %"$concat_call_524" = call %String @_concat_String(i8* %"$execptr_load_521", %String %"$$s_acc_5_522", %String %"$bystrx_str_523")
+  store %String %"$concat_call_524", %String* %"$s_acc_6", align 8
+  %"$gasrem_525" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_526" = icmp ugt i64 1, %"$gasrem_525"
+  br i1 %"$gascmp_526", label %"$out_of_gas_527", label %"$have_gas_528"
+
+"$out_of_gas_527":                                ; preds = %"$have_gas_519"
+  call void @_out_of_gas()
+  br label %"$have_gas_528"
+
+"$have_gas_528":                                  ; preds = %"$out_of_gas_527", %"$have_gas_519"
+  %"$consume_529" = sub i64 %"$gasrem_525", 1
+  store i64 %"$consume_529", i64* @_gasrem, align 8
   %"$s_acc_7" = alloca %String, align 8
-  %"$execptr_load_323" = load i8*, i8** @_execptr, align 8
-  %"$$s_acc_6_324" = load %String, %String* %"$s_acc_6", align 8
-  %"$bystr_str_325" = load %String, %String* %bystr_str, align 8
-  %"$concat_call_326" = call %String @_concat_String(i8* %"$execptr_load_323", %String %"$$s_acc_6_324", %String %"$bystr_str_325")
-  store %String %"$concat_call_326", %String* %"$s_acc_7", align 8
-  %"$gasrem_327" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_328" = icmp ugt i64 1, %"$gasrem_327"
-  br i1 %"$gascmp_328", label %"$out_of_gas_329", label %"$have_gas_330"
+  %"$_literal_cost_$s_acc_6_530" = alloca %String, align 8
+  %"$$s_acc_6_531" = load %String, %String* %"$s_acc_6", align 8
+  store %String %"$$s_acc_6_531", %String* %"$_literal_cost_$s_acc_6_530", align 8
+  %"$$_literal_cost_$s_acc_6_530_532" = bitcast %String* %"$_literal_cost_$s_acc_6_530" to i8*
+  %"$_literal_cost_call_533" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_$s_acc_6_530_532")
+  %"$_literal_cost_bystr_str_534" = alloca %String, align 8
+  %"$bystr_str_535" = load %String, %String* %bystr_str, align 8
+  store %String %"$bystr_str_535", %String* %"$_literal_cost_bystr_str_534", align 8
+  %"$$_literal_cost_bystr_str_534_536" = bitcast %String* %"$_literal_cost_bystr_str_534" to i8*
+  %"$_literal_cost_call_537" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$$_literal_cost_bystr_str_534_536")
+  %"$gasadd_538" = add i64 %"$_literal_cost_call_533", %"$_literal_cost_call_537"
+  %"$gasrem_539" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_540" = icmp ugt i64 %"$gasadd_538", %"$gasrem_539"
+  br i1 %"$gascmp_540", label %"$out_of_gas_541", label %"$have_gas_542"
 
-"$out_of_gas_329":                                ; preds = %"$have_gas_321"
+"$out_of_gas_541":                                ; preds = %"$have_gas_528"
   call void @_out_of_gas()
-  br label %"$have_gas_330"
+  br label %"$have_gas_542"
 
-"$have_gas_330":                                  ; preds = %"$out_of_gas_329", %"$have_gas_321"
-  %"$consume_331" = sub i64 %"$gasrem_327", 1
-  store i64 %"$consume_331", i64* @_gasrem, align 8
-  %"$$s_acc_7_332" = load %String, %String* %"$s_acc_7", align 8
-  store %String %"$$s_acc_7_332", %String* %"$expr_8", align 8
-  %"$$expr_8_333" = load %String, %String* %"$expr_8", align 8
-  ret %String %"$$expr_8_333"
+"$have_gas_542":                                  ; preds = %"$out_of_gas_541", %"$have_gas_528"
+  %"$consume_543" = sub i64 %"$gasrem_539", %"$gasadd_538"
+  store i64 %"$consume_543", i64* @_gasrem, align 8
+  %"$execptr_load_544" = load i8*, i8** @_execptr, align 8
+  %"$$s_acc_6_545" = load %String, %String* %"$s_acc_6", align 8
+  %"$bystr_str_546" = load %String, %String* %bystr_str, align 8
+  %"$concat_call_547" = call %String @_concat_String(i8* %"$execptr_load_544", %String %"$$s_acc_6_545", %String %"$bystr_str_546")
+  store %String %"$concat_call_547", %String* %"$s_acc_7", align 8
+  %"$gasrem_548" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_549" = icmp ugt i64 1, %"$gasrem_548"
+  br i1 %"$gascmp_549", label %"$out_of_gas_550", label %"$have_gas_551"
+
+"$out_of_gas_550":                                ; preds = %"$have_gas_542"
+  call void @_out_of_gas()
+  br label %"$have_gas_551"
+
+"$have_gas_551":                                  ; preds = %"$out_of_gas_550", %"$have_gas_542"
+  %"$consume_552" = sub i64 %"$gasrem_548", 1
+  store i64 %"$consume_552", i64* @_gasrem, align 8
+  %"$$s_acc_7_553" = load %String, %String* %"$s_acc_7", align 8
+  store %String %"$$s_acc_7_553", %String* %"$expr_8", align 8
+  %"$$expr_8_554" = load %String, %String* %"$expr_8", align 8
+  ret %String %"$$expr_8_554"
 }
 
 declare void @_out_of_gas()
 
 declare %Bystr @_to_bystr(i8*, i32, i8*)
+
+declare i64 @_literal_cost(%_TyDescrTy_Typ*, i8*)
 
 declare %String @_to_string(i8*, %_TyDescrTy_Typ*, i8*)
 
@@ -703,11 +1074,11 @@ declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_334" = call %String @_scilla_expr_fun(i8* null)
-  %"$pval_335" = alloca %String, align 8
-  %"$memvoidcast_336" = bitcast %String* %"$pval_335" to i8*
-  store %String %"$exprval_334", %String* %"$pval_335", align 8
-  %"$execptr_load_337" = load i8*, i8** @_execptr, align 8
-  call void @_print_scilla_val(i8* %"$execptr_load_337", %_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$memvoidcast_336")
+  %"$exprval_555" = call %String @_scilla_expr_fun(i8* null)
+  %"$pval_556" = alloca %String, align 8
+  %"$memvoidcast_557" = bitcast %String* %"$pval_556" to i8*
+  store %String %"$exprval_555", %String* %"$pval_556", align 8
+  %"$execptr_load_558" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_558", %_TyDescrTy_Typ* @"$TyDescr_String_27", i8* %"$memvoidcast_557")
   ret void
 }

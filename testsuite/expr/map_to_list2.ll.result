@@ -2,4 +2,4 @@ Cons(Pair(42 : Int32)(
 {
   3 : BNum => 112 : Int32  2 : BNum => 239 : Int32  1 : BNum => 42 : Int32
 } : Map (BNum) (Int32)) : Pair (Int32) (Map (BNum) (Int32)))(Nil : List (Pair (Int32) (Map (BNum) (Int32)))) : List (Pair (Int32) (Map (BNum) (Int32)))
-Gas remaining: 9999980
+Gas remaining: 9999971
