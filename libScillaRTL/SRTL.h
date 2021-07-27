@@ -41,6 +41,8 @@ const auto Ecdsa_Pubkey_Uncompressed_Len = 65;
 
 const auto Zilliqa_Address_Len = 20;
 
+const uint64_t GasScaleFactor = 8;
+
 // Fetch the type of a remote field, if it exists.
 std::optional<std::string> remoteFieldType(const ScillaExecImpl *SJ,
                                            const std::string &Addr,

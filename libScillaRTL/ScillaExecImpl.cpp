@@ -62,8 +62,12 @@ ScillaExprExec::ScillaExprExec(const ScillaParams &SPs,
 std::string ScillaExprExec::exec(uint64_t GasLimit) {
   auto ScillaMainAddr = PImpl->getAddressFor("scilla_main");
   auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
+
+  // This isn't a transition, but we still setup a state for consistency.
+  PImpl->TS = std::make_unique<TransitionState>("0", "0", 0, GasLimit, "0x");
   // Set gas available in the JIT'ed code and then initialize libraries.
   PImpl->initGasAndLibs(GasLimit);
+
   // Clear the output.
   PImpl->ScillaStdout.clear();
   ScillaMain();
@@ -163,16 +167,14 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
   }
 }
 
-uint64_t *ScillaExecImpl::initGasAndLibs(uint64_t GasLimit) {
-  // Set gas limit in the JIT'ed code module.
+void ScillaExecImpl::initGasAndLibs(uint64_t GasLimit) {
   auto GasRemPtr = reinterpret_cast<uint64_t *>(getAddressFor("_gasrem"));
-  *GasRemPtr = GasLimit;
+  // Scale up the gas limit.
+  *GasRemPtr = GasLimit * GasScaleFactor;
 
   // Call the library initialisation function.
   auto initLibs = reinterpret_cast<void (*)()>(getAddressFor("_init_libs"));
   initLibs();
-
-  return GasRemPtr;
 }
 
 Json::Value ScillaExecImpl::deploy(const Json::Value &InitJ, uint64_t GasLimit,
@@ -181,20 +183,28 @@ Json::Value ScillaExecImpl::deploy(const Json::Value &InitJ, uint64_t GasLimit,
   // Initialize contract parameters.
   initContrParams(InitJ, true /* DoDynamicTypechecks */);
 
-  auto GasRemPtr = initGasAndLibs(GasLimit);
-
   // Let's setup the TransitionState for this transition.
-  TS = std::make_unique<TransitionState>("0", "0", CurBlock, "");
+  TS = std::make_unique<TransitionState>("0", "0", CurBlock, GasLimit, "");
+
+  initGasAndLibs(GasLimit);
+
   auto fIS = reinterpret_cast<void (*)(void)>(getAddressFor("_init_state"));
   fIS();
 
-  Json::Value Result = TS->finalize(*GasRemPtr);
+  Json::Value Result = TS->finalize(getGasRem());
   OM.deleteAll();
   return Result;
 }
 
 uint64_t ScillaExecImpl::getGasRem() const {
-  return *reinterpret_cast<const uint64_t *>(getAddressFor("_gasrem"));
+  auto GasRem = *reinterpret_cast<const uint64_t *>(getAddressFor("_gasrem"));
+  // Scale down
+  auto GasRemScaledDown = GasRem / GasScaleFactor;
+  // If no gas was consumed, force at least 1 unit to be consumed.
+  if (GasRemScaledDown == TS->GasLimit) {
+    GasRemScaledDown--;
+  }
+  return GasRemScaledDown;
 }
 
 const ScillaTypes::Typ *
@@ -233,11 +243,11 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
       !OriginJ.isString() || !AmountJ.isString())
     CREATE_ERROR("Invalid Message");
 
-  auto GasRemPtr = initGasAndLibs(GasLimit);
-
   // Let's setup the TransitionState for this transition.
   TS = std::make_unique<TransitionState>(Balance, AmountJ.asString(), CurBlock,
-                                         SenderJ.asString());
+                                         GasLimit, SenderJ.asString());
+
+  initGasAndLibs(GasLimit);
 
   // Amount and Sender need to be prepended to the parameter list.
   Json::Value AmountParam;
@@ -349,7 +359,7 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
 
   Transition(Mem);
 
-  Json::Value Result = TS->finalize(*GasRemPtr);
+  Json::Value Result = TS->finalize(getGasRem());
   OM.deleteAll();
   return Result;
 }

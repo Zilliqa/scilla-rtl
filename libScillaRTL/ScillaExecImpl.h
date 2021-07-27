@@ -48,7 +48,7 @@ public:
   // Get address for @Symbol inside the compiled IR, ready to be used.
   void *getAddressFor(const std::string &Symbol) const;
   // Initialize gas-remaining field in the code and initialize libraries.
-  uint64_t *initGasAndLibs(uint64_t GasRem);
+  void initGasAndLibs(uint64_t GasRem);
   // Execute a message.
   Json::Value execMsg(const std::string &Balance, uint64_t GasLimit,
                       uint64_t CurBlock, const Json::Value &InitJ,
