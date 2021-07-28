@@ -110,7 +110,7 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
 
   auto DynTypCheckGasCost = [](const ScillaTypes::Typ *T) {
     // Implements `address_typecheck_cost` in Gas.ml.
-    uint64_t Size;
+    uint64_t Size = 0;
     switch (T->m_t) {
       case Typ::Address_typ:
       {
@@ -123,7 +123,6 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
       case Typ::Prim_typ:
       case Typ::ADT_typ:
       case Typ::Map_typ:
-        Size = 0;
         break;
     }
     // _balance and _nonce must also be looked up
