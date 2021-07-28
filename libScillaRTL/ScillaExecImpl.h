@@ -32,11 +32,12 @@ private:
   std::unique_ptr<ScillaTypes::TypParserPartialCache> TPPC;
   // Get the type descriptors table and its length.
   std::pair<const ScillaTypes::Typ **, int> getTypeDescrTable() const;
-  std::unique_ptr<SharedObject> SO;
+  const std::unique_ptr<SharedObject> SO;
+  uint64_t *const GasRemPtr;
   friend bool dynamicTypecheck(const ScillaExecImpl *SJ,
                                const ScillaTypes::Typ *TargetT,
-                               const ScillaTypes::Typ *ParsedT,
-                               const void *Val);
+                               const ScillaTypes::Typ *ParsedT, const void *Val,
+                               bool ChargeGas);
 
 public:
   // @ContrBin is the path to a contract's shared object `foo.so`
@@ -63,6 +64,10 @@ public:
   uint64_t getGasRem() const;
   // Parse a string into a Scilla type. Raises error on failure.
   const ScillaTypes::Typ *parseTypeString(const std::string &) const;
+  // Raise an out-of-gas exception.
+  static void outOfGasException(void);
+  // Consume N units of gas. Raise an error if we're out of gas.
+  void consumeGas(uint64_t N) const;
 
   // Scilla values dynamically allocated and owned by the JIT engine.
   ObjManager OM;
