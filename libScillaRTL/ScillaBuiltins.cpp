@@ -334,7 +334,7 @@ SafeIntCompatibilityCheck<256, Unsigned>(void);
 
 } // namespace
 
-extern "C" {
+// extern "C" {
 
 void _print_scilla_val(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *V) {
   SJ->ScillaStdout += ScillaValues::toString(true, T, V) + "\n";
@@ -1239,7 +1239,7 @@ void *_map_to_list(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,
   *Nil = ScillaTypes::List_Nil_Tag;
 
   void *NextListElm = Nil;
-  for (const auto Itr : *M) {
+  for (const auto& Itr : *M) {
     uint8_t *PairP =
         reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(PairAllocSize));
     auto NextElm = PairP;
@@ -1339,4 +1339,4 @@ void *_dynamic_typecast(ScillaExecImpl *SJ, const void *V,
   }
 }
 
-} // end of extern "C".
+// } // end of extern "C".

@@ -91,7 +91,7 @@ public:
 };
 
 namespace ScillaTypes {
-class Typ;
+struct Typ;
 } // namespace ScillaTypes
 
 // A state server implementation with no persistence.

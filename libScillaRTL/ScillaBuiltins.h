@@ -62,7 +62,7 @@ public:
 
 } // end of namespace ScillaRTL
 
-extern "C" {
+// extern "C" {
 
 // Print Scilla value @V whose type is described by @T to ScillaStdout .
 void _print_scilla_val(ScillaRTL::ScillaExecImpl *SJ,
@@ -439,4 +439,4 @@ uint64_t _lengthof(const ScillaRTL::ScillaTypes::Typ *T, const void *V);
 void *_dynamic_typecast(ScillaRTL::ScillaExecImpl *SJ, const void *V,
                         const ScillaRTL::ScillaTypes::Typ *T);
 
-} // extern "C"
+// } // extern "C"
