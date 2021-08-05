@@ -17,14 +17,22 @@
 
 #pragma once
 
+#if defined(__APPLE__)
+#include <boost/container/pmr/monotonic_buffer_resource.hpp>
+using monotonic_buffer_resource =
+    boost::container::pmr::monotonic_buffer_resource;
+#else
 #include <memory_resource>
+using monotonic_buffer_resource = std::pmr::monotonic_buffer_resource;
+#endif
+
 #include <vector>
 
 namespace ScillaRTL {
 
 // Mimics llvm::BumpPtrAllocator to the extent of our need.
 class BumpPtrAllocator {
-  std::pmr::monotonic_buffer_resource MBAlloc;
+  monotonic_buffer_resource MBAlloc;
 
 public:
   BumpPtrAllocator(const BumpPtrAllocator &) = delete;
@@ -39,6 +47,7 @@ public:
 // Allocates, constructs, owns and destructs objects.
 // Objects of any type can be managed. It works similar to how
 // std::any works. https://stackoverflow.com/a/4989141/2128804
+// TODO: Switch to std::pmr::polymorphic_allocator (needs C++20).
 class ObjManager {
 
   class MemObjBase {

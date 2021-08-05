@@ -17,7 +17,11 @@ find_package(OpenSSL REQUIRED)
 message(STATUS "Found jsoncpp ${jsoncpp_VERSION} at ${jsoncpp_INCLUDE_DIRS}")
 
 # Boost stuff
-find_package(Boost REQUIRED unit_test_framework filesystem program_options)
+if (APPLE)
+    find_package(Boost REQUIRED unit_test_framework filesystem program_options container)
+else()
+    find_package(Boost REQUIRED unit_test_framework filesystem program_options)
+endif()
 
 # compiler and linker options
 add_compile_options(-Wall)
