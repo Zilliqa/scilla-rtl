@@ -28,7 +28,7 @@ class SharedObject {
 
 public:
   SharedObject(const std::string &ObjFile) {
-    Handle = dlopen(ObjFile.c_str(), RTLD_NOW);
+    Handle = dlopen(ObjFile.c_str(), RTLD_NOW | RTLD_LOCAL);
     if (!Handle) {
       CREATE_ERROR(dlerror());
     }
