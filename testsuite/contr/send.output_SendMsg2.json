@@ -1,20 +1,21 @@
 {
-   "_accepted" : "false",
-   "events" : [],
-   "gas_remaining" : "9999969",
-   "messages" : [
-      {
-         "_amount" : "100",
-         "_recipient" : "0x1234567890123456789012345678901234567890",
-         "_tag" : "foo",
-         "params" : []
-      },
-      {
-         "_amount" : "0",
-         "_recipient" : "0x1234567890123456789012345678901234567890",
-         "_tag" : "",
-         "params" : []
-      }
-   ],
-   "scilla_major_version" : "0"
+  "_accepted" : "false",
+  "events" : [],
+  "gas_remaining" : "9999969",
+  "messages" : 
+  [
+    {
+      "_amount" : "100",
+      "_recipient" : "0x1234567890123456789012345678901234567890",
+      "_tag" : "foo",
+      "params" : []
+    },
+    {
+      "_amount" : "0",
+      "_recipient" : "0x1234567890123456789012345678901234567890",
+      "_tag" : "",
+      "params" : []
+    }
+  ],
+  "scilla_major_version" : "0"
 }

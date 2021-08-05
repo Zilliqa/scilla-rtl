@@ -1,18 +1,20 @@
 {
-   "_accepted" : "false",
-   "events" : [
-      {
-         "_eventname" : "test",
-         "params" : [
-            {
-               "type" : "Int32",
-               "value" : "2",
-               "vname" : "message"
-            }
-         ]
-      }
-   ],
-   "gas_remaining" : "9999989",
-   "messages" : [],
-   "scilla_major_version" : "0"
+  "_accepted" : "false",
+  "events" : 
+  [
+    {
+      "_eventname" : "test",
+      "params" : 
+      [
+        {
+          "type" : "Int32",
+          "value" : "2",
+          "vname" : "message"
+        }
+      ]
+    }
+  ],
+  "gas_remaining" : "9999989",
+  "messages" : [],
+  "scilla_major_version" : "0"
 }

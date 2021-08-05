@@ -74,6 +74,13 @@ std::string serializeJSON(const Json::Value &J) {
   return Oss.str();
 }
 
+std::string prettyPrintJSON(const Json::Value &J) {
+  std::ostringstream Oss;
+  Json::StyledStreamWriter Writer("  ");
+  Writer.write(Oss, J);
+  return Oss.str();
+}
+
 // Find "vname" in the input JSON array and return its "value".
 // Typical Scilla state JSON format is expected as input.
 std::optional<Json::Value> vNameValue(const Json::Value &Vs,

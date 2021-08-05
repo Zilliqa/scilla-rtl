@@ -1,21 +1,23 @@
 [
-   {
-      "type" : "Uint128",
-      "value" : "0",
-      "vname" : "_balance"
-   },
-   {
-      "type" : "Map (ByStr20) (Bool)",
-      "value" : [
-         {
-            "key" : "0xaafeccdc9012345678901234567890f777567895",
-            "val" : {
-               "argtypes" : [],
-               "arguments" : [],
-               "constructor" : "True"
-            }
-         }
-      ],
-      "vname" : "admins"
-   }
+  {
+    "type" : "Uint128",
+    "value" : "0",
+    "vname" : "_balance"
+  },
+  {
+    "type" : "Map (ByStr20) (Bool)",
+    "value" : 
+    [
+      {
+        "key" : "0xaafeccdc9012345678901234567890f777567895",
+        "val" : 
+        {
+          "argtypes" : [],
+          "arguments" : [],
+          "constructor" : "True"
+        }
+      }
+    ],
+    "vname" : "admins"
+  }
 ]

@@ -1,12 +1,12 @@
 [
-   {
-      "type" : "Uint128",
-      "value" : "0",
-      "vname" : "_balance"
-   },
-   {
-      "type" : "Map (ByStr20) (Int32)",
-      "value" : [],
-      "vname" : "access_count"
-   }
+  {
+    "type" : "Uint128",
+    "value" : "0",
+    "vname" : "_balance"
+  },
+  {
+    "type" : "Map (ByStr20) (Int32)",
+    "value" : [],
+    "vname" : "access_count"
+  }
 ]

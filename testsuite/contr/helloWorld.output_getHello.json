@@ -1,18 +1,20 @@
 {
-   "_accepted" : "false",
-   "events" : [
-      {
-         "_eventname" : "getHello()",
-         "params" : [
-            {
-               "type" : "String",
-               "value" : "Hello world",
-               "vname" : "msg"
-            }
-         ]
-      }
-   ],
-   "gas_remaining" : "9999986",
-   "messages" : [],
-   "scilla_major_version" : "0"
+  "_accepted" : "false",
+  "events" : 
+  [
+    {
+      "_eventname" : "getHello()",
+      "params" : 
+      [
+        {
+          "type" : "String",
+          "value" : "Hello world",
+          "vname" : "msg"
+        }
+      ]
+    }
+  ],
+  "gas_remaining" : "9999986",
+  "messages" : [],
+  "scilla_major_version" : "0"
 }

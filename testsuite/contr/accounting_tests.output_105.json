@@ -1,56 +1,63 @@
 Exception thrown: {
-   "_exception" : "Test_Send failed",
-   "params" : [
+  "_exception" : "Test_Send failed",
+  "params" : 
+  [
+    {
+      "type" : "Uint128",
+      "value" : "2",
+      "vname" : "test_no"
+    },
+    {
+      "type" : "List (String)",
+      "value" : 
       {
-         "type" : "Uint128",
-         "value" : "2",
-         "vname" : "test_no"
-      },
-      {
-         "type" : "List (String)",
-         "value" : {
+        "argtypes" : [ "String" ],
+        "arguments" : 
+        [
+          "World",
+          {
             "argtypes" : [ "String" ],
-            "arguments" : [
-               "World",
-               {
-                  "argtypes" : [ "String" ],
-                  "arguments" : [
-                     "Hello",
-                     {
-                        "argtypes" : [ "String" ],
-                        "arguments" : [],
-                        "constructor" : "Nil"
-                     }
-                  ],
-                  "constructor" : "Cons"
-               }
+            "arguments" : 
+            [
+              "Hello",
+              {
+                "argtypes" : [ "String" ],
+                "arguments" : [],
+                "constructor" : "Nil"
+              }
             ],
             "constructor" : "Cons"
-         },
-         "vname" : "expected"
+          }
+        ],
+        "constructor" : "Cons"
       },
+      "vname" : "expected"
+    },
+    {
+      "type" : "List (String)",
+      "value" : 
       {
-         "type" : "List (String)",
-         "value" : {
+        "argtypes" : [ "String" ],
+        "arguments" : 
+        [
+          "Hello",
+          {
             "argtypes" : [ "String" ],
-            "arguments" : [
-               "Hello",
-               {
-                  "argtypes" : [ "String" ],
-                  "arguments" : [
-                     "World",
-                     {
-                        "argtypes" : [ "String" ],
-                        "arguments" : [],
-                        "constructor" : "Nil"
-                     }
-                  ],
-                  "constructor" : "Cons"
-               }
+            "arguments" : 
+            [
+              "World",
+              {
+                "argtypes" : [ "String" ],
+                "arguments" : [],
+                "constructor" : "Nil"
+              }
             ],
             "constructor" : "Cons"
-         },
-         "vname" : "actual"
-      }
-   ]
+          }
+        ],
+        "constructor" : "Cons"
+      },
+      "vname" : "actual"
+    }
+  ]
 }

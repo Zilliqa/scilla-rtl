@@ -1,30 +1,33 @@
 [
-   {
-      "type" : "Uint128",
-      "value" : "0",
-      "vname" : "_balance"
-   },
-   {
-      "type" : "List String",
-      "value" : {
-         "argtypes" : [ "String" ],
-         "arguments" : [
-            "World",
+  {
+    "type" : "Uint128",
+    "value" : "0",
+    "vname" : "_balance"
+  },
+  {
+    "type" : "List String",
+    "value" : 
+    {
+      "argtypes" : [ "String" ],
+      "arguments" : 
+      [
+        "World",
+        {
+          "argtypes" : [ "String" ],
+          "arguments" : 
+          [
+            "Hello",
             {
-               "argtypes" : [ "String" ],
-               "arguments" : [
-                  "Hello",
-                  {
-                     "argtypes" : [ "String" ],
-                     "arguments" : [],
-                     "constructor" : "Nil"
-                  }
-               ],
-               "constructor" : "Cons"
+              "argtypes" : [ "String" ],
+              "arguments" : [],
+              "constructor" : "Nil"
             }
-         ],
-         "constructor" : "Cons"
-      },
-      "vname" : "stored_strings"
-   }
+          ],
+          "constructor" : "Cons"
+        }
+      ],
+      "constructor" : "Cons"
+    },
+    "vname" : "stored_strings"
+  }
 ]

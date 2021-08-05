@@ -57,13 +57,13 @@ void TransitionState::processSend(Json::Value &M) {
     auto AmtV = SafeUint128(AmtJ.asString());
     if (AmtV > Balance) {
       CREATE_ERROR("Not enough balance to send _amount in message.\n" +
-                   M.toStyledString());
+                   prettyPrintJSON(M));
     }
     Balance = Balance - AmtV;
     processMessage("messages", M);
   } else {
     CREATE_ERROR("Invalid outgoing message. _amount not found.\n" +
-                 M.toStyledString());
+                 prettyPrintJSON(M));
   }
 }
 
@@ -721,7 +721,7 @@ void _event(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, const void *V) {
 void _throw(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, const void *V) {
   (void)SJ;
   auto J = ScillaValues::toJSON(T, V);
-  SCILLA_EXCEPTION("Exception thrown: " + J.toStyledString());
+  SCILLA_EXCEPTION("Exception thrown: " + prettyPrintJSON(J));
 }
 
 uint8_t *_eq_String(ScillaExecImpl *SJ, ScillaTypes::String Lhs,
@@ -1239,7 +1239,7 @@ void *_map_to_list(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,
   *Nil = ScillaTypes::List_Nil_Tag;
 
   void *NextListElm = Nil;
-  for (const auto& Itr : *M) {
+  for (const auto &Itr : *M) {
     uint8_t *PairP =
         reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(PairAllocSize));
     auto NextElm = PairP;

@@ -1,30 +1,32 @@
 [
-   {
-      "type" : "Uint128",
-      "value" : "100",
-      "vname" : "_balance"
-   },
-   {
-      "type" : "Map (ByStr20) (Uint128)",
-      "value" : [
-         {
-            "key" : "0x12345678901234567890123456789012345678ab",
-            "val" : "100"
-         },
-         {
-            "key" : "0x12345678901234567890123456789012345678cd",
-            "val" : "0"
-         }
-      ],
-      "vname" : "backers"
-   },
-   {
-      "type" : "Bool",
-      "value" : {
-         "argtypes" : [],
-         "arguments" : [],
-         "constructor" : "False"
+  {
+    "type" : "Uint128",
+    "value" : "100",
+    "vname" : "_balance"
+  },
+  {
+    "type" : "Map (ByStr20) (Uint128)",
+    "value" : 
+    [
+      {
+        "key" : "0x12345678901234567890123456789012345678ab",
+        "val" : "100"
       },
-      "vname" : "funded"
-   }
+      {
+        "key" : "0x12345678901234567890123456789012345678cd",
+        "val" : "0"
+      }
+    ],
+    "vname" : "backers"
+  },
+  {
+    "type" : "Bool",
+    "value" : 
+    {
+      "argtypes" : [],
+      "arguments" : [],
+      "constructor" : "False"
+    },
+    "vname" : "funded"
+  }
 ]

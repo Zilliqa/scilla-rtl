@@ -63,6 +63,8 @@ Json::Value parseJSONFile(const std::string &Filename);
 std::optional<int> mapDepthOfTypeString(const std::string &TypeStr);
 // Serialize a JSON for storage.
 std::string serializeJSON(const Json::Value &J);
+// A portable replacement for Json::toStyledString().
+std::string prettyPrintJSON(const Json::Value &J);
 // Find "vname" in the input JSON array and return its "value".
 // Typical Scilla state JSON format is expected as input.
 std::optional<Json::Value> vNameValue(const Json::Value &Vs,

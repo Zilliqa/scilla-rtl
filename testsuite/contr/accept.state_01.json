@@ -1,7 +1,7 @@
 [
-   {
-      "type" : "Uint128",
-      "value" : "100",
-      "vname" : "_balance"
-   }
+  {
+    "type" : "Uint128",
+    "value" : "100",
+    "vname" : "_balance"
+  }
 ]

@@ -1,27 +1,30 @@
 {
-   "_accepted" : "false",
-   "events" : [
-      {
-         "_eventname" : "AdminSet",
-         "params" : [
-            {
-               "type" : "ByStr20",
-               "value" : "0xfefeccdc9012345678901234567890f777567895",
-               "vname" : "address"
-            },
-            {
-               "type" : "Bool",
-               "value" : {
-                  "argtypes" : [],
-                  "arguments" : [],
-                  "constructor" : "True"
-               },
-               "vname" : "isApproved"
-            }
-         ]
-      }
-   ],
-   "gas_remaining" : "9999954",
-   "messages" : [],
-   "scilla_major_version" : "0"
+  "_accepted" : "false",
+  "events" : 
+  [
+    {
+      "_eventname" : "AdminSet",
+      "params" : 
+      [
+        {
+          "type" : "ByStr20",
+          "value" : "0xfefeccdc9012345678901234567890f777567895",
+          "vname" : "address"
+        },
+        {
+          "type" : "Bool",
+          "value" : 
+          {
+            "argtypes" : [],
+            "arguments" : [],
+            "constructor" : "True"
+          },
+          "vname" : "isApproved"
+        }
+      ]
+    }
+  ],
+  "gas_remaining" : "9999954",
+  "messages" : [],
+  "scilla_major_version" : "0"
 }

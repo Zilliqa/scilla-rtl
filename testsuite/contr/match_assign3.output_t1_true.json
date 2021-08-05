@@ -1,28 +1,31 @@
 {
-   "_accepted" : "false",
-   "events" : [
-      {
-         "_eventname" : "test",
-         "params" : [
-            {
-               "type" : "Int32",
-               "value" : "11",
-               "vname" : "message"
-            }
-         ]
-      },
-      {
-         "_eventname" : "test",
-         "params" : [
-            {
-               "type" : "Int32",
-               "value" : "101",
-               "vname" : "message"
-            }
-         ]
-      }
-   ],
-   "gas_remaining" : "9999981",
-   "messages" : [],
-   "scilla_major_version" : "0"
+  "_accepted" : "false",
+  "events" : 
+  [
+    {
+      "_eventname" : "test",
+      "params" : 
+      [
+        {
+          "type" : "Int32",
+          "value" : "11",
+          "vname" : "message"
+        }
+      ]
+    },
+    {
+      "_eventname" : "test",
+      "params" : 
+      [
+        {
+          "type" : "Int32",
+          "value" : "101",
+          "vname" : "message"
+        }
+      ]
+    }
+  ],
+  "gas_remaining" : "9999981",
+  "messages" : [],
+  "scilla_major_version" : "0"
 }
