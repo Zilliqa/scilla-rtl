@@ -112,10 +112,17 @@ void compileLLVMToSO(const std::string &InputFile,
                      const std::string &OutputFile) {
   try {
     auto ExecP = bp::search_path("clang-12");
+    #if defined (__APPLE__)
+    if (bp::system(ExecP, "-Wno-override-module", "-fPIC", "-shared", "-undefined", "dynamic_lookup", InputFile,
+                   "-o", OutputFile)) {
+      CREATE_ERROR("Compilation of " + InputFile + " failed.");
+    }
+    #else 
     if (bp::system(ExecP, "-Wno-override-module", "-fPIC", "-shared", InputFile,
                    "-o", OutputFile)) {
       CREATE_ERROR("Compilation of " + InputFile + " failed.");
     }
+    #endif
   } catch (std::system_error &E) {
     CREATE_ERROR(E.what());
   }
