@@ -28,7 +28,7 @@ public:
 
 private:
   std::string EventName;
-  std::chrono::_V2::system_clock::time_point ConstructedTime;
+  std::chrono::system_clock::time_point ConstructedTime;
 };
 
 } // namespace ScillaTestsuite
