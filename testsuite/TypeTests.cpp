@@ -84,7 +84,6 @@ std::optional<const Typ *> parseTypeString(const std::string &TS) {
 std::optional<ConstructedTyp> constructTypFromString(ScillaRTL::ObjManager &OM,
                                                      const std::string &TS) {
   using namespace TypeDescrs;
-  ScillaRTL::ScillaTypes::ConstructedTyp Res;
   try {
     return Typ::constructTyp(&TPPC, AllTyDescrs, NTyDescrs, TS, &OM);
   } catch (const ScillaRTL::ScillaError &E) {

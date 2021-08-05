@@ -62,7 +62,11 @@ public:
 
 } // end of namespace ScillaRTL
 
-// extern "C" {
+// We make sure to pass only trivially-copyable and standard-layout objects.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wreturn-type-c-linkage"
+
+extern "C" {
 
 // Print Scilla value @V whose type is described by @T to ScillaStdout .
 void _print_scilla_val(ScillaRTL::ScillaExecImpl *SJ,
@@ -439,4 +443,6 @@ uint64_t _lengthof(const ScillaRTL::ScillaTypes::Typ *T, const void *V);
 void *_dynamic_typecast(ScillaRTL::ScillaExecImpl *SJ, const void *V,
                         const ScillaRTL::ScillaTypes::Typ *T);
 
-// } // extern "C"
+} // extern "C"
+
+#pragma GCC diagnostic pop

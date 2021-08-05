@@ -334,7 +334,7 @@ SafeIntCompatibilityCheck<256, Unsigned>(void);
 
 } // namespace
 
-// extern "C" {
+extern "C" {
 
 void _print_scilla_val(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, void *V) {
   SJ->ScillaStdout += ScillaValues::toString(true, T, V) + "\n";
@@ -1339,4 +1339,4 @@ void *_dynamic_typecast(ScillaExecImpl *SJ, const void *V,
   }
 }
 
-// } // end of extern "C".
+} // end of extern "C".
