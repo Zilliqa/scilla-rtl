@@ -16,9 +16,9 @@ class ScopeTimer {
 public:
   ScopeTimer(const std::string &EventName)
       : EventName(EventName),
-        ConstructedTime(std::chrono::high_resolution_clock::now()) {}
+        ConstructedTime(std::chrono::system_clock::now()) {}
   ~ScopeTimer() {
-    auto DestructedTime = std::chrono::high_resolution_clock::now();
+    auto DestructedTime = std::chrono::system_clock::now();
     auto TimerDuration = std::chrono::duration_cast<std::chrono::microseconds>(
                              DestructedTime - ConstructedTime)
                              .count();
