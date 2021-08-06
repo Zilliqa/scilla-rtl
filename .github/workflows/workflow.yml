@@ -31,7 +31,7 @@ jobs:
 
       - name: Install required MacOS packages
         if: runner.os == 'macOS'
-        run: brew update && brew upgrade && brew install llvm cmake openssl pkg-config boost autoconf automake libtool jsoncpp 
+        run: brew update && brew upgrade && brew install llvm cmake openssl pkg-config boost autoconf automake libtool jsoncpp domt4/crypto/secp256k1
 
       - name: ScillaRTL Testsuite Release Build
         if: runner.os == 'Linux'
