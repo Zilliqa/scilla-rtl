@@ -21,10 +21,17 @@
 #include <boost/spirit/include/phoenix.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include <fstream>
+#include <memory>
+
+#if defined (__APPLE__)
+#include <json/reader.h>
+#include <json/value.h>
+#include <json/writer.h>
+#else
 #include <jsoncpp/json/reader.h>
 #include <jsoncpp/json/value.h>
 #include <jsoncpp/json/writer.h>
-#include <memory>
+#endif
 
 #include "ScillaRTL/Errors.h"
 #include "ScillaRTL/Utils.h"

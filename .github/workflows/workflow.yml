@@ -34,11 +34,14 @@ jobs:
         run: brew update && brew upgrade && brew install llvm cmake openssl pkg-config boost autoconf automake libtool jsoncpp 
 
       - name: ScillaRTL Testsuite Release Build
+        if: runner.os == 'Linux'
         run: scripts/build_ci.sh
+
+      - name: ScillaRTL Testsuite Release Build
+        if: runner.os == 'macOS'
+        run: scripts/build_ci_macos.sh
         env: 
-          if: runner.os == 'macOS'
           OPENSSL_ROOT_DIR: '/usr/local/opt/openssl'
-          LIBRARY_PATH: '/usr/local/opt/jsoncpp/lib:/usr/local/opt/secp256k1/lib/'
 
       - name: ScillaRTL Testsuite Debug Build
         run: scripts/dbuild_ci.sh

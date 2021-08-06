@@ -17,7 +17,12 @@
 
 #include <algorithm>
 #include <boost/test/unit_test.hpp>
+
+#if defined (__APPLE__)
+#include <json/value.h>
+#else
 #include <jsoncpp/json/value.h>
+#endif
 
 #include <ScillaRTL/Utils.h>
 

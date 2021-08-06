@@ -23,7 +23,12 @@
 #include <unordered_map>
 
 #include <any>
+
+#if defined (__APPLE__)
+#include <json/json.h>
+#else
 #include <jsoncpp/json/json.h>
+#endif
 
 // Forward declarations.
 namespace ScillaRTL {

@@ -23,8 +23,12 @@
 
 #include <any>
 #include <boost/filesystem.hpp>
-#include <jsoncpp/json/value.h>
 #include <optional>
+#if defined (__APPLE__)
+#include <json/value.h>
+#else
+#include <jsoncpp/json/value.h>
+#endif
 
 #include "ScillaExec.h"
 
