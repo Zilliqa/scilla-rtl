@@ -231,10 +231,16 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
       if (M->empty()) {
         Out += "Emp";
       } else {
+        // Sort the map for deterministic behaviour.
+        std::vector<MapKeyValT> M_(M->begin(), M->end());
+        std::sort(M_.begin(), M_.end(),
+                  [](const MapKeyValT &El1, const MapKeyValT &El2) {
+                    return El1.first > El2.first;
+                  });
         auto OneTab = "  ";
         Out += "\n" + Tab + "{\n";
         ObjManager OM;
-        for (auto &Itr : *M) {
+        for (const auto &Itr : M_) {
           Out += Tab + OneTab;
           Json::Value KeyJ = parseJSONString(Itr.first);
           auto *KeyV = ScillaValues::fromJSON(OM, KeyT, KeyJ);

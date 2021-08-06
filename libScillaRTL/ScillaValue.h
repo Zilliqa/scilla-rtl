@@ -28,6 +28,7 @@
 namespace ScillaRTL {
 
 class ObjManager;
+using MapKeyValT = std::pair<std::string, std::any>;
 
 namespace ScillaValues {
 
