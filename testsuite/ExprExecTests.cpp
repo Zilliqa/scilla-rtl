@@ -193,8 +193,8 @@ BOOST_AUTO_TEST_CASE(builtin_to_int) { testExecExpr("builtin_to_int"); }
 BOOST_AUTO_TEST_CASE(builtin_strrev) { testExecExpr("builtin_strrev"); }
 BOOST_AUTO_TEST_CASE(builtin_isqrt) { testExecExpr("builtin-isqrt"); }
 BOOST_AUTO_TEST_CASE(builtin_pow) { testExecExpr("builtin-pow"); }
-BOOST_AUTO_TEST_CASE(map_to_int) { testExecExpr("map_to_list"); }
-BOOST_AUTO_TEST_CASE(map_to_int2) { testExecExpr("map_to_list2"); }
+BOOST_AUTO_TEST_CASE(map_to_list) { testExecExpr("map_to_list"); }
+BOOST_AUTO_TEST_CASE(map_to_list2) { testExecExpr("map_to_list2"); }
 
 BOOST_AUTO_TEST_SUITE_END()
 

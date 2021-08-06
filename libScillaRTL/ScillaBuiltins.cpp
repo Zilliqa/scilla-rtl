@@ -1238,8 +1238,15 @@ void *_map_to_list(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,
   auto *Nil = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(ListAllocSize));
   *Nil = ScillaTypes::List_Nil_Tag;
 
+  // Sort M in descending order. When building the list, it'll get reversed.
+  typedef std::pair<std::string, std::any> KeyValT;
+  std::vector<KeyValT> M_(M->begin(), M->end());
+  std::sort(M_.begin(), M_.end(), [](const KeyValT &El1, const KeyValT &El2) {
+    return El1.first > El2.first;
+  });
+
   void *NextListElm = Nil;
-  for (const auto &Itr : *M) {
+  for (const auto &Itr : M_) {
     uint8_t *PairP =
         reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(PairAllocSize));
     auto NextElm = PairP;

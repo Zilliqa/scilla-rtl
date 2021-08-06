@@ -685,6 +685,7 @@ void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
                             });
   } break;
   case ScillaTypes::Typ::Map_typ: {
+    // Sort map before hashing.
     CREATE_ERROR("Unimplemented");
   } break;
   case ScillaTypes::Typ::Address_typ: {
