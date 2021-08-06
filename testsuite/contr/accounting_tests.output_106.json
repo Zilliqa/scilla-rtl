@@ -11,17 +11,26 @@ Exception thrown: {
       "type" : "List (String)",
       "value" : 
       {
-        "argtypes" : [ "String" ],
+        "argtypes" : 
+        [
+          "String"
+        ],
         "arguments" : 
         [
           "World",
           {
-            "argtypes" : [ "String" ],
+            "argtypes" : 
+            [
+              "String"
+            ],
             "arguments" : 
             [
               "Hello",
               {
-                "argtypes" : [ "String" ],
+                "argtypes" : 
+                [
+                  "String"
+                ],
                 "arguments" : [],
                 "constructor" : "Nil"
               }
@@ -37,17 +46,26 @@ Exception thrown: {
       "type" : "List (String)",
       "value" : 
       {
-        "argtypes" : [ "String" ],
+        "argtypes" : 
+        [
+          "String"
+        ],
         "arguments" : 
         [
           "Hello",
           {
-            "argtypes" : [ "String" ],
+            "argtypes" : 
+            [
+              "String"
+            ],
             "arguments" : 
             [
               "World",
               {
-                "argtypes" : [ "String" ],
+                "argtypes" : 
+                [
+                  "String"
+                ],
                 "arguments" : [],
                 "constructor" : "Nil"
               }

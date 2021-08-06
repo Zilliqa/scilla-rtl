@@ -35,12 +35,18 @@
           "type" : "List (String)",
           "value" : 
           {
-            "argtypes" : [ "String" ],
+            "argtypes" : 
+            [
+              "String"
+            ],
             "arguments" : 
             [
               "Anquan",
               {
-                "argtypes" : [ "String" ],
+                "argtypes" : 
+                [
+                  "String"
+                ],
                 "arguments" : [],
                 "constructor" : "Nil"
               }
@@ -53,8 +59,16 @@
           "type" : "Pair (Int128) (String)",
           "value" : 
           {
-            "argtypes" : [ "Int128", "String" ],
-            "arguments" : [ "333", "Aqilliz" ],
+            "argtypes" : 
+            [
+              "Int128",
+              "String"
+            ],
+            "arguments" : 
+            [
+              "333",
+              "Aqilliz"
+            ],
             "constructor" : "Pair"
           },
           "vname" : "pear"

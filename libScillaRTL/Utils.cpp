@@ -76,8 +76,11 @@ std::string serializeJSON(const Json::Value &J) {
 
 std::string prettyPrintJSON(const Json::Value &J) {
   std::ostringstream Oss;
-  Json::StyledStreamWriter Writer("  ");
-  Writer.write(Oss, J);
+  auto SettingsSaved = WriteBuilder.settings_;
+  WriteBuilder.settings_["indentation"] = "  ";
+  std::unique_ptr<Json::StreamWriter> Writer(WriteBuilder.newStreamWriter());
+  Writer->write(J, &Oss);
+  WriteBuilder.settings_ = SettingsSaved;
   return Oss.str();
 }
 

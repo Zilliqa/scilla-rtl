@@ -8,7 +8,10 @@
     "type" : "List String",
     "value" : 
     {
-      "argtypes" : [ "String" ],
+      "argtypes" : 
+      [
+        "String"
+      ],
       "arguments" : [],
       "constructor" : "Nil"
     },

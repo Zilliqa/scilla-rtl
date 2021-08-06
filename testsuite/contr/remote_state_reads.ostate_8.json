@@ -22,7 +22,10 @@
             "val" : 
             {
               "argtypes" : [],
-              "arguments" : [ "0x1234567890123456789012345678901234567890" ],
+              "arguments" : 
+              [
+                "0x1234567890123456789012345678901234567890"
+              ],
               "constructor" : "0x3620c286757a29985cee194eb90064270fb65414.Address2"
             }
           }
@@ -37,7 +40,10 @@
             "val" : 
             {
               "argtypes" : [],
-              "arguments" : [ "0x1234567890123456789012345678901234567890" ],
+              "arguments" : 
+              [
+                "0x1234567890123456789012345678901234567890"
+              ],
               "constructor" : "0x3620c286757a29985cee194eb90064270fb65414.Address2"
             }
           }
@@ -81,7 +87,10 @@
     "value" : 
     {
       "argtypes" : [],
-      "arguments" : [ "0x1234567890123456789012345678901234567890" ],
+      "arguments" : 
+      [
+        "0x1234567890123456789012345678901234567890"
+      ],
       "constructor" : "0x3620c286757a29985cee194eb90064270fb65414.Address2"
     },
     "vname" : "assign_test_8"
@@ -90,16 +99,25 @@
     "type" : "List (0x3620c286757a29985cee194eb90064270fb65414.AddressADT)",
     "value" : 
     {
-      "argtypes" : [ "0x3620c286757a29985cee194eb90064270fb65414.AddressADT" ],
+      "argtypes" : 
+      [
+        "0x3620c286757a29985cee194eb90064270fb65414.AddressADT"
+      ],
       "arguments" : 
       [
         {
           "argtypes" : [],
-          "arguments" : [ "0x1234567890123456789012345678901234567890" ],
+          "arguments" : 
+          [
+            "0x1234567890123456789012345678901234567890"
+          ],
           "constructor" : "0x3620c286757a29985cee194eb90064270fb65414.Address2"
         },
         {
-          "argtypes" : [ "0x3620c286757a29985cee194eb90064270fb65414.AddressADT" ],
+          "argtypes" : 
+          [
+            "0x3620c286757a29985cee194eb90064270fb65414.AddressADT"
+          ],
           "arguments" : [],
           "constructor" : "Nil"
         }
@@ -137,7 +155,10 @@
     "type" : "Option (Map (ByStr20 with end) (Bool))",
     "value" : 
     {
-      "argtypes" : [ "Map (ByStr20 with end) (Bool)" ],
+      "argtypes" : 
+      [
+        "Map (ByStr20 with end) (Bool)"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -157,7 +178,10 @@
     "type" : "Option (Bool)",
     "value" : 
     {
-      "argtypes" : [ "Bool" ],
+      "argtypes" : 
+      [
+        "Bool"
+      ],
       "arguments" : 
       [
         {
@@ -204,7 +228,10 @@
     "type" : "Option (Bool)",
     "value" : 
     {
-      "argtypes" : [ "Bool" ],
+      "argtypes" : 
+      [
+        "Bool"
+      ],
       "arguments" : 
       [
         {

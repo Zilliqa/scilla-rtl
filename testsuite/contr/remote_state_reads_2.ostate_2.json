@@ -18,8 +18,14 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
-      "arguments" : [ "125216" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
+      "arguments" : 
+      [
+        "125216"
+      ],
       "constructor" : "Some"
     },
     "vname" : "remote_read_remote_read_res_2"

@@ -8,7 +8,10 @@
     "type" : "Option (ByStr20 with end)",
     "value" : 
     {
-      "argtypes" : [ "ByStr20 with end" ],
+      "argtypes" : 
+      [
+        "ByStr20 with end"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -18,7 +21,10 @@
     "type" : "Option (ByStr20 with contract end)",
     "value" : 
     {
-      "argtypes" : [ "ByStr20 with contract end" ],
+      "argtypes" : 
+      [
+        "ByStr20 with contract end"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -28,7 +34,10 @@
     "type" : "Option (ByStr20 with contract end)",
     "value" : 
     {
-      "argtypes" : [ "ByStr20 with contract end" ],
+      "argtypes" : 
+      [
+        "ByStr20 with contract end"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -38,7 +47,10 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -48,7 +60,10 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -58,7 +73,10 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -68,7 +86,10 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -78,7 +99,10 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -88,7 +112,10 @@
     "type" : "Option (Bool)",
     "value" : 
     {
-      "argtypes" : [ "Bool" ],
+      "argtypes" : 
+      [
+        "Bool"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -98,7 +125,10 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -108,7 +138,10 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -118,7 +151,10 @@
     "type" : "Option (Bool)",
     "value" : 
     {
-      "argtypes" : [ "Bool" ],
+      "argtypes" : 
+      [
+        "Bool"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -128,7 +164,10 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -138,7 +177,10 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -148,7 +190,10 @@
     "type" : "Option (Bool)",
     "value" : 
     {
-      "argtypes" : [ "Bool" ],
+      "argtypes" : 
+      [
+        "Bool"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -158,7 +203,10 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -168,7 +216,10 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -188,7 +239,10 @@
     "type" : "Option (Bool)",
     "value" : 
     {
-      "argtypes" : [ "Bool" ],
+      "argtypes" : 
+      [
+        "Bool"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },
@@ -198,7 +252,10 @@
     "type" : "Option (Bool)",
     "value" : 
     {
-      "argtypes" : [ "Bool" ],
+      "argtypes" : 
+      [
+        "Bool"
+      ],
       "arguments" : 
       [
         {
@@ -215,8 +272,14 @@
     "type" : "Option (Int256)",
     "value" : 
     {
-      "argtypes" : [ "Int256" ],
-      "arguments" : [ "42" ],
+      "argtypes" : 
+      [
+        "Int256"
+      ],
+      "arguments" : 
+      [
+        "42"
+      ],
       "constructor" : "Some"
     },
     "vname" : "test_7_h_res"

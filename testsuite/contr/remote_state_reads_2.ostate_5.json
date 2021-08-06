@@ -24,7 +24,10 @@
     "type" : "Option (Uint128)",
     "value" : 
     {
-      "argtypes" : [ "Uint128" ],
+      "argtypes" : 
+      [
+        "Uint128"
+      ],
       "arguments" : [],
       "constructor" : "None"
     },

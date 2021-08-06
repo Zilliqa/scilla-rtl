@@ -8,17 +8,26 @@
     "type" : "List (ByStr20)",
     "value" : 
     {
-      "argtypes" : [ "ByStr20" ],
+      "argtypes" : 
+      [
+        "ByStr20"
+      ],
       "arguments" : 
       [
         "0xfefeccdc9012345678901234567890f777567895",
         {
-          "argtypes" : [ "ByStr20" ],
+          "argtypes" : 
+          [
+            "ByStr20"
+          ],
           "arguments" : 
           [
             "0xaafeccdc9012345678901234567890f777567895",
             {
-              "argtypes" : [ "ByStr20" ],
+              "argtypes" : 
+              [
+                "ByStr20"
+              ],
               "arguments" : [],
               "constructor" : "Nil"
             }
