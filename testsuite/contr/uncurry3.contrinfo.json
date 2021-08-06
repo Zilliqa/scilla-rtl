@@ -1,0 +1,136 @@
+{
+  "contract_info": {
+    "scilla_major_version": "0",
+    "vname": "SimpleUnuccury3",
+    "params": [],
+    "fields": [ { "vname": "res", "type": "Int32", "depth": 0 } ],
+    "transitions": [
+      {
+        "vname": "dummy1",
+        "params": [
+          { "vname": "x1", "type": "Int32" },
+          { "vname": "x2", "type": "Int32" }
+        ]
+      },
+      {
+        "vname": "dummy2",
+        "params": [
+          { "vname": "x1", "type": "Int32" },
+          { "vname": "x2", "type": "Int32" }
+        ]
+      },
+      {
+        "vname": "dummy3",
+        "params": [
+          { "vname": "x1", "type": "Int32" },
+          { "vname": "x2", "type": "Int32" }
+        ]
+      }
+    ],
+    "procedures": [],
+    "events": [],
+    "ADTs": [
+      {
+        "tname": "Option",
+        "tparams": [ "'A" ],
+        "tmap": [
+          { "cname": "Some", "argtypes": [ "'A" ] },
+          { "cname": "None", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "uncurry3.T",
+        "tparams": [],
+        "tmap": [
+          {
+            "cname": "uncurry3.C1",
+            "argtypes": [ "Int32 -> Int32 -> Int32" ]
+          },
+          { "cname": "uncurry3.C2", "argtypes": [ "Bool" ] }
+        ]
+      },
+      {
+        "tname": "Bool",
+        "tparams": [],
+        "tmap": [
+          { "cname": "True", "argtypes": [] },
+          { "cname": "False", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Nat",
+        "tparams": [],
+        "tmap": [
+          { "cname": "Zero", "argtypes": [] },
+          { "cname": "Succ", "argtypes": [ "Nat" ] }
+        ]
+      },
+      {
+        "tname": "List",
+        "tparams": [ "'A" ],
+        "tmap": [
+          { "cname": "Cons", "argtypes": [ "'A", "List ('A)" ] },
+          { "cname": "Nil", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Pair",
+        "tparams": [ "'A", "'B" ],
+        "tmap": [ { "cname": "Pair", "argtypes": [ "'A", "'B" ] } ]
+      }
+    ]
+  },
+  "warnings": [
+    {
+      "warning_message": "Write only field: res",
+      "start_location": {
+        "file": "tests/contracts/uncurry3.scilla",
+        "line": 40,
+        "column": 9
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    },
+    {
+      "warning_message": "Unused library ADT: T",
+      "start_location": {
+        "file": "tests/contracts/uncurry3.scilla",
+        "line": 21,
+        "column": 1
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    },
+    {
+      "warning_message": "Unused transition parameter: x2",
+      "start_location": {
+        "file": "tests/contracts/uncurry3.scilla",
+        "line": 45,
+        "column": 30
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    },
+    {
+      "warning_message": "Unused transition parameter: x1",
+      "start_location": {
+        "file": "tests/contracts/uncurry3.scilla",
+        "line": 45,
+        "column": 19
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    },
+    {
+      "warning_message": "Unused bind statement to: total_app",
+      "start_location": {
+        "file": "tests/contracts/uncurry3.scilla",
+        "line": 48,
+        "column": 5
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    }
+  ],
+  "gas_remaining": "9999"
+}
