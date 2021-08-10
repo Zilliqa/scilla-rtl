@@ -3,8 +3,8 @@
 ; gas_remaining: 4001332
 ; ModuleID = 'AccountingTests'
 source_filename = "AccountingTests"
-target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-unknown-linux-gnu"
+target datalayout = "e-m:o-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-apple-darwin19.6.0"
 
 %"$TyDescrTy_PrimTyp_87" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -2643,15 +2643,15 @@ entry:
 "$have_gas_1305":                                 ; preds = %"$out_of_gas_1304", %"$have_gas_1300"
   %"$consume_1306" = sub i64 %"$gasrem_1302", 1
   store i64 %"$consume_1306", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_20" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_18" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_1307" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_1308" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_1307", 0
   %"$accounting_tests.one_msg_envptr_1309" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_1307", 1
   %"$msg1_1310" = load i8*, i8** %msg1, align 8
   %"$accounting_tests.one_msg_call_1311" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_1308"(i8* %"$accounting_tests.one_msg_envptr_1309", i8* %"$msg1_1310")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_1311", %TName_List_Message** %"$accounting_tests.one_msg_20", align 8
-  %"$$accounting_tests.one_msg_20_1312" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_20", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_20_1312", %TName_List_Message** %msgs1, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_1311", %TName_List_Message** %"$accounting_tests.one_msg_18", align 8
+  %"$$accounting_tests.one_msg_18_1312" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_18", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_18_1312", %TName_List_Message** %msgs1, align 8
   %"$msgs1_1313" = load %TName_List_Message*, %TName_List_Message** %msgs1, align 8
   %"$$msgs1_1313_1314" = bitcast %TName_List_Message* %"$msgs1_1313" to i8*
   %"$_literal_cost_call_1315" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs1_1313_1314")
@@ -2888,15 +2888,15 @@ entry:
 "$have_gas_1450":                                 ; preds = %"$out_of_gas_1449", %"$have_gas_1445"
   %"$consume_1451" = sub i64 %"$gasrem_1447", 1
   store i64 %"$consume_1451", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_18" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_20" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_1452" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_1453" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_1452", 0
   %"$accounting_tests.one_msg_envptr_1454" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_1452", 1
   %"$msg_final_1455" = load i8*, i8** %msg_final, align 8
   %"$accounting_tests.one_msg_call_1456" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_1453"(i8* %"$accounting_tests.one_msg_envptr_1454", i8* %"$msg_final_1455")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_1456", %TName_List_Message** %"$accounting_tests.one_msg_18", align 8
-  %"$$accounting_tests.one_msg_18_1457" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_18", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_18_1457", %TName_List_Message** %msgs_final, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_1456", %TName_List_Message** %"$accounting_tests.one_msg_20", align 8
+  %"$$accounting_tests.one_msg_20_1457" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_20", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_20_1457", %TName_List_Message** %msgs_final, align 8
   %"$msgs_final_1458" = load %TName_List_Message*, %TName_List_Message** %msgs_final, align 8
   %"$$msgs_final_1458_1459" = bitcast %TName_List_Message* %"$msgs_final_1458" to i8*
   %"$_literal_cost_call_1460" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs_final_1458_1459")
@@ -3545,15 +3545,15 @@ entry:
 "$have_gas_1820":                                 ; preds = %"$out_of_gas_1819", %"$have_gas_1815"
   %"$consume_1821" = sub i64 %"$gasrem_1817", 1
   store i64 %"$consume_1821", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_24" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_23" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_1822" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_1823" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_1822", 0
   %"$accounting_tests.one_msg_envptr_1824" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_1822", 1
   %"$msg2_1825" = load i8*, i8** %msg2, align 8
   %"$accounting_tests.one_msg_call_1826" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_1823"(i8* %"$accounting_tests.one_msg_envptr_1824", i8* %"$msg2_1825")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_1826", %TName_List_Message** %"$accounting_tests.one_msg_24", align 8
-  %"$$accounting_tests.one_msg_24_1827" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_24", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_24_1827", %TName_List_Message** %msgs_tmp, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_1826", %TName_List_Message** %"$accounting_tests.one_msg_23", align 8
+  %"$$accounting_tests.one_msg_23_1827" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_23", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_23_1827", %TName_List_Message** %msgs_tmp, align 8
   %"$gasrem_1828" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1829" = icmp ugt i64 1, %"$gasrem_1828"
   br i1 %"$gascmp_1829", label %"$out_of_gas_1830", label %"$have_gas_1831"
@@ -3687,15 +3687,15 @@ entry:
 "$have_gas_1898":                                 ; preds = %"$out_of_gas_1897", %"$have_gas_1893"
   %"$consume_1899" = sub i64 %"$gasrem_1895", 1
   store i64 %"$consume_1899", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_23" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_24" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_1900" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_1901" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_1900", 0
   %"$accounting_tests.one_msg_envptr_1902" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_1900", 1
   %"$msg_final_1903" = load i8*, i8** %msg_final, align 8
   %"$accounting_tests.one_msg_call_1904" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_1901"(i8* %"$accounting_tests.one_msg_envptr_1902", i8* %"$msg_final_1903")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_1904", %TName_List_Message** %"$accounting_tests.one_msg_23", align 8
-  %"$$accounting_tests.one_msg_23_1905" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_23", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_23_1905", %TName_List_Message** %msgs_final, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_1904", %TName_List_Message** %"$accounting_tests.one_msg_24", align 8
+  %"$$accounting_tests.one_msg_24_1905" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_24", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_24_1905", %TName_List_Message** %msgs_final, align 8
   %"$msgs_final_1906" = load %TName_List_Message*, %TName_List_Message** %msgs_final, align 8
   %"$$msgs_final_1906_1907" = bitcast %TName_List_Message* %"$msgs_final_1906" to i8*
   %"$_literal_cost_call_1908" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs_final_1906_1907")
@@ -3901,15 +3901,15 @@ entry:
 "$have_gas_2010":                                 ; preds = %"$out_of_gas_2009", %"$have_gas_2005"
   %"$consume_2011" = sub i64 %"$gasrem_2007", 1
   store i64 %"$consume_2011", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_27" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_25" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_2012" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_2013" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_2012", 0
   %"$accounting_tests.one_msg_envptr_2014" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_2012", 1
   %"$msg1_2015" = load i8*, i8** %msg1, align 8
   %"$accounting_tests.one_msg_call_2016" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_2013"(i8* %"$accounting_tests.one_msg_envptr_2014", i8* %"$msg1_2015")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_2016", %TName_List_Message** %"$accounting_tests.one_msg_27", align 8
-  %"$$accounting_tests.one_msg_27_2017" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_27", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_27_2017", %TName_List_Message** %msgs1, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_2016", %TName_List_Message** %"$accounting_tests.one_msg_25", align 8
+  %"$$accounting_tests.one_msg_25_2017" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_25", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_25_2017", %TName_List_Message** %msgs1, align 8
   %"$msgs1_2018" = load %TName_List_Message*, %TName_List_Message** %msgs1, align 8
   %"$$msgs1_2018_2019" = bitcast %TName_List_Message* %"$msgs1_2018" to i8*
   %"$_literal_cost_call_2020" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs1_2018_2019")
@@ -4146,15 +4146,15 @@ entry:
 "$have_gas_2155":                                 ; preds = %"$out_of_gas_2154", %"$have_gas_2150"
   %"$consume_2156" = sub i64 %"$gasrem_2152", 1
   store i64 %"$consume_2156", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_25" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_27" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_2157" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_2158" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_2157", 0
   %"$accounting_tests.one_msg_envptr_2159" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_2157", 1
   %"$msg_final_2160" = load i8*, i8** %msg_final, align 8
   %"$accounting_tests.one_msg_call_2161" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_2158"(i8* %"$accounting_tests.one_msg_envptr_2159", i8* %"$msg_final_2160")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_2161", %TName_List_Message** %"$accounting_tests.one_msg_25", align 8
-  %"$$accounting_tests.one_msg_25_2162" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_25", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_25_2162", %TName_List_Message** %msgs_final, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_2161", %TName_List_Message** %"$accounting_tests.one_msg_27", align 8
+  %"$$accounting_tests.one_msg_27_2162" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_27", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_27_2162", %TName_List_Message** %msgs_final, align 8
   %"$msgs_final_2163" = load %TName_List_Message*, %TName_List_Message** %msgs_final, align 8
   %"$$msgs_final_2163_2164" = bitcast %TName_List_Message* %"$msgs_final_2163" to i8*
   %"$_literal_cost_call_2165" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs_final_2163_2164")
@@ -4960,15 +4960,15 @@ entry:
 "$have_gas_2610":                                 ; preds = %"$out_of_gas_2609", %"$have_gas_2605"
   %"$consume_2611" = sub i64 %"$gasrem_2607", 1
   store i64 %"$consume_2611", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_30" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_29" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_2612" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_2613" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_2612", 0
   %"$accounting_tests.one_msg_envptr_2614" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_2612", 1
   %"$msg1_2615" = load i8*, i8** %msg1, align 8
   %"$accounting_tests.one_msg_call_2616" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_2613"(i8* %"$accounting_tests.one_msg_envptr_2614", i8* %"$msg1_2615")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_2616", %TName_List_Message** %"$accounting_tests.one_msg_30", align 8
-  %"$$accounting_tests.one_msg_30_2617" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_30", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_30_2617", %TName_List_Message** %msgs1, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_2616", %TName_List_Message** %"$accounting_tests.one_msg_29", align 8
+  %"$$accounting_tests.one_msg_29_2617" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_29", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_29_2617", %TName_List_Message** %msgs1, align 8
   %"$msgs1_2618" = load %TName_List_Message*, %TName_List_Message** %msgs1, align 8
   %"$$msgs1_2618_2619" = bitcast %TName_List_Message* %"$msgs1_2618" to i8*
   %"$_literal_cost_call_2620" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs1_2618_2619")
@@ -5111,15 +5111,15 @@ entry:
 "$have_gas_2694":                                 ; preds = %"$out_of_gas_2693", %"$have_gas_2689"
   %"$consume_2695" = sub i64 %"$gasrem_2691", 1
   store i64 %"$consume_2695", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_29" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_30" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_2696" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_2697" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_2696", 0
   %"$accounting_tests.one_msg_envptr_2698" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_2696", 1
   %"$msg2_2699" = load i8*, i8** %msg2, align 8
   %"$accounting_tests.one_msg_call_2700" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_2697"(i8* %"$accounting_tests.one_msg_envptr_2698", i8* %"$msg2_2699")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_2700", %TName_List_Message** %"$accounting_tests.one_msg_29", align 8
-  %"$$accounting_tests.one_msg_29_2701" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_29", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_29_2701", %TName_List_Message** %msgs2, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_2700", %TName_List_Message** %"$accounting_tests.one_msg_30", align 8
+  %"$$accounting_tests.one_msg_30_2701" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_30", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_30_2701", %TName_List_Message** %msgs2, align 8
   %"$msgs2_2702" = load %TName_List_Message*, %TName_List_Message** %msgs2, align 8
   %"$$msgs2_2702_2703" = bitcast %TName_List_Message* %"$msgs2_2702" to i8*
   %"$_literal_cost_call_2704" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs2_2702_2703")
@@ -5700,15 +5700,15 @@ entry:
 "$have_gas_3023":                                 ; preds = %"$out_of_gas_3022", %"$have_gas_3018"
   %"$consume_3024" = sub i64 %"$gasrem_3020", 1
   store i64 %"$consume_3024", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_33" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_32" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_3025" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_3026" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3025", 0
   %"$accounting_tests.one_msg_envptr_3027" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3025", 1
   %"$msg1_3028" = load i8*, i8** %msg1, align 8
   %"$accounting_tests.one_msg_call_3029" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_3026"(i8* %"$accounting_tests.one_msg_envptr_3027", i8* %"$msg1_3028")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_3029", %TName_List_Message** %"$accounting_tests.one_msg_33", align 8
-  %"$$accounting_tests.one_msg_33_3030" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_33", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_33_3030", %TName_List_Message** %msgs1, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_3029", %TName_List_Message** %"$accounting_tests.one_msg_32", align 8
+  %"$$accounting_tests.one_msg_32_3030" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_32", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_32_3030", %TName_List_Message** %msgs1, align 8
   %"$msgs1_3031" = load %TName_List_Message*, %TName_List_Message** %msgs1, align 8
   %"$$msgs1_3031_3032" = bitcast %TName_List_Message* %"$msgs1_3031" to i8*
   %"$_literal_cost_call_3033" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs1_3031_3032")
@@ -5843,15 +5843,15 @@ entry:
 "$have_gas_3106":                                 ; preds = %"$out_of_gas_3105", %"$have_gas_3101"
   %"$consume_3107" = sub i64 %"$gasrem_3103", 1
   store i64 %"$consume_3107", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_32" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_33" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_3108" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_3109" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3108", 0
   %"$accounting_tests.one_msg_envptr_3110" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3108", 1
   %"$msg2_3111" = load i8*, i8** %msg2, align 8
   %"$accounting_tests.one_msg_call_3112" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_3109"(i8* %"$accounting_tests.one_msg_envptr_3110", i8* %"$msg2_3111")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_3112", %TName_List_Message** %"$accounting_tests.one_msg_32", align 8
-  %"$$accounting_tests.one_msg_32_3113" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_32", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_32_3113", %TName_List_Message** %msgs2, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_3112", %TName_List_Message** %"$accounting_tests.one_msg_33", align 8
+  %"$$accounting_tests.one_msg_33_3113" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_33", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_33_3113", %TName_List_Message** %msgs2, align 8
   %"$msgs2_3114" = load %TName_List_Message*, %TName_List_Message** %msgs2, align 8
   %"$$msgs2_3114_3115" = bitcast %TName_List_Message* %"$msgs2_3114" to i8*
   %"$_literal_cost_call_3116" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs2_3114_3115")
@@ -6032,15 +6032,15 @@ entry:
 "$have_gas_3215":                                 ; preds = %"$out_of_gas_3214", %"$have_gas_3210"
   %"$consume_3216" = sub i64 %"$gasrem_3212", 1
   store i64 %"$consume_3216", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_35" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_34" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_3217" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_3218" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3217", 0
   %"$accounting_tests.one_msg_envptr_3219" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3217", 1
   %"$msg1_3220" = load i8*, i8** %msg1, align 8
   %"$accounting_tests.one_msg_call_3221" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_3218"(i8* %"$accounting_tests.one_msg_envptr_3219", i8* %"$msg1_3220")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_3221", %TName_List_Message** %"$accounting_tests.one_msg_35", align 8
-  %"$$accounting_tests.one_msg_35_3222" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_35", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_35_3222", %TName_List_Message** %msgs1, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_3221", %TName_List_Message** %"$accounting_tests.one_msg_34", align 8
+  %"$$accounting_tests.one_msg_34_3222" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_34", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_34_3222", %TName_List_Message** %msgs1, align 8
   %"$msgs1_3223" = load %TName_List_Message*, %TName_List_Message** %msgs1, align 8
   %"$$msgs1_3223_3224" = bitcast %TName_List_Message* %"$msgs1_3223" to i8*
   %"$_literal_cost_call_3225" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs1_3223_3224")
@@ -6148,15 +6148,15 @@ entry:
 "$have_gas_3284":                                 ; preds = %"$out_of_gas_3283", %"$have_gas_3279"
   %"$consume_3285" = sub i64 %"$gasrem_3281", 1
   store i64 %"$consume_3285", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_34" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_35" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_3286" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_3287" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3286", 0
   %"$accounting_tests.one_msg_envptr_3288" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3286", 1
   %"$msg2_3289" = load i8*, i8** %msg2, align 8
   %"$accounting_tests.one_msg_call_3290" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_3287"(i8* %"$accounting_tests.one_msg_envptr_3288", i8* %"$msg2_3289")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_3290", %TName_List_Message** %"$accounting_tests.one_msg_34", align 8
-  %"$$accounting_tests.one_msg_34_3291" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_34", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_34_3291", %TName_List_Message** %msgs2, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_3290", %TName_List_Message** %"$accounting_tests.one_msg_35", align 8
+  %"$$accounting_tests.one_msg_35_3291" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_35", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_35_3291", %TName_List_Message** %msgs2, align 8
   %"$msgs2_3292" = load %TName_List_Message*, %TName_List_Message** %msgs2, align 8
   %"$$msgs2_3292_3293" = bitcast %TName_List_Message* %"$msgs2_3292" to i8*
   %"$_literal_cost_call_3294" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs2_3292_3293")
@@ -6314,15 +6314,15 @@ entry:
 "$have_gas_3378":                                 ; preds = %"$out_of_gas_3377", %"$have_gas_3373"
   %"$consume_3379" = sub i64 %"$gasrem_3375", 1
   store i64 %"$consume_3379", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_37" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_36" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_3380" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_3381" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3380", 0
   %"$accounting_tests.one_msg_envptr_3382" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3380", 1
   %"$msg1_3383" = load i8*, i8** %msg1, align 8
   %"$accounting_tests.one_msg_call_3384" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_3381"(i8* %"$accounting_tests.one_msg_envptr_3382", i8* %"$msg1_3383")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_3384", %TName_List_Message** %"$accounting_tests.one_msg_37", align 8
-  %"$$accounting_tests.one_msg_37_3385" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_37", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_37_3385", %TName_List_Message** %msgs1, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_3384", %TName_List_Message** %"$accounting_tests.one_msg_36", align 8
+  %"$$accounting_tests.one_msg_36_3385" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_36", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_36_3385", %TName_List_Message** %msgs1, align 8
   %"$msgs1_3386" = load %TName_List_Message*, %TName_List_Message** %msgs1, align 8
   %"$$msgs1_3386_3387" = bitcast %TName_List_Message* %"$msgs1_3386" to i8*
   %"$_literal_cost_call_3388" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs1_3386_3387")
@@ -6483,15 +6483,15 @@ entry:
 "$have_gas_3478":                                 ; preds = %"$out_of_gas_3477", %"$have_gas_3473"
   %"$consume_3479" = sub i64 %"$gasrem_3475", 1
   store i64 %"$consume_3479", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_36" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_37" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_3480" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_3481" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3480", 0
   %"$accounting_tests.one_msg_envptr_3482" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3480", 1
   %"$msg2_3483" = load i8*, i8** %msg2, align 8
   %"$accounting_tests.one_msg_call_3484" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_3481"(i8* %"$accounting_tests.one_msg_envptr_3482", i8* %"$msg2_3483")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_3484", %TName_List_Message** %"$accounting_tests.one_msg_36", align 8
-  %"$$accounting_tests.one_msg_36_3485" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_36", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_36_3485", %TName_List_Message** %msgs2, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_3484", %TName_List_Message** %"$accounting_tests.one_msg_37", align 8
+  %"$$accounting_tests.one_msg_37_3485" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_37", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_37_3485", %TName_List_Message** %msgs2, align 8
   %"$msgs2_3486" = load %TName_List_Message*, %TName_List_Message** %msgs2, align 8
   %"$$msgs2_3486_3487" = bitcast %TName_List_Message* %"$msgs2_3486" to i8*
   %"$_literal_cost_call_3488" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs2_3486_3487")
@@ -6651,15 +6651,15 @@ entry:
 "$have_gas_3572":                                 ; preds = %"$out_of_gas_3571", %"$have_gas_3567"
   %"$consume_3573" = sub i64 %"$gasrem_3569", 1
   store i64 %"$consume_3573", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_39" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_38" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_3574" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_3575" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3574", 0
   %"$accounting_tests.one_msg_envptr_3576" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3574", 1
   %"$msg1_3577" = load i8*, i8** %msg1, align 8
   %"$accounting_tests.one_msg_call_3578" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_3575"(i8* %"$accounting_tests.one_msg_envptr_3576", i8* %"$msg1_3577")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_3578", %TName_List_Message** %"$accounting_tests.one_msg_39", align 8
-  %"$$accounting_tests.one_msg_39_3579" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_39", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_39_3579", %TName_List_Message** %msgs1, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_3578", %TName_List_Message** %"$accounting_tests.one_msg_38", align 8
+  %"$$accounting_tests.one_msg_38_3579" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_38", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_38_3579", %TName_List_Message** %msgs1, align 8
   %"$msgs1_3580" = load %TName_List_Message*, %TName_List_Message** %msgs1, align 8
   %"$$msgs1_3580_3581" = bitcast %TName_List_Message* %"$msgs1_3580" to i8*
   %"$_literal_cost_call_3582" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs1_3580_3581")
@@ -6793,15 +6793,15 @@ entry:
 "$have_gas_3658":                                 ; preds = %"$out_of_gas_3657", %"$have_gas_3653"
   %"$consume_3659" = sub i64 %"$gasrem_3655", 1
   store i64 %"$consume_3659", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_38" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_39" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_3660" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_3661" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3660", 0
   %"$accounting_tests.one_msg_envptr_3662" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3660", 1
   %"$msg2_3663" = load i8*, i8** %msg2, align 8
   %"$accounting_tests.one_msg_call_3664" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_3661"(i8* %"$accounting_tests.one_msg_envptr_3662", i8* %"$msg2_3663")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_3664", %TName_List_Message** %"$accounting_tests.one_msg_38", align 8
-  %"$$accounting_tests.one_msg_38_3665" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_38", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_38_3665", %TName_List_Message** %msgs2, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_3664", %TName_List_Message** %"$accounting_tests.one_msg_39", align 8
+  %"$$accounting_tests.one_msg_39_3665" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_39", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_39_3665", %TName_List_Message** %msgs2, align 8
   %"$msgs2_3666" = load %TName_List_Message*, %TName_List_Message** %msgs2, align 8
   %"$$msgs2_3666_3667" = bitcast %TName_List_Message* %"$msgs2_3666" to i8*
   %"$_literal_cost_call_3668" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs2_3666_3667")
@@ -7298,15 +7298,15 @@ entry:
 "$have_gas_3948":                                 ; preds = %"$out_of_gas_3947", %"$have_gas_3943"
   %"$consume_3949" = sub i64 %"$gasrem_3945", 1
   store i64 %"$consume_3949", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_43" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_42" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_3950" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_3951" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3950", 0
   %"$accounting_tests.one_msg_envptr_3952" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_3950", 1
   %"$msg1_3953" = load i8*, i8** %msg1, align 8
   %"$accounting_tests.one_msg_call_3954" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_3951"(i8* %"$accounting_tests.one_msg_envptr_3952", i8* %"$msg1_3953")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_3954", %TName_List_Message** %"$accounting_tests.one_msg_43", align 8
-  %"$$accounting_tests.one_msg_43_3955" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_43", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_43_3955", %TName_List_Message** %msgs1, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_3954", %TName_List_Message** %"$accounting_tests.one_msg_42", align 8
+  %"$$accounting_tests.one_msg_42_3955" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_42", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_42_3955", %TName_List_Message** %msgs1, align 8
   %"$msgs1_3956" = load %TName_List_Message*, %TName_List_Message** %msgs1, align 8
   %"$$msgs1_3956_3957" = bitcast %TName_List_Message* %"$msgs1_3956" to i8*
   %"$_literal_cost_call_3958" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs1_3956_3957")
@@ -7441,15 +7441,15 @@ entry:
 "$have_gas_4031":                                 ; preds = %"$out_of_gas_4030", %"$have_gas_4026"
   %"$consume_4032" = sub i64 %"$gasrem_4028", 1
   store i64 %"$consume_4032", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_42" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_43" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_4033" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_4034" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_4033", 0
   %"$accounting_tests.one_msg_envptr_4035" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_4033", 1
   %"$msg2_4036" = load i8*, i8** %msg2, align 8
   %"$accounting_tests.one_msg_call_4037" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_4034"(i8* %"$accounting_tests.one_msg_envptr_4035", i8* %"$msg2_4036")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_4037", %TName_List_Message** %"$accounting_tests.one_msg_42", align 8
-  %"$$accounting_tests.one_msg_42_4038" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_42", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_42_4038", %TName_List_Message** %msgs2, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_4037", %TName_List_Message** %"$accounting_tests.one_msg_43", align 8
+  %"$$accounting_tests.one_msg_43_4038" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_43", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_43_4038", %TName_List_Message** %msgs2, align 8
   %"$msgs2_4039" = load %TName_List_Message*, %TName_List_Message** %msgs2, align 8
   %"$$msgs2_4039_4040" = bitcast %TName_List_Message* %"$msgs2_4039" to i8*
   %"$_literal_cost_call_4041" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs2_4039_4040")
@@ -7607,15 +7607,15 @@ entry:
 "$have_gas_4125":                                 ; preds = %"$out_of_gas_4124", %"$have_gas_4120"
   %"$consume_4126" = sub i64 %"$gasrem_4122", 1
   store i64 %"$consume_4126", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_45" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_44" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_4127" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_4128" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_4127", 0
   %"$accounting_tests.one_msg_envptr_4129" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_4127", 1
   %"$msg1_4130" = load i8*, i8** %msg1, align 8
   %"$accounting_tests.one_msg_call_4131" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_4128"(i8* %"$accounting_tests.one_msg_envptr_4129", i8* %"$msg1_4130")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_4131", %TName_List_Message** %"$accounting_tests.one_msg_45", align 8
-  %"$$accounting_tests.one_msg_45_4132" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_45", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_45_4132", %TName_List_Message** %msgs1, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_4131", %TName_List_Message** %"$accounting_tests.one_msg_44", align 8
+  %"$$accounting_tests.one_msg_44_4132" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_44", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_44_4132", %TName_List_Message** %msgs1, align 8
   %"$msgs1_4133" = load %TName_List_Message*, %TName_List_Message** %msgs1, align 8
   %"$$msgs1_4133_4134" = bitcast %TName_List_Message* %"$msgs1_4133" to i8*
   %"$_literal_cost_call_4135" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs1_4133_4134")
@@ -7776,15 +7776,15 @@ entry:
 "$have_gas_4225":                                 ; preds = %"$out_of_gas_4224", %"$have_gas_4220"
   %"$consume_4226" = sub i64 %"$gasrem_4222", 1
   store i64 %"$consume_4226", i64* @_gasrem, align 8
-  %"$accounting_tests.one_msg_44" = alloca %TName_List_Message*, align 8
+  %"$accounting_tests.one_msg_45" = alloca %TName_List_Message*, align 8
   %"$accounting_tests.one_msg_4227" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @accounting_tests.one_msg, align 8
   %"$accounting_tests.one_msg_fptr_4228" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_4227", 0
   %"$accounting_tests.one_msg_envptr_4229" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$accounting_tests.one_msg_4227", 1
   %"$msg2_4230" = load i8*, i8** %msg2, align 8
   %"$accounting_tests.one_msg_call_4231" = call %TName_List_Message* %"$accounting_tests.one_msg_fptr_4228"(i8* %"$accounting_tests.one_msg_envptr_4229", i8* %"$msg2_4230")
-  store %TName_List_Message* %"$accounting_tests.one_msg_call_4231", %TName_List_Message** %"$accounting_tests.one_msg_44", align 8
-  %"$$accounting_tests.one_msg_44_4232" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_44", align 8
-  store %TName_List_Message* %"$$accounting_tests.one_msg_44_4232", %TName_List_Message** %msgs2, align 8
+  store %TName_List_Message* %"$accounting_tests.one_msg_call_4231", %TName_List_Message** %"$accounting_tests.one_msg_45", align 8
+  %"$$accounting_tests.one_msg_45_4232" = load %TName_List_Message*, %TName_List_Message** %"$accounting_tests.one_msg_45", align 8
+  store %TName_List_Message* %"$$accounting_tests.one_msg_45_4232", %TName_List_Message** %msgs2, align 8
   %"$msgs2_4233" = load %TName_List_Message*, %TName_List_Message** %msgs2, align 8
   %"$$msgs2_4233_4234" = bitcast %TName_List_Message* %"$msgs2_4233" to i8*
   %"$_literal_cost_call_4235" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_121", i8* %"$$msgs2_4233_4234")

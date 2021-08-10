@@ -1,5 +1,5 @@
 {
-"contract_info": {
+  "contract_info": {
     "scilla_major_version": "0",
     "vname": "SimpleUnuccury",
     "params": [],
@@ -65,6 +65,29 @@
       }
     ]
   },
-  "warnings": [],
+  "warnings": [
+    {
+      "warning_message": "Write only field: res",
+      "start_location": {
+        "file": "../scilla-compiler//tests/codegen/contr/uncurry1.scilla",
+        "line": 47,
+        "column": 5
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    },
+    {
+      "warning_message":
+        "Read only field, consider making it a contract parameter: some_bool",
+      "start_location": {
+        "file": "../scilla-compiler//tests/codegen/contr/uncurry1.scilla",
+        "line": 55,
+        "column": 19
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    }
+  ],
   "gas_remaining": "9999"
 }
+

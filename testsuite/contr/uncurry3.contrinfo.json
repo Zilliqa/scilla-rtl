@@ -84,7 +84,7 @@
     {
       "warning_message": "Write only field: res",
       "start_location": {
-        "file": "tests/contracts/uncurry3.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/uncurry3.scilla",
         "line": 40,
         "column": 9
       },
@@ -94,7 +94,7 @@
     {
       "warning_message": "Unused library ADT: T",
       "start_location": {
-        "file": "tests/contracts/uncurry3.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/uncurry3.scilla",
         "line": 21,
         "column": 1
       },
@@ -104,7 +104,7 @@
     {
       "warning_message": "Unused transition parameter: x2",
       "start_location": {
-        "file": "tests/contracts/uncurry3.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/uncurry3.scilla",
         "line": 45,
         "column": 30
       },
@@ -114,7 +114,7 @@
     {
       "warning_message": "Unused transition parameter: x1",
       "start_location": {
-        "file": "tests/contracts/uncurry3.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/uncurry3.scilla",
         "line": 45,
         "column": 19
       },
@@ -124,7 +124,7 @@
     {
       "warning_message": "Unused bind statement to: total_app",
       "start_location": {
-        "file": "tests/contracts/uncurry3.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/uncurry3.scilla",
         "line": 48,
         "column": 5
       },
@@ -132,5 +132,6 @@
       "warning_id": 3
     }
   ],
-  "gas_remaining": "99999"
+  "gas_remaining": "9999"
 }
+

@@ -1,4 +1,6 @@
-; gas_remaining: 100000
+
+
+; gas_remaining: 4002000
 ; ModuleID = 'SimpleUnuccury2'
 source_filename = "SimpleUnuccury2"
 target datalayout = "e-m:o-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
@@ -318,7 +320,7 @@ entry:
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
 !1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
-!2 = !DIFile(filename: "uncurry2.scilla", directory: "tests/codegen/contr")
+!2 = !DIFile(filename: "uncurry2.scilla", directory: "codegen/contr")
 !3 = !{}
 !4 = distinct !DISubprogram(name: "$fundef_4", linkageName: "$fundef_4", scope: !2, file: !2, line: 9, type: !5, scopeLine: 9, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
 !5 = !DISubroutineType(types: !6)

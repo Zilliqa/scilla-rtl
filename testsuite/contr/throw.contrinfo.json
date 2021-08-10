@@ -54,7 +54,7 @@
     {
       "warning_message": "Unused library value: one_msg",
       "start_location": {
-        "file": "../../scilla-compiler//tests/codegen/contr/throw.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/throw.scilla",
         "line": 5,
         "column": 5
       },

@@ -101,7 +101,7 @@
       "warning_message": "Write only field: f_m",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
+          "../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
         "line": 470,
         "column": 2
       },
@@ -112,7 +112,7 @@
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
+          "../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
         "line": 479,
         "column": 9
       },
@@ -123,7 +123,7 @@
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
+          "../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
         "line": 458,
         "column": 9
       },
@@ -134,7 +134,7 @@
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
+          "../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
         "line": 423,
         "column": 3
       },
@@ -145,7 +145,7 @@
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
+          "../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
         "line": 414,
         "column": 18
       },
@@ -156,7 +156,7 @@
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
+          "../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
         "line": 401,
         "column": 9
       },
@@ -167,7 +167,7 @@
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
+          "../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
         "line": 381,
         "column": 9
       },
@@ -178,7 +178,7 @@
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
+          "../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
         "line": 354,
         "column": 9
       },
@@ -189,7 +189,7 @@
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
+          "../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
         "line": 330,
         "column": 9
       },
@@ -200,7 +200,7 @@
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
+          "../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
         "line": 243,
         "column": 3
       },
@@ -211,7 +211,7 @@
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
+          "../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
         "line": 150,
         "column": 18
       },

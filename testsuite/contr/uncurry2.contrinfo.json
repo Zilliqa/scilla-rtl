@@ -59,7 +59,7 @@
     {
       "warning_message": "Write only field: res",
       "start_location": {
-        "file": "tests/contracts/uncurry2.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/uncurry2.scilla",
         "line": 21,
         "column": 5
       },
@@ -69,3 +69,4 @@
   ],
   "gas_remaining": "9999"
 }
+

@@ -96,8 +96,7 @@
     {
       "warning_message": "Unused field: sendoff_msg",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/helloWorld.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/helloWorld.scilla",
         "line": 37,
         "column": 7
       },
@@ -107,8 +106,7 @@
     {
       "warning_message": "Unused imported library: ListUtils",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/helloWorld.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/helloWorld.scilla",
         "line": 5,
         "column": 8
       },

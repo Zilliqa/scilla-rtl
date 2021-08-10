@@ -102,7 +102,7 @@
       "warning_message": "Write only field: remote_read_remote_read_res_3",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/remote_state_reads_2.scilla",
+          "../scilla-compiler//tests/codegen/contr/remote_state_reads_2.scilla",
         "line": 42,
         "column": 3
       },
@@ -113,7 +113,7 @@
       "warning_message": "Write only field: remote_read_remote_read_res_2",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/remote_state_reads_2.scilla",
+          "../scilla-compiler//tests/codegen/contr/remote_state_reads_2.scilla",
         "line": 37,
         "column": 3
       },
@@ -124,7 +124,7 @@
       "warning_message": "Write only field: remote_read_remote_read_res_1",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/remote_state_reads_2.scilla",
+          "../scilla-compiler//tests/codegen/contr/remote_state_reads_2.scilla",
         "line": 22,
         "column": 3
       },
@@ -135,7 +135,7 @@
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file":
-          "../../scilla-compiler//tests/codegen/contr/remote_state_reads_2.scilla",
+          "../scilla-compiler//tests/codegen/contr/remote_state_reads_2.scilla",
         "line": 52,
         "column": 14
       },

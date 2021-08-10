@@ -1,4 +1,6 @@
-; gas_remaining: 100000
+
+
+; gas_remaining: 4002000
 ; ModuleID = 'SimpleUnuccury'
 source_filename = "SimpleUnuccury"
 target datalayout = "e-m:o-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
@@ -762,21 +764,21 @@ entry:
   %"$some_bool__tag_392" = getelementptr inbounds %TName_Bool, %TName_Bool* %"$some_bool__391", i32 0, i32 0
   %"$some_bool__tag_393" = load i8, i8* %"$some_bool__tag_392", align 1
   switch i8 %"$some_bool__tag_393", label %"$empty_default_394" [
-    i8 1, label %"$False_395"
-    i8 0, label %"$True_442"
+    i8 0, label %"$True_395"
+    i8 1, label %"$False_442"
   ], !dbg !45
 
-"$False_395":                                     ; preds = %"$have_gas_388"
-  %"$some_bool__396" = bitcast %TName_Bool* %"$some_bool__391" to %CName_False*
+"$True_395":                                      ; preds = %"$have_gas_388"
+  %"$some_bool__396" = bitcast %TName_Bool* %"$some_bool__391" to %CName_True*
   %"$gasrem_397" = load i64, i64* @_gasrem, align 8
   %"$gascmp_398" = icmp ugt i64 1, %"$gasrem_397"
   br i1 %"$gascmp_398", label %"$out_of_gas_399", label %"$have_gas_400"
 
-"$out_of_gas_399":                                ; preds = %"$False_395"
+"$out_of_gas_399":                                ; preds = %"$True_395"
   call void @_out_of_gas()
   br label %"$have_gas_400"
 
-"$have_gas_400":                                  ; preds = %"$out_of_gas_399", %"$False_395"
+"$have_gas_400":                                  ; preds = %"$out_of_gas_399", %"$True_395"
   %"$consume_401" = sub i64 %"$gasrem_397", 1
   store i64 %"$consume_401", i64* @_gasrem, align 8
   %partial_app1 = alloca { %Int32 (i8*, %Int32)*, i8* }, align 8
@@ -855,14 +857,14 @@ entry:
   call void @_update_field(i8* %"$execptr_load_437", i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$res_438", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Int32_26", i32 0, i8* null, i8* %"$update_value_441"), !dbg !50
   br label %"$matchsucc_390"
 
-"$True_442":                                      ; preds = %"$have_gas_388"
-  %"$some_bool__443" = bitcast %TName_Bool* %"$some_bool__391" to %CName_True*
+"$False_442":                                     ; preds = %"$have_gas_388"
+  %"$some_bool__443" = bitcast %TName_Bool* %"$some_bool__391" to %CName_False*
   br label %"$matchsucc_390"
 
 "$empty_default_394":                             ; preds = %"$have_gas_388"
   br label %"$matchsucc_390"
 
-"$matchsucc_390":                                 ; preds = %"$True_442", %"$have_gas_435", %"$empty_default_394"
+"$matchsucc_390":                                 ; preds = %"$False_442", %"$have_gas_435", %"$empty_default_394"
   ret void
 }
 
@@ -892,7 +894,7 @@ entry:
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
 !1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
-!2 = !DIFile(filename: "uncurry1.scilla", directory: "tests/codegen/contr")
+!2 = !DIFile(filename: "uncurry1.scilla", directory: "codegen/contr")
 !3 = !{}
 !4 = distinct !DISubprogram(name: "$fundef_22", linkageName: "$fundef_22", scope: !2, file: !2, line: 36, type: !5, scopeLine: 36, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
 !5 = !DISubroutineType(types: !6)
