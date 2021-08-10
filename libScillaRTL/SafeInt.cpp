@@ -46,116 +46,213 @@ std::string SafeInt<Bits, Signedness>::toString() const {
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
-operator+(const SafeInt<Bits, Signedness> &Rhs) const {
-  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(LhsBase + RhsBase);
-  return Result;
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator+(
+    const SafeInt<Bits, Signedness> &Rhs) const {
+  const auto &Lhs = *this;
+  auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
+  UnsafeWideInt<Bits, Signedness> ResultBase(LhsUnsafe + RhsUnsafe);
+
+  // Safe arithmetic checks.
+  static const auto ZeroUnsafe = UnsafeWideInt<Bits, Signedness>();
+  switch (Signedness) {
+  case Signed:
+    if (LhsUnsafe > ZeroUnsafe && RhsUnsafe > ZeroUnsafe &&
+        ResultBase < ZeroUnsafe) {
+      SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " + " +
+                       Rhs.toString());
+    }
+    // Result = 0 is possible in the case of Lhs = Rhs = min()
+    if (LhsUnsafe < ZeroUnsafe && RhsUnsafe < ZeroUnsafe &&
+        ResultBase >= ZeroUnsafe) {
+      SCILLA_EXCEPTION("Integer underflow: " + Lhs.toString() + " + " +
+                       Rhs.toString());
+    }
+    break;
+  case Unsigned:
+    break;
+  }
+
+  return SafeInt<Bits, Signedness>(ResultBase);
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
-operator-(const SafeInt<Bits, Signedness> &Rhs) const {
-  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(LhsBase - RhsBase);
-  return Result;
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator-(
+    const SafeInt<Bits, Signedness> &Rhs) const {
+  const auto &Lhs = *this;
+  auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
+  UnsafeWideInt<Bits, Signedness> ResultBase(LhsUnsafe - RhsUnsafe);
+
+  // Safe arithmetic checks.
+  static const auto ZeroUnsafe = UnsafeWideInt<Bits, Signedness>();
+  switch (Signedness) {
+  case Signed:
+    // The corner case here is Lhs = 0, Rhs = min_int
+    if (LhsUnsafe >= ZeroUnsafe && RhsUnsafe < ZeroUnsafe &&
+        ResultBase < ZeroUnsafe) {
+      SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " - " +
+                       Rhs.toString());
+    }
+    if (LhsUnsafe < ZeroUnsafe && RhsUnsafe > ZeroUnsafe &&
+        ResultBase > ZeroUnsafe) {
+      SCILLA_EXCEPTION("Integer underflow: " + Lhs.toString() + " - " +
+                       Rhs.toString());
+    }
+    break;
+  case Unsigned:
+    break;
+  }
+
+  return SafeInt<Bits, Signedness>(ResultBase);
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
-operator*(const SafeInt<Bits, Signedness> &Rhs) const {
-  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(LhsBase * RhsBase);
-  return Result;
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator*(
+    const SafeInt<Bits, Signedness> &Rhs) const {
+  const auto &Lhs = *this;
+  auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
+  UnsafeWideInt<Bits, Signedness> ResultBase(LhsUnsafe * RhsUnsafe);
+
+  // Safe arithmetic checks.
+  static const auto ZeroUnsafe = UnsafeWideInt<Bits, Signedness>();
+  static const auto MinUnsafe =
+      std::numeric_limits<UnsafeWideInt<Bits, Signedness>>::min();
+  switch (Signedness) {
+  case Signed:
+    // http://www.informit.com/articles/article.aspx?p=1959565&seqNum=13
+    if (LhsUnsafe == MinUnsafe && RhsUnsafe < ZeroUnsafe) {
+      SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " * " +
+                       Rhs.toString());
+    }
+    if (RhsUnsafe != ZeroUnsafe && (ResultBase / RhsUnsafe) != LhsUnsafe) {
+      if ((LhsUnsafe < ZeroUnsafe) == (RhsUnsafe < ZeroUnsafe)) {
+        SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " * " +
+                         Rhs.toString());
+      } else {
+        SCILLA_EXCEPTION("Integer underflow: " + Lhs.toString() + " * " +
+                         Rhs.toString());
+      }
+    }
+    break;
+  case Unsigned:
+    break;
+  }
+
+  return SafeInt<Bits, Signedness>(ResultBase);
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
-operator/(const SafeInt<Bits, Signedness> &Rhs) const {
-  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(LhsBase / RhsBase);
-  return Result;
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator/(
+    const SafeInt<Bits, Signedness> &Rhs) const {
+  const auto &Lhs = *this;
+  auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
+
+  // Safe arithmetic checks.
+  static const auto ZeroUnsafe = UnsafeWideInt<Bits, Signedness>();
+  static const auto OneUnsafe = ++(UnsafeWideInt<Bits, Signedness>());
+  static const auto MinUnsafe =
+      std::numeric_limits<UnsafeWideInt<Bits, Signedness>>::min();
+  static const auto MinusOneUnsafe = ZeroUnsafe - OneUnsafe;
+  if (RhsUnsafe == ZeroUnsafe) {
+    SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " / " +
+                     Rhs.toString());
+  }
+  switch (Signedness) {
+  case Signed:
+    // Integer overflow during division occurs in a very specific case.
+    // https://stackoverflow.com/a/30400252/2128804
+    if (LhsUnsafe == MinUnsafe && RhsUnsafe == MinusOneUnsafe) {
+      SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " / " +
+                       Rhs.toString());
+    }
+    break;
+  case Unsigned:
+    break;
+  }
+
+  return SafeInt<Bits, Signedness>(LhsUnsafe / RhsUnsafe);
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
-operator%(const SafeInt<Bits, Signedness> &Rhs) const {
-  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(LhsBase % RhsBase);
-  return Result;
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator%(
+    const SafeInt<Bits, Signedness> &Rhs) const {
+  const auto &Lhs = *this;
+  auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
+
+  // Safe arithmetic checks.
+  static const auto ZeroUnsafe = UnsafeWideInt<Bits, Signedness>();
+  if (RhsUnsafe == ZeroUnsafe) {
+    SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " / " +
+                     Rhs.toString());
+  }
+
+  return SafeInt<Bits, Signedness>(LhsUnsafe % RhsUnsafe);
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::sqrt(void) const {
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  SafeInt<Bits, Signedness> Result(math::wide_integer::sqrt(LhsBase));
-  return Result;
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return SafeInt<Bits, Signedness>(math::wide_integer::sqrt(LhsUnsafe));
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::pow(uint32_t P) const {
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(math::wide_integer::pow(LhsBase, P));
+  SafeInt<Bits, Signedness> Result(math::wide_integer::pow(LhsUnsafe, P));
   return Result;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::
-operator==(const SafeInt<Bits, Signedness> &Rhs) const {
-  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  return LhsBase == RhsBase;
+bool SafeInt<Bits, Signedness>::operator==(
+    const SafeInt<Bits, Signedness> &Rhs) const {
+  auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return LhsUnsafe == RhsUnsafe;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::
-operator!=(const SafeInt<Bits, Signedness> &Rhs) const {
-  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  return LhsBase != RhsBase;
+bool SafeInt<Bits, Signedness>::operator!=(
+    const SafeInt<Bits, Signedness> &Rhs) const {
+  auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return LhsUnsafe != RhsUnsafe;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::
-operator>(const SafeInt<Bits, Signedness> &Rhs) const {
-  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  return LhsBase > RhsBase;
+bool SafeInt<Bits, Signedness>::operator>(
+    const SafeInt<Bits, Signedness> &Rhs) const {
+  auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return LhsUnsafe > RhsUnsafe;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::
-operator>=(const SafeInt<Bits, Signedness> &Rhs) const {
-  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  return LhsBase >= RhsBase;
+bool SafeInt<Bits, Signedness>::operator>=(
+    const SafeInt<Bits, Signedness> &Rhs) const {
+  auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return LhsUnsafe >= RhsUnsafe;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::
-operator<(const SafeInt<Bits, Signedness> &Rhs) const {
-  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  return LhsBase < RhsBase;
+bool SafeInt<Bits, Signedness>::operator<(
+    const SafeInt<Bits, Signedness> &Rhs) const {
+  auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return LhsUnsafe < RhsUnsafe;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::
-operator<=(const SafeInt<Bits, Signedness> &Rhs) const {
-  auto &RhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
-  auto &LhsBase = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  return LhsBase <= RhsBase;
+bool SafeInt<Bits, Signedness>::operator<=(
+    const SafeInt<Bits, Signedness> &Rhs) const {
+  auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
+  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
+  return LhsUnsafe <= RhsUnsafe;
 }
 
 // Let's instantiate for all widths that we want.

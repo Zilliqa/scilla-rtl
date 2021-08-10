@@ -84,6 +84,8 @@ public:
   static constexpr SafeInt min() {
     return std::numeric_limits<UnsafeWideInt<Bits, Signedness>>::min();
   }
+  static constexpr SafeInt zero() { return SafeInt(); }
+  static constexpr SafeInt one() { return ++(zero()); }
 
 private:
   // Construct from base class object.
