@@ -21,17 +21,10 @@
 #include <boost/spirit/include/phoenix.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include <fstream>
-#include <memory>
-
-#if defined (__APPLE__)
 #include <json/reader.h>
 #include <json/value.h>
 #include <json/writer.h>
-#else
-#include <jsoncpp/json/reader.h>
-#include <jsoncpp/json/value.h>
-#include <jsoncpp/json/writer.h>
-#endif
+#include <memory>
 
 #include "ScillaRTL/Errors.h"
 #include "ScillaRTL/Utils.h"
@@ -129,17 +122,18 @@ void compileLLVMToSO(const std::string &InputFile,
                      const std::string &OutputFile) {
   try {
     auto ExecP = bp::search_path("clang-12");
-    #if defined (__APPLE__)
-    if (bp::system(ExecP, "-Wno-override-module", "-fPIC", "-shared", "-undefined", "dynamic_lookup", InputFile,
-                   "-o", OutputFile)) {
+#if defined(__APPLE__)
+    if (bp::system(ExecP, "-Wno-override-module", "-fPIC", "-shared",
+                   "-undefined", "dynamic_lookup", InputFile, "-o",
+                   OutputFile)) {
       CREATE_ERROR("Compilation of " + InputFile + " failed.");
     }
-    #else 
+#else
     if (bp::system(ExecP, "-Wno-override-module", "-fPIC", "-shared", InputFile,
                    "-o", OutputFile)) {
       CREATE_ERROR("Compilation of " + InputFile + " failed.");
     }
-    #endif
+#endif
   } catch (std::system_error &E) {
     CREATE_ERROR(E.what());
   }

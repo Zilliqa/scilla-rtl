@@ -15,11 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#if defined (__APPLE__)
 #include <json/json.h>
-#else
-#include <jsoncpp/json/json.h>
-#endif
 #include <memory>
 
 #include "ObjManager.h"

@@ -17,18 +17,13 @@
 
 #pragma once
 
+#include <any>
+#include <boost/filesystem.hpp>
+#include <json/value.h>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <variant>
-
-#include <any>
-#include <boost/filesystem.hpp>
-#include <optional>
-#if defined (__APPLE__)
-#include <json/value.h>
-#else
-#include <jsoncpp/json/value.h>
-#endif
 
 #include "ScillaExec.h"
 

@@ -17,14 +17,9 @@
 
 #pragma once
 
-#include <string>
-
 #include <boost/multiprecision/cpp_int.hpp>
-#if defined (__APPLE__)
 #include <json/value.h>
-#else
-#include <jsoncpp/json/value.h>
-#endif
+#include <string>
 
 #include "SRTL.h"
 #include "ScillaTypes.h"

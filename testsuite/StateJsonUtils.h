@@ -15,11 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#if defined (__APPLE__)
 #include <json/value.h>
-#else
-#include <jsoncpp/json/value.h>
-#endif
 
 namespace ScillaTestsuite {
 // Goes deep and sorts map entries, all in-place.
