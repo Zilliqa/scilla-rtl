@@ -1005,3 +1005,101 @@ BOOST_AUTO_TEST_CASE(support_succ_common_jit) {
 BOOST_AUTO_TEST_SUITE_END() // accounting_tests
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec
+
+BOOST_AUTO_TEST_SUITE(uncurry1)
+
+ContractTest Uncurry1Tests = {
+  "uncurry1.ll",
+  {{"uncurry1_dummy", "uncurry.message_dummy.json", 
+    "empty_init.json", "uncurry1.contrinfo.json", "uncurry1.state_00.json",
+    "uncurry1.state_01.json", "uncurry1.output_1.json",
+    "blockchain_default.json"},
+    {"uncurry1_dummy2", "uncurry.message_dummy2.json", 
+    "empty_init.json", "uncurry1.contrinfo.json", "uncurry1.state_00.json",
+    "uncurry1.state_02.json", "uncurry1.output_2.json",
+    "blockchain_default.json"}
+    }};
+
+BOOST_AUTO_TEST_CASE(unique_jits) {
+  testMessages(Uncurry1Tests, false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(common_jit) {
+  testMessages(Uncurry1Tests, true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE(uncurry2)
+
+ContractTest Uncurry2Tests = {
+  "uncurry2.ll",
+  {{"uncurry2_dummy", "uncurry.message_dummy.json", 
+    "empty_init.json", "uncurry2.contrinfo.json", "uncurry.state_00.json",
+    "uncurry2.state_01.json", "uncurry2.output_1.json",
+    "blockchain_default.json"}
+    }};
+
+BOOST_AUTO_TEST_CASE(unique_jits) {
+  testMessages(Uncurry2Tests, false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(common_jit) {
+  testMessages(Uncurry2Tests, true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(uncurry3)
+
+ContractTest Uncurry3Tests = {
+  "uncurry3.ll",
+  {
+    {"uncurry3_dummy1", "uncurry.message_dummy1.json", 
+    "empty_init.json", "uncurry3.contrinfo.json", "uncurry.state_00.json",
+    "uncurry2.state_01.json", "uncurry3.output_1.json",
+    "blockchain_default.json"},
+    {"uncurry3_dummy2", "uncurry.message_dummy2.json", 
+    "empty_init.json", "uncurry3.contrinfo.json", "uncurry.state_00.json",
+    "uncurry3.state_02.json", "uncurry3.output_2.json",
+    "blockchain_default.json"},
+    {"uncurry3_dummy2", "uncurry.message_dummy3.json", 
+    "empty_init.json", "uncurry3.contrinfo.json", "uncurry.state_00.json",
+    "uncurry3.state_03.json", "uncurry3.output_3.json",
+    "blockchain_default.json"}
+    }};
+
+BOOST_AUTO_TEST_CASE(unique_jits) {
+  testMessages(Uncurry3Tests, false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(common_jit) {
+  testMessages(Uncurry3Tests, true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE(uncurry4)
+
+ContractTest Uncurry4Tests = {
+  "uncurry4.ll",
+  {
+    {"uncurry3_dummy", "uncurry.message_dummy.json", 
+    "empty_init.json", "uncurry4.contrinfo.json", "uncurry.state_00.json",
+    "uncurry4.state_01.json", "uncurry4.output_1.json",
+    "blockchain_default.json"}
+    }};
+
+BOOST_AUTO_TEST_CASE(unique_jits) {
+  testMessages(Uncurry4Tests, false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(common_jit) {
+  testMessages(Uncurry4Tests, true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
