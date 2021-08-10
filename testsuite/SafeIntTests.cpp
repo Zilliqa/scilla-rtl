@@ -88,47 +88,47 @@ BOOST_AUTO_TEST_SUITE(safeint)
 
 BOOST_AUTO_TEST_CASE(sanity) {
 
-  BOOST_TEST(SafeUint32::min().toString() ==
+  BOOST_TEST(SafeUint32::Min.toString() ==
              SafeUint32(std::string("0")).toString());
-  BOOST_TEST(SafeUint32::max().toString() ==
+  BOOST_TEST(SafeUint32::Max.toString() ==
              SafeUint32(std::string("4294967295")).toString());
-  BOOST_TEST(SafeInt32::min().toString() ==
+  BOOST_TEST(SafeInt32::Min.toString() ==
              SafeInt32(std::string("-2147483648")).toString());
-  BOOST_TEST(SafeInt32::max().toString() ==
+  BOOST_TEST(SafeInt32::Max.toString() ==
              SafeInt32(std::string("2147483647")).toString());
 
-  BOOST_TEST(SafeUint64::min().toString() ==
+  BOOST_TEST(SafeUint64::Min.toString() ==
              SafeUint64(std::string("0")).toString());
-  BOOST_TEST(SafeUint64::max().toString() ==
+  BOOST_TEST(SafeUint64::Max.toString() ==
              SafeUint64(std::string("18446744073709551615")).toString());
-  BOOST_TEST(SafeInt64::min().toString() ==
+  BOOST_TEST(SafeInt64::Min.toString() ==
              SafeInt64(std::string("-9223372036854775808")).toString());
-  BOOST_TEST(SafeInt64::max().toString() ==
+  BOOST_TEST(SafeInt64::Max.toString() ==
              SafeInt64(std::string("9223372036854775807")).toString());
 
-  BOOST_TEST(SafeUint128::min().toString() ==
+  BOOST_TEST(SafeUint128::Min.toString() ==
              SafeUint128(std::string("0")).toString());
-  BOOST_TEST(SafeUint128::max().toString() ==
+  BOOST_TEST(SafeUint128::Max.toString() ==
              SafeUint128(std::string("340282366920938463463374607431768211455"))
                  .toString());
-  BOOST_TEST(SafeInt128::min().toString() ==
+  BOOST_TEST(SafeInt128::Min.toString() ==
              SafeInt128(std::string("-170141183460469231731687303715884105728"))
                  .toString());
-  BOOST_TEST(SafeInt128::max().toString() ==
+  BOOST_TEST(SafeInt128::Max.toString() ==
              SafeInt128(std::string("170141183460469231731687303715884105727"))
                  .toString());
 
-  BOOST_TEST(SafeUint256::min().toString() ==
+  BOOST_TEST(SafeUint256::Min.toString() ==
              SafeUint256(std::string("0")).toString());
-  BOOST_TEST(SafeUint256::max().toString() ==
+  BOOST_TEST(SafeUint256::Max.toString() ==
              SafeUint256(std::string("11579208923731619542357098500868790785326"
                                      "9984665640564039457584007913129639935"))
                  .toString());
-  BOOST_TEST(SafeInt256::min().toString() ==
+  BOOST_TEST(SafeInt256::Min.toString() ==
              SafeInt256(std::string("-57896044618658097711785492504343953926634"
                                     "992332820282019728792003956564819968"))
                  .toString());
-  BOOST_TEST(SafeInt256::max().toString() ==
+  BOOST_TEST(SafeInt256::Max.toString() ==
              SafeInt256(std::string("578960446186580977117854925043439539266349"
                                     "92332820282019728792003956564819967"))
                  .toString());
@@ -152,7 +152,8 @@ BOOST_AUTO_TEST_CASE(sanity) {
   BOOST_TEST(SafeUint256::One.toString() == "1");
   BOOST_TEST(SafeInt256::Zero.toString() == "0");
   BOOST_TEST(SafeInt256::One.toString() == "1");
-
 }
+
+BOOST_AUTO_TEST_CASE(safety) {}
 
 BOOST_AUTO_TEST_SUITE_END()

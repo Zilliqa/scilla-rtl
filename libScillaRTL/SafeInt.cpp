@@ -38,6 +38,14 @@ const SafeInt<Bits, Signedness>
     SafeInt<Bits, Signedness>::One = SafeInt<Bits, Signedness>(1U);
 
 template <unsigned Bits, SafeIntKind Signedness>
+const SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::Max =
+    std::numeric_limits<UnsafeWideInt<Bits, Signedness>>::max();
+
+template <unsigned Bits, SafeIntKind Signedness>
+const SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::Min =
+    std::numeric_limits<UnsafeWideInt<Bits, Signedness>>::min();
+
+template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness>::SafeInt(const std::string &IS)
     : UnsafeWideInt<Bits, Signedness>(IS.c_str()) {
   if (toString() != IS) {
@@ -54,8 +62,8 @@ std::string SafeInt<Bits, Signedness>::toString() const {
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator+(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator+(const SafeInt<Bits, Signedness> &Rhs) const {
   const auto &Lhs = *this;
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
@@ -89,8 +97,8 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator+(
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator-(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator-(const SafeInt<Bits, Signedness> &Rhs) const {
   const auto &Lhs = *this;
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
@@ -124,8 +132,8 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator-(
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator*(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator*(const SafeInt<Bits, Signedness> &Rhs) const {
   const auto &Lhs = *this;
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
@@ -164,8 +172,8 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator*(
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator/(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator/(const SafeInt<Bits, Signedness> &Rhs) const {
   const auto &Lhs = *this;
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
@@ -197,8 +205,8 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator/(
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator%(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::
+operator%(const SafeInt<Bits, Signedness> &Rhs) const {
   const auto &Lhs = *this;
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
@@ -228,48 +236,48 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::pow(uint32_t P) const {
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::operator==(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+bool SafeInt<Bits, Signedness>::
+operator==(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   return LhsUnsafe == RhsUnsafe;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::operator!=(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+bool SafeInt<Bits, Signedness>::
+operator!=(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   return LhsUnsafe != RhsUnsafe;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::operator>(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+bool SafeInt<Bits, Signedness>::
+operator>(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   return LhsUnsafe > RhsUnsafe;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::operator>=(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+bool SafeInt<Bits, Signedness>::
+operator>=(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   return LhsUnsafe >= RhsUnsafe;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::operator<(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+bool SafeInt<Bits, Signedness>::
+operator<(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   return LhsUnsafe < RhsUnsafe;
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
-bool SafeInt<Bits, Signedness>::operator<=(
-    const SafeInt<Bits, Signedness> &Rhs) const {
+bool SafeInt<Bits, Signedness>::
+operator<=(const SafeInt<Bits, Signedness> &Rhs) const {
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
   return LhsUnsafe <= RhsUnsafe;
