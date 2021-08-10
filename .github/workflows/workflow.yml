@@ -44,4 +44,9 @@ jobs:
           OPENSSL_ROOT_DIR: '/usr/local/opt/openssl'
 
       - name: ScillaRTL Testsuite Debug Build
+        if: runner.os == 'Linux'
         run: scripts/dbuild_ci.sh
+
+      - name: ScillaRTL Testsuite Debug Build
+        if: runner.os == 'macOS'
+        run: scripts/dbuild_ci_macos.sh
