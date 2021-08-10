@@ -132,6 +132,27 @@ BOOST_AUTO_TEST_CASE(sanity) {
              SafeInt256(std::string("578960446186580977117854925043439539266349"
                                     "92332820282019728792003956564819967"))
                  .toString());
+
+  BOOST_TEST(SafeUint32::Zero.toString() == "0");
+  BOOST_TEST(SafeUint32::One.toString() == "1");
+  BOOST_TEST(SafeInt32::Zero.toString() == "0");
+  BOOST_TEST(SafeInt32::One.toString() == "1");
+
+  BOOST_TEST(SafeUint64::Zero.toString() == "0");
+  BOOST_TEST(SafeUint64::One.toString() == "1");
+  BOOST_TEST(SafeInt64::Zero.toString() == "0");
+  BOOST_TEST(SafeInt64::One.toString() == "1");
+
+  BOOST_TEST(SafeUint128::Zero.toString() == "0");
+  BOOST_TEST(SafeUint128::One.toString() == "1");
+  BOOST_TEST(SafeInt128::Zero.toString() == "0");
+  BOOST_TEST(SafeInt128::One.toString() == "1");
+
+  BOOST_TEST(SafeUint256::Zero.toString() == "0");
+  BOOST_TEST(SafeUint256::One.toString() == "1");
+  BOOST_TEST(SafeInt256::Zero.toString() == "0");
+  BOOST_TEST(SafeInt256::One.toString() == "1");
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()

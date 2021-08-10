@@ -30,6 +30,14 @@ namespace ScillaRTL {
 using namespace ScillaTypes;
 
 template <unsigned Bits, SafeIntKind Signedness>
+const SafeInt<Bits, Signedness>
+    SafeInt<Bits, Signedness>::Zero = SafeInt<Bits, Signedness>();
+
+template <unsigned Bits, SafeIntKind Signedness>
+const SafeInt<Bits, Signedness>
+    SafeInt<Bits, Signedness>::One = ++(SafeInt<Bits, Signedness>());
+
+template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness>::SafeInt(const std::string &IS)
     : UnsafeWideInt<Bits, Signedness>(IS.c_str()) {
   if (toString() != IS) {
