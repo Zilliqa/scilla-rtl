@@ -31,11 +31,11 @@ using namespace ScillaTypes;
 
 template <unsigned Bits, SafeIntKind Signedness>
 const SafeInt<Bits, Signedness>
-    SafeInt<Bits, Signedness>::Zero = SafeInt<Bits, Signedness>();
+    SafeInt<Bits, Signedness>::Zero = SafeInt<Bits, Signedness>(0U);
 
 template <unsigned Bits, SafeIntKind Signedness>
 const SafeInt<Bits, Signedness>
-    SafeInt<Bits, Signedness>::One = ++(SafeInt<Bits, Signedness>());
+    SafeInt<Bits, Signedness>::One = SafeInt<Bits, Signedness>(1U);
 
 template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness>::SafeInt(const std::string &IS)
