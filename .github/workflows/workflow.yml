@@ -31,22 +31,22 @@ jobs:
 
       - name: Install required MacOS packages
         if: runner.os == 'macOS'
-        run: brew update && brew upgrade && brew install llvm cmake openssl pkg-config boost autoconf automake libtool jsoncpp domt4/crypto/secp256k1
+        run: brew update && brew upgrade && brew install llvm@12 cmake openssl pkg-config boost autoconf automake libtool jsoncpp domt4/crypto/secp256k1
 
-      - name: ScillaRTL Testsuite Release Build
+      - name: ScillaRTL Testsuite Release Build [Ubuntu]
         if: runner.os == 'Linux'
         run: scripts/build_ci.sh
 
-      - name: ScillaRTL Testsuite Release Build
+      - name: ScillaRTL Testsuite Release Build [MacOS]
         if: runner.os == 'macOS'
         run: scripts/build_ci_macos.sh
         env: 
           OPENSSL_ROOT_DIR: '/usr/local/opt/openssl'
 
-      - name: ScillaRTL Testsuite Debug Build
+      - name: ScillaRTL Testsuite Debug Build [Ubuntu]
         if: runner.os == 'Linux'
         run: scripts/dbuild_ci.sh
 
-      - name: ScillaRTL Testsuite Debug Build
+      - name: ScillaRTL Testsuite Debug Build [MacOS]
         if: runner.os == 'macOS'
         run: scripts/dbuild_ci_macos.sh
