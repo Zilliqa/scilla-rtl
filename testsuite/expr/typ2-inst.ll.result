@@ -1,2 +1,2 @@
 Pair(Pair(1 : Uint32)(2 : Uint64) : Pair (Uint32) (Uint64))(Pair(hello : String)(0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa : ByStr20) : Pair (String) (ByStr20)) : Pair (Pair (Uint32) (Uint64)) (Pair (String) (ByStr20))
-Gas remaining: 9999967
+Gas remaining: 9999995

@@ -97,7 +97,8 @@ bool isUserAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
 }
 
 bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
-                      const ScillaTypes::Typ *ParsedT, const void *Val) {
+                      const ScillaTypes::Typ *ParsedT, const void *Val,
+                      bool ChargeGas) {
 
   if (!ScillaTypes::Typ::valueCompatible(ParsedT, TargetT)) {
     CREATE_ERROR("Value of type " + ScillaTypes::Typ::toString(ParsedT) +
@@ -106,6 +107,31 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
   }
 
   using namespace ScillaTypes;
+
+  auto DynTypCheckGasCost = [](const ScillaTypes::Typ *T) {
+    // Implements `address_typecheck_cost` in Gas.ml.
+    uint64_t Size = 0;
+    switch (T->m_t) {
+      case Typ::Address_typ:
+      {
+        const AddressTyp *AT = T->m_sub.m_addrt;
+        ASSERT(AT->m_numFields >= -1);
+        // look up _this_address and every listed field.
+        Size = 1 + AT->m_numFields;
+        break;
+      }
+      case Typ::Prim_typ:
+      case Typ::ADT_typ:
+      case Typ::Map_typ:
+        break;
+    }
+    // _balance and _nonce must also be looked up
+    return Size + 2;
+  };
+
+  if (ChargeGas) {
+    SJ->consumeGas(DynTypCheckGasCost(TargetT));
+  }
 
   std::function<bool(const ScillaTypes::Typ *, const void *)> recurser =
       [SJ, &recurser](const ScillaTypes::Typ *ExpectedT, const void *Val) {

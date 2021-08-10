@@ -62,8 +62,12 @@ ScillaExprExec::ScillaExprExec(const ScillaParams &SPs,
 std::string ScillaExprExec::exec(uint64_t GasLimit) {
   auto ScillaMainAddr = PImpl->getAddressFor("scilla_main");
   auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
+
+  // This isn't a transition, but we still setup a state for consistency.
+  PImpl->TS = std::make_unique<TransitionState>("0", "0", 0, GasLimit, "0x");
   // Set gas available in the JIT'ed code and then initialize libraries.
   PImpl->initGasAndLibs(GasLimit);
+
   // Clear the output.
   PImpl->ScillaStdout.clear();
   ScillaMain();
@@ -78,9 +82,9 @@ uint64_t ScillaExprExec::getGasRem() const { return PImpl->getGasRem(); }
 
 ScillaExecImpl::ScillaExecImpl(const ScillaParams &SPs,
                                const std::string &ContrBin)
-    : SPs(SPs) {
-
-  SO = std::make_unique<SharedObject>(ContrBin);
+    : SO(std::make_unique<SharedObject>(ContrBin)),
+      GasRemPtr(reinterpret_cast<uint64_t *>(getAddressFor("_gasrem"))),
+      SPs(SPs) {
 
   // Set execptr in the generated code to THIS
   auto ExecPtr = getAddressFor("_execptr");
@@ -155,46 +159,49 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
       CREATE_ERROR("JSON inputs cannot contain address types: " +
                    ScillaTypes::Typ::toString(T));
     }
-    if (DoDynamicTypechecks &&
-        !dynamicTypecheck(this, ExpectedT->second, T, ValP)) {
+    if (DoDynamicTypechecks && !dynamicTypecheck(this, ExpectedT->second, T,
+                                                 ValP, true /* ChargeGas */)) {
       CREATE_ERROR("Dynamic typecheck failed: " + VName.asString() + " : " +
                    ScillaValues::toString(true, ExpectedT->second, ValP));
     }
   }
 }
 
-uint64_t *ScillaExecImpl::initGasAndLibs(uint64_t GasLimit) {
-  // Set gas limit in the JIT'ed code module.
-  auto GasRemPtr = reinterpret_cast<uint64_t *>(getAddressFor("_gasrem"));
-  *GasRemPtr = GasLimit;
+void ScillaExecImpl::initGasAndLibs(uint64_t GasLimit) {
+  // Scale up the gas limit and set it in the Scilla program.
+  *GasRemPtr = GasLimit * GasScaleFactor;
 
   // Call the library initialisation function.
   auto initLibs = reinterpret_cast<void (*)()>(getAddressFor("_init_libs"));
   initLibs();
-
-  return GasRemPtr;
 }
 
 Json::Value ScillaExecImpl::deploy(const Json::Value &InitJ, uint64_t GasLimit,
                                    uint64_t CurBlock) {
 
+  // Setup the TransitionState for this transition.
+  TS = std::make_unique<TransitionState>("0", "0", CurBlock, GasLimit, "");
+
+  initGasAndLibs(GasLimit);
   // Initialize contract parameters.
   initContrParams(InitJ, true /* DoDynamicTypechecks */);
 
-  auto GasRemPtr = initGasAndLibs(GasLimit);
-
-  // Let's setup the TransitionState for this transition.
-  TS = std::make_unique<TransitionState>("0", "0", CurBlock, "");
   auto fIS = reinterpret_cast<void (*)(void)>(getAddressFor("_init_state"));
   fIS();
 
-  Json::Value Result = TS->finalize(*GasRemPtr);
+  Json::Value Result = TS->finalize(getGasRem());
   OM.deleteAll();
   return Result;
 }
 
 uint64_t ScillaExecImpl::getGasRem() const {
-  return *reinterpret_cast<const uint64_t *>(getAddressFor("_gasrem"));
+  // Scale down
+  auto GasRemScaledDown = *GasRemPtr / GasScaleFactor;
+  // If no gas was consumed, force at least 1 unit to be consumed.
+  if (GasRemScaledDown == TS->GasLimit) {
+    GasRemScaledDown--;
+  }
+  return GasRemScaledDown;
 }
 
 const ScillaTypes::Typ *
@@ -202,6 +209,17 @@ ScillaExecImpl::parseTypeString(const std::string &TStr) const {
   auto TyDescrs = getTypeDescrTable();
   return ScillaTypes::Typ::fromString(TPPC.get(), TyDescrs.first,
                                       TyDescrs.second, TStr);
+}
+
+void ScillaExecImpl::outOfGasException(void) {
+  SCILLA_EXCEPTION("Ran out of gas");
+}
+
+void ScillaExecImpl::consumeGas(uint64_t N) const {
+  if (N > *GasRemPtr) {
+    outOfGasException();
+  }
+  (*GasRemPtr) -= N;
 }
 
 void *ScillaExecImpl::getAddressFor(const std::string &Symbol) const {
@@ -222,8 +240,6 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
                                     const Json::Value &InitJ,
                                     const Json::Value &Msg) {
 
-  initContrParams(InitJ, false /* DoDynamicTypechecks */);
-
   Json::Value TransNameJ = Msg.get("_tag", Json::nullValue);
   Json::Value ParamsJ = Msg.get("params", Json::nullValue);
   Json::Value OriginJ = Msg.get("_origin", Json::nullValue);
@@ -233,11 +249,12 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
       !OriginJ.isString() || !AmountJ.isString())
     CREATE_ERROR("Invalid Message");
 
-  auto GasRemPtr = initGasAndLibs(GasLimit);
-
   // Let's setup the TransitionState for this transition.
   TS = std::make_unique<TransitionState>(Balance, AmountJ.asString(), CurBlock,
-                                         SenderJ.asString());
+                                         GasLimit, SenderJ.asString());
+
+  initGasAndLibs(GasLimit);
+  initContrParams(InitJ, false /* DoDynamicTypechecks */);
 
   // Amount and Sender need to be prepended to the parameter list.
   Json::Value AmountParam;
@@ -339,7 +356,8 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
     }
     // _sender and _origin are trusted addresses. Otherwise, we must verify.
     if (ParamNames[I] != "_sender" && ParamNames[I] != "_origin" &&
-        !dynamicTypecheck(this, ExpectedT->second, T, ValP)) {
+        !dynamicTypecheck(this, ExpectedT->second, T, ValP,
+                          true /* ChargeGas */)) {
       CREATE_ERROR("Dynamic typecheck failed: " + ParamNames[I] + " : " +
                    ScillaValues::toString(true, ExpectedT->second, ValP));
     }
@@ -349,7 +367,7 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
 
   Transition(Mem);
 
-  Json::Value Result = TS->finalize(*GasRemPtr);
+  Json::Value Result = TS->finalize(getGasRem());
   OM.deleteAll();
   return Result;
 }

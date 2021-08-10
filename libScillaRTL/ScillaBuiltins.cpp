@@ -344,7 +344,7 @@ void *_salloc(ScillaExecImpl *SJ, size_t size) {
   return SJ->OM.allocBytes(size);
 }
 
-void _out_of_gas() { SCILLA_EXCEPTION("Ran out of gas"); }
+void _out_of_gas() { ScillaExecImpl::outOfGasException(); }
 
 SafeInt32 _add_Int32(SafeInt32 Lhs, SafeInt32 Rhs) { return Lhs + Rhs; }
 
@@ -1317,7 +1317,9 @@ void *_dynamic_typecast(ScillaExecImpl *SJ, const void *V,
            T->m_sub.m_primt->m_detail.m_bystX == ScillaTypes::AddrByStr_Len),
       "Expected address compatible type for dynamic typecast");
 
-  bool Succ = dynamicTypecheck(SJ, T, T, V);
+  // We don't charge explicitly for dynamic typecheck here because
+  // it was embedded into the AST and code generated.
+  bool Succ = dynamicTypecheck(SJ, T, T, V, false /* ChargeGas */);
 
   if (Succ) {
     // Wrap with "Some".

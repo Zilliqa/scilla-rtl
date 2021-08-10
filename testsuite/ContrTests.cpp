@@ -247,7 +247,11 @@ void testMessageFail(const std::string &ContrFilename,
     output_test_stream Output(PathPrefix + ExpectedOutputFilename,
                               !Config::UpdateResults);
     Output << E.Msg;
-    BOOST_TEST(Output.match_pattern());
+    BOOST_CHECK_MESSAGE(Output.match_pattern(),
+                        "Expected:\n"
+                            << readFile(PathPrefix + ExpectedOutputFilename)
+                            << "\nGot:\n"
+                            << E.Msg << "\n");
     CaughtException = true;
     BOOST_TEST_CHECKPOINT(ContrFilename + ": Output matched");
   }
