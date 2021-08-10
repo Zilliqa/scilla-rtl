@@ -59,29 +59,33 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator+(
   const auto &Lhs = *this;
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
-  UnsafeWideInt<Bits, Signedness> ResultBase(LhsUnsafe + RhsUnsafe);
+  UnsafeWideInt<Bits, Signedness> ResultUnsafe(LhsUnsafe + RhsUnsafe);
 
   // Safe arithmetic checks.
   static const auto ZeroUnsafe = UnsafeWideInt<Bits, Signedness>();
   switch (Signedness) {
   case Signed:
     if (LhsUnsafe > ZeroUnsafe && RhsUnsafe > ZeroUnsafe &&
-        ResultBase < ZeroUnsafe) {
+        ResultUnsafe < ZeroUnsafe) {
       SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " + " +
                        Rhs.toString());
     }
     // Result = 0 is possible in the case of Lhs = Rhs = min()
     if (LhsUnsafe < ZeroUnsafe && RhsUnsafe < ZeroUnsafe &&
-        ResultBase >= ZeroUnsafe) {
+        ResultUnsafe >= ZeroUnsafe) {
       SCILLA_EXCEPTION("Integer underflow: " + Lhs.toString() + " + " +
                        Rhs.toString());
     }
     break;
   case Unsigned:
+    if (ResultUnsafe < LhsUnsafe || ResultUnsafe < RhsUnsafe) {
+      SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " + " +
+                       Rhs.toString());
+    }
     break;
   }
 
-  return SafeInt<Bits, Signedness>(ResultBase);
+  return SafeInt<Bits, Signedness>(ResultUnsafe);
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
@@ -90,7 +94,7 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator-(
   const auto &Lhs = *this;
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
-  UnsafeWideInt<Bits, Signedness> ResultBase(LhsUnsafe - RhsUnsafe);
+  UnsafeWideInt<Bits, Signedness> ResultUnsafe(LhsUnsafe - RhsUnsafe);
 
   // Safe arithmetic checks.
   static const auto ZeroUnsafe = UnsafeWideInt<Bits, Signedness>();
@@ -98,21 +102,25 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator-(
   case Signed:
     // The corner case here is Lhs = 0, Rhs = min_int
     if (LhsUnsafe >= ZeroUnsafe && RhsUnsafe < ZeroUnsafe &&
-        ResultBase < ZeroUnsafe) {
+        ResultUnsafe < ZeroUnsafe) {
       SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " - " +
                        Rhs.toString());
     }
     if (LhsUnsafe < ZeroUnsafe && RhsUnsafe > ZeroUnsafe &&
-        ResultBase > ZeroUnsafe) {
+        ResultUnsafe > ZeroUnsafe) {
       SCILLA_EXCEPTION("Integer underflow: " + Lhs.toString() + " - " +
                        Rhs.toString());
     }
     break;
   case Unsigned:
+    if (LhsUnsafe < RhsUnsafe) {
+      SCILLA_EXCEPTION("Integer underflow: " + Lhs.toString() + " + " +
+                       Rhs.toString());
+    }
     break;
   }
 
-  return SafeInt<Bits, Signedness>(ResultBase);
+  return SafeInt<Bits, Signedness>(ResultUnsafe);
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
@@ -121,7 +129,7 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator*(
   const auto &Lhs = *this;
   auto &RhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Rhs);
   auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(Lhs);
-  UnsafeWideInt<Bits, Signedness> ResultBase(LhsUnsafe * RhsUnsafe);
+  UnsafeWideInt<Bits, Signedness> ResultUnsafe(LhsUnsafe * RhsUnsafe);
 
   // Safe arithmetic checks.
   static const auto ZeroUnsafe = UnsafeWideInt<Bits, Signedness>();
@@ -134,7 +142,7 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator*(
       SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " * " +
                        Rhs.toString());
     }
-    if (RhsUnsafe != ZeroUnsafe && (ResultBase / RhsUnsafe) != LhsUnsafe) {
+    if (RhsUnsafe != ZeroUnsafe && (ResultUnsafe / RhsUnsafe) != LhsUnsafe) {
       if ((LhsUnsafe < ZeroUnsafe) == (RhsUnsafe < ZeroUnsafe)) {
         SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " * " +
                          Rhs.toString());
@@ -145,10 +153,14 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::operator*(
     }
     break;
   case Unsigned:
+    if (RhsUnsafe != ZeroUnsafe && (ResultUnsafe / RhsUnsafe) != LhsUnsafe) {
+      SCILLA_EXCEPTION("Integer overflow: " + Lhs.toString() + " * " +
+                       Rhs.toString());
+    }
     break;
   }
 
-  return SafeInt<Bits, Signedness>(ResultBase);
+  return SafeInt<Bits, Signedness>(ResultUnsafe);
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
