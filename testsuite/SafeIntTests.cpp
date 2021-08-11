@@ -271,9 +271,96 @@ void validateOverUnderFlow(const SafeInt<Bits, Signedness> &Lhs,
   testEqExn(ExpRem, GotRem);
 }
 
+template <unsigned Bits, SafeIntKind Signedness> void genOverUnderFlowTests() {
+
+  auto doTestCombns = [](const SafeInt<Bits, Signedness> &Lhs,
+                         const SafeInt<Bits, Signedness> &Rhs) {
+    validateOverUnderFlow(Lhs, Rhs);
+    validateOverUnderFlow(Rhs, Lhs);
+  };
+
+  doTestCombns(SafeInt<Bits, Signedness>::Min, SafeInt<Bits, Signedness>::Min);
+  doTestCombns(SafeInt<Bits, Signedness>::Min, SafeInt<Bits, Signedness>::Zero);
+  doTestCombns(SafeInt<Bits, Signedness>::Min, SafeInt<Bits, Signedness>::One);
+  doTestCombns(SafeInt<Bits, Signedness>::Min, SafeInt<Bits, Signedness>::Max);
+  doTestCombns(SafeInt<Bits, Signedness>::Max, SafeInt<Bits, Signedness>::Zero);
+  doTestCombns(SafeInt<Bits, Signedness>::Max, SafeInt<Bits, Signedness>::One);
+  doTestCombns(SafeInt<Bits, Signedness>::Max, SafeInt<Bits, Signedness>::Max);
+
+  auto Max_2 = SafeInt<Bits, Signedness>::Max /
+               SafeInt<Bits, Signedness>(std::string("2"));
+  auto Min_2 = SafeInt<Bits, Signedness>::Min /
+               SafeInt<Bits, Signedness>(std::string("2"));
+
+  doTestCombns(Min_2, Min_2);
+  doTestCombns(Min_2, Max_2);
+  doTestCombns(Max_2, Max_2);
+
+  doTestCombns(Min_2, SafeInt<Bits, Signedness>::Min);
+  doTestCombns(Min_2, SafeInt<Bits, Signedness>::Max);
+  doTestCombns(Max_2, SafeInt<Bits, Signedness>::Max);
+
+  doTestCombns(Min_2, SafeInt<Bits, Signedness>::Zero);
+  doTestCombns(Min_2, SafeInt<Bits, Signedness>::One);
+  doTestCombns(Max_2, SafeInt<Bits, Signedness>::Zero);
+  doTestCombns(Max_2, SafeInt<Bits, Signedness>::One);
+
+  auto Max_1_2 = (SafeInt<Bits, Signedness>::Max -
+                  SafeInt<Bits, Signedness>(std::string("1"))) /
+                 SafeInt<Bits, Signedness>(std::string("2"));
+  auto Min_1_2 = (SafeInt<Bits, Signedness>::Min +
+                  SafeInt<Bits, Signedness>(std::string("1"))) /
+                 SafeInt<Bits, Signedness>(std::string("2"));
+
+  doTestCombns(Min_1_2, Min_1_2);
+  doTestCombns(Min_1_2, Max_1_2);
+  doTestCombns(Max_1_2, Max_1_2);
+
+  doTestCombns(Min_1_2, SafeInt<Bits, Signedness>::Min);
+  doTestCombns(Min_1_2, SafeInt<Bits, Signedness>::Max);
+  doTestCombns(Max_1_2, SafeInt<Bits, Signedness>::Max);
+
+  doTestCombns(Min_1_2, SafeInt<Bits, Signedness>::Zero);
+  doTestCombns(Min_1_2, SafeInt<Bits, Signedness>::One);
+  doTestCombns(Max_1_2, SafeInt<Bits, Signedness>::Zero);
+  doTestCombns(Max_1_2, SafeInt<Bits, Signedness>::One);
+
+  doTestCombns(Min_1_2, Min_1_2);
+  doTestCombns(Min_1_2, Max_2);
+  doTestCombns(Max_2, Max_2);
+
+  doTestCombns(Min_1_2, SafeInt<Bits, Signedness>::Min);
+  doTestCombns(Min_1_2, SafeInt<Bits, Signedness>::Max);
+  doTestCombns(Max_2, SafeInt<Bits, Signedness>::Max);
+
+  doTestCombns(Min_1_2, SafeInt<Bits, Signedness>::Zero);
+  doTestCombns(Min_1_2, SafeInt<Bits, Signedness>::One);
+  doTestCombns(Max_2, SafeInt<Bits, Signedness>::Zero);
+  doTestCombns(Max_2, SafeInt<Bits, Signedness>::One);
+
+  doTestCombns(Min_2, Min_2);
+  doTestCombns(Min_2, Max_1_2);
+  doTestCombns(Max_1_2, Max_1_2);
+
+  doTestCombns(Min_2, SafeInt<Bits, Signedness>::Min);
+  doTestCombns(Min_2, SafeInt<Bits, Signedness>::Max);
+  doTestCombns(Max_1_2, SafeInt<Bits, Signedness>::Max);
+
+  doTestCombns(Min_2, SafeInt<Bits, Signedness>::Zero);
+  doTestCombns(Min_2, SafeInt<Bits, Signedness>::One);
+  doTestCombns(Max_1_2, SafeInt<Bits, Signedness>::Zero);
+  doTestCombns(Max_1_2, SafeInt<Bits, Signedness>::One);
+}
+
 BOOST_AUTO_TEST_CASE(op_safety) {
-  validateOverUnderFlow(SafeInt32::Max, SafeInt32::Max);
-  validateOverUnderFlow(SafeInt32::Max, SafeInt32::Zero);
+  genOverUnderFlowTests<32, Unsigned>();
+  genOverUnderFlowTests<64, Unsigned>();
+  genOverUnderFlowTests<128, Unsigned>();
+  genOverUnderFlowTests<256, Unsigned>();
+  genOverUnderFlowTests<32, Signed>();
+  genOverUnderFlowTests<64, Signed>();
+  genOverUnderFlowTests<128, Signed>();
+  genOverUnderFlowTests<256, Signed>();
 }
 
 BOOST_AUTO_TEST_SUITE_END()

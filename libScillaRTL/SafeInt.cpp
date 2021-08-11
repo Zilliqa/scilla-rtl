@@ -122,7 +122,7 @@ operator-(const SafeInt<Bits, Signedness> &Rhs) const {
     break;
   case Unsigned:
     if (LhsUnsafe < RhsUnsafe) {
-      SCILLA_EXCEPTION("Integer underflow: " + Lhs.toString() + " + " +
+      SCILLA_EXCEPTION("Integer underflow: " + Lhs.toString() + " - " +
                        Rhs.toString());
     }
     break;
