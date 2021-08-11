@@ -156,10 +156,40 @@ BOOST_AUTO_TEST_CASE(sanity) {
   BOOST_TEST(SafeInt256::One.toString() == "1");
 }
 
-BOOST_AUTO_TEST_CASE(string_constr) {
+template <unsigned Bits, SafeIntKind Signedness> void strSafeIntFail() {
+  using BigInt = SafeInt<512, Signed>;
+  SafeInt<Bits, Signedness>(
+      (BigInt(SafeInt<Bits, Signedness>::Max.toString()) + BigInt::One)
+          .toString());
+  SafeInt<Bits, Signedness>(
+      (BigInt(SafeInt<Bits, Signedness>::Min.toString()) - BigInt::One)
+          .toString());
+
+  switch (Signedness) {
+  case Signed: {
+    SafeInt<Bits, Signed>(SafeInt<Bits, Unsigned>::Max.toString());
+    auto NegUnsignedMax = BigInt(SafeInt<Bits, Unsigned>::Max.toString()) *
+                          BigInt(std::string("-1"));
+    SafeInt<Bits, Signed>(NegUnsignedMax.toString());
+  } break;
+  case Unsigned: {
+    SafeInt<Bits, Unsigned>(std::string("-1"));
+    SafeInt<Bits, Unsigned>(SafeInt<Bits, Signed>::Min.toString());
+  } break;
+  }
+}
+
+BOOST_AUTO_TEST_CASE(str_construct) {
   auto TrueP = [](auto) { return true; };
 
-  BOOST_CHECK_EXCEPTION(SafeUint32(std::string("-1")), ScillaError, TrueP);
+  BOOST_CHECK_EXCEPTION((strSafeIntFail<32, Unsigned>()), ScillaError, TrueP);
+  BOOST_CHECK_EXCEPTION((strSafeIntFail<64, Unsigned>()), ScillaError, TrueP);
+  BOOST_CHECK_EXCEPTION((strSafeIntFail<128, Unsigned>()), ScillaError, TrueP);
+  BOOST_CHECK_EXCEPTION((strSafeIntFail<256, Unsigned>()), ScillaError, TrueP);
+  BOOST_CHECK_EXCEPTION((strSafeIntFail<32, Signed>()), ScillaError, TrueP);
+  BOOST_CHECK_EXCEPTION((strSafeIntFail<64, Signed>()), ScillaError, TrueP);
+  BOOST_CHECK_EXCEPTION((strSafeIntFail<128, Signed>()), ScillaError, TrueP);
+  BOOST_CHECK_EXCEPTION((strSafeIntFail<256, Signed>()), ScillaError, TrueP);
 }
 
 template <unsigned Bits, SafeIntKind Signedness>
