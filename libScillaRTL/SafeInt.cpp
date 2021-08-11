@@ -229,9 +229,11 @@ SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::sqrt(void) const {
 
 template <unsigned Bits, SafeIntKind Signedness>
 SafeInt<Bits, Signedness> SafeInt<Bits, Signedness>::pow(uint32_t P) const {
-  auto &LhsUnsafe = static_cast<const UnsafeWideInt<Bits, Signedness> &>(*this);
-  // TODO: Implement safety semantics.
-  SafeInt<Bits, Signedness> Result(math::wide_integer::pow(LhsUnsafe, P));
+  const auto &Lhs = *this;
+  SafeInt<Bits, Signedness> Result(SafeInt<Bits, Signedness>::One);
+  for (unsigned I = 0; I < P; I++) {
+    Result = Result * Lhs;
+  }
   return Result;
 }
 

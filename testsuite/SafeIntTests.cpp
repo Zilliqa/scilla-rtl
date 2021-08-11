@@ -156,6 +156,12 @@ BOOST_AUTO_TEST_CASE(sanity) {
   BOOST_TEST(SafeInt256::One.toString() == "1");
 }
 
+BOOST_AUTO_TEST_CASE(string_constr) {
+  auto TrueP = [](auto) { return true; };
+
+  BOOST_CHECK_EXCEPTION(SafeUint32(std::string("-1")), ScillaError, TrueP);
+}
+
 template <unsigned Bits, SafeIntKind Signedness>
 void validateOverUnderFlow(const SafeInt<Bits, Signedness> &Lhs,
                            const SafeInt<Bits, Signedness> &Rhs) {
@@ -235,7 +241,7 @@ void validateOverUnderFlow(const SafeInt<Bits, Signedness> &Lhs,
   testEqExn(ExpRem, GotRem);
 }
 
-BOOST_AUTO_TEST_CASE(safety) {
+BOOST_AUTO_TEST_CASE(op_safety) {
   validateOverUnderFlow(SafeInt32::Max, SafeInt32::Max);
   validateOverUnderFlow(SafeInt32::Max, SafeInt32::Zero);
 }
