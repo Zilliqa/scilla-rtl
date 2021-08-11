@@ -293,6 +293,9 @@ template class SafeInt<64, SafeIntKind::Unsigned>;
 template class SafeInt<128, SafeIntKind::Unsigned>;
 template class SafeInt<256, SafeIntKind::Unsigned>;
 
+// Need to test safety from the testsuite.
+template class SafeInt<512, SafeIntKind::Signed>;
+
 std::ostream &operator<<(std::ostream &Out, const BigNum &C) {
   Out << C.toString();
   return Out;

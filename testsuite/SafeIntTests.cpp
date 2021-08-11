@@ -16,8 +16,10 @@
  */
 
 #include <boost/test/unit_test.hpp>
+#include <optional>
 
 #include "../libScillaRTL/SafeInt.h"
+#include "ScillaRTL/Errors.h"
 using namespace ScillaRTL;
 
 BOOST_AUTO_TEST_SUITE(bignum)
@@ -154,6 +156,88 @@ BOOST_AUTO_TEST_CASE(sanity) {
   BOOST_TEST(SafeInt256::One.toString() == "1");
 }
 
-BOOST_AUTO_TEST_CASE(safety) {}
+template <unsigned Bits, SafeIntKind Signedness>
+void validateOverUnderFlow(const SafeInt<Bits, Signedness> &Lhs,
+                           const SafeInt<Bits, Signedness> &Rhs) {
+
+  using SI = SafeInt<Bits, Signedness>;
+  // Execute a SafeInt operation and return exception thrown, if any.
+  auto getOpExn = [&Lhs, &Rhs](std::function<SI(const SI *, const SI &)> Op)
+      -> std::optional<ScillaError> {
+    try {
+      Op(&Lhs, Rhs);
+      return std::nullopt;
+    } catch (ScillaError E) {
+      return E;
+    }
+  };
+
+  const unsigned BigIntBits = 512;
+  static_assert(Bits < BigIntBits);
+  using BigInt = SafeInt<BigIntBits, Signed>;
+
+  auto getExpectedExn =
+      [&Lhs, &Rhs](std::function<BigInt(const BigInt *, const BigInt &)> BigOp,
+                   const std::string &OpS) -> std::optional<ScillaError> {
+    BigInt BigLhs(Lhs.toString());
+    BigInt BigRhs(Rhs.toString());
+    BigInt BigRes;
+    try {
+      BigRes = BigOp(&BigLhs, BigRhs);
+    } catch (ScillaError E) {
+      // This can happen if the operation is div/rem and Rhs is zero.
+      return E;
+    }
+    if (BigRes < BigInt(SI::Min.toString())) {
+      return ScillaError("Integer underflow: " + Lhs.toString() + OpS +
+                             Rhs.toString(),
+                         SourceLoc(), SourceLoc());
+    } else if (BigRes > BigInt(SI::Max.toString())) {
+      return ScillaError("Integer overflow: " + Lhs.toString() + OpS +
+                             Rhs.toString(),
+                         SourceLoc(), SourceLoc());
+    } else {
+      return std::nullopt;
+    }
+  };
+
+  auto testEqExn = [](std::optional<ScillaError> Exp,
+                      std::optional<ScillaError> Got) {
+    BOOST_CHECK_MESSAGE(
+        Exp.has_value() == Got.has_value() &&
+            (!Exp.has_value() || Exp->toString() == Got->toString()),
+        "SafeInt<" << Bits << ", "
+                   << (Signedness == Signed ? "Signed" : "Unsigned")
+                   << ">: Expected: \""
+                   << (Exp.has_value() ? Exp->toString() : "NoExn")
+                   << "\" but got \""
+                   << (Got.has_value() ? Got->toString() : "NoExn") << "\"");
+  };
+
+  auto GotSum = getOpExn(&SI::operator+);
+  auto ExpSum = getExpectedExn(&BigInt::operator+, " + ");
+  testEqExn(ExpSum, GotSum);
+
+  auto GotDif = getOpExn(&SI::operator-);
+  auto ExpDif = getExpectedExn(&BigInt::operator-, " - ");
+  testEqExn(ExpDif, GotDif);
+
+  auto GotProd = getOpExn(&SI::operator*);
+  auto ExpProd = getExpectedExn(&BigInt::operator*, " * ");
+  testEqExn(ExpProd, GotProd);
+
+  auto GotQ = getOpExn(&SI::operator/);
+  auto ExpQ = getExpectedExn(&BigInt::operator/, " / ");
+  testEqExn(ExpQ, GotQ);
+
+  auto GotRem = getOpExn(&SI::operator%);
+  auto ExpRem = getExpectedExn(&BigInt::operator%, " % ");
+  testEqExn(ExpRem, GotRem);
+}
+
+BOOST_AUTO_TEST_CASE(safety) {
+  validateOverUnderFlow(SafeInt32::Max, SafeInt32::Max);
+  validateOverUnderFlow(SafeInt32::Max, SafeInt32::Zero);
+}
 
 BOOST_AUTO_TEST_SUITE_END()
