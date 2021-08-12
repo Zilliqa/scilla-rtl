@@ -93,7 +93,7 @@ bool isUserAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
   SafeUint64 Nonce(NonceS);
 
   // Balance > 0 || Nonce > 0
-  return Balance > SafeUint128::min() || Nonce > SafeUint64::min();
+  return Balance > SafeUint128::Zero || Nonce > SafeUint64::Zero;
 }
 
 bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,

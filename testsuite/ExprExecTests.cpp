@@ -209,4 +209,10 @@ BOOST_AUTO_TEST_CASE(builtin_to_ascii_error) {
   testExecFailExpr("builtin_to_ascii_error");
 }
 
+BOOST_AUTO_TEST_CASE(builtin_overflow) {
+  for (auto I = 1; I <= 6; I++) {
+    testExecFailExpr("builtin_overflow" + std::to_string(I));
+  }
+}
+
 BOOST_AUTO_TEST_SUITE_END()
