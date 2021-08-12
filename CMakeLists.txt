@@ -29,7 +29,7 @@ add_compile_options(-Werror)
 add_compile_options(-pedantic)
 add_compile_options(-Wextra)
 add_compile_options(-Wno-unknown-pragmas)
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     # This seems to be a useless warning throw by clang.
     # Fixing it requires adding a whole lot of unnecessary
     # explicit instantiation declarations. Others are disabling it too.
