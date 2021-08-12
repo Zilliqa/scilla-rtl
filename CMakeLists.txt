@@ -29,6 +29,14 @@ add_compile_options(-Werror)
 add_compile_options(-pedantic)
 add_compile_options(-Wextra)
 add_compile_options(-Wno-unknown-pragmas)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    # This seems to be a useless warning throw by clang.
+    # Fixing it requires adding a whole lot of unnecessary
+    # explicit instantiation declarations. Others are disabling it too.
+    # https://github.com/dealii/dealii/issues/3705
+    # https://github.com/UCL/STIR/issues/126
+    add_compile_options(-Wno-undefined-var-template)
+endif()
 
 if (THREAD_SANITIZER AND ADDRESS_SANITIZER)
     message(FATAL_ERROR "Cannot use ThreadSanitizer (THREAD_SANITIZER=ON) and AddressSanitizer (ADDRESS_SANITIZER=ON) at the same time")
