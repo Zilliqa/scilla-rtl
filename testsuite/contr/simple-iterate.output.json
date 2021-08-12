@@ -1,58 +1,64 @@
 {
-   "_accepted" : "false",
-   "events" : [
-      {
-         "_eventname" : "FooN",
-         "params" : [
-            {
-               "type" : "Int32",
-               "value" : "21",
-               "vname" : "n"
-            }
-         ]
-      },
-      {
-         "_eventname" : "FooN",
-         "params" : [
-            {
-               "type" : "Int32",
-               "value" : "22",
-               "vname" : "n"
-            }
-         ]
-      },
-      {
-         "_eventname" : "FooN",
-         "params" : [
-            {
-               "type" : "Int32",
-               "value" : "101",
-               "vname" : "n"
-            }
-         ]
-      },
-      {
-         "_eventname" : "FooN",
-         "params" : [
-            {
-               "type" : "Int32",
-               "value" : "-1",
-               "vname" : "n"
-            }
-         ]
-      },
-      {
-         "_eventname" : "FooN",
-         "params" : [
-            {
-               "type" : "Int32",
-               "value" : "0",
-               "vname" : "n"
-            }
-         ]
-      }
-   ],
-   "gas_remaining" : "9999957",
-   "messages" : [],
-   "scilla_major_version" : "0"
+  "_accepted" : "false",
+  "events" : 
+  [
+    {
+      "_eventname" : "FooN",
+      "params" : 
+      [
+        {
+          "type" : "Int32",
+          "value" : "21",
+          "vname" : "n"
+        }
+      ]
+    },
+    {
+      "_eventname" : "FooN",
+      "params" : 
+      [
+        {
+          "type" : "Int32",
+          "value" : "22",
+          "vname" : "n"
+        }
+      ]
+    },
+    {
+      "_eventname" : "FooN",
+      "params" : 
+      [
+        {
+          "type" : "Int32",
+          "value" : "101",
+          "vname" : "n"
+        }
+      ]
+    },
+    {
+      "_eventname" : "FooN",
+      "params" : 
+      [
+        {
+          "type" : "Int32",
+          "value" : "-1",
+          "vname" : "n"
+        }
+      ]
+    },
+    {
+      "_eventname" : "FooN",
+      "params" : 
+      [
+        {
+          "type" : "Int32",
+          "value" : "0",
+          "vname" : "n"
+        }
+      ]
+    }
+  ],
+  "gas_remaining" : "9999957",
+  "messages" : [],
+  "scilla_major_version" : "0"
 }

@@ -66,8 +66,8 @@ void testStateJson(const std::string &Testname, bool ExpectError = false) {
       canonicalizeStateValue(VVal);
       canonicalizeStateValue(VValR);
       BOOST_CHECK_MESSAGE(VValR == VVal, "Comparison failed:\n" +
-                                             VVal.toStyledString() + "\nvs\n" +
-                                             VValR.toStyledString());
+                                             prettyPrintJSON(VVal) + "\nvs\n" +
+                                             prettyPrintJSON(VValR));
       BOOST_TEST_CHECKPOINT(Filename + ": " + VName.asString() +
                             " comparison successful");
     }

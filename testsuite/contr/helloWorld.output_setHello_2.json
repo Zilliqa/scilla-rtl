@@ -1,18 +1,20 @@
 {
-   "_accepted" : "false",
-   "events" : [
-      {
-         "_eventname" : "setHello()",
-         "params" : [
-            {
-               "type" : "Int32",
-               "value" : "1",
-               "vname" : "code"
-            }
-         ]
-      }
-   ],
-   "gas_remaining" : "9999987",
-   "messages" : [],
-   "scilla_major_version" : "0"
+  "_accepted" : "false",
+  "events" : 
+  [
+    {
+      "_eventname" : "setHello()",
+      "params" : 
+      [
+        {
+          "type" : "Int32",
+          "value" : "1",
+          "vname" : "code"
+        }
+      ]
+    }
+  ],
+  "gas_remaining" : "9999987",
+  "messages" : [],
+  "scilla_major_version" : "0"
 }

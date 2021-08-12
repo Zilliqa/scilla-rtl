@@ -1,7 +1,7 @@
 {
-   "_accepted" : "true",
-   "events" : [],
-   "gas_remaining" : "9999994",
-   "messages" : [],
-   "scilla_major_version" : "0"
+  "_accepted" : "true",
+  "events" : [],
+  "gas_remaining" : "9999994",
+  "messages" : [],
+  "scilla_major_version" : "0"
 }

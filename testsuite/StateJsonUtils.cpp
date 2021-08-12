@@ -17,9 +17,13 @@
 
 #include <algorithm>
 #include <boost/test/unit_test.hpp>
-#include <jsoncpp/json/value.h>
+#include <json/value.h>
+
+#include <ScillaRTL/Utils.h>
 
 namespace ScillaTestsuite {
+
+using namespace ScillaRTL;
 
 void checkEqStateVariables(const Json::Value &Expected,
                            const Json::Value &Got) {
@@ -32,8 +36,8 @@ void checkEqStateVariables(const Json::Value &Expected,
     const auto &ESV = Expected[I];
     const auto &OSV = Got[I];
     BOOST_CHECK_MESSAGE(ESV == OSV, "Comparison failed:\nExpected:\n" +
-                                        ESV.toStyledString() + "\nGot:\n" +
-                                        OSV.toStyledString());
+                                        prettyPrintJSON(ESV) + "\nGot:\n" +
+                                        prettyPrintJSON(OSV));
   }
 }
 

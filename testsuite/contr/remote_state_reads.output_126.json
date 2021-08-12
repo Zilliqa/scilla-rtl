@@ -1,10 +1,11 @@
 Exception thrown: {
-   "_exception" : "TestException",
-   "params" : [
-      {
-         "type" : "ByStr20",
-         "value" : "0x1234567890123456789012345678901234567890",
-         "vname" : "value"
-      }
-   ]
+  "_exception" : "TestException",
+  "params" : 
+  [
+    {
+      "type" : "ByStr20",
+      "value" : "0x1234567890123456789012345678901234567890",
+      "vname" : "value"
+    }
+  ]
 }

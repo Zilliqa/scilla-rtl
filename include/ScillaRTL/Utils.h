@@ -17,14 +17,13 @@
 
 #pragma once
 
+#include <any>
+#include <boost/filesystem.hpp>
+#include <json/value.h>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <variant>
-
-#include <any>
-#include <boost/filesystem.hpp>
-#include <jsoncpp/json/value.h>
-#include <optional>
 
 #include "ScillaExec.h"
 
@@ -63,6 +62,8 @@ Json::Value parseJSONFile(const std::string &Filename);
 std::optional<int> mapDepthOfTypeString(const std::string &TypeStr);
 // Serialize a JSON for storage.
 std::string serializeJSON(const Json::Value &J);
+// A portable replacement for Json::toStyledString().
+std::string prettyPrintJSON(const Json::Value &J);
 // Find "vname" in the input JSON array and return its "value".
 // Typical Scilla state JSON format is expected as input.
 std::optional<Json::Value> vNameValue(const Json::Value &Vs,
@@ -91,7 +92,7 @@ public:
 };
 
 namespace ScillaTypes {
-class Typ;
+struct Typ;
 } // namespace ScillaTypes
 
 // A state server implementation with no persistence.

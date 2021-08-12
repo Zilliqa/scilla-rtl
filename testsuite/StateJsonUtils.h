@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <jsoncpp/json/value.h>
+#include <json/value.h>
 
 namespace ScillaTestsuite {
 // Goes deep and sorts map entries, all in-place.

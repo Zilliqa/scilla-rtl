@@ -1,63 +1,82 @@
 {
-   "_accepted" : "false",
-   "events" : [
-      {
-         "_eventname" : "AllContrparams",
-         "params" : [
-            {
-               "type" : "ByStr20",
-               "value" : "0x1234567890123456789012345678901234567890",
-               "vname" : "owner"
-            },
-            {
-               "type" : "String",
-               "value" : "Zilliqa",
-               "vname" : "name"
-            },
-            {
-               "type" : "Uint256",
-               "value" : "4099",
-               "vname" : "uint256"
-            },
-            {
-               "type" : "Int32",
-               "value" : "101",
-               "vname" : "int32"
-            },
-            {
-               "type" : "ByStr",
-               "value" : "0xeeff",
-               "vname" : "bstr"
-            },
-            {
-               "type" : "List (String)",
-               "value" : {
-                  "argtypes" : [ "String" ],
-                  "arguments" : [
-                     "Anquan",
-                     {
-                        "argtypes" : [ "String" ],
-                        "arguments" : [],
-                        "constructor" : "Nil"
-                     }
-                  ],
-                  "constructor" : "Cons"
-               },
-               "vname" : "all_names"
-            },
-            {
-               "type" : "Pair (Int128) (String)",
-               "value" : {
-                  "argtypes" : [ "Int128", "String" ],
-                  "arguments" : [ "333", "Aqilliz" ],
-                  "constructor" : "Pair"
-               },
-               "vname" : "pear"
-            }
-         ]
-      }
-   ],
-   "gas_remaining" : "9999959",
-   "messages" : [],
-   "scilla_major_version" : "0"
+  "_accepted" : "false",
+  "events" : 
+  [
+    {
+      "_eventname" : "AllContrparams",
+      "params" : 
+      [
+        {
+          "type" : "ByStr20",
+          "value" : "0x1234567890123456789012345678901234567890",
+          "vname" : "owner"
+        },
+        {
+          "type" : "String",
+          "value" : "Zilliqa",
+          "vname" : "name"
+        },
+        {
+          "type" : "Uint256",
+          "value" : "4099",
+          "vname" : "uint256"
+        },
+        {
+          "type" : "Int32",
+          "value" : "101",
+          "vname" : "int32"
+        },
+        {
+          "type" : "ByStr",
+          "value" : "0xeeff",
+          "vname" : "bstr"
+        },
+        {
+          "type" : "List (String)",
+          "value" : 
+          {
+            "argtypes" : 
+            [
+              "String"
+            ],
+            "arguments" : 
+            [
+              "Anquan",
+              {
+                "argtypes" : 
+                [
+                  "String"
+                ],
+                "arguments" : [],
+                "constructor" : "Nil"
+              }
+            ],
+            "constructor" : "Cons"
+          },
+          "vname" : "all_names"
+        },
+        {
+          "type" : "Pair (Int128) (String)",
+          "value" : 
+          {
+            "argtypes" : 
+            [
+              "Int128",
+              "String"
+            ],
+            "arguments" : 
+            [
+              "333",
+              "Aqilliz"
+            ],
+            "constructor" : "Pair"
+          },
+          "vname" : "pear"
+        }
+      ]
+    }
+  ],
+  "gas_remaining" : "9999959",
+  "messages" : [],
+  "scilla_major_version" : "0"
 }

@@ -62,6 +62,11 @@ public:
 
 } // end of namespace ScillaRTL
 
+// We make sure to pass only trivially-copyable and standard-layout objects.
+// So this the warning that clang throws about returning SafeInt<> is spurious.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreturn-type-c-linkage"
+
 extern "C" {
 
 // Print Scilla value @V whose type is described by @T to ScillaStdout .
@@ -440,3 +445,5 @@ void *_dynamic_typecast(ScillaRTL::ScillaExecImpl *SJ, const void *V,
                         const ScillaRTL::ScillaTypes::Typ *T);
 
 } // extern "C"
+
+#pragma clang diagnostic pop

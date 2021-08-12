@@ -57,13 +57,13 @@ void TransitionState::processSend(Json::Value &M) {
     auto AmtV = SafeUint128(AmtJ.asString());
     if (AmtV > Balance) {
       CREATE_ERROR("Not enough balance to send _amount in message.\n" +
-                   M.toStyledString());
+                   prettyPrintJSON(M));
     }
     Balance = Balance - AmtV;
     processMessage("messages", M);
   } else {
     CREATE_ERROR("Invalid outgoing message. _amount not found.\n" +
-                 M.toStyledString());
+                 prettyPrintJSON(M));
   }
 }
 
@@ -721,7 +721,7 @@ void _event(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, const void *V) {
 void _throw(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, const void *V) {
   (void)SJ;
   auto J = ScillaValues::toJSON(T, V);
-  SCILLA_EXCEPTION("Exception thrown: " + J.toStyledString());
+  SCILLA_EXCEPTION("Exception thrown: " + prettyPrintJSON(J));
 }
 
 uint8_t *_eq_String(ScillaExecImpl *SJ, ScillaTypes::String Lhs,
@@ -1238,8 +1238,15 @@ void *_map_to_list(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,
   auto *Nil = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(ListAllocSize));
   *Nil = ScillaTypes::List_Nil_Tag;
 
+  // Sort M in descending order. When building the list, it'll get reversed.
+  std::vector<MapKeyValT> M_(M->begin(), M->end());
+  std::sort(M_.begin(), M_.end(),
+            [](const MapKeyValT &El1, const MapKeyValT &El2) {
+              return El1.first > El2.first;
+            });
+
   void *NextListElm = Nil;
-  for (const auto Itr : *M) {
+  for (const auto &Itr : M_) {
     uint8_t *PairP =
         reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(PairAllocSize));
     auto NextElm = PairP;

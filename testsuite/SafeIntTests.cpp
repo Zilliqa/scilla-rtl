@@ -203,7 +203,7 @@ void validateOverUnderFlow(const SafeInt<Bits, Signedness> &Lhs,
     try {
       Op(&Lhs, Rhs);
       return std::nullopt;
-    } catch (ScillaError E) {
+    } catch (const ScillaError &E) {
       return E;
     }
   };
@@ -220,7 +220,7 @@ void validateOverUnderFlow(const SafeInt<Bits, Signedness> &Lhs,
     BigInt BigRes;
     try {
       BigRes = BigOp(&BigLhs, BigRhs);
-    } catch (ScillaError E) {
+    } catch (const ScillaError &E) {
       // This can happen if the operation is div/rem and Rhs is zero.
       return E;
     }

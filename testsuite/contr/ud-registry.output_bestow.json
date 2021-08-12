@@ -1,43 +1,46 @@
 {
-   "_accepted" : "false",
-   "events" : [
-      {
-         "_eventname" : "NewDomain",
-         "params" : [
-            {
-               "type" : "ByStr32",
-               "value" : "0xffffffffffffffffaaaaaaaaaaaaaa0000000000000000000011111111111111",
-               "vname" : "parent"
-            },
-            {
-               "type" : "String",
-               "value" : "www.zilliqa.zil",
-               "vname" : "label"
-            }
-         ]
-      },
-      {
-         "_eventname" : "Configured",
-         "params" : [
-            {
-               "type" : "ByStr32",
-               "value" : "0x8115be476848996aa7170097336d99102f920161a13988a3edc1fd2a58677338",
-               "vname" : "node"
-            },
-            {
-               "type" : "ByStr20",
-               "value" : "0x0011ccdc9012345678901234567890f777567895",
-               "vname" : "owner"
-            },
-            {
-               "type" : "ByStr20",
-               "value" : "0x1100ccdc9012345678901234567890f777567895",
-               "vname" : "resolver"
-            }
-         ]
-      }
-   ],
-   "gas_remaining" : "9999913",
-   "messages" : [],
-   "scilla_major_version" : "0"
+  "_accepted" : "false",
+  "events" : 
+  [
+    {
+      "_eventname" : "NewDomain",
+      "params" : 
+      [
+        {
+          "type" : "ByStr32",
+          "value" : "0xffffffffffffffffaaaaaaaaaaaaaa0000000000000000000011111111111111",
+          "vname" : "parent"
+        },
+        {
+          "type" : "String",
+          "value" : "www.zilliqa.zil",
+          "vname" : "label"
+        }
+      ]
+    },
+    {
+      "_eventname" : "Configured",
+      "params" : 
+      [
+        {
+          "type" : "ByStr32",
+          "value" : "0x8115be476848996aa7170097336d99102f920161a13988a3edc1fd2a58677338",
+          "vname" : "node"
+        },
+        {
+          "type" : "ByStr20",
+          "value" : "0x0011ccdc9012345678901234567890f777567895",
+          "vname" : "owner"
+        },
+        {
+          "type" : "ByStr20",
+          "value" : "0x1100ccdc9012345678901234567890f777567895",
+          "vname" : "resolver"
+        }
+      ]
+    }
+  ],
+  "gas_remaining" : "9999913",
+  "messages" : [],
+  "scilla_major_version" : "0"
 }

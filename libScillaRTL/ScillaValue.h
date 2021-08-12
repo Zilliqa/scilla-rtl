@@ -17,10 +17,9 @@
 
 #pragma once
 
-#include <string>
-
 #include <boost/multiprecision/cpp_int.hpp>
-#include <jsoncpp/json/value.h>
+#include <json/value.h>
+#include <string>
 
 #include "SRTL.h"
 #include "ScillaTypes.h"
@@ -28,6 +27,7 @@
 namespace ScillaRTL {
 
 class ObjManager;
+using MapKeyValT = std::pair<std::string, std::any>;
 
 namespace ScillaValues {
 
