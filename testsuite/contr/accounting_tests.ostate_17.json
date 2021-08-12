@@ -1,0 +1,27 @@
+[
+   {
+      "type" : "Uint128",
+      "value" : "20",
+      "vname" : "_balance"
+   },
+   {
+      "type" : "Uint128",
+      "value" : "3",
+      "vname" : "max_outgoing_msgs"
+   },
+   {
+      "type" : "Uint128",
+      "value" : "10",
+      "vname" : "outgoing_amount"
+   },
+   {
+      "type" : "String",
+      "value" : "Hello",
+      "vname" : "test_string_1"
+   },
+   {
+      "type" : "String",
+      "value" : "World",
+      "vname" : "test_string_2"
+   }
+]

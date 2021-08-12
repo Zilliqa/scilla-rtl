@@ -52,7 +52,19 @@ void TransitionState::processMessage(std::string OutType, Json::Value &M) {
 }
 
 void TransitionState::processSend(Json::Value &M) {
-  processMessage("messages", M);
+  Json::Value AmtJ = M.get("_amount", Json::nullValue);
+  if (AmtJ.isString()) {
+    auto AmtV = SafeUint128(AmtJ.asString());
+    if (AmtV > Balance) {
+      CREATE_ERROR("Not enough balance to send _amount in message.\n" +
+                   M.toStyledString());
+    }
+    Balance = Balance - AmtV;
+    processMessage("messages", M);
+  } else {
+    CREATE_ERROR("Invalid outgoing message. _amount not found.\n" +
+                 M.toStyledString());
+  }
 }
 
 void TransitionState::processEvent(Json::Value &M) {
@@ -69,19 +81,9 @@ void TransitionState::processAccept(void) {
 bool TransitionState::HasAccepted(void) const { return Accepted; }
 
 Json::Value TransitionState::finalize(uint64_t GasRem) {
-  // 1. Process all outgoing "_amount"s and subtract from Balance.
+  // 1. If there are no ougoing messages, set an empty array.
   Json::Value &Ms = OutJ["messages"];
-  if (Ms.isArray()) {
-    for (const Json::Value &M : Ms) {
-      auto Amount = M["_amount"];
-      ASSERT(Amount.isString());
-      SafeUint128 AmountSUI(Amount.asString());
-      if (AmountSUI > Balance) {
-        SCILLA_EXCEPTION("Not enough balance to send _amount in all messages");
-      }
-      Balance = Balance - AmountSUI;
-    }
-  } else {
+  if (!Ms.isArray()) {
     Ms = Json::arrayValue;
   }
 
@@ -238,20 +240,7 @@ void *fetchFieldHelper(ScillaExecImpl *SJ, const std::string &Addr,
     } else {
       auto Val = boost::any_cast<std::string>(StringOrMapVal);
       Json::Value ValJ = parseJSONString(Val);
-      auto Res = ScillaValues::fromJSON(SJ->OM, T, ValJ);
-      // If the query is for `_sender`'s  `_balance`, and we've accepted
-      // money being sent in, then that must be subtracted and shown.
-      if (std::string(Name) == "_balance" && !Addr.empty() &&
-          Addr == SJ->TS->SenderAddr && SJ->TS->HasAccepted()) {
-        // Assert that the value we're returning is indeed Uint128.
-        ASSERT(T->m_t == ScillaTypes::Typ::Prim_typ &&
-               T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Uint_typ &&
-               T->m_sub.m_primt->m_detail.m_intBW ==
-                   ScillaTypes::PrimTyp::Bits128);
-        auto *SenderBal = reinterpret_cast<SafeUint128 *>(Res);
-        *SenderBal = *SenderBal - SJ->TS->InAmount;
-      }
-      return Res;
+      return ScillaValues::fromJSON(SJ->OM, T, ValJ);
     }
   }
 
@@ -273,7 +262,7 @@ void *uintToByStrX(ScillaExecImpl *SJ, SafeInt<X, Unsigned> I) {
   std::memcpy(Mem, &I, Len);
 #if BOOST_ENDIAN_LITTLE_BYTE
   // Native integer is little-endian. Convert it to big-endian.
-  ScillaValues::swapEndian(reinterpret_cast<uint8_t *>(Mem), Len);
+  ScillaValues::revBytes(reinterpret_cast<uint8_t *>(Mem), Len);
 #endif
   return Mem;
 }
@@ -287,7 +276,7 @@ void byStrXToUint(SafeInt<X, Unsigned> &UI, void *BX, int L) {
   std::memcpy(UIAddr + (Len - L), BX, L);
 #if BOOST_ENDIAN_LITTLE_BYTE
   // Native integer is little-endian. Convert it to big-endian.
-  ScillaValues::swapEndian(UIAddr, Len);
+  ScillaValues::revBytes(UIAddr, Len);
 #endif
 }
 
@@ -355,7 +344,7 @@ void *_salloc(ScillaExecImpl *SJ, size_t size) {
   return SJ->OM.allocBytes(size);
 }
 
-void _out_of_gas() { SCILLA_EXCEPTION("Ran out of gas"); }
+void _out_of_gas() { ScillaExecImpl::outOfGasException(); }
 
 SafeInt32 _add_Int32(SafeInt32 Lhs, SafeInt32 Rhs) { return Lhs + Rhs; }
 
@@ -460,6 +449,36 @@ SafeUint128 _rem_Uint128(SafeUint128 Lhs, SafeUint128 Rhs) { return Lhs % Rhs; }
 SafeUint256 *_rem_Uint256(ScillaExecImpl *SJ, SafeUint256 *Lhs,
                           SafeUint256 *Rhs) {
   return SJ->OM.create<SafeUint256>(*Lhs % *Rhs);
+}
+
+SafeUint32 _isqrt_Uint32(SafeUint32 Lhs) { return Lhs.sqrt(); }
+
+SafeUint64 _isqrt_Uint64(SafeUint64 Lhs) { return Lhs.sqrt(); }
+
+SafeUint128 _isqrt_Uint128(SafeUint128 Lhs) { return Lhs.sqrt(); }
+
+SafeUint256 *_isqrt_Uint256(ScillaExecImpl *SJ, SafeUint256 *Lhs) {
+  return SJ->OM.create<SafeUint256>(Lhs->sqrt());
+}
+
+SafeInt32 _pow_Int32(SafeInt32 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeInt64 _pow_Int64(SafeInt64 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeInt128 _pow_Int128(SafeInt128 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeInt256 *_pow_Int256(ScillaExecImpl *SJ, SafeInt256 *Lhs, uint32_t P) {
+  return SJ->OM.create<SafeInt256>(Lhs->pow(P));
+}
+
+SafeUint32 _pow_Uint32(SafeUint32 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeUint64 _pow_Uint64(SafeUint64 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeUint128 _pow_Uint128(SafeUint128 Lhs, uint32_t P) { return Lhs.pow(P); }
+
+SafeUint256 *_pow_Uint256(ScillaExecImpl *SJ, SafeUint256 *Lhs, uint32_t P) {
+  return SJ->OM.create<SafeUint256>(Lhs->pow(P));
 }
 
 uint8_t *_eq_Int32(ScillaExecImpl *SJ, SafeInt32 Lhs, SafeInt32 Rhs) {
@@ -576,8 +595,6 @@ void *_fetch_field(ScillaExecImpl *SJ, const char *Name,
   if (std::string(Name) == "_balance") {
     // TODO: This is inefficient, It also allocates memory on every call.
     // A better idea: https://github.com/Zilliqa/scilla-compiler/issues/73.
-    // On the other hand, due to https://github.com/Zilliqa/scilla/issues/1007,
-    // we may want to get rid of this special handling altogether.
     return SJ->OM.create<SafeUint128>(SJ->TS->getCurBal());
   }
   return fetchFieldHelper(SJ, std::string(), Name, T, NumIdx, Indices,
@@ -1054,6 +1071,30 @@ void *_concat_ByStrX(ScillaExecImpl *SJ, int X1, uint8_t *Lhs, int X2,
   return Buf;
 }
 
+ScillaTypes::String _strrev_String(ScillaExecImpl *SJ,
+                                   ScillaTypes::String Lhs) {
+
+  ScillaTypes::String Ret;
+  Ret.m_length = Lhs.m_length;
+  auto Buf = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(Ret.m_length));
+  std::memcpy(Buf, Lhs.m_buffer, Lhs.m_length);
+  ScillaValues::revBytes(Buf, Ret.m_length);
+  Ret.m_buffer = Buf;
+  return Ret;
+}
+
+ScillaTypes::String _strrev_ByStr(ScillaExecImpl *SJ, ScillaTypes::String Lhs) {
+  return _strrev_String(SJ, Lhs);
+}
+
+void *_strrev_ByStrX(ScillaExecImpl *SJ, int X1, uint8_t *Lhs) {
+
+  auto *Buf = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(X1));
+  std::memcpy(Buf, Lhs, X1);
+  ScillaValues::revBytes(Buf, X1);
+  return Buf;
+}
+
 SafeUint32 _strlen_String(ScillaTypes::String Str) {
   uint32_t Len = static_cast<uint32_t>(Str.m_length);
   return SafeUint32(Len);
@@ -1264,6 +1305,37 @@ uint64_t _lengthof(const ScillaTypes::Typ *T, const void *V) {
   }
   default:
     CREATE_ERROR("_lengthof: Invalid input value");
+  }
+}
+
+void *_dynamic_typecast(ScillaExecImpl *SJ, const void *V,
+                        const ScillaTypes::Typ *T) {
+  ASSERT_MSG(
+      T->m_t == ScillaTypes::Typ::Address_typ ||
+          (T->m_t == ScillaTypes::Typ::Prim_typ &&
+           T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Bystrx_typ &&
+           T->m_sub.m_primt->m_detail.m_bystX == ScillaTypes::AddrByStr_Len),
+      "Expected address compatible type for dynamic typecast");
+
+  // We don't charge explicitly for dynamic typecheck here because
+  // it was embedded into the AST and code generated.
+  bool Succ = dynamicTypecheck(SJ, T, T, V, false /* ChargeGas */);
+
+  if (Succ) {
+    // Wrap with "Some".
+    // Allocate memory for "Some" = sizeOf (T) + 1 byte for Tag.
+    ASSERT(!ScillaTypes::Typ::isBoxed(T));
+    int MemSize = ScillaTypes::Typ::sizeOf(T) + 1;
+    auto Mem = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(MemSize));
+    *Mem = ScillaTypes::Option_Some_Tag;
+    std::memcpy((Mem + 1), V, MemSize - 1);
+    return Mem;
+  } else {
+    // Wrap with Scilla object "None", which has only a Tag.
+    int MemSize = 1;
+    auto Mem = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(MemSize));
+    *Mem = ScillaTypes::Option_None_Tag;
+    return Mem;
   }
 }
 

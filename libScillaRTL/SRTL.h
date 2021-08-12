@@ -41,6 +41,8 @@ const auto Ecdsa_Pubkey_Uncompressed_Len = 65;
 
 const auto Zilliqa_Address_Len = 20;
 
+const uint64_t GasScaleFactor = 8;
+
 // Fetch the type of a remote field, if it exists.
 std::optional<std::string> remoteFieldType(const ScillaExecImpl *SJ,
                                            const std::string &Addr,
@@ -54,7 +56,9 @@ bool isUserAddr(const ScillaExecImpl *SJ, const std::string &Addr);
 // Check that @Val is of type @Target. Asserts valueCompatible(Target, ParsedT).
 // @ParsedT is the type specified in the JSON from which @Val is parsed.
 // The dynamic typecheck itself is essentially ensuring that Addresses conform.
+// Gas is charged only when specified.
 bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *Target,
-                      const ScillaTypes::Typ *ParsedT, void *Val);
+                      const ScillaTypes::Typ *ParsedT, const void *Val,
+                      bool ChargeGas);
 
 } // namespace ScillaRTL

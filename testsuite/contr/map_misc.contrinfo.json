@@ -59,6 +59,16 @@
   },
   "warnings": [
     {
+      "warning_message": "Write only field: m2",
+      "start_location": {
+        "file": "../../scilla-compiler//tests/codegen/contr/map_misc.scilla",
+        "line": 25,
+        "column": 3
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    },
+    {
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file": "../../scilla-compiler//tests/codegen/contr/map_misc.scilla",

@@ -205,9 +205,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %TName_Bool = type { i8, %CName_True*, %CName_False* }
 %CName_True = type <{ i8 }>
 %CName_False = type <{ i8 }>
-%"$ParamDescr_1835" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_2079" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_1836" = type { %ParamDescrString, i32, %"$ParamDescr_1835"* }
+%"$TransDescr_2080" = type { %ParamDescrString, i32, %"$ParamDescr_2079"* }
 %"$$fundef_165_env_216" = type { %TName_Bool* }
 %"$$fundef_163_env_217" = type {}
 %Uint32 = type { i32 }
@@ -265,9 +265,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @BoolUtils.andb = global { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } zeroinitializer
 @_tydescr_table = constant [15 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_192", %_TyDescrTy_Typ* @"$TyDescr_Int64_174", %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_200", %_TyDescrTy_Typ* @"$TyDescr_Uint256_184", %_TyDescrTy_Typ* @"$TyDescr_Uint32_172", %_TyDescrTy_Typ* @"$TyDescr_Uint64_176", %_TyDescrTy_Typ* @"$TyDescr_Bnum_188", %_TyDescrTy_Typ* @"$TyDescr_Uint128_180", %_TyDescrTy_Typ* @"$TyDescr_Exception_194", %_TyDescrTy_Typ* @"$TyDescr_String_186", %_TyDescrTy_Typ* @"$TyDescr_Int256_182", %_TyDescrTy_Typ* @"$TyDescr_Int128_178", %_TyDescrTy_Typ* @"$TyDescr_Bystr_196", %_TyDescrTy_Typ* @"$TyDescr_Message_190", %_TyDescrTy_Typ* @"$TyDescr_Int32_170"]
 @_tydescr_table_length = constant i32 15
-@_contract_parameters = constant [0 x %"$ParamDescr_1835"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_2079"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_1836"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_2080"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define internal %TName_Bool* @"$fundef_165"(%"$$fundef_165_env_216"* %0, %TName_Bool* %1) !dbg !4 {
@@ -505,34 +505,33 @@ entry:
   %"$consume_314" = sub i64 %"$gasrem_310", 1
   store i64 %"$consume_314", i64* @_gasrem, align 8
   %res = alloca %Uint32, align 8
-  %"$arg1_315" = load %Uint32, %Uint32* %arg1, align 4
-  %"$arg2_316" = load %Uint32, %Uint32* %arg2, align 4
-  %"$mul_call_317" = call %Uint32 @_mul_Uint32(%Uint32 %"$arg1_315", %Uint32 %"$arg2_316"), !dbg !24
-  store %Uint32 %"$mul_call_317", %Uint32* %res, align 4, !dbg !24
-  %"$gasrem_318" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_319" = icmp ugt i64 1, %"$gasrem_318"
-  br i1 %"$gascmp_319", label %"$out_of_gas_320", label %"$have_gas_321"
+  %"$gasrem_315" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_316" = icmp ugt i64 20, %"$gasrem_315"
+  br i1 %"$gascmp_316", label %"$out_of_gas_317", label %"$have_gas_318"
 
-"$out_of_gas_320":                                ; preds = %"$have_gas_313"
+"$out_of_gas_317":                                ; preds = %"$have_gas_313"
   call void @_out_of_gas()
-  br label %"$have_gas_321"
+  br label %"$have_gas_318"
 
-"$have_gas_321":                                  ; preds = %"$out_of_gas_320", %"$have_gas_313"
-  %"$consume_322" = sub i64 %"$gasrem_318", 1
-  store i64 %"$consume_322", i64* @_gasrem, align 8
-  %res_ = alloca %Uint32, align 8
+"$have_gas_318":                                  ; preds = %"$out_of_gas_317", %"$have_gas_313"
+  %"$consume_319" = sub i64 %"$gasrem_315", 20
+  store i64 %"$consume_319", i64* @_gasrem, align 8
+  %"$arg1_320" = load %Uint32, %Uint32* %arg1, align 4
+  %"$arg2_321" = load %Uint32, %Uint32* %arg2, align 4
+  %"$mul_call_322" = call %Uint32 @_mul_Uint32(%Uint32 %"$arg1_320", %Uint32 %"$arg2_321"), !dbg !24
+  store %Uint32 %"$mul_call_322", %Uint32* %res, align 4, !dbg !24
   %"$gasrem_323" = load i64, i64* @_gasrem, align 8
   %"$gascmp_324" = icmp ugt i64 1, %"$gasrem_323"
   br i1 %"$gascmp_324", label %"$out_of_gas_325", label %"$have_gas_326"
 
-"$out_of_gas_325":                                ; preds = %"$have_gas_321"
+"$out_of_gas_325":                                ; preds = %"$have_gas_318"
   call void @_out_of_gas()
   br label %"$have_gas_326"
 
-"$have_gas_326":                                  ; preds = %"$out_of_gas_325", %"$have_gas_321"
+"$have_gas_326":                                  ; preds = %"$out_of_gas_325", %"$have_gas_318"
   %"$consume_327" = sub i64 %"$gasrem_323", 1
   store i64 %"$consume_327", i64* @_gasrem, align 8
-  store %Uint32 { i32 3398492 }, %Uint32* %res_, align 4, !dbg !25
+  %res_ = alloca %Uint32, align 8
   %"$gasrem_328" = load i64, i64* @_gasrem, align 8
   %"$gascmp_329" = icmp ugt i64 1, %"$gasrem_328"
   br i1 %"$gascmp_329", label %"$out_of_gas_330", label %"$have_gas_331"
@@ -544,75 +543,74 @@ entry:
 "$have_gas_331":                                  ; preds = %"$out_of_gas_330", %"$have_gas_326"
   %"$consume_332" = sub i64 %"$gasrem_328", 1
   store i64 %"$consume_332", i64* @_gasrem, align 8
+  store %Uint32 { i32 3398492 }, %Uint32* %res_, align 4, !dbg !25
+  %"$gasrem_333" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_334" = icmp ugt i64 1, %"$gasrem_333"
+  br i1 %"$gascmp_334", label %"$out_of_gas_335", label %"$have_gas_336"
+
+"$out_of_gas_335":                                ; preds = %"$have_gas_331"
+  call void @_out_of_gas()
+  br label %"$have_gas_336"
+
+"$have_gas_336":                                  ; preds = %"$out_of_gas_335", %"$have_gas_331"
+  %"$consume_337" = sub i64 %"$gasrem_333", 1
+  store i64 %"$consume_337", i64* @_gasrem, align 8
   %test_ = alloca %TName_Bool*, align 8
-  %"$execptr_load_333" = load i8*, i8** @_execptr, align 8
-  %"$res_334" = load %Uint32, %Uint32* %res, align 4
-  %"$res__335" = load %Uint32, %Uint32* %res_, align 4
-  %"$eq_call_336" = call %TName_Bool* @_eq_Uint32(i8* %"$execptr_load_333", %Uint32 %"$res_334", %Uint32 %"$res__335"), !dbg !26
-  store %TName_Bool* %"$eq_call_336", %TName_Bool** %test_, align 8, !dbg !26
   %"$gasrem_338" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_339" = icmp ugt i64 1, %"$gasrem_338"
+  %"$gascmp_339" = icmp ugt i64 4, %"$gasrem_338"
   br i1 %"$gascmp_339", label %"$out_of_gas_340", label %"$have_gas_341"
 
-"$out_of_gas_340":                                ; preds = %"$have_gas_331"
+"$out_of_gas_340":                                ; preds = %"$have_gas_336"
   call void @_out_of_gas()
   br label %"$have_gas_341"
 
-"$have_gas_341":                                  ; preds = %"$out_of_gas_340", %"$have_gas_331"
-  %"$consume_342" = sub i64 %"$gasrem_338", 1
+"$have_gas_341":                                  ; preds = %"$out_of_gas_340", %"$have_gas_336"
+  %"$consume_342" = sub i64 %"$gasrem_338", 4
   store i64 %"$consume_342", i64* @_gasrem, align 8
+  %"$execptr_load_343" = load i8*, i8** @_execptr, align 8
+  %"$res_344" = load %Uint32, %Uint32* %res, align 4
+  %"$res__345" = load %Uint32, %Uint32* %res_, align 4
+  %"$eq_call_346" = call %TName_Bool* @_eq_Uint32(i8* %"$execptr_load_343", %Uint32 %"$res_344", %Uint32 %"$res__345"), !dbg !26
+  store %TName_Bool* %"$eq_call_346", %TName_Bool** %test_, align 8, !dbg !26
+  %"$gasrem_348" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_349" = icmp ugt i64 1, %"$gasrem_348"
+  br i1 %"$gascmp_349", label %"$out_of_gas_350", label %"$have_gas_351"
+
+"$out_of_gas_350":                                ; preds = %"$have_gas_341"
+  call void @_out_of_gas()
+  br label %"$have_gas_351"
+
+"$have_gas_351":                                  ; preds = %"$out_of_gas_350", %"$have_gas_341"
+  %"$consume_352" = sub i64 %"$gasrem_348", 1
+  store i64 %"$consume_352", i64* @_gasrem, align 8
   %"$BoolUtils.andb_121" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_343" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_344" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_343", 0
-  %"$BoolUtils.andb_envptr_345" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_343", 1
-  %"$test_346" = load %TName_Bool*, %TName_Bool** %test, align 8
-  %"$BoolUtils.andb_call_347" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_344"(i8* %"$BoolUtils.andb_envptr_345", %TName_Bool* %"$test_346"), !dbg !27
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_347", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_121", align 8, !dbg !27
+  %"$BoolUtils.andb_353" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_354" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_353", 0
+  %"$BoolUtils.andb_envptr_355" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_353", 1
+  %"$test_356" = load %TName_Bool*, %TName_Bool** %test, align 8
+  %"$BoolUtils.andb_call_357" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_354"(i8* %"$BoolUtils.andb_envptr_355", %TName_Bool* %"$test_356"), !dbg !27
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_357", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_121", align 8, !dbg !27
   %"$BoolUtils.andb_122" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_121_348" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_121", align 8
-  %"$$BoolUtils.andb_121_fptr_349" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_121_348", 0
-  %"$$BoolUtils.andb_121_envptr_350" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_121_348", 1
-  %"$test__351" = load %TName_Bool*, %TName_Bool** %test_, align 8
-  %"$$BoolUtils.andb_121_call_352" = call %TName_Bool* %"$$BoolUtils.andb_121_fptr_349"(i8* %"$$BoolUtils.andb_121_envptr_350", %TName_Bool* %"$test__351"), !dbg !27
-  store %TName_Bool* %"$$BoolUtils.andb_121_call_352", %TName_Bool** %"$BoolUtils.andb_122", align 8, !dbg !27
-  %"$$BoolUtils.andb_122_353" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_122", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_122_353", %TName_Bool** %"$test_0", align 8, !dbg !27
-  %"$gasrem_354" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_355" = icmp ugt i64 1, %"$gasrem_354"
-  br i1 %"$gascmp_355", label %"$out_of_gas_356", label %"$have_gas_357"
-
-"$out_of_gas_356":                                ; preds = %"$have_gas_341"
-  call void @_out_of_gas()
-  br label %"$have_gas_357"
-
-"$have_gas_357":                                  ; preds = %"$out_of_gas_356", %"$have_gas_341"
-  %"$consume_358" = sub i64 %"$gasrem_354", 1
-  store i64 %"$consume_358", i64* @_gasrem, align 8
-  %"$arg2_1" = alloca %Int32, align 8
-  %"$gasrem_359" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_360" = icmp ugt i64 1, %"$gasrem_359"
-  br i1 %"$gascmp_360", label %"$out_of_gas_361", label %"$have_gas_362"
-
-"$out_of_gas_361":                                ; preds = %"$have_gas_357"
-  call void @_out_of_gas()
-  br label %"$have_gas_362"
-
-"$have_gas_362":                                  ; preds = %"$out_of_gas_361", %"$have_gas_357"
-  %"$consume_363" = sub i64 %"$gasrem_359", 1
-  store i64 %"$consume_363", i64* @_gasrem, align 8
-  store %Int32 { i32 1844 }, %Int32* %"$arg2_1", align 4, !dbg !28
+  %"$$BoolUtils.andb_121_358" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_121", align 8
+  %"$$BoolUtils.andb_121_fptr_359" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_121_358", 0
+  %"$$BoolUtils.andb_121_envptr_360" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_121_358", 1
+  %"$test__361" = load %TName_Bool*, %TName_Bool** %test_, align 8
+  %"$$BoolUtils.andb_121_call_362" = call %TName_Bool* %"$$BoolUtils.andb_121_fptr_359"(i8* %"$$BoolUtils.andb_121_envptr_360", %TName_Bool* %"$test__361"), !dbg !27
+  store %TName_Bool* %"$$BoolUtils.andb_121_call_362", %TName_Bool** %"$BoolUtils.andb_122", align 8, !dbg !27
+  %"$$BoolUtils.andb_122_363" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_122", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_122_363", %TName_Bool** %"$test_0", align 8, !dbg !27
   %"$gasrem_364" = load i64, i64* @_gasrem, align 8
   %"$gascmp_365" = icmp ugt i64 1, %"$gasrem_364"
   br i1 %"$gascmp_365", label %"$out_of_gas_366", label %"$have_gas_367"
 
-"$out_of_gas_366":                                ; preds = %"$have_gas_362"
+"$out_of_gas_366":                                ; preds = %"$have_gas_351"
   call void @_out_of_gas()
   br label %"$have_gas_367"
 
-"$have_gas_367":                                  ; preds = %"$out_of_gas_366", %"$have_gas_362"
+"$have_gas_367":                                  ; preds = %"$out_of_gas_366", %"$have_gas_351"
   %"$consume_368" = sub i64 %"$gasrem_364", 1
   store i64 %"$consume_368", i64* @_gasrem, align 8
-  %"$arg1_2" = alloca %Int32, align 8
+  %"$arg2_1" = alloca %Int32, align 8
   %"$gasrem_369" = load i64, i64* @_gasrem, align 8
   %"$gascmp_370" = icmp ugt i64 1, %"$gasrem_369"
   br i1 %"$gascmp_370", label %"$out_of_gas_371", label %"$have_gas_372"
@@ -624,7 +622,7 @@ entry:
 "$have_gas_372":                                  ; preds = %"$out_of_gas_371", %"$have_gas_367"
   %"$consume_373" = sub i64 %"$gasrem_369", 1
   store i64 %"$consume_373", i64* @_gasrem, align 8
-  store %Int32 { i32 -1843 }, %Int32* %"$arg1_2", align 4, !dbg !29
+  store %Int32 { i32 1844 }, %Int32* %"$arg2_1", align 4, !dbg !28
   %"$gasrem_374" = load i64, i64* @_gasrem, align 8
   %"$gascmp_375" = icmp ugt i64 1, %"$gasrem_374"
   br i1 %"$gascmp_375", label %"$out_of_gas_376", label %"$have_gas_377"
@@ -636,7 +634,7 @@ entry:
 "$have_gas_377":                                  ; preds = %"$out_of_gas_376", %"$have_gas_372"
   %"$consume_378" = sub i64 %"$gasrem_374", 1
   store i64 %"$consume_378", i64* @_gasrem, align 8
-  %"$test_6" = alloca %TName_Bool*, align 8
+  %"$arg1_2" = alloca %Int32, align 8
   %"$gasrem_379" = load i64, i64* @_gasrem, align 8
   %"$gascmp_380" = icmp ugt i64 1, %"$gasrem_379"
   br i1 %"$gascmp_380", label %"$out_of_gas_381", label %"$have_gas_382"
@@ -648,139 +646,137 @@ entry:
 "$have_gas_382":                                  ; preds = %"$out_of_gas_381", %"$have_gas_377"
   %"$consume_383" = sub i64 %"$gasrem_379", 1
   store i64 %"$consume_383", i64* @_gasrem, align 8
+  store %Int32 { i32 -1843 }, %Int32* %"$arg1_2", align 4, !dbg !29
+  %"$gasrem_384" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_385" = icmp ugt i64 1, %"$gasrem_384"
+  br i1 %"$gascmp_385", label %"$out_of_gas_386", label %"$have_gas_387"
+
+"$out_of_gas_386":                                ; preds = %"$have_gas_382"
+  call void @_out_of_gas()
+  br label %"$have_gas_387"
+
+"$have_gas_387":                                  ; preds = %"$out_of_gas_386", %"$have_gas_382"
+  %"$consume_388" = sub i64 %"$gasrem_384", 1
+  store i64 %"$consume_388", i64* @_gasrem, align 8
+  %"$test_6" = alloca %TName_Bool*, align 8
+  %"$gasrem_389" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_390" = icmp ugt i64 1, %"$gasrem_389"
+  br i1 %"$gascmp_390", label %"$out_of_gas_391", label %"$have_gas_392"
+
+"$out_of_gas_391":                                ; preds = %"$have_gas_387"
+  call void @_out_of_gas()
+  br label %"$have_gas_392"
+
+"$have_gas_392":                                  ; preds = %"$out_of_gas_391", %"$have_gas_387"
+  %"$consume_393" = sub i64 %"$gasrem_389", 1
+  store i64 %"$consume_393", i64* @_gasrem, align 8
   %"$res_3" = alloca %Int32, align 8
-  %"$$arg1_2_384" = load %Int32, %Int32* %"$arg1_2", align 4
-  %"$$arg2_1_385" = load %Int32, %Int32* %"$arg2_1", align 4
-  %"$mul_call_386" = call %Int32 @_mul_Int32(%Int32 %"$$arg1_2_384", %Int32 %"$$arg2_1_385"), !dbg !30
-  store %Int32 %"$mul_call_386", %Int32* %"$res_3", align 4, !dbg !30
-  %"$gasrem_387" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_388" = icmp ugt i64 1, %"$gasrem_387"
-  br i1 %"$gascmp_388", label %"$out_of_gas_389", label %"$have_gas_390"
+  %"$gasrem_394" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_395" = icmp ugt i64 20, %"$gasrem_394"
+  br i1 %"$gascmp_395", label %"$out_of_gas_396", label %"$have_gas_397"
 
-"$out_of_gas_389":                                ; preds = %"$have_gas_382"
+"$out_of_gas_396":                                ; preds = %"$have_gas_392"
   call void @_out_of_gas()
-  br label %"$have_gas_390"
+  br label %"$have_gas_397"
 
-"$have_gas_390":                                  ; preds = %"$out_of_gas_389", %"$have_gas_382"
-  %"$consume_391" = sub i64 %"$gasrem_387", 1
-  store i64 %"$consume_391", i64* @_gasrem, align 8
+"$have_gas_397":                                  ; preds = %"$out_of_gas_396", %"$have_gas_392"
+  %"$consume_398" = sub i64 %"$gasrem_394", 20
+  store i64 %"$consume_398", i64* @_gasrem, align 8
+  %"$$arg1_2_399" = load %Int32, %Int32* %"$arg1_2", align 4
+  %"$$arg2_1_400" = load %Int32, %Int32* %"$arg2_1", align 4
+  %"$mul_call_401" = call %Int32 @_mul_Int32(%Int32 %"$$arg1_2_399", %Int32 %"$$arg2_1_400"), !dbg !30
+  store %Int32 %"$mul_call_401", %Int32* %"$res_3", align 4, !dbg !30
+  %"$gasrem_402" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_403" = icmp ugt i64 1, %"$gasrem_402"
+  br i1 %"$gascmp_403", label %"$out_of_gas_404", label %"$have_gas_405"
+
+"$out_of_gas_404":                                ; preds = %"$have_gas_397"
+  call void @_out_of_gas()
+  br label %"$have_gas_405"
+
+"$have_gas_405":                                  ; preds = %"$out_of_gas_404", %"$have_gas_397"
+  %"$consume_406" = sub i64 %"$gasrem_402", 1
+  store i64 %"$consume_406", i64* @_gasrem, align 8
   %"$res__4" = alloca %Int32, align 8
-  %"$gasrem_392" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_393" = icmp ugt i64 1, %"$gasrem_392"
-  br i1 %"$gascmp_393", label %"$out_of_gas_394", label %"$have_gas_395"
-
-"$out_of_gas_394":                                ; preds = %"$have_gas_390"
-  call void @_out_of_gas()
-  br label %"$have_gas_395"
-
-"$have_gas_395":                                  ; preds = %"$out_of_gas_394", %"$have_gas_390"
-  %"$consume_396" = sub i64 %"$gasrem_392", 1
-  store i64 %"$consume_396", i64* @_gasrem, align 8
-  store %Int32 { i32 -3398492 }, %Int32* %"$res__4", align 4, !dbg !31
-  %"$gasrem_397" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_398" = icmp ugt i64 1, %"$gasrem_397"
-  br i1 %"$gascmp_398", label %"$out_of_gas_399", label %"$have_gas_400"
-
-"$out_of_gas_399":                                ; preds = %"$have_gas_395"
-  call void @_out_of_gas()
-  br label %"$have_gas_400"
-
-"$have_gas_400":                                  ; preds = %"$out_of_gas_399", %"$have_gas_395"
-  %"$consume_401" = sub i64 %"$gasrem_397", 1
-  store i64 %"$consume_401", i64* @_gasrem, align 8
-  %"$test__5" = alloca %TName_Bool*, align 8
-  %"$execptr_load_402" = load i8*, i8** @_execptr, align 8
-  %"$$res_3_403" = load %Int32, %Int32* %"$res_3", align 4
-  %"$$res__4_404" = load %Int32, %Int32* %"$res__4", align 4
-  %"$eq_call_405" = call %TName_Bool* @_eq_Int32(i8* %"$execptr_load_402", %Int32 %"$$res_3_403", %Int32 %"$$res__4_404"), !dbg !32
-  store %TName_Bool* %"$eq_call_405", %TName_Bool** %"$test__5", align 8, !dbg !32
   %"$gasrem_407" = load i64, i64* @_gasrem, align 8
   %"$gascmp_408" = icmp ugt i64 1, %"$gasrem_407"
   br i1 %"$gascmp_408", label %"$out_of_gas_409", label %"$have_gas_410"
 
-"$out_of_gas_409":                                ; preds = %"$have_gas_400"
+"$out_of_gas_409":                                ; preds = %"$have_gas_405"
   call void @_out_of_gas()
   br label %"$have_gas_410"
 
-"$have_gas_410":                                  ; preds = %"$out_of_gas_409", %"$have_gas_400"
+"$have_gas_410":                                  ; preds = %"$out_of_gas_409", %"$have_gas_405"
   %"$consume_411" = sub i64 %"$gasrem_407", 1
   store i64 %"$consume_411", i64* @_gasrem, align 8
+  store %Int32 { i32 -3398492 }, %Int32* %"$res__4", align 4, !dbg !31
+  %"$gasrem_412" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_413" = icmp ugt i64 1, %"$gasrem_412"
+  br i1 %"$gascmp_413", label %"$out_of_gas_414", label %"$have_gas_415"
+
+"$out_of_gas_414":                                ; preds = %"$have_gas_410"
+  call void @_out_of_gas()
+  br label %"$have_gas_415"
+
+"$have_gas_415":                                  ; preds = %"$out_of_gas_414", %"$have_gas_410"
+  %"$consume_416" = sub i64 %"$gasrem_412", 1
+  store i64 %"$consume_416", i64* @_gasrem, align 8
+  %"$test__5" = alloca %TName_Bool*, align 8
+  %"$gasrem_417" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_418" = icmp ugt i64 4, %"$gasrem_417"
+  br i1 %"$gascmp_418", label %"$out_of_gas_419", label %"$have_gas_420"
+
+"$out_of_gas_419":                                ; preds = %"$have_gas_415"
+  call void @_out_of_gas()
+  br label %"$have_gas_420"
+
+"$have_gas_420":                                  ; preds = %"$out_of_gas_419", %"$have_gas_415"
+  %"$consume_421" = sub i64 %"$gasrem_417", 4
+  store i64 %"$consume_421", i64* @_gasrem, align 8
+  %"$execptr_load_422" = load i8*, i8** @_execptr, align 8
+  %"$$res_3_423" = load %Int32, %Int32* %"$res_3", align 4
+  %"$$res__4_424" = load %Int32, %Int32* %"$res__4", align 4
+  %"$eq_call_425" = call %TName_Bool* @_eq_Int32(i8* %"$execptr_load_422", %Int32 %"$$res_3_423", %Int32 %"$$res__4_424"), !dbg !32
+  store %TName_Bool* %"$eq_call_425", %TName_Bool** %"$test__5", align 8, !dbg !32
+  %"$gasrem_427" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_428" = icmp ugt i64 1, %"$gasrem_427"
+  br i1 %"$gascmp_428", label %"$out_of_gas_429", label %"$have_gas_430"
+
+"$out_of_gas_429":                                ; preds = %"$have_gas_420"
+  call void @_out_of_gas()
+  br label %"$have_gas_430"
+
+"$have_gas_430":                                  ; preds = %"$out_of_gas_429", %"$have_gas_420"
+  %"$consume_431" = sub i64 %"$gasrem_427", 1
+  store i64 %"$consume_431", i64* @_gasrem, align 8
   %"$BoolUtils.andb_123" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_412" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_413" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_412", 0
-  %"$BoolUtils.andb_envptr_414" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_412", 1
-  %"$$test_0_415" = load %TName_Bool*, %TName_Bool** %"$test_0", align 8
-  %"$BoolUtils.andb_call_416" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_413"(i8* %"$BoolUtils.andb_envptr_414", %TName_Bool* %"$$test_0_415"), !dbg !33
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_416", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_123", align 8, !dbg !33
+  %"$BoolUtils.andb_432" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_433" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_432", 0
+  %"$BoolUtils.andb_envptr_434" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_432", 1
+  %"$$test_0_435" = load %TName_Bool*, %TName_Bool** %"$test_0", align 8
+  %"$BoolUtils.andb_call_436" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_433"(i8* %"$BoolUtils.andb_envptr_434", %TName_Bool* %"$$test_0_435"), !dbg !33
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_436", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_123", align 8, !dbg !33
   %"$BoolUtils.andb_124" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_123_417" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_123", align 8
-  %"$$BoolUtils.andb_123_fptr_418" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_123_417", 0
-  %"$$BoolUtils.andb_123_envptr_419" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_123_417", 1
-  %"$$test__5_420" = load %TName_Bool*, %TName_Bool** %"$test__5", align 8
-  %"$$BoolUtils.andb_123_call_421" = call %TName_Bool* %"$$BoolUtils.andb_123_fptr_418"(i8* %"$$BoolUtils.andb_123_envptr_419", %TName_Bool* %"$$test__5_420"), !dbg !33
-  store %TName_Bool* %"$$BoolUtils.andb_123_call_421", %TName_Bool** %"$BoolUtils.andb_124", align 8, !dbg !33
-  %"$$BoolUtils.andb_124_422" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_124", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_124_422", %TName_Bool** %"$test_6", align 8, !dbg !33
-  %"$gasrem_423" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_424" = icmp ugt i64 1, %"$gasrem_423"
-  br i1 %"$gascmp_424", label %"$out_of_gas_425", label %"$have_gas_426"
-
-"$out_of_gas_425":                                ; preds = %"$have_gas_410"
-  call void @_out_of_gas()
-  br label %"$have_gas_426"
-
-"$have_gas_426":                                  ; preds = %"$out_of_gas_425", %"$have_gas_410"
-  %"$consume_427" = sub i64 %"$gasrem_423", 1
-  store i64 %"$consume_427", i64* @_gasrem, align 8
-  %"$arg1_7" = alloca %Int64, align 8
-  %"$gasrem_428" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_429" = icmp ugt i64 1, %"$gasrem_428"
-  br i1 %"$gascmp_429", label %"$out_of_gas_430", label %"$have_gas_431"
-
-"$out_of_gas_430":                                ; preds = %"$have_gas_426"
-  call void @_out_of_gas()
-  br label %"$have_gas_431"
-
-"$have_gas_431":                                  ; preds = %"$out_of_gas_430", %"$have_gas_426"
-  %"$consume_432" = sub i64 %"$gasrem_428", 1
-  store i64 %"$consume_432", i64* @_gasrem, align 8
-  store %Int64 { i64 9223372036854775806 }, %Int64* %"$arg1_7", align 8, !dbg !34
-  %"$gasrem_433" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_434" = icmp ugt i64 1, %"$gasrem_433"
-  br i1 %"$gascmp_434", label %"$out_of_gas_435", label %"$have_gas_436"
-
-"$out_of_gas_435":                                ; preds = %"$have_gas_431"
-  call void @_out_of_gas()
-  br label %"$have_gas_436"
-
-"$have_gas_436":                                  ; preds = %"$out_of_gas_435", %"$have_gas_431"
-  %"$consume_437" = sub i64 %"$gasrem_433", 1
-  store i64 %"$consume_437", i64* @_gasrem, align 8
-  %"$arg2_8" = alloca %Int64, align 8
-  %"$gasrem_438" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_439" = icmp ugt i64 1, %"$gasrem_438"
-  br i1 %"$gascmp_439", label %"$out_of_gas_440", label %"$have_gas_441"
-
-"$out_of_gas_440":                                ; preds = %"$have_gas_436"
-  call void @_out_of_gas()
-  br label %"$have_gas_441"
-
-"$have_gas_441":                                  ; preds = %"$out_of_gas_440", %"$have_gas_436"
-  %"$consume_442" = sub i64 %"$gasrem_438", 1
-  store i64 %"$consume_442", i64* @_gasrem, align 8
-  store %Int64 { i64 -1 }, %Int64* %"$arg2_8", align 8, !dbg !35
+  %"$$BoolUtils.andb_123_437" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_123", align 8
+  %"$$BoolUtils.andb_123_fptr_438" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_123_437", 0
+  %"$$BoolUtils.andb_123_envptr_439" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_123_437", 1
+  %"$$test__5_440" = load %TName_Bool*, %TName_Bool** %"$test__5", align 8
+  %"$$BoolUtils.andb_123_call_441" = call %TName_Bool* %"$$BoolUtils.andb_123_fptr_438"(i8* %"$$BoolUtils.andb_123_envptr_439", %TName_Bool* %"$$test__5_440"), !dbg !33
+  store %TName_Bool* %"$$BoolUtils.andb_123_call_441", %TName_Bool** %"$BoolUtils.andb_124", align 8, !dbg !33
+  %"$$BoolUtils.andb_124_442" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_124", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_124_442", %TName_Bool** %"$test_6", align 8, !dbg !33
   %"$gasrem_443" = load i64, i64* @_gasrem, align 8
   %"$gascmp_444" = icmp ugt i64 1, %"$gasrem_443"
   br i1 %"$gascmp_444", label %"$out_of_gas_445", label %"$have_gas_446"
 
-"$out_of_gas_445":                                ; preds = %"$have_gas_441"
+"$out_of_gas_445":                                ; preds = %"$have_gas_430"
   call void @_out_of_gas()
   br label %"$have_gas_446"
 
-"$have_gas_446":                                  ; preds = %"$out_of_gas_445", %"$have_gas_441"
+"$have_gas_446":                                  ; preds = %"$out_of_gas_445", %"$have_gas_430"
   %"$consume_447" = sub i64 %"$gasrem_443", 1
   store i64 %"$consume_447", i64* @_gasrem, align 8
-  %"$test_12" = alloca %TName_Bool*, align 8
+  %"$arg1_7" = alloca %Int64, align 8
   %"$gasrem_448" = load i64, i64* @_gasrem, align 8
   %"$gascmp_449" = icmp ugt i64 1, %"$gasrem_448"
   br i1 %"$gascmp_449", label %"$out_of_gas_450", label %"$have_gas_451"
@@ -792,403 +788,414 @@ entry:
 "$have_gas_451":                                  ; preds = %"$out_of_gas_450", %"$have_gas_446"
   %"$consume_452" = sub i64 %"$gasrem_448", 1
   store i64 %"$consume_452", i64* @_gasrem, align 8
+  store %Int64 { i64 9223372036854775806 }, %Int64* %"$arg1_7", align 8, !dbg !34
+  %"$gasrem_453" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_454" = icmp ugt i64 1, %"$gasrem_453"
+  br i1 %"$gascmp_454", label %"$out_of_gas_455", label %"$have_gas_456"
+
+"$out_of_gas_455":                                ; preds = %"$have_gas_451"
+  call void @_out_of_gas()
+  br label %"$have_gas_456"
+
+"$have_gas_456":                                  ; preds = %"$out_of_gas_455", %"$have_gas_451"
+  %"$consume_457" = sub i64 %"$gasrem_453", 1
+  store i64 %"$consume_457", i64* @_gasrem, align 8
+  %"$arg2_8" = alloca %Int64, align 8
+  %"$gasrem_458" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_459" = icmp ugt i64 1, %"$gasrem_458"
+  br i1 %"$gascmp_459", label %"$out_of_gas_460", label %"$have_gas_461"
+
+"$out_of_gas_460":                                ; preds = %"$have_gas_456"
+  call void @_out_of_gas()
+  br label %"$have_gas_461"
+
+"$have_gas_461":                                  ; preds = %"$out_of_gas_460", %"$have_gas_456"
+  %"$consume_462" = sub i64 %"$gasrem_458", 1
+  store i64 %"$consume_462", i64* @_gasrem, align 8
+  store %Int64 { i64 -1 }, %Int64* %"$arg2_8", align 8, !dbg !35
+  %"$gasrem_463" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_464" = icmp ugt i64 1, %"$gasrem_463"
+  br i1 %"$gascmp_464", label %"$out_of_gas_465", label %"$have_gas_466"
+
+"$out_of_gas_465":                                ; preds = %"$have_gas_461"
+  call void @_out_of_gas()
+  br label %"$have_gas_466"
+
+"$have_gas_466":                                  ; preds = %"$out_of_gas_465", %"$have_gas_461"
+  %"$consume_467" = sub i64 %"$gasrem_463", 1
+  store i64 %"$consume_467", i64* @_gasrem, align 8
+  %"$test_12" = alloca %TName_Bool*, align 8
+  %"$gasrem_468" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_469" = icmp ugt i64 1, %"$gasrem_468"
+  br i1 %"$gascmp_469", label %"$out_of_gas_470", label %"$have_gas_471"
+
+"$out_of_gas_470":                                ; preds = %"$have_gas_466"
+  call void @_out_of_gas()
+  br label %"$have_gas_471"
+
+"$have_gas_471":                                  ; preds = %"$out_of_gas_470", %"$have_gas_466"
+  %"$consume_472" = sub i64 %"$gasrem_468", 1
+  store i64 %"$consume_472", i64* @_gasrem, align 8
   %"$res_9" = alloca %Int64, align 8
-  %"$$arg1_7_453" = load %Int64, %Int64* %"$arg1_7", align 8
-  %"$$arg2_8_454" = load %Int64, %Int64* %"$arg2_8", align 8
-  %"$mul_call_455" = call %Int64 @_mul_Int64(%Int64 %"$$arg1_7_453", %Int64 %"$$arg2_8_454"), !dbg !36
-  store %Int64 %"$mul_call_455", %Int64* %"$res_9", align 8, !dbg !36
-  %"$gasrem_456" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_457" = icmp ugt i64 1, %"$gasrem_456"
-  br i1 %"$gascmp_457", label %"$out_of_gas_458", label %"$have_gas_459"
+  %"$gasrem_473" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_474" = icmp ugt i64 20, %"$gasrem_473"
+  br i1 %"$gascmp_474", label %"$out_of_gas_475", label %"$have_gas_476"
 
-"$out_of_gas_458":                                ; preds = %"$have_gas_451"
+"$out_of_gas_475":                                ; preds = %"$have_gas_471"
   call void @_out_of_gas()
-  br label %"$have_gas_459"
+  br label %"$have_gas_476"
 
-"$have_gas_459":                                  ; preds = %"$out_of_gas_458", %"$have_gas_451"
-  %"$consume_460" = sub i64 %"$gasrem_456", 1
-  store i64 %"$consume_460", i64* @_gasrem, align 8
+"$have_gas_476":                                  ; preds = %"$out_of_gas_475", %"$have_gas_471"
+  %"$consume_477" = sub i64 %"$gasrem_473", 20
+  store i64 %"$consume_477", i64* @_gasrem, align 8
+  %"$$arg1_7_478" = load %Int64, %Int64* %"$arg1_7", align 8
+  %"$$arg2_8_479" = load %Int64, %Int64* %"$arg2_8", align 8
+  %"$mul_call_480" = call %Int64 @_mul_Int64(%Int64 %"$$arg1_7_478", %Int64 %"$$arg2_8_479"), !dbg !36
+  store %Int64 %"$mul_call_480", %Int64* %"$res_9", align 8, !dbg !36
+  %"$gasrem_481" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_482" = icmp ugt i64 1, %"$gasrem_481"
+  br i1 %"$gascmp_482", label %"$out_of_gas_483", label %"$have_gas_484"
+
+"$out_of_gas_483":                                ; preds = %"$have_gas_476"
+  call void @_out_of_gas()
+  br label %"$have_gas_484"
+
+"$have_gas_484":                                  ; preds = %"$out_of_gas_483", %"$have_gas_476"
+  %"$consume_485" = sub i64 %"$gasrem_481", 1
+  store i64 %"$consume_485", i64* @_gasrem, align 8
   %"$res__10" = alloca %Int64, align 8
-  %"$gasrem_461" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_462" = icmp ugt i64 1, %"$gasrem_461"
-  br i1 %"$gascmp_462", label %"$out_of_gas_463", label %"$have_gas_464"
+  %"$gasrem_486" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_487" = icmp ugt i64 1, %"$gasrem_486"
+  br i1 %"$gascmp_487", label %"$out_of_gas_488", label %"$have_gas_489"
 
-"$out_of_gas_463":                                ; preds = %"$have_gas_459"
+"$out_of_gas_488":                                ; preds = %"$have_gas_484"
   call void @_out_of_gas()
-  br label %"$have_gas_464"
+  br label %"$have_gas_489"
 
-"$have_gas_464":                                  ; preds = %"$out_of_gas_463", %"$have_gas_459"
-  %"$consume_465" = sub i64 %"$gasrem_461", 1
-  store i64 %"$consume_465", i64* @_gasrem, align 8
+"$have_gas_489":                                  ; preds = %"$out_of_gas_488", %"$have_gas_484"
+  %"$consume_490" = sub i64 %"$gasrem_486", 1
+  store i64 %"$consume_490", i64* @_gasrem, align 8
   store %Int64 { i64 -9223372036854775806 }, %Int64* %"$res__10", align 8, !dbg !37
-  %"$gasrem_466" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_467" = icmp ugt i64 1, %"$gasrem_466"
-  br i1 %"$gascmp_467", label %"$out_of_gas_468", label %"$have_gas_469"
+  %"$gasrem_491" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_492" = icmp ugt i64 1, %"$gasrem_491"
+  br i1 %"$gascmp_492", label %"$out_of_gas_493", label %"$have_gas_494"
 
-"$out_of_gas_468":                                ; preds = %"$have_gas_464"
+"$out_of_gas_493":                                ; preds = %"$have_gas_489"
   call void @_out_of_gas()
-  br label %"$have_gas_469"
+  br label %"$have_gas_494"
 
-"$have_gas_469":                                  ; preds = %"$out_of_gas_468", %"$have_gas_464"
-  %"$consume_470" = sub i64 %"$gasrem_466", 1
-  store i64 %"$consume_470", i64* @_gasrem, align 8
+"$have_gas_494":                                  ; preds = %"$out_of_gas_493", %"$have_gas_489"
+  %"$consume_495" = sub i64 %"$gasrem_491", 1
+  store i64 %"$consume_495", i64* @_gasrem, align 8
   %"$test__11" = alloca %TName_Bool*, align 8
-  %"$execptr_load_471" = load i8*, i8** @_execptr, align 8
-  %"$$res_9_472" = load %Int64, %Int64* %"$res_9", align 8
-  %"$$res__10_473" = load %Int64, %Int64* %"$res__10", align 8
-  %"$eq_call_474" = call %TName_Bool* @_eq_Int64(i8* %"$execptr_load_471", %Int64 %"$$res_9_472", %Int64 %"$$res__10_473"), !dbg !38
-  store %TName_Bool* %"$eq_call_474", %TName_Bool** %"$test__11", align 8, !dbg !38
-  %"$gasrem_476" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_477" = icmp ugt i64 1, %"$gasrem_476"
-  br i1 %"$gascmp_477", label %"$out_of_gas_478", label %"$have_gas_479"
+  %"$gasrem_496" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_497" = icmp ugt i64 4, %"$gasrem_496"
+  br i1 %"$gascmp_497", label %"$out_of_gas_498", label %"$have_gas_499"
 
-"$out_of_gas_478":                                ; preds = %"$have_gas_469"
+"$out_of_gas_498":                                ; preds = %"$have_gas_494"
   call void @_out_of_gas()
-  br label %"$have_gas_479"
+  br label %"$have_gas_499"
 
-"$have_gas_479":                                  ; preds = %"$out_of_gas_478", %"$have_gas_469"
-  %"$consume_480" = sub i64 %"$gasrem_476", 1
-  store i64 %"$consume_480", i64* @_gasrem, align 8
+"$have_gas_499":                                  ; preds = %"$out_of_gas_498", %"$have_gas_494"
+  %"$consume_500" = sub i64 %"$gasrem_496", 4
+  store i64 %"$consume_500", i64* @_gasrem, align 8
+  %"$execptr_load_501" = load i8*, i8** @_execptr, align 8
+  %"$$res_9_502" = load %Int64, %Int64* %"$res_9", align 8
+  %"$$res__10_503" = load %Int64, %Int64* %"$res__10", align 8
+  %"$eq_call_504" = call %TName_Bool* @_eq_Int64(i8* %"$execptr_load_501", %Int64 %"$$res_9_502", %Int64 %"$$res__10_503"), !dbg !38
+  store %TName_Bool* %"$eq_call_504", %TName_Bool** %"$test__11", align 8, !dbg !38
+  %"$gasrem_506" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_507" = icmp ugt i64 1, %"$gasrem_506"
+  br i1 %"$gascmp_507", label %"$out_of_gas_508", label %"$have_gas_509"
+
+"$out_of_gas_508":                                ; preds = %"$have_gas_499"
+  call void @_out_of_gas()
+  br label %"$have_gas_509"
+
+"$have_gas_509":                                  ; preds = %"$out_of_gas_508", %"$have_gas_499"
+  %"$consume_510" = sub i64 %"$gasrem_506", 1
+  store i64 %"$consume_510", i64* @_gasrem, align 8
   %"$BoolUtils.andb_125" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_481" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_482" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_481", 0
-  %"$BoolUtils.andb_envptr_483" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_481", 1
-  %"$$test_6_484" = load %TName_Bool*, %TName_Bool** %"$test_6", align 8
-  %"$BoolUtils.andb_call_485" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_482"(i8* %"$BoolUtils.andb_envptr_483", %TName_Bool* %"$$test_6_484"), !dbg !39
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_485", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_125", align 8, !dbg !39
+  %"$BoolUtils.andb_511" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_512" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_511", 0
+  %"$BoolUtils.andb_envptr_513" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_511", 1
+  %"$$test_6_514" = load %TName_Bool*, %TName_Bool** %"$test_6", align 8
+  %"$BoolUtils.andb_call_515" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_512"(i8* %"$BoolUtils.andb_envptr_513", %TName_Bool* %"$$test_6_514"), !dbg !39
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_515", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_125", align 8, !dbg !39
   %"$BoolUtils.andb_126" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_125_486" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_125", align 8
-  %"$$BoolUtils.andb_125_fptr_487" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_125_486", 0
-  %"$$BoolUtils.andb_125_envptr_488" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_125_486", 1
-  %"$$test__11_489" = load %TName_Bool*, %TName_Bool** %"$test__11", align 8
-  %"$$BoolUtils.andb_125_call_490" = call %TName_Bool* %"$$BoolUtils.andb_125_fptr_487"(i8* %"$$BoolUtils.andb_125_envptr_488", %TName_Bool* %"$$test__11_489"), !dbg !39
-  store %TName_Bool* %"$$BoolUtils.andb_125_call_490", %TName_Bool** %"$BoolUtils.andb_126", align 8, !dbg !39
-  %"$$BoolUtils.andb_126_491" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_126", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_126_491", %TName_Bool** %"$test_12", align 8, !dbg !39
-  %"$gasrem_492" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_493" = icmp ugt i64 1, %"$gasrem_492"
-  br i1 %"$gascmp_493", label %"$out_of_gas_494", label %"$have_gas_495"
+  %"$$BoolUtils.andb_125_516" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_125", align 8
+  %"$$BoolUtils.andb_125_fptr_517" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_125_516", 0
+  %"$$BoolUtils.andb_125_envptr_518" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_125_516", 1
+  %"$$test__11_519" = load %TName_Bool*, %TName_Bool** %"$test__11", align 8
+  %"$$BoolUtils.andb_125_call_520" = call %TName_Bool* %"$$BoolUtils.andb_125_fptr_517"(i8* %"$$BoolUtils.andb_125_envptr_518", %TName_Bool* %"$$test__11_519"), !dbg !39
+  store %TName_Bool* %"$$BoolUtils.andb_125_call_520", %TName_Bool** %"$BoolUtils.andb_126", align 8, !dbg !39
+  %"$$BoolUtils.andb_126_521" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_126", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_126_521", %TName_Bool** %"$test_12", align 8, !dbg !39
+  %"$gasrem_522" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_523" = icmp ugt i64 1, %"$gasrem_522"
+  br i1 %"$gascmp_523", label %"$out_of_gas_524", label %"$have_gas_525"
 
-"$out_of_gas_494":                                ; preds = %"$have_gas_479"
+"$out_of_gas_524":                                ; preds = %"$have_gas_509"
   call void @_out_of_gas()
-  br label %"$have_gas_495"
+  br label %"$have_gas_525"
 
-"$have_gas_495":                                  ; preds = %"$out_of_gas_494", %"$have_gas_479"
-  %"$consume_496" = sub i64 %"$gasrem_492", 1
-  store i64 %"$consume_496", i64* @_gasrem, align 8
+"$have_gas_525":                                  ; preds = %"$out_of_gas_524", %"$have_gas_509"
+  %"$consume_526" = sub i64 %"$gasrem_522", 1
+  store i64 %"$consume_526", i64* @_gasrem, align 8
   %"$arg2_13" = alloca %Uint64, align 8
-  %"$gasrem_497" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_498" = icmp ugt i64 1, %"$gasrem_497"
-  br i1 %"$gascmp_498", label %"$out_of_gas_499", label %"$have_gas_500"
+  %"$gasrem_527" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_528" = icmp ugt i64 1, %"$gasrem_527"
+  br i1 %"$gascmp_528", label %"$out_of_gas_529", label %"$have_gas_530"
 
-"$out_of_gas_499":                                ; preds = %"$have_gas_495"
+"$out_of_gas_529":                                ; preds = %"$have_gas_525"
   call void @_out_of_gas()
-  br label %"$have_gas_500"
+  br label %"$have_gas_530"
 
-"$have_gas_500":                                  ; preds = %"$out_of_gas_499", %"$have_gas_495"
-  %"$consume_501" = sub i64 %"$gasrem_497", 1
-  store i64 %"$consume_501", i64* @_gasrem, align 8
+"$have_gas_530":                                  ; preds = %"$out_of_gas_529", %"$have_gas_525"
+  %"$consume_531" = sub i64 %"$gasrem_527", 1
+  store i64 %"$consume_531", i64* @_gasrem, align 8
   store %Uint64 { i64 2147483647 }, %Uint64* %"$arg2_13", align 8, !dbg !40
-  %"$gasrem_502" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_503" = icmp ugt i64 1, %"$gasrem_502"
-  br i1 %"$gascmp_503", label %"$out_of_gas_504", label %"$have_gas_505"
+  %"$gasrem_532" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_533" = icmp ugt i64 1, %"$gasrem_532"
+  br i1 %"$gascmp_533", label %"$out_of_gas_534", label %"$have_gas_535"
 
-"$out_of_gas_504":                                ; preds = %"$have_gas_500"
+"$out_of_gas_534":                                ; preds = %"$have_gas_530"
   call void @_out_of_gas()
-  br label %"$have_gas_505"
+  br label %"$have_gas_535"
 
-"$have_gas_505":                                  ; preds = %"$out_of_gas_504", %"$have_gas_500"
-  %"$consume_506" = sub i64 %"$gasrem_502", 1
-  store i64 %"$consume_506", i64* @_gasrem, align 8
+"$have_gas_535":                                  ; preds = %"$out_of_gas_534", %"$have_gas_530"
+  %"$consume_536" = sub i64 %"$gasrem_532", 1
+  store i64 %"$consume_536", i64* @_gasrem, align 8
   %"$arg1_14" = alloca %Uint64, align 8
-  %"$gasrem_507" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_508" = icmp ugt i64 1, %"$gasrem_507"
-  br i1 %"$gascmp_508", label %"$out_of_gas_509", label %"$have_gas_510"
+  %"$gasrem_537" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_538" = icmp ugt i64 1, %"$gasrem_537"
+  br i1 %"$gascmp_538", label %"$out_of_gas_539", label %"$have_gas_540"
 
-"$out_of_gas_509":                                ; preds = %"$have_gas_505"
+"$out_of_gas_539":                                ; preds = %"$have_gas_535"
   call void @_out_of_gas()
-  br label %"$have_gas_510"
+  br label %"$have_gas_540"
 
-"$have_gas_510":                                  ; preds = %"$out_of_gas_509", %"$have_gas_505"
-  %"$consume_511" = sub i64 %"$gasrem_507", 1
-  store i64 %"$consume_511", i64* @_gasrem, align 8
+"$have_gas_540":                                  ; preds = %"$out_of_gas_539", %"$have_gas_535"
+  %"$consume_541" = sub i64 %"$gasrem_537", 1
+  store i64 %"$consume_541", i64* @_gasrem, align 8
   store %Uint64 { i64 2147483647 }, %Uint64* %"$arg1_14", align 8, !dbg !41
-  %"$gasrem_512" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_513" = icmp ugt i64 1, %"$gasrem_512"
-  br i1 %"$gascmp_513", label %"$out_of_gas_514", label %"$have_gas_515"
+  %"$gasrem_542" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_543" = icmp ugt i64 1, %"$gasrem_542"
+  br i1 %"$gascmp_543", label %"$out_of_gas_544", label %"$have_gas_545"
 
-"$out_of_gas_514":                                ; preds = %"$have_gas_510"
+"$out_of_gas_544":                                ; preds = %"$have_gas_540"
   call void @_out_of_gas()
-  br label %"$have_gas_515"
+  br label %"$have_gas_545"
 
-"$have_gas_515":                                  ; preds = %"$out_of_gas_514", %"$have_gas_510"
-  %"$consume_516" = sub i64 %"$gasrem_512", 1
-  store i64 %"$consume_516", i64* @_gasrem, align 8
+"$have_gas_545":                                  ; preds = %"$out_of_gas_544", %"$have_gas_540"
+  %"$consume_546" = sub i64 %"$gasrem_542", 1
+  store i64 %"$consume_546", i64* @_gasrem, align 8
   %"$test_18" = alloca %TName_Bool*, align 8
-  %"$gasrem_517" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_518" = icmp ugt i64 1, %"$gasrem_517"
-  br i1 %"$gascmp_518", label %"$out_of_gas_519", label %"$have_gas_520"
+  %"$gasrem_547" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_548" = icmp ugt i64 1, %"$gasrem_547"
+  br i1 %"$gascmp_548", label %"$out_of_gas_549", label %"$have_gas_550"
 
-"$out_of_gas_519":                                ; preds = %"$have_gas_515"
+"$out_of_gas_549":                                ; preds = %"$have_gas_545"
   call void @_out_of_gas()
-  br label %"$have_gas_520"
+  br label %"$have_gas_550"
 
-"$have_gas_520":                                  ; preds = %"$out_of_gas_519", %"$have_gas_515"
-  %"$consume_521" = sub i64 %"$gasrem_517", 1
-  store i64 %"$consume_521", i64* @_gasrem, align 8
+"$have_gas_550":                                  ; preds = %"$out_of_gas_549", %"$have_gas_545"
+  %"$consume_551" = sub i64 %"$gasrem_547", 1
+  store i64 %"$consume_551", i64* @_gasrem, align 8
   %"$res_15" = alloca %Uint64, align 8
-  %"$$arg1_14_522" = load %Uint64, %Uint64* %"$arg1_14", align 8
-  %"$$arg2_13_523" = load %Uint64, %Uint64* %"$arg2_13", align 8
-  %"$mul_call_524" = call %Uint64 @_mul_Uint64(%Uint64 %"$$arg1_14_522", %Uint64 %"$$arg2_13_523"), !dbg !42
-  store %Uint64 %"$mul_call_524", %Uint64* %"$res_15", align 8, !dbg !42
-  %"$gasrem_525" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_526" = icmp ugt i64 1, %"$gasrem_525"
-  br i1 %"$gascmp_526", label %"$out_of_gas_527", label %"$have_gas_528"
+  %"$gasrem_552" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_553" = icmp ugt i64 20, %"$gasrem_552"
+  br i1 %"$gascmp_553", label %"$out_of_gas_554", label %"$have_gas_555"
 
-"$out_of_gas_527":                                ; preds = %"$have_gas_520"
+"$out_of_gas_554":                                ; preds = %"$have_gas_550"
   call void @_out_of_gas()
-  br label %"$have_gas_528"
+  br label %"$have_gas_555"
 
-"$have_gas_528":                                  ; preds = %"$out_of_gas_527", %"$have_gas_520"
-  %"$consume_529" = sub i64 %"$gasrem_525", 1
-  store i64 %"$consume_529", i64* @_gasrem, align 8
+"$have_gas_555":                                  ; preds = %"$out_of_gas_554", %"$have_gas_550"
+  %"$consume_556" = sub i64 %"$gasrem_552", 20
+  store i64 %"$consume_556", i64* @_gasrem, align 8
+  %"$$arg1_14_557" = load %Uint64, %Uint64* %"$arg1_14", align 8
+  %"$$arg2_13_558" = load %Uint64, %Uint64* %"$arg2_13", align 8
+  %"$mul_call_559" = call %Uint64 @_mul_Uint64(%Uint64 %"$$arg1_14_557", %Uint64 %"$$arg2_13_558"), !dbg !42
+  store %Uint64 %"$mul_call_559", %Uint64* %"$res_15", align 8, !dbg !42
+  %"$gasrem_560" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_561" = icmp ugt i64 1, %"$gasrem_560"
+  br i1 %"$gascmp_561", label %"$out_of_gas_562", label %"$have_gas_563"
+
+"$out_of_gas_562":                                ; preds = %"$have_gas_555"
+  call void @_out_of_gas()
+  br label %"$have_gas_563"
+
+"$have_gas_563":                                  ; preds = %"$out_of_gas_562", %"$have_gas_555"
+  %"$consume_564" = sub i64 %"$gasrem_560", 1
+  store i64 %"$consume_564", i64* @_gasrem, align 8
   %"$res__16" = alloca %Uint64, align 8
-  %"$gasrem_530" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_531" = icmp ugt i64 1, %"$gasrem_530"
-  br i1 %"$gascmp_531", label %"$out_of_gas_532", label %"$have_gas_533"
+  %"$gasrem_565" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_566" = icmp ugt i64 1, %"$gasrem_565"
+  br i1 %"$gascmp_566", label %"$out_of_gas_567", label %"$have_gas_568"
 
-"$out_of_gas_532":                                ; preds = %"$have_gas_528"
+"$out_of_gas_567":                                ; preds = %"$have_gas_563"
   call void @_out_of_gas()
-  br label %"$have_gas_533"
+  br label %"$have_gas_568"
 
-"$have_gas_533":                                  ; preds = %"$out_of_gas_532", %"$have_gas_528"
-  %"$consume_534" = sub i64 %"$gasrem_530", 1
-  store i64 %"$consume_534", i64* @_gasrem, align 8
+"$have_gas_568":                                  ; preds = %"$out_of_gas_567", %"$have_gas_563"
+  %"$consume_569" = sub i64 %"$gasrem_565", 1
+  store i64 %"$consume_569", i64* @_gasrem, align 8
   store %Uint64 { i64 4611686014132420609 }, %Uint64* %"$res__16", align 8, !dbg !43
-  %"$gasrem_535" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_536" = icmp ugt i64 1, %"$gasrem_535"
-  br i1 %"$gascmp_536", label %"$out_of_gas_537", label %"$have_gas_538"
+  %"$gasrem_570" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_571" = icmp ugt i64 1, %"$gasrem_570"
+  br i1 %"$gascmp_571", label %"$out_of_gas_572", label %"$have_gas_573"
 
-"$out_of_gas_537":                                ; preds = %"$have_gas_533"
+"$out_of_gas_572":                                ; preds = %"$have_gas_568"
   call void @_out_of_gas()
-  br label %"$have_gas_538"
+  br label %"$have_gas_573"
 
-"$have_gas_538":                                  ; preds = %"$out_of_gas_537", %"$have_gas_533"
-  %"$consume_539" = sub i64 %"$gasrem_535", 1
-  store i64 %"$consume_539", i64* @_gasrem, align 8
+"$have_gas_573":                                  ; preds = %"$out_of_gas_572", %"$have_gas_568"
+  %"$consume_574" = sub i64 %"$gasrem_570", 1
+  store i64 %"$consume_574", i64* @_gasrem, align 8
   %"$test__17" = alloca %TName_Bool*, align 8
-  %"$execptr_load_540" = load i8*, i8** @_execptr, align 8
-  %"$$res_15_541" = load %Uint64, %Uint64* %"$res_15", align 8
-  %"$$res__16_542" = load %Uint64, %Uint64* %"$res__16", align 8
-  %"$eq_call_543" = call %TName_Bool* @_eq_Uint64(i8* %"$execptr_load_540", %Uint64 %"$$res_15_541", %Uint64 %"$$res__16_542"), !dbg !44
-  store %TName_Bool* %"$eq_call_543", %TName_Bool** %"$test__17", align 8, !dbg !44
-  %"$gasrem_545" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_546" = icmp ugt i64 1, %"$gasrem_545"
-  br i1 %"$gascmp_546", label %"$out_of_gas_547", label %"$have_gas_548"
+  %"$gasrem_575" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_576" = icmp ugt i64 4, %"$gasrem_575"
+  br i1 %"$gascmp_576", label %"$out_of_gas_577", label %"$have_gas_578"
 
-"$out_of_gas_547":                                ; preds = %"$have_gas_538"
+"$out_of_gas_577":                                ; preds = %"$have_gas_573"
   call void @_out_of_gas()
-  br label %"$have_gas_548"
+  br label %"$have_gas_578"
 
-"$have_gas_548":                                  ; preds = %"$out_of_gas_547", %"$have_gas_538"
-  %"$consume_549" = sub i64 %"$gasrem_545", 1
-  store i64 %"$consume_549", i64* @_gasrem, align 8
+"$have_gas_578":                                  ; preds = %"$out_of_gas_577", %"$have_gas_573"
+  %"$consume_579" = sub i64 %"$gasrem_575", 4
+  store i64 %"$consume_579", i64* @_gasrem, align 8
+  %"$execptr_load_580" = load i8*, i8** @_execptr, align 8
+  %"$$res_15_581" = load %Uint64, %Uint64* %"$res_15", align 8
+  %"$$res__16_582" = load %Uint64, %Uint64* %"$res__16", align 8
+  %"$eq_call_583" = call %TName_Bool* @_eq_Uint64(i8* %"$execptr_load_580", %Uint64 %"$$res_15_581", %Uint64 %"$$res__16_582"), !dbg !44
+  store %TName_Bool* %"$eq_call_583", %TName_Bool** %"$test__17", align 8, !dbg !44
+  %"$gasrem_585" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_586" = icmp ugt i64 1, %"$gasrem_585"
+  br i1 %"$gascmp_586", label %"$out_of_gas_587", label %"$have_gas_588"
+
+"$out_of_gas_587":                                ; preds = %"$have_gas_578"
+  call void @_out_of_gas()
+  br label %"$have_gas_588"
+
+"$have_gas_588":                                  ; preds = %"$out_of_gas_587", %"$have_gas_578"
+  %"$consume_589" = sub i64 %"$gasrem_585", 1
+  store i64 %"$consume_589", i64* @_gasrem, align 8
   %"$BoolUtils.andb_127" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_550" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_551" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_550", 0
-  %"$BoolUtils.andb_envptr_552" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_550", 1
-  %"$$test_12_553" = load %TName_Bool*, %TName_Bool** %"$test_12", align 8
-  %"$BoolUtils.andb_call_554" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_551"(i8* %"$BoolUtils.andb_envptr_552", %TName_Bool* %"$$test_12_553"), !dbg !45
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_554", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_127", align 8, !dbg !45
+  %"$BoolUtils.andb_590" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_591" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_590", 0
+  %"$BoolUtils.andb_envptr_592" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_590", 1
+  %"$$test_12_593" = load %TName_Bool*, %TName_Bool** %"$test_12", align 8
+  %"$BoolUtils.andb_call_594" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_591"(i8* %"$BoolUtils.andb_envptr_592", %TName_Bool* %"$$test_12_593"), !dbg !45
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_594", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_127", align 8, !dbg !45
   %"$BoolUtils.andb_128" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_127_555" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_127", align 8
-  %"$$BoolUtils.andb_127_fptr_556" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_127_555", 0
-  %"$$BoolUtils.andb_127_envptr_557" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_127_555", 1
-  %"$$test__17_558" = load %TName_Bool*, %TName_Bool** %"$test__17", align 8
-  %"$$BoolUtils.andb_127_call_559" = call %TName_Bool* %"$$BoolUtils.andb_127_fptr_556"(i8* %"$$BoolUtils.andb_127_envptr_557", %TName_Bool* %"$$test__17_558"), !dbg !45
-  store %TName_Bool* %"$$BoolUtils.andb_127_call_559", %TName_Bool** %"$BoolUtils.andb_128", align 8, !dbg !45
-  %"$$BoolUtils.andb_128_560" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_128", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_128_560", %TName_Bool** %"$test_18", align 8, !dbg !45
-  %"$gasrem_561" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_562" = icmp ugt i64 1, %"$gasrem_561"
-  br i1 %"$gascmp_562", label %"$out_of_gas_563", label %"$have_gas_564"
+  %"$$BoolUtils.andb_127_595" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_127", align 8
+  %"$$BoolUtils.andb_127_fptr_596" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_127_595", 0
+  %"$$BoolUtils.andb_127_envptr_597" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_127_595", 1
+  %"$$test__17_598" = load %TName_Bool*, %TName_Bool** %"$test__17", align 8
+  %"$$BoolUtils.andb_127_call_599" = call %TName_Bool* %"$$BoolUtils.andb_127_fptr_596"(i8* %"$$BoolUtils.andb_127_envptr_597", %TName_Bool* %"$$test__17_598"), !dbg !45
+  store %TName_Bool* %"$$BoolUtils.andb_127_call_599", %TName_Bool** %"$BoolUtils.andb_128", align 8, !dbg !45
+  %"$$BoolUtils.andb_128_600" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_128", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_128_600", %TName_Bool** %"$test_18", align 8, !dbg !45
+  %"$gasrem_601" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_602" = icmp ugt i64 1, %"$gasrem_601"
+  br i1 %"$gascmp_602", label %"$out_of_gas_603", label %"$have_gas_604"
 
-"$out_of_gas_563":                                ; preds = %"$have_gas_548"
+"$out_of_gas_603":                                ; preds = %"$have_gas_588"
   call void @_out_of_gas()
-  br label %"$have_gas_564"
+  br label %"$have_gas_604"
 
-"$have_gas_564":                                  ; preds = %"$out_of_gas_563", %"$have_gas_548"
-  %"$consume_565" = sub i64 %"$gasrem_561", 1
-  store i64 %"$consume_565", i64* @_gasrem, align 8
+"$have_gas_604":                                  ; preds = %"$out_of_gas_603", %"$have_gas_588"
+  %"$consume_605" = sub i64 %"$gasrem_601", 1
+  store i64 %"$consume_605", i64* @_gasrem, align 8
   %"$arg1_19" = alloca %Uint128, align 8
-  %"$gasrem_566" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_567" = icmp ugt i64 1, %"$gasrem_566"
-  br i1 %"$gascmp_567", label %"$out_of_gas_568", label %"$have_gas_569"
+  %"$gasrem_606" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_607" = icmp ugt i64 1, %"$gasrem_606"
+  br i1 %"$gascmp_607", label %"$out_of_gas_608", label %"$have_gas_609"
 
-"$out_of_gas_568":                                ; preds = %"$have_gas_564"
+"$out_of_gas_608":                                ; preds = %"$have_gas_604"
   call void @_out_of_gas()
-  br label %"$have_gas_569"
+  br label %"$have_gas_609"
 
-"$have_gas_569":                                  ; preds = %"$out_of_gas_568", %"$have_gas_564"
-  %"$consume_570" = sub i64 %"$gasrem_566", 1
-  store i64 %"$consume_570", i64* @_gasrem, align 8
+"$have_gas_609":                                  ; preds = %"$out_of_gas_608", %"$have_gas_604"
+  %"$consume_610" = sub i64 %"$gasrem_606", 1
+  store i64 %"$consume_610", i64* @_gasrem, align 8
   store %Uint128 { i128 9223372036854775806 }, %Uint128* %"$arg1_19", align 8, !dbg !46
-  %"$gasrem_571" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_572" = icmp ugt i64 1, %"$gasrem_571"
-  br i1 %"$gascmp_572", label %"$out_of_gas_573", label %"$have_gas_574"
+  %"$gasrem_611" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_612" = icmp ugt i64 1, %"$gasrem_611"
+  br i1 %"$gascmp_612", label %"$out_of_gas_613", label %"$have_gas_614"
 
-"$out_of_gas_573":                                ; preds = %"$have_gas_569"
+"$out_of_gas_613":                                ; preds = %"$have_gas_609"
   call void @_out_of_gas()
-  br label %"$have_gas_574"
+  br label %"$have_gas_614"
 
-"$have_gas_574":                                  ; preds = %"$out_of_gas_573", %"$have_gas_569"
-  %"$consume_575" = sub i64 %"$gasrem_571", 1
-  store i64 %"$consume_575", i64* @_gasrem, align 8
+"$have_gas_614":                                  ; preds = %"$out_of_gas_613", %"$have_gas_609"
+  %"$consume_615" = sub i64 %"$gasrem_611", 1
+  store i64 %"$consume_615", i64* @_gasrem, align 8
   %"$arg2_20" = alloca %Uint128, align 8
-  %"$gasrem_576" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_577" = icmp ugt i64 1, %"$gasrem_576"
-  br i1 %"$gascmp_577", label %"$out_of_gas_578", label %"$have_gas_579"
+  %"$gasrem_616" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_617" = icmp ugt i64 1, %"$gasrem_616"
+  br i1 %"$gascmp_617", label %"$out_of_gas_618", label %"$have_gas_619"
 
-"$out_of_gas_578":                                ; preds = %"$have_gas_574"
+"$out_of_gas_618":                                ; preds = %"$have_gas_614"
   call void @_out_of_gas()
-  br label %"$have_gas_579"
+  br label %"$have_gas_619"
 
-"$have_gas_579":                                  ; preds = %"$out_of_gas_578", %"$have_gas_574"
-  %"$consume_580" = sub i64 %"$gasrem_576", 1
-  store i64 %"$consume_580", i64* @_gasrem, align 8
+"$have_gas_619":                                  ; preds = %"$out_of_gas_618", %"$have_gas_614"
+  %"$consume_620" = sub i64 %"$gasrem_616", 1
+  store i64 %"$consume_620", i64* @_gasrem, align 8
   store %Uint128 { i128 9223372036854775806 }, %Uint128* %"$arg2_20", align 8, !dbg !47
-  %"$gasrem_581" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_582" = icmp ugt i64 1, %"$gasrem_581"
-  br i1 %"$gascmp_582", label %"$out_of_gas_583", label %"$have_gas_584"
+  %"$gasrem_621" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_622" = icmp ugt i64 1, %"$gasrem_621"
+  br i1 %"$gascmp_622", label %"$out_of_gas_623", label %"$have_gas_624"
 
-"$out_of_gas_583":                                ; preds = %"$have_gas_579"
+"$out_of_gas_623":                                ; preds = %"$have_gas_619"
   call void @_out_of_gas()
-  br label %"$have_gas_584"
+  br label %"$have_gas_624"
 
-"$have_gas_584":                                  ; preds = %"$out_of_gas_583", %"$have_gas_579"
-  %"$consume_585" = sub i64 %"$gasrem_581", 1
-  store i64 %"$consume_585", i64* @_gasrem, align 8
+"$have_gas_624":                                  ; preds = %"$out_of_gas_623", %"$have_gas_619"
+  %"$consume_625" = sub i64 %"$gasrem_621", 1
+  store i64 %"$consume_625", i64* @_gasrem, align 8
   %"$test_24" = alloca %TName_Bool*, align 8
-  %"$gasrem_586" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_587" = icmp ugt i64 1, %"$gasrem_586"
-  br i1 %"$gascmp_587", label %"$out_of_gas_588", label %"$have_gas_589"
+  %"$gasrem_626" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_627" = icmp ugt i64 1, %"$gasrem_626"
+  br i1 %"$gascmp_627", label %"$out_of_gas_628", label %"$have_gas_629"
 
-"$out_of_gas_588":                                ; preds = %"$have_gas_584"
+"$out_of_gas_628":                                ; preds = %"$have_gas_624"
   call void @_out_of_gas()
-  br label %"$have_gas_589"
+  br label %"$have_gas_629"
 
-"$have_gas_589":                                  ; preds = %"$out_of_gas_588", %"$have_gas_584"
-  %"$consume_590" = sub i64 %"$gasrem_586", 1
-  store i64 %"$consume_590", i64* @_gasrem, align 8
+"$have_gas_629":                                  ; preds = %"$out_of_gas_628", %"$have_gas_624"
+  %"$consume_630" = sub i64 %"$gasrem_626", 1
+  store i64 %"$consume_630", i64* @_gasrem, align 8
   %"$res_21" = alloca %Uint128, align 8
-  %"$$arg1_19_591" = load %Uint128, %Uint128* %"$arg1_19", align 8
-  %"$$arg2_20_592" = load %Uint128, %Uint128* %"$arg2_20", align 8
-  %"$mul_call_593" = call %Uint128 @_mul_Uint128(%Uint128 %"$$arg1_19_591", %Uint128 %"$$arg2_20_592"), !dbg !48
-  store %Uint128 %"$mul_call_593", %Uint128* %"$res_21", align 8, !dbg !48
-  %"$gasrem_594" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_595" = icmp ugt i64 1, %"$gasrem_594"
-  br i1 %"$gascmp_595", label %"$out_of_gas_596", label %"$have_gas_597"
+  %"$gasrem_632" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_633" = icmp ugt i64 40, %"$gasrem_632"
+  br i1 %"$gascmp_633", label %"$out_of_gas_634", label %"$have_gas_635"
 
-"$out_of_gas_596":                                ; preds = %"$have_gas_589"
+"$out_of_gas_634":                                ; preds = %"$have_gas_629"
   call void @_out_of_gas()
-  br label %"$have_gas_597"
+  br label %"$have_gas_635"
 
-"$have_gas_597":                                  ; preds = %"$out_of_gas_596", %"$have_gas_589"
-  %"$consume_598" = sub i64 %"$gasrem_594", 1
-  store i64 %"$consume_598", i64* @_gasrem, align 8
-  %"$res__22" = alloca %Uint128, align 8
-  %"$gasrem_599" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_600" = icmp ugt i64 1, %"$gasrem_599"
-  br i1 %"$gascmp_600", label %"$out_of_gas_601", label %"$have_gas_602"
-
-"$out_of_gas_601":                                ; preds = %"$have_gas_597"
-  call void @_out_of_gas()
-  br label %"$have_gas_602"
-
-"$have_gas_602":                                  ; preds = %"$out_of_gas_601", %"$have_gas_597"
-  %"$consume_603" = sub i64 %"$gasrem_599", 1
-  store i64 %"$consume_603", i64* @_gasrem, align 8
-  store %Uint128 { i128 85070591730234615828950163710522949636 }, %Uint128* %"$res__22", align 8, !dbg !49
-  %"$gasrem_604" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_605" = icmp ugt i64 1, %"$gasrem_604"
-  br i1 %"$gascmp_605", label %"$out_of_gas_606", label %"$have_gas_607"
-
-"$out_of_gas_606":                                ; preds = %"$have_gas_602"
-  call void @_out_of_gas()
-  br label %"$have_gas_607"
-
-"$have_gas_607":                                  ; preds = %"$out_of_gas_606", %"$have_gas_602"
-  %"$consume_608" = sub i64 %"$gasrem_604", 1
-  store i64 %"$consume_608", i64* @_gasrem, align 8
-  %"$test__23" = alloca %TName_Bool*, align 8
-  %"$execptr_load_609" = load i8*, i8** @_execptr, align 8
-  %"$$res_21_610" = load %Uint128, %Uint128* %"$res_21", align 8
-  %"$$res__22_611" = load %Uint128, %Uint128* %"$res__22", align 8
-  %"$eq_call_612" = call %TName_Bool* @_eq_Uint128(i8* %"$execptr_load_609", %Uint128 %"$$res_21_610", %Uint128 %"$$res__22_611"), !dbg !50
-  store %TName_Bool* %"$eq_call_612", %TName_Bool** %"$test__23", align 8, !dbg !50
-  %"$gasrem_614" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_615" = icmp ugt i64 1, %"$gasrem_614"
-  br i1 %"$gascmp_615", label %"$out_of_gas_616", label %"$have_gas_617"
-
-"$out_of_gas_616":                                ; preds = %"$have_gas_607"
-  call void @_out_of_gas()
-  br label %"$have_gas_617"
-
-"$have_gas_617":                                  ; preds = %"$out_of_gas_616", %"$have_gas_607"
-  %"$consume_618" = sub i64 %"$gasrem_614", 1
-  store i64 %"$consume_618", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_129" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_619" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_620" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_619", 0
-  %"$BoolUtils.andb_envptr_621" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_619", 1
-  %"$$test_18_622" = load %TName_Bool*, %TName_Bool** %"$test_18", align 8
-  %"$BoolUtils.andb_call_623" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_620"(i8* %"$BoolUtils.andb_envptr_621", %TName_Bool* %"$$test_18_622"), !dbg !51
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_623", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_129", align 8, !dbg !51
-  %"$BoolUtils.andb_130" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_129_624" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_129", align 8
-  %"$$BoolUtils.andb_129_fptr_625" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_129_624", 0
-  %"$$BoolUtils.andb_129_envptr_626" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_129_624", 1
-  %"$$test__23_627" = load %TName_Bool*, %TName_Bool** %"$test__23", align 8
-  %"$$BoolUtils.andb_129_call_628" = call %TName_Bool* %"$$BoolUtils.andb_129_fptr_625"(i8* %"$$BoolUtils.andb_129_envptr_626", %TName_Bool* %"$$test__23_627"), !dbg !51
-  store %TName_Bool* %"$$BoolUtils.andb_129_call_628", %TName_Bool** %"$BoolUtils.andb_130", align 8, !dbg !51
-  %"$$BoolUtils.andb_130_629" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_130", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_130_629", %TName_Bool** %"$test_24", align 8, !dbg !51
-  %"$gasrem_630" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_631" = icmp ugt i64 1, %"$gasrem_630"
-  br i1 %"$gascmp_631", label %"$out_of_gas_632", label %"$have_gas_633"
-
-"$out_of_gas_632":                                ; preds = %"$have_gas_617"
-  call void @_out_of_gas()
-  br label %"$have_gas_633"
-
-"$have_gas_633":                                  ; preds = %"$out_of_gas_632", %"$have_gas_617"
-  %"$consume_634" = sub i64 %"$gasrem_630", 1
-  store i64 %"$consume_634", i64* @_gasrem, align 8
-  %"$arg1_25" = alloca %Int128, align 8
-  %"$gasrem_635" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_636" = icmp ugt i64 1, %"$gasrem_635"
-  br i1 %"$gascmp_636", label %"$out_of_gas_637", label %"$have_gas_638"
-
-"$out_of_gas_637":                                ; preds = %"$have_gas_633"
-  call void @_out_of_gas()
-  br label %"$have_gas_638"
-
-"$have_gas_638":                                  ; preds = %"$out_of_gas_637", %"$have_gas_633"
-  %"$consume_639" = sub i64 %"$gasrem_635", 1
-  store i64 %"$consume_639", i64* @_gasrem, align 8
-  store %Int128 { i128 9223372036854775806 }, %Int128* %"$arg1_25", align 8, !dbg !52
+"$have_gas_635":                                  ; preds = %"$out_of_gas_634", %"$have_gas_629"
+  %"$consume_636" = sub i64 %"$gasrem_632", 40
+  store i64 %"$consume_636", i64* @_gasrem, align 8
+  %"$$arg1_19_637" = load %Uint128, %Uint128* %"$arg1_19", align 8
+  %"$$arg2_20_638" = load %Uint128, %Uint128* %"$arg2_20", align 8
+  %"$mul_call_639" = call %Uint128 @_mul_Uint128(%Uint128 %"$$arg1_19_637", %Uint128 %"$$arg2_20_638"), !dbg !48
+  store %Uint128 %"$mul_call_639", %Uint128* %"$res_21", align 8, !dbg !48
   %"$gasrem_640" = load i64, i64* @_gasrem, align 8
   %"$gascmp_641" = icmp ugt i64 1, %"$gasrem_640"
   br i1 %"$gascmp_641", label %"$out_of_gas_642", label %"$have_gas_643"
 
-"$out_of_gas_642":                                ; preds = %"$have_gas_638"
+"$out_of_gas_642":                                ; preds = %"$have_gas_635"
   call void @_out_of_gas()
   br label %"$have_gas_643"
 
-"$have_gas_643":                                  ; preds = %"$out_of_gas_642", %"$have_gas_638"
+"$have_gas_643":                                  ; preds = %"$out_of_gas_642", %"$have_gas_635"
   %"$consume_644" = sub i64 %"$gasrem_640", 1
   store i64 %"$consume_644", i64* @_gasrem, align 8
-  %"$arg2_26" = alloca %Int128, align 8
+  %"$res__22" = alloca %Uint128, align 8
   %"$gasrem_645" = load i64, i64* @_gasrem, align 8
   %"$gascmp_646" = icmp ugt i64 1, %"$gasrem_645"
   br i1 %"$gascmp_646", label %"$out_of_gas_647", label %"$have_gas_648"
@@ -1200,7 +1207,7 @@ entry:
 "$have_gas_648":                                  ; preds = %"$out_of_gas_647", %"$have_gas_643"
   %"$consume_649" = sub i64 %"$gasrem_645", 1
   store i64 %"$consume_649", i64* @_gasrem, align 8
-  store %Int128 { i128 9223372036854775806 }, %Int128* %"$arg2_26", align 8, !dbg !53
+  store %Uint128 { i128 85070591730234615828950163710522949636 }, %Uint128* %"$res__22", align 8, !dbg !49
   %"$gasrem_650" = load i64, i64* @_gasrem, align 8
   %"$gascmp_651" = icmp ugt i64 1, %"$gasrem_650"
   br i1 %"$gascmp_651", label %"$out_of_gas_652", label %"$have_gas_653"
@@ -1212,247 +1219,240 @@ entry:
 "$have_gas_653":                                  ; preds = %"$out_of_gas_652", %"$have_gas_648"
   %"$consume_654" = sub i64 %"$gasrem_650", 1
   store i64 %"$consume_654", i64* @_gasrem, align 8
+  %"$test__23" = alloca %TName_Bool*, align 8
+  %"$gasrem_656" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_657" = icmp ugt i64 8, %"$gasrem_656"
+  br i1 %"$gascmp_657", label %"$out_of_gas_658", label %"$have_gas_659"
+
+"$out_of_gas_658":                                ; preds = %"$have_gas_653"
+  call void @_out_of_gas()
+  br label %"$have_gas_659"
+
+"$have_gas_659":                                  ; preds = %"$out_of_gas_658", %"$have_gas_653"
+  %"$consume_660" = sub i64 %"$gasrem_656", 8
+  store i64 %"$consume_660", i64* @_gasrem, align 8
+  %"$execptr_load_661" = load i8*, i8** @_execptr, align 8
+  %"$$res_21_662" = load %Uint128, %Uint128* %"$res_21", align 8
+  %"$$res__22_663" = load %Uint128, %Uint128* %"$res__22", align 8
+  %"$eq_call_664" = call %TName_Bool* @_eq_Uint128(i8* %"$execptr_load_661", %Uint128 %"$$res_21_662", %Uint128 %"$$res__22_663"), !dbg !50
+  store %TName_Bool* %"$eq_call_664", %TName_Bool** %"$test__23", align 8, !dbg !50
+  %"$gasrem_666" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_667" = icmp ugt i64 1, %"$gasrem_666"
+  br i1 %"$gascmp_667", label %"$out_of_gas_668", label %"$have_gas_669"
+
+"$out_of_gas_668":                                ; preds = %"$have_gas_659"
+  call void @_out_of_gas()
+  br label %"$have_gas_669"
+
+"$have_gas_669":                                  ; preds = %"$out_of_gas_668", %"$have_gas_659"
+  %"$consume_670" = sub i64 %"$gasrem_666", 1
+  store i64 %"$consume_670", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_129" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_671" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_672" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_671", 0
+  %"$BoolUtils.andb_envptr_673" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_671", 1
+  %"$$test_18_674" = load %TName_Bool*, %TName_Bool** %"$test_18", align 8
+  %"$BoolUtils.andb_call_675" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_672"(i8* %"$BoolUtils.andb_envptr_673", %TName_Bool* %"$$test_18_674"), !dbg !51
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_675", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_129", align 8, !dbg !51
+  %"$BoolUtils.andb_130" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_129_676" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_129", align 8
+  %"$$BoolUtils.andb_129_fptr_677" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_129_676", 0
+  %"$$BoolUtils.andb_129_envptr_678" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_129_676", 1
+  %"$$test__23_679" = load %TName_Bool*, %TName_Bool** %"$test__23", align 8
+  %"$$BoolUtils.andb_129_call_680" = call %TName_Bool* %"$$BoolUtils.andb_129_fptr_677"(i8* %"$$BoolUtils.andb_129_envptr_678", %TName_Bool* %"$$test__23_679"), !dbg !51
+  store %TName_Bool* %"$$BoolUtils.andb_129_call_680", %TName_Bool** %"$BoolUtils.andb_130", align 8, !dbg !51
+  %"$$BoolUtils.andb_130_681" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_130", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_130_681", %TName_Bool** %"$test_24", align 8, !dbg !51
+  %"$gasrem_682" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_683" = icmp ugt i64 1, %"$gasrem_682"
+  br i1 %"$gascmp_683", label %"$out_of_gas_684", label %"$have_gas_685"
+
+"$out_of_gas_684":                                ; preds = %"$have_gas_669"
+  call void @_out_of_gas()
+  br label %"$have_gas_685"
+
+"$have_gas_685":                                  ; preds = %"$out_of_gas_684", %"$have_gas_669"
+  %"$consume_686" = sub i64 %"$gasrem_682", 1
+  store i64 %"$consume_686", i64* @_gasrem, align 8
+  %"$arg1_25" = alloca %Int128, align 8
+  %"$gasrem_687" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_688" = icmp ugt i64 1, %"$gasrem_687"
+  br i1 %"$gascmp_688", label %"$out_of_gas_689", label %"$have_gas_690"
+
+"$out_of_gas_689":                                ; preds = %"$have_gas_685"
+  call void @_out_of_gas()
+  br label %"$have_gas_690"
+
+"$have_gas_690":                                  ; preds = %"$out_of_gas_689", %"$have_gas_685"
+  %"$consume_691" = sub i64 %"$gasrem_687", 1
+  store i64 %"$consume_691", i64* @_gasrem, align 8
+  store %Int128 { i128 9223372036854775806 }, %Int128* %"$arg1_25", align 8, !dbg !52
+  %"$gasrem_692" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_693" = icmp ugt i64 1, %"$gasrem_692"
+  br i1 %"$gascmp_693", label %"$out_of_gas_694", label %"$have_gas_695"
+
+"$out_of_gas_694":                                ; preds = %"$have_gas_690"
+  call void @_out_of_gas()
+  br label %"$have_gas_695"
+
+"$have_gas_695":                                  ; preds = %"$out_of_gas_694", %"$have_gas_690"
+  %"$consume_696" = sub i64 %"$gasrem_692", 1
+  store i64 %"$consume_696", i64* @_gasrem, align 8
+  %"$arg2_26" = alloca %Int128, align 8
+  %"$gasrem_697" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_698" = icmp ugt i64 1, %"$gasrem_697"
+  br i1 %"$gascmp_698", label %"$out_of_gas_699", label %"$have_gas_700"
+
+"$out_of_gas_699":                                ; preds = %"$have_gas_695"
+  call void @_out_of_gas()
+  br label %"$have_gas_700"
+
+"$have_gas_700":                                  ; preds = %"$out_of_gas_699", %"$have_gas_695"
+  %"$consume_701" = sub i64 %"$gasrem_697", 1
+  store i64 %"$consume_701", i64* @_gasrem, align 8
+  store %Int128 { i128 9223372036854775806 }, %Int128* %"$arg2_26", align 8, !dbg !53
+  %"$gasrem_702" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_703" = icmp ugt i64 1, %"$gasrem_702"
+  br i1 %"$gascmp_703", label %"$out_of_gas_704", label %"$have_gas_705"
+
+"$out_of_gas_704":                                ; preds = %"$have_gas_700"
+  call void @_out_of_gas()
+  br label %"$have_gas_705"
+
+"$have_gas_705":                                  ; preds = %"$out_of_gas_704", %"$have_gas_700"
+  %"$consume_706" = sub i64 %"$gasrem_702", 1
+  store i64 %"$consume_706", i64* @_gasrem, align 8
   %"$test_30" = alloca %TName_Bool*, align 8
-  %"$gasrem_655" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_656" = icmp ugt i64 1, %"$gasrem_655"
-  br i1 %"$gascmp_656", label %"$out_of_gas_657", label %"$have_gas_658"
+  %"$gasrem_707" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_708" = icmp ugt i64 1, %"$gasrem_707"
+  br i1 %"$gascmp_708", label %"$out_of_gas_709", label %"$have_gas_710"
 
-"$out_of_gas_657":                                ; preds = %"$have_gas_653"
+"$out_of_gas_709":                                ; preds = %"$have_gas_705"
   call void @_out_of_gas()
-  br label %"$have_gas_658"
+  br label %"$have_gas_710"
 
-"$have_gas_658":                                  ; preds = %"$out_of_gas_657", %"$have_gas_653"
-  %"$consume_659" = sub i64 %"$gasrem_655", 1
-  store i64 %"$consume_659", i64* @_gasrem, align 8
+"$have_gas_710":                                  ; preds = %"$out_of_gas_709", %"$have_gas_705"
+  %"$consume_711" = sub i64 %"$gasrem_707", 1
+  store i64 %"$consume_711", i64* @_gasrem, align 8
   %"$res_27" = alloca %Int128, align 8
-  %"$$arg1_25_660" = load %Int128, %Int128* %"$arg1_25", align 8
-  %"$$arg2_26_661" = load %Int128, %Int128* %"$arg2_26", align 8
-  %"$mul_call_662" = call %Int128 @_mul_Int128(%Int128 %"$$arg1_25_660", %Int128 %"$$arg2_26_661"), !dbg !54
-  store %Int128 %"$mul_call_662", %Int128* %"$res_27", align 8, !dbg !54
-  %"$gasrem_663" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_664" = icmp ugt i64 1, %"$gasrem_663"
-  br i1 %"$gascmp_664", label %"$out_of_gas_665", label %"$have_gas_666"
+  %"$gasrem_713" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_714" = icmp ugt i64 40, %"$gasrem_713"
+  br i1 %"$gascmp_714", label %"$out_of_gas_715", label %"$have_gas_716"
 
-"$out_of_gas_665":                                ; preds = %"$have_gas_658"
+"$out_of_gas_715":                                ; preds = %"$have_gas_710"
   call void @_out_of_gas()
-  br label %"$have_gas_666"
+  br label %"$have_gas_716"
 
-"$have_gas_666":                                  ; preds = %"$out_of_gas_665", %"$have_gas_658"
-  %"$consume_667" = sub i64 %"$gasrem_663", 1
-  store i64 %"$consume_667", i64* @_gasrem, align 8
+"$have_gas_716":                                  ; preds = %"$out_of_gas_715", %"$have_gas_710"
+  %"$consume_717" = sub i64 %"$gasrem_713", 40
+  store i64 %"$consume_717", i64* @_gasrem, align 8
+  %"$$arg1_25_718" = load %Int128, %Int128* %"$arg1_25", align 8
+  %"$$arg2_26_719" = load %Int128, %Int128* %"$arg2_26", align 8
+  %"$mul_call_720" = call %Int128 @_mul_Int128(%Int128 %"$$arg1_25_718", %Int128 %"$$arg2_26_719"), !dbg !54
+  store %Int128 %"$mul_call_720", %Int128* %"$res_27", align 8, !dbg !54
+  %"$gasrem_721" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_722" = icmp ugt i64 1, %"$gasrem_721"
+  br i1 %"$gascmp_722", label %"$out_of_gas_723", label %"$have_gas_724"
+
+"$out_of_gas_723":                                ; preds = %"$have_gas_716"
+  call void @_out_of_gas()
+  br label %"$have_gas_724"
+
+"$have_gas_724":                                  ; preds = %"$out_of_gas_723", %"$have_gas_716"
+  %"$consume_725" = sub i64 %"$gasrem_721", 1
+  store i64 %"$consume_725", i64* @_gasrem, align 8
   %"$res__28" = alloca %Int128, align 8
-  %"$gasrem_668" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_669" = icmp ugt i64 1, %"$gasrem_668"
-  br i1 %"$gascmp_669", label %"$out_of_gas_670", label %"$have_gas_671"
+  %"$gasrem_726" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_727" = icmp ugt i64 1, %"$gasrem_726"
+  br i1 %"$gascmp_727", label %"$out_of_gas_728", label %"$have_gas_729"
 
-"$out_of_gas_670":                                ; preds = %"$have_gas_666"
+"$out_of_gas_728":                                ; preds = %"$have_gas_724"
   call void @_out_of_gas()
-  br label %"$have_gas_671"
+  br label %"$have_gas_729"
 
-"$have_gas_671":                                  ; preds = %"$out_of_gas_670", %"$have_gas_666"
-  %"$consume_672" = sub i64 %"$gasrem_668", 1
-  store i64 %"$consume_672", i64* @_gasrem, align 8
+"$have_gas_729":                                  ; preds = %"$out_of_gas_728", %"$have_gas_724"
+  %"$consume_730" = sub i64 %"$gasrem_726", 1
+  store i64 %"$consume_730", i64* @_gasrem, align 8
   store %Int128 { i128 85070591730234615828950163710522949636 }, %Int128* %"$res__28", align 8, !dbg !55
-  %"$gasrem_673" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_674" = icmp ugt i64 1, %"$gasrem_673"
-  br i1 %"$gascmp_674", label %"$out_of_gas_675", label %"$have_gas_676"
+  %"$gasrem_731" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_732" = icmp ugt i64 1, %"$gasrem_731"
+  br i1 %"$gascmp_732", label %"$out_of_gas_733", label %"$have_gas_734"
 
-"$out_of_gas_675":                                ; preds = %"$have_gas_671"
+"$out_of_gas_733":                                ; preds = %"$have_gas_729"
   call void @_out_of_gas()
-  br label %"$have_gas_676"
+  br label %"$have_gas_734"
 
-"$have_gas_676":                                  ; preds = %"$out_of_gas_675", %"$have_gas_671"
-  %"$consume_677" = sub i64 %"$gasrem_673", 1
-  store i64 %"$consume_677", i64* @_gasrem, align 8
+"$have_gas_734":                                  ; preds = %"$out_of_gas_733", %"$have_gas_729"
+  %"$consume_735" = sub i64 %"$gasrem_731", 1
+  store i64 %"$consume_735", i64* @_gasrem, align 8
   %"$test__29" = alloca %TName_Bool*, align 8
-  %"$execptr_load_678" = load i8*, i8** @_execptr, align 8
-  %"$$res_27_679" = load %Int128, %Int128* %"$res_27", align 8
-  %"$$res__28_680" = load %Int128, %Int128* %"$res__28", align 8
-  %"$eq_call_681" = call %TName_Bool* @_eq_Int128(i8* %"$execptr_load_678", %Int128 %"$$res_27_679", %Int128 %"$$res__28_680"), !dbg !56
-  store %TName_Bool* %"$eq_call_681", %TName_Bool** %"$test__29", align 8, !dbg !56
-  %"$gasrem_683" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_684" = icmp ugt i64 1, %"$gasrem_683"
-  br i1 %"$gascmp_684", label %"$out_of_gas_685", label %"$have_gas_686"
-
-"$out_of_gas_685":                                ; preds = %"$have_gas_676"
-  call void @_out_of_gas()
-  br label %"$have_gas_686"
-
-"$have_gas_686":                                  ; preds = %"$out_of_gas_685", %"$have_gas_676"
-  %"$consume_687" = sub i64 %"$gasrem_683", 1
-  store i64 %"$consume_687", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_131" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_688" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_689" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_688", 0
-  %"$BoolUtils.andb_envptr_690" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_688", 1
-  %"$$test_24_691" = load %TName_Bool*, %TName_Bool** %"$test_24", align 8
-  %"$BoolUtils.andb_call_692" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_689"(i8* %"$BoolUtils.andb_envptr_690", %TName_Bool* %"$$test_24_691"), !dbg !57
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_692", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_131", align 8, !dbg !57
-  %"$BoolUtils.andb_132" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_131_693" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_131", align 8
-  %"$$BoolUtils.andb_131_fptr_694" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_131_693", 0
-  %"$$BoolUtils.andb_131_envptr_695" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_131_693", 1
-  %"$$test__29_696" = load %TName_Bool*, %TName_Bool** %"$test__29", align 8
-  %"$$BoolUtils.andb_131_call_697" = call %TName_Bool* %"$$BoolUtils.andb_131_fptr_694"(i8* %"$$BoolUtils.andb_131_envptr_695", %TName_Bool* %"$$test__29_696"), !dbg !57
-  store %TName_Bool* %"$$BoolUtils.andb_131_call_697", %TName_Bool** %"$BoolUtils.andb_132", align 8, !dbg !57
-  %"$$BoolUtils.andb_132_698" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_132", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_132_698", %TName_Bool** %"$test_30", align 8, !dbg !57
-  %"$gasrem_699" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_700" = icmp ugt i64 1, %"$gasrem_699"
-  br i1 %"$gascmp_700", label %"$out_of_gas_701", label %"$have_gas_702"
-
-"$out_of_gas_701":                                ; preds = %"$have_gas_686"
-  call void @_out_of_gas()
-  br label %"$have_gas_702"
-
-"$have_gas_702":                                  ; preds = %"$out_of_gas_701", %"$have_gas_686"
-  %"$consume_703" = sub i64 %"$gasrem_699", 1
-  store i64 %"$consume_703", i64* @_gasrem, align 8
-  %"$arg1_31" = alloca %Int128, align 8
-  %"$gasrem_704" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_705" = icmp ugt i64 1, %"$gasrem_704"
-  br i1 %"$gascmp_705", label %"$out_of_gas_706", label %"$have_gas_707"
-
-"$out_of_gas_706":                                ; preds = %"$have_gas_702"
-  call void @_out_of_gas()
-  br label %"$have_gas_707"
-
-"$have_gas_707":                                  ; preds = %"$out_of_gas_706", %"$have_gas_702"
-  %"$consume_708" = sub i64 %"$gasrem_704", 1
-  store i64 %"$consume_708", i64* @_gasrem, align 8
-  store %Int128 { i128 9223372036854775806 }, %Int128* %"$arg1_31", align 8, !dbg !58
-  %"$gasrem_709" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_710" = icmp ugt i64 1, %"$gasrem_709"
-  br i1 %"$gascmp_710", label %"$out_of_gas_711", label %"$have_gas_712"
-
-"$out_of_gas_711":                                ; preds = %"$have_gas_707"
-  call void @_out_of_gas()
-  br label %"$have_gas_712"
-
-"$have_gas_712":                                  ; preds = %"$out_of_gas_711", %"$have_gas_707"
-  %"$consume_713" = sub i64 %"$gasrem_709", 1
-  store i64 %"$consume_713", i64* @_gasrem, align 8
-  %"$arg2_32" = alloca %Int128, align 8
-  %"$gasrem_714" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_715" = icmp ugt i64 1, %"$gasrem_714"
-  br i1 %"$gascmp_715", label %"$out_of_gas_716", label %"$have_gas_717"
-
-"$out_of_gas_716":                                ; preds = %"$have_gas_712"
-  call void @_out_of_gas()
-  br label %"$have_gas_717"
-
-"$have_gas_717":                                  ; preds = %"$out_of_gas_716", %"$have_gas_712"
-  %"$consume_718" = sub i64 %"$gasrem_714", 1
-  store i64 %"$consume_718", i64* @_gasrem, align 8
-  store %Int128 zeroinitializer, %Int128* %"$arg2_32", align 8, !dbg !59
-  %"$gasrem_719" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_720" = icmp ugt i64 1, %"$gasrem_719"
-  br i1 %"$gascmp_720", label %"$out_of_gas_721", label %"$have_gas_722"
-
-"$out_of_gas_721":                                ; preds = %"$have_gas_717"
-  call void @_out_of_gas()
-  br label %"$have_gas_722"
-
-"$have_gas_722":                                  ; preds = %"$out_of_gas_721", %"$have_gas_717"
-  %"$consume_723" = sub i64 %"$gasrem_719", 1
-  store i64 %"$consume_723", i64* @_gasrem, align 8
-  %"$test_36" = alloca %TName_Bool*, align 8
-  %"$gasrem_724" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_725" = icmp ugt i64 1, %"$gasrem_724"
-  br i1 %"$gascmp_725", label %"$out_of_gas_726", label %"$have_gas_727"
-
-"$out_of_gas_726":                                ; preds = %"$have_gas_722"
-  call void @_out_of_gas()
-  br label %"$have_gas_727"
-
-"$have_gas_727":                                  ; preds = %"$out_of_gas_726", %"$have_gas_722"
-  %"$consume_728" = sub i64 %"$gasrem_724", 1
-  store i64 %"$consume_728", i64* @_gasrem, align 8
-  %"$res_33" = alloca %Int128, align 8
-  %"$$arg1_31_729" = load %Int128, %Int128* %"$arg1_31", align 8
-  %"$$arg2_32_730" = load %Int128, %Int128* %"$arg2_32", align 8
-  %"$mul_call_731" = call %Int128 @_mul_Int128(%Int128 %"$$arg1_31_729", %Int128 %"$$arg2_32_730"), !dbg !60
-  store %Int128 %"$mul_call_731", %Int128* %"$res_33", align 8, !dbg !60
-  %"$gasrem_732" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_733" = icmp ugt i64 1, %"$gasrem_732"
-  br i1 %"$gascmp_733", label %"$out_of_gas_734", label %"$have_gas_735"
-
-"$out_of_gas_734":                                ; preds = %"$have_gas_727"
-  call void @_out_of_gas()
-  br label %"$have_gas_735"
-
-"$have_gas_735":                                  ; preds = %"$out_of_gas_734", %"$have_gas_727"
-  %"$consume_736" = sub i64 %"$gasrem_732", 1
-  store i64 %"$consume_736", i64* @_gasrem, align 8
-  %"$res__34" = alloca %Int128, align 8
   %"$gasrem_737" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_738" = icmp ugt i64 1, %"$gasrem_737"
+  %"$gascmp_738" = icmp ugt i64 8, %"$gasrem_737"
   br i1 %"$gascmp_738", label %"$out_of_gas_739", label %"$have_gas_740"
 
-"$out_of_gas_739":                                ; preds = %"$have_gas_735"
+"$out_of_gas_739":                                ; preds = %"$have_gas_734"
   call void @_out_of_gas()
   br label %"$have_gas_740"
 
-"$have_gas_740":                                  ; preds = %"$out_of_gas_739", %"$have_gas_735"
-  %"$consume_741" = sub i64 %"$gasrem_737", 1
+"$have_gas_740":                                  ; preds = %"$out_of_gas_739", %"$have_gas_734"
+  %"$consume_741" = sub i64 %"$gasrem_737", 8
   store i64 %"$consume_741", i64* @_gasrem, align 8
-  store %Int128 zeroinitializer, %Int128* %"$res__34", align 8, !dbg !61
-  %"$gasrem_742" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_743" = icmp ugt i64 1, %"$gasrem_742"
-  br i1 %"$gascmp_743", label %"$out_of_gas_744", label %"$have_gas_745"
+  %"$execptr_load_742" = load i8*, i8** @_execptr, align 8
+  %"$$res_27_743" = load %Int128, %Int128* %"$res_27", align 8
+  %"$$res__28_744" = load %Int128, %Int128* %"$res__28", align 8
+  %"$eq_call_745" = call %TName_Bool* @_eq_Int128(i8* %"$execptr_load_742", %Int128 %"$$res_27_743", %Int128 %"$$res__28_744"), !dbg !56
+  store %TName_Bool* %"$eq_call_745", %TName_Bool** %"$test__29", align 8, !dbg !56
+  %"$gasrem_747" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_748" = icmp ugt i64 1, %"$gasrem_747"
+  br i1 %"$gascmp_748", label %"$out_of_gas_749", label %"$have_gas_750"
 
-"$out_of_gas_744":                                ; preds = %"$have_gas_740"
+"$out_of_gas_749":                                ; preds = %"$have_gas_740"
   call void @_out_of_gas()
-  br label %"$have_gas_745"
+  br label %"$have_gas_750"
 
-"$have_gas_745":                                  ; preds = %"$out_of_gas_744", %"$have_gas_740"
-  %"$consume_746" = sub i64 %"$gasrem_742", 1
-  store i64 %"$consume_746", i64* @_gasrem, align 8
-  %"$test__35" = alloca %TName_Bool*, align 8
-  %"$execptr_load_747" = load i8*, i8** @_execptr, align 8
-  %"$$res_33_748" = load %Int128, %Int128* %"$res_33", align 8
-  %"$$res__34_749" = load %Int128, %Int128* %"$res__34", align 8
-  %"$eq_call_750" = call %TName_Bool* @_eq_Int128(i8* %"$execptr_load_747", %Int128 %"$$res_33_748", %Int128 %"$$res__34_749"), !dbg !62
-  store %TName_Bool* %"$eq_call_750", %TName_Bool** %"$test__35", align 8, !dbg !62
-  %"$gasrem_752" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_753" = icmp ugt i64 1, %"$gasrem_752"
-  br i1 %"$gascmp_753", label %"$out_of_gas_754", label %"$have_gas_755"
+"$have_gas_750":                                  ; preds = %"$out_of_gas_749", %"$have_gas_740"
+  %"$consume_751" = sub i64 %"$gasrem_747", 1
+  store i64 %"$consume_751", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_131" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_752" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_753" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_752", 0
+  %"$BoolUtils.andb_envptr_754" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_752", 1
+  %"$$test_24_755" = load %TName_Bool*, %TName_Bool** %"$test_24", align 8
+  %"$BoolUtils.andb_call_756" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_753"(i8* %"$BoolUtils.andb_envptr_754", %TName_Bool* %"$$test_24_755"), !dbg !57
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_756", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_131", align 8, !dbg !57
+  %"$BoolUtils.andb_132" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_131_757" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_131", align 8
+  %"$$BoolUtils.andb_131_fptr_758" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_131_757", 0
+  %"$$BoolUtils.andb_131_envptr_759" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_131_757", 1
+  %"$$test__29_760" = load %TName_Bool*, %TName_Bool** %"$test__29", align 8
+  %"$$BoolUtils.andb_131_call_761" = call %TName_Bool* %"$$BoolUtils.andb_131_fptr_758"(i8* %"$$BoolUtils.andb_131_envptr_759", %TName_Bool* %"$$test__29_760"), !dbg !57
+  store %TName_Bool* %"$$BoolUtils.andb_131_call_761", %TName_Bool** %"$BoolUtils.andb_132", align 8, !dbg !57
+  %"$$BoolUtils.andb_132_762" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_132", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_132_762", %TName_Bool** %"$test_30", align 8, !dbg !57
+  %"$gasrem_763" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_764" = icmp ugt i64 1, %"$gasrem_763"
+  br i1 %"$gascmp_764", label %"$out_of_gas_765", label %"$have_gas_766"
 
-"$out_of_gas_754":                                ; preds = %"$have_gas_745"
+"$out_of_gas_765":                                ; preds = %"$have_gas_750"
   call void @_out_of_gas()
-  br label %"$have_gas_755"
+  br label %"$have_gas_766"
 
-"$have_gas_755":                                  ; preds = %"$out_of_gas_754", %"$have_gas_745"
-  %"$consume_756" = sub i64 %"$gasrem_752", 1
-  store i64 %"$consume_756", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_133" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_757" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_758" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_757", 0
-  %"$BoolUtils.andb_envptr_759" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_757", 1
-  %"$$test_30_760" = load %TName_Bool*, %TName_Bool** %"$test_30", align 8
-  %"$BoolUtils.andb_call_761" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_758"(i8* %"$BoolUtils.andb_envptr_759", %TName_Bool* %"$$test_30_760"), !dbg !63
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_761", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_133", align 8, !dbg !63
-  %"$BoolUtils.andb_134" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_133_762" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_133", align 8
-  %"$$BoolUtils.andb_133_fptr_763" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_133_762", 0
-  %"$$BoolUtils.andb_133_envptr_764" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_133_762", 1
-  %"$$test__35_765" = load %TName_Bool*, %TName_Bool** %"$test__35", align 8
-  %"$$BoolUtils.andb_133_call_766" = call %TName_Bool* %"$$BoolUtils.andb_133_fptr_763"(i8* %"$$BoolUtils.andb_133_envptr_764", %TName_Bool* %"$$test__35_765"), !dbg !63
-  store %TName_Bool* %"$$BoolUtils.andb_133_call_766", %TName_Bool** %"$BoolUtils.andb_134", align 8, !dbg !63
-  %"$$BoolUtils.andb_134_767" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_134", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_134_767", %TName_Bool** %"$test_36", align 8, !dbg !63
+"$have_gas_766":                                  ; preds = %"$out_of_gas_765", %"$have_gas_750"
+  %"$consume_767" = sub i64 %"$gasrem_763", 1
+  store i64 %"$consume_767", i64* @_gasrem, align 8
+  %"$arg1_31" = alloca %Int128, align 8
   %"$gasrem_768" = load i64, i64* @_gasrem, align 8
   %"$gascmp_769" = icmp ugt i64 1, %"$gasrem_768"
   br i1 %"$gascmp_769", label %"$out_of_gas_770", label %"$have_gas_771"
 
-"$out_of_gas_770":                                ; preds = %"$have_gas_755"
+"$out_of_gas_770":                                ; preds = %"$have_gas_766"
   call void @_out_of_gas()
   br label %"$have_gas_771"
 
-"$have_gas_771":                                  ; preds = %"$out_of_gas_770", %"$have_gas_755"
+"$have_gas_771":                                  ; preds = %"$out_of_gas_770", %"$have_gas_766"
   %"$consume_772" = sub i64 %"$gasrem_768", 1
   store i64 %"$consume_772", i64* @_gasrem, align 8
-  %"$arg1_37" = alloca %Int128, align 8
+  store %Int128 { i128 9223372036854775806 }, %Int128* %"$arg1_31", align 8, !dbg !58
   %"$gasrem_773" = load i64, i64* @_gasrem, align 8
   %"$gascmp_774" = icmp ugt i64 1, %"$gasrem_773"
   br i1 %"$gascmp_774", label %"$out_of_gas_775", label %"$have_gas_776"
@@ -1464,7 +1464,7 @@ entry:
 "$have_gas_776":                                  ; preds = %"$out_of_gas_775", %"$have_gas_771"
   %"$consume_777" = sub i64 %"$gasrem_773", 1
   store i64 %"$consume_777", i64* @_gasrem, align 8
-  store %Int128 { i128 9223372036854775806 }, %Int128* %"$arg1_37", align 8, !dbg !64
+  %"$arg2_32" = alloca %Int128, align 8
   %"$gasrem_778" = load i64, i64* @_gasrem, align 8
   %"$gascmp_779" = icmp ugt i64 1, %"$gasrem_778"
   br i1 %"$gascmp_779", label %"$out_of_gas_780", label %"$have_gas_781"
@@ -1476,7 +1476,7 @@ entry:
 "$have_gas_781":                                  ; preds = %"$out_of_gas_780", %"$have_gas_776"
   %"$consume_782" = sub i64 %"$gasrem_778", 1
   store i64 %"$consume_782", i64* @_gasrem, align 8
-  %"$arg2_38" = alloca %Int128, align 8
+  store %Int128 zeroinitializer, %Int128* %"$arg2_32", align 8, !dbg !59
   %"$gasrem_783" = load i64, i64* @_gasrem, align 8
   %"$gascmp_784" = icmp ugt i64 1, %"$gasrem_783"
   br i1 %"$gascmp_784", label %"$out_of_gas_785", label %"$have_gas_786"
@@ -1488,7 +1488,7 @@ entry:
 "$have_gas_786":                                  ; preds = %"$out_of_gas_785", %"$have_gas_781"
   %"$consume_787" = sub i64 %"$gasrem_783", 1
   store i64 %"$consume_787", i64* @_gasrem, align 8
-  store %Int128 { i128 -1 }, %Int128* %"$arg2_38", align 8, !dbg !65
+  %"$test_36" = alloca %TName_Bool*, align 8
   %"$gasrem_788" = load i64, i64* @_gasrem, align 8
   %"$gascmp_789" = icmp ugt i64 1, %"$gasrem_788"
   br i1 %"$gascmp_789", label %"$out_of_gas_790", label %"$have_gas_791"
@@ -1500,1537 +1500,1511 @@ entry:
 "$have_gas_791":                                  ; preds = %"$out_of_gas_790", %"$have_gas_786"
   %"$consume_792" = sub i64 %"$gasrem_788", 1
   store i64 %"$consume_792", i64* @_gasrem, align 8
+  %"$res_33" = alloca %Int128, align 8
+  %"$gasrem_794" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_795" = icmp ugt i64 40, %"$gasrem_794"
+  br i1 %"$gascmp_795", label %"$out_of_gas_796", label %"$have_gas_797"
+
+"$out_of_gas_796":                                ; preds = %"$have_gas_791"
+  call void @_out_of_gas()
+  br label %"$have_gas_797"
+
+"$have_gas_797":                                  ; preds = %"$out_of_gas_796", %"$have_gas_791"
+  %"$consume_798" = sub i64 %"$gasrem_794", 40
+  store i64 %"$consume_798", i64* @_gasrem, align 8
+  %"$$arg1_31_799" = load %Int128, %Int128* %"$arg1_31", align 8
+  %"$$arg2_32_800" = load %Int128, %Int128* %"$arg2_32", align 8
+  %"$mul_call_801" = call %Int128 @_mul_Int128(%Int128 %"$$arg1_31_799", %Int128 %"$$arg2_32_800"), !dbg !60
+  store %Int128 %"$mul_call_801", %Int128* %"$res_33", align 8, !dbg !60
+  %"$gasrem_802" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_803" = icmp ugt i64 1, %"$gasrem_802"
+  br i1 %"$gascmp_803", label %"$out_of_gas_804", label %"$have_gas_805"
+
+"$out_of_gas_804":                                ; preds = %"$have_gas_797"
+  call void @_out_of_gas()
+  br label %"$have_gas_805"
+
+"$have_gas_805":                                  ; preds = %"$out_of_gas_804", %"$have_gas_797"
+  %"$consume_806" = sub i64 %"$gasrem_802", 1
+  store i64 %"$consume_806", i64* @_gasrem, align 8
+  %"$res__34" = alloca %Int128, align 8
+  %"$gasrem_807" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_808" = icmp ugt i64 1, %"$gasrem_807"
+  br i1 %"$gascmp_808", label %"$out_of_gas_809", label %"$have_gas_810"
+
+"$out_of_gas_809":                                ; preds = %"$have_gas_805"
+  call void @_out_of_gas()
+  br label %"$have_gas_810"
+
+"$have_gas_810":                                  ; preds = %"$out_of_gas_809", %"$have_gas_805"
+  %"$consume_811" = sub i64 %"$gasrem_807", 1
+  store i64 %"$consume_811", i64* @_gasrem, align 8
+  store %Int128 zeroinitializer, %Int128* %"$res__34", align 8, !dbg !61
+  %"$gasrem_812" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_813" = icmp ugt i64 1, %"$gasrem_812"
+  br i1 %"$gascmp_813", label %"$out_of_gas_814", label %"$have_gas_815"
+
+"$out_of_gas_814":                                ; preds = %"$have_gas_810"
+  call void @_out_of_gas()
+  br label %"$have_gas_815"
+
+"$have_gas_815":                                  ; preds = %"$out_of_gas_814", %"$have_gas_810"
+  %"$consume_816" = sub i64 %"$gasrem_812", 1
+  store i64 %"$consume_816", i64* @_gasrem, align 8
+  %"$test__35" = alloca %TName_Bool*, align 8
+  %"$gasrem_818" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_819" = icmp ugt i64 8, %"$gasrem_818"
+  br i1 %"$gascmp_819", label %"$out_of_gas_820", label %"$have_gas_821"
+
+"$out_of_gas_820":                                ; preds = %"$have_gas_815"
+  call void @_out_of_gas()
+  br label %"$have_gas_821"
+
+"$have_gas_821":                                  ; preds = %"$out_of_gas_820", %"$have_gas_815"
+  %"$consume_822" = sub i64 %"$gasrem_818", 8
+  store i64 %"$consume_822", i64* @_gasrem, align 8
+  %"$execptr_load_823" = load i8*, i8** @_execptr, align 8
+  %"$$res_33_824" = load %Int128, %Int128* %"$res_33", align 8
+  %"$$res__34_825" = load %Int128, %Int128* %"$res__34", align 8
+  %"$eq_call_826" = call %TName_Bool* @_eq_Int128(i8* %"$execptr_load_823", %Int128 %"$$res_33_824", %Int128 %"$$res__34_825"), !dbg !62
+  store %TName_Bool* %"$eq_call_826", %TName_Bool** %"$test__35", align 8, !dbg !62
+  %"$gasrem_828" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_829" = icmp ugt i64 1, %"$gasrem_828"
+  br i1 %"$gascmp_829", label %"$out_of_gas_830", label %"$have_gas_831"
+
+"$out_of_gas_830":                                ; preds = %"$have_gas_821"
+  call void @_out_of_gas()
+  br label %"$have_gas_831"
+
+"$have_gas_831":                                  ; preds = %"$out_of_gas_830", %"$have_gas_821"
+  %"$consume_832" = sub i64 %"$gasrem_828", 1
+  store i64 %"$consume_832", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_133" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_833" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_834" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_833", 0
+  %"$BoolUtils.andb_envptr_835" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_833", 1
+  %"$$test_30_836" = load %TName_Bool*, %TName_Bool** %"$test_30", align 8
+  %"$BoolUtils.andb_call_837" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_834"(i8* %"$BoolUtils.andb_envptr_835", %TName_Bool* %"$$test_30_836"), !dbg !63
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_837", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_133", align 8, !dbg !63
+  %"$BoolUtils.andb_134" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_133_838" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_133", align 8
+  %"$$BoolUtils.andb_133_fptr_839" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_133_838", 0
+  %"$$BoolUtils.andb_133_envptr_840" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_133_838", 1
+  %"$$test__35_841" = load %TName_Bool*, %TName_Bool** %"$test__35", align 8
+  %"$$BoolUtils.andb_133_call_842" = call %TName_Bool* %"$$BoolUtils.andb_133_fptr_839"(i8* %"$$BoolUtils.andb_133_envptr_840", %TName_Bool* %"$$test__35_841"), !dbg !63
+  store %TName_Bool* %"$$BoolUtils.andb_133_call_842", %TName_Bool** %"$BoolUtils.andb_134", align 8, !dbg !63
+  %"$$BoolUtils.andb_134_843" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_134", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_134_843", %TName_Bool** %"$test_36", align 8, !dbg !63
+  %"$gasrem_844" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_845" = icmp ugt i64 1, %"$gasrem_844"
+  br i1 %"$gascmp_845", label %"$out_of_gas_846", label %"$have_gas_847"
+
+"$out_of_gas_846":                                ; preds = %"$have_gas_831"
+  call void @_out_of_gas()
+  br label %"$have_gas_847"
+
+"$have_gas_847":                                  ; preds = %"$out_of_gas_846", %"$have_gas_831"
+  %"$consume_848" = sub i64 %"$gasrem_844", 1
+  store i64 %"$consume_848", i64* @_gasrem, align 8
+  %"$arg1_37" = alloca %Int128, align 8
+  %"$gasrem_849" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_850" = icmp ugt i64 1, %"$gasrem_849"
+  br i1 %"$gascmp_850", label %"$out_of_gas_851", label %"$have_gas_852"
+
+"$out_of_gas_851":                                ; preds = %"$have_gas_847"
+  call void @_out_of_gas()
+  br label %"$have_gas_852"
+
+"$have_gas_852":                                  ; preds = %"$out_of_gas_851", %"$have_gas_847"
+  %"$consume_853" = sub i64 %"$gasrem_849", 1
+  store i64 %"$consume_853", i64* @_gasrem, align 8
+  store %Int128 { i128 9223372036854775806 }, %Int128* %"$arg1_37", align 8, !dbg !64
+  %"$gasrem_854" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_855" = icmp ugt i64 1, %"$gasrem_854"
+  br i1 %"$gascmp_855", label %"$out_of_gas_856", label %"$have_gas_857"
+
+"$out_of_gas_856":                                ; preds = %"$have_gas_852"
+  call void @_out_of_gas()
+  br label %"$have_gas_857"
+
+"$have_gas_857":                                  ; preds = %"$out_of_gas_856", %"$have_gas_852"
+  %"$consume_858" = sub i64 %"$gasrem_854", 1
+  store i64 %"$consume_858", i64* @_gasrem, align 8
+  %"$arg2_38" = alloca %Int128, align 8
+  %"$gasrem_859" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_860" = icmp ugt i64 1, %"$gasrem_859"
+  br i1 %"$gascmp_860", label %"$out_of_gas_861", label %"$have_gas_862"
+
+"$out_of_gas_861":                                ; preds = %"$have_gas_857"
+  call void @_out_of_gas()
+  br label %"$have_gas_862"
+
+"$have_gas_862":                                  ; preds = %"$out_of_gas_861", %"$have_gas_857"
+  %"$consume_863" = sub i64 %"$gasrem_859", 1
+  store i64 %"$consume_863", i64* @_gasrem, align 8
+  store %Int128 { i128 -1 }, %Int128* %"$arg2_38", align 8, !dbg !65
+  %"$gasrem_864" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_865" = icmp ugt i64 1, %"$gasrem_864"
+  br i1 %"$gascmp_865", label %"$out_of_gas_866", label %"$have_gas_867"
+
+"$out_of_gas_866":                                ; preds = %"$have_gas_862"
+  call void @_out_of_gas()
+  br label %"$have_gas_867"
+
+"$have_gas_867":                                  ; preds = %"$out_of_gas_866", %"$have_gas_862"
+  %"$consume_868" = sub i64 %"$gasrem_864", 1
+  store i64 %"$consume_868", i64* @_gasrem, align 8
   %"$test_42" = alloca %TName_Bool*, align 8
-  %"$gasrem_793" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_794" = icmp ugt i64 1, %"$gasrem_793"
-  br i1 %"$gascmp_794", label %"$out_of_gas_795", label %"$have_gas_796"
+  %"$gasrem_869" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_870" = icmp ugt i64 1, %"$gasrem_869"
+  br i1 %"$gascmp_870", label %"$out_of_gas_871", label %"$have_gas_872"
 
-"$out_of_gas_795":                                ; preds = %"$have_gas_791"
+"$out_of_gas_871":                                ; preds = %"$have_gas_867"
   call void @_out_of_gas()
-  br label %"$have_gas_796"
+  br label %"$have_gas_872"
 
-"$have_gas_796":                                  ; preds = %"$out_of_gas_795", %"$have_gas_791"
-  %"$consume_797" = sub i64 %"$gasrem_793", 1
-  store i64 %"$consume_797", i64* @_gasrem, align 8
+"$have_gas_872":                                  ; preds = %"$out_of_gas_871", %"$have_gas_867"
+  %"$consume_873" = sub i64 %"$gasrem_869", 1
+  store i64 %"$consume_873", i64* @_gasrem, align 8
   %"$res_39" = alloca %Int128, align 8
-  %"$$arg1_37_798" = load %Int128, %Int128* %"$arg1_37", align 8
-  %"$$arg2_38_799" = load %Int128, %Int128* %"$arg2_38", align 8
-  %"$mul_call_800" = call %Int128 @_mul_Int128(%Int128 %"$$arg1_37_798", %Int128 %"$$arg2_38_799"), !dbg !66
-  store %Int128 %"$mul_call_800", %Int128* %"$res_39", align 8, !dbg !66
-  %"$gasrem_801" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_802" = icmp ugt i64 1, %"$gasrem_801"
-  br i1 %"$gascmp_802", label %"$out_of_gas_803", label %"$have_gas_804"
-
-"$out_of_gas_803":                                ; preds = %"$have_gas_796"
-  call void @_out_of_gas()
-  br label %"$have_gas_804"
-
-"$have_gas_804":                                  ; preds = %"$out_of_gas_803", %"$have_gas_796"
-  %"$consume_805" = sub i64 %"$gasrem_801", 1
-  store i64 %"$consume_805", i64* @_gasrem, align 8
-  %"$res__40" = alloca %Int128, align 8
-  %"$gasrem_806" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_807" = icmp ugt i64 1, %"$gasrem_806"
-  br i1 %"$gascmp_807", label %"$out_of_gas_808", label %"$have_gas_809"
-
-"$out_of_gas_808":                                ; preds = %"$have_gas_804"
-  call void @_out_of_gas()
-  br label %"$have_gas_809"
-
-"$have_gas_809":                                  ; preds = %"$out_of_gas_808", %"$have_gas_804"
-  %"$consume_810" = sub i64 %"$gasrem_806", 1
-  store i64 %"$consume_810", i64* @_gasrem, align 8
-  store %Int128 { i128 -9223372036854775806 }, %Int128* %"$res__40", align 8, !dbg !67
-  %"$gasrem_811" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_812" = icmp ugt i64 1, %"$gasrem_811"
-  br i1 %"$gascmp_812", label %"$out_of_gas_813", label %"$have_gas_814"
-
-"$out_of_gas_813":                                ; preds = %"$have_gas_809"
-  call void @_out_of_gas()
-  br label %"$have_gas_814"
-
-"$have_gas_814":                                  ; preds = %"$out_of_gas_813", %"$have_gas_809"
-  %"$consume_815" = sub i64 %"$gasrem_811", 1
-  store i64 %"$consume_815", i64* @_gasrem, align 8
-  %"$test__41" = alloca %TName_Bool*, align 8
-  %"$execptr_load_816" = load i8*, i8** @_execptr, align 8
-  %"$$res_39_817" = load %Int128, %Int128* %"$res_39", align 8
-  %"$$res__40_818" = load %Int128, %Int128* %"$res__40", align 8
-  %"$eq_call_819" = call %TName_Bool* @_eq_Int128(i8* %"$execptr_load_816", %Int128 %"$$res_39_817", %Int128 %"$$res__40_818"), !dbg !68
-  store %TName_Bool* %"$eq_call_819", %TName_Bool** %"$test__41", align 8, !dbg !68
-  %"$gasrem_821" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_822" = icmp ugt i64 1, %"$gasrem_821"
-  br i1 %"$gascmp_822", label %"$out_of_gas_823", label %"$have_gas_824"
-
-"$out_of_gas_823":                                ; preds = %"$have_gas_814"
-  call void @_out_of_gas()
-  br label %"$have_gas_824"
-
-"$have_gas_824":                                  ; preds = %"$out_of_gas_823", %"$have_gas_814"
-  %"$consume_825" = sub i64 %"$gasrem_821", 1
-  store i64 %"$consume_825", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_135" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_826" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_827" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_826", 0
-  %"$BoolUtils.andb_envptr_828" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_826", 1
-  %"$$test_36_829" = load %TName_Bool*, %TName_Bool** %"$test_36", align 8
-  %"$BoolUtils.andb_call_830" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_827"(i8* %"$BoolUtils.andb_envptr_828", %TName_Bool* %"$$test_36_829"), !dbg !69
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_830", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_135", align 8, !dbg !69
-  %"$BoolUtils.andb_136" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_135_831" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_135", align 8
-  %"$$BoolUtils.andb_135_fptr_832" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_135_831", 0
-  %"$$BoolUtils.andb_135_envptr_833" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_135_831", 1
-  %"$$test__41_834" = load %TName_Bool*, %TName_Bool** %"$test__41", align 8
-  %"$$BoolUtils.andb_135_call_835" = call %TName_Bool* %"$$BoolUtils.andb_135_fptr_832"(i8* %"$$BoolUtils.andb_135_envptr_833", %TName_Bool* %"$$test__41_834"), !dbg !69
-  store %TName_Bool* %"$$BoolUtils.andb_135_call_835", %TName_Bool** %"$BoolUtils.andb_136", align 8, !dbg !69
-  %"$$BoolUtils.andb_136_836" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_136", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_136_836", %TName_Bool** %"$test_42", align 8, !dbg !69
-  %"$gasrem_837" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_838" = icmp ugt i64 1, %"$gasrem_837"
-  br i1 %"$gascmp_838", label %"$out_of_gas_839", label %"$have_gas_840"
-
-"$out_of_gas_839":                                ; preds = %"$have_gas_824"
-  call void @_out_of_gas()
-  br label %"$have_gas_840"
-
-"$have_gas_840":                                  ; preds = %"$out_of_gas_839", %"$have_gas_824"
-  %"$consume_841" = sub i64 %"$gasrem_837", 1
-  store i64 %"$consume_841", i64* @_gasrem, align 8
-  %"$arg1_43" = alloca %Int256, align 8
-  %"$gasrem_842" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_843" = icmp ugt i64 1, %"$gasrem_842"
-  br i1 %"$gascmp_843", label %"$out_of_gas_844", label %"$have_gas_845"
-
-"$out_of_gas_844":                                ; preds = %"$have_gas_840"
-  call void @_out_of_gas()
-  br label %"$have_gas_845"
-
-"$have_gas_845":                                  ; preds = %"$out_of_gas_844", %"$have_gas_840"
-  %"$consume_846" = sub i64 %"$gasrem_842", 1
-  store i64 %"$consume_846", i64* @_gasrem, align 8
-  store %Int256 { i256 9223372036854775806 }, %Int256* %"$arg1_43", align 8, !dbg !70
-  %"$gasrem_847" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_848" = icmp ugt i64 1, %"$gasrem_847"
-  br i1 %"$gascmp_848", label %"$out_of_gas_849", label %"$have_gas_850"
-
-"$out_of_gas_849":                                ; preds = %"$have_gas_845"
-  call void @_out_of_gas()
-  br label %"$have_gas_850"
-
-"$have_gas_850":                                  ; preds = %"$out_of_gas_849", %"$have_gas_845"
-  %"$consume_851" = sub i64 %"$gasrem_847", 1
-  store i64 %"$consume_851", i64* @_gasrem, align 8
-  %"$arg2_44" = alloca %Int256, align 8
-  %"$gasrem_852" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_853" = icmp ugt i64 1, %"$gasrem_852"
-  br i1 %"$gascmp_853", label %"$out_of_gas_854", label %"$have_gas_855"
-
-"$out_of_gas_854":                                ; preds = %"$have_gas_850"
-  call void @_out_of_gas()
-  br label %"$have_gas_855"
-
-"$have_gas_855":                                  ; preds = %"$out_of_gas_854", %"$have_gas_850"
-  %"$consume_856" = sub i64 %"$gasrem_852", 1
-  store i64 %"$consume_856", i64* @_gasrem, align 8
-  store %Int256 { i256 -1 }, %Int256* %"$arg2_44", align 8, !dbg !71
-  %"$gasrem_857" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_858" = icmp ugt i64 1, %"$gasrem_857"
-  br i1 %"$gascmp_858", label %"$out_of_gas_859", label %"$have_gas_860"
-
-"$out_of_gas_859":                                ; preds = %"$have_gas_855"
-  call void @_out_of_gas()
-  br label %"$have_gas_860"
-
-"$have_gas_860":                                  ; preds = %"$out_of_gas_859", %"$have_gas_855"
-  %"$consume_861" = sub i64 %"$gasrem_857", 1
-  store i64 %"$consume_861", i64* @_gasrem, align 8
-  %"$test_48" = alloca %TName_Bool*, align 8
-  %"$gasrem_862" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_863" = icmp ugt i64 1, %"$gasrem_862"
-  br i1 %"$gascmp_863", label %"$out_of_gas_864", label %"$have_gas_865"
-
-"$out_of_gas_864":                                ; preds = %"$have_gas_860"
-  call void @_out_of_gas()
-  br label %"$have_gas_865"
-
-"$have_gas_865":                                  ; preds = %"$out_of_gas_864", %"$have_gas_860"
-  %"$consume_866" = sub i64 %"$gasrem_862", 1
-  store i64 %"$consume_866", i64* @_gasrem, align 8
-  %"$res_45" = alloca %Int256, align 8
-  %"$execptr_load_867" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_43_868" = alloca %Int256, align 8
-  %"$$arg1_43_869" = load %Int256, %Int256* %"$arg1_43", align 8
-  store %Int256 %"$$arg1_43_869", %Int256* %"$mul_$arg1_43_868", align 8
-  %"$mul_$arg2_44_870" = alloca %Int256, align 8
-  %"$$arg2_44_871" = load %Int256, %Int256* %"$arg2_44", align 8
-  store %Int256 %"$$arg2_44_871", %Int256* %"$mul_$arg2_44_870", align 8
-  %"$mul_call_872" = call %Int256* @_mul_Int256(i8* %"$execptr_load_867", %Int256* %"$mul_$arg1_43_868", %Int256* %"$mul_$arg2_44_870"), !dbg !72
-  %"$mul_874" = load %Int256, %Int256* %"$mul_call_872", align 8
-  store %Int256 %"$mul_874", %Int256* %"$res_45", align 8, !dbg !72
   %"$gasrem_875" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_876" = icmp ugt i64 1, %"$gasrem_875"
+  %"$gascmp_876" = icmp ugt i64 40, %"$gasrem_875"
   br i1 %"$gascmp_876", label %"$out_of_gas_877", label %"$have_gas_878"
 
-"$out_of_gas_877":                                ; preds = %"$have_gas_865"
+"$out_of_gas_877":                                ; preds = %"$have_gas_872"
   call void @_out_of_gas()
   br label %"$have_gas_878"
 
-"$have_gas_878":                                  ; preds = %"$out_of_gas_877", %"$have_gas_865"
-  %"$consume_879" = sub i64 %"$gasrem_875", 1
+"$have_gas_878":                                  ; preds = %"$out_of_gas_877", %"$have_gas_872"
+  %"$consume_879" = sub i64 %"$gasrem_875", 40
   store i64 %"$consume_879", i64* @_gasrem, align 8
-  %"$res__46" = alloca %Int256, align 8
-  %"$gasrem_880" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_881" = icmp ugt i64 1, %"$gasrem_880"
-  br i1 %"$gascmp_881", label %"$out_of_gas_882", label %"$have_gas_883"
+  %"$$arg1_37_880" = load %Int128, %Int128* %"$arg1_37", align 8
+  %"$$arg2_38_881" = load %Int128, %Int128* %"$arg2_38", align 8
+  %"$mul_call_882" = call %Int128 @_mul_Int128(%Int128 %"$$arg1_37_880", %Int128 %"$$arg2_38_881"), !dbg !66
+  store %Int128 %"$mul_call_882", %Int128* %"$res_39", align 8, !dbg !66
+  %"$gasrem_883" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_884" = icmp ugt i64 1, %"$gasrem_883"
+  br i1 %"$gascmp_884", label %"$out_of_gas_885", label %"$have_gas_886"
 
-"$out_of_gas_882":                                ; preds = %"$have_gas_878"
+"$out_of_gas_885":                                ; preds = %"$have_gas_878"
   call void @_out_of_gas()
-  br label %"$have_gas_883"
+  br label %"$have_gas_886"
 
-"$have_gas_883":                                  ; preds = %"$out_of_gas_882", %"$have_gas_878"
-  %"$consume_884" = sub i64 %"$gasrem_880", 1
-  store i64 %"$consume_884", i64* @_gasrem, align 8
-  store %Int256 { i256 -9223372036854775806 }, %Int256* %"$res__46", align 8, !dbg !73
-  %"$gasrem_885" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_886" = icmp ugt i64 1, %"$gasrem_885"
-  br i1 %"$gascmp_886", label %"$out_of_gas_887", label %"$have_gas_888"
+"$have_gas_886":                                  ; preds = %"$out_of_gas_885", %"$have_gas_878"
+  %"$consume_887" = sub i64 %"$gasrem_883", 1
+  store i64 %"$consume_887", i64* @_gasrem, align 8
+  %"$res__40" = alloca %Int128, align 8
+  %"$gasrem_888" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_889" = icmp ugt i64 1, %"$gasrem_888"
+  br i1 %"$gascmp_889", label %"$out_of_gas_890", label %"$have_gas_891"
 
-"$out_of_gas_887":                                ; preds = %"$have_gas_883"
+"$out_of_gas_890":                                ; preds = %"$have_gas_886"
   call void @_out_of_gas()
-  br label %"$have_gas_888"
+  br label %"$have_gas_891"
 
-"$have_gas_888":                                  ; preds = %"$out_of_gas_887", %"$have_gas_883"
-  %"$consume_889" = sub i64 %"$gasrem_885", 1
-  store i64 %"$consume_889", i64* @_gasrem, align 8
-  %"$test__47" = alloca %TName_Bool*, align 8
-  %"$execptr_load_890" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_45_891" = alloca %Int256, align 8
-  %"$$res_45_892" = load %Int256, %Int256* %"$res_45", align 8
-  store %Int256 %"$$res_45_892", %Int256* %"$eq_$res_45_891", align 8
-  %"$eq_$res__46_893" = alloca %Int256, align 8
-  %"$$res__46_894" = load %Int256, %Int256* %"$res__46", align 8
-  store %Int256 %"$$res__46_894", %Int256* %"$eq_$res__46_893", align 8
-  %"$eq_call_895" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_890", %Int256* %"$eq_$res_45_891", %Int256* %"$eq_$res__46_893"), !dbg !74
-  store %TName_Bool* %"$eq_call_895", %TName_Bool** %"$test__47", align 8, !dbg !74
-  %"$gasrem_897" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_898" = icmp ugt i64 1, %"$gasrem_897"
-  br i1 %"$gascmp_898", label %"$out_of_gas_899", label %"$have_gas_900"
+"$have_gas_891":                                  ; preds = %"$out_of_gas_890", %"$have_gas_886"
+  %"$consume_892" = sub i64 %"$gasrem_888", 1
+  store i64 %"$consume_892", i64* @_gasrem, align 8
+  store %Int128 { i128 -9223372036854775806 }, %Int128* %"$res__40", align 8, !dbg !67
+  %"$gasrem_893" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_894" = icmp ugt i64 1, %"$gasrem_893"
+  br i1 %"$gascmp_894", label %"$out_of_gas_895", label %"$have_gas_896"
 
-"$out_of_gas_899":                                ; preds = %"$have_gas_888"
+"$out_of_gas_895":                                ; preds = %"$have_gas_891"
   call void @_out_of_gas()
-  br label %"$have_gas_900"
+  br label %"$have_gas_896"
 
-"$have_gas_900":                                  ; preds = %"$out_of_gas_899", %"$have_gas_888"
-  %"$consume_901" = sub i64 %"$gasrem_897", 1
-  store i64 %"$consume_901", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_137" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_902" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_903" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_902", 0
-  %"$BoolUtils.andb_envptr_904" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_902", 1
-  %"$$test_42_905" = load %TName_Bool*, %TName_Bool** %"$test_42", align 8
-  %"$BoolUtils.andb_call_906" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_903"(i8* %"$BoolUtils.andb_envptr_904", %TName_Bool* %"$$test_42_905"), !dbg !75
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_906", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_137", align 8, !dbg !75
-  %"$BoolUtils.andb_138" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_137_907" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_137", align 8
-  %"$$BoolUtils.andb_137_fptr_908" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_137_907", 0
-  %"$$BoolUtils.andb_137_envptr_909" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_137_907", 1
-  %"$$test__47_910" = load %TName_Bool*, %TName_Bool** %"$test__47", align 8
-  %"$$BoolUtils.andb_137_call_911" = call %TName_Bool* %"$$BoolUtils.andb_137_fptr_908"(i8* %"$$BoolUtils.andb_137_envptr_909", %TName_Bool* %"$$test__47_910"), !dbg !75
-  store %TName_Bool* %"$$BoolUtils.andb_137_call_911", %TName_Bool** %"$BoolUtils.andb_138", align 8, !dbg !75
-  %"$$BoolUtils.andb_138_912" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_138", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_138_912", %TName_Bool** %"$test_48", align 8, !dbg !75
-  %"$gasrem_913" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_914" = icmp ugt i64 1, %"$gasrem_913"
-  br i1 %"$gascmp_914", label %"$out_of_gas_915", label %"$have_gas_916"
+"$have_gas_896":                                  ; preds = %"$out_of_gas_895", %"$have_gas_891"
+  %"$consume_897" = sub i64 %"$gasrem_893", 1
+  store i64 %"$consume_897", i64* @_gasrem, align 8
+  %"$test__41" = alloca %TName_Bool*, align 8
+  %"$gasrem_899" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_900" = icmp ugt i64 8, %"$gasrem_899"
+  br i1 %"$gascmp_900", label %"$out_of_gas_901", label %"$have_gas_902"
 
-"$out_of_gas_915":                                ; preds = %"$have_gas_900"
+"$out_of_gas_901":                                ; preds = %"$have_gas_896"
   call void @_out_of_gas()
-  br label %"$have_gas_916"
+  br label %"$have_gas_902"
 
-"$have_gas_916":                                  ; preds = %"$out_of_gas_915", %"$have_gas_900"
-  %"$consume_917" = sub i64 %"$gasrem_913", 1
-  store i64 %"$consume_917", i64* @_gasrem, align 8
-  %"$arg1_49" = alloca %Int256, align 8
-  %"$gasrem_918" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_919" = icmp ugt i64 1, %"$gasrem_918"
-  br i1 %"$gascmp_919", label %"$out_of_gas_920", label %"$have_gas_921"
+"$have_gas_902":                                  ; preds = %"$out_of_gas_901", %"$have_gas_896"
+  %"$consume_903" = sub i64 %"$gasrem_899", 8
+  store i64 %"$consume_903", i64* @_gasrem, align 8
+  %"$execptr_load_904" = load i8*, i8** @_execptr, align 8
+  %"$$res_39_905" = load %Int128, %Int128* %"$res_39", align 8
+  %"$$res__40_906" = load %Int128, %Int128* %"$res__40", align 8
+  %"$eq_call_907" = call %TName_Bool* @_eq_Int128(i8* %"$execptr_load_904", %Int128 %"$$res_39_905", %Int128 %"$$res__40_906"), !dbg !68
+  store %TName_Bool* %"$eq_call_907", %TName_Bool** %"$test__41", align 8, !dbg !68
+  %"$gasrem_909" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_910" = icmp ugt i64 1, %"$gasrem_909"
+  br i1 %"$gascmp_910", label %"$out_of_gas_911", label %"$have_gas_912"
 
-"$out_of_gas_920":                                ; preds = %"$have_gas_916"
+"$out_of_gas_911":                                ; preds = %"$have_gas_902"
   call void @_out_of_gas()
-  br label %"$have_gas_921"
+  br label %"$have_gas_912"
 
-"$have_gas_921":                                  ; preds = %"$out_of_gas_920", %"$have_gas_916"
-  %"$consume_922" = sub i64 %"$gasrem_918", 1
-  store i64 %"$consume_922", i64* @_gasrem, align 8
-  store %Int256 { i256 9223372036854775806 }, %Int256* %"$arg1_49", align 8, !dbg !76
-  %"$gasrem_923" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_924" = icmp ugt i64 1, %"$gasrem_923"
-  br i1 %"$gascmp_924", label %"$out_of_gas_925", label %"$have_gas_926"
+"$have_gas_912":                                  ; preds = %"$out_of_gas_911", %"$have_gas_902"
+  %"$consume_913" = sub i64 %"$gasrem_909", 1
+  store i64 %"$consume_913", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_135" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_914" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_915" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_914", 0
+  %"$BoolUtils.andb_envptr_916" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_914", 1
+  %"$$test_36_917" = load %TName_Bool*, %TName_Bool** %"$test_36", align 8
+  %"$BoolUtils.andb_call_918" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_915"(i8* %"$BoolUtils.andb_envptr_916", %TName_Bool* %"$$test_36_917"), !dbg !69
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_918", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_135", align 8, !dbg !69
+  %"$BoolUtils.andb_136" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_135_919" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_135", align 8
+  %"$$BoolUtils.andb_135_fptr_920" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_135_919", 0
+  %"$$BoolUtils.andb_135_envptr_921" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_135_919", 1
+  %"$$test__41_922" = load %TName_Bool*, %TName_Bool** %"$test__41", align 8
+  %"$$BoolUtils.andb_135_call_923" = call %TName_Bool* %"$$BoolUtils.andb_135_fptr_920"(i8* %"$$BoolUtils.andb_135_envptr_921", %TName_Bool* %"$$test__41_922"), !dbg !69
+  store %TName_Bool* %"$$BoolUtils.andb_135_call_923", %TName_Bool** %"$BoolUtils.andb_136", align 8, !dbg !69
+  %"$$BoolUtils.andb_136_924" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_136", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_136_924", %TName_Bool** %"$test_42", align 8, !dbg !69
+  %"$gasrem_925" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_926" = icmp ugt i64 1, %"$gasrem_925"
+  br i1 %"$gascmp_926", label %"$out_of_gas_927", label %"$have_gas_928"
 
-"$out_of_gas_925":                                ; preds = %"$have_gas_921"
+"$out_of_gas_927":                                ; preds = %"$have_gas_912"
   call void @_out_of_gas()
-  br label %"$have_gas_926"
+  br label %"$have_gas_928"
 
-"$have_gas_926":                                  ; preds = %"$out_of_gas_925", %"$have_gas_921"
-  %"$consume_927" = sub i64 %"$gasrem_923", 1
-  store i64 %"$consume_927", i64* @_gasrem, align 8
-  %"$arg2_50" = alloca %Int256, align 8
-  %"$gasrem_928" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_929" = icmp ugt i64 1, %"$gasrem_928"
-  br i1 %"$gascmp_929", label %"$out_of_gas_930", label %"$have_gas_931"
+"$have_gas_928":                                  ; preds = %"$out_of_gas_927", %"$have_gas_912"
+  %"$consume_929" = sub i64 %"$gasrem_925", 1
+  store i64 %"$consume_929", i64* @_gasrem, align 8
+  %"$arg1_43" = alloca %Int256, align 8
+  %"$gasrem_930" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_931" = icmp ugt i64 1, %"$gasrem_930"
+  br i1 %"$gascmp_931", label %"$out_of_gas_932", label %"$have_gas_933"
 
-"$out_of_gas_930":                                ; preds = %"$have_gas_926"
+"$out_of_gas_932":                                ; preds = %"$have_gas_928"
   call void @_out_of_gas()
-  br label %"$have_gas_931"
+  br label %"$have_gas_933"
 
-"$have_gas_931":                                  ; preds = %"$out_of_gas_930", %"$have_gas_926"
-  %"$consume_932" = sub i64 %"$gasrem_928", 1
-  store i64 %"$consume_932", i64* @_gasrem, align 8
-  store %Int256 zeroinitializer, %Int256* %"$arg2_50", align 8, !dbg !77
-  %"$gasrem_933" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_934" = icmp ugt i64 1, %"$gasrem_933"
-  br i1 %"$gascmp_934", label %"$out_of_gas_935", label %"$have_gas_936"
+"$have_gas_933":                                  ; preds = %"$out_of_gas_932", %"$have_gas_928"
+  %"$consume_934" = sub i64 %"$gasrem_930", 1
+  store i64 %"$consume_934", i64* @_gasrem, align 8
+  store %Int256 { i256 9223372036854775806 }, %Int256* %"$arg1_43", align 8, !dbg !70
+  %"$gasrem_935" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_936" = icmp ugt i64 1, %"$gasrem_935"
+  br i1 %"$gascmp_936", label %"$out_of_gas_937", label %"$have_gas_938"
 
-"$out_of_gas_935":                                ; preds = %"$have_gas_931"
+"$out_of_gas_937":                                ; preds = %"$have_gas_933"
   call void @_out_of_gas()
-  br label %"$have_gas_936"
+  br label %"$have_gas_938"
 
-"$have_gas_936":                                  ; preds = %"$out_of_gas_935", %"$have_gas_931"
-  %"$consume_937" = sub i64 %"$gasrem_933", 1
-  store i64 %"$consume_937", i64* @_gasrem, align 8
-  %"$test_54" = alloca %TName_Bool*, align 8
-  %"$gasrem_938" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_939" = icmp ugt i64 1, %"$gasrem_938"
-  br i1 %"$gascmp_939", label %"$out_of_gas_940", label %"$have_gas_941"
+"$have_gas_938":                                  ; preds = %"$out_of_gas_937", %"$have_gas_933"
+  %"$consume_939" = sub i64 %"$gasrem_935", 1
+  store i64 %"$consume_939", i64* @_gasrem, align 8
+  %"$arg2_44" = alloca %Int256, align 8
+  %"$gasrem_940" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_941" = icmp ugt i64 1, %"$gasrem_940"
+  br i1 %"$gascmp_941", label %"$out_of_gas_942", label %"$have_gas_943"
 
-"$out_of_gas_940":                                ; preds = %"$have_gas_936"
+"$out_of_gas_942":                                ; preds = %"$have_gas_938"
   call void @_out_of_gas()
-  br label %"$have_gas_941"
+  br label %"$have_gas_943"
 
-"$have_gas_941":                                  ; preds = %"$out_of_gas_940", %"$have_gas_936"
-  %"$consume_942" = sub i64 %"$gasrem_938", 1
-  store i64 %"$consume_942", i64* @_gasrem, align 8
-  %"$res_51" = alloca %Int256, align 8
-  %"$execptr_load_943" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_49_944" = alloca %Int256, align 8
-  %"$$arg1_49_945" = load %Int256, %Int256* %"$arg1_49", align 8
-  store %Int256 %"$$arg1_49_945", %Int256* %"$mul_$arg1_49_944", align 8
-  %"$mul_$arg2_50_946" = alloca %Int256, align 8
-  %"$$arg2_50_947" = load %Int256, %Int256* %"$arg2_50", align 8
-  store %Int256 %"$$arg2_50_947", %Int256* %"$mul_$arg2_50_946", align 8
-  %"$mul_call_948" = call %Int256* @_mul_Int256(i8* %"$execptr_load_943", %Int256* %"$mul_$arg1_49_944", %Int256* %"$mul_$arg2_50_946"), !dbg !78
-  %"$mul_950" = load %Int256, %Int256* %"$mul_call_948", align 8
-  store %Int256 %"$mul_950", %Int256* %"$res_51", align 8, !dbg !78
-  %"$gasrem_951" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_952" = icmp ugt i64 1, %"$gasrem_951"
-  br i1 %"$gascmp_952", label %"$out_of_gas_953", label %"$have_gas_954"
+"$have_gas_943":                                  ; preds = %"$out_of_gas_942", %"$have_gas_938"
+  %"$consume_944" = sub i64 %"$gasrem_940", 1
+  store i64 %"$consume_944", i64* @_gasrem, align 8
+  store %Int256 { i256 -1 }, %Int256* %"$arg2_44", align 8, !dbg !71
+  %"$gasrem_945" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_946" = icmp ugt i64 1, %"$gasrem_945"
+  br i1 %"$gascmp_946", label %"$out_of_gas_947", label %"$have_gas_948"
 
-"$out_of_gas_953":                                ; preds = %"$have_gas_941"
+"$out_of_gas_947":                                ; preds = %"$have_gas_943"
   call void @_out_of_gas()
-  br label %"$have_gas_954"
+  br label %"$have_gas_948"
 
-"$have_gas_954":                                  ; preds = %"$out_of_gas_953", %"$have_gas_941"
-  %"$consume_955" = sub i64 %"$gasrem_951", 1
-  store i64 %"$consume_955", i64* @_gasrem, align 8
-  %"$res__52" = alloca %Int256, align 8
+"$have_gas_948":                                  ; preds = %"$out_of_gas_947", %"$have_gas_943"
+  %"$consume_949" = sub i64 %"$gasrem_945", 1
+  store i64 %"$consume_949", i64* @_gasrem, align 8
+  %"$test_48" = alloca %TName_Bool*, align 8
+  %"$gasrem_950" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_951" = icmp ugt i64 1, %"$gasrem_950"
+  br i1 %"$gascmp_951", label %"$out_of_gas_952", label %"$have_gas_953"
+
+"$out_of_gas_952":                                ; preds = %"$have_gas_948"
+  call void @_out_of_gas()
+  br label %"$have_gas_953"
+
+"$have_gas_953":                                  ; preds = %"$out_of_gas_952", %"$have_gas_948"
+  %"$consume_954" = sub i64 %"$gasrem_950", 1
+  store i64 %"$consume_954", i64* @_gasrem, align 8
+  %"$res_45" = alloca %Int256, align 8
   %"$gasrem_956" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_957" = icmp ugt i64 1, %"$gasrem_956"
+  %"$gascmp_957" = icmp ugt i64 80, %"$gasrem_956"
   br i1 %"$gascmp_957", label %"$out_of_gas_958", label %"$have_gas_959"
 
-"$out_of_gas_958":                                ; preds = %"$have_gas_954"
+"$out_of_gas_958":                                ; preds = %"$have_gas_953"
   call void @_out_of_gas()
   br label %"$have_gas_959"
 
-"$have_gas_959":                                  ; preds = %"$out_of_gas_958", %"$have_gas_954"
-  %"$consume_960" = sub i64 %"$gasrem_956", 1
+"$have_gas_959":                                  ; preds = %"$out_of_gas_958", %"$have_gas_953"
+  %"$consume_960" = sub i64 %"$gasrem_956", 80
   store i64 %"$consume_960", i64* @_gasrem, align 8
+  %"$execptr_load_961" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_43_962" = alloca %Int256, align 8
+  %"$$arg1_43_963" = load %Int256, %Int256* %"$arg1_43", align 8
+  store %Int256 %"$$arg1_43_963", %Int256* %"$mul_$arg1_43_962", align 8
+  %"$mul_$arg2_44_964" = alloca %Int256, align 8
+  %"$$arg2_44_965" = load %Int256, %Int256* %"$arg2_44", align 8
+  store %Int256 %"$$arg2_44_965", %Int256* %"$mul_$arg2_44_964", align 8
+  %"$mul_call_966" = call %Int256* @_mul_Int256(i8* %"$execptr_load_961", %Int256* %"$mul_$arg1_43_962", %Int256* %"$mul_$arg2_44_964"), !dbg !72
+  %"$mul_968" = load %Int256, %Int256* %"$mul_call_966", align 8
+  store %Int256 %"$mul_968", %Int256* %"$res_45", align 8, !dbg !72
+  %"$gasrem_969" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_970" = icmp ugt i64 1, %"$gasrem_969"
+  br i1 %"$gascmp_970", label %"$out_of_gas_971", label %"$have_gas_972"
+
+"$out_of_gas_971":                                ; preds = %"$have_gas_959"
+  call void @_out_of_gas()
+  br label %"$have_gas_972"
+
+"$have_gas_972":                                  ; preds = %"$out_of_gas_971", %"$have_gas_959"
+  %"$consume_973" = sub i64 %"$gasrem_969", 1
+  store i64 %"$consume_973", i64* @_gasrem, align 8
+  %"$res__46" = alloca %Int256, align 8
+  %"$gasrem_974" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_975" = icmp ugt i64 1, %"$gasrem_974"
+  br i1 %"$gascmp_975", label %"$out_of_gas_976", label %"$have_gas_977"
+
+"$out_of_gas_976":                                ; preds = %"$have_gas_972"
+  call void @_out_of_gas()
+  br label %"$have_gas_977"
+
+"$have_gas_977":                                  ; preds = %"$out_of_gas_976", %"$have_gas_972"
+  %"$consume_978" = sub i64 %"$gasrem_974", 1
+  store i64 %"$consume_978", i64* @_gasrem, align 8
+  store %Int256 { i256 -9223372036854775806 }, %Int256* %"$res__46", align 8, !dbg !73
+  %"$gasrem_979" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_980" = icmp ugt i64 1, %"$gasrem_979"
+  br i1 %"$gascmp_980", label %"$out_of_gas_981", label %"$have_gas_982"
+
+"$out_of_gas_981":                                ; preds = %"$have_gas_977"
+  call void @_out_of_gas()
+  br label %"$have_gas_982"
+
+"$have_gas_982":                                  ; preds = %"$out_of_gas_981", %"$have_gas_977"
+  %"$consume_983" = sub i64 %"$gasrem_979", 1
+  store i64 %"$consume_983", i64* @_gasrem, align 8
+  %"$test__47" = alloca %TName_Bool*, align 8
+  %"$gasrem_985" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_986" = icmp ugt i64 16, %"$gasrem_985"
+  br i1 %"$gascmp_986", label %"$out_of_gas_987", label %"$have_gas_988"
+
+"$out_of_gas_987":                                ; preds = %"$have_gas_982"
+  call void @_out_of_gas()
+  br label %"$have_gas_988"
+
+"$have_gas_988":                                  ; preds = %"$out_of_gas_987", %"$have_gas_982"
+  %"$consume_989" = sub i64 %"$gasrem_985", 16
+  store i64 %"$consume_989", i64* @_gasrem, align 8
+  %"$execptr_load_990" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_45_991" = alloca %Int256, align 8
+  %"$$res_45_992" = load %Int256, %Int256* %"$res_45", align 8
+  store %Int256 %"$$res_45_992", %Int256* %"$eq_$res_45_991", align 8
+  %"$eq_$res__46_993" = alloca %Int256, align 8
+  %"$$res__46_994" = load %Int256, %Int256* %"$res__46", align 8
+  store %Int256 %"$$res__46_994", %Int256* %"$eq_$res__46_993", align 8
+  %"$eq_call_995" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_990", %Int256* %"$eq_$res_45_991", %Int256* %"$eq_$res__46_993"), !dbg !74
+  store %TName_Bool* %"$eq_call_995", %TName_Bool** %"$test__47", align 8, !dbg !74
+  %"$gasrem_997" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_998" = icmp ugt i64 1, %"$gasrem_997"
+  br i1 %"$gascmp_998", label %"$out_of_gas_999", label %"$have_gas_1000"
+
+"$out_of_gas_999":                                ; preds = %"$have_gas_988"
+  call void @_out_of_gas()
+  br label %"$have_gas_1000"
+
+"$have_gas_1000":                                 ; preds = %"$out_of_gas_999", %"$have_gas_988"
+  %"$consume_1001" = sub i64 %"$gasrem_997", 1
+  store i64 %"$consume_1001", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_137" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_1002" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_1003" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1002", 0
+  %"$BoolUtils.andb_envptr_1004" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1002", 1
+  %"$$test_42_1005" = load %TName_Bool*, %TName_Bool** %"$test_42", align 8
+  %"$BoolUtils.andb_call_1006" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1003"(i8* %"$BoolUtils.andb_envptr_1004", %TName_Bool* %"$$test_42_1005"), !dbg !75
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1006", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_137", align 8, !dbg !75
+  %"$BoolUtils.andb_138" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_137_1007" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_137", align 8
+  %"$$BoolUtils.andb_137_fptr_1008" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_137_1007", 0
+  %"$$BoolUtils.andb_137_envptr_1009" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_137_1007", 1
+  %"$$test__47_1010" = load %TName_Bool*, %TName_Bool** %"$test__47", align 8
+  %"$$BoolUtils.andb_137_call_1011" = call %TName_Bool* %"$$BoolUtils.andb_137_fptr_1008"(i8* %"$$BoolUtils.andb_137_envptr_1009", %TName_Bool* %"$$test__47_1010"), !dbg !75
+  store %TName_Bool* %"$$BoolUtils.andb_137_call_1011", %TName_Bool** %"$BoolUtils.andb_138", align 8, !dbg !75
+  %"$$BoolUtils.andb_138_1012" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_138", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_138_1012", %TName_Bool** %"$test_48", align 8, !dbg !75
+  %"$gasrem_1013" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1014" = icmp ugt i64 1, %"$gasrem_1013"
+  br i1 %"$gascmp_1014", label %"$out_of_gas_1015", label %"$have_gas_1016"
+
+"$out_of_gas_1015":                               ; preds = %"$have_gas_1000"
+  call void @_out_of_gas()
+  br label %"$have_gas_1016"
+
+"$have_gas_1016":                                 ; preds = %"$out_of_gas_1015", %"$have_gas_1000"
+  %"$consume_1017" = sub i64 %"$gasrem_1013", 1
+  store i64 %"$consume_1017", i64* @_gasrem, align 8
+  %"$arg1_49" = alloca %Int256, align 8
+  %"$gasrem_1018" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1019" = icmp ugt i64 1, %"$gasrem_1018"
+  br i1 %"$gascmp_1019", label %"$out_of_gas_1020", label %"$have_gas_1021"
+
+"$out_of_gas_1020":                               ; preds = %"$have_gas_1016"
+  call void @_out_of_gas()
+  br label %"$have_gas_1021"
+
+"$have_gas_1021":                                 ; preds = %"$out_of_gas_1020", %"$have_gas_1016"
+  %"$consume_1022" = sub i64 %"$gasrem_1018", 1
+  store i64 %"$consume_1022", i64* @_gasrem, align 8
+  store %Int256 { i256 9223372036854775806 }, %Int256* %"$arg1_49", align 8, !dbg !76
+  %"$gasrem_1023" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1024" = icmp ugt i64 1, %"$gasrem_1023"
+  br i1 %"$gascmp_1024", label %"$out_of_gas_1025", label %"$have_gas_1026"
+
+"$out_of_gas_1025":                               ; preds = %"$have_gas_1021"
+  call void @_out_of_gas()
+  br label %"$have_gas_1026"
+
+"$have_gas_1026":                                 ; preds = %"$out_of_gas_1025", %"$have_gas_1021"
+  %"$consume_1027" = sub i64 %"$gasrem_1023", 1
+  store i64 %"$consume_1027", i64* @_gasrem, align 8
+  %"$arg2_50" = alloca %Int256, align 8
+  %"$gasrem_1028" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1029" = icmp ugt i64 1, %"$gasrem_1028"
+  br i1 %"$gascmp_1029", label %"$out_of_gas_1030", label %"$have_gas_1031"
+
+"$out_of_gas_1030":                               ; preds = %"$have_gas_1026"
+  call void @_out_of_gas()
+  br label %"$have_gas_1031"
+
+"$have_gas_1031":                                 ; preds = %"$out_of_gas_1030", %"$have_gas_1026"
+  %"$consume_1032" = sub i64 %"$gasrem_1028", 1
+  store i64 %"$consume_1032", i64* @_gasrem, align 8
+  store %Int256 zeroinitializer, %Int256* %"$arg2_50", align 8, !dbg !77
+  %"$gasrem_1033" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1034" = icmp ugt i64 1, %"$gasrem_1033"
+  br i1 %"$gascmp_1034", label %"$out_of_gas_1035", label %"$have_gas_1036"
+
+"$out_of_gas_1035":                               ; preds = %"$have_gas_1031"
+  call void @_out_of_gas()
+  br label %"$have_gas_1036"
+
+"$have_gas_1036":                                 ; preds = %"$out_of_gas_1035", %"$have_gas_1031"
+  %"$consume_1037" = sub i64 %"$gasrem_1033", 1
+  store i64 %"$consume_1037", i64* @_gasrem, align 8
+  %"$test_54" = alloca %TName_Bool*, align 8
+  %"$gasrem_1038" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1039" = icmp ugt i64 1, %"$gasrem_1038"
+  br i1 %"$gascmp_1039", label %"$out_of_gas_1040", label %"$have_gas_1041"
+
+"$out_of_gas_1040":                               ; preds = %"$have_gas_1036"
+  call void @_out_of_gas()
+  br label %"$have_gas_1041"
+
+"$have_gas_1041":                                 ; preds = %"$out_of_gas_1040", %"$have_gas_1036"
+  %"$consume_1042" = sub i64 %"$gasrem_1038", 1
+  store i64 %"$consume_1042", i64* @_gasrem, align 8
+  %"$res_51" = alloca %Int256, align 8
+  %"$gasrem_1044" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1045" = icmp ugt i64 80, %"$gasrem_1044"
+  br i1 %"$gascmp_1045", label %"$out_of_gas_1046", label %"$have_gas_1047"
+
+"$out_of_gas_1046":                               ; preds = %"$have_gas_1041"
+  call void @_out_of_gas()
+  br label %"$have_gas_1047"
+
+"$have_gas_1047":                                 ; preds = %"$out_of_gas_1046", %"$have_gas_1041"
+  %"$consume_1048" = sub i64 %"$gasrem_1044", 80
+  store i64 %"$consume_1048", i64* @_gasrem, align 8
+  %"$execptr_load_1049" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_49_1050" = alloca %Int256, align 8
+  %"$$arg1_49_1051" = load %Int256, %Int256* %"$arg1_49", align 8
+  store %Int256 %"$$arg1_49_1051", %Int256* %"$mul_$arg1_49_1050", align 8
+  %"$mul_$arg2_50_1052" = alloca %Int256, align 8
+  %"$$arg2_50_1053" = load %Int256, %Int256* %"$arg2_50", align 8
+  store %Int256 %"$$arg2_50_1053", %Int256* %"$mul_$arg2_50_1052", align 8
+  %"$mul_call_1054" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1049", %Int256* %"$mul_$arg1_49_1050", %Int256* %"$mul_$arg2_50_1052"), !dbg !78
+  %"$mul_1056" = load %Int256, %Int256* %"$mul_call_1054", align 8
+  store %Int256 %"$mul_1056", %Int256* %"$res_51", align 8, !dbg !78
+  %"$gasrem_1057" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1058" = icmp ugt i64 1, %"$gasrem_1057"
+  br i1 %"$gascmp_1058", label %"$out_of_gas_1059", label %"$have_gas_1060"
+
+"$out_of_gas_1059":                               ; preds = %"$have_gas_1047"
+  call void @_out_of_gas()
+  br label %"$have_gas_1060"
+
+"$have_gas_1060":                                 ; preds = %"$out_of_gas_1059", %"$have_gas_1047"
+  %"$consume_1061" = sub i64 %"$gasrem_1057", 1
+  store i64 %"$consume_1061", i64* @_gasrem, align 8
+  %"$res__52" = alloca %Int256, align 8
+  %"$gasrem_1062" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1063" = icmp ugt i64 1, %"$gasrem_1062"
+  br i1 %"$gascmp_1063", label %"$out_of_gas_1064", label %"$have_gas_1065"
+
+"$out_of_gas_1064":                               ; preds = %"$have_gas_1060"
+  call void @_out_of_gas()
+  br label %"$have_gas_1065"
+
+"$have_gas_1065":                                 ; preds = %"$out_of_gas_1064", %"$have_gas_1060"
+  %"$consume_1066" = sub i64 %"$gasrem_1062", 1
+  store i64 %"$consume_1066", i64* @_gasrem, align 8
   store %Int256 zeroinitializer, %Int256* %"$res__52", align 8, !dbg !79
-  %"$gasrem_961" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_962" = icmp ugt i64 1, %"$gasrem_961"
-  br i1 %"$gascmp_962", label %"$out_of_gas_963", label %"$have_gas_964"
+  %"$gasrem_1067" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1068" = icmp ugt i64 1, %"$gasrem_1067"
+  br i1 %"$gascmp_1068", label %"$out_of_gas_1069", label %"$have_gas_1070"
 
-"$out_of_gas_963":                                ; preds = %"$have_gas_959"
+"$out_of_gas_1069":                               ; preds = %"$have_gas_1065"
   call void @_out_of_gas()
-  br label %"$have_gas_964"
+  br label %"$have_gas_1070"
 
-"$have_gas_964":                                  ; preds = %"$out_of_gas_963", %"$have_gas_959"
-  %"$consume_965" = sub i64 %"$gasrem_961", 1
-  store i64 %"$consume_965", i64* @_gasrem, align 8
+"$have_gas_1070":                                 ; preds = %"$out_of_gas_1069", %"$have_gas_1065"
+  %"$consume_1071" = sub i64 %"$gasrem_1067", 1
+  store i64 %"$consume_1071", i64* @_gasrem, align 8
   %"$test__53" = alloca %TName_Bool*, align 8
-  %"$execptr_load_966" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_51_967" = alloca %Int256, align 8
-  %"$$res_51_968" = load %Int256, %Int256* %"$res_51", align 8
-  store %Int256 %"$$res_51_968", %Int256* %"$eq_$res_51_967", align 8
-  %"$eq_$res__52_969" = alloca %Int256, align 8
-  %"$$res__52_970" = load %Int256, %Int256* %"$res__52", align 8
-  store %Int256 %"$$res__52_970", %Int256* %"$eq_$res__52_969", align 8
-  %"$eq_call_971" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_966", %Int256* %"$eq_$res_51_967", %Int256* %"$eq_$res__52_969"), !dbg !80
-  store %TName_Bool* %"$eq_call_971", %TName_Bool** %"$test__53", align 8, !dbg !80
-  %"$gasrem_973" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_974" = icmp ugt i64 1, %"$gasrem_973"
-  br i1 %"$gascmp_974", label %"$out_of_gas_975", label %"$have_gas_976"
+  %"$gasrem_1073" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1074" = icmp ugt i64 16, %"$gasrem_1073"
+  br i1 %"$gascmp_1074", label %"$out_of_gas_1075", label %"$have_gas_1076"
 
-"$out_of_gas_975":                                ; preds = %"$have_gas_964"
+"$out_of_gas_1075":                               ; preds = %"$have_gas_1070"
   call void @_out_of_gas()
-  br label %"$have_gas_976"
+  br label %"$have_gas_1076"
 
-"$have_gas_976":                                  ; preds = %"$out_of_gas_975", %"$have_gas_964"
-  %"$consume_977" = sub i64 %"$gasrem_973", 1
-  store i64 %"$consume_977", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_139" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_978" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_979" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_978", 0
-  %"$BoolUtils.andb_envptr_980" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_978", 1
-  %"$$test_48_981" = load %TName_Bool*, %TName_Bool** %"$test_48", align 8
-  %"$BoolUtils.andb_call_982" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_979"(i8* %"$BoolUtils.andb_envptr_980", %TName_Bool* %"$$test_48_981"), !dbg !81
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_982", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_139", align 8, !dbg !81
-  %"$BoolUtils.andb_140" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_139_983" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_139", align 8
-  %"$$BoolUtils.andb_139_fptr_984" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_139_983", 0
-  %"$$BoolUtils.andb_139_envptr_985" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_139_983", 1
-  %"$$test__53_986" = load %TName_Bool*, %TName_Bool** %"$test__53", align 8
-  %"$$BoolUtils.andb_139_call_987" = call %TName_Bool* %"$$BoolUtils.andb_139_fptr_984"(i8* %"$$BoolUtils.andb_139_envptr_985", %TName_Bool* %"$$test__53_986"), !dbg !81
-  store %TName_Bool* %"$$BoolUtils.andb_139_call_987", %TName_Bool** %"$BoolUtils.andb_140", align 8, !dbg !81
-  %"$$BoolUtils.andb_140_988" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_140", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_140_988", %TName_Bool** %"$test_54", align 8, !dbg !81
-  %"$gasrem_989" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_990" = icmp ugt i64 1, %"$gasrem_989"
-  br i1 %"$gascmp_990", label %"$out_of_gas_991", label %"$have_gas_992"
-
-"$out_of_gas_991":                                ; preds = %"$have_gas_976"
-  call void @_out_of_gas()
-  br label %"$have_gas_992"
-
-"$have_gas_992":                                  ; preds = %"$out_of_gas_991", %"$have_gas_976"
-  %"$consume_993" = sub i64 %"$gasrem_989", 1
-  store i64 %"$consume_993", i64* @_gasrem, align 8
-  %"$arg1_55" = alloca %Int256, align 8
-  %"$gasrem_994" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_995" = icmp ugt i64 1, %"$gasrem_994"
-  br i1 %"$gascmp_995", label %"$out_of_gas_996", label %"$have_gas_997"
-
-"$out_of_gas_996":                                ; preds = %"$have_gas_992"
-  call void @_out_of_gas()
-  br label %"$have_gas_997"
-
-"$have_gas_997":                                  ; preds = %"$out_of_gas_996", %"$have_gas_992"
-  %"$consume_998" = sub i64 %"$gasrem_994", 1
-  store i64 %"$consume_998", i64* @_gasrem, align 8
-  store %Int256 { i256 170141183460469231731687303715884105727 }, %Int256* %"$arg1_55", align 8, !dbg !82
-  %"$gasrem_999" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1000" = icmp ugt i64 1, %"$gasrem_999"
-  br i1 %"$gascmp_1000", label %"$out_of_gas_1001", label %"$have_gas_1002"
-
-"$out_of_gas_1001":                               ; preds = %"$have_gas_997"
-  call void @_out_of_gas()
-  br label %"$have_gas_1002"
-
-"$have_gas_1002":                                 ; preds = %"$out_of_gas_1001", %"$have_gas_997"
-  %"$consume_1003" = sub i64 %"$gasrem_999", 1
-  store i64 %"$consume_1003", i64* @_gasrem, align 8
-  %"$arg2_56" = alloca %Int256, align 8
-  %"$gasrem_1004" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1005" = icmp ugt i64 1, %"$gasrem_1004"
-  br i1 %"$gascmp_1005", label %"$out_of_gas_1006", label %"$have_gas_1007"
-
-"$out_of_gas_1006":                               ; preds = %"$have_gas_1002"
-  call void @_out_of_gas()
-  br label %"$have_gas_1007"
-
-"$have_gas_1007":                                 ; preds = %"$out_of_gas_1006", %"$have_gas_1002"
-  %"$consume_1008" = sub i64 %"$gasrem_1004", 1
-  store i64 %"$consume_1008", i64* @_gasrem, align 8
-  store %Int256 { i256 -170141183460469231731687303715884105728 }, %Int256* %"$arg2_56", align 8, !dbg !83
-  %"$gasrem_1009" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1010" = icmp ugt i64 1, %"$gasrem_1009"
-  br i1 %"$gascmp_1010", label %"$out_of_gas_1011", label %"$have_gas_1012"
-
-"$out_of_gas_1011":                               ; preds = %"$have_gas_1007"
-  call void @_out_of_gas()
-  br label %"$have_gas_1012"
-
-"$have_gas_1012":                                 ; preds = %"$out_of_gas_1011", %"$have_gas_1007"
-  %"$consume_1013" = sub i64 %"$gasrem_1009", 1
-  store i64 %"$consume_1013", i64* @_gasrem, align 8
-  %"$test_60" = alloca %TName_Bool*, align 8
-  %"$gasrem_1014" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1015" = icmp ugt i64 1, %"$gasrem_1014"
-  br i1 %"$gascmp_1015", label %"$out_of_gas_1016", label %"$have_gas_1017"
-
-"$out_of_gas_1016":                               ; preds = %"$have_gas_1012"
-  call void @_out_of_gas()
-  br label %"$have_gas_1017"
-
-"$have_gas_1017":                                 ; preds = %"$out_of_gas_1016", %"$have_gas_1012"
-  %"$consume_1018" = sub i64 %"$gasrem_1014", 1
-  store i64 %"$consume_1018", i64* @_gasrem, align 8
-  %"$res_57" = alloca %Int256, align 8
-  %"$execptr_load_1019" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_55_1020" = alloca %Int256, align 8
-  %"$$arg1_55_1021" = load %Int256, %Int256* %"$arg1_55", align 8
-  store %Int256 %"$$arg1_55_1021", %Int256* %"$mul_$arg1_55_1020", align 8
-  %"$mul_$arg2_56_1022" = alloca %Int256, align 8
-  %"$$arg2_56_1023" = load %Int256, %Int256* %"$arg2_56", align 8
-  store %Int256 %"$$arg2_56_1023", %Int256* %"$mul_$arg2_56_1022", align 8
-  %"$mul_call_1024" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1019", %Int256* %"$mul_$arg1_55_1020", %Int256* %"$mul_$arg2_56_1022"), !dbg !84
-  %"$mul_1026" = load %Int256, %Int256* %"$mul_call_1024", align 8
-  store %Int256 %"$mul_1026", %Int256* %"$res_57", align 8, !dbg !84
-  %"$gasrem_1027" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1028" = icmp ugt i64 1, %"$gasrem_1027"
-  br i1 %"$gascmp_1028", label %"$out_of_gas_1029", label %"$have_gas_1030"
-
-"$out_of_gas_1029":                               ; preds = %"$have_gas_1017"
-  call void @_out_of_gas()
-  br label %"$have_gas_1030"
-
-"$have_gas_1030":                                 ; preds = %"$out_of_gas_1029", %"$have_gas_1017"
-  %"$consume_1031" = sub i64 %"$gasrem_1027", 1
-  store i64 %"$consume_1031", i64* @_gasrem, align 8
-  %"$res__58" = alloca %Int256, align 8
-  %"$gasrem_1032" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1033" = icmp ugt i64 1, %"$gasrem_1032"
-  br i1 %"$gascmp_1033", label %"$out_of_gas_1034", label %"$have_gas_1035"
-
-"$out_of_gas_1034":                               ; preds = %"$have_gas_1030"
-  call void @_out_of_gas()
-  br label %"$have_gas_1035"
-
-"$have_gas_1035":                                 ; preds = %"$out_of_gas_1034", %"$have_gas_1030"
-  %"$consume_1036" = sub i64 %"$gasrem_1032", 1
-  store i64 %"$consume_1036", i64* @_gasrem, align 8
-  store %Int256 { i256 -28948022309329048855892746252171976963147354982949671778132708698262398304256 }, %Int256* %"$res__58", align 8, !dbg !85
-  %"$gasrem_1037" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1038" = icmp ugt i64 1, %"$gasrem_1037"
-  br i1 %"$gascmp_1038", label %"$out_of_gas_1039", label %"$have_gas_1040"
-
-"$out_of_gas_1039":                               ; preds = %"$have_gas_1035"
-  call void @_out_of_gas()
-  br label %"$have_gas_1040"
-
-"$have_gas_1040":                                 ; preds = %"$out_of_gas_1039", %"$have_gas_1035"
-  %"$consume_1041" = sub i64 %"$gasrem_1037", 1
-  store i64 %"$consume_1041", i64* @_gasrem, align 8
-  %"$test__59" = alloca %TName_Bool*, align 8
-  %"$execptr_load_1042" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_57_1043" = alloca %Int256, align 8
-  %"$$res_57_1044" = load %Int256, %Int256* %"$res_57", align 8
-  store %Int256 %"$$res_57_1044", %Int256* %"$eq_$res_57_1043", align 8
-  %"$eq_$res__58_1045" = alloca %Int256, align 8
-  %"$$res__58_1046" = load %Int256, %Int256* %"$res__58", align 8
-  store %Int256 %"$$res__58_1046", %Int256* %"$eq_$res__58_1045", align 8
-  %"$eq_call_1047" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1042", %Int256* %"$eq_$res_57_1043", %Int256* %"$eq_$res__58_1045"), !dbg !86
-  store %TName_Bool* %"$eq_call_1047", %TName_Bool** %"$test__59", align 8, !dbg !86
-  %"$gasrem_1049" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1050" = icmp ugt i64 1, %"$gasrem_1049"
-  br i1 %"$gascmp_1050", label %"$out_of_gas_1051", label %"$have_gas_1052"
-
-"$out_of_gas_1051":                               ; preds = %"$have_gas_1040"
-  call void @_out_of_gas()
-  br label %"$have_gas_1052"
-
-"$have_gas_1052":                                 ; preds = %"$out_of_gas_1051", %"$have_gas_1040"
-  %"$consume_1053" = sub i64 %"$gasrem_1049", 1
-  store i64 %"$consume_1053", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_141" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_1054" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_1055" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1054", 0
-  %"$BoolUtils.andb_envptr_1056" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1054", 1
-  %"$$test_54_1057" = load %TName_Bool*, %TName_Bool** %"$test_54", align 8
-  %"$BoolUtils.andb_call_1058" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1055"(i8* %"$BoolUtils.andb_envptr_1056", %TName_Bool* %"$$test_54_1057"), !dbg !87
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1058", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_141", align 8, !dbg !87
-  %"$BoolUtils.andb_142" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_141_1059" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_141", align 8
-  %"$$BoolUtils.andb_141_fptr_1060" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_141_1059", 0
-  %"$$BoolUtils.andb_141_envptr_1061" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_141_1059", 1
-  %"$$test__59_1062" = load %TName_Bool*, %TName_Bool** %"$test__59", align 8
-  %"$$BoolUtils.andb_141_call_1063" = call %TName_Bool* %"$$BoolUtils.andb_141_fptr_1060"(i8* %"$$BoolUtils.andb_141_envptr_1061", %TName_Bool* %"$$test__59_1062"), !dbg !87
-  store %TName_Bool* %"$$BoolUtils.andb_141_call_1063", %TName_Bool** %"$BoolUtils.andb_142", align 8, !dbg !87
-  %"$$BoolUtils.andb_142_1064" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_142", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_142_1064", %TName_Bool** %"$test_60", align 8, !dbg !87
-  %"$gasrem_1065" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1066" = icmp ugt i64 1, %"$gasrem_1065"
-  br i1 %"$gascmp_1066", label %"$out_of_gas_1067", label %"$have_gas_1068"
-
-"$out_of_gas_1067":                               ; preds = %"$have_gas_1052"
-  call void @_out_of_gas()
-  br label %"$have_gas_1068"
-
-"$have_gas_1068":                                 ; preds = %"$out_of_gas_1067", %"$have_gas_1052"
-  %"$consume_1069" = sub i64 %"$gasrem_1065", 1
-  store i64 %"$consume_1069", i64* @_gasrem, align 8
-  %"$arg1_61" = alloca %Int256, align 8
-  %"$gasrem_1070" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1071" = icmp ugt i64 1, %"$gasrem_1070"
-  br i1 %"$gascmp_1071", label %"$out_of_gas_1072", label %"$have_gas_1073"
-
-"$out_of_gas_1072":                               ; preds = %"$have_gas_1068"
-  call void @_out_of_gas()
-  br label %"$have_gas_1073"
-
-"$have_gas_1073":                                 ; preds = %"$out_of_gas_1072", %"$have_gas_1068"
-  %"$consume_1074" = sub i64 %"$gasrem_1070", 1
-  store i64 %"$consume_1074", i64* @_gasrem, align 8
-  store %Int256 { i256 170141183460469231731687303715884105727 }, %Int256* %"$arg1_61", align 8, !dbg !88
-  %"$gasrem_1075" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1076" = icmp ugt i64 1, %"$gasrem_1075"
-  br i1 %"$gascmp_1076", label %"$out_of_gas_1077", label %"$have_gas_1078"
-
-"$out_of_gas_1077":                               ; preds = %"$have_gas_1073"
-  call void @_out_of_gas()
-  br label %"$have_gas_1078"
-
-"$have_gas_1078":                                 ; preds = %"$out_of_gas_1077", %"$have_gas_1073"
-  %"$consume_1079" = sub i64 %"$gasrem_1075", 1
-  store i64 %"$consume_1079", i64* @_gasrem, align 8
-  %"$arg2_62" = alloca %Int256, align 8
-  %"$gasrem_1080" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1081" = icmp ugt i64 1, %"$gasrem_1080"
-  br i1 %"$gascmp_1081", label %"$out_of_gas_1082", label %"$have_gas_1083"
-
-"$out_of_gas_1082":                               ; preds = %"$have_gas_1078"
-  call void @_out_of_gas()
-  br label %"$have_gas_1083"
-
-"$have_gas_1083":                                 ; preds = %"$out_of_gas_1082", %"$have_gas_1078"
-  %"$consume_1084" = sub i64 %"$gasrem_1080", 1
-  store i64 %"$consume_1084", i64* @_gasrem, align 8
-  store %Int256 { i256 170141183460469231731687303715884105728 }, %Int256* %"$arg2_62", align 8, !dbg !89
+"$have_gas_1076":                                 ; preds = %"$out_of_gas_1075", %"$have_gas_1070"
+  %"$consume_1077" = sub i64 %"$gasrem_1073", 16
+  store i64 %"$consume_1077", i64* @_gasrem, align 8
+  %"$execptr_load_1078" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_51_1079" = alloca %Int256, align 8
+  %"$$res_51_1080" = load %Int256, %Int256* %"$res_51", align 8
+  store %Int256 %"$$res_51_1080", %Int256* %"$eq_$res_51_1079", align 8
+  %"$eq_$res__52_1081" = alloca %Int256, align 8
+  %"$$res__52_1082" = load %Int256, %Int256* %"$res__52", align 8
+  store %Int256 %"$$res__52_1082", %Int256* %"$eq_$res__52_1081", align 8
+  %"$eq_call_1083" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1078", %Int256* %"$eq_$res_51_1079", %Int256* %"$eq_$res__52_1081"), !dbg !80
+  store %TName_Bool* %"$eq_call_1083", %TName_Bool** %"$test__53", align 8, !dbg !80
   %"$gasrem_1085" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1086" = icmp ugt i64 1, %"$gasrem_1085"
   br i1 %"$gascmp_1086", label %"$out_of_gas_1087", label %"$have_gas_1088"
 
-"$out_of_gas_1087":                               ; preds = %"$have_gas_1083"
+"$out_of_gas_1087":                               ; preds = %"$have_gas_1076"
   call void @_out_of_gas()
   br label %"$have_gas_1088"
 
-"$have_gas_1088":                                 ; preds = %"$out_of_gas_1087", %"$have_gas_1083"
+"$have_gas_1088":                                 ; preds = %"$out_of_gas_1087", %"$have_gas_1076"
   %"$consume_1089" = sub i64 %"$gasrem_1085", 1
   store i64 %"$consume_1089", i64* @_gasrem, align 8
-  %"$test_66" = alloca %TName_Bool*, align 8
-  %"$gasrem_1090" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1091" = icmp ugt i64 1, %"$gasrem_1090"
-  br i1 %"$gascmp_1091", label %"$out_of_gas_1092", label %"$have_gas_1093"
+  %"$BoolUtils.andb_139" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_1090" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_1091" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1090", 0
+  %"$BoolUtils.andb_envptr_1092" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1090", 1
+  %"$$test_48_1093" = load %TName_Bool*, %TName_Bool** %"$test_48", align 8
+  %"$BoolUtils.andb_call_1094" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1091"(i8* %"$BoolUtils.andb_envptr_1092", %TName_Bool* %"$$test_48_1093"), !dbg !81
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1094", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_139", align 8, !dbg !81
+  %"$BoolUtils.andb_140" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_139_1095" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_139", align 8
+  %"$$BoolUtils.andb_139_fptr_1096" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_139_1095", 0
+  %"$$BoolUtils.andb_139_envptr_1097" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_139_1095", 1
+  %"$$test__53_1098" = load %TName_Bool*, %TName_Bool** %"$test__53", align 8
+  %"$$BoolUtils.andb_139_call_1099" = call %TName_Bool* %"$$BoolUtils.andb_139_fptr_1096"(i8* %"$$BoolUtils.andb_139_envptr_1097", %TName_Bool* %"$$test__53_1098"), !dbg !81
+  store %TName_Bool* %"$$BoolUtils.andb_139_call_1099", %TName_Bool** %"$BoolUtils.andb_140", align 8, !dbg !81
+  %"$$BoolUtils.andb_140_1100" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_140", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_140_1100", %TName_Bool** %"$test_54", align 8, !dbg !81
+  %"$gasrem_1101" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1102" = icmp ugt i64 1, %"$gasrem_1101"
+  br i1 %"$gascmp_1102", label %"$out_of_gas_1103", label %"$have_gas_1104"
 
-"$out_of_gas_1092":                               ; preds = %"$have_gas_1088"
+"$out_of_gas_1103":                               ; preds = %"$have_gas_1088"
   call void @_out_of_gas()
-  br label %"$have_gas_1093"
+  br label %"$have_gas_1104"
 
-"$have_gas_1093":                                 ; preds = %"$out_of_gas_1092", %"$have_gas_1088"
-  %"$consume_1094" = sub i64 %"$gasrem_1090", 1
-  store i64 %"$consume_1094", i64* @_gasrem, align 8
-  %"$res_63" = alloca %Int256, align 8
-  %"$execptr_load_1095" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_61_1096" = alloca %Int256, align 8
-  %"$$arg1_61_1097" = load %Int256, %Int256* %"$arg1_61", align 8
-  store %Int256 %"$$arg1_61_1097", %Int256* %"$mul_$arg1_61_1096", align 8
-  %"$mul_$arg2_62_1098" = alloca %Int256, align 8
-  %"$$arg2_62_1099" = load %Int256, %Int256* %"$arg2_62", align 8
-  store %Int256 %"$$arg2_62_1099", %Int256* %"$mul_$arg2_62_1098", align 8
-  %"$mul_call_1100" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1095", %Int256* %"$mul_$arg1_61_1096", %Int256* %"$mul_$arg2_62_1098"), !dbg !90
-  %"$mul_1102" = load %Int256, %Int256* %"$mul_call_1100", align 8
-  store %Int256 %"$mul_1102", %Int256* %"$res_63", align 8, !dbg !90
-  %"$gasrem_1103" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1104" = icmp ugt i64 1, %"$gasrem_1103"
-  br i1 %"$gascmp_1104", label %"$out_of_gas_1105", label %"$have_gas_1106"
+"$have_gas_1104":                                 ; preds = %"$out_of_gas_1103", %"$have_gas_1088"
+  %"$consume_1105" = sub i64 %"$gasrem_1101", 1
+  store i64 %"$consume_1105", i64* @_gasrem, align 8
+  %"$arg1_55" = alloca %Int256, align 8
+  %"$gasrem_1106" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1107" = icmp ugt i64 1, %"$gasrem_1106"
+  br i1 %"$gascmp_1107", label %"$out_of_gas_1108", label %"$have_gas_1109"
 
-"$out_of_gas_1105":                               ; preds = %"$have_gas_1093"
+"$out_of_gas_1108":                               ; preds = %"$have_gas_1104"
   call void @_out_of_gas()
-  br label %"$have_gas_1106"
+  br label %"$have_gas_1109"
 
-"$have_gas_1106":                                 ; preds = %"$out_of_gas_1105", %"$have_gas_1093"
-  %"$consume_1107" = sub i64 %"$gasrem_1103", 1
-  store i64 %"$consume_1107", i64* @_gasrem, align 8
-  %"$res__64" = alloca %Int256, align 8
-  %"$gasrem_1108" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1109" = icmp ugt i64 1, %"$gasrem_1108"
-  br i1 %"$gascmp_1109", label %"$out_of_gas_1110", label %"$have_gas_1111"
+"$have_gas_1109":                                 ; preds = %"$out_of_gas_1108", %"$have_gas_1104"
+  %"$consume_1110" = sub i64 %"$gasrem_1106", 1
+  store i64 %"$consume_1110", i64* @_gasrem, align 8
+  store %Int256 { i256 170141183460469231731687303715884105727 }, %Int256* %"$arg1_55", align 8, !dbg !82
+  %"$gasrem_1111" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1112" = icmp ugt i64 1, %"$gasrem_1111"
+  br i1 %"$gascmp_1112", label %"$out_of_gas_1113", label %"$have_gas_1114"
 
-"$out_of_gas_1110":                               ; preds = %"$have_gas_1106"
+"$out_of_gas_1113":                               ; preds = %"$have_gas_1109"
   call void @_out_of_gas()
-  br label %"$have_gas_1111"
+  br label %"$have_gas_1114"
 
-"$have_gas_1111":                                 ; preds = %"$out_of_gas_1110", %"$have_gas_1106"
-  %"$consume_1112" = sub i64 %"$gasrem_1108", 1
-  store i64 %"$consume_1112", i64* @_gasrem, align 8
-  store %Int256 { i256 28948022309329048855892746252171976963147354982949671778132708698262398304256 }, %Int256* %"$res__64", align 8, !dbg !91
-  %"$gasrem_1113" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1114" = icmp ugt i64 1, %"$gasrem_1113"
-  br i1 %"$gascmp_1114", label %"$out_of_gas_1115", label %"$have_gas_1116"
+"$have_gas_1114":                                 ; preds = %"$out_of_gas_1113", %"$have_gas_1109"
+  %"$consume_1115" = sub i64 %"$gasrem_1111", 1
+  store i64 %"$consume_1115", i64* @_gasrem, align 8
+  %"$arg2_56" = alloca %Int256, align 8
+  %"$gasrem_1116" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1117" = icmp ugt i64 1, %"$gasrem_1116"
+  br i1 %"$gascmp_1117", label %"$out_of_gas_1118", label %"$have_gas_1119"
 
-"$out_of_gas_1115":                               ; preds = %"$have_gas_1111"
+"$out_of_gas_1118":                               ; preds = %"$have_gas_1114"
   call void @_out_of_gas()
-  br label %"$have_gas_1116"
+  br label %"$have_gas_1119"
 
-"$have_gas_1116":                                 ; preds = %"$out_of_gas_1115", %"$have_gas_1111"
-  %"$consume_1117" = sub i64 %"$gasrem_1113", 1
-  store i64 %"$consume_1117", i64* @_gasrem, align 8
-  %"$test__65" = alloca %TName_Bool*, align 8
-  %"$execptr_load_1118" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_63_1119" = alloca %Int256, align 8
-  %"$$res_63_1120" = load %Int256, %Int256* %"$res_63", align 8
-  store %Int256 %"$$res_63_1120", %Int256* %"$eq_$res_63_1119", align 8
-  %"$eq_$res__64_1121" = alloca %Int256, align 8
-  %"$$res__64_1122" = load %Int256, %Int256* %"$res__64", align 8
-  store %Int256 %"$$res__64_1122", %Int256* %"$eq_$res__64_1121", align 8
-  %"$eq_call_1123" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1118", %Int256* %"$eq_$res_63_1119", %Int256* %"$eq_$res__64_1121"), !dbg !92
-  store %TName_Bool* %"$eq_call_1123", %TName_Bool** %"$test__65", align 8, !dbg !92
-  %"$gasrem_1125" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1126" = icmp ugt i64 1, %"$gasrem_1125"
-  br i1 %"$gascmp_1126", label %"$out_of_gas_1127", label %"$have_gas_1128"
+"$have_gas_1119":                                 ; preds = %"$out_of_gas_1118", %"$have_gas_1114"
+  %"$consume_1120" = sub i64 %"$gasrem_1116", 1
+  store i64 %"$consume_1120", i64* @_gasrem, align 8
+  store %Int256 { i256 -170141183460469231731687303715884105728 }, %Int256* %"$arg2_56", align 8, !dbg !83
+  %"$gasrem_1121" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1122" = icmp ugt i64 1, %"$gasrem_1121"
+  br i1 %"$gascmp_1122", label %"$out_of_gas_1123", label %"$have_gas_1124"
 
-"$out_of_gas_1127":                               ; preds = %"$have_gas_1116"
+"$out_of_gas_1123":                               ; preds = %"$have_gas_1119"
   call void @_out_of_gas()
-  br label %"$have_gas_1128"
+  br label %"$have_gas_1124"
 
-"$have_gas_1128":                                 ; preds = %"$out_of_gas_1127", %"$have_gas_1116"
-  %"$consume_1129" = sub i64 %"$gasrem_1125", 1
-  store i64 %"$consume_1129", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_143" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_1130" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_1131" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1130", 0
-  %"$BoolUtils.andb_envptr_1132" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1130", 1
-  %"$$test_60_1133" = load %TName_Bool*, %TName_Bool** %"$test_60", align 8
-  %"$BoolUtils.andb_call_1134" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1131"(i8* %"$BoolUtils.andb_envptr_1132", %TName_Bool* %"$$test_60_1133"), !dbg !93
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1134", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_143", align 8, !dbg !93
-  %"$BoolUtils.andb_144" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_143_1135" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_143", align 8
-  %"$$BoolUtils.andb_143_fptr_1136" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_143_1135", 0
-  %"$$BoolUtils.andb_143_envptr_1137" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_143_1135", 1
-  %"$$test__65_1138" = load %TName_Bool*, %TName_Bool** %"$test__65", align 8
-  %"$$BoolUtils.andb_143_call_1139" = call %TName_Bool* %"$$BoolUtils.andb_143_fptr_1136"(i8* %"$$BoolUtils.andb_143_envptr_1137", %TName_Bool* %"$$test__65_1138"), !dbg !93
-  store %TName_Bool* %"$$BoolUtils.andb_143_call_1139", %TName_Bool** %"$BoolUtils.andb_144", align 8, !dbg !93
-  %"$$BoolUtils.andb_144_1140" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_144", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_144_1140", %TName_Bool** %"$test_66", align 8, !dbg !93
-  %"$gasrem_1141" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1142" = icmp ugt i64 1, %"$gasrem_1141"
-  br i1 %"$gascmp_1142", label %"$out_of_gas_1143", label %"$have_gas_1144"
+"$have_gas_1124":                                 ; preds = %"$out_of_gas_1123", %"$have_gas_1119"
+  %"$consume_1125" = sub i64 %"$gasrem_1121", 1
+  store i64 %"$consume_1125", i64* @_gasrem, align 8
+  %"$test_60" = alloca %TName_Bool*, align 8
+  %"$gasrem_1126" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1127" = icmp ugt i64 1, %"$gasrem_1126"
+  br i1 %"$gascmp_1127", label %"$out_of_gas_1128", label %"$have_gas_1129"
 
-"$out_of_gas_1143":                               ; preds = %"$have_gas_1128"
+"$out_of_gas_1128":                               ; preds = %"$have_gas_1124"
   call void @_out_of_gas()
-  br label %"$have_gas_1144"
+  br label %"$have_gas_1129"
 
-"$have_gas_1144":                                 ; preds = %"$out_of_gas_1143", %"$have_gas_1128"
-  %"$consume_1145" = sub i64 %"$gasrem_1141", 1
-  store i64 %"$consume_1145", i64* @_gasrem, align 8
-  %"$arg1_67" = alloca %Uint256, align 8
-  %"$gasrem_1146" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1147" = icmp ugt i64 1, %"$gasrem_1146"
-  br i1 %"$gascmp_1147", label %"$out_of_gas_1148", label %"$have_gas_1149"
+"$have_gas_1129":                                 ; preds = %"$out_of_gas_1128", %"$have_gas_1124"
+  %"$consume_1130" = sub i64 %"$gasrem_1126", 1
+  store i64 %"$consume_1130", i64* @_gasrem, align 8
+  %"$res_57" = alloca %Int256, align 8
+  %"$gasrem_1132" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1133" = icmp ugt i64 80, %"$gasrem_1132"
+  br i1 %"$gascmp_1133", label %"$out_of_gas_1134", label %"$have_gas_1135"
 
-"$out_of_gas_1148":                               ; preds = %"$have_gas_1144"
+"$out_of_gas_1134":                               ; preds = %"$have_gas_1129"
   call void @_out_of_gas()
-  br label %"$have_gas_1149"
+  br label %"$have_gas_1135"
 
-"$have_gas_1149":                                 ; preds = %"$out_of_gas_1148", %"$have_gas_1144"
-  %"$consume_1150" = sub i64 %"$gasrem_1146", 1
-  store i64 %"$consume_1150", i64* @_gasrem, align 8
-  store %Uint256 { i256 170141183460469231731687303715884105727 }, %Uint256* %"$arg1_67", align 8, !dbg !94
-  %"$gasrem_1151" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1152" = icmp ugt i64 1, %"$gasrem_1151"
-  br i1 %"$gascmp_1152", label %"$out_of_gas_1153", label %"$have_gas_1154"
+"$have_gas_1135":                                 ; preds = %"$out_of_gas_1134", %"$have_gas_1129"
+  %"$consume_1136" = sub i64 %"$gasrem_1132", 80
+  store i64 %"$consume_1136", i64* @_gasrem, align 8
+  %"$execptr_load_1137" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_55_1138" = alloca %Int256, align 8
+  %"$$arg1_55_1139" = load %Int256, %Int256* %"$arg1_55", align 8
+  store %Int256 %"$$arg1_55_1139", %Int256* %"$mul_$arg1_55_1138", align 8
+  %"$mul_$arg2_56_1140" = alloca %Int256, align 8
+  %"$$arg2_56_1141" = load %Int256, %Int256* %"$arg2_56", align 8
+  store %Int256 %"$$arg2_56_1141", %Int256* %"$mul_$arg2_56_1140", align 8
+  %"$mul_call_1142" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1137", %Int256* %"$mul_$arg1_55_1138", %Int256* %"$mul_$arg2_56_1140"), !dbg !84
+  %"$mul_1144" = load %Int256, %Int256* %"$mul_call_1142", align 8
+  store %Int256 %"$mul_1144", %Int256* %"$res_57", align 8, !dbg !84
+  %"$gasrem_1145" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1146" = icmp ugt i64 1, %"$gasrem_1145"
+  br i1 %"$gascmp_1146", label %"$out_of_gas_1147", label %"$have_gas_1148"
 
-"$out_of_gas_1153":                               ; preds = %"$have_gas_1149"
+"$out_of_gas_1147":                               ; preds = %"$have_gas_1135"
   call void @_out_of_gas()
-  br label %"$have_gas_1154"
+  br label %"$have_gas_1148"
 
-"$have_gas_1154":                                 ; preds = %"$out_of_gas_1153", %"$have_gas_1149"
-  %"$consume_1155" = sub i64 %"$gasrem_1151", 1
-  store i64 %"$consume_1155", i64* @_gasrem, align 8
-  %"$arg2_68" = alloca %Uint256, align 8
-  %"$gasrem_1156" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1157" = icmp ugt i64 1, %"$gasrem_1156"
-  br i1 %"$gascmp_1157", label %"$out_of_gas_1158", label %"$have_gas_1159"
+"$have_gas_1148":                                 ; preds = %"$out_of_gas_1147", %"$have_gas_1135"
+  %"$consume_1149" = sub i64 %"$gasrem_1145", 1
+  store i64 %"$consume_1149", i64* @_gasrem, align 8
+  %"$res__58" = alloca %Int256, align 8
+  %"$gasrem_1150" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1151" = icmp ugt i64 1, %"$gasrem_1150"
+  br i1 %"$gascmp_1151", label %"$out_of_gas_1152", label %"$have_gas_1153"
 
-"$out_of_gas_1158":                               ; preds = %"$have_gas_1154"
+"$out_of_gas_1152":                               ; preds = %"$have_gas_1148"
   call void @_out_of_gas()
-  br label %"$have_gas_1159"
+  br label %"$have_gas_1153"
 
-"$have_gas_1159":                                 ; preds = %"$out_of_gas_1158", %"$have_gas_1154"
-  %"$consume_1160" = sub i64 %"$gasrem_1156", 1
-  store i64 %"$consume_1160", i64* @_gasrem, align 8
-  store %Uint256 { i256 170141183460469231731687303715884105728 }, %Uint256* %"$arg2_68", align 8, !dbg !95
+"$have_gas_1153":                                 ; preds = %"$out_of_gas_1152", %"$have_gas_1148"
+  %"$consume_1154" = sub i64 %"$gasrem_1150", 1
+  store i64 %"$consume_1154", i64* @_gasrem, align 8
+  store %Int256 { i256 -28948022309329048855892746252171976963147354982949671778132708698262398304256 }, %Int256* %"$res__58", align 8, !dbg !85
+  %"$gasrem_1155" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1156" = icmp ugt i64 1, %"$gasrem_1155"
+  br i1 %"$gascmp_1156", label %"$out_of_gas_1157", label %"$have_gas_1158"
+
+"$out_of_gas_1157":                               ; preds = %"$have_gas_1153"
+  call void @_out_of_gas()
+  br label %"$have_gas_1158"
+
+"$have_gas_1158":                                 ; preds = %"$out_of_gas_1157", %"$have_gas_1153"
+  %"$consume_1159" = sub i64 %"$gasrem_1155", 1
+  store i64 %"$consume_1159", i64* @_gasrem, align 8
+  %"$test__59" = alloca %TName_Bool*, align 8
   %"$gasrem_1161" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1162" = icmp ugt i64 1, %"$gasrem_1161"
+  %"$gascmp_1162" = icmp ugt i64 16, %"$gasrem_1161"
   br i1 %"$gascmp_1162", label %"$out_of_gas_1163", label %"$have_gas_1164"
 
-"$out_of_gas_1163":                               ; preds = %"$have_gas_1159"
+"$out_of_gas_1163":                               ; preds = %"$have_gas_1158"
   call void @_out_of_gas()
   br label %"$have_gas_1164"
 
-"$have_gas_1164":                                 ; preds = %"$out_of_gas_1163", %"$have_gas_1159"
-  %"$consume_1165" = sub i64 %"$gasrem_1161", 1
+"$have_gas_1164":                                 ; preds = %"$out_of_gas_1163", %"$have_gas_1158"
+  %"$consume_1165" = sub i64 %"$gasrem_1161", 16
   store i64 %"$consume_1165", i64* @_gasrem, align 8
-  %"$test_72" = alloca %TName_Bool*, align 8
-  %"$gasrem_1166" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1167" = icmp ugt i64 1, %"$gasrem_1166"
-  br i1 %"$gascmp_1167", label %"$out_of_gas_1168", label %"$have_gas_1169"
+  %"$execptr_load_1166" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_57_1167" = alloca %Int256, align 8
+  %"$$res_57_1168" = load %Int256, %Int256* %"$res_57", align 8
+  store %Int256 %"$$res_57_1168", %Int256* %"$eq_$res_57_1167", align 8
+  %"$eq_$res__58_1169" = alloca %Int256, align 8
+  %"$$res__58_1170" = load %Int256, %Int256* %"$res__58", align 8
+  store %Int256 %"$$res__58_1170", %Int256* %"$eq_$res__58_1169", align 8
+  %"$eq_call_1171" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1166", %Int256* %"$eq_$res_57_1167", %Int256* %"$eq_$res__58_1169"), !dbg !86
+  store %TName_Bool* %"$eq_call_1171", %TName_Bool** %"$test__59", align 8, !dbg !86
+  %"$gasrem_1173" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1174" = icmp ugt i64 1, %"$gasrem_1173"
+  br i1 %"$gascmp_1174", label %"$out_of_gas_1175", label %"$have_gas_1176"
 
-"$out_of_gas_1168":                               ; preds = %"$have_gas_1164"
+"$out_of_gas_1175":                               ; preds = %"$have_gas_1164"
   call void @_out_of_gas()
-  br label %"$have_gas_1169"
+  br label %"$have_gas_1176"
 
-"$have_gas_1169":                                 ; preds = %"$out_of_gas_1168", %"$have_gas_1164"
-  %"$consume_1170" = sub i64 %"$gasrem_1166", 1
-  store i64 %"$consume_1170", i64* @_gasrem, align 8
-  %"$res_69" = alloca %Uint256, align 8
-  %"$execptr_load_1171" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_67_1172" = alloca %Uint256, align 8
-  %"$$arg1_67_1173" = load %Uint256, %Uint256* %"$arg1_67", align 8
-  store %Uint256 %"$$arg1_67_1173", %Uint256* %"$mul_$arg1_67_1172", align 8
-  %"$mul_$arg2_68_1174" = alloca %Uint256, align 8
-  %"$$arg2_68_1175" = load %Uint256, %Uint256* %"$arg2_68", align 8
-  store %Uint256 %"$$arg2_68_1175", %Uint256* %"$mul_$arg2_68_1174", align 8
-  %"$mul_call_1176" = call %Uint256* @_mul_Uint256(i8* %"$execptr_load_1171", %Uint256* %"$mul_$arg1_67_1172", %Uint256* %"$mul_$arg2_68_1174"), !dbg !96
-  %"$mul_1178" = load %Uint256, %Uint256* %"$mul_call_1176", align 8
-  store %Uint256 %"$mul_1178", %Uint256* %"$res_69", align 8, !dbg !96
-  %"$gasrem_1179" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1180" = icmp ugt i64 1, %"$gasrem_1179"
-  br i1 %"$gascmp_1180", label %"$out_of_gas_1181", label %"$have_gas_1182"
-
-"$out_of_gas_1181":                               ; preds = %"$have_gas_1169"
-  call void @_out_of_gas()
-  br label %"$have_gas_1182"
-
-"$have_gas_1182":                                 ; preds = %"$out_of_gas_1181", %"$have_gas_1169"
-  %"$consume_1183" = sub i64 %"$gasrem_1179", 1
-  store i64 %"$consume_1183", i64* @_gasrem, align 8
-  %"$res__70" = alloca %Uint256, align 8
-  %"$gasrem_1184" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1185" = icmp ugt i64 1, %"$gasrem_1184"
-  br i1 %"$gascmp_1185", label %"$out_of_gas_1186", label %"$have_gas_1187"
-
-"$out_of_gas_1186":                               ; preds = %"$have_gas_1182"
-  call void @_out_of_gas()
-  br label %"$have_gas_1187"
-
-"$have_gas_1187":                                 ; preds = %"$out_of_gas_1186", %"$have_gas_1182"
-  %"$consume_1188" = sub i64 %"$gasrem_1184", 1
-  store i64 %"$consume_1188", i64* @_gasrem, align 8
-  store %Uint256 { i256 28948022309329048855892746252171976963147354982949671778132708698262398304256 }, %Uint256* %"$res__70", align 8, !dbg !97
+"$have_gas_1176":                                 ; preds = %"$out_of_gas_1175", %"$have_gas_1164"
+  %"$consume_1177" = sub i64 %"$gasrem_1173", 1
+  store i64 %"$consume_1177", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_141" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_1178" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_1179" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1178", 0
+  %"$BoolUtils.andb_envptr_1180" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1178", 1
+  %"$$test_54_1181" = load %TName_Bool*, %TName_Bool** %"$test_54", align 8
+  %"$BoolUtils.andb_call_1182" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1179"(i8* %"$BoolUtils.andb_envptr_1180", %TName_Bool* %"$$test_54_1181"), !dbg !87
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1182", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_141", align 8, !dbg !87
+  %"$BoolUtils.andb_142" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_141_1183" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_141", align 8
+  %"$$BoolUtils.andb_141_fptr_1184" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_141_1183", 0
+  %"$$BoolUtils.andb_141_envptr_1185" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_141_1183", 1
+  %"$$test__59_1186" = load %TName_Bool*, %TName_Bool** %"$test__59", align 8
+  %"$$BoolUtils.andb_141_call_1187" = call %TName_Bool* %"$$BoolUtils.andb_141_fptr_1184"(i8* %"$$BoolUtils.andb_141_envptr_1185", %TName_Bool* %"$$test__59_1186"), !dbg !87
+  store %TName_Bool* %"$$BoolUtils.andb_141_call_1187", %TName_Bool** %"$BoolUtils.andb_142", align 8, !dbg !87
+  %"$$BoolUtils.andb_142_1188" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_142", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_142_1188", %TName_Bool** %"$test_60", align 8, !dbg !87
   %"$gasrem_1189" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1190" = icmp ugt i64 1, %"$gasrem_1189"
   br i1 %"$gascmp_1190", label %"$out_of_gas_1191", label %"$have_gas_1192"
 
-"$out_of_gas_1191":                               ; preds = %"$have_gas_1187"
+"$out_of_gas_1191":                               ; preds = %"$have_gas_1176"
   call void @_out_of_gas()
   br label %"$have_gas_1192"
 
-"$have_gas_1192":                                 ; preds = %"$out_of_gas_1191", %"$have_gas_1187"
+"$have_gas_1192":                                 ; preds = %"$out_of_gas_1191", %"$have_gas_1176"
   %"$consume_1193" = sub i64 %"$gasrem_1189", 1
   store i64 %"$consume_1193", i64* @_gasrem, align 8
-  %"$test__71" = alloca %TName_Bool*, align 8
-  %"$execptr_load_1194" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_69_1195" = alloca %Uint256, align 8
-  %"$$res_69_1196" = load %Uint256, %Uint256* %"$res_69", align 8
-  store %Uint256 %"$$res_69_1196", %Uint256* %"$eq_$res_69_1195", align 8
-  %"$eq_$res__70_1197" = alloca %Uint256, align 8
-  %"$$res__70_1198" = load %Uint256, %Uint256* %"$res__70", align 8
-  store %Uint256 %"$$res__70_1198", %Uint256* %"$eq_$res__70_1197", align 8
-  %"$eq_call_1199" = call %TName_Bool* @_eq_Uint256(i8* %"$execptr_load_1194", %Uint256* %"$eq_$res_69_1195", %Uint256* %"$eq_$res__70_1197"), !dbg !98
-  store %TName_Bool* %"$eq_call_1199", %TName_Bool** %"$test__71", align 8, !dbg !98
-  %"$gasrem_1201" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1202" = icmp ugt i64 1, %"$gasrem_1201"
-  br i1 %"$gascmp_1202", label %"$out_of_gas_1203", label %"$have_gas_1204"
+  %"$arg1_61" = alloca %Int256, align 8
+  %"$gasrem_1194" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1195" = icmp ugt i64 1, %"$gasrem_1194"
+  br i1 %"$gascmp_1195", label %"$out_of_gas_1196", label %"$have_gas_1197"
 
-"$out_of_gas_1203":                               ; preds = %"$have_gas_1192"
+"$out_of_gas_1196":                               ; preds = %"$have_gas_1192"
   call void @_out_of_gas()
-  br label %"$have_gas_1204"
+  br label %"$have_gas_1197"
 
-"$have_gas_1204":                                 ; preds = %"$out_of_gas_1203", %"$have_gas_1192"
-  %"$consume_1205" = sub i64 %"$gasrem_1201", 1
-  store i64 %"$consume_1205", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_145" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_1206" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_1207" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1206", 0
-  %"$BoolUtils.andb_envptr_1208" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1206", 1
-  %"$$test_66_1209" = load %TName_Bool*, %TName_Bool** %"$test_66", align 8
-  %"$BoolUtils.andb_call_1210" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1207"(i8* %"$BoolUtils.andb_envptr_1208", %TName_Bool* %"$$test_66_1209"), !dbg !99
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1210", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_145", align 8, !dbg !99
-  %"$BoolUtils.andb_146" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_145_1211" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_145", align 8
-  %"$$BoolUtils.andb_145_fptr_1212" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_145_1211", 0
-  %"$$BoolUtils.andb_145_envptr_1213" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_145_1211", 1
-  %"$$test__71_1214" = load %TName_Bool*, %TName_Bool** %"$test__71", align 8
-  %"$$BoolUtils.andb_145_call_1215" = call %TName_Bool* %"$$BoolUtils.andb_145_fptr_1212"(i8* %"$$BoolUtils.andb_145_envptr_1213", %TName_Bool* %"$$test__71_1214"), !dbg !99
-  store %TName_Bool* %"$$BoolUtils.andb_145_call_1215", %TName_Bool** %"$BoolUtils.andb_146", align 8, !dbg !99
-  %"$$BoolUtils.andb_146_1216" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_146", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_146_1216", %TName_Bool** %"$test_72", align 8, !dbg !99
-  %"$gasrem_1217" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1218" = icmp ugt i64 1, %"$gasrem_1217"
-  br i1 %"$gascmp_1218", label %"$out_of_gas_1219", label %"$have_gas_1220"
+"$have_gas_1197":                                 ; preds = %"$out_of_gas_1196", %"$have_gas_1192"
+  %"$consume_1198" = sub i64 %"$gasrem_1194", 1
+  store i64 %"$consume_1198", i64* @_gasrem, align 8
+  store %Int256 { i256 170141183460469231731687303715884105727 }, %Int256* %"$arg1_61", align 8, !dbg !88
+  %"$gasrem_1199" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1200" = icmp ugt i64 1, %"$gasrem_1199"
+  br i1 %"$gascmp_1200", label %"$out_of_gas_1201", label %"$have_gas_1202"
 
-"$out_of_gas_1219":                               ; preds = %"$have_gas_1204"
+"$out_of_gas_1201":                               ; preds = %"$have_gas_1197"
   call void @_out_of_gas()
-  br label %"$have_gas_1220"
+  br label %"$have_gas_1202"
 
-"$have_gas_1220":                                 ; preds = %"$out_of_gas_1219", %"$have_gas_1204"
-  %"$consume_1221" = sub i64 %"$gasrem_1217", 1
-  store i64 %"$consume_1221", i64* @_gasrem, align 8
-  %"$arg1_73" = alloca %Uint256, align 8
-  %"$gasrem_1222" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1223" = icmp ugt i64 1, %"$gasrem_1222"
-  br i1 %"$gascmp_1223", label %"$out_of_gas_1224", label %"$have_gas_1225"
+"$have_gas_1202":                                 ; preds = %"$out_of_gas_1201", %"$have_gas_1197"
+  %"$consume_1203" = sub i64 %"$gasrem_1199", 1
+  store i64 %"$consume_1203", i64* @_gasrem, align 8
+  %"$arg2_62" = alloca %Int256, align 8
+  %"$gasrem_1204" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1205" = icmp ugt i64 1, %"$gasrem_1204"
+  br i1 %"$gascmp_1205", label %"$out_of_gas_1206", label %"$have_gas_1207"
 
-"$out_of_gas_1224":                               ; preds = %"$have_gas_1220"
+"$out_of_gas_1206":                               ; preds = %"$have_gas_1202"
   call void @_out_of_gas()
-  br label %"$have_gas_1225"
+  br label %"$have_gas_1207"
 
-"$have_gas_1225":                                 ; preds = %"$out_of_gas_1224", %"$have_gas_1220"
-  %"$consume_1226" = sub i64 %"$gasrem_1222", 1
-  store i64 %"$consume_1226", i64* @_gasrem, align 8
-  store %Uint256 { i256 1 }, %Uint256* %"$arg1_73", align 8, !dbg !100
-  %"$gasrem_1227" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1228" = icmp ugt i64 1, %"$gasrem_1227"
-  br i1 %"$gascmp_1228", label %"$out_of_gas_1229", label %"$have_gas_1230"
+"$have_gas_1207":                                 ; preds = %"$out_of_gas_1206", %"$have_gas_1202"
+  %"$consume_1208" = sub i64 %"$gasrem_1204", 1
+  store i64 %"$consume_1208", i64* @_gasrem, align 8
+  store %Int256 { i256 170141183460469231731687303715884105728 }, %Int256* %"$arg2_62", align 8, !dbg !89
+  %"$gasrem_1209" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1210" = icmp ugt i64 1, %"$gasrem_1209"
+  br i1 %"$gascmp_1210", label %"$out_of_gas_1211", label %"$have_gas_1212"
 
-"$out_of_gas_1229":                               ; preds = %"$have_gas_1225"
+"$out_of_gas_1211":                               ; preds = %"$have_gas_1207"
   call void @_out_of_gas()
-  br label %"$have_gas_1230"
+  br label %"$have_gas_1212"
 
-"$have_gas_1230":                                 ; preds = %"$out_of_gas_1229", %"$have_gas_1225"
-  %"$consume_1231" = sub i64 %"$gasrem_1227", 1
-  store i64 %"$consume_1231", i64* @_gasrem, align 8
-  %"$arg2_74" = alloca %Uint256, align 8
-  %"$gasrem_1232" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1233" = icmp ugt i64 1, %"$gasrem_1232"
-  br i1 %"$gascmp_1233", label %"$out_of_gas_1234", label %"$have_gas_1235"
+"$have_gas_1212":                                 ; preds = %"$out_of_gas_1211", %"$have_gas_1207"
+  %"$consume_1213" = sub i64 %"$gasrem_1209", 1
+  store i64 %"$consume_1213", i64* @_gasrem, align 8
+  %"$test_66" = alloca %TName_Bool*, align 8
+  %"$gasrem_1214" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1215" = icmp ugt i64 1, %"$gasrem_1214"
+  br i1 %"$gascmp_1215", label %"$out_of_gas_1216", label %"$have_gas_1217"
 
-"$out_of_gas_1234":                               ; preds = %"$have_gas_1230"
+"$out_of_gas_1216":                               ; preds = %"$have_gas_1212"
   call void @_out_of_gas()
-  br label %"$have_gas_1235"
+  br label %"$have_gas_1217"
 
-"$have_gas_1235":                                 ; preds = %"$out_of_gas_1234", %"$have_gas_1230"
-  %"$consume_1236" = sub i64 %"$gasrem_1232", 1
-  store i64 %"$consume_1236", i64* @_gasrem, align 8
-  store %Uint256 { i256 -1 }, %Uint256* %"$arg2_74", align 8, !dbg !101
-  %"$gasrem_1237" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1238" = icmp ugt i64 1, %"$gasrem_1237"
-  br i1 %"$gascmp_1238", label %"$out_of_gas_1239", label %"$have_gas_1240"
+"$have_gas_1217":                                 ; preds = %"$out_of_gas_1216", %"$have_gas_1212"
+  %"$consume_1218" = sub i64 %"$gasrem_1214", 1
+  store i64 %"$consume_1218", i64* @_gasrem, align 8
+  %"$res_63" = alloca %Int256, align 8
+  %"$gasrem_1220" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1221" = icmp ugt i64 80, %"$gasrem_1220"
+  br i1 %"$gascmp_1221", label %"$out_of_gas_1222", label %"$have_gas_1223"
 
-"$out_of_gas_1239":                               ; preds = %"$have_gas_1235"
+"$out_of_gas_1222":                               ; preds = %"$have_gas_1217"
   call void @_out_of_gas()
-  br label %"$have_gas_1240"
+  br label %"$have_gas_1223"
 
-"$have_gas_1240":                                 ; preds = %"$out_of_gas_1239", %"$have_gas_1235"
-  %"$consume_1241" = sub i64 %"$gasrem_1237", 1
-  store i64 %"$consume_1241", i64* @_gasrem, align 8
-  %"$test_78" = alloca %TName_Bool*, align 8
-  %"$gasrem_1242" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1243" = icmp ugt i64 1, %"$gasrem_1242"
-  br i1 %"$gascmp_1243", label %"$out_of_gas_1244", label %"$have_gas_1245"
+"$have_gas_1223":                                 ; preds = %"$out_of_gas_1222", %"$have_gas_1217"
+  %"$consume_1224" = sub i64 %"$gasrem_1220", 80
+  store i64 %"$consume_1224", i64* @_gasrem, align 8
+  %"$execptr_load_1225" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_61_1226" = alloca %Int256, align 8
+  %"$$arg1_61_1227" = load %Int256, %Int256* %"$arg1_61", align 8
+  store %Int256 %"$$arg1_61_1227", %Int256* %"$mul_$arg1_61_1226", align 8
+  %"$mul_$arg2_62_1228" = alloca %Int256, align 8
+  %"$$arg2_62_1229" = load %Int256, %Int256* %"$arg2_62", align 8
+  store %Int256 %"$$arg2_62_1229", %Int256* %"$mul_$arg2_62_1228", align 8
+  %"$mul_call_1230" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1225", %Int256* %"$mul_$arg1_61_1226", %Int256* %"$mul_$arg2_62_1228"), !dbg !90
+  %"$mul_1232" = load %Int256, %Int256* %"$mul_call_1230", align 8
+  store %Int256 %"$mul_1232", %Int256* %"$res_63", align 8, !dbg !90
+  %"$gasrem_1233" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1234" = icmp ugt i64 1, %"$gasrem_1233"
+  br i1 %"$gascmp_1234", label %"$out_of_gas_1235", label %"$have_gas_1236"
 
-"$out_of_gas_1244":                               ; preds = %"$have_gas_1240"
+"$out_of_gas_1235":                               ; preds = %"$have_gas_1223"
   call void @_out_of_gas()
-  br label %"$have_gas_1245"
+  br label %"$have_gas_1236"
 
-"$have_gas_1245":                                 ; preds = %"$out_of_gas_1244", %"$have_gas_1240"
-  %"$consume_1246" = sub i64 %"$gasrem_1242", 1
-  store i64 %"$consume_1246", i64* @_gasrem, align 8
-  %"$res_75" = alloca %Uint256, align 8
-  %"$execptr_load_1247" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_73_1248" = alloca %Uint256, align 8
-  %"$$arg1_73_1249" = load %Uint256, %Uint256* %"$arg1_73", align 8
-  store %Uint256 %"$$arg1_73_1249", %Uint256* %"$mul_$arg1_73_1248", align 8
-  %"$mul_$arg2_74_1250" = alloca %Uint256, align 8
-  %"$$arg2_74_1251" = load %Uint256, %Uint256* %"$arg2_74", align 8
-  store %Uint256 %"$$arg2_74_1251", %Uint256* %"$mul_$arg2_74_1250", align 8
-  %"$mul_call_1252" = call %Uint256* @_mul_Uint256(i8* %"$execptr_load_1247", %Uint256* %"$mul_$arg1_73_1248", %Uint256* %"$mul_$arg2_74_1250"), !dbg !102
-  %"$mul_1254" = load %Uint256, %Uint256* %"$mul_call_1252", align 8
-  store %Uint256 %"$mul_1254", %Uint256* %"$res_75", align 8, !dbg !102
-  %"$gasrem_1255" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1256" = icmp ugt i64 1, %"$gasrem_1255"
-  br i1 %"$gascmp_1256", label %"$out_of_gas_1257", label %"$have_gas_1258"
+"$have_gas_1236":                                 ; preds = %"$out_of_gas_1235", %"$have_gas_1223"
+  %"$consume_1237" = sub i64 %"$gasrem_1233", 1
+  store i64 %"$consume_1237", i64* @_gasrem, align 8
+  %"$res__64" = alloca %Int256, align 8
+  %"$gasrem_1238" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1239" = icmp ugt i64 1, %"$gasrem_1238"
+  br i1 %"$gascmp_1239", label %"$out_of_gas_1240", label %"$have_gas_1241"
 
-"$out_of_gas_1257":                               ; preds = %"$have_gas_1245"
+"$out_of_gas_1240":                               ; preds = %"$have_gas_1236"
   call void @_out_of_gas()
-  br label %"$have_gas_1258"
+  br label %"$have_gas_1241"
 
-"$have_gas_1258":                                 ; preds = %"$out_of_gas_1257", %"$have_gas_1245"
-  %"$consume_1259" = sub i64 %"$gasrem_1255", 1
-  store i64 %"$consume_1259", i64* @_gasrem, align 8
-  %"$res__76" = alloca %Uint256, align 8
-  %"$gasrem_1260" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1261" = icmp ugt i64 1, %"$gasrem_1260"
-  br i1 %"$gascmp_1261", label %"$out_of_gas_1262", label %"$have_gas_1263"
+"$have_gas_1241":                                 ; preds = %"$out_of_gas_1240", %"$have_gas_1236"
+  %"$consume_1242" = sub i64 %"$gasrem_1238", 1
+  store i64 %"$consume_1242", i64* @_gasrem, align 8
+  store %Int256 { i256 28948022309329048855892746252171976963147354982949671778132708698262398304256 }, %Int256* %"$res__64", align 8, !dbg !91
+  %"$gasrem_1243" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1244" = icmp ugt i64 1, %"$gasrem_1243"
+  br i1 %"$gascmp_1244", label %"$out_of_gas_1245", label %"$have_gas_1246"
 
-"$out_of_gas_1262":                               ; preds = %"$have_gas_1258"
+"$out_of_gas_1245":                               ; preds = %"$have_gas_1241"
   call void @_out_of_gas()
-  br label %"$have_gas_1263"
+  br label %"$have_gas_1246"
 
-"$have_gas_1263":                                 ; preds = %"$out_of_gas_1262", %"$have_gas_1258"
-  %"$consume_1264" = sub i64 %"$gasrem_1260", 1
-  store i64 %"$consume_1264", i64* @_gasrem, align 8
-  store %Uint256 { i256 -1 }, %Uint256* %"$res__76", align 8, !dbg !103
-  %"$gasrem_1265" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1266" = icmp ugt i64 1, %"$gasrem_1265"
-  br i1 %"$gascmp_1266", label %"$out_of_gas_1267", label %"$have_gas_1268"
+"$have_gas_1246":                                 ; preds = %"$out_of_gas_1245", %"$have_gas_1241"
+  %"$consume_1247" = sub i64 %"$gasrem_1243", 1
+  store i64 %"$consume_1247", i64* @_gasrem, align 8
+  %"$test__65" = alloca %TName_Bool*, align 8
+  %"$gasrem_1249" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1250" = icmp ugt i64 16, %"$gasrem_1249"
+  br i1 %"$gascmp_1250", label %"$out_of_gas_1251", label %"$have_gas_1252"
 
-"$out_of_gas_1267":                               ; preds = %"$have_gas_1263"
+"$out_of_gas_1251":                               ; preds = %"$have_gas_1246"
   call void @_out_of_gas()
-  br label %"$have_gas_1268"
+  br label %"$have_gas_1252"
 
-"$have_gas_1268":                                 ; preds = %"$out_of_gas_1267", %"$have_gas_1263"
-  %"$consume_1269" = sub i64 %"$gasrem_1265", 1
-  store i64 %"$consume_1269", i64* @_gasrem, align 8
-  %"$test__77" = alloca %TName_Bool*, align 8
-  %"$execptr_load_1270" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_75_1271" = alloca %Uint256, align 8
-  %"$$res_75_1272" = load %Uint256, %Uint256* %"$res_75", align 8
-  store %Uint256 %"$$res_75_1272", %Uint256* %"$eq_$res_75_1271", align 8
-  %"$eq_$res__76_1273" = alloca %Uint256, align 8
-  %"$$res__76_1274" = load %Uint256, %Uint256* %"$res__76", align 8
-  store %Uint256 %"$$res__76_1274", %Uint256* %"$eq_$res__76_1273", align 8
-  %"$eq_call_1275" = call %TName_Bool* @_eq_Uint256(i8* %"$execptr_load_1270", %Uint256* %"$eq_$res_75_1271", %Uint256* %"$eq_$res__76_1273"), !dbg !104
-  store %TName_Bool* %"$eq_call_1275", %TName_Bool** %"$test__77", align 8, !dbg !104
+"$have_gas_1252":                                 ; preds = %"$out_of_gas_1251", %"$have_gas_1246"
+  %"$consume_1253" = sub i64 %"$gasrem_1249", 16
+  store i64 %"$consume_1253", i64* @_gasrem, align 8
+  %"$execptr_load_1254" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_63_1255" = alloca %Int256, align 8
+  %"$$res_63_1256" = load %Int256, %Int256* %"$res_63", align 8
+  store %Int256 %"$$res_63_1256", %Int256* %"$eq_$res_63_1255", align 8
+  %"$eq_$res__64_1257" = alloca %Int256, align 8
+  %"$$res__64_1258" = load %Int256, %Int256* %"$res__64", align 8
+  store %Int256 %"$$res__64_1258", %Int256* %"$eq_$res__64_1257", align 8
+  %"$eq_call_1259" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1254", %Int256* %"$eq_$res_63_1255", %Int256* %"$eq_$res__64_1257"), !dbg !92
+  store %TName_Bool* %"$eq_call_1259", %TName_Bool** %"$test__65", align 8, !dbg !92
+  %"$gasrem_1261" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1262" = icmp ugt i64 1, %"$gasrem_1261"
+  br i1 %"$gascmp_1262", label %"$out_of_gas_1263", label %"$have_gas_1264"
+
+"$out_of_gas_1263":                               ; preds = %"$have_gas_1252"
+  call void @_out_of_gas()
+  br label %"$have_gas_1264"
+
+"$have_gas_1264":                                 ; preds = %"$out_of_gas_1263", %"$have_gas_1252"
+  %"$consume_1265" = sub i64 %"$gasrem_1261", 1
+  store i64 %"$consume_1265", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_143" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_1266" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_1267" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1266", 0
+  %"$BoolUtils.andb_envptr_1268" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1266", 1
+  %"$$test_60_1269" = load %TName_Bool*, %TName_Bool** %"$test_60", align 8
+  %"$BoolUtils.andb_call_1270" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1267"(i8* %"$BoolUtils.andb_envptr_1268", %TName_Bool* %"$$test_60_1269"), !dbg !93
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1270", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_143", align 8, !dbg !93
+  %"$BoolUtils.andb_144" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_143_1271" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_143", align 8
+  %"$$BoolUtils.andb_143_fptr_1272" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_143_1271", 0
+  %"$$BoolUtils.andb_143_envptr_1273" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_143_1271", 1
+  %"$$test__65_1274" = load %TName_Bool*, %TName_Bool** %"$test__65", align 8
+  %"$$BoolUtils.andb_143_call_1275" = call %TName_Bool* %"$$BoolUtils.andb_143_fptr_1272"(i8* %"$$BoolUtils.andb_143_envptr_1273", %TName_Bool* %"$$test__65_1274"), !dbg !93
+  store %TName_Bool* %"$$BoolUtils.andb_143_call_1275", %TName_Bool** %"$BoolUtils.andb_144", align 8, !dbg !93
+  %"$$BoolUtils.andb_144_1276" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_144", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_144_1276", %TName_Bool** %"$test_66", align 8, !dbg !93
   %"$gasrem_1277" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1278" = icmp ugt i64 1, %"$gasrem_1277"
   br i1 %"$gascmp_1278", label %"$out_of_gas_1279", label %"$have_gas_1280"
 
-"$out_of_gas_1279":                               ; preds = %"$have_gas_1268"
+"$out_of_gas_1279":                               ; preds = %"$have_gas_1264"
   call void @_out_of_gas()
   br label %"$have_gas_1280"
 
-"$have_gas_1280":                                 ; preds = %"$out_of_gas_1279", %"$have_gas_1268"
+"$have_gas_1280":                                 ; preds = %"$out_of_gas_1279", %"$have_gas_1264"
   %"$consume_1281" = sub i64 %"$gasrem_1277", 1
   store i64 %"$consume_1281", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_147" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_1282" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_1283" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1282", 0
-  %"$BoolUtils.andb_envptr_1284" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1282", 1
-  %"$$test_72_1285" = load %TName_Bool*, %TName_Bool** %"$test_72", align 8
-  %"$BoolUtils.andb_call_1286" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1283"(i8* %"$BoolUtils.andb_envptr_1284", %TName_Bool* %"$$test_72_1285"), !dbg !105
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1286", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_147", align 8, !dbg !105
-  %"$BoolUtils.andb_148" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_147_1287" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_147", align 8
-  %"$$BoolUtils.andb_147_fptr_1288" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_147_1287", 0
-  %"$$BoolUtils.andb_147_envptr_1289" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_147_1287", 1
-  %"$$test__77_1290" = load %TName_Bool*, %TName_Bool** %"$test__77", align 8
-  %"$$BoolUtils.andb_147_call_1291" = call %TName_Bool* %"$$BoolUtils.andb_147_fptr_1288"(i8* %"$$BoolUtils.andb_147_envptr_1289", %TName_Bool* %"$$test__77_1290"), !dbg !105
-  store %TName_Bool* %"$$BoolUtils.andb_147_call_1291", %TName_Bool** %"$BoolUtils.andb_148", align 8, !dbg !105
-  %"$$BoolUtils.andb_148_1292" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_148", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_148_1292", %TName_Bool** %"$test_78", align 8, !dbg !105
-  %"$gasrem_1293" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1294" = icmp ugt i64 1, %"$gasrem_1293"
-  br i1 %"$gascmp_1294", label %"$out_of_gas_1295", label %"$have_gas_1296"
+  %"$arg1_67" = alloca %Uint256, align 8
+  %"$gasrem_1282" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1283" = icmp ugt i64 1, %"$gasrem_1282"
+  br i1 %"$gascmp_1283", label %"$out_of_gas_1284", label %"$have_gas_1285"
 
-"$out_of_gas_1295":                               ; preds = %"$have_gas_1280"
+"$out_of_gas_1284":                               ; preds = %"$have_gas_1280"
   call void @_out_of_gas()
-  br label %"$have_gas_1296"
+  br label %"$have_gas_1285"
 
-"$have_gas_1296":                                 ; preds = %"$out_of_gas_1295", %"$have_gas_1280"
-  %"$consume_1297" = sub i64 %"$gasrem_1293", 1
-  store i64 %"$consume_1297", i64* @_gasrem, align 8
-  %"$arg1_79" = alloca %Uint256, align 8
-  %"$gasrem_1298" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1299" = icmp ugt i64 1, %"$gasrem_1298"
-  br i1 %"$gascmp_1299", label %"$out_of_gas_1300", label %"$have_gas_1301"
+"$have_gas_1285":                                 ; preds = %"$out_of_gas_1284", %"$have_gas_1280"
+  %"$consume_1286" = sub i64 %"$gasrem_1282", 1
+  store i64 %"$consume_1286", i64* @_gasrem, align 8
+  store %Uint256 { i256 170141183460469231731687303715884105727 }, %Uint256* %"$arg1_67", align 8, !dbg !94
+  %"$gasrem_1287" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1288" = icmp ugt i64 1, %"$gasrem_1287"
+  br i1 %"$gascmp_1288", label %"$out_of_gas_1289", label %"$have_gas_1290"
 
-"$out_of_gas_1300":                               ; preds = %"$have_gas_1296"
+"$out_of_gas_1289":                               ; preds = %"$have_gas_1285"
   call void @_out_of_gas()
-  br label %"$have_gas_1301"
+  br label %"$have_gas_1290"
 
-"$have_gas_1301":                                 ; preds = %"$out_of_gas_1300", %"$have_gas_1296"
-  %"$consume_1302" = sub i64 %"$gasrem_1298", 1
-  store i64 %"$consume_1302", i64* @_gasrem, align 8
-  store %Uint256 { i256 2 }, %Uint256* %"$arg1_79", align 8, !dbg !106
-  %"$gasrem_1303" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1304" = icmp ugt i64 1, %"$gasrem_1303"
-  br i1 %"$gascmp_1304", label %"$out_of_gas_1305", label %"$have_gas_1306"
+"$have_gas_1290":                                 ; preds = %"$out_of_gas_1289", %"$have_gas_1285"
+  %"$consume_1291" = sub i64 %"$gasrem_1287", 1
+  store i64 %"$consume_1291", i64* @_gasrem, align 8
+  %"$arg2_68" = alloca %Uint256, align 8
+  %"$gasrem_1292" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1293" = icmp ugt i64 1, %"$gasrem_1292"
+  br i1 %"$gascmp_1293", label %"$out_of_gas_1294", label %"$have_gas_1295"
 
-"$out_of_gas_1305":                               ; preds = %"$have_gas_1301"
+"$out_of_gas_1294":                               ; preds = %"$have_gas_1290"
   call void @_out_of_gas()
-  br label %"$have_gas_1306"
+  br label %"$have_gas_1295"
 
-"$have_gas_1306":                                 ; preds = %"$out_of_gas_1305", %"$have_gas_1301"
-  %"$consume_1307" = sub i64 %"$gasrem_1303", 1
-  store i64 %"$consume_1307", i64* @_gasrem, align 8
-  %"$arg2_80" = alloca %Uint256, align 8
+"$have_gas_1295":                                 ; preds = %"$out_of_gas_1294", %"$have_gas_1290"
+  %"$consume_1296" = sub i64 %"$gasrem_1292", 1
+  store i64 %"$consume_1296", i64* @_gasrem, align 8
+  store %Uint256 { i256 170141183460469231731687303715884105728 }, %Uint256* %"$arg2_68", align 8, !dbg !95
+  %"$gasrem_1297" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1298" = icmp ugt i64 1, %"$gasrem_1297"
+  br i1 %"$gascmp_1298", label %"$out_of_gas_1299", label %"$have_gas_1300"
+
+"$out_of_gas_1299":                               ; preds = %"$have_gas_1295"
+  call void @_out_of_gas()
+  br label %"$have_gas_1300"
+
+"$have_gas_1300":                                 ; preds = %"$out_of_gas_1299", %"$have_gas_1295"
+  %"$consume_1301" = sub i64 %"$gasrem_1297", 1
+  store i64 %"$consume_1301", i64* @_gasrem, align 8
+  %"$test_72" = alloca %TName_Bool*, align 8
+  %"$gasrem_1302" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1303" = icmp ugt i64 1, %"$gasrem_1302"
+  br i1 %"$gascmp_1303", label %"$out_of_gas_1304", label %"$have_gas_1305"
+
+"$out_of_gas_1304":                               ; preds = %"$have_gas_1300"
+  call void @_out_of_gas()
+  br label %"$have_gas_1305"
+
+"$have_gas_1305":                                 ; preds = %"$out_of_gas_1304", %"$have_gas_1300"
+  %"$consume_1306" = sub i64 %"$gasrem_1302", 1
+  store i64 %"$consume_1306", i64* @_gasrem, align 8
+  %"$res_69" = alloca %Uint256, align 8
   %"$gasrem_1308" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1309" = icmp ugt i64 1, %"$gasrem_1308"
+  %"$gascmp_1309" = icmp ugt i64 80, %"$gasrem_1308"
   br i1 %"$gascmp_1309", label %"$out_of_gas_1310", label %"$have_gas_1311"
 
-"$out_of_gas_1310":                               ; preds = %"$have_gas_1306"
+"$out_of_gas_1310":                               ; preds = %"$have_gas_1305"
   call void @_out_of_gas()
   br label %"$have_gas_1311"
 
-"$have_gas_1311":                                 ; preds = %"$out_of_gas_1310", %"$have_gas_1306"
-  %"$consume_1312" = sub i64 %"$gasrem_1308", 1
+"$have_gas_1311":                                 ; preds = %"$out_of_gas_1310", %"$have_gas_1305"
+  %"$consume_1312" = sub i64 %"$gasrem_1308", 80
   store i64 %"$consume_1312", i64* @_gasrem, align 8
-  store %Uint256 { i256 57896044618658097711785492504343953926634992332820282019728792003956564819967 }, %Uint256* %"$arg2_80", align 8, !dbg !107
-  %"$gasrem_1313" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1314" = icmp ugt i64 1, %"$gasrem_1313"
-  br i1 %"$gascmp_1314", label %"$out_of_gas_1315", label %"$have_gas_1316"
+  %"$execptr_load_1313" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_67_1314" = alloca %Uint256, align 8
+  %"$$arg1_67_1315" = load %Uint256, %Uint256* %"$arg1_67", align 8
+  store %Uint256 %"$$arg1_67_1315", %Uint256* %"$mul_$arg1_67_1314", align 8
+  %"$mul_$arg2_68_1316" = alloca %Uint256, align 8
+  %"$$arg2_68_1317" = load %Uint256, %Uint256* %"$arg2_68", align 8
+  store %Uint256 %"$$arg2_68_1317", %Uint256* %"$mul_$arg2_68_1316", align 8
+  %"$mul_call_1318" = call %Uint256* @_mul_Uint256(i8* %"$execptr_load_1313", %Uint256* %"$mul_$arg1_67_1314", %Uint256* %"$mul_$arg2_68_1316"), !dbg !96
+  %"$mul_1320" = load %Uint256, %Uint256* %"$mul_call_1318", align 8
+  store %Uint256 %"$mul_1320", %Uint256* %"$res_69", align 8, !dbg !96
+  %"$gasrem_1321" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1322" = icmp ugt i64 1, %"$gasrem_1321"
+  br i1 %"$gascmp_1322", label %"$out_of_gas_1323", label %"$have_gas_1324"
 
-"$out_of_gas_1315":                               ; preds = %"$have_gas_1311"
+"$out_of_gas_1323":                               ; preds = %"$have_gas_1311"
   call void @_out_of_gas()
-  br label %"$have_gas_1316"
+  br label %"$have_gas_1324"
 
-"$have_gas_1316":                                 ; preds = %"$out_of_gas_1315", %"$have_gas_1311"
-  %"$consume_1317" = sub i64 %"$gasrem_1313", 1
-  store i64 %"$consume_1317", i64* @_gasrem, align 8
-  %"$test_84" = alloca %TName_Bool*, align 8
-  %"$gasrem_1318" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1319" = icmp ugt i64 1, %"$gasrem_1318"
-  br i1 %"$gascmp_1319", label %"$out_of_gas_1320", label %"$have_gas_1321"
+"$have_gas_1324":                                 ; preds = %"$out_of_gas_1323", %"$have_gas_1311"
+  %"$consume_1325" = sub i64 %"$gasrem_1321", 1
+  store i64 %"$consume_1325", i64* @_gasrem, align 8
+  %"$res__70" = alloca %Uint256, align 8
+  %"$gasrem_1326" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1327" = icmp ugt i64 1, %"$gasrem_1326"
+  br i1 %"$gascmp_1327", label %"$out_of_gas_1328", label %"$have_gas_1329"
 
-"$out_of_gas_1320":                               ; preds = %"$have_gas_1316"
+"$out_of_gas_1328":                               ; preds = %"$have_gas_1324"
   call void @_out_of_gas()
-  br label %"$have_gas_1321"
+  br label %"$have_gas_1329"
 
-"$have_gas_1321":                                 ; preds = %"$out_of_gas_1320", %"$have_gas_1316"
-  %"$consume_1322" = sub i64 %"$gasrem_1318", 1
-  store i64 %"$consume_1322", i64* @_gasrem, align 8
-  %"$res_81" = alloca %Uint256, align 8
-  %"$execptr_load_1323" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_79_1324" = alloca %Uint256, align 8
-  %"$$arg1_79_1325" = load %Uint256, %Uint256* %"$arg1_79", align 8
-  store %Uint256 %"$$arg1_79_1325", %Uint256* %"$mul_$arg1_79_1324", align 8
-  %"$mul_$arg2_80_1326" = alloca %Uint256, align 8
-  %"$$arg2_80_1327" = load %Uint256, %Uint256* %"$arg2_80", align 8
-  store %Uint256 %"$$arg2_80_1327", %Uint256* %"$mul_$arg2_80_1326", align 8
-  %"$mul_call_1328" = call %Uint256* @_mul_Uint256(i8* %"$execptr_load_1323", %Uint256* %"$mul_$arg1_79_1324", %Uint256* %"$mul_$arg2_80_1326"), !dbg !108
-  %"$mul_1330" = load %Uint256, %Uint256* %"$mul_call_1328", align 8
-  store %Uint256 %"$mul_1330", %Uint256* %"$res_81", align 8, !dbg !108
+"$have_gas_1329":                                 ; preds = %"$out_of_gas_1328", %"$have_gas_1324"
+  %"$consume_1330" = sub i64 %"$gasrem_1326", 1
+  store i64 %"$consume_1330", i64* @_gasrem, align 8
+  store %Uint256 { i256 28948022309329048855892746252171976963147354982949671778132708698262398304256 }, %Uint256* %"$res__70", align 8, !dbg !97
   %"$gasrem_1331" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1332" = icmp ugt i64 1, %"$gasrem_1331"
   br i1 %"$gascmp_1332", label %"$out_of_gas_1333", label %"$have_gas_1334"
 
-"$out_of_gas_1333":                               ; preds = %"$have_gas_1321"
+"$out_of_gas_1333":                               ; preds = %"$have_gas_1329"
   call void @_out_of_gas()
   br label %"$have_gas_1334"
 
-"$have_gas_1334":                                 ; preds = %"$out_of_gas_1333", %"$have_gas_1321"
+"$have_gas_1334":                                 ; preds = %"$out_of_gas_1333", %"$have_gas_1329"
   %"$consume_1335" = sub i64 %"$gasrem_1331", 1
   store i64 %"$consume_1335", i64* @_gasrem, align 8
+  %"$test__71" = alloca %TName_Bool*, align 8
+  %"$gasrem_1337" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1338" = icmp ugt i64 16, %"$gasrem_1337"
+  br i1 %"$gascmp_1338", label %"$out_of_gas_1339", label %"$have_gas_1340"
+
+"$out_of_gas_1339":                               ; preds = %"$have_gas_1334"
+  call void @_out_of_gas()
+  br label %"$have_gas_1340"
+
+"$have_gas_1340":                                 ; preds = %"$out_of_gas_1339", %"$have_gas_1334"
+  %"$consume_1341" = sub i64 %"$gasrem_1337", 16
+  store i64 %"$consume_1341", i64* @_gasrem, align 8
+  %"$execptr_load_1342" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_69_1343" = alloca %Uint256, align 8
+  %"$$res_69_1344" = load %Uint256, %Uint256* %"$res_69", align 8
+  store %Uint256 %"$$res_69_1344", %Uint256* %"$eq_$res_69_1343", align 8
+  %"$eq_$res__70_1345" = alloca %Uint256, align 8
+  %"$$res__70_1346" = load %Uint256, %Uint256* %"$res__70", align 8
+  store %Uint256 %"$$res__70_1346", %Uint256* %"$eq_$res__70_1345", align 8
+  %"$eq_call_1347" = call %TName_Bool* @_eq_Uint256(i8* %"$execptr_load_1342", %Uint256* %"$eq_$res_69_1343", %Uint256* %"$eq_$res__70_1345"), !dbg !98
+  store %TName_Bool* %"$eq_call_1347", %TName_Bool** %"$test__71", align 8, !dbg !98
+  %"$gasrem_1349" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1350" = icmp ugt i64 1, %"$gasrem_1349"
+  br i1 %"$gascmp_1350", label %"$out_of_gas_1351", label %"$have_gas_1352"
+
+"$out_of_gas_1351":                               ; preds = %"$have_gas_1340"
+  call void @_out_of_gas()
+  br label %"$have_gas_1352"
+
+"$have_gas_1352":                                 ; preds = %"$out_of_gas_1351", %"$have_gas_1340"
+  %"$consume_1353" = sub i64 %"$gasrem_1349", 1
+  store i64 %"$consume_1353", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_145" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_1354" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_1355" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1354", 0
+  %"$BoolUtils.andb_envptr_1356" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1354", 1
+  %"$$test_66_1357" = load %TName_Bool*, %TName_Bool** %"$test_66", align 8
+  %"$BoolUtils.andb_call_1358" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1355"(i8* %"$BoolUtils.andb_envptr_1356", %TName_Bool* %"$$test_66_1357"), !dbg !99
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1358", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_145", align 8, !dbg !99
+  %"$BoolUtils.andb_146" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_145_1359" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_145", align 8
+  %"$$BoolUtils.andb_145_fptr_1360" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_145_1359", 0
+  %"$$BoolUtils.andb_145_envptr_1361" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_145_1359", 1
+  %"$$test__71_1362" = load %TName_Bool*, %TName_Bool** %"$test__71", align 8
+  %"$$BoolUtils.andb_145_call_1363" = call %TName_Bool* %"$$BoolUtils.andb_145_fptr_1360"(i8* %"$$BoolUtils.andb_145_envptr_1361", %TName_Bool* %"$$test__71_1362"), !dbg !99
+  store %TName_Bool* %"$$BoolUtils.andb_145_call_1363", %TName_Bool** %"$BoolUtils.andb_146", align 8, !dbg !99
+  %"$$BoolUtils.andb_146_1364" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_146", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_146_1364", %TName_Bool** %"$test_72", align 8, !dbg !99
+  %"$gasrem_1365" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1366" = icmp ugt i64 1, %"$gasrem_1365"
+  br i1 %"$gascmp_1366", label %"$out_of_gas_1367", label %"$have_gas_1368"
+
+"$out_of_gas_1367":                               ; preds = %"$have_gas_1352"
+  call void @_out_of_gas()
+  br label %"$have_gas_1368"
+
+"$have_gas_1368":                                 ; preds = %"$out_of_gas_1367", %"$have_gas_1352"
+  %"$consume_1369" = sub i64 %"$gasrem_1365", 1
+  store i64 %"$consume_1369", i64* @_gasrem, align 8
+  %"$arg1_73" = alloca %Uint256, align 8
+  %"$gasrem_1370" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1371" = icmp ugt i64 1, %"$gasrem_1370"
+  br i1 %"$gascmp_1371", label %"$out_of_gas_1372", label %"$have_gas_1373"
+
+"$out_of_gas_1372":                               ; preds = %"$have_gas_1368"
+  call void @_out_of_gas()
+  br label %"$have_gas_1373"
+
+"$have_gas_1373":                                 ; preds = %"$out_of_gas_1372", %"$have_gas_1368"
+  %"$consume_1374" = sub i64 %"$gasrem_1370", 1
+  store i64 %"$consume_1374", i64* @_gasrem, align 8
+  store %Uint256 { i256 1 }, %Uint256* %"$arg1_73", align 8, !dbg !100
+  %"$gasrem_1375" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1376" = icmp ugt i64 1, %"$gasrem_1375"
+  br i1 %"$gascmp_1376", label %"$out_of_gas_1377", label %"$have_gas_1378"
+
+"$out_of_gas_1377":                               ; preds = %"$have_gas_1373"
+  call void @_out_of_gas()
+  br label %"$have_gas_1378"
+
+"$have_gas_1378":                                 ; preds = %"$out_of_gas_1377", %"$have_gas_1373"
+  %"$consume_1379" = sub i64 %"$gasrem_1375", 1
+  store i64 %"$consume_1379", i64* @_gasrem, align 8
+  %"$arg2_74" = alloca %Uint256, align 8
+  %"$gasrem_1380" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1381" = icmp ugt i64 1, %"$gasrem_1380"
+  br i1 %"$gascmp_1381", label %"$out_of_gas_1382", label %"$have_gas_1383"
+
+"$out_of_gas_1382":                               ; preds = %"$have_gas_1378"
+  call void @_out_of_gas()
+  br label %"$have_gas_1383"
+
+"$have_gas_1383":                                 ; preds = %"$out_of_gas_1382", %"$have_gas_1378"
+  %"$consume_1384" = sub i64 %"$gasrem_1380", 1
+  store i64 %"$consume_1384", i64* @_gasrem, align 8
+  store %Uint256 { i256 -1 }, %Uint256* %"$arg2_74", align 8, !dbg !101
+  %"$gasrem_1385" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1386" = icmp ugt i64 1, %"$gasrem_1385"
+  br i1 %"$gascmp_1386", label %"$out_of_gas_1387", label %"$have_gas_1388"
+
+"$out_of_gas_1387":                               ; preds = %"$have_gas_1383"
+  call void @_out_of_gas()
+  br label %"$have_gas_1388"
+
+"$have_gas_1388":                                 ; preds = %"$out_of_gas_1387", %"$have_gas_1383"
+  %"$consume_1389" = sub i64 %"$gasrem_1385", 1
+  store i64 %"$consume_1389", i64* @_gasrem, align 8
+  %"$test_78" = alloca %TName_Bool*, align 8
+  %"$gasrem_1390" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1391" = icmp ugt i64 1, %"$gasrem_1390"
+  br i1 %"$gascmp_1391", label %"$out_of_gas_1392", label %"$have_gas_1393"
+
+"$out_of_gas_1392":                               ; preds = %"$have_gas_1388"
+  call void @_out_of_gas()
+  br label %"$have_gas_1393"
+
+"$have_gas_1393":                                 ; preds = %"$out_of_gas_1392", %"$have_gas_1388"
+  %"$consume_1394" = sub i64 %"$gasrem_1390", 1
+  store i64 %"$consume_1394", i64* @_gasrem, align 8
+  %"$res_75" = alloca %Uint256, align 8
+  %"$gasrem_1396" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1397" = icmp ugt i64 80, %"$gasrem_1396"
+  br i1 %"$gascmp_1397", label %"$out_of_gas_1398", label %"$have_gas_1399"
+
+"$out_of_gas_1398":                               ; preds = %"$have_gas_1393"
+  call void @_out_of_gas()
+  br label %"$have_gas_1399"
+
+"$have_gas_1399":                                 ; preds = %"$out_of_gas_1398", %"$have_gas_1393"
+  %"$consume_1400" = sub i64 %"$gasrem_1396", 80
+  store i64 %"$consume_1400", i64* @_gasrem, align 8
+  %"$execptr_load_1401" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_73_1402" = alloca %Uint256, align 8
+  %"$$arg1_73_1403" = load %Uint256, %Uint256* %"$arg1_73", align 8
+  store %Uint256 %"$$arg1_73_1403", %Uint256* %"$mul_$arg1_73_1402", align 8
+  %"$mul_$arg2_74_1404" = alloca %Uint256, align 8
+  %"$$arg2_74_1405" = load %Uint256, %Uint256* %"$arg2_74", align 8
+  store %Uint256 %"$$arg2_74_1405", %Uint256* %"$mul_$arg2_74_1404", align 8
+  %"$mul_call_1406" = call %Uint256* @_mul_Uint256(i8* %"$execptr_load_1401", %Uint256* %"$mul_$arg1_73_1402", %Uint256* %"$mul_$arg2_74_1404"), !dbg !102
+  %"$mul_1408" = load %Uint256, %Uint256* %"$mul_call_1406", align 8
+  store %Uint256 %"$mul_1408", %Uint256* %"$res_75", align 8, !dbg !102
+  %"$gasrem_1409" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1410" = icmp ugt i64 1, %"$gasrem_1409"
+  br i1 %"$gascmp_1410", label %"$out_of_gas_1411", label %"$have_gas_1412"
+
+"$out_of_gas_1411":                               ; preds = %"$have_gas_1399"
+  call void @_out_of_gas()
+  br label %"$have_gas_1412"
+
+"$have_gas_1412":                                 ; preds = %"$out_of_gas_1411", %"$have_gas_1399"
+  %"$consume_1413" = sub i64 %"$gasrem_1409", 1
+  store i64 %"$consume_1413", i64* @_gasrem, align 8
+  %"$res__76" = alloca %Uint256, align 8
+  %"$gasrem_1414" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1415" = icmp ugt i64 1, %"$gasrem_1414"
+  br i1 %"$gascmp_1415", label %"$out_of_gas_1416", label %"$have_gas_1417"
+
+"$out_of_gas_1416":                               ; preds = %"$have_gas_1412"
+  call void @_out_of_gas()
+  br label %"$have_gas_1417"
+
+"$have_gas_1417":                                 ; preds = %"$out_of_gas_1416", %"$have_gas_1412"
+  %"$consume_1418" = sub i64 %"$gasrem_1414", 1
+  store i64 %"$consume_1418", i64* @_gasrem, align 8
+  store %Uint256 { i256 -1 }, %Uint256* %"$res__76", align 8, !dbg !103
+  %"$gasrem_1419" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1420" = icmp ugt i64 1, %"$gasrem_1419"
+  br i1 %"$gascmp_1420", label %"$out_of_gas_1421", label %"$have_gas_1422"
+
+"$out_of_gas_1421":                               ; preds = %"$have_gas_1417"
+  call void @_out_of_gas()
+  br label %"$have_gas_1422"
+
+"$have_gas_1422":                                 ; preds = %"$out_of_gas_1421", %"$have_gas_1417"
+  %"$consume_1423" = sub i64 %"$gasrem_1419", 1
+  store i64 %"$consume_1423", i64* @_gasrem, align 8
+  %"$test__77" = alloca %TName_Bool*, align 8
+  %"$gasrem_1425" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1426" = icmp ugt i64 16, %"$gasrem_1425"
+  br i1 %"$gascmp_1426", label %"$out_of_gas_1427", label %"$have_gas_1428"
+
+"$out_of_gas_1427":                               ; preds = %"$have_gas_1422"
+  call void @_out_of_gas()
+  br label %"$have_gas_1428"
+
+"$have_gas_1428":                                 ; preds = %"$out_of_gas_1427", %"$have_gas_1422"
+  %"$consume_1429" = sub i64 %"$gasrem_1425", 16
+  store i64 %"$consume_1429", i64* @_gasrem, align 8
+  %"$execptr_load_1430" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_75_1431" = alloca %Uint256, align 8
+  %"$$res_75_1432" = load %Uint256, %Uint256* %"$res_75", align 8
+  store %Uint256 %"$$res_75_1432", %Uint256* %"$eq_$res_75_1431", align 8
+  %"$eq_$res__76_1433" = alloca %Uint256, align 8
+  %"$$res__76_1434" = load %Uint256, %Uint256* %"$res__76", align 8
+  store %Uint256 %"$$res__76_1434", %Uint256* %"$eq_$res__76_1433", align 8
+  %"$eq_call_1435" = call %TName_Bool* @_eq_Uint256(i8* %"$execptr_load_1430", %Uint256* %"$eq_$res_75_1431", %Uint256* %"$eq_$res__76_1433"), !dbg !104
+  store %TName_Bool* %"$eq_call_1435", %TName_Bool** %"$test__77", align 8, !dbg !104
+  %"$gasrem_1437" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1438" = icmp ugt i64 1, %"$gasrem_1437"
+  br i1 %"$gascmp_1438", label %"$out_of_gas_1439", label %"$have_gas_1440"
+
+"$out_of_gas_1439":                               ; preds = %"$have_gas_1428"
+  call void @_out_of_gas()
+  br label %"$have_gas_1440"
+
+"$have_gas_1440":                                 ; preds = %"$out_of_gas_1439", %"$have_gas_1428"
+  %"$consume_1441" = sub i64 %"$gasrem_1437", 1
+  store i64 %"$consume_1441", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_147" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_1442" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_1443" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1442", 0
+  %"$BoolUtils.andb_envptr_1444" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1442", 1
+  %"$$test_72_1445" = load %TName_Bool*, %TName_Bool** %"$test_72", align 8
+  %"$BoolUtils.andb_call_1446" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1443"(i8* %"$BoolUtils.andb_envptr_1444", %TName_Bool* %"$$test_72_1445"), !dbg !105
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1446", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_147", align 8, !dbg !105
+  %"$BoolUtils.andb_148" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_147_1447" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_147", align 8
+  %"$$BoolUtils.andb_147_fptr_1448" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_147_1447", 0
+  %"$$BoolUtils.andb_147_envptr_1449" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_147_1447", 1
+  %"$$test__77_1450" = load %TName_Bool*, %TName_Bool** %"$test__77", align 8
+  %"$$BoolUtils.andb_147_call_1451" = call %TName_Bool* %"$$BoolUtils.andb_147_fptr_1448"(i8* %"$$BoolUtils.andb_147_envptr_1449", %TName_Bool* %"$$test__77_1450"), !dbg !105
+  store %TName_Bool* %"$$BoolUtils.andb_147_call_1451", %TName_Bool** %"$BoolUtils.andb_148", align 8, !dbg !105
+  %"$$BoolUtils.andb_148_1452" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_148", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_148_1452", %TName_Bool** %"$test_78", align 8, !dbg !105
+  %"$gasrem_1453" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1454" = icmp ugt i64 1, %"$gasrem_1453"
+  br i1 %"$gascmp_1454", label %"$out_of_gas_1455", label %"$have_gas_1456"
+
+"$out_of_gas_1455":                               ; preds = %"$have_gas_1440"
+  call void @_out_of_gas()
+  br label %"$have_gas_1456"
+
+"$have_gas_1456":                                 ; preds = %"$out_of_gas_1455", %"$have_gas_1440"
+  %"$consume_1457" = sub i64 %"$gasrem_1453", 1
+  store i64 %"$consume_1457", i64* @_gasrem, align 8
+  %"$arg1_79" = alloca %Uint256, align 8
+  %"$gasrem_1458" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1459" = icmp ugt i64 1, %"$gasrem_1458"
+  br i1 %"$gascmp_1459", label %"$out_of_gas_1460", label %"$have_gas_1461"
+
+"$out_of_gas_1460":                               ; preds = %"$have_gas_1456"
+  call void @_out_of_gas()
+  br label %"$have_gas_1461"
+
+"$have_gas_1461":                                 ; preds = %"$out_of_gas_1460", %"$have_gas_1456"
+  %"$consume_1462" = sub i64 %"$gasrem_1458", 1
+  store i64 %"$consume_1462", i64* @_gasrem, align 8
+  store %Uint256 { i256 2 }, %Uint256* %"$arg1_79", align 8, !dbg !106
+  %"$gasrem_1463" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1464" = icmp ugt i64 1, %"$gasrem_1463"
+  br i1 %"$gascmp_1464", label %"$out_of_gas_1465", label %"$have_gas_1466"
+
+"$out_of_gas_1465":                               ; preds = %"$have_gas_1461"
+  call void @_out_of_gas()
+  br label %"$have_gas_1466"
+
+"$have_gas_1466":                                 ; preds = %"$out_of_gas_1465", %"$have_gas_1461"
+  %"$consume_1467" = sub i64 %"$gasrem_1463", 1
+  store i64 %"$consume_1467", i64* @_gasrem, align 8
+  %"$arg2_80" = alloca %Uint256, align 8
+  %"$gasrem_1468" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1469" = icmp ugt i64 1, %"$gasrem_1468"
+  br i1 %"$gascmp_1469", label %"$out_of_gas_1470", label %"$have_gas_1471"
+
+"$out_of_gas_1470":                               ; preds = %"$have_gas_1466"
+  call void @_out_of_gas()
+  br label %"$have_gas_1471"
+
+"$have_gas_1471":                                 ; preds = %"$out_of_gas_1470", %"$have_gas_1466"
+  %"$consume_1472" = sub i64 %"$gasrem_1468", 1
+  store i64 %"$consume_1472", i64* @_gasrem, align 8
+  store %Uint256 { i256 57896044618658097711785492504343953926634992332820282019728792003956564819967 }, %Uint256* %"$arg2_80", align 8, !dbg !107
+  %"$gasrem_1473" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1474" = icmp ugt i64 1, %"$gasrem_1473"
+  br i1 %"$gascmp_1474", label %"$out_of_gas_1475", label %"$have_gas_1476"
+
+"$out_of_gas_1475":                               ; preds = %"$have_gas_1471"
+  call void @_out_of_gas()
+  br label %"$have_gas_1476"
+
+"$have_gas_1476":                                 ; preds = %"$out_of_gas_1475", %"$have_gas_1471"
+  %"$consume_1477" = sub i64 %"$gasrem_1473", 1
+  store i64 %"$consume_1477", i64* @_gasrem, align 8
+  %"$test_84" = alloca %TName_Bool*, align 8
+  %"$gasrem_1478" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1479" = icmp ugt i64 1, %"$gasrem_1478"
+  br i1 %"$gascmp_1479", label %"$out_of_gas_1480", label %"$have_gas_1481"
+
+"$out_of_gas_1480":                               ; preds = %"$have_gas_1476"
+  call void @_out_of_gas()
+  br label %"$have_gas_1481"
+
+"$have_gas_1481":                                 ; preds = %"$out_of_gas_1480", %"$have_gas_1476"
+  %"$consume_1482" = sub i64 %"$gasrem_1478", 1
+  store i64 %"$consume_1482", i64* @_gasrem, align 8
+  %"$res_81" = alloca %Uint256, align 8
+  %"$gasrem_1484" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1485" = icmp ugt i64 80, %"$gasrem_1484"
+  br i1 %"$gascmp_1485", label %"$out_of_gas_1486", label %"$have_gas_1487"
+
+"$out_of_gas_1486":                               ; preds = %"$have_gas_1481"
+  call void @_out_of_gas()
+  br label %"$have_gas_1487"
+
+"$have_gas_1487":                                 ; preds = %"$out_of_gas_1486", %"$have_gas_1481"
+  %"$consume_1488" = sub i64 %"$gasrem_1484", 80
+  store i64 %"$consume_1488", i64* @_gasrem, align 8
+  %"$execptr_load_1489" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_79_1490" = alloca %Uint256, align 8
+  %"$$arg1_79_1491" = load %Uint256, %Uint256* %"$arg1_79", align 8
+  store %Uint256 %"$$arg1_79_1491", %Uint256* %"$mul_$arg1_79_1490", align 8
+  %"$mul_$arg2_80_1492" = alloca %Uint256, align 8
+  %"$$arg2_80_1493" = load %Uint256, %Uint256* %"$arg2_80", align 8
+  store %Uint256 %"$$arg2_80_1493", %Uint256* %"$mul_$arg2_80_1492", align 8
+  %"$mul_call_1494" = call %Uint256* @_mul_Uint256(i8* %"$execptr_load_1489", %Uint256* %"$mul_$arg1_79_1490", %Uint256* %"$mul_$arg2_80_1492"), !dbg !108
+  %"$mul_1496" = load %Uint256, %Uint256* %"$mul_call_1494", align 8
+  store %Uint256 %"$mul_1496", %Uint256* %"$res_81", align 8, !dbg !108
+  %"$gasrem_1497" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1498" = icmp ugt i64 1, %"$gasrem_1497"
+  br i1 %"$gascmp_1498", label %"$out_of_gas_1499", label %"$have_gas_1500"
+
+"$out_of_gas_1499":                               ; preds = %"$have_gas_1487"
+  call void @_out_of_gas()
+  br label %"$have_gas_1500"
+
+"$have_gas_1500":                                 ; preds = %"$out_of_gas_1499", %"$have_gas_1487"
+  %"$consume_1501" = sub i64 %"$gasrem_1497", 1
+  store i64 %"$consume_1501", i64* @_gasrem, align 8
   %"$res__82" = alloca %Uint256, align 8
-  %"$gasrem_1336" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1337" = icmp ugt i64 1, %"$gasrem_1336"
-  br i1 %"$gascmp_1337", label %"$out_of_gas_1338", label %"$have_gas_1339"
+  %"$gasrem_1502" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1503" = icmp ugt i64 1, %"$gasrem_1502"
+  br i1 %"$gascmp_1503", label %"$out_of_gas_1504", label %"$have_gas_1505"
 
-"$out_of_gas_1338":                               ; preds = %"$have_gas_1334"
+"$out_of_gas_1504":                               ; preds = %"$have_gas_1500"
   call void @_out_of_gas()
-  br label %"$have_gas_1339"
+  br label %"$have_gas_1505"
 
-"$have_gas_1339":                                 ; preds = %"$out_of_gas_1338", %"$have_gas_1334"
-  %"$consume_1340" = sub i64 %"$gasrem_1336", 1
-  store i64 %"$consume_1340", i64* @_gasrem, align 8
+"$have_gas_1505":                                 ; preds = %"$out_of_gas_1504", %"$have_gas_1500"
+  %"$consume_1506" = sub i64 %"$gasrem_1502", 1
+  store i64 %"$consume_1506", i64* @_gasrem, align 8
   store %Uint256 { i256 -2 }, %Uint256* %"$res__82", align 8, !dbg !109
-  %"$gasrem_1341" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1342" = icmp ugt i64 1, %"$gasrem_1341"
-  br i1 %"$gascmp_1342", label %"$out_of_gas_1343", label %"$have_gas_1344"
+  %"$gasrem_1507" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1508" = icmp ugt i64 1, %"$gasrem_1507"
+  br i1 %"$gascmp_1508", label %"$out_of_gas_1509", label %"$have_gas_1510"
 
-"$out_of_gas_1343":                               ; preds = %"$have_gas_1339"
+"$out_of_gas_1509":                               ; preds = %"$have_gas_1505"
   call void @_out_of_gas()
-  br label %"$have_gas_1344"
+  br label %"$have_gas_1510"
 
-"$have_gas_1344":                                 ; preds = %"$out_of_gas_1343", %"$have_gas_1339"
-  %"$consume_1345" = sub i64 %"$gasrem_1341", 1
-  store i64 %"$consume_1345", i64* @_gasrem, align 8
+"$have_gas_1510":                                 ; preds = %"$out_of_gas_1509", %"$have_gas_1505"
+  %"$consume_1511" = sub i64 %"$gasrem_1507", 1
+  store i64 %"$consume_1511", i64* @_gasrem, align 8
   %"$test__83" = alloca %TName_Bool*, align 8
-  %"$execptr_load_1346" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_81_1347" = alloca %Uint256, align 8
-  %"$$res_81_1348" = load %Uint256, %Uint256* %"$res_81", align 8
-  store %Uint256 %"$$res_81_1348", %Uint256* %"$eq_$res_81_1347", align 8
-  %"$eq_$res__82_1349" = alloca %Uint256, align 8
-  %"$$res__82_1350" = load %Uint256, %Uint256* %"$res__82", align 8
-  store %Uint256 %"$$res__82_1350", %Uint256* %"$eq_$res__82_1349", align 8
-  %"$eq_call_1351" = call %TName_Bool* @_eq_Uint256(i8* %"$execptr_load_1346", %Uint256* %"$eq_$res_81_1347", %Uint256* %"$eq_$res__82_1349"), !dbg !110
-  store %TName_Bool* %"$eq_call_1351", %TName_Bool** %"$test__83", align 8, !dbg !110
-  %"$gasrem_1353" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1354" = icmp ugt i64 1, %"$gasrem_1353"
-  br i1 %"$gascmp_1354", label %"$out_of_gas_1355", label %"$have_gas_1356"
+  %"$gasrem_1513" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1514" = icmp ugt i64 16, %"$gasrem_1513"
+  br i1 %"$gascmp_1514", label %"$out_of_gas_1515", label %"$have_gas_1516"
 
-"$out_of_gas_1355":                               ; preds = %"$have_gas_1344"
+"$out_of_gas_1515":                               ; preds = %"$have_gas_1510"
   call void @_out_of_gas()
-  br label %"$have_gas_1356"
+  br label %"$have_gas_1516"
 
-"$have_gas_1356":                                 ; preds = %"$out_of_gas_1355", %"$have_gas_1344"
-  %"$consume_1357" = sub i64 %"$gasrem_1353", 1
-  store i64 %"$consume_1357", i64* @_gasrem, align 8
+"$have_gas_1516":                                 ; preds = %"$out_of_gas_1515", %"$have_gas_1510"
+  %"$consume_1517" = sub i64 %"$gasrem_1513", 16
+  store i64 %"$consume_1517", i64* @_gasrem, align 8
+  %"$execptr_load_1518" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_81_1519" = alloca %Uint256, align 8
+  %"$$res_81_1520" = load %Uint256, %Uint256* %"$res_81", align 8
+  store %Uint256 %"$$res_81_1520", %Uint256* %"$eq_$res_81_1519", align 8
+  %"$eq_$res__82_1521" = alloca %Uint256, align 8
+  %"$$res__82_1522" = load %Uint256, %Uint256* %"$res__82", align 8
+  store %Uint256 %"$$res__82_1522", %Uint256* %"$eq_$res__82_1521", align 8
+  %"$eq_call_1523" = call %TName_Bool* @_eq_Uint256(i8* %"$execptr_load_1518", %Uint256* %"$eq_$res_81_1519", %Uint256* %"$eq_$res__82_1521"), !dbg !110
+  store %TName_Bool* %"$eq_call_1523", %TName_Bool** %"$test__83", align 8, !dbg !110
+  %"$gasrem_1525" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1526" = icmp ugt i64 1, %"$gasrem_1525"
+  br i1 %"$gascmp_1526", label %"$out_of_gas_1527", label %"$have_gas_1528"
+
+"$out_of_gas_1527":                               ; preds = %"$have_gas_1516"
+  call void @_out_of_gas()
+  br label %"$have_gas_1528"
+
+"$have_gas_1528":                                 ; preds = %"$out_of_gas_1527", %"$have_gas_1516"
+  %"$consume_1529" = sub i64 %"$gasrem_1525", 1
+  store i64 %"$consume_1529", i64* @_gasrem, align 8
   %"$BoolUtils.andb_149" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_1358" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_1359" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1358", 0
-  %"$BoolUtils.andb_envptr_1360" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1358", 1
-  %"$$test_78_1361" = load %TName_Bool*, %TName_Bool** %"$test_78", align 8
-  %"$BoolUtils.andb_call_1362" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1359"(i8* %"$BoolUtils.andb_envptr_1360", %TName_Bool* %"$$test_78_1361"), !dbg !111
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1362", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_149", align 8, !dbg !111
+  %"$BoolUtils.andb_1530" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_1531" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1530", 0
+  %"$BoolUtils.andb_envptr_1532" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1530", 1
+  %"$$test_78_1533" = load %TName_Bool*, %TName_Bool** %"$test_78", align 8
+  %"$BoolUtils.andb_call_1534" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1531"(i8* %"$BoolUtils.andb_envptr_1532", %TName_Bool* %"$$test_78_1533"), !dbg !111
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1534", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_149", align 8, !dbg !111
   %"$BoolUtils.andb_150" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_149_1363" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_149", align 8
-  %"$$BoolUtils.andb_149_fptr_1364" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_149_1363", 0
-  %"$$BoolUtils.andb_149_envptr_1365" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_149_1363", 1
-  %"$$test__83_1366" = load %TName_Bool*, %TName_Bool** %"$test__83", align 8
-  %"$$BoolUtils.andb_149_call_1367" = call %TName_Bool* %"$$BoolUtils.andb_149_fptr_1364"(i8* %"$$BoolUtils.andb_149_envptr_1365", %TName_Bool* %"$$test__83_1366"), !dbg !111
-  store %TName_Bool* %"$$BoolUtils.andb_149_call_1367", %TName_Bool** %"$BoolUtils.andb_150", align 8, !dbg !111
-  %"$$BoolUtils.andb_150_1368" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_150", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_150_1368", %TName_Bool** %"$test_84", align 8, !dbg !111
-  %"$gasrem_1369" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1370" = icmp ugt i64 1, %"$gasrem_1369"
-  br i1 %"$gascmp_1370", label %"$out_of_gas_1371", label %"$have_gas_1372"
-
-"$out_of_gas_1371":                               ; preds = %"$have_gas_1356"
-  call void @_out_of_gas()
-  br label %"$have_gas_1372"
-
-"$have_gas_1372":                                 ; preds = %"$out_of_gas_1371", %"$have_gas_1356"
-  %"$consume_1373" = sub i64 %"$gasrem_1369", 1
-  store i64 %"$consume_1373", i64* @_gasrem, align 8
-  %"$arg1_85" = alloca %Int256, align 8
-  %"$gasrem_1374" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1375" = icmp ugt i64 1, %"$gasrem_1374"
-  br i1 %"$gascmp_1375", label %"$out_of_gas_1376", label %"$have_gas_1377"
-
-"$out_of_gas_1376":                               ; preds = %"$have_gas_1372"
-  call void @_out_of_gas()
-  br label %"$have_gas_1377"
-
-"$have_gas_1377":                                 ; preds = %"$out_of_gas_1376", %"$have_gas_1372"
-  %"$consume_1378" = sub i64 %"$gasrem_1374", 1
-  store i64 %"$consume_1378", i64* @_gasrem, align 8
-  store %Int256 { i256 2 }, %Int256* %"$arg1_85", align 8, !dbg !112
-  %"$gasrem_1379" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1380" = icmp ugt i64 1, %"$gasrem_1379"
-  br i1 %"$gascmp_1380", label %"$out_of_gas_1381", label %"$have_gas_1382"
-
-"$out_of_gas_1381":                               ; preds = %"$have_gas_1377"
-  call void @_out_of_gas()
-  br label %"$have_gas_1382"
-
-"$have_gas_1382":                                 ; preds = %"$out_of_gas_1381", %"$have_gas_1377"
-  %"$consume_1383" = sub i64 %"$gasrem_1379", 1
-  store i64 %"$consume_1383", i64* @_gasrem, align 8
-  %"$arg2_86" = alloca %Int256, align 8
-  %"$gasrem_1384" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1385" = icmp ugt i64 1, %"$gasrem_1384"
-  br i1 %"$gascmp_1385", label %"$out_of_gas_1386", label %"$have_gas_1387"
-
-"$out_of_gas_1386":                               ; preds = %"$have_gas_1382"
-  call void @_out_of_gas()
-  br label %"$have_gas_1387"
-
-"$have_gas_1387":                                 ; preds = %"$out_of_gas_1386", %"$have_gas_1382"
-  %"$consume_1388" = sub i64 %"$gasrem_1384", 1
-  store i64 %"$consume_1388", i64* @_gasrem, align 8
-  store %Int256 { i256 28948022309329048855892746252171976963317496166410141009864396001978282409983 }, %Int256* %"$arg2_86", align 8, !dbg !113
-  %"$gasrem_1389" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1390" = icmp ugt i64 1, %"$gasrem_1389"
-  br i1 %"$gascmp_1390", label %"$out_of_gas_1391", label %"$have_gas_1392"
-
-"$out_of_gas_1391":                               ; preds = %"$have_gas_1387"
-  call void @_out_of_gas()
-  br label %"$have_gas_1392"
-
-"$have_gas_1392":                                 ; preds = %"$out_of_gas_1391", %"$have_gas_1387"
-  %"$consume_1393" = sub i64 %"$gasrem_1389", 1
-  store i64 %"$consume_1393", i64* @_gasrem, align 8
-  %"$test_90" = alloca %TName_Bool*, align 8
-  %"$gasrem_1394" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1395" = icmp ugt i64 1, %"$gasrem_1394"
-  br i1 %"$gascmp_1395", label %"$out_of_gas_1396", label %"$have_gas_1397"
-
-"$out_of_gas_1396":                               ; preds = %"$have_gas_1392"
-  call void @_out_of_gas()
-  br label %"$have_gas_1397"
-
-"$have_gas_1397":                                 ; preds = %"$out_of_gas_1396", %"$have_gas_1392"
-  %"$consume_1398" = sub i64 %"$gasrem_1394", 1
-  store i64 %"$consume_1398", i64* @_gasrem, align 8
-  %"$res_87" = alloca %Int256, align 8
-  %"$execptr_load_1399" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_85_1400" = alloca %Int256, align 8
-  %"$$arg1_85_1401" = load %Int256, %Int256* %"$arg1_85", align 8
-  store %Int256 %"$$arg1_85_1401", %Int256* %"$mul_$arg1_85_1400", align 8
-  %"$mul_$arg2_86_1402" = alloca %Int256, align 8
-  %"$$arg2_86_1403" = load %Int256, %Int256* %"$arg2_86", align 8
-  store %Int256 %"$$arg2_86_1403", %Int256* %"$mul_$arg2_86_1402", align 8
-  %"$mul_call_1404" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1399", %Int256* %"$mul_$arg1_85_1400", %Int256* %"$mul_$arg2_86_1402"), !dbg !114
-  %"$mul_1406" = load %Int256, %Int256* %"$mul_call_1404", align 8
-  store %Int256 %"$mul_1406", %Int256* %"$res_87", align 8, !dbg !114
-  %"$gasrem_1407" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1408" = icmp ugt i64 1, %"$gasrem_1407"
-  br i1 %"$gascmp_1408", label %"$out_of_gas_1409", label %"$have_gas_1410"
-
-"$out_of_gas_1409":                               ; preds = %"$have_gas_1397"
-  call void @_out_of_gas()
-  br label %"$have_gas_1410"
-
-"$have_gas_1410":                                 ; preds = %"$out_of_gas_1409", %"$have_gas_1397"
-  %"$consume_1411" = sub i64 %"$gasrem_1407", 1
-  store i64 %"$consume_1411", i64* @_gasrem, align 8
-  %"$res__88" = alloca %Int256, align 8
-  %"$gasrem_1412" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1413" = icmp ugt i64 1, %"$gasrem_1412"
-  br i1 %"$gascmp_1413", label %"$out_of_gas_1414", label %"$have_gas_1415"
-
-"$out_of_gas_1414":                               ; preds = %"$have_gas_1410"
-  call void @_out_of_gas()
-  br label %"$have_gas_1415"
-
-"$have_gas_1415":                                 ; preds = %"$out_of_gas_1414", %"$have_gas_1410"
-  %"$consume_1416" = sub i64 %"$gasrem_1412", 1
-  store i64 %"$consume_1416", i64* @_gasrem, align 8
-  store %Int256 { i256 57896044618658097711785492504343953926634992332820282019728792003956564819966 }, %Int256* %"$res__88", align 8, !dbg !115
-  %"$gasrem_1417" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1418" = icmp ugt i64 1, %"$gasrem_1417"
-  br i1 %"$gascmp_1418", label %"$out_of_gas_1419", label %"$have_gas_1420"
-
-"$out_of_gas_1419":                               ; preds = %"$have_gas_1415"
-  call void @_out_of_gas()
-  br label %"$have_gas_1420"
-
-"$have_gas_1420":                                 ; preds = %"$out_of_gas_1419", %"$have_gas_1415"
-  %"$consume_1421" = sub i64 %"$gasrem_1417", 1
-  store i64 %"$consume_1421", i64* @_gasrem, align 8
-  %"$test__89" = alloca %TName_Bool*, align 8
-  %"$execptr_load_1422" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_87_1423" = alloca %Int256, align 8
-  %"$$res_87_1424" = load %Int256, %Int256* %"$res_87", align 8
-  store %Int256 %"$$res_87_1424", %Int256* %"$eq_$res_87_1423", align 8
-  %"$eq_$res__88_1425" = alloca %Int256, align 8
-  %"$$res__88_1426" = load %Int256, %Int256* %"$res__88", align 8
-  store %Int256 %"$$res__88_1426", %Int256* %"$eq_$res__88_1425", align 8
-  %"$eq_call_1427" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1422", %Int256* %"$eq_$res_87_1423", %Int256* %"$eq_$res__88_1425"), !dbg !116
-  store %TName_Bool* %"$eq_call_1427", %TName_Bool** %"$test__89", align 8, !dbg !116
-  %"$gasrem_1429" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1430" = icmp ugt i64 1, %"$gasrem_1429"
-  br i1 %"$gascmp_1430", label %"$out_of_gas_1431", label %"$have_gas_1432"
-
-"$out_of_gas_1431":                               ; preds = %"$have_gas_1420"
-  call void @_out_of_gas()
-  br label %"$have_gas_1432"
-
-"$have_gas_1432":                                 ; preds = %"$out_of_gas_1431", %"$have_gas_1420"
-  %"$consume_1433" = sub i64 %"$gasrem_1429", 1
-  store i64 %"$consume_1433", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_151" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_1434" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_1435" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1434", 0
-  %"$BoolUtils.andb_envptr_1436" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1434", 1
-  %"$$test_84_1437" = load %TName_Bool*, %TName_Bool** %"$test_84", align 8
-  %"$BoolUtils.andb_call_1438" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1435"(i8* %"$BoolUtils.andb_envptr_1436", %TName_Bool* %"$$test_84_1437"), !dbg !117
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1438", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_151", align 8, !dbg !117
-  %"$BoolUtils.andb_152" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_151_1439" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_151", align 8
-  %"$$BoolUtils.andb_151_fptr_1440" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_151_1439", 0
-  %"$$BoolUtils.andb_151_envptr_1441" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_151_1439", 1
-  %"$$test__89_1442" = load %TName_Bool*, %TName_Bool** %"$test__89", align 8
-  %"$$BoolUtils.andb_151_call_1443" = call %TName_Bool* %"$$BoolUtils.andb_151_fptr_1440"(i8* %"$$BoolUtils.andb_151_envptr_1441", %TName_Bool* %"$$test__89_1442"), !dbg !117
-  store %TName_Bool* %"$$BoolUtils.andb_151_call_1443", %TName_Bool** %"$BoolUtils.andb_152", align 8, !dbg !117
-  %"$$BoolUtils.andb_152_1444" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_152", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_152_1444", %TName_Bool** %"$test_90", align 8, !dbg !117
-  %"$gasrem_1445" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1446" = icmp ugt i64 1, %"$gasrem_1445"
-  br i1 %"$gascmp_1446", label %"$out_of_gas_1447", label %"$have_gas_1448"
-
-"$out_of_gas_1447":                               ; preds = %"$have_gas_1432"
-  call void @_out_of_gas()
-  br label %"$have_gas_1448"
-
-"$have_gas_1448":                                 ; preds = %"$out_of_gas_1447", %"$have_gas_1432"
-  %"$consume_1449" = sub i64 %"$gasrem_1445", 1
-  store i64 %"$consume_1449", i64* @_gasrem, align 8
-  %"$arg1_91" = alloca %Int256, align 8
-  %"$gasrem_1450" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1451" = icmp ugt i64 1, %"$gasrem_1450"
-  br i1 %"$gascmp_1451", label %"$out_of_gas_1452", label %"$have_gas_1453"
-
-"$out_of_gas_1452":                               ; preds = %"$have_gas_1448"
-  call void @_out_of_gas()
-  br label %"$have_gas_1453"
-
-"$have_gas_1453":                                 ; preds = %"$out_of_gas_1452", %"$have_gas_1448"
-  %"$consume_1454" = sub i64 %"$gasrem_1450", 1
-  store i64 %"$consume_1454", i64* @_gasrem, align 8
-  store %Int256 { i256 -2 }, %Int256* %"$arg1_91", align 8, !dbg !118
-  %"$gasrem_1455" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1456" = icmp ugt i64 1, %"$gasrem_1455"
-  br i1 %"$gascmp_1456", label %"$out_of_gas_1457", label %"$have_gas_1458"
-
-"$out_of_gas_1457":                               ; preds = %"$have_gas_1453"
-  call void @_out_of_gas()
-  br label %"$have_gas_1458"
-
-"$have_gas_1458":                                 ; preds = %"$out_of_gas_1457", %"$have_gas_1453"
-  %"$consume_1459" = sub i64 %"$gasrem_1455", 1
-  store i64 %"$consume_1459", i64* @_gasrem, align 8
-  %"$arg2_92" = alloca %Int256, align 8
-  %"$gasrem_1460" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1461" = icmp ugt i64 1, %"$gasrem_1460"
-  br i1 %"$gascmp_1461", label %"$out_of_gas_1462", label %"$have_gas_1463"
-
-"$out_of_gas_1462":                               ; preds = %"$have_gas_1458"
-  call void @_out_of_gas()
-  br label %"$have_gas_1463"
-
-"$have_gas_1463":                                 ; preds = %"$out_of_gas_1462", %"$have_gas_1458"
-  %"$consume_1464" = sub i64 %"$gasrem_1460", 1
-  store i64 %"$consume_1464", i64* @_gasrem, align 8
-  store %Int256 { i256 28948022309329048855892746252171976963317496166410141009864396001978282409983 }, %Int256* %"$arg2_92", align 8, !dbg !119
-  %"$gasrem_1465" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1466" = icmp ugt i64 1, %"$gasrem_1465"
-  br i1 %"$gascmp_1466", label %"$out_of_gas_1467", label %"$have_gas_1468"
-
-"$out_of_gas_1467":                               ; preds = %"$have_gas_1463"
-  call void @_out_of_gas()
-  br label %"$have_gas_1468"
-
-"$have_gas_1468":                                 ; preds = %"$out_of_gas_1467", %"$have_gas_1463"
-  %"$consume_1469" = sub i64 %"$gasrem_1465", 1
-  store i64 %"$consume_1469", i64* @_gasrem, align 8
-  %"$test_96" = alloca %TName_Bool*, align 8
-  %"$gasrem_1470" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1471" = icmp ugt i64 1, %"$gasrem_1470"
-  br i1 %"$gascmp_1471", label %"$out_of_gas_1472", label %"$have_gas_1473"
-
-"$out_of_gas_1472":                               ; preds = %"$have_gas_1468"
-  call void @_out_of_gas()
-  br label %"$have_gas_1473"
-
-"$have_gas_1473":                                 ; preds = %"$out_of_gas_1472", %"$have_gas_1468"
-  %"$consume_1474" = sub i64 %"$gasrem_1470", 1
-  store i64 %"$consume_1474", i64* @_gasrem, align 8
-  %"$res_93" = alloca %Int256, align 8
-  %"$execptr_load_1475" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_91_1476" = alloca %Int256, align 8
-  %"$$arg1_91_1477" = load %Int256, %Int256* %"$arg1_91", align 8
-  store %Int256 %"$$arg1_91_1477", %Int256* %"$mul_$arg1_91_1476", align 8
-  %"$mul_$arg2_92_1478" = alloca %Int256, align 8
-  %"$$arg2_92_1479" = load %Int256, %Int256* %"$arg2_92", align 8
-  store %Int256 %"$$arg2_92_1479", %Int256* %"$mul_$arg2_92_1478", align 8
-  %"$mul_call_1480" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1475", %Int256* %"$mul_$arg1_91_1476", %Int256* %"$mul_$arg2_92_1478"), !dbg !120
-  %"$mul_1482" = load %Int256, %Int256* %"$mul_call_1480", align 8
-  store %Int256 %"$mul_1482", %Int256* %"$res_93", align 8, !dbg !120
-  %"$gasrem_1483" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1484" = icmp ugt i64 1, %"$gasrem_1483"
-  br i1 %"$gascmp_1484", label %"$out_of_gas_1485", label %"$have_gas_1486"
-
-"$out_of_gas_1485":                               ; preds = %"$have_gas_1473"
-  call void @_out_of_gas()
-  br label %"$have_gas_1486"
-
-"$have_gas_1486":                                 ; preds = %"$out_of_gas_1485", %"$have_gas_1473"
-  %"$consume_1487" = sub i64 %"$gasrem_1483", 1
-  store i64 %"$consume_1487", i64* @_gasrem, align 8
-  %"$res__94" = alloca %Int256, align 8
-  %"$gasrem_1488" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1489" = icmp ugt i64 1, %"$gasrem_1488"
-  br i1 %"$gascmp_1489", label %"$out_of_gas_1490", label %"$have_gas_1491"
-
-"$out_of_gas_1490":                               ; preds = %"$have_gas_1486"
-  call void @_out_of_gas()
-  br label %"$have_gas_1491"
-
-"$have_gas_1491":                                 ; preds = %"$out_of_gas_1490", %"$have_gas_1486"
-  %"$consume_1492" = sub i64 %"$gasrem_1488", 1
-  store i64 %"$consume_1492", i64* @_gasrem, align 8
-  store %Int256 { i256 -57896044618658097711785492504343953926634992332820282019728792003956564819966 }, %Int256* %"$res__94", align 8, !dbg !121
-  %"$gasrem_1493" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1494" = icmp ugt i64 1, %"$gasrem_1493"
-  br i1 %"$gascmp_1494", label %"$out_of_gas_1495", label %"$have_gas_1496"
-
-"$out_of_gas_1495":                               ; preds = %"$have_gas_1491"
-  call void @_out_of_gas()
-  br label %"$have_gas_1496"
-
-"$have_gas_1496":                                 ; preds = %"$out_of_gas_1495", %"$have_gas_1491"
-  %"$consume_1497" = sub i64 %"$gasrem_1493", 1
-  store i64 %"$consume_1497", i64* @_gasrem, align 8
-  %"$test__95" = alloca %TName_Bool*, align 8
-  %"$execptr_load_1498" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_93_1499" = alloca %Int256, align 8
-  %"$$res_93_1500" = load %Int256, %Int256* %"$res_93", align 8
-  store %Int256 %"$$res_93_1500", %Int256* %"$eq_$res_93_1499", align 8
-  %"$eq_$res__94_1501" = alloca %Int256, align 8
-  %"$$res__94_1502" = load %Int256, %Int256* %"$res__94", align 8
-  store %Int256 %"$$res__94_1502", %Int256* %"$eq_$res__94_1501", align 8
-  %"$eq_call_1503" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1498", %Int256* %"$eq_$res_93_1499", %Int256* %"$eq_$res__94_1501"), !dbg !122
-  store %TName_Bool* %"$eq_call_1503", %TName_Bool** %"$test__95", align 8, !dbg !122
-  %"$gasrem_1505" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1506" = icmp ugt i64 1, %"$gasrem_1505"
-  br i1 %"$gascmp_1506", label %"$out_of_gas_1507", label %"$have_gas_1508"
-
-"$out_of_gas_1507":                               ; preds = %"$have_gas_1496"
-  call void @_out_of_gas()
-  br label %"$have_gas_1508"
-
-"$have_gas_1508":                                 ; preds = %"$out_of_gas_1507", %"$have_gas_1496"
-  %"$consume_1509" = sub i64 %"$gasrem_1505", 1
-  store i64 %"$consume_1509", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_153" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_1510" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_1511" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1510", 0
-  %"$BoolUtils.andb_envptr_1512" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1510", 1
-  %"$$test_90_1513" = load %TName_Bool*, %TName_Bool** %"$test_90", align 8
-  %"$BoolUtils.andb_call_1514" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1511"(i8* %"$BoolUtils.andb_envptr_1512", %TName_Bool* %"$$test_90_1513"), !dbg !123
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1514", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_153", align 8, !dbg !123
-  %"$BoolUtils.andb_154" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_153_1515" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_153", align 8
-  %"$$BoolUtils.andb_153_fptr_1516" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_153_1515", 0
-  %"$$BoolUtils.andb_153_envptr_1517" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_153_1515", 1
-  %"$$test__95_1518" = load %TName_Bool*, %TName_Bool** %"$test__95", align 8
-  %"$$BoolUtils.andb_153_call_1519" = call %TName_Bool* %"$$BoolUtils.andb_153_fptr_1516"(i8* %"$$BoolUtils.andb_153_envptr_1517", %TName_Bool* %"$$test__95_1518"), !dbg !123
-  store %TName_Bool* %"$$BoolUtils.andb_153_call_1519", %TName_Bool** %"$BoolUtils.andb_154", align 8, !dbg !123
-  %"$$BoolUtils.andb_154_1520" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_154", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_154_1520", %TName_Bool** %"$test_96", align 8, !dbg !123
-  %"$gasrem_1521" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1522" = icmp ugt i64 1, %"$gasrem_1521"
-  br i1 %"$gascmp_1522", label %"$out_of_gas_1523", label %"$have_gas_1524"
-
-"$out_of_gas_1523":                               ; preds = %"$have_gas_1508"
-  call void @_out_of_gas()
-  br label %"$have_gas_1524"
-
-"$have_gas_1524":                                 ; preds = %"$out_of_gas_1523", %"$have_gas_1508"
-  %"$consume_1525" = sub i64 %"$gasrem_1521", 1
-  store i64 %"$consume_1525", i64* @_gasrem, align 8
-  %"$arg1_97" = alloca %Int256, align 8
-  %"$gasrem_1526" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1527" = icmp ugt i64 1, %"$gasrem_1526"
-  br i1 %"$gascmp_1527", label %"$out_of_gas_1528", label %"$have_gas_1529"
-
-"$out_of_gas_1528":                               ; preds = %"$have_gas_1524"
-  call void @_out_of_gas()
-  br label %"$have_gas_1529"
-
-"$have_gas_1529":                                 ; preds = %"$out_of_gas_1528", %"$have_gas_1524"
-  %"$consume_1530" = sub i64 %"$gasrem_1526", 1
-  store i64 %"$consume_1530", i64* @_gasrem, align 8
-  store %Int256 { i256 2 }, %Int256* %"$arg1_97", align 8, !dbg !124
-  %"$gasrem_1531" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1532" = icmp ugt i64 1, %"$gasrem_1531"
-  br i1 %"$gascmp_1532", label %"$out_of_gas_1533", label %"$have_gas_1534"
-
-"$out_of_gas_1533":                               ; preds = %"$have_gas_1529"
-  call void @_out_of_gas()
-  br label %"$have_gas_1534"
-
-"$have_gas_1534":                                 ; preds = %"$out_of_gas_1533", %"$have_gas_1529"
-  %"$consume_1535" = sub i64 %"$gasrem_1531", 1
-  store i64 %"$consume_1535", i64* @_gasrem, align 8
-  %"$arg2_98" = alloca %Int256, align 8
-  %"$gasrem_1536" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1537" = icmp ugt i64 1, %"$gasrem_1536"
-  br i1 %"$gascmp_1537", label %"$out_of_gas_1538", label %"$have_gas_1539"
-
-"$out_of_gas_1538":                               ; preds = %"$have_gas_1534"
-  call void @_out_of_gas()
-  br label %"$have_gas_1539"
-
-"$have_gas_1539":                                 ; preds = %"$out_of_gas_1538", %"$have_gas_1534"
-  %"$consume_1540" = sub i64 %"$gasrem_1536", 1
-  store i64 %"$consume_1540", i64* @_gasrem, align 8
-  store %Int256 { i256 -28948022309329048855892746252171976963317496166410141009864396001978282409983 }, %Int256* %"$arg2_98", align 8, !dbg !125
+  %"$$BoolUtils.andb_149_1535" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_149", align 8
+  %"$$BoolUtils.andb_149_fptr_1536" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_149_1535", 0
+  %"$$BoolUtils.andb_149_envptr_1537" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_149_1535", 1
+  %"$$test__83_1538" = load %TName_Bool*, %TName_Bool** %"$test__83", align 8
+  %"$$BoolUtils.andb_149_call_1539" = call %TName_Bool* %"$$BoolUtils.andb_149_fptr_1536"(i8* %"$$BoolUtils.andb_149_envptr_1537", %TName_Bool* %"$$test__83_1538"), !dbg !111
+  store %TName_Bool* %"$$BoolUtils.andb_149_call_1539", %TName_Bool** %"$BoolUtils.andb_150", align 8, !dbg !111
+  %"$$BoolUtils.andb_150_1540" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_150", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_150_1540", %TName_Bool** %"$test_84", align 8, !dbg !111
   %"$gasrem_1541" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1542" = icmp ugt i64 1, %"$gasrem_1541"
   br i1 %"$gascmp_1542", label %"$out_of_gas_1543", label %"$have_gas_1544"
 
-"$out_of_gas_1543":                               ; preds = %"$have_gas_1539"
+"$out_of_gas_1543":                               ; preds = %"$have_gas_1528"
   call void @_out_of_gas()
   br label %"$have_gas_1544"
 
-"$have_gas_1544":                                 ; preds = %"$out_of_gas_1543", %"$have_gas_1539"
+"$have_gas_1544":                                 ; preds = %"$out_of_gas_1543", %"$have_gas_1528"
   %"$consume_1545" = sub i64 %"$gasrem_1541", 1
   store i64 %"$consume_1545", i64* @_gasrem, align 8
-  %"$test_102" = alloca %TName_Bool*, align 8
+  %"$arg1_85" = alloca %Int256, align 8
   %"$gasrem_1546" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1547" = icmp ugt i64 1, %"$gasrem_1546"
   br i1 %"$gascmp_1547", label %"$out_of_gas_1548", label %"$have_gas_1549"
@@ -3042,255 +3016,264 @@ entry:
 "$have_gas_1549":                                 ; preds = %"$out_of_gas_1548", %"$have_gas_1544"
   %"$consume_1550" = sub i64 %"$gasrem_1546", 1
   store i64 %"$consume_1550", i64* @_gasrem, align 8
-  %"$res_99" = alloca %Int256, align 8
-  %"$execptr_load_1551" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_97_1552" = alloca %Int256, align 8
-  %"$$arg1_97_1553" = load %Int256, %Int256* %"$arg1_97", align 8
-  store %Int256 %"$$arg1_97_1553", %Int256* %"$mul_$arg1_97_1552", align 8
-  %"$mul_$arg2_98_1554" = alloca %Int256, align 8
-  %"$$arg2_98_1555" = load %Int256, %Int256* %"$arg2_98", align 8
-  store %Int256 %"$$arg2_98_1555", %Int256* %"$mul_$arg2_98_1554", align 8
-  %"$mul_call_1556" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1551", %Int256* %"$mul_$arg1_97_1552", %Int256* %"$mul_$arg2_98_1554"), !dbg !126
-  %"$mul_1558" = load %Int256, %Int256* %"$mul_call_1556", align 8
-  store %Int256 %"$mul_1558", %Int256* %"$res_99", align 8, !dbg !126
-  %"$gasrem_1559" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1560" = icmp ugt i64 1, %"$gasrem_1559"
-  br i1 %"$gascmp_1560", label %"$out_of_gas_1561", label %"$have_gas_1562"
+  store %Int256 { i256 2 }, %Int256* %"$arg1_85", align 8, !dbg !112
+  %"$gasrem_1551" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1552" = icmp ugt i64 1, %"$gasrem_1551"
+  br i1 %"$gascmp_1552", label %"$out_of_gas_1553", label %"$have_gas_1554"
 
-"$out_of_gas_1561":                               ; preds = %"$have_gas_1549"
+"$out_of_gas_1553":                               ; preds = %"$have_gas_1549"
   call void @_out_of_gas()
-  br label %"$have_gas_1562"
+  br label %"$have_gas_1554"
 
-"$have_gas_1562":                                 ; preds = %"$out_of_gas_1561", %"$have_gas_1549"
-  %"$consume_1563" = sub i64 %"$gasrem_1559", 1
-  store i64 %"$consume_1563", i64* @_gasrem, align 8
-  %"$res__100" = alloca %Int256, align 8
-  %"$gasrem_1564" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1565" = icmp ugt i64 1, %"$gasrem_1564"
-  br i1 %"$gascmp_1565", label %"$out_of_gas_1566", label %"$have_gas_1567"
+"$have_gas_1554":                                 ; preds = %"$out_of_gas_1553", %"$have_gas_1549"
+  %"$consume_1555" = sub i64 %"$gasrem_1551", 1
+  store i64 %"$consume_1555", i64* @_gasrem, align 8
+  %"$arg2_86" = alloca %Int256, align 8
+  %"$gasrem_1556" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1557" = icmp ugt i64 1, %"$gasrem_1556"
+  br i1 %"$gascmp_1557", label %"$out_of_gas_1558", label %"$have_gas_1559"
 
-"$out_of_gas_1566":                               ; preds = %"$have_gas_1562"
+"$out_of_gas_1558":                               ; preds = %"$have_gas_1554"
   call void @_out_of_gas()
-  br label %"$have_gas_1567"
+  br label %"$have_gas_1559"
 
-"$have_gas_1567":                                 ; preds = %"$out_of_gas_1566", %"$have_gas_1562"
-  %"$consume_1568" = sub i64 %"$gasrem_1564", 1
-  store i64 %"$consume_1568", i64* @_gasrem, align 8
-  store %Int256 { i256 -57896044618658097711785492504343953926634992332820282019728792003956564819966 }, %Int256* %"$res__100", align 8, !dbg !127
-  %"$gasrem_1569" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1570" = icmp ugt i64 1, %"$gasrem_1569"
-  br i1 %"$gascmp_1570", label %"$out_of_gas_1571", label %"$have_gas_1572"
+"$have_gas_1559":                                 ; preds = %"$out_of_gas_1558", %"$have_gas_1554"
+  %"$consume_1560" = sub i64 %"$gasrem_1556", 1
+  store i64 %"$consume_1560", i64* @_gasrem, align 8
+  store %Int256 { i256 28948022309329048855892746252171976963317496166410141009864396001978282409983 }, %Int256* %"$arg2_86", align 8, !dbg !113
+  %"$gasrem_1561" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1562" = icmp ugt i64 1, %"$gasrem_1561"
+  br i1 %"$gascmp_1562", label %"$out_of_gas_1563", label %"$have_gas_1564"
 
-"$out_of_gas_1571":                               ; preds = %"$have_gas_1567"
+"$out_of_gas_1563":                               ; preds = %"$have_gas_1559"
   call void @_out_of_gas()
-  br label %"$have_gas_1572"
+  br label %"$have_gas_1564"
 
-"$have_gas_1572":                                 ; preds = %"$out_of_gas_1571", %"$have_gas_1567"
-  %"$consume_1573" = sub i64 %"$gasrem_1569", 1
-  store i64 %"$consume_1573", i64* @_gasrem, align 8
-  %"$test__101" = alloca %TName_Bool*, align 8
-  %"$execptr_load_1574" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_99_1575" = alloca %Int256, align 8
-  %"$$res_99_1576" = load %Int256, %Int256* %"$res_99", align 8
-  store %Int256 %"$$res_99_1576", %Int256* %"$eq_$res_99_1575", align 8
-  %"$eq_$res__100_1577" = alloca %Int256, align 8
-  %"$$res__100_1578" = load %Int256, %Int256* %"$res__100", align 8
-  store %Int256 %"$$res__100_1578", %Int256* %"$eq_$res__100_1577", align 8
-  %"$eq_call_1579" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1574", %Int256* %"$eq_$res_99_1575", %Int256* %"$eq_$res__100_1577"), !dbg !128
-  store %TName_Bool* %"$eq_call_1579", %TName_Bool** %"$test__101", align 8, !dbg !128
-  %"$gasrem_1581" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1582" = icmp ugt i64 1, %"$gasrem_1581"
-  br i1 %"$gascmp_1582", label %"$out_of_gas_1583", label %"$have_gas_1584"
+"$have_gas_1564":                                 ; preds = %"$out_of_gas_1563", %"$have_gas_1559"
+  %"$consume_1565" = sub i64 %"$gasrem_1561", 1
+  store i64 %"$consume_1565", i64* @_gasrem, align 8
+  %"$test_90" = alloca %TName_Bool*, align 8
+  %"$gasrem_1566" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1567" = icmp ugt i64 1, %"$gasrem_1566"
+  br i1 %"$gascmp_1567", label %"$out_of_gas_1568", label %"$have_gas_1569"
 
-"$out_of_gas_1583":                               ; preds = %"$have_gas_1572"
+"$out_of_gas_1568":                               ; preds = %"$have_gas_1564"
   call void @_out_of_gas()
-  br label %"$have_gas_1584"
+  br label %"$have_gas_1569"
 
-"$have_gas_1584":                                 ; preds = %"$out_of_gas_1583", %"$have_gas_1572"
-  %"$consume_1585" = sub i64 %"$gasrem_1581", 1
-  store i64 %"$consume_1585", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_155" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_1586" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_1587" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1586", 0
-  %"$BoolUtils.andb_envptr_1588" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1586", 1
-  %"$$test_96_1589" = load %TName_Bool*, %TName_Bool** %"$test_96", align 8
-  %"$BoolUtils.andb_call_1590" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1587"(i8* %"$BoolUtils.andb_envptr_1588", %TName_Bool* %"$$test_96_1589"), !dbg !129
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1590", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_155", align 8, !dbg !129
-  %"$BoolUtils.andb_156" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_155_1591" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_155", align 8
-  %"$$BoolUtils.andb_155_fptr_1592" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_155_1591", 0
-  %"$$BoolUtils.andb_155_envptr_1593" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_155_1591", 1
-  %"$$test__101_1594" = load %TName_Bool*, %TName_Bool** %"$test__101", align 8
-  %"$$BoolUtils.andb_155_call_1595" = call %TName_Bool* %"$$BoolUtils.andb_155_fptr_1592"(i8* %"$$BoolUtils.andb_155_envptr_1593", %TName_Bool* %"$$test__101_1594"), !dbg !129
-  store %TName_Bool* %"$$BoolUtils.andb_155_call_1595", %TName_Bool** %"$BoolUtils.andb_156", align 8, !dbg !129
-  %"$$BoolUtils.andb_156_1596" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_156", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_156_1596", %TName_Bool** %"$test_102", align 8, !dbg !129
-  %"$gasrem_1597" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1598" = icmp ugt i64 1, %"$gasrem_1597"
-  br i1 %"$gascmp_1598", label %"$out_of_gas_1599", label %"$have_gas_1600"
+"$have_gas_1569":                                 ; preds = %"$out_of_gas_1568", %"$have_gas_1564"
+  %"$consume_1570" = sub i64 %"$gasrem_1566", 1
+  store i64 %"$consume_1570", i64* @_gasrem, align 8
+  %"$res_87" = alloca %Int256, align 8
+  %"$gasrem_1572" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1573" = icmp ugt i64 80, %"$gasrem_1572"
+  br i1 %"$gascmp_1573", label %"$out_of_gas_1574", label %"$have_gas_1575"
 
-"$out_of_gas_1599":                               ; preds = %"$have_gas_1584"
+"$out_of_gas_1574":                               ; preds = %"$have_gas_1569"
   call void @_out_of_gas()
-  br label %"$have_gas_1600"
+  br label %"$have_gas_1575"
 
-"$have_gas_1600":                                 ; preds = %"$out_of_gas_1599", %"$have_gas_1584"
-  %"$consume_1601" = sub i64 %"$gasrem_1597", 1
-  store i64 %"$consume_1601", i64* @_gasrem, align 8
-  %"$arg1_103" = alloca %Int256, align 8
-  %"$gasrem_1602" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1603" = icmp ugt i64 1, %"$gasrem_1602"
-  br i1 %"$gascmp_1603", label %"$out_of_gas_1604", label %"$have_gas_1605"
+"$have_gas_1575":                                 ; preds = %"$out_of_gas_1574", %"$have_gas_1569"
+  %"$consume_1576" = sub i64 %"$gasrem_1572", 80
+  store i64 %"$consume_1576", i64* @_gasrem, align 8
+  %"$execptr_load_1577" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_85_1578" = alloca %Int256, align 8
+  %"$$arg1_85_1579" = load %Int256, %Int256* %"$arg1_85", align 8
+  store %Int256 %"$$arg1_85_1579", %Int256* %"$mul_$arg1_85_1578", align 8
+  %"$mul_$arg2_86_1580" = alloca %Int256, align 8
+  %"$$arg2_86_1581" = load %Int256, %Int256* %"$arg2_86", align 8
+  store %Int256 %"$$arg2_86_1581", %Int256* %"$mul_$arg2_86_1580", align 8
+  %"$mul_call_1582" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1577", %Int256* %"$mul_$arg1_85_1578", %Int256* %"$mul_$arg2_86_1580"), !dbg !114
+  %"$mul_1584" = load %Int256, %Int256* %"$mul_call_1582", align 8
+  store %Int256 %"$mul_1584", %Int256* %"$res_87", align 8, !dbg !114
+  %"$gasrem_1585" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1586" = icmp ugt i64 1, %"$gasrem_1585"
+  br i1 %"$gascmp_1586", label %"$out_of_gas_1587", label %"$have_gas_1588"
 
-"$out_of_gas_1604":                               ; preds = %"$have_gas_1600"
+"$out_of_gas_1587":                               ; preds = %"$have_gas_1575"
   call void @_out_of_gas()
-  br label %"$have_gas_1605"
+  br label %"$have_gas_1588"
 
-"$have_gas_1605":                                 ; preds = %"$out_of_gas_1604", %"$have_gas_1600"
-  %"$consume_1606" = sub i64 %"$gasrem_1602", 1
-  store i64 %"$consume_1606", i64* @_gasrem, align 8
-  store %Int256 { i256 -2 }, %Int256* %"$arg1_103", align 8, !dbg !130
-  %"$gasrem_1607" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1608" = icmp ugt i64 1, %"$gasrem_1607"
-  br i1 %"$gascmp_1608", label %"$out_of_gas_1609", label %"$have_gas_1610"
+"$have_gas_1588":                                 ; preds = %"$out_of_gas_1587", %"$have_gas_1575"
+  %"$consume_1589" = sub i64 %"$gasrem_1585", 1
+  store i64 %"$consume_1589", i64* @_gasrem, align 8
+  %"$res__88" = alloca %Int256, align 8
+  %"$gasrem_1590" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1591" = icmp ugt i64 1, %"$gasrem_1590"
+  br i1 %"$gascmp_1591", label %"$out_of_gas_1592", label %"$have_gas_1593"
 
-"$out_of_gas_1609":                               ; preds = %"$have_gas_1605"
+"$out_of_gas_1592":                               ; preds = %"$have_gas_1588"
   call void @_out_of_gas()
-  br label %"$have_gas_1610"
+  br label %"$have_gas_1593"
 
-"$have_gas_1610":                                 ; preds = %"$out_of_gas_1609", %"$have_gas_1605"
-  %"$consume_1611" = sub i64 %"$gasrem_1607", 1
-  store i64 %"$consume_1611", i64* @_gasrem, align 8
-  %"$arg2_104" = alloca %Int256, align 8
-  %"$gasrem_1612" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1613" = icmp ugt i64 1, %"$gasrem_1612"
-  br i1 %"$gascmp_1613", label %"$out_of_gas_1614", label %"$have_gas_1615"
+"$have_gas_1593":                                 ; preds = %"$out_of_gas_1592", %"$have_gas_1588"
+  %"$consume_1594" = sub i64 %"$gasrem_1590", 1
+  store i64 %"$consume_1594", i64* @_gasrem, align 8
+  store %Int256 { i256 57896044618658097711785492504343953926634992332820282019728792003956564819966 }, %Int256* %"$res__88", align 8, !dbg !115
+  %"$gasrem_1595" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1596" = icmp ugt i64 1, %"$gasrem_1595"
+  br i1 %"$gascmp_1596", label %"$out_of_gas_1597", label %"$have_gas_1598"
 
-"$out_of_gas_1614":                               ; preds = %"$have_gas_1610"
+"$out_of_gas_1597":                               ; preds = %"$have_gas_1593"
   call void @_out_of_gas()
-  br label %"$have_gas_1615"
+  br label %"$have_gas_1598"
 
-"$have_gas_1615":                                 ; preds = %"$out_of_gas_1614", %"$have_gas_1610"
-  %"$consume_1616" = sub i64 %"$gasrem_1612", 1
-  store i64 %"$consume_1616", i64* @_gasrem, align 8
-  store %Int256 { i256 -28948022309329048855892746252171976963317496166410141009864396001978282409983 }, %Int256* %"$arg2_104", align 8, !dbg !131
-  %"$gasrem_1617" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1618" = icmp ugt i64 1, %"$gasrem_1617"
-  br i1 %"$gascmp_1618", label %"$out_of_gas_1619", label %"$have_gas_1620"
+"$have_gas_1598":                                 ; preds = %"$out_of_gas_1597", %"$have_gas_1593"
+  %"$consume_1599" = sub i64 %"$gasrem_1595", 1
+  store i64 %"$consume_1599", i64* @_gasrem, align 8
+  %"$test__89" = alloca %TName_Bool*, align 8
+  %"$gasrem_1601" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1602" = icmp ugt i64 16, %"$gasrem_1601"
+  br i1 %"$gascmp_1602", label %"$out_of_gas_1603", label %"$have_gas_1604"
 
-"$out_of_gas_1619":                               ; preds = %"$have_gas_1615"
+"$out_of_gas_1603":                               ; preds = %"$have_gas_1598"
   call void @_out_of_gas()
-  br label %"$have_gas_1620"
+  br label %"$have_gas_1604"
 
-"$have_gas_1620":                                 ; preds = %"$out_of_gas_1619", %"$have_gas_1615"
-  %"$consume_1621" = sub i64 %"$gasrem_1617", 1
-  store i64 %"$consume_1621", i64* @_gasrem, align 8
-  %"$test_108" = alloca %TName_Bool*, align 8
-  %"$gasrem_1622" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1623" = icmp ugt i64 1, %"$gasrem_1622"
-  br i1 %"$gascmp_1623", label %"$out_of_gas_1624", label %"$have_gas_1625"
+"$have_gas_1604":                                 ; preds = %"$out_of_gas_1603", %"$have_gas_1598"
+  %"$consume_1605" = sub i64 %"$gasrem_1601", 16
+  store i64 %"$consume_1605", i64* @_gasrem, align 8
+  %"$execptr_load_1606" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_87_1607" = alloca %Int256, align 8
+  %"$$res_87_1608" = load %Int256, %Int256* %"$res_87", align 8
+  store %Int256 %"$$res_87_1608", %Int256* %"$eq_$res_87_1607", align 8
+  %"$eq_$res__88_1609" = alloca %Int256, align 8
+  %"$$res__88_1610" = load %Int256, %Int256* %"$res__88", align 8
+  store %Int256 %"$$res__88_1610", %Int256* %"$eq_$res__88_1609", align 8
+  %"$eq_call_1611" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1606", %Int256* %"$eq_$res_87_1607", %Int256* %"$eq_$res__88_1609"), !dbg !116
+  store %TName_Bool* %"$eq_call_1611", %TName_Bool** %"$test__89", align 8, !dbg !116
+  %"$gasrem_1613" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1614" = icmp ugt i64 1, %"$gasrem_1613"
+  br i1 %"$gascmp_1614", label %"$out_of_gas_1615", label %"$have_gas_1616"
 
-"$out_of_gas_1624":                               ; preds = %"$have_gas_1620"
+"$out_of_gas_1615":                               ; preds = %"$have_gas_1604"
   call void @_out_of_gas()
-  br label %"$have_gas_1625"
+  br label %"$have_gas_1616"
 
-"$have_gas_1625":                                 ; preds = %"$out_of_gas_1624", %"$have_gas_1620"
-  %"$consume_1626" = sub i64 %"$gasrem_1622", 1
-  store i64 %"$consume_1626", i64* @_gasrem, align 8
-  %"$res_105" = alloca %Int256, align 8
-  %"$execptr_load_1627" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_103_1628" = alloca %Int256, align 8
-  %"$$arg1_103_1629" = load %Int256, %Int256* %"$arg1_103", align 8
-  store %Int256 %"$$arg1_103_1629", %Int256* %"$mul_$arg1_103_1628", align 8
-  %"$mul_$arg2_104_1630" = alloca %Int256, align 8
-  %"$$arg2_104_1631" = load %Int256, %Int256* %"$arg2_104", align 8
-  store %Int256 %"$$arg2_104_1631", %Int256* %"$mul_$arg2_104_1630", align 8
-  %"$mul_call_1632" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1627", %Int256* %"$mul_$arg1_103_1628", %Int256* %"$mul_$arg2_104_1630"), !dbg !132
-  %"$mul_1634" = load %Int256, %Int256* %"$mul_call_1632", align 8
-  store %Int256 %"$mul_1634", %Int256* %"$res_105", align 8, !dbg !132
-  %"$gasrem_1635" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1636" = icmp ugt i64 1, %"$gasrem_1635"
-  br i1 %"$gascmp_1636", label %"$out_of_gas_1637", label %"$have_gas_1638"
+"$have_gas_1616":                                 ; preds = %"$out_of_gas_1615", %"$have_gas_1604"
+  %"$consume_1617" = sub i64 %"$gasrem_1613", 1
+  store i64 %"$consume_1617", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_151" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_1618" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_1619" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1618", 0
+  %"$BoolUtils.andb_envptr_1620" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1618", 1
+  %"$$test_84_1621" = load %TName_Bool*, %TName_Bool** %"$test_84", align 8
+  %"$BoolUtils.andb_call_1622" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1619"(i8* %"$BoolUtils.andb_envptr_1620", %TName_Bool* %"$$test_84_1621"), !dbg !117
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1622", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_151", align 8, !dbg !117
+  %"$BoolUtils.andb_152" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_151_1623" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_151", align 8
+  %"$$BoolUtils.andb_151_fptr_1624" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_151_1623", 0
+  %"$$BoolUtils.andb_151_envptr_1625" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_151_1623", 1
+  %"$$test__89_1626" = load %TName_Bool*, %TName_Bool** %"$test__89", align 8
+  %"$$BoolUtils.andb_151_call_1627" = call %TName_Bool* %"$$BoolUtils.andb_151_fptr_1624"(i8* %"$$BoolUtils.andb_151_envptr_1625", %TName_Bool* %"$$test__89_1626"), !dbg !117
+  store %TName_Bool* %"$$BoolUtils.andb_151_call_1627", %TName_Bool** %"$BoolUtils.andb_152", align 8, !dbg !117
+  %"$$BoolUtils.andb_152_1628" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_152", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_152_1628", %TName_Bool** %"$test_90", align 8, !dbg !117
+  %"$gasrem_1629" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1630" = icmp ugt i64 1, %"$gasrem_1629"
+  br i1 %"$gascmp_1630", label %"$out_of_gas_1631", label %"$have_gas_1632"
 
-"$out_of_gas_1637":                               ; preds = %"$have_gas_1625"
+"$out_of_gas_1631":                               ; preds = %"$have_gas_1616"
   call void @_out_of_gas()
-  br label %"$have_gas_1638"
+  br label %"$have_gas_1632"
 
-"$have_gas_1638":                                 ; preds = %"$out_of_gas_1637", %"$have_gas_1625"
-  %"$consume_1639" = sub i64 %"$gasrem_1635", 1
-  store i64 %"$consume_1639", i64* @_gasrem, align 8
-  %"$res__106" = alloca %Int256, align 8
-  %"$gasrem_1640" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1641" = icmp ugt i64 1, %"$gasrem_1640"
-  br i1 %"$gascmp_1641", label %"$out_of_gas_1642", label %"$have_gas_1643"
+"$have_gas_1632":                                 ; preds = %"$out_of_gas_1631", %"$have_gas_1616"
+  %"$consume_1633" = sub i64 %"$gasrem_1629", 1
+  store i64 %"$consume_1633", i64* @_gasrem, align 8
+  %"$arg1_91" = alloca %Int256, align 8
+  %"$gasrem_1634" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1635" = icmp ugt i64 1, %"$gasrem_1634"
+  br i1 %"$gascmp_1635", label %"$out_of_gas_1636", label %"$have_gas_1637"
 
-"$out_of_gas_1642":                               ; preds = %"$have_gas_1638"
+"$out_of_gas_1636":                               ; preds = %"$have_gas_1632"
   call void @_out_of_gas()
-  br label %"$have_gas_1643"
+  br label %"$have_gas_1637"
 
-"$have_gas_1643":                                 ; preds = %"$out_of_gas_1642", %"$have_gas_1638"
-  %"$consume_1644" = sub i64 %"$gasrem_1640", 1
-  store i64 %"$consume_1644", i64* @_gasrem, align 8
-  store %Int256 { i256 57896044618658097711785492504343953926634992332820282019728792003956564819966 }, %Int256* %"$res__106", align 8, !dbg !133
-  %"$gasrem_1645" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1646" = icmp ugt i64 1, %"$gasrem_1645"
-  br i1 %"$gascmp_1646", label %"$out_of_gas_1647", label %"$have_gas_1648"
+"$have_gas_1637":                                 ; preds = %"$out_of_gas_1636", %"$have_gas_1632"
+  %"$consume_1638" = sub i64 %"$gasrem_1634", 1
+  store i64 %"$consume_1638", i64* @_gasrem, align 8
+  store %Int256 { i256 -2 }, %Int256* %"$arg1_91", align 8, !dbg !118
+  %"$gasrem_1639" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1640" = icmp ugt i64 1, %"$gasrem_1639"
+  br i1 %"$gascmp_1640", label %"$out_of_gas_1641", label %"$have_gas_1642"
 
-"$out_of_gas_1647":                               ; preds = %"$have_gas_1643"
+"$out_of_gas_1641":                               ; preds = %"$have_gas_1637"
   call void @_out_of_gas()
-  br label %"$have_gas_1648"
+  br label %"$have_gas_1642"
 
-"$have_gas_1648":                                 ; preds = %"$out_of_gas_1647", %"$have_gas_1643"
-  %"$consume_1649" = sub i64 %"$gasrem_1645", 1
-  store i64 %"$consume_1649", i64* @_gasrem, align 8
-  %"$test__107" = alloca %TName_Bool*, align 8
-  %"$execptr_load_1650" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_105_1651" = alloca %Int256, align 8
-  %"$$res_105_1652" = load %Int256, %Int256* %"$res_105", align 8
-  store %Int256 %"$$res_105_1652", %Int256* %"$eq_$res_105_1651", align 8
-  %"$eq_$res__106_1653" = alloca %Int256, align 8
-  %"$$res__106_1654" = load %Int256, %Int256* %"$res__106", align 8
-  store %Int256 %"$$res__106_1654", %Int256* %"$eq_$res__106_1653", align 8
-  %"$eq_call_1655" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1650", %Int256* %"$eq_$res_105_1651", %Int256* %"$eq_$res__106_1653"), !dbg !134
-  store %TName_Bool* %"$eq_call_1655", %TName_Bool** %"$test__107", align 8, !dbg !134
-  %"$gasrem_1657" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1658" = icmp ugt i64 1, %"$gasrem_1657"
-  br i1 %"$gascmp_1658", label %"$out_of_gas_1659", label %"$have_gas_1660"
+"$have_gas_1642":                                 ; preds = %"$out_of_gas_1641", %"$have_gas_1637"
+  %"$consume_1643" = sub i64 %"$gasrem_1639", 1
+  store i64 %"$consume_1643", i64* @_gasrem, align 8
+  %"$arg2_92" = alloca %Int256, align 8
+  %"$gasrem_1644" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1645" = icmp ugt i64 1, %"$gasrem_1644"
+  br i1 %"$gascmp_1645", label %"$out_of_gas_1646", label %"$have_gas_1647"
 
-"$out_of_gas_1659":                               ; preds = %"$have_gas_1648"
+"$out_of_gas_1646":                               ; preds = %"$have_gas_1642"
   call void @_out_of_gas()
-  br label %"$have_gas_1660"
+  br label %"$have_gas_1647"
 
-"$have_gas_1660":                                 ; preds = %"$out_of_gas_1659", %"$have_gas_1648"
-  %"$consume_1661" = sub i64 %"$gasrem_1657", 1
-  store i64 %"$consume_1661", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_157" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_1662" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_1663" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1662", 0
-  %"$BoolUtils.andb_envptr_1664" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1662", 1
-  %"$$test_102_1665" = load %TName_Bool*, %TName_Bool** %"$test_102", align 8
-  %"$BoolUtils.andb_call_1666" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1663"(i8* %"$BoolUtils.andb_envptr_1664", %TName_Bool* %"$$test_102_1665"), !dbg !135
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1666", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_157", align 8, !dbg !135
-  %"$BoolUtils.andb_158" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_157_1667" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_157", align 8
-  %"$$BoolUtils.andb_157_fptr_1668" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_157_1667", 0
-  %"$$BoolUtils.andb_157_envptr_1669" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_157_1667", 1
-  %"$$test__107_1670" = load %TName_Bool*, %TName_Bool** %"$test__107", align 8
-  %"$$BoolUtils.andb_157_call_1671" = call %TName_Bool* %"$$BoolUtils.andb_157_fptr_1668"(i8* %"$$BoolUtils.andb_157_envptr_1669", %TName_Bool* %"$$test__107_1670"), !dbg !135
-  store %TName_Bool* %"$$BoolUtils.andb_157_call_1671", %TName_Bool** %"$BoolUtils.andb_158", align 8, !dbg !135
-  %"$$BoolUtils.andb_158_1672" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_158", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_158_1672", %TName_Bool** %"$test_108", align 8, !dbg !135
+"$have_gas_1647":                                 ; preds = %"$out_of_gas_1646", %"$have_gas_1642"
+  %"$consume_1648" = sub i64 %"$gasrem_1644", 1
+  store i64 %"$consume_1648", i64* @_gasrem, align 8
+  store %Int256 { i256 28948022309329048855892746252171976963317496166410141009864396001978282409983 }, %Int256* %"$arg2_92", align 8, !dbg !119
+  %"$gasrem_1649" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1650" = icmp ugt i64 1, %"$gasrem_1649"
+  br i1 %"$gascmp_1650", label %"$out_of_gas_1651", label %"$have_gas_1652"
+
+"$out_of_gas_1651":                               ; preds = %"$have_gas_1647"
+  call void @_out_of_gas()
+  br label %"$have_gas_1652"
+
+"$have_gas_1652":                                 ; preds = %"$out_of_gas_1651", %"$have_gas_1647"
+  %"$consume_1653" = sub i64 %"$gasrem_1649", 1
+  store i64 %"$consume_1653", i64* @_gasrem, align 8
+  %"$test_96" = alloca %TName_Bool*, align 8
+  %"$gasrem_1654" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1655" = icmp ugt i64 1, %"$gasrem_1654"
+  br i1 %"$gascmp_1655", label %"$out_of_gas_1656", label %"$have_gas_1657"
+
+"$out_of_gas_1656":                               ; preds = %"$have_gas_1652"
+  call void @_out_of_gas()
+  br label %"$have_gas_1657"
+
+"$have_gas_1657":                                 ; preds = %"$out_of_gas_1656", %"$have_gas_1652"
+  %"$consume_1658" = sub i64 %"$gasrem_1654", 1
+  store i64 %"$consume_1658", i64* @_gasrem, align 8
+  %"$res_93" = alloca %Int256, align 8
+  %"$gasrem_1660" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1661" = icmp ugt i64 80, %"$gasrem_1660"
+  br i1 %"$gascmp_1661", label %"$out_of_gas_1662", label %"$have_gas_1663"
+
+"$out_of_gas_1662":                               ; preds = %"$have_gas_1657"
+  call void @_out_of_gas()
+  br label %"$have_gas_1663"
+
+"$have_gas_1663":                                 ; preds = %"$out_of_gas_1662", %"$have_gas_1657"
+  %"$consume_1664" = sub i64 %"$gasrem_1660", 80
+  store i64 %"$consume_1664", i64* @_gasrem, align 8
+  %"$execptr_load_1665" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_91_1666" = alloca %Int256, align 8
+  %"$$arg1_91_1667" = load %Int256, %Int256* %"$arg1_91", align 8
+  store %Int256 %"$$arg1_91_1667", %Int256* %"$mul_$arg1_91_1666", align 8
+  %"$mul_$arg2_92_1668" = alloca %Int256, align 8
+  %"$$arg2_92_1669" = load %Int256, %Int256* %"$arg2_92", align 8
+  store %Int256 %"$$arg2_92_1669", %Int256* %"$mul_$arg2_92_1668", align 8
+  %"$mul_call_1670" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1665", %Int256* %"$mul_$arg1_91_1666", %Int256* %"$mul_$arg2_92_1668"), !dbg !120
+  %"$mul_1672" = load %Int256, %Int256* %"$mul_call_1670", align 8
+  store %Int256 %"$mul_1672", %Int256* %"$res_93", align 8, !dbg !120
   %"$gasrem_1673" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1674" = icmp ugt i64 1, %"$gasrem_1673"
   br i1 %"$gascmp_1674", label %"$out_of_gas_1675", label %"$have_gas_1676"
 
-"$out_of_gas_1675":                               ; preds = %"$have_gas_1660"
+"$out_of_gas_1675":                               ; preds = %"$have_gas_1663"
   call void @_out_of_gas()
   br label %"$have_gas_1676"
 
-"$have_gas_1676":                                 ; preds = %"$out_of_gas_1675", %"$have_gas_1660"
+"$have_gas_1676":                                 ; preds = %"$out_of_gas_1675", %"$have_gas_1663"
   %"$consume_1677" = sub i64 %"$gasrem_1673", 1
   store i64 %"$consume_1677", i64* @_gasrem, align 8
-  %"$arg1_109" = alloca %Int256, align 8
+  %"$res__94" = alloca %Int256, align 8
   %"$gasrem_1678" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1679" = icmp ugt i64 1, %"$gasrem_1678"
   br i1 %"$gascmp_1679", label %"$out_of_gas_1680", label %"$have_gas_1681"
@@ -3302,7 +3285,7 @@ entry:
 "$have_gas_1681":                                 ; preds = %"$out_of_gas_1680", %"$have_gas_1676"
   %"$consume_1682" = sub i64 %"$gasrem_1678", 1
   store i64 %"$consume_1682", i64* @_gasrem, align 8
-  store %Int256 { i256 -57896044618658097711785492504343953926634992332820282019728792003956564819968 }, %Int256* %"$arg1_109", align 8, !dbg !136
+  store %Int256 { i256 -57896044618658097711785492504343953926634992332820282019728792003956564819966 }, %Int256* %"$res__94", align 8, !dbg !121
   %"$gasrem_1683" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1684" = icmp ugt i64 1, %"$gasrem_1683"
   br i1 %"$gascmp_1684", label %"$out_of_gas_1685", label %"$have_gas_1686"
@@ -3314,294 +3297,773 @@ entry:
 "$have_gas_1686":                                 ; preds = %"$out_of_gas_1685", %"$have_gas_1681"
   %"$consume_1687" = sub i64 %"$gasrem_1683", 1
   store i64 %"$consume_1687", i64* @_gasrem, align 8
-  %"$arg2_110" = alloca %Int256, align 8
-  %"$gasrem_1688" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1689" = icmp ugt i64 1, %"$gasrem_1688"
-  br i1 %"$gascmp_1689", label %"$out_of_gas_1690", label %"$have_gas_1691"
+  %"$test__95" = alloca %TName_Bool*, align 8
+  %"$gasrem_1689" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1690" = icmp ugt i64 16, %"$gasrem_1689"
+  br i1 %"$gascmp_1690", label %"$out_of_gas_1691", label %"$have_gas_1692"
 
-"$out_of_gas_1690":                               ; preds = %"$have_gas_1686"
+"$out_of_gas_1691":                               ; preds = %"$have_gas_1686"
   call void @_out_of_gas()
-  br label %"$have_gas_1691"
+  br label %"$have_gas_1692"
 
-"$have_gas_1691":                                 ; preds = %"$out_of_gas_1690", %"$have_gas_1686"
-  %"$consume_1692" = sub i64 %"$gasrem_1688", 1
-  store i64 %"$consume_1692", i64* @_gasrem, align 8
-  store %Int256 { i256 1 }, %Int256* %"$arg2_110", align 8, !dbg !137
-  %"$gasrem_1693" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1694" = icmp ugt i64 1, %"$gasrem_1693"
-  br i1 %"$gascmp_1694", label %"$out_of_gas_1695", label %"$have_gas_1696"
+"$have_gas_1692":                                 ; preds = %"$out_of_gas_1691", %"$have_gas_1686"
+  %"$consume_1693" = sub i64 %"$gasrem_1689", 16
+  store i64 %"$consume_1693", i64* @_gasrem, align 8
+  %"$execptr_load_1694" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_93_1695" = alloca %Int256, align 8
+  %"$$res_93_1696" = load %Int256, %Int256* %"$res_93", align 8
+  store %Int256 %"$$res_93_1696", %Int256* %"$eq_$res_93_1695", align 8
+  %"$eq_$res__94_1697" = alloca %Int256, align 8
+  %"$$res__94_1698" = load %Int256, %Int256* %"$res__94", align 8
+  store %Int256 %"$$res__94_1698", %Int256* %"$eq_$res__94_1697", align 8
+  %"$eq_call_1699" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1694", %Int256* %"$eq_$res_93_1695", %Int256* %"$eq_$res__94_1697"), !dbg !122
+  store %TName_Bool* %"$eq_call_1699", %TName_Bool** %"$test__95", align 8, !dbg !122
+  %"$gasrem_1701" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1702" = icmp ugt i64 1, %"$gasrem_1701"
+  br i1 %"$gascmp_1702", label %"$out_of_gas_1703", label %"$have_gas_1704"
 
-"$out_of_gas_1695":                               ; preds = %"$have_gas_1691"
+"$out_of_gas_1703":                               ; preds = %"$have_gas_1692"
   call void @_out_of_gas()
-  br label %"$have_gas_1696"
+  br label %"$have_gas_1704"
 
-"$have_gas_1696":                                 ; preds = %"$out_of_gas_1695", %"$have_gas_1691"
-  %"$consume_1697" = sub i64 %"$gasrem_1693", 1
-  store i64 %"$consume_1697", i64* @_gasrem, align 8
-  %"$test_114" = alloca %TName_Bool*, align 8
-  %"$gasrem_1698" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1699" = icmp ugt i64 1, %"$gasrem_1698"
-  br i1 %"$gascmp_1699", label %"$out_of_gas_1700", label %"$have_gas_1701"
+"$have_gas_1704":                                 ; preds = %"$out_of_gas_1703", %"$have_gas_1692"
+  %"$consume_1705" = sub i64 %"$gasrem_1701", 1
+  store i64 %"$consume_1705", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_153" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_1706" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_1707" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1706", 0
+  %"$BoolUtils.andb_envptr_1708" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1706", 1
+  %"$$test_90_1709" = load %TName_Bool*, %TName_Bool** %"$test_90", align 8
+  %"$BoolUtils.andb_call_1710" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1707"(i8* %"$BoolUtils.andb_envptr_1708", %TName_Bool* %"$$test_90_1709"), !dbg !123
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1710", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_153", align 8, !dbg !123
+  %"$BoolUtils.andb_154" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_153_1711" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_153", align 8
+  %"$$BoolUtils.andb_153_fptr_1712" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_153_1711", 0
+  %"$$BoolUtils.andb_153_envptr_1713" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_153_1711", 1
+  %"$$test__95_1714" = load %TName_Bool*, %TName_Bool** %"$test__95", align 8
+  %"$$BoolUtils.andb_153_call_1715" = call %TName_Bool* %"$$BoolUtils.andb_153_fptr_1712"(i8* %"$$BoolUtils.andb_153_envptr_1713", %TName_Bool* %"$$test__95_1714"), !dbg !123
+  store %TName_Bool* %"$$BoolUtils.andb_153_call_1715", %TName_Bool** %"$BoolUtils.andb_154", align 8, !dbg !123
+  %"$$BoolUtils.andb_154_1716" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_154", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_154_1716", %TName_Bool** %"$test_96", align 8, !dbg !123
+  %"$gasrem_1717" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1718" = icmp ugt i64 1, %"$gasrem_1717"
+  br i1 %"$gascmp_1718", label %"$out_of_gas_1719", label %"$have_gas_1720"
 
-"$out_of_gas_1700":                               ; preds = %"$have_gas_1696"
+"$out_of_gas_1719":                               ; preds = %"$have_gas_1704"
   call void @_out_of_gas()
-  br label %"$have_gas_1701"
+  br label %"$have_gas_1720"
 
-"$have_gas_1701":                                 ; preds = %"$out_of_gas_1700", %"$have_gas_1696"
-  %"$consume_1702" = sub i64 %"$gasrem_1698", 1
-  store i64 %"$consume_1702", i64* @_gasrem, align 8
-  %"$res_111" = alloca %Int256, align 8
-  %"$execptr_load_1703" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_109_1704" = alloca %Int256, align 8
-  %"$$arg1_109_1705" = load %Int256, %Int256* %"$arg1_109", align 8
-  store %Int256 %"$$arg1_109_1705", %Int256* %"$mul_$arg1_109_1704", align 8
-  %"$mul_$arg2_110_1706" = alloca %Int256, align 8
-  %"$$arg2_110_1707" = load %Int256, %Int256* %"$arg2_110", align 8
-  store %Int256 %"$$arg2_110_1707", %Int256* %"$mul_$arg2_110_1706", align 8
-  %"$mul_call_1708" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1703", %Int256* %"$mul_$arg1_109_1704", %Int256* %"$mul_$arg2_110_1706"), !dbg !138
-  %"$mul_1710" = load %Int256, %Int256* %"$mul_call_1708", align 8
-  store %Int256 %"$mul_1710", %Int256* %"$res_111", align 8, !dbg !138
-  %"$gasrem_1711" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1712" = icmp ugt i64 1, %"$gasrem_1711"
-  br i1 %"$gascmp_1712", label %"$out_of_gas_1713", label %"$have_gas_1714"
+"$have_gas_1720":                                 ; preds = %"$out_of_gas_1719", %"$have_gas_1704"
+  %"$consume_1721" = sub i64 %"$gasrem_1717", 1
+  store i64 %"$consume_1721", i64* @_gasrem, align 8
+  %"$arg1_97" = alloca %Int256, align 8
+  %"$gasrem_1722" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1723" = icmp ugt i64 1, %"$gasrem_1722"
+  br i1 %"$gascmp_1723", label %"$out_of_gas_1724", label %"$have_gas_1725"
 
-"$out_of_gas_1713":                               ; preds = %"$have_gas_1701"
+"$out_of_gas_1724":                               ; preds = %"$have_gas_1720"
   call void @_out_of_gas()
-  br label %"$have_gas_1714"
+  br label %"$have_gas_1725"
 
-"$have_gas_1714":                                 ; preds = %"$out_of_gas_1713", %"$have_gas_1701"
-  %"$consume_1715" = sub i64 %"$gasrem_1711", 1
-  store i64 %"$consume_1715", i64* @_gasrem, align 8
-  %"$res__112" = alloca %Int256, align 8
-  %"$gasrem_1716" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1717" = icmp ugt i64 1, %"$gasrem_1716"
-  br i1 %"$gascmp_1717", label %"$out_of_gas_1718", label %"$have_gas_1719"
+"$have_gas_1725":                                 ; preds = %"$out_of_gas_1724", %"$have_gas_1720"
+  %"$consume_1726" = sub i64 %"$gasrem_1722", 1
+  store i64 %"$consume_1726", i64* @_gasrem, align 8
+  store %Int256 { i256 2 }, %Int256* %"$arg1_97", align 8, !dbg !124
+  %"$gasrem_1727" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1728" = icmp ugt i64 1, %"$gasrem_1727"
+  br i1 %"$gascmp_1728", label %"$out_of_gas_1729", label %"$have_gas_1730"
 
-"$out_of_gas_1718":                               ; preds = %"$have_gas_1714"
+"$out_of_gas_1729":                               ; preds = %"$have_gas_1725"
   call void @_out_of_gas()
-  br label %"$have_gas_1719"
+  br label %"$have_gas_1730"
 
-"$have_gas_1719":                                 ; preds = %"$out_of_gas_1718", %"$have_gas_1714"
-  %"$consume_1720" = sub i64 %"$gasrem_1716", 1
-  store i64 %"$consume_1720", i64* @_gasrem, align 8
-  store %Int256 { i256 -57896044618658097711785492504343953926634992332820282019728792003956564819968 }, %Int256* %"$res__112", align 8, !dbg !139
-  %"$gasrem_1721" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1722" = icmp ugt i64 1, %"$gasrem_1721"
-  br i1 %"$gascmp_1722", label %"$out_of_gas_1723", label %"$have_gas_1724"
+"$have_gas_1730":                                 ; preds = %"$out_of_gas_1729", %"$have_gas_1725"
+  %"$consume_1731" = sub i64 %"$gasrem_1727", 1
+  store i64 %"$consume_1731", i64* @_gasrem, align 8
+  %"$arg2_98" = alloca %Int256, align 8
+  %"$gasrem_1732" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1733" = icmp ugt i64 1, %"$gasrem_1732"
+  br i1 %"$gascmp_1733", label %"$out_of_gas_1734", label %"$have_gas_1735"
 
-"$out_of_gas_1723":                               ; preds = %"$have_gas_1719"
+"$out_of_gas_1734":                               ; preds = %"$have_gas_1730"
   call void @_out_of_gas()
-  br label %"$have_gas_1724"
+  br label %"$have_gas_1735"
 
-"$have_gas_1724":                                 ; preds = %"$out_of_gas_1723", %"$have_gas_1719"
-  %"$consume_1725" = sub i64 %"$gasrem_1721", 1
-  store i64 %"$consume_1725", i64* @_gasrem, align 8
-  %"$test__113" = alloca %TName_Bool*, align 8
-  %"$execptr_load_1726" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_111_1727" = alloca %Int256, align 8
-  %"$$res_111_1728" = load %Int256, %Int256* %"$res_111", align 8
-  store %Int256 %"$$res_111_1728", %Int256* %"$eq_$res_111_1727", align 8
-  %"$eq_$res__112_1729" = alloca %Int256, align 8
-  %"$$res__112_1730" = load %Int256, %Int256* %"$res__112", align 8
-  store %Int256 %"$$res__112_1730", %Int256* %"$eq_$res__112_1729", align 8
-  %"$eq_call_1731" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1726", %Int256* %"$eq_$res_111_1727", %Int256* %"$eq_$res__112_1729"), !dbg !140
-  store %TName_Bool* %"$eq_call_1731", %TName_Bool** %"$test__113", align 8, !dbg !140
-  %"$gasrem_1733" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1734" = icmp ugt i64 1, %"$gasrem_1733"
-  br i1 %"$gascmp_1734", label %"$out_of_gas_1735", label %"$have_gas_1736"
+"$have_gas_1735":                                 ; preds = %"$out_of_gas_1734", %"$have_gas_1730"
+  %"$consume_1736" = sub i64 %"$gasrem_1732", 1
+  store i64 %"$consume_1736", i64* @_gasrem, align 8
+  store %Int256 { i256 -28948022309329048855892746252171976963317496166410141009864396001978282409983 }, %Int256* %"$arg2_98", align 8, !dbg !125
+  %"$gasrem_1737" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1738" = icmp ugt i64 1, %"$gasrem_1737"
+  br i1 %"$gascmp_1738", label %"$out_of_gas_1739", label %"$have_gas_1740"
 
-"$out_of_gas_1735":                               ; preds = %"$have_gas_1724"
+"$out_of_gas_1739":                               ; preds = %"$have_gas_1735"
   call void @_out_of_gas()
-  br label %"$have_gas_1736"
+  br label %"$have_gas_1740"
 
-"$have_gas_1736":                                 ; preds = %"$out_of_gas_1735", %"$have_gas_1724"
-  %"$consume_1737" = sub i64 %"$gasrem_1733", 1
-  store i64 %"$consume_1737", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_159" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_1738" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_1739" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1738", 0
-  %"$BoolUtils.andb_envptr_1740" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1738", 1
-  %"$$test_108_1741" = load %TName_Bool*, %TName_Bool** %"$test_108", align 8
-  %"$BoolUtils.andb_call_1742" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1739"(i8* %"$BoolUtils.andb_envptr_1740", %TName_Bool* %"$$test_108_1741"), !dbg !141
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1742", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_159", align 8, !dbg !141
-  %"$BoolUtils.andb_160" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_159_1743" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_159", align 8
-  %"$$BoolUtils.andb_159_fptr_1744" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_159_1743", 0
-  %"$$BoolUtils.andb_159_envptr_1745" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_159_1743", 1
-  %"$$test__113_1746" = load %TName_Bool*, %TName_Bool** %"$test__113", align 8
-  %"$$BoolUtils.andb_159_call_1747" = call %TName_Bool* %"$$BoolUtils.andb_159_fptr_1744"(i8* %"$$BoolUtils.andb_159_envptr_1745", %TName_Bool* %"$$test__113_1746"), !dbg !141
-  store %TName_Bool* %"$$BoolUtils.andb_159_call_1747", %TName_Bool** %"$BoolUtils.andb_160", align 8, !dbg !141
-  %"$$BoolUtils.andb_160_1748" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_160", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_160_1748", %TName_Bool** %"$test_114", align 8, !dbg !141
-  %"$gasrem_1749" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1750" = icmp ugt i64 1, %"$gasrem_1749"
-  br i1 %"$gascmp_1750", label %"$out_of_gas_1751", label %"$have_gas_1752"
+"$have_gas_1740":                                 ; preds = %"$out_of_gas_1739", %"$have_gas_1735"
+  %"$consume_1741" = sub i64 %"$gasrem_1737", 1
+  store i64 %"$consume_1741", i64* @_gasrem, align 8
+  %"$test_102" = alloca %TName_Bool*, align 8
+  %"$gasrem_1742" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1743" = icmp ugt i64 1, %"$gasrem_1742"
+  br i1 %"$gascmp_1743", label %"$out_of_gas_1744", label %"$have_gas_1745"
 
-"$out_of_gas_1751":                               ; preds = %"$have_gas_1736"
+"$out_of_gas_1744":                               ; preds = %"$have_gas_1740"
   call void @_out_of_gas()
-  br label %"$have_gas_1752"
+  br label %"$have_gas_1745"
 
-"$have_gas_1752":                                 ; preds = %"$out_of_gas_1751", %"$have_gas_1736"
-  %"$consume_1753" = sub i64 %"$gasrem_1749", 1
-  store i64 %"$consume_1753", i64* @_gasrem, align 8
-  %"$arg1_115" = alloca %Int256, align 8
-  %"$gasrem_1754" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1755" = icmp ugt i64 1, %"$gasrem_1754"
-  br i1 %"$gascmp_1755", label %"$out_of_gas_1756", label %"$have_gas_1757"
+"$have_gas_1745":                                 ; preds = %"$out_of_gas_1744", %"$have_gas_1740"
+  %"$consume_1746" = sub i64 %"$gasrem_1742", 1
+  store i64 %"$consume_1746", i64* @_gasrem, align 8
+  %"$res_99" = alloca %Int256, align 8
+  %"$gasrem_1748" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1749" = icmp ugt i64 80, %"$gasrem_1748"
+  br i1 %"$gascmp_1749", label %"$out_of_gas_1750", label %"$have_gas_1751"
 
-"$out_of_gas_1756":                               ; preds = %"$have_gas_1752"
+"$out_of_gas_1750":                               ; preds = %"$have_gas_1745"
   call void @_out_of_gas()
-  br label %"$have_gas_1757"
+  br label %"$have_gas_1751"
 
-"$have_gas_1757":                                 ; preds = %"$out_of_gas_1756", %"$have_gas_1752"
-  %"$consume_1758" = sub i64 %"$gasrem_1754", 1
-  store i64 %"$consume_1758", i64* @_gasrem, align 8
-  store %Int256 { i256 -57896044618658097711785492504343953926634992332820282019728792003956564819968 }, %Int256* %"$arg1_115", align 8, !dbg !142
-  %"$gasrem_1759" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1760" = icmp ugt i64 1, %"$gasrem_1759"
-  br i1 %"$gascmp_1760", label %"$out_of_gas_1761", label %"$have_gas_1762"
+"$have_gas_1751":                                 ; preds = %"$out_of_gas_1750", %"$have_gas_1745"
+  %"$consume_1752" = sub i64 %"$gasrem_1748", 80
+  store i64 %"$consume_1752", i64* @_gasrem, align 8
+  %"$execptr_load_1753" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_97_1754" = alloca %Int256, align 8
+  %"$$arg1_97_1755" = load %Int256, %Int256* %"$arg1_97", align 8
+  store %Int256 %"$$arg1_97_1755", %Int256* %"$mul_$arg1_97_1754", align 8
+  %"$mul_$arg2_98_1756" = alloca %Int256, align 8
+  %"$$arg2_98_1757" = load %Int256, %Int256* %"$arg2_98", align 8
+  store %Int256 %"$$arg2_98_1757", %Int256* %"$mul_$arg2_98_1756", align 8
+  %"$mul_call_1758" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1753", %Int256* %"$mul_$arg1_97_1754", %Int256* %"$mul_$arg2_98_1756"), !dbg !126
+  %"$mul_1760" = load %Int256, %Int256* %"$mul_call_1758", align 8
+  store %Int256 %"$mul_1760", %Int256* %"$res_99", align 8, !dbg !126
+  %"$gasrem_1761" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1762" = icmp ugt i64 1, %"$gasrem_1761"
+  br i1 %"$gascmp_1762", label %"$out_of_gas_1763", label %"$have_gas_1764"
 
-"$out_of_gas_1761":                               ; preds = %"$have_gas_1757"
+"$out_of_gas_1763":                               ; preds = %"$have_gas_1751"
   call void @_out_of_gas()
-  br label %"$have_gas_1762"
+  br label %"$have_gas_1764"
 
-"$have_gas_1762":                                 ; preds = %"$out_of_gas_1761", %"$have_gas_1757"
-  %"$consume_1763" = sub i64 %"$gasrem_1759", 1
-  store i64 %"$consume_1763", i64* @_gasrem, align 8
-  %"$arg2_116" = alloca %Int256, align 8
-  %"$gasrem_1764" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1765" = icmp ugt i64 1, %"$gasrem_1764"
-  br i1 %"$gascmp_1765", label %"$out_of_gas_1766", label %"$have_gas_1767"
+"$have_gas_1764":                                 ; preds = %"$out_of_gas_1763", %"$have_gas_1751"
+  %"$consume_1765" = sub i64 %"$gasrem_1761", 1
+  store i64 %"$consume_1765", i64* @_gasrem, align 8
+  %"$res__100" = alloca %Int256, align 8
+  %"$gasrem_1766" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1767" = icmp ugt i64 1, %"$gasrem_1766"
+  br i1 %"$gascmp_1767", label %"$out_of_gas_1768", label %"$have_gas_1769"
 
-"$out_of_gas_1766":                               ; preds = %"$have_gas_1762"
+"$out_of_gas_1768":                               ; preds = %"$have_gas_1764"
   call void @_out_of_gas()
-  br label %"$have_gas_1767"
+  br label %"$have_gas_1769"
 
-"$have_gas_1767":                                 ; preds = %"$out_of_gas_1766", %"$have_gas_1762"
-  %"$consume_1768" = sub i64 %"$gasrem_1764", 1
-  store i64 %"$consume_1768", i64* @_gasrem, align 8
-  store %Int256 zeroinitializer, %Int256* %"$arg2_116", align 8, !dbg !143
-  %"$gasrem_1769" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1770" = icmp ugt i64 1, %"$gasrem_1769"
-  br i1 %"$gascmp_1770", label %"$out_of_gas_1771", label %"$have_gas_1772"
+"$have_gas_1769":                                 ; preds = %"$out_of_gas_1768", %"$have_gas_1764"
+  %"$consume_1770" = sub i64 %"$gasrem_1766", 1
+  store i64 %"$consume_1770", i64* @_gasrem, align 8
+  store %Int256 { i256 -57896044618658097711785492504343953926634992332820282019728792003956564819966 }, %Int256* %"$res__100", align 8, !dbg !127
+  %"$gasrem_1771" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1772" = icmp ugt i64 1, %"$gasrem_1771"
+  br i1 %"$gascmp_1772", label %"$out_of_gas_1773", label %"$have_gas_1774"
 
-"$out_of_gas_1771":                               ; preds = %"$have_gas_1767"
+"$out_of_gas_1773":                               ; preds = %"$have_gas_1769"
   call void @_out_of_gas()
-  br label %"$have_gas_1772"
+  br label %"$have_gas_1774"
 
-"$have_gas_1772":                                 ; preds = %"$out_of_gas_1771", %"$have_gas_1767"
-  %"$consume_1773" = sub i64 %"$gasrem_1769", 1
-  store i64 %"$consume_1773", i64* @_gasrem, align 8
-  %"$test_120" = alloca %TName_Bool*, align 8
-  %"$gasrem_1774" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1775" = icmp ugt i64 1, %"$gasrem_1774"
-  br i1 %"$gascmp_1775", label %"$out_of_gas_1776", label %"$have_gas_1777"
+"$have_gas_1774":                                 ; preds = %"$out_of_gas_1773", %"$have_gas_1769"
+  %"$consume_1775" = sub i64 %"$gasrem_1771", 1
+  store i64 %"$consume_1775", i64* @_gasrem, align 8
+  %"$test__101" = alloca %TName_Bool*, align 8
+  %"$gasrem_1777" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1778" = icmp ugt i64 16, %"$gasrem_1777"
+  br i1 %"$gascmp_1778", label %"$out_of_gas_1779", label %"$have_gas_1780"
 
-"$out_of_gas_1776":                               ; preds = %"$have_gas_1772"
+"$out_of_gas_1779":                               ; preds = %"$have_gas_1774"
   call void @_out_of_gas()
-  br label %"$have_gas_1777"
+  br label %"$have_gas_1780"
 
-"$have_gas_1777":                                 ; preds = %"$out_of_gas_1776", %"$have_gas_1772"
-  %"$consume_1778" = sub i64 %"$gasrem_1774", 1
-  store i64 %"$consume_1778", i64* @_gasrem, align 8
-  %"$res_117" = alloca %Int256, align 8
-  %"$execptr_load_1779" = load i8*, i8** @_execptr, align 8
-  %"$mul_$arg1_115_1780" = alloca %Int256, align 8
-  %"$$arg1_115_1781" = load %Int256, %Int256* %"$arg1_115", align 8
-  store %Int256 %"$$arg1_115_1781", %Int256* %"$mul_$arg1_115_1780", align 8
-  %"$mul_$arg2_116_1782" = alloca %Int256, align 8
-  %"$$arg2_116_1783" = load %Int256, %Int256* %"$arg2_116", align 8
-  store %Int256 %"$$arg2_116_1783", %Int256* %"$mul_$arg2_116_1782", align 8
-  %"$mul_call_1784" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1779", %Int256* %"$mul_$arg1_115_1780", %Int256* %"$mul_$arg2_116_1782"), !dbg !144
-  %"$mul_1786" = load %Int256, %Int256* %"$mul_call_1784", align 8
-  store %Int256 %"$mul_1786", %Int256* %"$res_117", align 8, !dbg !144
-  %"$gasrem_1787" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1788" = icmp ugt i64 1, %"$gasrem_1787"
-  br i1 %"$gascmp_1788", label %"$out_of_gas_1789", label %"$have_gas_1790"
+"$have_gas_1780":                                 ; preds = %"$out_of_gas_1779", %"$have_gas_1774"
+  %"$consume_1781" = sub i64 %"$gasrem_1777", 16
+  store i64 %"$consume_1781", i64* @_gasrem, align 8
+  %"$execptr_load_1782" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_99_1783" = alloca %Int256, align 8
+  %"$$res_99_1784" = load %Int256, %Int256* %"$res_99", align 8
+  store %Int256 %"$$res_99_1784", %Int256* %"$eq_$res_99_1783", align 8
+  %"$eq_$res__100_1785" = alloca %Int256, align 8
+  %"$$res__100_1786" = load %Int256, %Int256* %"$res__100", align 8
+  store %Int256 %"$$res__100_1786", %Int256* %"$eq_$res__100_1785", align 8
+  %"$eq_call_1787" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1782", %Int256* %"$eq_$res_99_1783", %Int256* %"$eq_$res__100_1785"), !dbg !128
+  store %TName_Bool* %"$eq_call_1787", %TName_Bool** %"$test__101", align 8, !dbg !128
+  %"$gasrem_1789" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1790" = icmp ugt i64 1, %"$gasrem_1789"
+  br i1 %"$gascmp_1790", label %"$out_of_gas_1791", label %"$have_gas_1792"
 
-"$out_of_gas_1789":                               ; preds = %"$have_gas_1777"
+"$out_of_gas_1791":                               ; preds = %"$have_gas_1780"
   call void @_out_of_gas()
-  br label %"$have_gas_1790"
+  br label %"$have_gas_1792"
 
-"$have_gas_1790":                                 ; preds = %"$out_of_gas_1789", %"$have_gas_1777"
-  %"$consume_1791" = sub i64 %"$gasrem_1787", 1
-  store i64 %"$consume_1791", i64* @_gasrem, align 8
-  %"$res__118" = alloca %Int256, align 8
-  %"$gasrem_1792" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1793" = icmp ugt i64 1, %"$gasrem_1792"
-  br i1 %"$gascmp_1793", label %"$out_of_gas_1794", label %"$have_gas_1795"
+"$have_gas_1792":                                 ; preds = %"$out_of_gas_1791", %"$have_gas_1780"
+  %"$consume_1793" = sub i64 %"$gasrem_1789", 1
+  store i64 %"$consume_1793", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_155" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_1794" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_1795" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1794", 0
+  %"$BoolUtils.andb_envptr_1796" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1794", 1
+  %"$$test_96_1797" = load %TName_Bool*, %TName_Bool** %"$test_96", align 8
+  %"$BoolUtils.andb_call_1798" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1795"(i8* %"$BoolUtils.andb_envptr_1796", %TName_Bool* %"$$test_96_1797"), !dbg !129
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1798", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_155", align 8, !dbg !129
+  %"$BoolUtils.andb_156" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_155_1799" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_155", align 8
+  %"$$BoolUtils.andb_155_fptr_1800" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_155_1799", 0
+  %"$$BoolUtils.andb_155_envptr_1801" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_155_1799", 1
+  %"$$test__101_1802" = load %TName_Bool*, %TName_Bool** %"$test__101", align 8
+  %"$$BoolUtils.andb_155_call_1803" = call %TName_Bool* %"$$BoolUtils.andb_155_fptr_1800"(i8* %"$$BoolUtils.andb_155_envptr_1801", %TName_Bool* %"$$test__101_1802"), !dbg !129
+  store %TName_Bool* %"$$BoolUtils.andb_155_call_1803", %TName_Bool** %"$BoolUtils.andb_156", align 8, !dbg !129
+  %"$$BoolUtils.andb_156_1804" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_156", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_156_1804", %TName_Bool** %"$test_102", align 8, !dbg !129
+  %"$gasrem_1805" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1806" = icmp ugt i64 1, %"$gasrem_1805"
+  br i1 %"$gascmp_1806", label %"$out_of_gas_1807", label %"$have_gas_1808"
 
-"$out_of_gas_1794":                               ; preds = %"$have_gas_1790"
+"$out_of_gas_1807":                               ; preds = %"$have_gas_1792"
   call void @_out_of_gas()
-  br label %"$have_gas_1795"
+  br label %"$have_gas_1808"
 
-"$have_gas_1795":                                 ; preds = %"$out_of_gas_1794", %"$have_gas_1790"
-  %"$consume_1796" = sub i64 %"$gasrem_1792", 1
-  store i64 %"$consume_1796", i64* @_gasrem, align 8
-  store %Int256 zeroinitializer, %Int256* %"$res__118", align 8, !dbg !145
-  %"$gasrem_1797" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1798" = icmp ugt i64 1, %"$gasrem_1797"
-  br i1 %"$gascmp_1798", label %"$out_of_gas_1799", label %"$have_gas_1800"
+"$have_gas_1808":                                 ; preds = %"$out_of_gas_1807", %"$have_gas_1792"
+  %"$consume_1809" = sub i64 %"$gasrem_1805", 1
+  store i64 %"$consume_1809", i64* @_gasrem, align 8
+  %"$arg1_103" = alloca %Int256, align 8
+  %"$gasrem_1810" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1811" = icmp ugt i64 1, %"$gasrem_1810"
+  br i1 %"$gascmp_1811", label %"$out_of_gas_1812", label %"$have_gas_1813"
 
-"$out_of_gas_1799":                               ; preds = %"$have_gas_1795"
+"$out_of_gas_1812":                               ; preds = %"$have_gas_1808"
   call void @_out_of_gas()
-  br label %"$have_gas_1800"
+  br label %"$have_gas_1813"
 
-"$have_gas_1800":                                 ; preds = %"$out_of_gas_1799", %"$have_gas_1795"
-  %"$consume_1801" = sub i64 %"$gasrem_1797", 1
-  store i64 %"$consume_1801", i64* @_gasrem, align 8
-  %"$test__119" = alloca %TName_Bool*, align 8
-  %"$execptr_load_1802" = load i8*, i8** @_execptr, align 8
-  %"$eq_$res_117_1803" = alloca %Int256, align 8
-  %"$$res_117_1804" = load %Int256, %Int256* %"$res_117", align 8
-  store %Int256 %"$$res_117_1804", %Int256* %"$eq_$res_117_1803", align 8
-  %"$eq_$res__118_1805" = alloca %Int256, align 8
-  %"$$res__118_1806" = load %Int256, %Int256* %"$res__118", align 8
-  store %Int256 %"$$res__118_1806", %Int256* %"$eq_$res__118_1805", align 8
-  %"$eq_call_1807" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1802", %Int256* %"$eq_$res_117_1803", %Int256* %"$eq_$res__118_1805"), !dbg !146
-  store %TName_Bool* %"$eq_call_1807", %TName_Bool** %"$test__119", align 8, !dbg !146
-  %"$gasrem_1809" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_1810" = icmp ugt i64 1, %"$gasrem_1809"
-  br i1 %"$gascmp_1810", label %"$out_of_gas_1811", label %"$have_gas_1812"
+"$have_gas_1813":                                 ; preds = %"$out_of_gas_1812", %"$have_gas_1808"
+  %"$consume_1814" = sub i64 %"$gasrem_1810", 1
+  store i64 %"$consume_1814", i64* @_gasrem, align 8
+  store %Int256 { i256 -2 }, %Int256* %"$arg1_103", align 8, !dbg !130
+  %"$gasrem_1815" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1816" = icmp ugt i64 1, %"$gasrem_1815"
+  br i1 %"$gascmp_1816", label %"$out_of_gas_1817", label %"$have_gas_1818"
 
-"$out_of_gas_1811":                               ; preds = %"$have_gas_1800"
+"$out_of_gas_1817":                               ; preds = %"$have_gas_1813"
   call void @_out_of_gas()
-  br label %"$have_gas_1812"
+  br label %"$have_gas_1818"
 
-"$have_gas_1812":                                 ; preds = %"$out_of_gas_1811", %"$have_gas_1800"
-  %"$consume_1813" = sub i64 %"$gasrem_1809", 1
-  store i64 %"$consume_1813", i64* @_gasrem, align 8
-  %"$BoolUtils.andb_161" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
-  %"$BoolUtils.andb_1814" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
-  %"$BoolUtils.andb_fptr_1815" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1814", 0
-  %"$BoolUtils.andb_envptr_1816" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1814", 1
-  %"$$test_114_1817" = load %TName_Bool*, %TName_Bool** %"$test_114", align 8
-  %"$BoolUtils.andb_call_1818" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1815"(i8* %"$BoolUtils.andb_envptr_1816", %TName_Bool* %"$$test_114_1817"), !dbg !147
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1818", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_161", align 8, !dbg !147
-  %"$BoolUtils.andb_162" = alloca %TName_Bool*, align 8
-  %"$$BoolUtils.andb_161_1819" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_161", align 8
-  %"$$BoolUtils.andb_161_fptr_1820" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_161_1819", 0
-  %"$$BoolUtils.andb_161_envptr_1821" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_161_1819", 1
-  %"$$test__119_1822" = load %TName_Bool*, %TName_Bool** %"$test__119", align 8
-  %"$$BoolUtils.andb_161_call_1823" = call %TName_Bool* %"$$BoolUtils.andb_161_fptr_1820"(i8* %"$$BoolUtils.andb_161_envptr_1821", %TName_Bool* %"$$test__119_1822"), !dbg !147
-  store %TName_Bool* %"$$BoolUtils.andb_161_call_1823", %TName_Bool** %"$BoolUtils.andb_162", align 8, !dbg !147
-  %"$$BoolUtils.andb_162_1824" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_162", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_162_1824", %TName_Bool** %"$test_120", align 8, !dbg !147
+"$have_gas_1818":                                 ; preds = %"$out_of_gas_1817", %"$have_gas_1813"
+  %"$consume_1819" = sub i64 %"$gasrem_1815", 1
+  store i64 %"$consume_1819", i64* @_gasrem, align 8
+  %"$arg2_104" = alloca %Int256, align 8
+  %"$gasrem_1820" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1821" = icmp ugt i64 1, %"$gasrem_1820"
+  br i1 %"$gascmp_1821", label %"$out_of_gas_1822", label %"$have_gas_1823"
+
+"$out_of_gas_1822":                               ; preds = %"$have_gas_1818"
+  call void @_out_of_gas()
+  br label %"$have_gas_1823"
+
+"$have_gas_1823":                                 ; preds = %"$out_of_gas_1822", %"$have_gas_1818"
+  %"$consume_1824" = sub i64 %"$gasrem_1820", 1
+  store i64 %"$consume_1824", i64* @_gasrem, align 8
+  store %Int256 { i256 -28948022309329048855892746252171976963317496166410141009864396001978282409983 }, %Int256* %"$arg2_104", align 8, !dbg !131
   %"$gasrem_1825" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1826" = icmp ugt i64 1, %"$gasrem_1825"
   br i1 %"$gascmp_1826", label %"$out_of_gas_1827", label %"$have_gas_1828"
 
-"$out_of_gas_1827":                               ; preds = %"$have_gas_1812"
+"$out_of_gas_1827":                               ; preds = %"$have_gas_1823"
   call void @_out_of_gas()
   br label %"$have_gas_1828"
 
-"$have_gas_1828":                                 ; preds = %"$out_of_gas_1827", %"$have_gas_1812"
+"$have_gas_1828":                                 ; preds = %"$out_of_gas_1827", %"$have_gas_1823"
   %"$consume_1829" = sub i64 %"$gasrem_1825", 1
   store i64 %"$consume_1829", i64* @_gasrem, align 8
-  %"$$test_120_1830" = load %TName_Bool*, %TName_Bool** %"$test_120", align 8
-  store %TName_Bool* %"$$test_120_1830", %TName_Bool** %"$expr_167", align 8, !dbg !148
-  %"$$expr_167_1831" = load %TName_Bool*, %TName_Bool** %"$expr_167", align 8
-  ret %TName_Bool* %"$$expr_167_1831"
+  %"$test_108" = alloca %TName_Bool*, align 8
+  %"$gasrem_1830" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1831" = icmp ugt i64 1, %"$gasrem_1830"
+  br i1 %"$gascmp_1831", label %"$out_of_gas_1832", label %"$have_gas_1833"
+
+"$out_of_gas_1832":                               ; preds = %"$have_gas_1828"
+  call void @_out_of_gas()
+  br label %"$have_gas_1833"
+
+"$have_gas_1833":                                 ; preds = %"$out_of_gas_1832", %"$have_gas_1828"
+  %"$consume_1834" = sub i64 %"$gasrem_1830", 1
+  store i64 %"$consume_1834", i64* @_gasrem, align 8
+  %"$res_105" = alloca %Int256, align 8
+  %"$gasrem_1836" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1837" = icmp ugt i64 80, %"$gasrem_1836"
+  br i1 %"$gascmp_1837", label %"$out_of_gas_1838", label %"$have_gas_1839"
+
+"$out_of_gas_1838":                               ; preds = %"$have_gas_1833"
+  call void @_out_of_gas()
+  br label %"$have_gas_1839"
+
+"$have_gas_1839":                                 ; preds = %"$out_of_gas_1838", %"$have_gas_1833"
+  %"$consume_1840" = sub i64 %"$gasrem_1836", 80
+  store i64 %"$consume_1840", i64* @_gasrem, align 8
+  %"$execptr_load_1841" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_103_1842" = alloca %Int256, align 8
+  %"$$arg1_103_1843" = load %Int256, %Int256* %"$arg1_103", align 8
+  store %Int256 %"$$arg1_103_1843", %Int256* %"$mul_$arg1_103_1842", align 8
+  %"$mul_$arg2_104_1844" = alloca %Int256, align 8
+  %"$$arg2_104_1845" = load %Int256, %Int256* %"$arg2_104", align 8
+  store %Int256 %"$$arg2_104_1845", %Int256* %"$mul_$arg2_104_1844", align 8
+  %"$mul_call_1846" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1841", %Int256* %"$mul_$arg1_103_1842", %Int256* %"$mul_$arg2_104_1844"), !dbg !132
+  %"$mul_1848" = load %Int256, %Int256* %"$mul_call_1846", align 8
+  store %Int256 %"$mul_1848", %Int256* %"$res_105", align 8, !dbg !132
+  %"$gasrem_1849" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1850" = icmp ugt i64 1, %"$gasrem_1849"
+  br i1 %"$gascmp_1850", label %"$out_of_gas_1851", label %"$have_gas_1852"
+
+"$out_of_gas_1851":                               ; preds = %"$have_gas_1839"
+  call void @_out_of_gas()
+  br label %"$have_gas_1852"
+
+"$have_gas_1852":                                 ; preds = %"$out_of_gas_1851", %"$have_gas_1839"
+  %"$consume_1853" = sub i64 %"$gasrem_1849", 1
+  store i64 %"$consume_1853", i64* @_gasrem, align 8
+  %"$res__106" = alloca %Int256, align 8
+  %"$gasrem_1854" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1855" = icmp ugt i64 1, %"$gasrem_1854"
+  br i1 %"$gascmp_1855", label %"$out_of_gas_1856", label %"$have_gas_1857"
+
+"$out_of_gas_1856":                               ; preds = %"$have_gas_1852"
+  call void @_out_of_gas()
+  br label %"$have_gas_1857"
+
+"$have_gas_1857":                                 ; preds = %"$out_of_gas_1856", %"$have_gas_1852"
+  %"$consume_1858" = sub i64 %"$gasrem_1854", 1
+  store i64 %"$consume_1858", i64* @_gasrem, align 8
+  store %Int256 { i256 57896044618658097711785492504343953926634992332820282019728792003956564819966 }, %Int256* %"$res__106", align 8, !dbg !133
+  %"$gasrem_1859" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1860" = icmp ugt i64 1, %"$gasrem_1859"
+  br i1 %"$gascmp_1860", label %"$out_of_gas_1861", label %"$have_gas_1862"
+
+"$out_of_gas_1861":                               ; preds = %"$have_gas_1857"
+  call void @_out_of_gas()
+  br label %"$have_gas_1862"
+
+"$have_gas_1862":                                 ; preds = %"$out_of_gas_1861", %"$have_gas_1857"
+  %"$consume_1863" = sub i64 %"$gasrem_1859", 1
+  store i64 %"$consume_1863", i64* @_gasrem, align 8
+  %"$test__107" = alloca %TName_Bool*, align 8
+  %"$gasrem_1865" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1866" = icmp ugt i64 16, %"$gasrem_1865"
+  br i1 %"$gascmp_1866", label %"$out_of_gas_1867", label %"$have_gas_1868"
+
+"$out_of_gas_1867":                               ; preds = %"$have_gas_1862"
+  call void @_out_of_gas()
+  br label %"$have_gas_1868"
+
+"$have_gas_1868":                                 ; preds = %"$out_of_gas_1867", %"$have_gas_1862"
+  %"$consume_1869" = sub i64 %"$gasrem_1865", 16
+  store i64 %"$consume_1869", i64* @_gasrem, align 8
+  %"$execptr_load_1870" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_105_1871" = alloca %Int256, align 8
+  %"$$res_105_1872" = load %Int256, %Int256* %"$res_105", align 8
+  store %Int256 %"$$res_105_1872", %Int256* %"$eq_$res_105_1871", align 8
+  %"$eq_$res__106_1873" = alloca %Int256, align 8
+  %"$$res__106_1874" = load %Int256, %Int256* %"$res__106", align 8
+  store %Int256 %"$$res__106_1874", %Int256* %"$eq_$res__106_1873", align 8
+  %"$eq_call_1875" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1870", %Int256* %"$eq_$res_105_1871", %Int256* %"$eq_$res__106_1873"), !dbg !134
+  store %TName_Bool* %"$eq_call_1875", %TName_Bool** %"$test__107", align 8, !dbg !134
+  %"$gasrem_1877" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1878" = icmp ugt i64 1, %"$gasrem_1877"
+  br i1 %"$gascmp_1878", label %"$out_of_gas_1879", label %"$have_gas_1880"
+
+"$out_of_gas_1879":                               ; preds = %"$have_gas_1868"
+  call void @_out_of_gas()
+  br label %"$have_gas_1880"
+
+"$have_gas_1880":                                 ; preds = %"$out_of_gas_1879", %"$have_gas_1868"
+  %"$consume_1881" = sub i64 %"$gasrem_1877", 1
+  store i64 %"$consume_1881", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_157" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_1882" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_1883" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1882", 0
+  %"$BoolUtils.andb_envptr_1884" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1882", 1
+  %"$$test_102_1885" = load %TName_Bool*, %TName_Bool** %"$test_102", align 8
+  %"$BoolUtils.andb_call_1886" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1883"(i8* %"$BoolUtils.andb_envptr_1884", %TName_Bool* %"$$test_102_1885"), !dbg !135
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1886", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_157", align 8, !dbg !135
+  %"$BoolUtils.andb_158" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_157_1887" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_157", align 8
+  %"$$BoolUtils.andb_157_fptr_1888" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_157_1887", 0
+  %"$$BoolUtils.andb_157_envptr_1889" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_157_1887", 1
+  %"$$test__107_1890" = load %TName_Bool*, %TName_Bool** %"$test__107", align 8
+  %"$$BoolUtils.andb_157_call_1891" = call %TName_Bool* %"$$BoolUtils.andb_157_fptr_1888"(i8* %"$$BoolUtils.andb_157_envptr_1889", %TName_Bool* %"$$test__107_1890"), !dbg !135
+  store %TName_Bool* %"$$BoolUtils.andb_157_call_1891", %TName_Bool** %"$BoolUtils.andb_158", align 8, !dbg !135
+  %"$$BoolUtils.andb_158_1892" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_158", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_158_1892", %TName_Bool** %"$test_108", align 8, !dbg !135
+  %"$gasrem_1893" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1894" = icmp ugt i64 1, %"$gasrem_1893"
+  br i1 %"$gascmp_1894", label %"$out_of_gas_1895", label %"$have_gas_1896"
+
+"$out_of_gas_1895":                               ; preds = %"$have_gas_1880"
+  call void @_out_of_gas()
+  br label %"$have_gas_1896"
+
+"$have_gas_1896":                                 ; preds = %"$out_of_gas_1895", %"$have_gas_1880"
+  %"$consume_1897" = sub i64 %"$gasrem_1893", 1
+  store i64 %"$consume_1897", i64* @_gasrem, align 8
+  %"$arg1_109" = alloca %Int256, align 8
+  %"$gasrem_1898" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1899" = icmp ugt i64 1, %"$gasrem_1898"
+  br i1 %"$gascmp_1899", label %"$out_of_gas_1900", label %"$have_gas_1901"
+
+"$out_of_gas_1900":                               ; preds = %"$have_gas_1896"
+  call void @_out_of_gas()
+  br label %"$have_gas_1901"
+
+"$have_gas_1901":                                 ; preds = %"$out_of_gas_1900", %"$have_gas_1896"
+  %"$consume_1902" = sub i64 %"$gasrem_1898", 1
+  store i64 %"$consume_1902", i64* @_gasrem, align 8
+  store %Int256 { i256 -57896044618658097711785492504343953926634992332820282019728792003956564819968 }, %Int256* %"$arg1_109", align 8, !dbg !136
+  %"$gasrem_1903" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1904" = icmp ugt i64 1, %"$gasrem_1903"
+  br i1 %"$gascmp_1904", label %"$out_of_gas_1905", label %"$have_gas_1906"
+
+"$out_of_gas_1905":                               ; preds = %"$have_gas_1901"
+  call void @_out_of_gas()
+  br label %"$have_gas_1906"
+
+"$have_gas_1906":                                 ; preds = %"$out_of_gas_1905", %"$have_gas_1901"
+  %"$consume_1907" = sub i64 %"$gasrem_1903", 1
+  store i64 %"$consume_1907", i64* @_gasrem, align 8
+  %"$arg2_110" = alloca %Int256, align 8
+  %"$gasrem_1908" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1909" = icmp ugt i64 1, %"$gasrem_1908"
+  br i1 %"$gascmp_1909", label %"$out_of_gas_1910", label %"$have_gas_1911"
+
+"$out_of_gas_1910":                               ; preds = %"$have_gas_1906"
+  call void @_out_of_gas()
+  br label %"$have_gas_1911"
+
+"$have_gas_1911":                                 ; preds = %"$out_of_gas_1910", %"$have_gas_1906"
+  %"$consume_1912" = sub i64 %"$gasrem_1908", 1
+  store i64 %"$consume_1912", i64* @_gasrem, align 8
+  store %Int256 { i256 1 }, %Int256* %"$arg2_110", align 8, !dbg !137
+  %"$gasrem_1913" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1914" = icmp ugt i64 1, %"$gasrem_1913"
+  br i1 %"$gascmp_1914", label %"$out_of_gas_1915", label %"$have_gas_1916"
+
+"$out_of_gas_1915":                               ; preds = %"$have_gas_1911"
+  call void @_out_of_gas()
+  br label %"$have_gas_1916"
+
+"$have_gas_1916":                                 ; preds = %"$out_of_gas_1915", %"$have_gas_1911"
+  %"$consume_1917" = sub i64 %"$gasrem_1913", 1
+  store i64 %"$consume_1917", i64* @_gasrem, align 8
+  %"$test_114" = alloca %TName_Bool*, align 8
+  %"$gasrem_1918" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1919" = icmp ugt i64 1, %"$gasrem_1918"
+  br i1 %"$gascmp_1919", label %"$out_of_gas_1920", label %"$have_gas_1921"
+
+"$out_of_gas_1920":                               ; preds = %"$have_gas_1916"
+  call void @_out_of_gas()
+  br label %"$have_gas_1921"
+
+"$have_gas_1921":                                 ; preds = %"$out_of_gas_1920", %"$have_gas_1916"
+  %"$consume_1922" = sub i64 %"$gasrem_1918", 1
+  store i64 %"$consume_1922", i64* @_gasrem, align 8
+  %"$res_111" = alloca %Int256, align 8
+  %"$gasrem_1924" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1925" = icmp ugt i64 80, %"$gasrem_1924"
+  br i1 %"$gascmp_1925", label %"$out_of_gas_1926", label %"$have_gas_1927"
+
+"$out_of_gas_1926":                               ; preds = %"$have_gas_1921"
+  call void @_out_of_gas()
+  br label %"$have_gas_1927"
+
+"$have_gas_1927":                                 ; preds = %"$out_of_gas_1926", %"$have_gas_1921"
+  %"$consume_1928" = sub i64 %"$gasrem_1924", 80
+  store i64 %"$consume_1928", i64* @_gasrem, align 8
+  %"$execptr_load_1929" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_109_1930" = alloca %Int256, align 8
+  %"$$arg1_109_1931" = load %Int256, %Int256* %"$arg1_109", align 8
+  store %Int256 %"$$arg1_109_1931", %Int256* %"$mul_$arg1_109_1930", align 8
+  %"$mul_$arg2_110_1932" = alloca %Int256, align 8
+  %"$$arg2_110_1933" = load %Int256, %Int256* %"$arg2_110", align 8
+  store %Int256 %"$$arg2_110_1933", %Int256* %"$mul_$arg2_110_1932", align 8
+  %"$mul_call_1934" = call %Int256* @_mul_Int256(i8* %"$execptr_load_1929", %Int256* %"$mul_$arg1_109_1930", %Int256* %"$mul_$arg2_110_1932"), !dbg !138
+  %"$mul_1936" = load %Int256, %Int256* %"$mul_call_1934", align 8
+  store %Int256 %"$mul_1936", %Int256* %"$res_111", align 8, !dbg !138
+  %"$gasrem_1937" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1938" = icmp ugt i64 1, %"$gasrem_1937"
+  br i1 %"$gascmp_1938", label %"$out_of_gas_1939", label %"$have_gas_1940"
+
+"$out_of_gas_1939":                               ; preds = %"$have_gas_1927"
+  call void @_out_of_gas()
+  br label %"$have_gas_1940"
+
+"$have_gas_1940":                                 ; preds = %"$out_of_gas_1939", %"$have_gas_1927"
+  %"$consume_1941" = sub i64 %"$gasrem_1937", 1
+  store i64 %"$consume_1941", i64* @_gasrem, align 8
+  %"$res__112" = alloca %Int256, align 8
+  %"$gasrem_1942" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1943" = icmp ugt i64 1, %"$gasrem_1942"
+  br i1 %"$gascmp_1943", label %"$out_of_gas_1944", label %"$have_gas_1945"
+
+"$out_of_gas_1944":                               ; preds = %"$have_gas_1940"
+  call void @_out_of_gas()
+  br label %"$have_gas_1945"
+
+"$have_gas_1945":                                 ; preds = %"$out_of_gas_1944", %"$have_gas_1940"
+  %"$consume_1946" = sub i64 %"$gasrem_1942", 1
+  store i64 %"$consume_1946", i64* @_gasrem, align 8
+  store %Int256 { i256 -57896044618658097711785492504343953926634992332820282019728792003956564819968 }, %Int256* %"$res__112", align 8, !dbg !139
+  %"$gasrem_1947" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1948" = icmp ugt i64 1, %"$gasrem_1947"
+  br i1 %"$gascmp_1948", label %"$out_of_gas_1949", label %"$have_gas_1950"
+
+"$out_of_gas_1949":                               ; preds = %"$have_gas_1945"
+  call void @_out_of_gas()
+  br label %"$have_gas_1950"
+
+"$have_gas_1950":                                 ; preds = %"$out_of_gas_1949", %"$have_gas_1945"
+  %"$consume_1951" = sub i64 %"$gasrem_1947", 1
+  store i64 %"$consume_1951", i64* @_gasrem, align 8
+  %"$test__113" = alloca %TName_Bool*, align 8
+  %"$gasrem_1953" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1954" = icmp ugt i64 16, %"$gasrem_1953"
+  br i1 %"$gascmp_1954", label %"$out_of_gas_1955", label %"$have_gas_1956"
+
+"$out_of_gas_1955":                               ; preds = %"$have_gas_1950"
+  call void @_out_of_gas()
+  br label %"$have_gas_1956"
+
+"$have_gas_1956":                                 ; preds = %"$out_of_gas_1955", %"$have_gas_1950"
+  %"$consume_1957" = sub i64 %"$gasrem_1953", 16
+  store i64 %"$consume_1957", i64* @_gasrem, align 8
+  %"$execptr_load_1958" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_111_1959" = alloca %Int256, align 8
+  %"$$res_111_1960" = load %Int256, %Int256* %"$res_111", align 8
+  store %Int256 %"$$res_111_1960", %Int256* %"$eq_$res_111_1959", align 8
+  %"$eq_$res__112_1961" = alloca %Int256, align 8
+  %"$$res__112_1962" = load %Int256, %Int256* %"$res__112", align 8
+  store %Int256 %"$$res__112_1962", %Int256* %"$eq_$res__112_1961", align 8
+  %"$eq_call_1963" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_1958", %Int256* %"$eq_$res_111_1959", %Int256* %"$eq_$res__112_1961"), !dbg !140
+  store %TName_Bool* %"$eq_call_1963", %TName_Bool** %"$test__113", align 8, !dbg !140
+  %"$gasrem_1965" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1966" = icmp ugt i64 1, %"$gasrem_1965"
+  br i1 %"$gascmp_1966", label %"$out_of_gas_1967", label %"$have_gas_1968"
+
+"$out_of_gas_1967":                               ; preds = %"$have_gas_1956"
+  call void @_out_of_gas()
+  br label %"$have_gas_1968"
+
+"$have_gas_1968":                                 ; preds = %"$out_of_gas_1967", %"$have_gas_1956"
+  %"$consume_1969" = sub i64 %"$gasrem_1965", 1
+  store i64 %"$consume_1969", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_159" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_1970" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_1971" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1970", 0
+  %"$BoolUtils.andb_envptr_1972" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1970", 1
+  %"$$test_108_1973" = load %TName_Bool*, %TName_Bool** %"$test_108", align 8
+  %"$BoolUtils.andb_call_1974" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1971"(i8* %"$BoolUtils.andb_envptr_1972", %TName_Bool* %"$$test_108_1973"), !dbg !141
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1974", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_159", align 8, !dbg !141
+  %"$BoolUtils.andb_160" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_159_1975" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_159", align 8
+  %"$$BoolUtils.andb_159_fptr_1976" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_159_1975", 0
+  %"$$BoolUtils.andb_159_envptr_1977" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_159_1975", 1
+  %"$$test__113_1978" = load %TName_Bool*, %TName_Bool** %"$test__113", align 8
+  %"$$BoolUtils.andb_159_call_1979" = call %TName_Bool* %"$$BoolUtils.andb_159_fptr_1976"(i8* %"$$BoolUtils.andb_159_envptr_1977", %TName_Bool* %"$$test__113_1978"), !dbg !141
+  store %TName_Bool* %"$$BoolUtils.andb_159_call_1979", %TName_Bool** %"$BoolUtils.andb_160", align 8, !dbg !141
+  %"$$BoolUtils.andb_160_1980" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_160", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_160_1980", %TName_Bool** %"$test_114", align 8, !dbg !141
+  %"$gasrem_1981" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1982" = icmp ugt i64 1, %"$gasrem_1981"
+  br i1 %"$gascmp_1982", label %"$out_of_gas_1983", label %"$have_gas_1984"
+
+"$out_of_gas_1983":                               ; preds = %"$have_gas_1968"
+  call void @_out_of_gas()
+  br label %"$have_gas_1984"
+
+"$have_gas_1984":                                 ; preds = %"$out_of_gas_1983", %"$have_gas_1968"
+  %"$consume_1985" = sub i64 %"$gasrem_1981", 1
+  store i64 %"$consume_1985", i64* @_gasrem, align 8
+  %"$arg1_115" = alloca %Int256, align 8
+  %"$gasrem_1986" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1987" = icmp ugt i64 1, %"$gasrem_1986"
+  br i1 %"$gascmp_1987", label %"$out_of_gas_1988", label %"$have_gas_1989"
+
+"$out_of_gas_1988":                               ; preds = %"$have_gas_1984"
+  call void @_out_of_gas()
+  br label %"$have_gas_1989"
+
+"$have_gas_1989":                                 ; preds = %"$out_of_gas_1988", %"$have_gas_1984"
+  %"$consume_1990" = sub i64 %"$gasrem_1986", 1
+  store i64 %"$consume_1990", i64* @_gasrem, align 8
+  store %Int256 { i256 -57896044618658097711785492504343953926634992332820282019728792003956564819968 }, %Int256* %"$arg1_115", align 8, !dbg !142
+  %"$gasrem_1991" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1992" = icmp ugt i64 1, %"$gasrem_1991"
+  br i1 %"$gascmp_1992", label %"$out_of_gas_1993", label %"$have_gas_1994"
+
+"$out_of_gas_1993":                               ; preds = %"$have_gas_1989"
+  call void @_out_of_gas()
+  br label %"$have_gas_1994"
+
+"$have_gas_1994":                                 ; preds = %"$out_of_gas_1993", %"$have_gas_1989"
+  %"$consume_1995" = sub i64 %"$gasrem_1991", 1
+  store i64 %"$consume_1995", i64* @_gasrem, align 8
+  %"$arg2_116" = alloca %Int256, align 8
+  %"$gasrem_1996" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_1997" = icmp ugt i64 1, %"$gasrem_1996"
+  br i1 %"$gascmp_1997", label %"$out_of_gas_1998", label %"$have_gas_1999"
+
+"$out_of_gas_1998":                               ; preds = %"$have_gas_1994"
+  call void @_out_of_gas()
+  br label %"$have_gas_1999"
+
+"$have_gas_1999":                                 ; preds = %"$out_of_gas_1998", %"$have_gas_1994"
+  %"$consume_2000" = sub i64 %"$gasrem_1996", 1
+  store i64 %"$consume_2000", i64* @_gasrem, align 8
+  store %Int256 zeroinitializer, %Int256* %"$arg2_116", align 8, !dbg !143
+  %"$gasrem_2001" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_2002" = icmp ugt i64 1, %"$gasrem_2001"
+  br i1 %"$gascmp_2002", label %"$out_of_gas_2003", label %"$have_gas_2004"
+
+"$out_of_gas_2003":                               ; preds = %"$have_gas_1999"
+  call void @_out_of_gas()
+  br label %"$have_gas_2004"
+
+"$have_gas_2004":                                 ; preds = %"$out_of_gas_2003", %"$have_gas_1999"
+  %"$consume_2005" = sub i64 %"$gasrem_2001", 1
+  store i64 %"$consume_2005", i64* @_gasrem, align 8
+  %"$test_120" = alloca %TName_Bool*, align 8
+  %"$gasrem_2006" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_2007" = icmp ugt i64 1, %"$gasrem_2006"
+  br i1 %"$gascmp_2007", label %"$out_of_gas_2008", label %"$have_gas_2009"
+
+"$out_of_gas_2008":                               ; preds = %"$have_gas_2004"
+  call void @_out_of_gas()
+  br label %"$have_gas_2009"
+
+"$have_gas_2009":                                 ; preds = %"$out_of_gas_2008", %"$have_gas_2004"
+  %"$consume_2010" = sub i64 %"$gasrem_2006", 1
+  store i64 %"$consume_2010", i64* @_gasrem, align 8
+  %"$res_117" = alloca %Int256, align 8
+  %"$gasrem_2012" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_2013" = icmp ugt i64 80, %"$gasrem_2012"
+  br i1 %"$gascmp_2013", label %"$out_of_gas_2014", label %"$have_gas_2015"
+
+"$out_of_gas_2014":                               ; preds = %"$have_gas_2009"
+  call void @_out_of_gas()
+  br label %"$have_gas_2015"
+
+"$have_gas_2015":                                 ; preds = %"$out_of_gas_2014", %"$have_gas_2009"
+  %"$consume_2016" = sub i64 %"$gasrem_2012", 80
+  store i64 %"$consume_2016", i64* @_gasrem, align 8
+  %"$execptr_load_2017" = load i8*, i8** @_execptr, align 8
+  %"$mul_$arg1_115_2018" = alloca %Int256, align 8
+  %"$$arg1_115_2019" = load %Int256, %Int256* %"$arg1_115", align 8
+  store %Int256 %"$$arg1_115_2019", %Int256* %"$mul_$arg1_115_2018", align 8
+  %"$mul_$arg2_116_2020" = alloca %Int256, align 8
+  %"$$arg2_116_2021" = load %Int256, %Int256* %"$arg2_116", align 8
+  store %Int256 %"$$arg2_116_2021", %Int256* %"$mul_$arg2_116_2020", align 8
+  %"$mul_call_2022" = call %Int256* @_mul_Int256(i8* %"$execptr_load_2017", %Int256* %"$mul_$arg1_115_2018", %Int256* %"$mul_$arg2_116_2020"), !dbg !144
+  %"$mul_2024" = load %Int256, %Int256* %"$mul_call_2022", align 8
+  store %Int256 %"$mul_2024", %Int256* %"$res_117", align 8, !dbg !144
+  %"$gasrem_2025" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_2026" = icmp ugt i64 1, %"$gasrem_2025"
+  br i1 %"$gascmp_2026", label %"$out_of_gas_2027", label %"$have_gas_2028"
+
+"$out_of_gas_2027":                               ; preds = %"$have_gas_2015"
+  call void @_out_of_gas()
+  br label %"$have_gas_2028"
+
+"$have_gas_2028":                                 ; preds = %"$out_of_gas_2027", %"$have_gas_2015"
+  %"$consume_2029" = sub i64 %"$gasrem_2025", 1
+  store i64 %"$consume_2029", i64* @_gasrem, align 8
+  %"$res__118" = alloca %Int256, align 8
+  %"$gasrem_2030" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_2031" = icmp ugt i64 1, %"$gasrem_2030"
+  br i1 %"$gascmp_2031", label %"$out_of_gas_2032", label %"$have_gas_2033"
+
+"$out_of_gas_2032":                               ; preds = %"$have_gas_2028"
+  call void @_out_of_gas()
+  br label %"$have_gas_2033"
+
+"$have_gas_2033":                                 ; preds = %"$out_of_gas_2032", %"$have_gas_2028"
+  %"$consume_2034" = sub i64 %"$gasrem_2030", 1
+  store i64 %"$consume_2034", i64* @_gasrem, align 8
+  store %Int256 zeroinitializer, %Int256* %"$res__118", align 8, !dbg !145
+  %"$gasrem_2035" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_2036" = icmp ugt i64 1, %"$gasrem_2035"
+  br i1 %"$gascmp_2036", label %"$out_of_gas_2037", label %"$have_gas_2038"
+
+"$out_of_gas_2037":                               ; preds = %"$have_gas_2033"
+  call void @_out_of_gas()
+  br label %"$have_gas_2038"
+
+"$have_gas_2038":                                 ; preds = %"$out_of_gas_2037", %"$have_gas_2033"
+  %"$consume_2039" = sub i64 %"$gasrem_2035", 1
+  store i64 %"$consume_2039", i64* @_gasrem, align 8
+  %"$test__119" = alloca %TName_Bool*, align 8
+  %"$gasrem_2041" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_2042" = icmp ugt i64 16, %"$gasrem_2041"
+  br i1 %"$gascmp_2042", label %"$out_of_gas_2043", label %"$have_gas_2044"
+
+"$out_of_gas_2043":                               ; preds = %"$have_gas_2038"
+  call void @_out_of_gas()
+  br label %"$have_gas_2044"
+
+"$have_gas_2044":                                 ; preds = %"$out_of_gas_2043", %"$have_gas_2038"
+  %"$consume_2045" = sub i64 %"$gasrem_2041", 16
+  store i64 %"$consume_2045", i64* @_gasrem, align 8
+  %"$execptr_load_2046" = load i8*, i8** @_execptr, align 8
+  %"$eq_$res_117_2047" = alloca %Int256, align 8
+  %"$$res_117_2048" = load %Int256, %Int256* %"$res_117", align 8
+  store %Int256 %"$$res_117_2048", %Int256* %"$eq_$res_117_2047", align 8
+  %"$eq_$res__118_2049" = alloca %Int256, align 8
+  %"$$res__118_2050" = load %Int256, %Int256* %"$res__118", align 8
+  store %Int256 %"$$res__118_2050", %Int256* %"$eq_$res__118_2049", align 8
+  %"$eq_call_2051" = call %TName_Bool* @_eq_Int256(i8* %"$execptr_load_2046", %Int256* %"$eq_$res_117_2047", %Int256* %"$eq_$res__118_2049"), !dbg !146
+  store %TName_Bool* %"$eq_call_2051", %TName_Bool** %"$test__119", align 8, !dbg !146
+  %"$gasrem_2053" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_2054" = icmp ugt i64 1, %"$gasrem_2053"
+  br i1 %"$gascmp_2054", label %"$out_of_gas_2055", label %"$have_gas_2056"
+
+"$out_of_gas_2055":                               ; preds = %"$have_gas_2044"
+  call void @_out_of_gas()
+  br label %"$have_gas_2056"
+
+"$have_gas_2056":                                 ; preds = %"$out_of_gas_2055", %"$have_gas_2044"
+  %"$consume_2057" = sub i64 %"$gasrem_2053", 1
+  store i64 %"$consume_2057", i64* @_gasrem, align 8
+  %"$BoolUtils.andb_161" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
+  %"$BoolUtils.andb_2058" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8
+  %"$BoolUtils.andb_fptr_2059" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_2058", 0
+  %"$BoolUtils.andb_envptr_2060" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_2058", 1
+  %"$$test_114_2061" = load %TName_Bool*, %TName_Bool** %"$test_114", align 8
+  %"$BoolUtils.andb_call_2062" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_2059"(i8* %"$BoolUtils.andb_envptr_2060", %TName_Bool* %"$$test_114_2061"), !dbg !147
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_2062", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_161", align 8, !dbg !147
+  %"$BoolUtils.andb_162" = alloca %TName_Bool*, align 8
+  %"$$BoolUtils.andb_161_2063" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_161", align 8
+  %"$$BoolUtils.andb_161_fptr_2064" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_161_2063", 0
+  %"$$BoolUtils.andb_161_envptr_2065" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_161_2063", 1
+  %"$$test__119_2066" = load %TName_Bool*, %TName_Bool** %"$test__119", align 8
+  %"$$BoolUtils.andb_161_call_2067" = call %TName_Bool* %"$$BoolUtils.andb_161_fptr_2064"(i8* %"$$BoolUtils.andb_161_envptr_2065", %TName_Bool* %"$$test__119_2066"), !dbg !147
+  store %TName_Bool* %"$$BoolUtils.andb_161_call_2067", %TName_Bool** %"$BoolUtils.andb_162", align 8, !dbg !147
+  %"$$BoolUtils.andb_162_2068" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_162", align 8
+  store %TName_Bool* %"$$BoolUtils.andb_162_2068", %TName_Bool** %"$test_120", align 8, !dbg !147
+  %"$gasrem_2069" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_2070" = icmp ugt i64 1, %"$gasrem_2069"
+  br i1 %"$gascmp_2070", label %"$out_of_gas_2071", label %"$have_gas_2072"
+
+"$out_of_gas_2071":                               ; preds = %"$have_gas_2056"
+  call void @_out_of_gas()
+  br label %"$have_gas_2072"
+
+"$have_gas_2072":                                 ; preds = %"$out_of_gas_2071", %"$have_gas_2056"
+  %"$consume_2073" = sub i64 %"$gasrem_2069", 1
+  store i64 %"$consume_2073", i64* @_gasrem, align 8
+  %"$$test_120_2074" = load %TName_Bool*, %TName_Bool** %"$test_120", align 8
+  store %TName_Bool* %"$$test_120_2074", %TName_Bool** %"$expr_167", align 8, !dbg !148
+  %"$$expr_167_2075" = load %TName_Bool*, %TName_Bool** %"$expr_167", align 8
+  ret %TName_Bool* %"$$expr_167_2075"
 }
 
 declare %Uint32 @_mul_Uint32(%Uint32, %Uint32)
@@ -3640,10 +4102,10 @@ declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_1832" = call %TName_Bool* @_scilla_expr_fun(i8* null)
-  %"$memvoidcast_1833" = bitcast %TName_Bool* %"$exprval_1832" to i8*
-  %"$execptr_load_1834" = load i8*, i8** @_execptr, align 8
-  call void @_print_scilla_val(i8* %"$execptr_load_1834", %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_200", i8* %"$memvoidcast_1833")
+  %"$exprval_2076" = call %TName_Bool* @_scilla_expr_fun(i8* null)
+  %"$memvoidcast_2077" = bitcast %TName_Bool* %"$exprval_2076" to i8*
+  %"$execptr_load_2078" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_2078", %_TyDescrTy_Typ* @"$TyDescr_ADT_Bool_200", i8* %"$memvoidcast_2077")
   ret void
 }
 

@@ -10,9 +10,9 @@ target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
-%"$ParamDescr_77" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_94" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_78" = type { %ParamDescrString, i32, %"$ParamDescr_77"* }
+%"$TransDescr_95" = type { %ParamDescrString, i32, %"$ParamDescr_94"* }
 %String = type { i8*, i32 }
 %Uint32 = type { i32 }
 
@@ -49,9 +49,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$stringlit_46" = unnamed_addr constant [11 x i8] c"hello world"
 @_tydescr_table = constant [14 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_25", %_TyDescrTy_Typ* @"$TyDescr_Int64_7", %_TyDescrTy_Typ* @"$TyDescr_Uint256_17", %_TyDescrTy_Typ* @"$TyDescr_Uint32_5", %_TyDescrTy_Typ* @"$TyDescr_Uint64_9", %_TyDescrTy_Typ* @"$TyDescr_Bnum_21", %_TyDescrTy_Typ* @"$TyDescr_Uint128_13", %_TyDescrTy_Typ* @"$TyDescr_Exception_27", %_TyDescrTy_Typ* @"$TyDescr_String_19", %_TyDescrTy_Typ* @"$TyDescr_Int256_15", %_TyDescrTy_Typ* @"$TyDescr_Int128_11", %_TyDescrTy_Typ* @"$TyDescr_Bystr_29", %_TyDescrTy_Typ* @"$TyDescr_Message_23", %_TyDescrTy_Typ* @"$TyDescr_Int32_3"]
 @_tydescr_table_length = constant i32 14
-@_contract_parameters = constant [0 x %"$ParamDescr_77"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_94"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_78"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_95"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define void @_init_libs() {
@@ -134,17 +134,46 @@ entry:
   %"$consume_66" = sub i64 %"$gasrem_62", 1
   store i64 %"$consume_66", i64* @_gasrem, align 8
   store %Uint32 { i32 5 }, %Uint32* %len, align 4
-  %"$execptr_load_67" = load i8*, i8** @_execptr, align 8
+  %"$_literal_cost_x_67" = alloca %String, align 8
   %"$x_68" = load %String, %String* %x, align 8
-  %"$pos_69" = load %Uint32, %Uint32* %pos, align 4
-  %"$len_70" = load %Uint32, %Uint32* %len, align 4
-  %"$substr_call_71" = call %String @_substr_String(i8* %"$execptr_load_67", %String %"$x_68", %Uint32 %"$pos_69", %Uint32 %"$len_70")
-  store %String %"$substr_call_71", %String* %"$expr_0", align 8
-  %"$$expr_0_72" = load %String, %String* %"$expr_0", align 8
-  ret %String %"$$expr_0_72"
+  store %String %"$x_68", %String* %"$_literal_cost_x_67", align 8
+  %"$$_literal_cost_x_67_69" = bitcast %String* %"$_literal_cost_x_67" to i8*
+  %"$_literal_cost_call_70" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$$_literal_cost_x_67_69")
+  %"$pos_71" = load %Uint32, %Uint32* %pos, align 4
+  %"$valueof_72" = extractvalue %Uint32 %"$pos_71", 0
+  %"$valueof_73" = zext i32 %"$valueof_72" to i64
+  %"$len_74" = load %Uint32, %Uint32* %len, align 4
+  %"$valueof_75" = extractvalue %Uint32 %"$len_74", 0
+  %"$valueof_76" = zext i32 %"$valueof_75" to i64
+  %"$gasadd_77" = add i64 %"$valueof_73", %"$valueof_76"
+  %"$gasmin_78" = call i64 @llvm.umin.i64(i64 %"$_literal_cost_call_70", i64 %"$gasadd_77")
+  %"$gasrem_79" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_80" = icmp ugt i64 %"$gasmin_78", %"$gasrem_79"
+  br i1 %"$gascmp_80", label %"$out_of_gas_81", label %"$have_gas_82"
+
+"$out_of_gas_81":                                 ; preds = %"$have_gas_65"
+  call void @_out_of_gas()
+  br label %"$have_gas_82"
+
+"$have_gas_82":                                   ; preds = %"$out_of_gas_81", %"$have_gas_65"
+  %"$consume_83" = sub i64 %"$gasrem_79", %"$gasmin_78"
+  store i64 %"$consume_83", i64* @_gasrem, align 8
+  %"$execptr_load_84" = load i8*, i8** @_execptr, align 8
+  %"$x_85" = load %String, %String* %x, align 8
+  %"$pos_86" = load %Uint32, %Uint32* %pos, align 4
+  %"$len_87" = load %Uint32, %Uint32* %len, align 4
+  %"$substr_call_88" = call %String @_substr_String(i8* %"$execptr_load_84", %String %"$x_85", %Uint32 %"$pos_86", %Uint32 %"$len_87")
+  store %String %"$substr_call_88", %String* %"$expr_0", align 8
+  %"$$expr_0_89" = load %String, %String* %"$expr_0", align 8
+  ret %String %"$$expr_0_89"
 }
 
 declare void @_out_of_gas()
+
+declare i64 @_literal_cost(%_TyDescrTy_Typ*, i8*)
+
+; Function Attrs: nofree nosync nounwind readnone speculatable willreturn
+declare i64 @llvm.umin.i64(i64, i64) #0
 
 declare %String @_substr_String(i8*, %String, %Uint32, %Uint32)
 
@@ -152,11 +181,13 @@ declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_73" = call %String @_scilla_expr_fun(i8* null)
-  %"$pval_74" = alloca %String, align 8
-  %"$memvoidcast_75" = bitcast %String* %"$pval_74" to i8*
-  store %String %"$exprval_73", %String* %"$pval_74", align 8
-  %"$execptr_load_76" = load i8*, i8** @_execptr, align 8
-  call void @_print_scilla_val(i8* %"$execptr_load_76", %_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_75")
+  %"$exprval_90" = call %String @_scilla_expr_fun(i8* null)
+  %"$pval_91" = alloca %String, align 8
+  %"$memvoidcast_92" = bitcast %String* %"$pval_91" to i8*
+  store %String %"$exprval_90", %String* %"$pval_91", align 8
+  %"$execptr_load_93" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_93", %_TyDescrTy_Typ* @"$TyDescr_String_19", i8* %"$memvoidcast_92")
   ret void
 }
+
+attributes #0 = { nofree nosync nounwind readnone speculatable willreturn }

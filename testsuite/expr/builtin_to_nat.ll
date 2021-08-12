@@ -10,9 +10,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %TyDescrString = type { i8*, i32 }
 %"$TyDescrTy_ADTTyp_Specl_30" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_32"**, %"$TyDescrTy_ADTTyp_31"* }
 %"$TyDescrTy_ADTTyp_Constr_32" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
-%"$ParamDescr_67" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_75" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_68" = type { %ParamDescrString, i32, %"$ParamDescr_67"* }
+%"$TransDescr_76" = type { %ParamDescrString, i32, %"$ParamDescr_75"* }
 %TName_Nat = type { i8, %CName_Zero*, %CName_Succ* }
 %CName_Zero = type <{ i8 }>
 %CName_Succ = type <{ i8, %TName_Nat* }>
@@ -63,9 +63,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$TyDescr_ADT_Nat_48" = unnamed_addr constant [3 x i8] c"Nat"
 @_tydescr_table = constant [15 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_25", %_TyDescrTy_Typ* @"$TyDescr_Int64_7", %_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33", %_TyDescrTy_Typ* @"$TyDescr_Uint256_17", %_TyDescrTy_Typ* @"$TyDescr_Uint32_5", %_TyDescrTy_Typ* @"$TyDescr_Uint64_9", %_TyDescrTy_Typ* @"$TyDescr_Bnum_21", %_TyDescrTy_Typ* @"$TyDescr_Uint128_13", %_TyDescrTy_Typ* @"$TyDescr_Exception_27", %_TyDescrTy_Typ* @"$TyDescr_String_19", %_TyDescrTy_Typ* @"$TyDescr_Int256_15", %_TyDescrTy_Typ* @"$TyDescr_Int128_11", %_TyDescrTy_Typ* @"$TyDescr_Bystr_29", %_TyDescrTy_Typ* @"$TyDescr_Message_23", %_TyDescrTy_Typ* @"$TyDescr_Int32_3"]
 @_tydescr_table_length = constant i32 15
-@_contract_parameters = constant [0 x %"$ParamDescr_67"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_75"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_68"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_76"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define void @_init_libs() {
@@ -100,12 +100,26 @@ entry:
   %"$consume_58" = sub i64 %"$gasrem_54", 1
   store i64 %"$consume_58", i64* @_gasrem, align 8
   store %Uint32 { i32 2 }, %Uint32* %two, align 4
-  %"$execptr_load_59" = load i8*, i8** @_execptr, align 8
-  %"$two_60" = load %Uint32, %Uint32* %two, align 4
-  %"$to_nat_call_61" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_59", %Uint32 %"$two_60")
-  store %TName_Nat* %"$to_nat_call_61", %TName_Nat** %"$expr_0", align 8
-  %"$$expr_0_63" = load %TName_Nat*, %TName_Nat** %"$expr_0", align 8
-  ret %TName_Nat* %"$$expr_0_63"
+  %"$two_59" = load %Uint32, %Uint32* %two, align 4
+  %"$valueof_60" = extractvalue %Uint32 %"$two_59", 0
+  %"$valueof_61" = zext i32 %"$valueof_60" to i64
+  %"$gasrem_62" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_63" = icmp ugt i64 %"$valueof_61", %"$gasrem_62"
+  br i1 %"$gascmp_63", label %"$out_of_gas_64", label %"$have_gas_65"
+
+"$out_of_gas_64":                                 ; preds = %"$have_gas_57"
+  call void @_out_of_gas()
+  br label %"$have_gas_65"
+
+"$have_gas_65":                                   ; preds = %"$out_of_gas_64", %"$have_gas_57"
+  %"$consume_66" = sub i64 %"$gasrem_62", %"$valueof_61"
+  store i64 %"$consume_66", i64* @_gasrem, align 8
+  %"$execptr_load_67" = load i8*, i8** @_execptr, align 8
+  %"$two_68" = load %Uint32, %Uint32* %two, align 4
+  %"$to_nat_call_69" = call %TName_Nat* @_to_nat(i8* %"$execptr_load_67", %Uint32 %"$two_68")
+  store %TName_Nat* %"$to_nat_call_69", %TName_Nat** %"$expr_0", align 8
+  %"$$expr_0_71" = load %TName_Nat*, %TName_Nat** %"$expr_0", align 8
+  ret %TName_Nat* %"$$expr_0_71"
 }
 
 declare void @_out_of_gas()
@@ -116,9 +130,9 @@ declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_64" = call %TName_Nat* @_scilla_expr_fun(i8* null)
-  %"$memvoidcast_65" = bitcast %TName_Nat* %"$exprval_64" to i8*
-  %"$execptr_load_66" = load i8*, i8** @_execptr, align 8
-  call void @_print_scilla_val(i8* %"$execptr_load_66", %_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33", i8* %"$memvoidcast_65")
+  %"$exprval_72" = call %TName_Nat* @_scilla_expr_fun(i8* null)
+  %"$memvoidcast_73" = bitcast %TName_Nat* %"$exprval_72" to i8*
+  %"$execptr_load_74" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_74", %_TyDescrTy_Typ* @"$TyDescr_ADT_Nat_33", i8* %"$memvoidcast_73")
   ret void
 }

@@ -112,8 +112,9 @@ uint64_t parseBlockchainJSON(const Json::Value &BC) {
 void compileLLVMToSO(const std::string &InputFile,
                      const std::string &OutputFile) {
   try {
-    auto ExecP = bp::search_path("clang-10");
-    if (bp::system(ExecP, "-fPIC", "-shared", InputFile, "-o", OutputFile)) {
+    auto ExecP = bp::search_path("clang-12");
+    if (bp::system(ExecP, "-Wno-override-module", "-fPIC", "-shared", InputFile,
+                   "-o", OutputFile)) {
       CREATE_ERROR("Compilation of " + InputFile + " failed.");
     }
   } catch (std::system_error &E) {
@@ -412,6 +413,13 @@ bool MemStateServer::updateRemoteStateValue(
   }
 
   return true;
+}
+
+void MemStateServer::clear() {
+  BCState.clear();
+  FieldTypes.clear();
+  ThisAddress.clear();
+  ;
 }
 
 // Initialize the server with only field types and no values.

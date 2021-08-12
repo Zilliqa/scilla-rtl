@@ -62,7 +62,19 @@
       }
     ]
   },
-  "warnings": [],
+  "warnings": [
+    {
+      "warning_message": "Unused match bound: b",
+      "start_location": {
+        "file":
+          "../../scilla-compiler//tests/codegen/contr/match_assign2.scilla",
+        "line": 14,
+        "column": 10
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    }
+  ],
   "gas_remaining": "9999"
 }
 

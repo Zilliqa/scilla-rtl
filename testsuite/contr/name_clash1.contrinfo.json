@@ -61,6 +61,40 @@
   },
   "warnings": [
     {
+      "warning_message":
+        "Read only field, consider making it a contract parameter: x",
+      "start_location": {
+        "file":
+          "../../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
+        "line": 13,
+        "column": 8
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    },
+    {
+      "warning_message": "Unused transition parameter: c",
+      "start_location": {
+        "file":
+          "../../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
+        "line": 12,
+        "column": 15
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    },
+    {
+      "warning_message": "Unused load statement to: x",
+      "start_location": {
+        "file":
+          "../../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
+        "line": 13,
+        "column": 3
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    },
+    {
       "warning_message": "Name x shadows a field declaration.",
       "start_location": {
         "file":

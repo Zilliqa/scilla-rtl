@@ -50,7 +50,18 @@
       }
     ]
   },
-  "warnings": [],
+  "warnings": [
+    {
+      "warning_message": "Unused library value: one_msg",
+      "start_location": {
+        "file": "../../scilla-compiler//tests/codegen/contr/throw.scilla",
+        "line": 5,
+        "column": 5
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    }
+  ],
   "gas_remaining": "9999"
 }
 

@@ -20,8 +20,13 @@ jobs:
         with:
           submodules: 'recursive'
 
+      - name: Install LLVM repositories
+        run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+          sudo add-apt-repository -y 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main'
+
       - name: Install required OS packages
-        run: sudo apt-get update && sudo apt-get install -yq build-essential pkg-config zlib1g-dev libssl-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-system-dev libboost-test-dev libjsoncpp-dev libsecp256k1-dev clang-10 
+        run: sudo apt-get update && sudo apt-get install -yq build-essential pkg-config zlib1g-dev libssl-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-system-dev libboost-test-dev libjsoncpp-dev libsecp256k1-dev clang-12
 
       - name: ScillaRTL Testsuite Release Build
         run: scripts/build_ci.sh

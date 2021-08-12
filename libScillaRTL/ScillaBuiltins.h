@@ -40,9 +40,11 @@ class TransitionState {
 
 public:
   TransitionState(const std::string &Balance_P, const std::string &InAmount_P,
-                  uint64_t CurBlock_P, const std::string &SenderAddr_P)
+                  uint64_t CurBlock_P, uint64_t GasLimit_P,
+                  const std::string &SenderAddr_P)
       : Balance(Balance_P), Accepted(false), OutJ(Json::objectValue),
-        CurBlock(CurBlock_P), SenderAddr(SenderAddr_P), InAmount(InAmount_P){};
+        CurBlock(CurBlock_P), SenderAddr(SenderAddr_P), InAmount(InAmount_P),
+        GasLimit(GasLimit_P){};
 
   void processSend(Json::Value &M);
   void processEvent(Json::Value &M);
@@ -52,6 +54,7 @@ public:
   const uint64_t CurBlock;
   const std::string SenderAddr;
   const SafeUint128 InAmount;
+  const uint64_t GasLimit;
 
   // Returns the output of the transition execution. Destroys *this*.
   Json::Value finalize(uint64_t GasRem);
@@ -171,6 +174,33 @@ ScillaRTL::SafeUint128 _rem_Uint128(ScillaRTL::SafeUint128,
 ScillaRTL::SafeUint256 *_mul_Uint256(ScillaRTL::ScillaExecImpl *SJ,
                                      ScillaRTL::SafeUint256 *Lhs,
                                      ScillaRTL::SafeUint256 *Rhs);
+
+ScillaRTL::SafeUint32 _isqrt_Uint32(ScillaRTL::SafeUint32 Lhs);
+
+ScillaRTL::SafeUint64 _isqrt_Uint64(ScillaRTL::SafeUint64 Lhs);
+
+ScillaRTL::SafeUint128 _isqrt_Uint128(ScillaRTL::SafeUint128 Lhs);
+
+ScillaRTL::SafeUint256 *_isqrt_Uint256(ScillaRTL::ScillaExecImpl *SJ,
+                                       ScillaRTL::SafeUint256 *Lhs);
+
+ScillaRTL::SafeInt32 _pow_Int32(ScillaRTL::SafeInt32 Lhs, uint32_t P);
+
+ScillaRTL::SafeInt64 _pow_Int64(ScillaRTL::SafeInt64 Lhs, uint32_t P);
+
+ScillaRTL::SafeInt128 _pow_Int128(ScillaRTL::SafeInt128 Lhs, uint32_t P);
+
+ScillaRTL::SafeInt256 *_pow_Int256(ScillaRTL::ScillaExecImpl *SJ,
+                                   ScillaRTL::SafeInt256 *Lhs, uint32_t P);
+
+ScillaRTL::SafeUint32 _pow_Uint32(ScillaRTL::SafeUint32 Lhs, uint32_t P);
+
+ScillaRTL::SafeUint64 _pow_Uint64(ScillaRTL::SafeUint64 Lhs, uint32_t P);
+
+ScillaRTL::SafeUint128 _pow_Uint128(ScillaRTL::SafeUint128 Lhs, uint32_t P);
+
+ScillaRTL::SafeUint256 *_pow_Uint256(ScillaRTL::ScillaExecImpl *SJ,
+                                     ScillaRTL::SafeUint256 *Lhs, uint32_t P);
 
 uint8_t *_eq_Int32(ScillaRTL::ScillaExecImpl *SJ, ScillaRTL::SafeInt32 Lhs,
                    ScillaRTL::SafeInt32 Rhs);
@@ -348,6 +378,16 @@ void *_concat_ByStrX(ScillaRTL::ScillaExecImpl *SJ, int X1, uint8_t *Lhs,
                      int X2, uint8_t *Rhs);
 
 ScillaRTL::ScillaTypes::String
+_strrev_String(ScillaRTL::ScillaExecImpl *SJ,
+               ScillaRTL::ScillaTypes::String Lhs);
+
+ScillaRTL::ScillaTypes::String
+_strrev_ByStr(ScillaRTL::ScillaExecImpl *SJ,
+              ScillaRTL::ScillaTypes::String Lhs);
+
+void *_strrev_ByStrX(ScillaRTL::ScillaExecImpl *SJ, int X1, uint8_t *Lhs);
+
+ScillaRTL::ScillaTypes::String
 _substr_String(ScillaRTL::ScillaExecImpl *SJ,
                ScillaRTL::ScillaTypes::String Str, ScillaRTL::SafeUint32 Pos,
                ScillaRTL::SafeUint32 Len);
@@ -395,5 +435,8 @@ void *_map_to_list(ScillaRTL::ScillaExecImpl *SJ,
 uint64_t _literal_cost(const ScillaRTL::ScillaTypes::Typ *T, const void *V);
 uint64_t _mapsortcost(const ScillaRTL::ScillaParams::MapValueT *M);
 uint64_t _lengthof(const ScillaRTL::ScillaTypes::Typ *T, const void *V);
+
+void *_dynamic_typecast(ScillaRTL::ScillaExecImpl *SJ, const void *V,
+                        const ScillaRTL::ScillaTypes::Typ *T);
 
 } // extern "C"

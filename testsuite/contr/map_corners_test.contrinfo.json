@@ -98,6 +98,17 @@
   },
   "warnings": [
     {
+      "warning_message": "Write only field: f_m",
+      "start_location": {
+        "file":
+          "../../scilla-compiler//tests/codegen/contr/map_corners_test.scilla",
+        "line": 470,
+        "column": 2
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 },
+      "warning_id": 3
+    },
+    {
       "warning_message": "Consider using in-place Map access",
       "start_location": {
         "file":

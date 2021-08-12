@@ -32,10 +32,12 @@ private:
   std::unique_ptr<ScillaTypes::TypParserPartialCache> TPPC;
   // Get the type descriptors table and its length.
   std::pair<const ScillaTypes::Typ **, int> getTypeDescrTable() const;
-  std::unique_ptr<SharedObject> SO;
+  const std::unique_ptr<SharedObject> SO;
+  uint64_t *const GasRemPtr;
   friend bool dynamicTypecheck(const ScillaExecImpl *SJ,
                                const ScillaTypes::Typ *TargetT,
-                               const ScillaTypes::Typ *ParsedT, void *Val);
+                               const ScillaTypes::Typ *ParsedT, const void *Val,
+                               bool ChargeGas);
 
 public:
   // @ContrBin is the path to a contract's shared object `foo.so`
@@ -47,7 +49,7 @@ public:
   // Get address for @Symbol inside the compiled IR, ready to be used.
   void *getAddressFor(const std::string &Symbol) const;
   // Initialize gas-remaining field in the code and initialize libraries.
-  uint64_t *initGasAndLibs(uint64_t GasRem);
+  void initGasAndLibs(uint64_t GasRem);
   // Execute a message.
   Json::Value execMsg(const std::string &Balance, uint64_t GasLimit,
                       uint64_t CurBlock, const Json::Value &InitJ,
@@ -62,6 +64,10 @@ public:
   uint64_t getGasRem() const;
   // Parse a string into a Scilla type. Raises error on failure.
   const ScillaTypes::Typ *parseTypeString(const std::string &) const;
+  // Raise an out-of-gas exception.
+  static void outOfGasException(void);
+  // Consume N units of gas. Raise an error if we're out of gas.
+  void consumeGas(uint64_t N) const;
 
   // Scilla values dynamically allocated and owned by the JIT engine.
   ObjManager OM;

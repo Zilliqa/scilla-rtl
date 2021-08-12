@@ -75,13 +75,13 @@ public:
   SafeInt operator*(const SafeInt &Rhs) const;
   SafeInt operator/(const SafeInt &Rhs) const;
   SafeInt operator%(const SafeInt &Rhs) const;
+  SafeInt sqrt(void) const;
+  SafeInt pow(uint32_t) const;
 
-  static constexpr SafeInt max() {
-    return std::numeric_limits<UnsafeWideInt<Bits, Signedness>>::max();
-  }
-  static constexpr SafeInt min() {
-    return std::numeric_limits<UnsafeWideInt<Bits, Signedness>>::min();
-  }
+  static const SafeInt Zero;
+  static const SafeInt One;
+  static const SafeInt Max;
+  static const SafeInt Min;
 
 private:
   // Construct from base class object.
