@@ -64,8 +64,7 @@
       "warning_message":
         "y is a new variable. It does not reassign the previously defined variable.",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/match_assign.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/match_assign.scilla",
         "line": 26,
         "column": 5
       },
@@ -76,8 +75,7 @@
       "warning_message":
         "y is a new variable. It does not reassign the previously defined variable.",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/match_assign.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/match_assign.scilla",
         "line": 23,
         "column": 5
       },

@@ -1,0 +1,21 @@
+[
+    {
+       "type" : "Uint128",
+       "value" : "0",
+       "vname" : "_balance"
+    },
+    {
+       "type" : "Bool",
+       "value" : {
+            "argtypes": [],
+            "arguments": [],
+            "constructor": "False"
+       },
+       "vname" : "some_bool"
+    },
+    {
+        "type" : "Int32",
+        "value" : "0",
+        "vname" : "res"
+     }    
+ ]

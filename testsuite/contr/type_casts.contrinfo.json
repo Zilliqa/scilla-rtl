@@ -141,8 +141,7 @@
     {
       "warning_message": "Write only field: test_7_h_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 173,
         "column": 7
       },
@@ -152,8 +151,7 @@
     {
       "warning_message": "Write only field: test_7_g_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 170,
         "column": 7
       },
@@ -163,8 +161,7 @@
     {
       "warning_message": "Write only field: test_6_4_g_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 152,
         "column": 5
       },
@@ -174,8 +171,7 @@
     {
       "warning_message": "Write only field: test_6_4_failed_cast",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 155,
         "column": 5
       },
@@ -185,8 +181,7 @@
     {
       "warning_message": "Write only field: test_6_4_f_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 149,
         "column": 5
       },
@@ -196,8 +191,7 @@
     {
       "warning_message": "Write only field: test_6_4_bal_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 146,
         "column": 5
       },
@@ -207,8 +201,7 @@
     {
       "warning_message": "Write only field: test_6_3_g_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 134,
         "column": 5
       },
@@ -218,8 +211,7 @@
     {
       "warning_message": "Write only field: test_6_3_f_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 131,
         "column": 5
       },
@@ -229,8 +221,7 @@
     {
       "warning_message": "Write only field: test_6_3_bal_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 128,
         "column": 5
       },
@@ -240,8 +231,7 @@
     {
       "warning_message": "Write only field: test_6_2_g_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 116,
         "column": 5
       },
@@ -251,8 +241,7 @@
     {
       "warning_message": "Write only field: test_6_2_f_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 113,
         "column": 5
       },
@@ -262,8 +251,7 @@
     {
       "warning_message": "Write only field: test_6_2_bal_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 110,
         "column": 5
       },
@@ -273,8 +261,7 @@
     {
       "warning_message": "Write only field: test_6_1_g_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 98,
         "column": 5
       },
@@ -284,8 +271,7 @@
     {
       "warning_message": "Write only field: test_6_1_f_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 95,
         "column": 5
       },
@@ -295,8 +281,7 @@
     {
       "warning_message": "Write only field: test_6_1_bal_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 92,
         "column": 5
       },
@@ -306,8 +291,7 @@
     {
       "warning_message": "Write only field: test_5_2_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 80,
         "column": 5
       },
@@ -317,8 +301,7 @@
     {
       "warning_message": "Write only field: test_5_1_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 68,
         "column": 5
       },
@@ -328,8 +311,7 @@
     {
       "warning_message": "Write only field: test_4_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 56,
         "column": 5
       },
@@ -339,8 +321,7 @@
     {
       "warning_message": "Write only field: test_3_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 46,
         "column": 3
       },
@@ -350,8 +331,7 @@
     {
       "warning_message": "Write only field: test_2_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 40,
         "column": 3
       },
@@ -361,8 +341,7 @@
     {
       "warning_message": "Write only field: test_1_res",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/type_casts.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/type_casts.scilla",
         "line": 34,
         "column": 3
       },

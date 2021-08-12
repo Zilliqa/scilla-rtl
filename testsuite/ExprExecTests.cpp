@@ -195,6 +195,7 @@ BOOST_AUTO_TEST_CASE(builtin_isqrt) { testExecExpr("builtin-isqrt"); }
 BOOST_AUTO_TEST_CASE(builtin_pow) { testExecExpr("builtin-pow"); }
 BOOST_AUTO_TEST_CASE(map_to_int) { testExecExpr("map_to_list"); }
 BOOST_AUTO_TEST_CASE(map_to_int2) { testExecExpr("map_to_list2"); }
+BOOST_AUTO_TEST_CASE(uncurry_simple) { testExecExpr("uncurry_simple"); }
 
 BOOST_AUTO_TEST_SUITE_END()
 

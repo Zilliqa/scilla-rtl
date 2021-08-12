@@ -1,0 +1,12 @@
+[
+   {
+      "type" : "Uint128",
+      "value" : "0",
+      "vname" : "_balance"
+   },
+   {
+      "type" : "Int32",
+      "value" : "16",
+      "vname" : "res"
+   }
+]

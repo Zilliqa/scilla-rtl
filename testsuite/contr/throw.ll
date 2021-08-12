@@ -3,8 +3,8 @@
 ; gas_remaining: 4002000
 ; ModuleID = 'Throw'
 source_filename = "Throw"
-target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-unknown-linux-gnu"
+target datalayout = "e-m:o-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-apple-darwin19.6.0"
 
 %"$TyDescrTy_PrimTyp_0" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }

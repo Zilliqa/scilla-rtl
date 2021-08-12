@@ -64,8 +64,7 @@
       "warning_message":
         "Read only field, consider making it a contract parameter: x",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
         "line": 13,
         "column": 8
       },
@@ -75,8 +74,7 @@
     {
       "warning_message": "Unused transition parameter: c",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
         "line": 12,
         "column": 15
       },
@@ -86,8 +84,7 @@
     {
       "warning_message": "Unused load statement to: x",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
         "line": 13,
         "column": 3
       },
@@ -97,8 +94,7 @@
     {
       "warning_message": "Name x shadows a field declaration.",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
         "line": 16,
         "column": 14
       },
@@ -108,8 +104,7 @@
     {
       "warning_message": "Name x shadows a field declaration.",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
         "line": 15,
         "column": 3
       },
@@ -119,8 +114,7 @@
     {
       "warning_message": "Name x shadows a field declaration.",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
         "line": 14,
         "column": 3
       },
@@ -130,8 +124,7 @@
     {
       "warning_message": "Name x shadows a field declaration.",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/name_clash1.scilla",
         "line": 13,
         "column": 3
       },

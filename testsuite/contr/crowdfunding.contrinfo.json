@@ -111,8 +111,7 @@
     {
       "warning_message": "Consider using in-place Map access",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/crowdfunding.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/crowdfunding.scilla",
         "line": 122,
         "column": 11
       },
@@ -122,8 +121,7 @@
     {
       "warning_message": "Consider using in-place Map access",
       "start_location": {
-        "file":
-          "../../scilla-compiler//tests/codegen/contr/crowdfunding.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/crowdfunding.scilla",
         "line": 65,
         "column": 12
       },

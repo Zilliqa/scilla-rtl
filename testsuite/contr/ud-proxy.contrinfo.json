@@ -81,7 +81,7 @@
     {
       "warning_message": "Unused imported library: ListUtils",
       "start_location": {
-        "file": "../../scilla-compiler//tests/codegen/contr/ud-proxy.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/ud-proxy.scilla",
         "line": 3,
         "column": 18
       },
@@ -91,7 +91,7 @@
     {
       "warning_message": "Unused imported library: BoolUtils",
       "start_location": {
-        "file": "../../scilla-compiler//tests/codegen/contr/ud-proxy.scilla",
+        "file": "../scilla-compiler//tests/codegen/contr/ud-proxy.scilla",
         "line": 3,
         "column": 8
       },
