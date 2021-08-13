@@ -690,26 +690,39 @@ uint64_t _literal_cost(const ScillaTypes::Typ *T, const void *V) {
   return ScillaValues::literalCost(T, V);
 }
 
-uint64_t _mapsortcost(const ScillaParams::MapValueT *M) {
+uint64_t _mapsortcost(const ScillaTypes::Typ *T, const void *V) {
   uint64_t Cost = 0;
 
-  // First calculate cost for sub-maps (if any).
-  for (auto &Itr : *M) {
-    if (std::has_type<std::string>(Itr.second)) {
-      break;
+  switch (T->m_t) {
+  case ScillaTypes::Typ::Map_typ: {
+    const auto *M = reinterpret_cast<const ScillaParams::MapValueT *>(V);
+    // First calculate cost for sub-maps (if any).
+    const ScillaTypes::Typ *VT = T->m_sub.m_mapt->m_valTyp;
+    if (VT->m_t == ScillaTypes::Typ::Map_typ) {
+      for (auto &Itr : *M) {
+        ASSERT(std::has_type<ScillaParams::MapValueT>(Itr.second));
+        auto *SubM =
+            &std::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+        Cost += _mapsortcost(VT, SubM);
+      }
     }
-    ASSERT(std::has_type<ScillaParams::MapValueT>(Itr.second));
-    auto *SubM = &std::any_cast<const ScillaParams::MapValueT &>(Itr.second);
-    Cost += _mapsortcost(SubM);
+    // Cost of sorting *this* map.
+    auto Len = M->size();
+    if (Len > 0) {
+      auto LogLen = static_cast<int>(log(static_cast<float>(Len)));
+      Cost += (Len * LogLen);
+    }
+  } break;
+  case ScillaTypes::Typ::ADT_typ: {
+    ScillaValues::iterScillaADTConstrArgs(
+        T, V, [&Cost](const ScillaTypes::Typ *T, const void *V) {
+          Cost += _mapsortcost(T, V);
+        });
+  } break;
+  case ScillaTypes::Typ::Prim_typ:
+  case ScillaTypes::Typ::Address_typ:
+    break;
   }
-
-  // Cost of sorting *this* map.
-  auto Len = M->size();
-  if (Len > 0) {
-    auto LogLen = static_cast<int>(log(static_cast<float>(Len)));
-    Cost += (Len * LogLen);
-  }
-
   return Cost;
 }
 

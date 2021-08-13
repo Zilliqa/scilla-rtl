@@ -1,6 +1,6 @@
 
 
-; gas_remaining: 4002000
+; gas_remaining: 4001999
 ; ModuleID = 'MapMisc'
 source_filename = "MapMisc"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
@@ -456,7 +456,7 @@ entry:
   %"$_literal_cost_call_224" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_38", i8* %"$$v1_222_223")
   %"$v1_225" = load %Map_BNum_Int32*, %Map_BNum_Int32** %v1, align 8
   %"$$v1_225_226" = bitcast %Map_BNum_Int32* %"$v1_225" to i8*
-  %"$_mapsortcost_call_227" = call i64 @_mapsortcost(i8* %"$$v1_225_226")
+  %"$_mapsortcost_call_227" = call i64 @_mapsortcost(%_TyDescrTy_Typ* @"$TyDescr_Map_38", i8* %"$$v1_225_226")
   %"$gasadd_228" = add i64 %"$_literal_cost_call_224", %"$_mapsortcost_call_227"
   %"$gasrem_229" = load i64, i64* @_gasrem, align 8
   %"$gascmp_230" = icmp ugt i64 %"$gasadd_228", %"$gasrem_229"
@@ -501,7 +501,7 @@ entry:
 
 declare i8* @_fetch_field(i8*, i8*, %_TyDescrTy_Typ*, i32, i8*, i32)
 
-declare i64 @_mapsortcost(i8*)
+declare i64 @_mapsortcost(%_TyDescrTy_Typ*, i8*)
 
 define void @PullPush(i8* %0) !dbg !28 {
 entry:
