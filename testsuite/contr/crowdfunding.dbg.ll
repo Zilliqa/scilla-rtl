@@ -1,6 +1,6 @@
 
 
-; gas_remaining: 4002000
+; gas_remaining: 4001999
 ; ModuleID = 'Crowdfunding'
 source_filename = "Crowdfunding"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
@@ -1276,7 +1276,7 @@ entry:
   %"$_literal_cost_call_622" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_83", i8* %"$$bs_620_621")
   %"$bs_623" = load %Map_ByStr20_Uint128*, %Map_ByStr20_Uint128** %bs, align 8
   %"$$bs_623_624" = bitcast %Map_ByStr20_Uint128* %"$bs_623" to i8*
-  %"$_mapsortcost_call_625" = call i64 @_mapsortcost(i8* %"$$bs_623_624")
+  %"$_mapsortcost_call_625" = call i64 @_mapsortcost(%_TyDescrTy_Typ* @"$TyDescr_Map_83", i8* %"$$bs_623_624")
   %"$gasadd_626" = add i64 %"$_literal_cost_call_622", %"$_mapsortcost_call_625"
   %"$gasrem_627" = load i64, i64* @_gasrem, align 8
   %"$gascmp_628" = icmp ugt i64 %"$gasadd_626", %"$gasrem_627"
@@ -1666,7 +1666,7 @@ declare i8* @_fetch_field(i8*, i8*, %_TyDescrTy_Typ*, i32, i8*, i32)
 
 declare i64 @_literal_cost(%_TyDescrTy_Typ*, i8*)
 
-declare i64 @_mapsortcost(i8*)
+declare i64 @_mapsortcost(%_TyDescrTy_Typ*, i8*)
 
 declare void @_event(i8*, %_TyDescrTy_Typ*, i8*)
 
@@ -2581,7 +2581,7 @@ entry:
   %"$_literal_cost_call_1370" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_83", i8* %"$$bs_1368_1369")
   %"$bs_1371" = load %Map_ByStr20_Uint128*, %Map_ByStr20_Uint128** %bs, align 8
   %"$$bs_1371_1372" = bitcast %Map_ByStr20_Uint128* %"$bs_1371" to i8*
-  %"$_mapsortcost_call_1373" = call i64 @_mapsortcost(i8* %"$$bs_1371_1372")
+  %"$_mapsortcost_call_1373" = call i64 @_mapsortcost(%_TyDescrTy_Typ* @"$TyDescr_Map_83", i8* %"$$bs_1371_1372")
   %"$gasadd_1374" = add i64 %"$_literal_cost_call_1370", %"$_mapsortcost_call_1373"
   %"$gasrem_1375" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1376" = icmp ugt i64 %"$gasadd_1374", %"$gasrem_1375"

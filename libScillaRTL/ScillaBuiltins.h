@@ -438,7 +438,7 @@ void *_map_to_list(ScillaRTL::ScillaExecImpl *SJ,
                    const ScillaRTL::ScillaParams::MapValueT *M);
 
 uint64_t _literal_cost(const ScillaRTL::ScillaTypes::Typ *T, const void *V);
-uint64_t _mapsortcost(const ScillaRTL::ScillaParams::MapValueT *M);
+uint64_t _mapsortcost(const ScillaRTL::ScillaTypes::Typ *T, const void *V);
 uint64_t _lengthof(const ScillaRTL::ScillaTypes::Typ *T, const void *V);
 
 void *_dynamic_typecast(ScillaRTL::ScillaExecImpl *SJ, const void *V,
