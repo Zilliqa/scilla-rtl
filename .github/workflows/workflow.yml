@@ -41,7 +41,7 @@ jobs:
           path: |
             ~/Library/Caches/Homebrew/cmake--*
             ~/Library/Caches/Homebrew/downloads/*--cmake-*
-          key: brew-${{ hashFiles('.github/brew-formulae') }}
+          key: brew-cmake
 
       - name: Build CMake [MacOS - brew]
         if: runner.os == 'macOS'
@@ -56,7 +56,7 @@ jobs:
           path: |
             ~/Library/Caches/Homebrew/secp256k1--*
             ~/Library/Caches/Homebrew/downloads/*--secp256k1-*
-          key: brew-${{ hashFiles('.github/brew-formulae') }}
+          key: brew-secp256k1
 
       - name: Build secp256k1 [MacOS - brew]
         if: runner.os == 'macOS'
@@ -71,7 +71,7 @@ jobs:
           path: |
             ~/Library/Caches/Homebrew/boost--*
             ~/Library/Caches/Homebrew/downloads/*--boost-*
-          key: brew-${{ hashFiles('.github/brew-formulae') }}
+          key: brew-boost
 
       - name: Build Boost [MacOS - brew]
         if: runner.os == 'macOS'
@@ -86,7 +86,7 @@ jobs:
           path: |
             ~/Library/Caches/Homebrew/jsoncpp--*
             ~/Library/Caches/Homebrew/downloads/*--jsoncpp-*
-          key: brew-${{ hashFiles('.github/brew-formulae') }}
+          key: brew-jsoncpp
 
       - name: Build jsoncpp [MacOS - brew]
         if: runner.os == 'macOS'
@@ -102,7 +102,7 @@ jobs:
           path: |
             ~/Library/Caches/Homebrew/libtool--*
             ~/Library/Caches/Homebrew/downloads/*--libtool-*
-          key: brew-${{ hashFiles('.github/brew-formulae') }}
+          key: brew-libtool
 
       - name: Build libtool [MacOS - brew]
         if: runner.os == 'macOS'
@@ -118,7 +118,7 @@ jobs:
           path: |
             ~/Library/Caches/Homebrew/openssl--*
             ~/Library/Caches/Homebrew/downloads/*--openssl-*
-          key: brew-${{ hashFiles('.github/brew-formulae') }}
+          key: brew-openssl
 
       - name: Build openssl [MacOS - brew]
         if: runner.os == 'macOS'
