@@ -26,9 +26,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %"$TyDescrTy_ADTTyp_Specl_30" = type { %_TyDescrTy_Typ**, %"$TyDescrTy_ADTTyp_Constr_32"**, %"$TyDescrTy_ADTTyp_31"* }
 %"$TyDescrTy_ADTTyp_Constr_32" = type { %TyDescrString, i32, %_TyDescrTy_Typ** }
 %"$TyDescr_MapTyp_35" = type { %_TyDescrTy_Typ*, %_TyDescrTy_Typ* }
-%"$ParamDescr_275" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_283" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_276" = type { %ParamDescrString, i32, %"$ParamDescr_275"* }
+%"$TransDescr_284" = type { %ParamDescrString, i32, %"$ParamDescr_283"* }
 %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))" = type { i8, %"CName_Cons_Pair_(Int32)_(Map_(BNum)_(Int32))"*, %"CName_Nil_Pair_(Int32)_(Map_(BNum)_(Int32))"* }
 %"CName_Cons_Pair_(Int32)_(Map_(BNum)_(Int32))" = type <{ i8, %"TName_Pair_Int32_Map_(BNum)_(Int32)"*, %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"* }>
 %"TName_Pair_Int32_Map_(BNum)_(Int32)" = type { i8, %"CName_Pair_Int32_Map_(BNum)_(Int32)"* }
@@ -101,9 +101,9 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$BNumLit_101" = unnamed_addr constant [1 x i8] c"3"
 @_tydescr_table = constant [18 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_25", %_TyDescrTy_Typ* @"$TyDescr_Int64_7", %_TyDescrTy_Typ* @"$TyDescr_Uint256_17", %_TyDescrTy_Typ* @"$TyDescr_Uint32_5", %_TyDescrTy_Typ* @"$TyDescr_Uint64_9", %_TyDescrTy_Typ* @"$TyDescr_Bnum_21", %_TyDescrTy_Typ* @"$TyDescr_Uint128_13", %_TyDescrTy_Typ* @"$TyDescr_Exception_27", %_TyDescrTy_Typ* @"$TyDescr_String_19", %_TyDescrTy_Typ* @"$TyDescr_Map_36", %_TyDescrTy_Typ* @"$TyDescr_Int256_15", %_TyDescrTy_Typ* @"$TyDescr_Int128_11", %_TyDescrTy_Typ* @"$TyDescr_Map_37", %_TyDescrTy_Typ* @"$TyDescr_ADT_Pair_Int32_Map_(BNum)_(Int32)_33", %_TyDescrTy_Typ* @"$TyDescr_Bystr_29", %_TyDescrTy_Typ* @"$TyDescr_Message_23", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Pair_(Int32)_(Map_(BNum)_(Int32))_34", %_TyDescrTy_Typ* @"$TyDescr_Int32_3"]
 @_tydescr_table_length = constant i32 18
-@_contract_parameters = constant [0 x %"$ParamDescr_275"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_283"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_276"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_284"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define void @_init_libs() !dbg !4 {
@@ -474,26 +474,34 @@ entry:
   %"$mm1_257" = load %"Map_Int32_Map_(BNum)_(Int32)"*, %"Map_Int32_Map_(BNum)_(Int32)"** %mm1, align 8
   %"$$mm1_257_258" = bitcast %"Map_Int32_Map_(BNum)_(Int32)"* %"$mm1_257" to i8*
   %"$_lengthof_call_259" = call i64 @_lengthof(%_TyDescrTy_Typ* @"$TyDescr_Map_36", i8* %"$$mm1_257_258")
-  %"$gasadd_260" = add i64 1, %"$_lengthof_call_259"
-  %"$gasrem_261" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_262" = icmp ugt i64 %"$gasadd_260", %"$gasrem_261"
-  br i1 %"$gascmp_262", label %"$out_of_gas_263", label %"$have_gas_264"
+  %"$mm1_260" = load %"Map_Int32_Map_(BNum)_(Int32)"*, %"Map_Int32_Map_(BNum)_(Int32)"** %mm1, align 8
+  %"$$mm1_260_261" = bitcast %"Map_Int32_Map_(BNum)_(Int32)"* %"$mm1_260" to i8*
+  %"$_lengthof_call_262" = call i64 @_lengthof(%_TyDescrTy_Typ* @"$TyDescr_Map_36", i8* %"$$mm1_260_261")
+  %"$gaslogof_263" = uitofp i64 %"$_lengthof_call_262" to float
+  %"$gaslogof_264" = fadd float %"$gaslogof_263", 1.000000e+00
+  %"$gaslogof_265" = call float @llvm.log.f32(float %"$gaslogof_264")
+  %"$gaslogof_266" = fptoui float %"$gaslogof_265" to i64
+  %"$gaslogof_267" = add i64 %"$gaslogof_266", 1
+  %"$gasmul_268" = mul i64 %"$_lengthof_call_259", %"$gaslogof_267"
+  %"$gasrem_269" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_270" = icmp ugt i64 %"$gasmul_268", %"$gasrem_269"
+  br i1 %"$gascmp_270", label %"$out_of_gas_271", label %"$have_gas_272"
 
-"$out_of_gas_263":                                ; preds = %"$have_gas_245"
+"$out_of_gas_271":                                ; preds = %"$have_gas_245"
   call void @_out_of_gas()
-  br label %"$have_gas_264"
+  br label %"$have_gas_272"
 
-"$have_gas_264":                                  ; preds = %"$out_of_gas_263", %"$have_gas_245"
-  %"$consume_265" = sub i64 %"$gasrem_261", %"$gasadd_260"
-  store i64 %"$consume_265", i64* @_gasrem, align 8
-  %"$execptr_load_266" = load i8*, i8** @_execptr, align 8
-  %"$mm1_267" = load %"Map_Int32_Map_(BNum)_(Int32)"*, %"Map_Int32_Map_(BNum)_(Int32)"** %mm1, align 8
-  %"$$mm1_267_268" = bitcast %"Map_Int32_Map_(BNum)_(Int32)"* %"$mm1_267" to i8*
-  %"$to_list_call_269" = call i8* @_map_to_list(i8* %"$execptr_load_266", %_TyDescrTy_Typ* @"$TyDescr_Map_36", i8* %"$$mm1_267_268"), !dbg !22
-  %"$to_list_270" = bitcast i8* %"$to_list_call_269" to %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"*
-  store %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"* %"$to_list_270", %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"** %"$expr_0", align 8, !dbg !22
-  %"$$expr_0_271" = load %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"*, %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"** %"$expr_0", align 8
-  ret %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"* %"$$expr_0_271"
+"$have_gas_272":                                  ; preds = %"$out_of_gas_271", %"$have_gas_245"
+  %"$consume_273" = sub i64 %"$gasrem_269", %"$gasmul_268"
+  store i64 %"$consume_273", i64* @_gasrem, align 8
+  %"$execptr_load_274" = load i8*, i8** @_execptr, align 8
+  %"$mm1_275" = load %"Map_Int32_Map_(BNum)_(Int32)"*, %"Map_Int32_Map_(BNum)_(Int32)"** %mm1, align 8
+  %"$$mm1_275_276" = bitcast %"Map_Int32_Map_(BNum)_(Int32)"* %"$mm1_275" to i8*
+  %"$to_list_call_277" = call i8* @_map_to_list(i8* %"$execptr_load_274", %_TyDescrTy_Typ* @"$TyDescr_Map_36", i8* %"$$mm1_275_276"), !dbg !22
+  %"$to_list_278" = bitcast i8* %"$to_list_call_277" to %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"*
+  store %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"* %"$to_list_278", %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"** %"$expr_0", align 8, !dbg !22
+  %"$$expr_0_279" = load %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"*, %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"** %"$expr_0", align 8
+  ret %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"* %"$$expr_0_279"
 }
 
 declare void @_out_of_gas()
@@ -506,18 +514,23 @@ declare i64 @_lengthof(%_TyDescrTy_Typ*, i8*)
 
 declare i8* @_put(i8*, %_TyDescrTy_Typ*, i8*, i8*, i8*)
 
+; Function Attrs: nofree nosync nounwind readnone speculatable willreturn
+declare float @llvm.log.f32(float) #0
+
 declare i8* @_map_to_list(i8*, %_TyDescrTy_Typ*, i8*)
 
 declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_272" = call %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"* @_scilla_expr_fun(i8* null)
-  %"$memvoidcast_273" = bitcast %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"* %"$exprval_272" to i8*
-  %"$execptr_load_274" = load i8*, i8** @_execptr, align 8
-  call void @_print_scilla_val(i8* %"$execptr_load_274", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Pair_(Int32)_(Map_(BNum)_(Int32))_34", i8* %"$memvoidcast_273")
+  %"$exprval_280" = call %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"* @_scilla_expr_fun(i8* null)
+  %"$memvoidcast_281" = bitcast %"TName_List_Pair_(Int32)_(Map_(BNum)_(Int32))"* %"$exprval_280" to i8*
+  %"$execptr_load_282" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_282", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Pair_(Int32)_(Map_(BNum)_(Int32))_34", i8* %"$memvoidcast_281")
   ret void
 }
+
+attributes #0 = { nofree nosync nounwind readnone speculatable willreturn }
 
 !llvm.module.flags = !{!0}
 !llvm.dbg.cu = !{!1}
