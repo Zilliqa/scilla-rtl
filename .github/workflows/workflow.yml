@@ -33,7 +33,7 @@ jobs:
 
       #Begin Caching Individual Brew Dependencies for MacOS
       #Note: The cache caches tar.gz and json files, we still have to run `install` instruction to build the dependencies
-      - name: Configure cache dependency cmake [MacOS]
+      - name: Configure cache dependency cmake [MacOS - brew]
         id: cache-brew-cmake
         if: runner.os == 'macOS'
         uses: actions/cache@v2
@@ -43,12 +43,12 @@ jobs:
             ~/Library/Caches/Homebrew/downloads/*--cmake-*
           key: brew-${{ hashFiles('.github/brew-formulae') }}
 
-      - name: Install CMake
+      - name: Build CMake [MacOS - brew]
         if: runner.os == 'macOS'
         run: |
           env HOMEBREW_NO_AUTO_UPDATE=1 brew install cmake
 
-      - name: Configure cache dependency secp256k1 [MacOS]
+      - name: Configure cache dependency secp256k1 [MacOS - brew]
         id: cache-brew-secp256k1
         if: runner.os == 'macOS'
         uses: actions/cache@v2
@@ -58,12 +58,12 @@ jobs:
             ~/Library/Caches/Homebrew/downloads/*--secp256k1-*
           key: brew-${{ hashFiles('.github/brew-formulae') }}
 
-      - name: Install secp256k1
+      - name: Build secp256k1 [MacOS - brew]
         if: runner.os == 'macOS'
         run: |
           env HOMEBREW_NO_AUTO_UPDATE=1 brew install domt4/crypto/secp256k1
 
-      - name: Configure cache dependency boost [MacOS]
+      - name: Configure cache dependency boost [MacOS - brew]
         id: cache-brew-boost
         if: runner.os == 'macOS'
         uses: actions/cache@v2
@@ -73,12 +73,12 @@ jobs:
             ~/Library/Caches/Homebrew/downloads/*--boost-*
           key: brew-${{ hashFiles('.github/brew-formulae') }}
 
-      - name: Install Boost
+      - name: Build Boost [MacOS - brew]
         if: runner.os == 'macOS'
         run: |
           env HOMEBREW_NO_AUTO_UPDATE=1 brew install boost
 
-      - name: Configure cache dependency jsoncpp [MacOS]
+      - name: Configure cache dependency jsoncpp [MacOS - brew]
         id: cache-brew-jsoncpp
         if: runner.os == 'macOS'
         uses: actions/cache@v2
@@ -88,15 +88,47 @@ jobs:
             ~/Library/Caches/Homebrew/downloads/*--jsoncpp-*
           key: brew-${{ hashFiles('.github/brew-formulae') }}
 
-      - name: Install jsoncpp
+      - name: Build jsoncpp [MacOS - brew]
         if: runner.os == 'macOS'
         run: |
           env HOMEBREW_NO_AUTO_UPDATE=1 brew install jsoncpp
+
+
+      - name: Configure cache dependency libtool [MacOS - brew]
+        id: cache-brew-libtool
+        if: runner.os == 'macOS'
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/Library/Caches/Homebrew/libtool--*
+            ~/Library/Caches/Homebrew/downloads/*--libtool-*
+          key: brew-${{ hashFiles('.github/brew-formulae') }}
+
+      - name: Build libtool [MacOS - brew]
+        if: runner.os == 'macOS'
+        run: |
+          env HOMEBREW_NO_AUTO_UPDATE=1 brew install libtool
+
+
+      - name: Configure cache dependency openssl [MacOS - brew]
+        id: cache-brew-openssl
+        if: runner.os == 'macOS'
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/Library/Caches/Homebrew/openssl--*
+            ~/Library/Caches/Homebrew/downloads/*--openssl-*
+          key: brew-${{ hashFiles('.github/brew-formulae') }}
+
+      - name: Build openssl [MacOS - brew]
+        if: runner.os == 'macOS'
+        run: |
+          env HOMEBREW_NO_AUTO_UPDATE=1 brew install openssl
       #End Caching Individual Brew Dependencies
 
       - name: Install the rest of MacOS packages
         if: runner.os == 'macOS'
-        run: brew update && brew install llvm@12 openssl pkg-config autoconf automake libtool
+        run: brew update && brew install llvm@12 openssl pkg-config autoconf automake
 
       - name: ScillaRTL Testsuite Release Build [Ubuntu]
         if: runner.os == 'Linux'
