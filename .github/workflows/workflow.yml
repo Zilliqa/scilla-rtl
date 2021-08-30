@@ -31,8 +31,13 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -yq build-essential pkg-config zlib1g-dev libssl-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-system-dev libboost-test-dev libjsoncpp-dev libsecp256k1-dev clang-12
 
+      - name: Install some of MacOS packages
+        if: runner.os == 'macOS'
+        run: brew update && brew install llvm@12 pkg-config autoconf automake
+
       #Begin Caching Individual Brew Dependencies for MacOS
       #Note: The cache caches tar.gz and json files, we still have to run `install` instruction to build the dependencies
+      #Run again
       - name: Configure cache dependency cmake [MacOS - brew]
         id: cache-brew-cmake
         if: runner.os == 'macOS'
@@ -125,10 +130,6 @@ jobs:
         run: |
           env HOMEBREW_NO_AUTO_UPDATE=1 brew install openssl
       #End Caching Individual Brew Dependencies
-
-      - name: Install the rest of MacOS packages
-        if: runner.os == 'macOS'
-        run: brew update && brew install llvm@12 pkg-config autoconf automake
 
       - name: ScillaRTL Testsuite Release Build [Ubuntu]
         if: runner.os == 'Linux'
