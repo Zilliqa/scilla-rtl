@@ -33,7 +33,7 @@ jobs:
 
       - name: Install required MacOS packages
         if: runner.os == 'macOS'
-        run: brew update && brew install llvm@12 cmake openssl pkg-config autoconf automake libtool jsoncpp domt4/crypto/secp256k1
+        run: brew update && brew install llvm@12 cmake openssl pkg-config autoconf automake libtool domt4/crypto/secp256k1
 
       - name: Configure cache dependency boost [MacOS]
         id: cache-brew-boost
@@ -48,6 +48,20 @@ jobs:
       - name:  Brew Install Boost if Not Found [MacOS]
         if: runner.os == 'macOS' && steps.cache-brew-boost.outputs.cache-hit != 'true'
         run: brew install boost
+
+      - name: Configure cache dependency jsoncpp [MacOS]
+        id: cache-brew-jsoncpp
+        if: runner.os == 'macOS'
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/Library/Caches/Homebrew/jsoncpp--*
+            ~/Library/Caches/Homebrew/downloads/*--jsoncpp-*
+          key: brew-jsoncpp
+
+      - name:  Brew Install jsoncpp if Not Found [MacOS]
+        if: runner.os == 'macOS' && steps.cache-brew-jsoncpp.outputs.cache-hit != 'true'
+        run: brew install jsoncpp
 
       - name: ScillaRTL Testsuite Release Build [Ubuntu]
         if: runner.os == 'Linux'
