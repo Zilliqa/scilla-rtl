@@ -32,6 +32,37 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -yq build-essential pkg-config zlib1g-dev libssl-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-system-dev libboost-test-dev libjsoncpp-dev libsecp256k1-dev clang-12
 
       #Begin Caching Individual Brew Dependencies for MacOS
+      #Note: The cache caches tar.gz and json files, we still have to run `install` instruction to build the dependencies
+      - name: Configure cache dependency cmake [MacOS]
+        id: cache-brew-cmake
+        if: runner.os == 'macOS'
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/Library/Caches/Homebrew/cmake--*
+            ~/Library/Caches/Homebrew/downloads/*--cmake-*
+          key: brew-${{ hashFiles('.github/brew-formulae') }}
+
+      - name: Install CMake
+        if: runner.os == 'macOS'
+        run: |
+          env HOMEBREW_NO_AUTO_UPDATE=1 brew install cmake
+
+      - name: Configure cache dependency secp256k1 [MacOS]
+        id: cache-brew-secp256k1
+        if: runner.os == 'macOS'
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/Library/Caches/Homebrew/secp256k1--*
+            ~/Library/Caches/Homebrew/downloads/*--secp256k1-*
+          key: brew-${{ hashFiles('.github/brew-formulae') }}
+
+      - name: Install secp256k1
+        if: runner.os == 'macOS'
+        run: |
+          env HOMEBREW_NO_AUTO_UPDATE=1 brew install domt4/crypto/secp256k1
+
       - name: Configure cache dependency boost [MacOS]
         id: cache-brew-boost
         if: runner.os == 'macOS'
@@ -46,10 +77,6 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           env HOMEBREW_NO_AUTO_UPDATE=1 brew install boost
-
-      # - name:  Brew Install Boost if Not Found [MacOS]
-      #   if: runner.os == 'macOS' && steps.cache-brew-boost.outputs.cache-hit != 'true'
-      #   run: brew install boost
 
       - name: Configure cache dependency jsoncpp [MacOS]
         id: cache-brew-jsoncpp
@@ -69,7 +96,7 @@ jobs:
 
       - name: Install the rest of MacOS packages
         if: runner.os == 'macOS'
-        run: brew update && brew install llvm@12 cmake openssl pkg-config autoconf automake libtool domt4/crypto/secp256k1
+        run: brew update && brew install llvm@12 openssl pkg-config autoconf automake libtool
 
       - name: ScillaRTL Testsuite Release Build [Ubuntu]
         if: runner.os == 'Linux'
