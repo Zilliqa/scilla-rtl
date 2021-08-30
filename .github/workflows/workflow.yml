@@ -128,7 +128,7 @@ jobs:
 
       - name: Install the rest of MacOS packages
         if: runner.os == 'macOS'
-        run: brew update && brew install llvm@12 openssl pkg-config autoconf automake
+        run: brew update && brew install llvm@12 pkg-config autoconf automake
 
       - name: ScillaRTL Testsuite Release Build [Ubuntu]
         if: runner.os == 'Linux'
