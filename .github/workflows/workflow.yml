@@ -42,10 +42,10 @@ jobs:
             ~/Library/Caches/Homebrew/downloads/*--boost-*
           key: brew-${{ hashFiles('.github/brew-formulae') }}
 
-    - name: Install Boost
-      if: runner.os == 'macOS'
-      run: |
-        env HOMEBREW_NO_AUTO_UPDATE=1 brew install boost
+      - name: Install Boost
+        if: runner.os == 'macOS'
+        run: |
+          env HOMEBREW_NO_AUTO_UPDATE=1 brew install boost
 
       # - name:  Brew Install Boost if Not Found [MacOS]
       #   if: runner.os == 'macOS' && steps.cache-brew-boost.outputs.cache-hit != 'true'
