@@ -31,10 +31,7 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -yq build-essential pkg-config zlib1g-dev libssl-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-system-dev libboost-test-dev libjsoncpp-dev libsecp256k1-dev clang-12
 
-      - name: Install required MacOS packages
-        if: runner.os == 'macOS'
-        run: brew update && brew install llvm@12 cmake openssl pkg-config autoconf automake libtool domt4/crypto/secp256k1
-
+      #Begin Caching Individual Brew Dependencies for MacOS
       - name: Configure cache dependency boost [MacOS]
         id: cache-brew-boost
         if: runner.os == 'macOS'
@@ -45,9 +42,13 @@ jobs:
             ~/Library/Caches/Homebrew/downloads/*--boost-*
           key: brew-${{ hashFiles('.github/brew-formulae') }}
 
-      - name:  Brew Install Boost if Not Found [MacOS]
-        if: runner.os == 'macOS' && steps.cache-brew-boost.outputs.cache-hit != 'true'
-        run: brew install boost
+    - name: Install Boost
+      run: |
+        env HOMEBREW_NO_AUTO_UPDATE=1 brew install boost
+
+      # - name:  Brew Install Boost if Not Found [MacOS]
+      #   if: runner.os == 'macOS' && steps.cache-brew-boost.outputs.cache-hit != 'true'
+      #   run: brew install boost
 
       - name: Configure cache dependency jsoncpp [MacOS]
         id: cache-brew-jsoncpp
@@ -62,6 +63,11 @@ jobs:
       - name:  Brew Install jsoncpp if Not Found [MacOS]
         if: runner.os == 'macOS' && steps.cache-brew-jsoncpp.outputs.cache-hit != 'true'
         run: brew install jsoncpp
+      #End Caching Individual Brew Dependencies
+
+      - name: Install the rest of MacOS packages
+        if: runner.os == 'macOS'
+        run: brew update && brew install llvm@12 cmake openssl pkg-config autoconf automake libtool domt4/crypto/secp256k1
 
       - name: ScillaRTL Testsuite Release Build [Ubuntu]
         if: runner.os == 'Linux'
