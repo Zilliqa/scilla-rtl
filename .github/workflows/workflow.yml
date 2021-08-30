@@ -33,7 +33,21 @@ jobs:
 
       - name: Install required MacOS packages
         if: runner.os == 'macOS'
-        run: brew update && brew install llvm@12 cmake openssl pkg-config boost autoconf automake libtool jsoncpp domt4/crypto/secp256k1
+        run: brew update && brew install llvm@12 cmake openssl pkg-config autoconf automake libtool jsoncpp domt4/crypto/secp256k1
+
+      - name: Configure cache dependency boost [MacOS]
+        id: cache-brew-boost
+        if: runner.os == 'macOS'
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/Library/Caches/Homebrew/boost--*
+            ~/Library/Caches/Homebrew/downloads/*--boost-*
+          key: brew-${{ hashFiles('.github/brew-formulae') }}
+
+      - name:  Brew Install Boost if Not Found [MacOS]
+        if: runner.os == 'macOS' && steps.cache-brew-boost.outputs.cache-hit != 'true'
+        run: brew install boost
 
       - name: ScillaRTL Testsuite Release Build [Ubuntu]
         if: runner.os == 'Linux'
