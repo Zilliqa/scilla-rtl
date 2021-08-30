@@ -59,11 +59,12 @@ jobs:
           path: |
             ~/Library/Caches/Homebrew/jsoncpp--*
             ~/Library/Caches/Homebrew/downloads/*--jsoncpp-*
-          key: brew-jsoncpp
+          key: brew-${{ hashFiles('.github/brew-formulae') }}
 
-      - name:  Brew Install jsoncpp if Not Found [MacOS]
-        if: runner.os == 'macOS' && steps.cache-brew-jsoncpp.outputs.cache-hit != 'true'
-        run: brew install jsoncpp
+      - name: Install jsoncpp
+        if: runner.os == 'macOS'
+        run: |
+          env HOMEBREW_NO_AUTO_UPDATE=1 brew install jsoncpp
       #End Caching Individual Brew Dependencies
 
       - name: Install the rest of MacOS packages
