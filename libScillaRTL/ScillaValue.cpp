@@ -747,10 +747,15 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
   }
   case ScillaTypes::Typ::ADT_typ: {
     uint64_t Acc = 0;
-    iterScillaADTConstrArgs(T, V,
-                            [&Acc](const ScillaTypes::Typ *T, const void *V) {
-                              Acc += literalCost(T, V);
-                            });
+    int NArgs = 0;
+    iterScillaADTConstrArgs(
+        T, V, [&Acc, &NArgs](const ScillaTypes::Typ *T, const void *V) {
+          Acc += literalCost(T, V);
+          NArgs++;
+        });
+    if (NArgs == 0) {
+      return 1;
+    }
     return Acc;
   };
   case ScillaTypes::Typ::Map_typ: {
