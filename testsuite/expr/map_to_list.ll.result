@@ -1,2 +1,2 @@
 Cons(Pair(1 : Int32)(42 : Int32) : Pair (Int32) (Int32))(Cons(Pair(2 : Int32)(239 : Int32) : Pair (Int32) (Int32))(Cons(Pair(3 : Int32)(112 : Int32) : Pair (Int32) (Int32))(Nil : List (Pair (Int32) (Int32))) : List (Pair (Int32) (Int32))) : List (Pair (Int32) (Int32))) : List (Pair (Int32) (Int32))
-Gas remaining: 9999996
+Gas remaining: 9999966
