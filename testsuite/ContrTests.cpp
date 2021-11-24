@@ -1008,4 +1008,33 @@ BOOST_AUTO_TEST_CASE(support_succ_common_jit) {
 
 BOOST_AUTO_TEST_SUITE_END() // accounting_tests
 
+BOOST_AUTO_TEST_SUITE(ecdsa_tests)
+
+auto prepareEcdsaSuccTests = []() {
+  ContractTest RSRSTs{"ecdsa.ll", {}};
+  for (int I = 1; I <= 4; I++) {
+    ContractTest::Input ThisInput = {
+        "ecdsa_succ_" + std::to_string(I),
+        "ecdsa.message_" + std::to_string(I) + ".json",
+        "empty_init.json",
+        "ecdsa.contrinfo.json",
+        "ecdsa.state_" + std::to_string(I) + ".json",
+        "ecdsa.ostate_" + std::to_string(I) + ".json",
+        "ecdsa.output_" + std::to_string(I) + ".json",
+        "blockchain_default.json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits) {
+  testMessages(prepareEcdsaSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit) {
+  testMessages(prepareEcdsaSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // ecdsa
+
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

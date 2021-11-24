@@ -1,0 +1,22 @@
+{
+  "_accepted" : "false",
+  "events" : [],
+  "gas_remaining" : "9999938",
+  "messages" : 
+  [
+    {
+      "_amount" : "0",
+      "_recipient" : "0x12345678901234567890123456789012345678ab",
+      "_tag" : "",
+      "params" : 
+      [
+        {
+          "type" : "String",
+          "value" : "verification failed",
+          "vname" : "status"
+        }
+      ]
+    }
+  ],
+  "scilla_major_version" : "0"
+}
