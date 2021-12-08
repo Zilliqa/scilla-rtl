@@ -21,9 +21,9 @@
 #include <boost/spirit/include/phoenix.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include <fstream>
-#include <jsoncpp/json/reader.h>
-#include <jsoncpp/json/value.h>
-#include <jsoncpp/json/writer.h>
+#include <json/reader.h>
+#include <json/value.h>
+#include <json/writer.h>
 #include <memory>
 #include <optional>
 
@@ -75,6 +75,16 @@ std::string serializeJSON(const Json::Value &J) {
   return Oss.str();
 }
 
+std::string prettyPrintJSON(const Json::Value &J) {
+  std::ostringstream Oss;
+  auto SettingsSaved = WriteBuilder.settings_;
+  WriteBuilder.settings_["indentation"] = "  ";
+  std::unique_ptr<Json::StreamWriter> Writer(WriteBuilder.newStreamWriter());
+  Writer->write(J, &Oss);
+  WriteBuilder.settings_ = SettingsSaved;
+  return Oss.str();
+}
+
 // Find "vname" in the input JSON array and return its "value".
 // Typical Scilla state JSON format is expected as input.
 std::optional<Json::Value> vNameValue(const Json::Value &Vs,
@@ -113,10 +123,18 @@ void compileLLVMToSO(const std::string &InputFile,
                      const std::string &OutputFile) {
   try {
     auto ExecP = bp::search_path("clang-12");
+#if defined(__APPLE__)
+    if (bp::system(ExecP, "-Wno-override-module", "-fPIC", "-shared",
+                   "-undefined", "dynamic_lookup", InputFile, "-o",
+                   OutputFile)) {
+      CREATE_ERROR("Compilation of " + InputFile + " failed.");
+    }
+#else
     if (bp::system(ExecP, "-Wno-override-module", "-fPIC", "-shared", InputFile,
                    "-o", OutputFile)) {
       CREATE_ERROR("Compilation of " + InputFile + " failed.");
     }
+#endif
   } catch (std::system_error &E) {
     CREATE_ERROR(E.what());
   }

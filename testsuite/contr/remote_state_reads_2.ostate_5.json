@@ -1,36 +1,41 @@
 [
-   {
-      "type" : "Uint128",
-      "value" : "0",
-      "vname" : "_balance"
-   },
-   {
-      "type" : "Map (Uint128) (ByStr20 with end)",
-      "value" : [
-         {
-            "key" : "0",
-            "val" : "0x1234567890123456789012345678901234567890"
-         }
+  {
+    "type" : "Uint128",
+    "value" : "0",
+    "vname" : "_balance"
+  },
+  {
+    "type" : "Map (Uint128) (ByStr20 with end)",
+    "value" : 
+    [
+      {
+        "key" : "0",
+        "val" : "0x1234567890123456789012345678901234567890"
+      }
+    ],
+    "vname" : "address_type_erasure_test_res_1"
+  },
+  {
+    "type" : "Uint128",
+    "value" : "0",
+    "vname" : "remote_read_remote_read_res_1"
+  },
+  {
+    "type" : "Option (Uint128)",
+    "value" : 
+    {
+      "argtypes" : 
+      [
+        "Uint128"
       ],
-      "vname" : "address_type_erasure_test_res_1"
-   },
-   {
-      "type" : "Uint128",
-      "value" : "0",
-      "vname" : "remote_read_remote_read_res_1"
-   },
-   {
-      "type" : "Option (Uint128)",
-      "value" : {
-         "argtypes" : [ "Uint128" ],
-         "arguments" : [],
-         "constructor" : "None"
-      },
-      "vname" : "remote_read_remote_read_res_2"
-   },
-   {
-      "type" : "ByStr20",
-      "value" : "0x1234567890123456789012345678901234567890",
-      "vname" : "remote_read_remote_read_res_3"
-   }
+      "arguments" : [],
+      "constructor" : "None"
+    },
+    "vname" : "remote_read_remote_read_res_2"
+  },
+  {
+    "type" : "ByStr20",
+    "value" : "0x1234567890123456789012345678901234567890",
+    "vname" : "remote_read_remote_read_res_3"
+  }
 ]

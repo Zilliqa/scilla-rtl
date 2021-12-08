@@ -144,7 +144,7 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       // Update results if specified
       if (Config::UpdateResults) {
         std::ofstream Out(PathPrefix + Input.ExpectedStateFilename);
-        Out << OSJ.toStyledString();
+        Out << prettyPrintJSON(OSJ);
         Out.close();
       }
       auto ESJ = parseJSONFile(PathPrefix + Input.ExpectedStateFilename);
@@ -159,14 +159,14 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       // Update results if specified
       if (Config::UpdateResults) {
         std::ofstream Out(PathPrefix + Input.ExpectedOutputFilename);
-        Out << OJ.toStyledString();
+        Out << prettyPrintJSON(OJ);
         Out.close();
       }
       auto EOJ = parseJSONFile(PathPrefix + Input.ExpectedOutputFilename);
       // Compare output to expected output.
       BOOST_CHECK_MESSAGE(EOJ == OJ, "Comparison failed:\nExpected:\n" +
-                                         EOJ.toStyledString() + "\nGot:\n" +
-                                         OJ.toStyledString());
+                                         prettyPrintJSON(EOJ) + "\nGot:\n" +
+                                         prettyPrintJSON(OJ));
     }
   } catch (const ScillaError &E) {
     BOOST_FAIL(E.toString());

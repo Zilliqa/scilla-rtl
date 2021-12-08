@@ -1,32 +1,34 @@
 {
-   "_accepted" : "false",
-   "events" : [],
-   "gas_remaining" : "9999931",
-   "messages" : [
-      {
-         "_amount" : "0",
-         "_recipient" : "0x3620c286757a29985cee194eb90064270fb65414",
-         "_tag" : "Test_Send_3_Helper",
-         "params" : []
-      },
-      {
-         "_amount" : "0",
-         "_recipient" : "0xabfeccdc9012345678901234567890f777564323",
-         "_tag" : "StoreString",
-         "params" : [
-            {
-               "type" : "String",
-               "value" : "World",
-               "vname" : "s"
-            }
-         ]
-      },
-      {
-         "_amount" : "0",
-         "_recipient" : "0x3620c286757a29985cee194eb90064270fb65414",
-         "_tag" : "Finalize_Test_Send_3",
-         "params" : []
-      }
-   ],
-   "scilla_major_version" : "0"
+  "_accepted" : "false",
+  "events" : [],
+  "gas_remaining" : "9999931",
+  "messages" : 
+  [
+    {
+      "_amount" : "0",
+      "_recipient" : "0x3620c286757a29985cee194eb90064270fb65414",
+      "_tag" : "Test_Send_3_Helper",
+      "params" : []
+    },
+    {
+      "_amount" : "0",
+      "_recipient" : "0xabfeccdc9012345678901234567890f777564323",
+      "_tag" : "StoreString",
+      "params" : 
+      [
+        {
+          "type" : "String",
+          "value" : "World",
+          "vname" : "s"
+        }
+      ]
+    },
+    {
+      "_amount" : "0",
+      "_recipient" : "0x3620c286757a29985cee194eb90064270fb65414",
+      "_tag" : "Finalize_Test_Send_3",
+      "params" : []
+    }
+  ],
+  "scilla_major_version" : "0"
 }

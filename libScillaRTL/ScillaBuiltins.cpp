@@ -57,13 +57,13 @@ void TransitionState::processSend(Json::Value &M) {
     auto AmtV = SafeUint128(AmtJ.asString());
     if (AmtV > Balance) {
       CREATE_ERROR("Not enough balance to send _amount in message.\n" +
-                   M.toStyledString());
+                   prettyPrintJSON(M));
     }
     Balance = Balance - AmtV;
     processMessage("messages", M);
   } else {
     CREATE_ERROR("Invalid outgoing message. _amount not found.\n" +
-                 M.toStyledString());
+                 prettyPrintJSON(M));
   }
 }
 
@@ -690,26 +690,39 @@ uint64_t _literal_cost(const ScillaTypes::Typ *T, const void *V) {
   return ScillaValues::literalCost(T, V);
 }
 
-uint64_t _mapsortcost(const ScillaParams::MapValueT *M) {
+uint64_t _mapsortcost(const ScillaTypes::Typ *T, const void *V) {
   uint64_t Cost = 0;
 
-  // First calculate cost for sub-maps (if any).
-  for (auto &Itr : *M) {
-    if (boost::has_type<std::string>(Itr.second)) {
-      break;
+  switch (T->m_t) {
+  case ScillaTypes::Typ::Map_typ: {
+    const auto *M = reinterpret_cast<const ScillaParams::MapValueT *>(V);
+    // First calculate cost for sub-maps (if any).
+    const ScillaTypes::Typ *VT = T->m_sub.m_mapt->m_valTyp;
+    if (VT->m_t == ScillaTypes::Typ::Map_typ) {
+      for (auto &Itr : *M) {
+        ASSERT(boost::has_type<ScillaParams::MapValueT>(Itr.second));
+        auto *SubM =
+            &boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
+        Cost += _mapsortcost(VT, SubM);
+      }
     }
-    ASSERT(boost::has_type<ScillaParams::MapValueT>(Itr.second));
-    auto *SubM = &boost::any_cast<const ScillaParams::MapValueT &>(Itr.second);
-    Cost += _mapsortcost(SubM);
+    // Cost of sorting *this* map.
+    auto Len = M->size();
+    if (Len > 0) {
+      auto LogLen = static_cast<int>(log(static_cast<float>(Len)));
+      Cost += (Len * LogLen);
+    }
+  } break;
+  case ScillaTypes::Typ::ADT_typ: {
+    ScillaValues::iterScillaADTConstrArgs(
+        T, V, [&Cost](const ScillaTypes::Typ *T, const void *V) {
+          Cost += _mapsortcost(T, V);
+        });
+  } break;
+  case ScillaTypes::Typ::Prim_typ:
+  case ScillaTypes::Typ::Address_typ:
+    break;
   }
-
-  // Cost of sorting *this* map.
-  auto Len = M->size();
-  if (Len > 0) {
-    auto LogLen = static_cast<int>(log(static_cast<float>(Len)));
-    Cost += (Len * LogLen);
-  }
-
   return Cost;
 }
 
@@ -721,7 +734,7 @@ void _event(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, const void *V) {
 void _throw(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, const void *V) {
   (void)SJ;
   auto J = ScillaValues::toJSON(T, V);
-  SCILLA_EXCEPTION("Exception thrown: " + J.toStyledString());
+  SCILLA_EXCEPTION("Exception thrown: " + prettyPrintJSON(J));
 }
 
 uint8_t *_eq_String(ScillaExecImpl *SJ, ScillaTypes::String Lhs,
@@ -1238,8 +1251,15 @@ void *_map_to_list(ScillaExecImpl *SJ, const ScillaTypes::Typ *T,
   auto *Nil = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(ListAllocSize));
   *Nil = ScillaTypes::List_Nil_Tag;
 
+  // Sort M in descending order. When building the list, it'll get reversed.
+  std::vector<MapKeyValT> M_(M->begin(), M->end());
+  std::sort(M_.begin(), M_.end(),
+            [](const MapKeyValT &El1, const MapKeyValT &El2) {
+              return El1.first > El2.first;
+            });
+
   void *NextListElm = Nil;
-  for (const auto Itr : *M) {
+  for (const auto &Itr : M_) {
     uint8_t *PairP =
         reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(PairAllocSize));
     auto NextElm = PairP;

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 #include <memory>
 
 #include "ObjManager.h"

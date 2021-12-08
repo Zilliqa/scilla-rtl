@@ -1,16 +1,20 @@
 [
-   {
-      "type" : "Uint128",
-      "value" : "0",
-      "vname" : "_balance"
-   },
-   {
-      "type" : "List String",
-      "value" : {
-         "argtypes" : [ "String" ],
-         "arguments" : [],
-         "constructor" : "Nil"
-      },
-      "vname" : "stored_strings"
-   }
+  {
+    "type" : "Uint128",
+    "value" : "0",
+    "vname" : "_balance"
+  },
+  {
+    "type" : "List String",
+    "value" : 
+    {
+      "argtypes" : 
+      [
+        "String"
+      ],
+      "arguments" : [],
+      "constructor" : "Nil"
+    },
+    "vname" : "stored_strings"
+  }
 ]

@@ -17,12 +17,13 @@
 
 #pragma once
 
-#include <string>
-#include <unordered_map>
-
 #include <any>
 #include <boost/filesystem.hpp>
-#include <jsoncpp/json/value.h>
+#include <json/value.h>
+#include <optional>
+#include <string>
+#include <unordered_map>
+#include <variant>
 
 #include "ScillaExec.h"
 
@@ -44,6 +45,8 @@ Json::Value parseJSONString(const std::string &JS);
 Json::Value parseJSONFile(const std::string &Filename);
 // Serialize a JSON for storage.
 std::string serializeJSON(const Json::Value &J);
+// A portable replacement for Json::toStyledString().
+std::string prettyPrintJSON(const Json::Value &J);
 // Parse blockchain.json and return the current block number.
 // Creates error if unable to parse successfully.
 uint64_t parseBlockchainJSON(const Json::Value &BC);
@@ -68,7 +71,7 @@ public:
 };
 
 namespace ScillaTypes {
-class Typ;
+struct Typ;
 } // namespace ScillaTypes
 
 // A state server implementation with no persistence.

@@ -14,10 +14,12 @@ The Scilla Runtime Library provides two main functionalities
 
 ## Build and install
 
-Install these Ubuntu packages
+Ubuntu:
   - `sudo apt-get install build-essential clang-12 cmake libboost-dev libboost-test-dev libjsoncpp-dev libboost-filesystem-dev libboost-program-options-dev libsecp256k1-dev`
+  - Use the LLVM apt repository if clang-12 is not in your OS repository.
 
-Use the LLVM apt repository if clang-12 is not in your OS repository.
+MacOSX:
+  - Requires `libboost-container-dev` in addition to the packages above.
 
 We suggest building ScillaRTL in a directory that is *not* the source directory.
   * `$git clone --recurse-submodules https://github.com/Zilliqa/scilla-rtl.git`

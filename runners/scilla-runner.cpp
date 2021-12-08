@@ -166,7 +166,7 @@ int main(int argc, char *argv[]) {
       OutJ["states"].append(S);
 
     // Append output to the Scilla output object for printing later.
-    OutputS += OutJ.toStyledString();
+    OutputS += prettyPrintJSON(OutJ);
   } catch (const ScillaError &e) {
     std::cerr << e.toString() << "\n";
     return EXIT_FAILURE;

@@ -1,6 +1,6 @@
 
 
-; gas_remaining: 4002000
+; gas_remaining: 4001999
 ; ModuleID = 'RRContract'
 source_filename = "RRContract"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
@@ -718,7 +718,7 @@ entry:
   %"$_literal_cost_call_395" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Map_41", i8* %"$$emp_map_393_394")
   %"$emp_map_396" = load %Map_Uint128_ByStr20_with_end*, %Map_Uint128_ByStr20_with_end** %emp_map, align 8
   %"$$emp_map_396_397" = bitcast %Map_Uint128_ByStr20_with_end* %"$emp_map_396" to i8*
-  %"$_mapsortcost_call_398" = call i64 @_mapsortcost(i8* %"$$emp_map_396_397")
+  %"$_mapsortcost_call_398" = call i64 @_mapsortcost(%_TyDescrTy_Typ* @"$TyDescr_Map_41", i8* %"$$emp_map_396_397")
   %"$gasadd_399" = add i64 %"$_literal_cost_call_395", %"$_mapsortcost_call_398"
   %"$gasrem_400" = load i64, i64* @_gasrem, align 8
   %"$gascmp_401" = icmp ugt i64 %"$gasadd_399", %"$gasrem_400"
@@ -795,7 +795,7 @@ entry:
 
 declare i8* @_fetch_field(i8*, i8*, %_TyDescrTy_Typ*, i32, i8*, i32)
 
-declare i64 @_mapsortcost(i8*)
+declare i64 @_mapsortcost(%_TyDescrTy_Typ*, i8*)
 
 declare i64 @_lengthof(%_TyDescrTy_Typ*, i8*)
 

@@ -1,28 +1,30 @@
 {
-   "_accepted" : "false",
-   "events" : [
-      {
-         "_eventname" : "GetFundsFailure",
-         "params" : [
-            {
-               "type" : "ByStr20",
-               "value" : "0x12345678901234567890123456789012345678cd",
-               "vname" : "caller"
-            },
-            {
-               "type" : "Uint128",
-               "value" : "0",
-               "vname" : "amount"
-            },
-            {
-               "type" : "Int32",
-               "value" : "4",
-               "vname" : "code"
-            }
-         ]
-      }
-   ],
-   "gas_remaining" : "9999977",
-   "messages" : [],
-   "scilla_major_version" : "0"
+  "_accepted" : "false",
+  "events" : 
+  [
+    {
+      "_eventname" : "GetFundsFailure",
+      "params" : 
+      [
+        {
+          "type" : "ByStr20",
+          "value" : "0x12345678901234567890123456789012345678cd",
+          "vname" : "caller"
+        },
+        {
+          "type" : "Uint128",
+          "value" : "0",
+          "vname" : "amount"
+        },
+        {
+          "type" : "Int32",
+          "value" : "4",
+          "vname" : "code"
+        }
+      ]
+    }
+  ],
+  "gas_remaining" : "9999977",
+  "messages" : [],
+  "scilla_major_version" : "0"
 }
