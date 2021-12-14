@@ -122,7 +122,7 @@ uint64_t parseBlockchainJSON(const Json::Value &BC) {
 void compileLLVMToSO(const std::string &InputFile,
                      const std::string &OutputFile) {
   try {
-    auto ExecP = bp::search_path("clang-12");
+    auto ExecP = bp::search_path("clang-13");
 #if defined(__APPLE__)
     if (bp::system(ExecP, "-Wno-override-module", "-fPIC", "-shared",
                    "-undefined", "dynamic_lookup", InputFile, "-o",

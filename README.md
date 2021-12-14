@@ -15,8 +15,8 @@ The Scilla Runtime Library provides two main functionalities
 ## Build and install
 
 Ubuntu:
-  - `sudo apt-get install build-essential clang-12 cmake libboost-dev libboost-test-dev libjsoncpp-dev libboost-filesystem-dev libboost-program-options-dev libsecp256k1-dev`
-  - Use the LLVM apt repository if clang-12 is not in your OS repository.
+  - `sudo apt-get install build-essential clang-13 cmake libboost-dev libboost-test-dev libjsoncpp-dev libboost-filesystem-dev libboost-program-options-dev libsecp256k1-dev`
+  - Use the [LLVM apt repository]( https://apt.llvm.org/) if clang-13 is not in your OS repository.
 
 MacOSX:
   - Requires `libboost-container-dev` in addition to the packages above.
