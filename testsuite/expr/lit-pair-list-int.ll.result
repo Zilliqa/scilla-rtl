@@ -1,2 +1,2 @@
 Pair(Cons(1 : Int32)(Nil : List (Int32)) : List (Int32))(Cons(1 : Uint32)(Nil : List (Uint32)) : List (Uint32)) : Pair (List (Int32)) (List (Uint32))
-Gas remaining: 9999998
+Gas remaining: 9999968

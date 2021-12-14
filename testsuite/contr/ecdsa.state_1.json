@@ -1,0 +1,14 @@
+[
+    { "vname": "_balance", "type": "Uint128", "value": "0" },
+    {
+      "vname": "pub_key",
+      "type": "Option (ByStr33)",
+      "value": {
+        "constructor": "Some",
+        "argtypes": [ "ByStr33" ],
+        "arguments": [
+          "0x0301082cfed78124a15892da1887daff084669e7a2ed27119e71c20bda3a2e00dd"
+        ]
+      }
+    }
+]

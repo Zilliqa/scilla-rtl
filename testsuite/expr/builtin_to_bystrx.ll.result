@@ -1,2 +1,2 @@
 Pair(Pair(Pair(Pair(0x00000064 : ByStr4)(0x00000000000000c8 : ByStr8) : Pair (ByStr4) (ByStr8))(0x0000000000000000000000000000012c : ByStr16) : Pair (Pair (ByStr4) (ByStr8)) (ByStr16))(0x0000000000000000000000000000000000000000000000000000000000000190 : ByStr32) : Pair (Pair (Pair (ByStr4) (ByStr8)) (ByStr16)) (ByStr32))(Pair(Some(0xffee : ByStr2) : Option (ByStr2))(None : Option (ByStr3)) : Pair (Option (ByStr2)) (Option (ByStr3))) : Pair (Pair (Pair (Pair (ByStr4) (ByStr8)) (ByStr16)) (ByStr32)) (Pair (Option (ByStr2)) (Option (ByStr3)))
-Gas remaining: 9999988
+Gas remaining: 9999957

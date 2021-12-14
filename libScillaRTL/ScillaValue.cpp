@@ -747,21 +747,28 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
   }
   case ScillaTypes::Typ::ADT_typ: {
     uint64_t Acc = 0;
-    iterScillaADTConstrArgs(T, V,
-                            [&Acc](const ScillaTypes::Typ *T, const void *V) {
-                              Acc += literalCost(T, V);
-                            });
+    int NArgs = 0;
+    iterScillaADTConstrArgs(
+        T, V, [&Acc, &NArgs](const ScillaTypes::Typ *T, const void *V) {
+          Acc += literalCost(T, V);
+          NArgs++;
+        });
+    if (NArgs == 0) {
+      return 1;
+    }
     return Acc;
   };
   case ScillaTypes::Typ::Map_typ: {
     auto ValT = T->m_sub.m_mapt->m_valTyp;
+    auto KeyT = T->m_sub.m_mapt->m_keyTyp;
     auto M = reinterpret_cast<const ScillaParams::MapValueT *>(V);
     ObjManager OM;
 
     uint64_t Acc = 0;
     for (auto &Itr : *M) {
       Json::Value KeyJ = parseJSONString(Itr.first);
-      Acc += stringLengthNormalize(KeyJ.asString().size());
+      auto *KeyV = fromJSON(OM, KeyT, KeyJ);
+      Acc += literalCost(KeyT, KeyV);
       switch (ValT->m_t) {
       case ScillaTypes::Typ::Map_typ: {
         auto &ValV = std::any_cast<const ScillaParams::MapValueT &>(Itr.second);
