@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "json/value.h"
 #include <algorithm>
 #include <memory>
 #include <numeric>
@@ -107,10 +108,6 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
     CREATE_ERROR(ErrMsg);
   }
 
-  if (CP.size() != NCParams) {
-    CREATE_ERROR("Expected " + std::to_string(NCParams) +
-                 " contract parameters, but got " + std::to_string(CP.size()));
-  }
   // Let's put the expected contract parameters into a map for fast access.
   std::unordered_map<std::string, const ScillaTypes::Typ *> ParamMap;
   std::for_each_n(CParams, NCParams,
@@ -118,6 +115,7 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
                     ParamMap[std::string(PD.m_PName)] = PD.m_PTy;
                   });
 
+  uint32_t NumCPEntries = 0;
   for (const auto &PJ : CP) {
     if (!PJ.isObject()) {
       CREATE_ERROR(ErrMsg);
@@ -128,6 +126,12 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
     if (!VName.isString() || !Type.isString() || Value.isNull()) {
       CREATE_ERROR(ErrMsg);
     }
+
+    if (VName.asString() == "_extlibs") {
+      // This entry in an init JSON is not useful to us at runtime.
+      continue;
+    }
+    NumCPEntries++;
 
     auto ExpectedT = ParamMap.find(VName.asString());
     if (ExpectedT == ParamMap.end()) {
@@ -164,6 +168,12 @@ void ScillaExecImpl::initContrParams(const Json::Value &CP,
       CREATE_ERROR("Dynamic typecheck failed: " + VName.asString() + " : " +
                    ScillaValues::toString(true, ExpectedT->second, ValP));
     }
+  }
+
+  if (NumCPEntries != NCParams) {
+    CREATE_ERROR("Expected " + std::to_string(NCParams) +
+                 " contract parameters, but got " +
+                 std::to_string(NumCPEntries));
   }
 }
 

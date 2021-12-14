@@ -108,7 +108,10 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
 
   using namespace ScillaTypes;
 
-  auto DynTypCheckGasCost = [](const ScillaTypes::Typ *T) {
+  auto DynTypCheckGasCharge = [&ChargeGas,
+                               SJ](const ScillaTypes::Typ *T) -> void {
+    if (!ChargeGas)
+      return;
     // Implements `address_typecheck_cost` in Gas.ml.
     uint64_t Size = 0;
     switch (T->m_t) {
@@ -125,15 +128,12 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
       break;
     }
     // _balance and _nonce must also be looked up
-    return Size + 2;
+    SJ->consumeGas(Size + 2);
   };
 
-  if (ChargeGas) {
-    SJ->consumeGas(DynTypCheckGasCost(TargetT));
-  }
-
   std::function<bool(const ScillaTypes::Typ *, const void *)> recurser =
-      [SJ, &recurser](const ScillaTypes::Typ *ExpectedT, const void *Val) {
+      [SJ, &DynTypCheckGasCharge, &recurser](const ScillaTypes::Typ *ExpectedT,
+                                             const void *Val) {
         switch (ExpectedT->m_t) {
         case Typ::Prim_typ:
           return true;
@@ -178,6 +178,7 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
               });
         }
         case Typ::Address_typ: {
+          DynTypCheckGasCharge(ExpectedT);
           std::string Addr =
               ScillaValues::rawToHex(reinterpret_cast<const uint8_t *>(Val),
                                      ScillaTypes::AddrByStr_Len);
