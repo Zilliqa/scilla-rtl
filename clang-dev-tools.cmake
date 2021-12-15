@@ -1,8 +1,8 @@
 # Additional target to perform clang-format/clang-tidy run
 # Requires clang-format and clang-tidy
 
-find_program(CLANG_FORMAT NAMES clang-format clang-format-10)
-find_program(CLANG_TIDY NAMES clang-tidy clang-tidy-10)
+find_program(CLANG_FORMAT NAMES clang-format clang-format-13)
+find_program(CLANG_TIDY NAMES clang-tidy clang-tidy-13)
 
 if (CLANG_FORMAT OR CLANG_TIDY)
   # Get all project files
