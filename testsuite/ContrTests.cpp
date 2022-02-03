@@ -1037,4 +1037,23 @@ BOOST_AUTO_TEST_CASE(succ_common_jit) {
 
 BOOST_AUTO_TEST_SUITE_END() // ecdsa
 
+BOOST_AUTO_TEST_SUITE(cconstraint)
+
+BOOST_AUTO_TEST_CASE(deploy) {
+  ContractTest CCDeploy = {
+      "cconstraint.ll",
+      {{"cconstraint_deploy", "", "cconstraint.init.json",
+        "cconstraint.contrinfo.json", "", "cconstraint.init_ostate.json",
+        "cconstraint.init_output.json", "blockchain_default.json"}}};
+  testMessages(CCDeploy, false);
+}
+
+BOOST_AUTO_TEST_CASE(deploy_fail) {
+  testMessageFail("cconstraint.ll", "", "cconstraint.init_bad.json",
+                  "cconstraint.contrinfo.json", "",
+                  "cconstraint.init_bad_output.txt", "blockchain_default.json");
+}
+
+BOOST_AUTO_TEST_SUITE_END() // cconstraint
+
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

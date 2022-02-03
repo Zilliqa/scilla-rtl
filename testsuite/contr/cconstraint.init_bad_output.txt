@@ -1,0 +1,4 @@
+Exception thrown: {
+  "_exception" : "Contract constraint evaluated to False",
+  "params" : []
+}
