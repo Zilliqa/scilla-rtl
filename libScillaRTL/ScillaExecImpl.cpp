@@ -196,7 +196,7 @@ Json::Value ScillaExecImpl::deploy(const Json::Value &InitJ, uint64_t GasLimit,
   // Initialize contract parameters.
   initContrParams(InitJ, true /* DoDynamicTypechecks */);
 
-  auto fIS = reinterpret_cast<void (*)(void)>(getAddressFor("_init_state"));
+  auto fIS = reinterpret_cast<void (*)(void)>(getAddressFor("_deploy_ops"));
   fIS();
 
   Json::Value Result = TS->finalize(getGasRem());
