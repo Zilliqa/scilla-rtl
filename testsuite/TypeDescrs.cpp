@@ -94,7 +94,7 @@ AddressTyp::Field buildTyp_Field(const char *Name, const Typ *T) {
   return AddressTyp::Field({buildString(Name), T});
 }
 
-AddressTyp ByStr20_with_end_Addr = {-1, nullptr};
+AddressTyp ByStr20_with_end_Addr = {-3, nullptr};
 Typ ByStr20_with_end_typ = buildTyp_Address(&ByStr20_with_end_Addr);
 
 ADTTyp::Constr Bool_True = {buildString("True"), 0 /* m_numArgs */,

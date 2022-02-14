@@ -411,7 +411,8 @@ void *_new_bnum(ScillaRTL::ScillaExecImpl *SJ,
                 ScillaRTL::ScillaTypes::String Val);
 
 void *_read_blockchain(ScillaRTL::ScillaExecImpl *SJ,
-                       ScillaRTL::ScillaTypes::String VName);
+                       ScillaRTL::ScillaTypes::String QueryName,
+                       ScillaRTL::ScillaTypes::String QueryArg);
 
 ScillaRTL::ScillaParams::MapValueT *
 _new_empty_map(ScillaRTL::ScillaExecImpl *SJ);

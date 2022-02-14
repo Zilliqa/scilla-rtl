@@ -200,7 +200,9 @@ std::optional<int> mapDepthOfTypeString(const std::string &TypeStr) {
   // clang-format off
   T_R =
     // Rule-0: Parse non-contract addresses
-    (qi::lit("ByStr20") >> qi::lit("with") >> qi::lit("end"))
+    (qi::lit("ByStr20") >> qi::lit("with") >> 
+      -(qi::lit("_codehash") | qi::lit("library")) >> 
+      qi::lit("end"))
       [qi::_val = px::bind
         (
           [] () {

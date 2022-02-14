@@ -61,6 +61,14 @@ bool isContrAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
   return static_cast<bool>(remoteFieldType(SJ, Addr, "_this_address"));
 }
 
+bool isLibOrContrAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
+  return static_cast<bool>(remoteFieldType(SJ, Addr, "_codehash"));
+}
+
+bool isLibAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
+  return isLibOrContrAddr(SJ, Addr) && !isContrAddr(SJ, Addr);
+}
+
 bool isUserAddr(const ScillaExecImpl *SJ, const std::string &Addr) {
   ScillaParams::StateQuery SQBalance = {"_balance", 0, {}, false};
   ScillaParams::StateQuery SQNonce = {"_nonce", 0, {}, false};
@@ -117,9 +125,11 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
     switch (T->m_t) {
     case Typ::Address_typ: {
       const AddressTyp *AT = T->m_sub.m_addrt;
-      ASSERT(AT->m_numFields >= -1);
-      // look up _this_address and every listed field.
-      Size = 1 + AT->m_numFields;
+      ASSERT(AT->m_numFields >= -3);
+      if (AT->m_numFields >= 0) {
+        // look up _this_address and every listed field.
+        Size = 1 + AT->m_numFields;
+      }
       break;
     }
     case Typ::Prim_typ:
@@ -183,9 +193,16 @@ bool dynamicTypecheck(const ScillaExecImpl *SJ, const ScillaTypes::Typ *TargetT,
               ScillaValues::rawToHex(reinterpret_cast<const uint8_t *>(Val),
                                      ScillaTypes::AddrByStr_Len);
           const AddressTyp *AT = ExpectedT->m_sub.m_addrt;
-          if (AT->m_numFields < 0) {
-            return isUserAddr(SJ, Addr) || isContrAddr(SJ, Addr);
-          } else {
+          switch (AT->m_numFields) {
+          case -3:
+            return isUserAddr(SJ, Addr) || isContrAddr(SJ, Addr) ||
+                   isLibAddr(SJ, Addr);
+          case -2:
+            return isLibOrContrAddr(SJ, Addr);
+          case -1:
+            return isLibAddr(SJ, Addr);
+          default:
+            ASSERT(AT->m_numFields >= 0);
             // Check that this is a contract and all fields exist
             // and are assignable to the type specified here.
             if (!isContrAddr(SJ, Addr))

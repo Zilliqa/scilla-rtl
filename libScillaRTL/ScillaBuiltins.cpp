@@ -1151,10 +1151,16 @@ void *_new_bnum(ScillaExecImpl *SJ, ScillaTypes::String Val) {
   return SJ->OM.create<BigNum>(std::string(Val));
 }
 
-void *_read_blockchain(ScillaExecImpl *SJ, ScillaTypes::String VName) {
-  auto VNameS = std::string(VName);
-  if (VNameS == "BLOCKNUMBER") {
+void *_read_blockchain(ScillaExecImpl *SJ, ScillaTypes::String QueryName,
+                       ScillaTypes::String QueryArg) {
+  auto QName = std::string(QueryName);
+  if (QName == "BLOCKNUMBER") {
     return SJ->OM.create<BigNum>(SJ->TS->CurBlock);
+  } else if (QName == "CHAINID") {
+    return nullptr;
+  } else if (QName == "TIMESTAMP") {
+    auto QArg = std::string(QueryArg);
+    return nullptr;
   } else {
     CREATE_ERROR("Unknown blockchain read request");
   }
