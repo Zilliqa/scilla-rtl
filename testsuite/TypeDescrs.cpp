@@ -94,6 +94,10 @@ AddressTyp::Field buildTyp_Field(const char *Name, const Typ *T) {
   return AddressTyp::Field({buildString(Name), T});
 }
 
+AddressTyp ByStr20_with_library_end_Addr = {-1, nullptr};
+Typ ByStr20_with_library_end_typ = buildTyp_Address(&ByStr20_with_library_end_Addr);
+AddressTyp ByStr20_with_codehash_end_Addr = {-2, nullptr};
+Typ ByStr20_with_codehash_end_typ = buildTyp_Address(&ByStr20_with_codehash_end_Addr);
 AddressTyp ByStr20_with_end_Addr = {-3, nullptr};
 Typ ByStr20_with_end_typ = buildTyp_Address(&ByStr20_with_end_Addr);
 
@@ -448,6 +452,7 @@ const Typ* AllTyDescrs[] = {
   &Map_int32_string_typ, &Map_int64_pair_int32_list_int64_typ,
   &Map_int32_map_int32_string_typ, &ByStr_typ, &ByStr20_typ,
   &ByStr20_with_end_typ, &ByStr20_with_contract_end_typ,
+  &ByStr20_with_codehash_end_typ, &ByStr20_with_library_end_typ,
   &ByStr20_with_1_field_Typ, &ByStr20_with_2_fields_Typ,
   &Address_contract_x_Typ, &Address_contract_x_ybool_Typ,
   &Address_contract_x_ybystr20_Typ, &Address_contract_x_ybystr20end_Typ,
