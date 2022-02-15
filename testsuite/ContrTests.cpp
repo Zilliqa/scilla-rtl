@@ -1056,4 +1056,45 @@ BOOST_AUTO_TEST_CASE(deploy_fail) {
 
 BOOST_AUTO_TEST_SUITE_END() // cconstraint
 
+BOOST_AUTO_TEST_SUITE(codehash)
+
+auto preparecodehashSuccTests = []() {
+  ContractTest RSRSTs{"codehash.ll", {}};
+  for (int I = 1; I <= 4; I++) {
+    ContractTest::Input ThisInput = {
+        "codehash_succ_" + std::to_string(I),
+        "codehash.message_" + std::to_string(I) + ".json",
+        "empty_init.json",
+        "codehash.contrinfo.json",
+        "codehash.state_" + std::to_string(I) + ".json",
+        "codehash.ostate_" + std::to_string(I) + ".json",
+        "codehash.output_" + std::to_string(I) + ".json",
+        "codehash.blockchain_" + std::to_string(I) + ".json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits) {
+  testMessages(preparecodehashSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit) {
+  testMessages(preparecodehashSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(expfail) {
+  for (int I = 100; I <= 102; I++) {
+    BOOST_TEST_CHECKPOINT("Executing codehash_tests_fail_" << I);
+    testMessageFail("codehash.ll",
+                    "codehash.message_" + std::to_string(I) + ".json",
+                    "empty_init.json", "codehash.contrinfo.json",
+                    "codehash.state_" + std::to_string(I) + ".json",
+                    "codehash.output_" + std::to_string(I) + ".txt",
+                    "codehash.blockchain_" + std::to_string(I) + ".json");
+  }
+}
+
+BOOST_AUTO_TEST_SUITE_END() // cconstraint
+
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

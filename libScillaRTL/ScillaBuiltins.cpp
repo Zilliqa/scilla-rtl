@@ -229,6 +229,9 @@ void *fetchFieldHelper(ScillaExecImpl *SJ, const std::string &Addr,
   }
 
   if (SerializedIndices.empty()) {
+    if (!Found) {
+      CREATE_ERROR("Error fetching field " + SQ.Name + " from address " + Addr);
+    }
     // Full access of state variable. No indexing.
     ASSERT_MSG(FetchVal, "Fetching full state variable, but FetchVal not set");
     if (MapValueAccess) {
