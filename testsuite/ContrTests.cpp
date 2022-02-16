@@ -68,7 +68,10 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
                 ph::_3, ph::_4, ph::_5);
   ScillaParams::UpdateState_Type updateStateValue =
       std::bind(&MemStateServer::updateStateValue, &State, ph::_1, ph::_2);
-  ScillaParams SP(fetchStateValue, fetchRemoteStateValue, updateStateValue);
+  ScillaParams::FetchBCInfo_Type fetchBlockchainInfo = std::bind(
+      &MemStateServer::fetchBlockchainInfo, &State, ph::_1, ph::_2, ph::_3);
+  ScillaParams SP(fetchStateValue, fetchBlockchainInfo, fetchRemoteStateValue,
+                  updateStateValue);
 
   std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
   // Tool to compile the LLVM-IR to a binary shared object.
@@ -101,7 +104,6 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       // Prepare all inputs.
       InitJSON = parseJSONFile(PathPrefix + Input.InitFilename);
       BCJ = parseJSONFile(PathPrefix + Input.BCFilename);
-      uint64_t CurBlock = parseBlockchainJSON(BCJ);
       if (!Input.MessageFilename.empty()) {
         MessageJSON = parseJSONFile(PathPrefix + Input.MessageFilename);
       }
@@ -115,16 +117,16 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       // Update our in-memory state table with the one from a state JSON.
       if (!Input.StateFilename.empty()) {
         auto StateJSON = parseJSONFile(PathPrefix + Input.StateFilename);
-        Balance = State.initState(InitJSON, StateJSON);
+        Balance = State.initState(InitJSON, StateJSON, BCJ);
       }
       // Let's execute.
       Json::Value OJ;
       {
         ScopeTimer ExecMsgTimer(CT.ContrFilename + ": ScillaExec::execMsg");
         if (Input.MessageFilename.empty()) {
-          OJ = JE->deploy(InitJSON, Config::GasLimit, CurBlock);
+          OJ = JE->deploy(InitJSON, Config::GasLimit);
         } else {
-          OJ = JE->execMsg(Balance, Config::GasLimit, CurBlock, InitJSON,
+          OJ = JE->execMsg(Balance, Config::GasLimit, InitJSON,
                            MessageJSON);
         }
       }
@@ -201,7 +203,10 @@ void testMessageFail(const std::string &ContrFilename,
                 ph::_3, ph::_4, ph::_5);
   ScillaParams::UpdateState_Type updateStateValue =
       std::bind(&MemStateServer::updateStateValue, &State, ph::_1, ph::_2);
-  ScillaParams SP(fetchStateValue, fetchRemoteStateValue, updateStateValue);
+  ScillaParams::FetchBCInfo_Type fetchBlockchainInfo = std::bind(
+      &MemStateServer::fetchBlockchainInfo, &State, ph::_1, ph::_2, ph::_3);
+  ScillaParams SP(fetchStateValue, fetchBlockchainInfo, fetchRemoteStateValue,
+                  updateStateValue);
 
   std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
   // Tool to compile the LLVM-IR to a binary shared object.
@@ -227,9 +232,8 @@ void testMessageFail(const std::string &ContrFilename,
     // Update our in-memory state table with the one from a state JSON.
     if (!StateFilename.empty()) {
       auto StateJSON = parseJSONFile(PathPrefix + StateFilename);
-      Balance = State.initState(InitJSON, StateJSON);
+      Balance = State.initState(InitJSON, StateJSON, BCJ);
     }
-    uint64_t CurBlock = parseBlockchainJSON(BCJ);
     // Create a JIT engine
     {
       ScopeTimer CreateTimer(ContrFilename + ": ScillaExec::create");
@@ -238,9 +242,9 @@ void testMessageFail(const std::string &ContrFilename,
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaExec::execMsg");
       if (MessageFilename.empty()) {
-        JE->deploy(InitJSON, Config::GasLimit, CurBlock);
+        JE->deploy(InitJSON, Config::GasLimit);
       } else {
-        JE->execMsg(Balance, Config::GasLimit, CurBlock, InitJSON, MessageJSON);
+        JE->execMsg(Balance, Config::GasLimit, InitJSON, MessageJSON);
       }
     }
   } catch (const ScillaError &E) {

@@ -40,15 +40,15 @@ ScillaContrExec::ScillaContrExec(const ScillaParams &SPs,
 }
 
 Json::Value ScillaContrExec::execMsg(const std::string &Balance,
-                                     uint64_t GasLimit, uint64_t CurBlock,
+                                     uint64_t GasLimit,
                                      const Json::Value &InitJ,
                                      const Json::Value &Msg) {
-  return PImpl->execMsg(Balance, GasLimit, CurBlock, InitJ, Msg);
+  return PImpl->execMsg(Balance, GasLimit, InitJ, Msg);
 }
 
-Json::Value ScillaContrExec::deploy(const Json::Value &InitJ, uint64_t GasLimit,
-                                    uint64_t CurBlock) {
-  return PImpl->deploy(InitJ, GasLimit, CurBlock);
+Json::Value ScillaContrExec::deploy(const Json::Value &InitJ,
+                                    uint64_t GasLimit) {
+  return PImpl->deploy(InitJ, GasLimit);
 }
 
 uint64_t ScillaContrExec::getGasRem() const { return PImpl->getGasRem(); }
@@ -65,7 +65,7 @@ std::string ScillaExprExec::exec(uint64_t GasLimit) {
   auto ScillaMain = reinterpret_cast<void (*)()>(ScillaMainAddr);
 
   // This isn't a transition, but we still setup a state for consistency.
-  PImpl->TS = std::make_unique<TransitionState>("0", "0", 0, GasLimit, "0x");
+  PImpl->TS = std::make_unique<TransitionState>("0", "0", GasLimit, "0x");
   // Set gas available in the JIT'ed code and then initialize libraries.
   PImpl->initGasAndLibs(GasLimit);
 
@@ -186,11 +186,11 @@ void ScillaExecImpl::initGasAndLibs(uint64_t GasLimit) {
   initLibs();
 }
 
-Json::Value ScillaExecImpl::deploy(const Json::Value &InitJ, uint64_t GasLimit,
-                                   uint64_t CurBlock) {
+Json::Value ScillaExecImpl::deploy(const Json::Value &InitJ,
+                                   uint64_t GasLimit) {
 
   // Setup the TransitionState for this transition.
-  TS = std::make_unique<TransitionState>("0", "0", CurBlock, GasLimit, "");
+  TS = std::make_unique<TransitionState>("0", "0", GasLimit, "");
 
   initGasAndLibs(GasLimit);
   // Initialize contract parameters.
@@ -246,8 +246,7 @@ ScillaExecImpl::getTypeDescrTable() const {
 }
 
 Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
-                                    uint64_t GasLimit, uint64_t CurBlock,
-                                    const Json::Value &InitJ,
+                                    uint64_t GasLimit, const Json::Value &InitJ,
                                     const Json::Value &Msg) {
 
   Json::Value TransNameJ = Msg.get("_tag", Json::nullValue);
@@ -260,8 +259,8 @@ Json::Value ScillaExecImpl::execMsg(const std::string &Balance,
     CREATE_ERROR("Invalid Message");
 
   // Let's setup the TransitionState for this transition.
-  TS = std::make_unique<TransitionState>(Balance, AmountJ.asString(), CurBlock,
-                                         GasLimit, SenderJ.asString());
+  TS = std::make_unique<TransitionState>(Balance, AmountJ.asString(), GasLimit,
+                                         SenderJ.asString());
 
   initGasAndLibs(GasLimit);
   initContrParams(InitJ, false /* DoDynamicTypechecks */);

@@ -113,7 +113,10 @@ int main(int argc, char *argv[]) {
                 ph::_3, ph::_4, ph::_5);
   ScillaParams::UpdateState_Type updateStateValue =
       std::bind(&MemStateServer::updateStateValue, &State, ph::_1, ph::_2);
-  ScillaParams SP(fetchStateValue, fetchRemoteStateValue, updateStateValue);
+  ScillaParams::FetchBCInfo_Type fetchBlockchainInfo = std::bind(
+      &MemStateServer::fetchBlockchainInfo, &State, ph::_1, ph::_2, ph::_3);
+  ScillaParams SP(fetchStateValue, fetchBlockchainInfo, fetchRemoteStateValue,
+                  updateStateValue);
 
   std::string OutputS;
   try {
@@ -128,7 +131,6 @@ int main(int argc, char *argv[]) {
     // Parse the init JSON and blockchain JSONs
     auto IJ = parseJSONFile(InitFilename);
     auto BCJ = parseJSONFile(BCFilename);
-    uint64_t CurBlock = parseBlockchainJSON(BCJ);
 
     // If there's a contract-info provided, use its field name / type info.
     if (VM.count("contract-info")) {
@@ -143,7 +145,7 @@ int main(int argc, char *argv[]) {
       // Update our in-memory state table with the one from the JSONs.
       auto StateFilename = VM["state"].as<std::string>();
       auto SJ = parseJSONFile(StateFilename);
-      Balance = State.initState(IJ, SJ);
+      Balance = State.initState(IJ, SJ, BCJ);
     }
 
     // Create JIT engine.
@@ -154,10 +156,10 @@ int main(int argc, char *argv[]) {
       auto MessageFilename = VM["message"].as<std::string>();
       auto MJ = parseJSONFile(MessageFilename);
       // Execute message
-      OutJ = JE.execMsg(Balance, GasLimit, CurBlock, IJ, MJ);
+      OutJ = JE.execMsg(Balance, GasLimit, IJ, MJ);
     } else {
       // Deployment
-      OutJ = JE.deploy(IJ, GasLimit, CurBlock);
+      OutJ = JE.deploy(IJ, GasLimit);
     }
 
     auto OSJ = State.dumpToJSON();

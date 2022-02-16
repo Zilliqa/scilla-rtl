@@ -1158,12 +1158,22 @@ void *_read_blockchain(ScillaExecImpl *SJ, ScillaTypes::String QueryName,
                        ScillaTypes::String QueryArg) {
   auto QName = std::string(QueryName);
   if (QName == "BLOCKNUMBER") {
-    return SJ->OM.create<BigNum>(SJ->TS->CurBlock);
+    std::string BNumS;
+    if (!SJ->SPs.fetchBlockchainInfo("BLOCKNUMBER", "", BNumS)) {
+      CREATE_ERROR("Unable to fetch BLOCKNUMBER from blockchain");
+    }
+    uint64_t BNum;
+    try {
+      BNum = boost::lexical_cast<uint64_t>(BNumS);
+    } catch (boost::bad_lexical_cast &) {
+      CREATE_ERROR("Invalid BLOCKNUMBER");
+    }
+    return SJ->OM.create<BigNum>(BNum);
   } else if (QName == "CHAINID") {
-    return nullptr;
+    CREATE_ERROR("CHAINID not supported yet");
   } else if (QName == "TIMESTAMP") {
     auto QArg = std::string(QueryArg);
-    return nullptr;
+    CREATE_ERROR("TIMESTAMP not supported yet");
   } else {
     CREATE_ERROR("Unknown blockchain read request");
   }

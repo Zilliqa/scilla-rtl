@@ -40,18 +40,15 @@ class TransitionState {
 
 public:
   TransitionState(const std::string &Balance_P, const std::string &InAmount_P,
-                  uint64_t CurBlock_P, uint64_t GasLimit_P,
-                  const std::string &SenderAddr_P)
+                  uint64_t GasLimit_P, const std::string &SenderAddr_P)
       : Balance(Balance_P), Accepted(false), OutJ(Json::objectValue),
-        CurBlock(CurBlock_P), SenderAddr(SenderAddr_P), InAmount(InAmount_P),
-        GasLimit(GasLimit_P){};
+        SenderAddr(SenderAddr_P), InAmount(InAmount_P), GasLimit(GasLimit_P){};
 
   void processSend(Json::Value &M);
   void processEvent(Json::Value &M);
   void processAccept();
   SafeUint128 getCurBal() const;
   bool HasAccepted() const;
-  const uint64_t CurBlock;
   const std::string SenderAddr;
   const SafeUint128 InAmount;
   const uint64_t GasLimit;

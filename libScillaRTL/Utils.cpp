@@ -106,15 +106,30 @@ std::optional<Json::Value> vNameValue(const Json::Value &Vs,
   return {};
 }
 
-uint64_t parseBlockchainJSON(const Json::Value &BC) {
+void parseBlockchainJSON(
+    const Json::Value &BC,
+    std::unordered_map<std::string,
+                       std::unordered_map<std::string, std::string>> &BCInfo) {
   auto CurBlockS = vNameValue(BC, "BLOCKNUMBER");
   if (!CurBlockS || !CurBlockS->isString()) {
     CREATE_ERROR("BLOCKNUMBER not found or invalid");
   }
-  try {
-    return boost::lexical_cast<uint64_t>(CurBlockS->asString());
-  } catch (boost::bad_lexical_cast &) {
-    CREATE_ERROR("Invalid BLOCKNUMBER");
+  BCInfo["BLOCKNUMBER"][""] = CurBlockS->asString();
+
+  auto TS = vNameValue(BC, "TIMESTAMP");
+  if (!TS) {
+    return;
+  }
+
+  if (!TS->isObject()) {
+    CREATE_ERROR("TIMESTAMP not found or invalid");
+  }
+  for (auto TSi = TS->begin(); TSi != TS->end(); TSi++) {
+    if (!TSi->isString()) {
+      CREATE_ERROR(
+          "Invalid TIMESTAMP in blockchain JSON. Expected string values.");
+    }
+    BCInfo["TIMESTAMP"][TSi.key().asString()] = TSi->asString();
   }
 }
 
@@ -474,7 +489,8 @@ void MemStateServer::initFieldTypes(const Json::Value &InitJ,
 }
 
 std::string MemStateServer::initState(const Json::Value &InitJ,
-                                      const Json::Value &StateJ) {
+                                      const Json::Value &StateJ,
+                                      const Json::Value &BIJ) {
 
   auto TAOpt = vNameValue(InitJ, "_this_address");
   if (!TAOpt || !TAOpt->isString()) {
@@ -568,9 +584,26 @@ std::string MemStateServer::initState(const Json::Value &InitJ,
         return Balance;
       };
 
+  parseBlockchainJSON(BIJ, BCInfo);
   return recurser(ThisAddress, StateJ);
+}
 
-} // namespace ScillaRTL
+bool MemStateServer::fetchBlockchainInfo(const std::string &QueryName,
+                                         const std::string &QueryArg,
+                                         std::string &RetVal) {
+  auto Itr1 = BCInfo.find(QueryName);
+  if (Itr1 == BCInfo.end()) {
+    return false;
+  }
+
+  auto Itr2 = Itr1->second.find(QueryArg);
+  if (Itr2 == Itr1->second.end()) {
+    return false;
+  }
+
+  RetVal = Itr2->second;
+  return true;
+}
 
 Json::Value MemStateServer::dumpToJSON() {
   Json::Value RetVal(Json::arrayValue);
