@@ -17,6 +17,7 @@
 
 #include <Bech32/segwit_addr.h>
 #include <Schnorr.h>
+#include <cstdint>
 #include <ethash/keccak.h>
 #include <openssl/ripemd.h>
 #include <openssl/sha.h>
@@ -229,6 +230,9 @@ void *fetchFieldHelper(ScillaExecImpl *SJ, const std::string &Addr,
   }
 
   if (SerializedIndices.empty()) {
+    if (!Found) {
+      CREATE_ERROR("Error fetching field " + SQ.Name + " from address " + Addr);
+    }
     // Full access of state variable. No indexing.
     ASSERT_MSG(FetchVal, "Fetching full state variable, but FetchVal not set");
     if (MapValueAccess) {
@@ -1151,10 +1155,56 @@ void *_new_bnum(ScillaExecImpl *SJ, ScillaTypes::String Val) {
   return SJ->OM.create<BigNum>(std::string(Val));
 }
 
-void *_read_blockchain(ScillaExecImpl *SJ, ScillaTypes::String VName) {
-  auto VNameS = std::string(VName);
-  if (VNameS == "BLOCKNUMBER") {
-    return SJ->OM.create<BigNum>(SJ->TS->CurBlock);
+void *_read_blockchain(ScillaExecImpl *SJ, ScillaTypes::String QueryName,
+                       ScillaTypes::String QueryArg) {
+  auto QName = std::string(QueryName);
+  if (QName == "BLOCKNUMBER") {
+    std::string BNumS;
+    if (!SJ->SPs.fetchBlockchainInfo("BLOCKNUMBER", "", BNumS)) {
+      CREATE_ERROR("Unable to fetch BLOCKNUMBER from blockchain");
+    }
+    uint64_t BNum;
+    try {
+      BNum = boost::lexical_cast<uint64_t>(BNumS);
+    } catch (boost::bad_lexical_cast &) {
+      CREATE_ERROR("Invalid BLOCKNUMBER");
+    }
+    return SJ->OM.create<BigNum>(BNum);
+  } else if (QName == "CHAINID") {
+    auto QArg = std::string(QueryArg);
+    std::string CID;
+    if (!SJ->SPs.fetchBlockchainInfo("CHAINID", "", CID)) {
+      CREATE_ERROR("Unable to fetch CHAINID from blockchain");
+    }
+    uint64_t CIDi;
+    try {
+      CIDi = boost::lexical_cast<uint32_t>(CID);
+    } catch (boost::bad_lexical_cast &) {
+      CREATE_ERROR("Invalid BLOCKNUMBER");
+    }
+    return SJ->OM.create<SafeUint32>(CIDi);
+  } else if (QName == "TIMESTAMP") {
+    auto QArg = std::string(QueryArg);
+    std::string TS;
+    if (!SJ->SPs.fetchBlockchainInfo("TIMESTAMP", QArg, TS)) {
+      // Return None, which has only a Tag.
+      int MemSize = 1;
+      auto Mem = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(MemSize));
+      *Mem = ScillaTypes::Option_None_Tag;
+      return Mem;
+    }
+    uint64_t TSi;
+    try {
+      TSi = boost::lexical_cast<uint64_t>(TS);
+    } catch (boost::bad_lexical_cast &) {
+      CREATE_ERROR("Invalid TIMESTAMP");
+    }
+    // Return Some (TSi). The first byte is the tag.
+    int MemSize = 1 + sizeof(SafeUint64);
+    auto Mem = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(MemSize));
+    *Mem = ScillaTypes::Option_Some_Tag;
+    *reinterpret_cast<SafeUint64 *>(Mem + 1) = TSi;
+    return Mem;
   } else {
     CREATE_ERROR("Unknown blockchain read request");
   }

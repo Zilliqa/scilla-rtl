@@ -68,9 +68,6 @@ std::string prettyPrintJSON(const Json::Value &J);
 // Typical Scilla state JSON format is expected as input.
 std::optional<Json::Value> vNameValue(const Json::Value &Vs,
                                       const std::string &VName);
-// Parse blockchain.json and return the current block number.
-// Creates error if unable to parse successfully.
-uint64_t parseBlockchainJSON(const Json::Value &BC);
 
 // Compile Scilla LLVM-IR / LLVM bitcode file to a shared object.
 // Raises an error if compilation fails.
@@ -99,6 +96,8 @@ struct Typ;
 class MemStateServer {
   std::unordered_map<std::string, std::unordered_map<std::string, std::any>>
       BCState;
+  std::unordered_map<std::string, std::unordered_map<std::string, std::string>>
+      BCInfo;
   // We store the type (when initialized from JSON) for later printing to JSON.
   std::unordered_map<std::string, std::unordered_map<std::string, std::string>>
       FieldTypes;
@@ -113,6 +112,8 @@ public:
   // Fetch (part of) state variable for ThisAddress. Returns false on error.
   bool fetchStateValue(const ScillaParams::StateQuery &Query, std::any &RetVal,
                        bool &Found);
+  bool fetchBlockchainInfo(const std::string &QueryName,
+                           const std::string &QueryArg, std::string &RetVal);
   // Fetch (part of) state variable. Returns false on error.
   bool fetchRemoteStateValue(const std::string &Addr,
                              const ScillaParams::StateQuery &Query,
@@ -121,10 +122,11 @@ public:
   bool updateStateValue(const ScillaParams::StateQuery &Query,
                         const std::any &Value);
 
-  // (Re)initialize the state from the provided state JSON.
+  // (Re)initialize the state from the provided state and blockchain JSONs.
   // Requires init JSON for noting down _this_address.
   // Returns "_balance" as a string.
-  std::string initState(const Json::Value &InitJ, const Json::Value &StateJ);
+  std::string initState(const Json::Value &InitJ, const Json::Value &StateJ,
+                        const Json::Value &BCJ);
 
   // Initialize the server with only field types and no values.
   // The contract-info JSON is parsed to get the field types.

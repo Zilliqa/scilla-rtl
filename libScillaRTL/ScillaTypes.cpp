@@ -74,10 +74,19 @@ bool Typ::assignable(const Typ *To, ConstructedTyp FromW) {
   // Every field F_Sub in "Subset" must exist as F_Sup in "Superset"
   //   AND
   // assignable(F_Sub, F_Sup).
-  // (Subset->m_numFields < 0), i.e., Subset is (Address None) will return true.
+  // The lattice with m_numFields shown in brackets.
+  //         AnyAddr (-3)
+  //            |
+  //         CodeAddr (-2)
+  /*         /      \                                               */
+  // LibAddr (-1)   ContrAddr (>= 0)
   auto checkAddressSubset = [&CWrapper](const AddressTyp *Subset,
                                         const AddressTyp *Superset) -> bool {
-    if (Subset->m_numFields > Superset->m_numFields) {
+    if (
+        // Check partial-ordering.
+        Subset->m_numFields > Superset->m_numFields ||
+        // ContrAddr cannot be assigned to LibAddr (not covered in first check).
+        (Subset->m_numFields == -1 && Superset->m_numFields >= 0)) {
       return false;
     }
     const AddressTyp::Field *SearchFromItr = Superset->m_fields;
@@ -231,22 +240,32 @@ std::string Typ::toString(const Typ *T) {
     } break;
     case Typ::Address_typ: {
       const AddressTyp *AT = T->m_sub.m_addrt;
-      if (AT->m_numFields < 0) {
+      switch (AT->m_numFields) {
+      case -3:
         Out += "ByStr20 with end";
         break;
+      case -2:
+        Out += "ByStr20 with _codehash end";
+        break;
+      case -1:
+        Out += "ByStr20 with library end";
+        break;
+      default:
+        ASSERT(AT->m_numFields >= 0);
+        Out += "ByStr20 with contract ";
+        for (int32_t I = 0; I < AT->m_numFields; I++) {
+          Out += std::string("field ") + std::string(AT->m_fields[I].m_Name) +
+                 " : ";
+          recurser(AT->m_fields[I].m_FTyp);
+          if (I == AT->m_numFields - 1)
+            Out += " ";
+          else
+            Out += ", ";
+        }
+        Out += "end";
       }
-      Out += "ByStr20 with contract ";
-      for (int32_t I = 0; I < AT->m_numFields; I++) {
-        Out +=
-            std::string("field ") + std::string(AT->m_fields[I].m_Name) + " : ";
-        recurser(AT->m_fields[I].m_FTyp);
-        if (I == AT->m_numFields - 1)
-          Out += " ";
-        else
-          Out += ", ";
-      }
-      Out += "end";
-    } break;
+      break;
+    }
     }
   };
 
@@ -505,6 +524,8 @@ ConstructedTyp Typ::constructTyp(TypParserPartialCache *TPPC, const Typ *Ts[],
       Ident_R, TByStr_R, QualifiedTypeName_R;
   qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
       HexQual, FilenameQual, NoQual;
+  qi::rule<std::string::const_iterator, std::string(), ascii::space_type>
+      NonContrAddrR;
   qi::rule<std::string::const_iterator, FieldTypePair, ascii::space_type>
       FieldTypePair_R;
   qi::rule<std::string::const_iterator, const Typ *, ascii::space_type> T_R;
@@ -529,6 +550,7 @@ ConstructedTyp Typ::constructTyp(TypParserPartialCache *TPPC, const Typ *Ts[],
       qi::lexeme[qi::char_('A', 'Z') >> *((ascii::alnum) | qi::char_('_'))];
 
   auto IdFun = [](const std::string &I) { return I; };
+
   QualifiedTypeName_R = (HexQual)[qi::_val = px::bind(IdFun, qi::_1)] |
                         (FilenameQual)[qi::_val = px::bind(IdFun, qi::_1)] |
                         (NoQual)[qi::_val = px::bind(IdFun, qi::_1)];
@@ -537,15 +559,28 @@ ConstructedTyp Typ::constructTyp(TypParserPartialCache *TPPC, const Typ *Ts[],
   // clang-format off
   T_R =
     // Rule-0: Parse non-contract addresses
-    (qi::lit("ByStr20") >> qi::lit("with") >> qi::lit("end"))
+    (qi::lit("ByStr20") >> qi::lit("with") >>
+        -(qi::string("_codehash") | qi::string("library"))
+      >> qi::lit("end"))
       [qi::_val = px::bind
         (
-          [&AddrList, &OM, &IsIncompleteType] () -> const Typ* {
+          [&AddrList, &OM, &IsIncompleteType]
+          (const boost::optional<std::string> &AddrTyp) -> const Typ* {
             for (auto &T : AddrList) {
+              auto numFields = T->m_sub.m_addrt->m_numFields;
               ASSERT_MSG(T->m_t == Typ::Address_typ,
                 "Non-Address type classified incorrectly as Address");
-              if (T->m_sub.m_addrt->m_numFields == -1) {
-                return T;
+              if (AddrTyp) {
+                // CodeAddr or LibAddr.
+                if ((*AddrTyp == "_codehash" && numFields == -2) ||
+                    (*AddrTyp == "library" && numFields == -1)) {
+                  return T;
+                }
+              } else {
+                // AnyAddr
+                if (numFields == -3) {
+                  return T;
+                }
               }
             }
             if (OM) {
@@ -558,7 +593,7 @@ ConstructedTyp Typ::constructTyp(TypParserPartialCache *TPPC, const Typ *Ts[],
             } else {
               CREATE_ERROR("Non-contract Address type not found");
             }
-          }
+          }, qi::_1
         )
       ]
     // Rule-1: Parse contract addresses into an optional non-empty list of

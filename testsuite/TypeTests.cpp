@@ -60,6 +60,13 @@ BOOST_AUTO_TEST_CASE(tydescrs_print) {
   BOOST_TEST(Typ::toString(&List_int32_typ) == "List (Int32)");
   BOOST_TEST(Typ::toString(&List_int64_typ) == "List (Int64)");
   BOOST_TEST(Typ::toString(&ByStr20_typ) == "ByStr20");
+  BOOST_TEST(Typ::toString(&ByStr20_with_end_typ) == "ByStr20 with end");
+  BOOST_TEST(Typ::toString(&ByStr20_with_codehash_end_typ) ==
+             "ByStr20 with _codehash end");
+  BOOST_TEST(Typ::toString(&ByStr20_with_library_end_typ) ==
+             "ByStr20 with library end");
+  BOOST_TEST(Typ::toString(&ByStr20_with_contract_end_typ) ==
+             "ByStr20 with contract end");
   BOOST_TEST(Typ::toString(&ByStr_typ) == "ByStr");
   BOOST_TEST(Typ::toString(&Bool_typ) == "Bool");
   BOOST_TEST(Typ::toString(&Option_Int256_typ) == "Option (Int256)");
@@ -301,6 +308,8 @@ BOOST_AUTO_TEST_CASE(equivalent_types) {
   std::string EqTypes[][2] = {
       {"ByStr20", "ByStr20"},
       {"ByStr20 with end", "ByStr20 with end"},
+      {"ByStr20 with _codehash end", "ByStr20 with _codehash end"},
+      {"ByStr20 with library end", "ByStr20 with library end"},
       {"ByStr20 with contract end", "ByStr20 with contract end"},
       {"ByStr20 with contract field x : Uint32 end",
        "ByStr20 with contract field x : Uint32 end"},
@@ -355,6 +364,10 @@ BOOST_AUTO_TEST_CASE(assignable_but_not_equivalent_types) {
   std::string AssTypes[][2] = {
       {"ByStr20", "ByStr20 with end"},
       {"ByStr20", "ByStr20 with contract end"},
+      {"ByStr20", "ByStr20 with library end"},
+      {"ByStr20", "ByStr20 with _codehash end"},
+      {"ByStr20 with _codehash end", "ByStr20 with library end"},
+      {"ByStr20 with _codehash end", "ByStr20 with contract end"},
       {"ByStr20 with end", "ByStr20 with contract end"},
       {"ByStr20 with end", "ByStr20 with contract field x : Uint32 end"},
       {"ByStr20 with contract end",
@@ -411,6 +424,7 @@ BOOST_AUTO_TEST_CASE(not_assignable_in_either_direction_types) {
       // Addresses
       {"ByStr20 with contract field x : Int32 end",
        "ByStr20 with contract field x : Uint32 end"},
+      {"ByStr20 with library end", "ByStr20 with contract end"},
       {"ByStr20 with contract field x : Int32 end",
        "ByStr20 with contract field y : Int32 end"},
       {"ByStr20 with contract field x : Int32, field z : Uint32 end",

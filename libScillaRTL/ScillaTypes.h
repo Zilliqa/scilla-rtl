@@ -142,7 +142,9 @@ struct MapTyp {
 };
 
 struct AddressTyp {
-  // -1 : None
+  // -3 : AnyAddr
+  // -2 : CodeAddr
+  // -1 : LibAddr
   // >= 0 ; Some n
   int32_t m_numFields;
 

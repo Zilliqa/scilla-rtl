@@ -43,6 +43,9 @@ struct ScillaParams {
 
   using FetchState_Type = std::function<bool(const StateQuery &Query,
                                              std::any &RetVal, bool &Found)>;
+  using FetchBCInfo_Type =
+      std::function<bool(const std::string &QueryName,
+                         const std::string &QueryArg, std::string &RetVal)>;
   using FetchRemoteState_Type =
       std::function<bool(const std::string &Addr, const StateQuery &Query,
                          std::any &RetVal, bool &Found, std::string &Type)>;
@@ -50,15 +53,17 @@ struct ScillaParams {
       std::function<bool(const StateQuery &Query, const std::any &Val)>;
 
   FetchState_Type fetchStateValue;
+  FetchBCInfo_Type fetchBlockchainInfo;
   FetchRemoteState_Type fetchRemoteStateValue;
   UpdateState_Type updateStateValue;
 
   ScillaParams()
-      : fetchStateValue(nullptr), fetchRemoteStateValue(nullptr),
-        updateStateValue(nullptr){};
-  ScillaParams(FetchState_Type FS, FetchRemoteState_Type FRS,
-               UpdateState_Type US)
-      : fetchStateValue(FS), fetchRemoteStateValue(FRS), updateStateValue(US){};
+      : fetchStateValue(nullptr), fetchBlockchainInfo(nullptr),
+        fetchRemoteStateValue(nullptr), updateStateValue(nullptr){};
+  ScillaParams(FetchState_Type FS, FetchBCInfo_Type FBI,
+               FetchRemoteState_Type FRS, UpdateState_Type US)
+      : fetchStateValue(FS), fetchBlockchainInfo(FBI),
+        fetchRemoteStateValue(FRS), updateStateValue(US){};
 };
 
 class ScillaExecImpl;
@@ -83,13 +88,11 @@ public:
 
   // Execute a message.
   Json::Value execMsg(const std::string &Balance, uint64_t GasLimit,
-                      uint64_t CurBlock, const Json::Value &InitJ,
-                      const Json::Value &Msg);
+                      const Json::Value &InitJ, const Json::Value &Msg);
 
   // Initialize the contract state to field initialization values in the source.
   // This is to be called only during deployment of the contract. Never again.
-  Json::Value deploy(const Json::Value &InitJ, uint64_t GasLimit,
-                     uint64_t CurBlock);
+  Json::Value deploy(const Json::Value &InitJ, uint64_t GasLimit);
 
   // What's the gas remaining from previous execution (deploy / execMsg).
   // Useful if execution was interrupted due to an exception.

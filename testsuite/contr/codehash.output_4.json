@@ -1,0 +1,20 @@
+{
+  "_accepted" : "false",
+  "events" : 
+  [
+    {
+      "_eventname" : "Success",
+      "params" : 
+      [
+        {
+          "type" : "ByStr32",
+          "value" : "0x55345678901234567890123456789012345678ff123456789012345678901234",
+          "vname" : "bar"
+        }
+      ]
+    }
+  ],
+  "gas_remaining" : "9999983",
+  "messages" : [],
+  "scilla_major_version" : "0"
+}
