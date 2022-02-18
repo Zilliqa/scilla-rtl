@@ -1233,7 +1233,7 @@ entry:
   store i64 %"$consume_590", i64* @_gasrem, align 8
   %blk = alloca i8*, align 8
   %"$execptr_load_593" = load i8*, i8** @_execptr, align 8
-  %"$blk_call_594" = call i8* @_read_blockchain(i8* %"$execptr_load_593", %BCQuery { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$fetchbc_query_name_591", i32 0, i32 0), i32 11 }, %BCQuery { i8* getelementptr inbounds ([0 x i8], [0 x i8]* @"$fetchbc_query_arg_592", i32 0, i32 0), i32 0 })
+  %"$blk_call_594" = call i8* @_read_blockchain(i8* %"$execptr_load_593", %BCQuery { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$fetchbc_query_name_591", i32 0, i32 0), i32 11 }, %String { i8* getelementptr inbounds ([0 x i8], [0 x i8]* @"$fetchbc_query_arg_592", i32 0, i32 0), i32 0 })
   store i8* %"$blk_call_594", i8** %blk, align 8
   %"$gasrem_596" = load i64, i64* @_gasrem, align 8
   %"$gascmp_597" = icmp ugt i64 1, %"$gasrem_596"
@@ -1689,7 +1689,7 @@ entry:
   ret void
 }
 
-declare i8* @_read_blockchain(i8*, %BCQuery, %BCQuery)
+declare i8* @_read_blockchain(i8*, %BCQuery, %String)
 
 declare i8* @_fetch_field(i8*, i8*, %_TyDescrTy_Typ*, i32, i8*, i32)
 
@@ -1871,7 +1871,7 @@ entry:
   store i64 %"$consume_960", i64* @_gasrem, align 8
   %blk = alloca i8*, align 8
   %"$execptr_load_963" = load i8*, i8** @_execptr, align 8
-  %"$blk_call_964" = call i8* @_read_blockchain(i8* %"$execptr_load_963", %BCQuery { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$fetchbc_query_name_961", i32 0, i32 0), i32 11 }, %BCQuery { i8* getelementptr inbounds ([0 x i8], [0 x i8]* @"$fetchbc_query_arg_962", i32 0, i32 0), i32 0 })
+  %"$blk_call_964" = call i8* @_read_blockchain(i8* %"$execptr_load_963", %BCQuery { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$fetchbc_query_name_961", i32 0, i32 0), i32 11 }, %String { i8* getelementptr inbounds ([0 x i8], [0 x i8]* @"$fetchbc_query_arg_962", i32 0, i32 0), i32 0 })
   store i8* %"$blk_call_964", i8** %blk, align 8
   %"$gasrem_966" = load i64, i64* @_gasrem, align 8
   %"$gascmp_967" = icmp ugt i64 1, %"$gasrem_966"
@@ -2463,7 +2463,7 @@ entry:
   store i64 %"$consume_1292", i64* @_gasrem, align 8
   %blk = alloca i8*, align 8
   %"$execptr_load_1295" = load i8*, i8** @_execptr, align 8
-  %"$blk_call_1296" = call i8* @_read_blockchain(i8* %"$execptr_load_1295", %BCQuery { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$fetchbc_query_name_1293", i32 0, i32 0), i32 11 }, %BCQuery { i8* getelementptr inbounds ([0 x i8], [0 x i8]* @"$fetchbc_query_arg_1294", i32 0, i32 0), i32 0 })
+  %"$blk_call_1296" = call i8* @_read_blockchain(i8* %"$execptr_load_1295", %BCQuery { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$fetchbc_query_name_1293", i32 0, i32 0), i32 11 }, %String { i8* getelementptr inbounds ([0 x i8], [0 x i8]* @"$fetchbc_query_arg_1294", i32 0, i32 0), i32 0 })
   store i8* %"$blk_call_1296", i8** %blk, align 8
   %"$gasrem_1298" = load i64, i64* @_gasrem, align 8
   %"$gascmp_1299" = icmp ugt i64 1, %"$gasrem_1298"

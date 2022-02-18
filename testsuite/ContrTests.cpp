@@ -126,8 +126,7 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
         if (Input.MessageFilename.empty()) {
           OJ = JE->deploy(InitJSON, Config::GasLimit);
         } else {
-          OJ = JE->execMsg(Balance, Config::GasLimit, InitJSON,
-                           MessageJSON);
+          OJ = JE->execMsg(Balance, Config::GasLimit, InitJSON, MessageJSON);
         }
       }
 
@@ -1099,6 +1098,35 @@ BOOST_AUTO_TEST_CASE(expfail) {
   }
 }
 
-BOOST_AUTO_TEST_SUITE_END() // cconstraint
+BOOST_AUTO_TEST_SUITE_END() // codehash
+
+BOOST_AUTO_TEST_SUITE(timestamp)
+
+auto preparetimestampSuccTests = []() {
+  ContractTest RSRSTs{"timestamp.ll", {}};
+  for (int I = 1; I <= 2; I++) {
+    ContractTest::Input ThisInput = {
+        "timestamp_succ_" + std::to_string(I),
+        "timestamp.message_" + std::to_string(I) + ".json",
+        "empty_init.json",
+        "timestamp.contrinfo.json",
+        "timestamp.state_" + std::to_string(I) + ".json",
+        "timestamp.ostate_" + std::to_string(I) + ".json",
+        "timestamp.output_" + std::to_string(I) + ".json",
+        "timestamp.blockchain_" + std::to_string(I) + ".json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits) {
+  testMessages(preparetimestampSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit) {
+  testMessages(preparetimestampSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // timestamp
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

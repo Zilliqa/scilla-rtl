@@ -1173,7 +1173,26 @@ void *_read_blockchain(ScillaExecImpl *SJ, ScillaTypes::String QueryName,
     CREATE_ERROR("CHAINID not supported yet");
   } else if (QName == "TIMESTAMP") {
     auto QArg = std::string(QueryArg);
-    CREATE_ERROR("TIMESTAMP not supported yet");
+    std::string TS;
+    if (!SJ->SPs.fetchBlockchainInfo("TIMESTAMP", QArg, TS)) {
+      // Return None, which has only a Tag.
+      int MemSize = 1;
+      auto Mem = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(MemSize));
+      *Mem = ScillaTypes::Option_None_Tag;
+      return Mem;
+    }
+    uint64_t TSi;
+    try {
+      TSi = boost::lexical_cast<uint64_t>(TS);
+    } catch (boost::bad_lexical_cast &) {
+      CREATE_ERROR("Invalid TIMESTAMP");
+    }
+    // Return Some (TSi). The first byte is the tag.
+    int MemSize = 1 + sizeof(SafeUint64);
+    auto Mem = reinterpret_cast<uint8_t *>(SJ->OM.allocBytes(MemSize));
+    *Mem = ScillaTypes::Option_Some_Tag;
+    *reinterpret_cast<SafeUint64 *>(Mem + 1) = TSi;
+    return Mem;
   } else {
     CREATE_ERROR("Unknown blockchain read request");
   }

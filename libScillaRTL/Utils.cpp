@@ -453,7 +453,7 @@ void MemStateServer::clear() {
   BCState.clear();
   FieldTypes.clear();
   ThisAddress.clear();
-  ;
+  BCInfo.clear();
 }
 
 // Initialize the server with only field types and no values.
