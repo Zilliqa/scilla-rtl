@@ -1129,4 +1129,34 @@ BOOST_AUTO_TEST_CASE(succ_common_jit) {
 
 BOOST_AUTO_TEST_SUITE_END() // timestamp
 
+BOOST_AUTO_TEST_SUITE(chainid)
+
+auto preparechainidSuccTests = []() {
+  ContractTest RSRSTs{"chainid.ll", {}};
+  for (int I = 1; I <= 1; I++) {
+    ContractTest::Input ThisInput = {
+        "chainid_succ_" + std::to_string(I),
+        "chainid.message_" + std::to_string(I) + ".json",
+        "empty_init.json",
+        "chainid.contrinfo.json",
+        "chainid.state_" + std::to_string(I) + ".json",
+        "chainid.ostate_" + std::to_string(I) + ".json",
+        "chainid.output_" + std::to_string(I) + ".json",
+        "chainid.blockchain_" + std::to_string(I) + ".json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits) {
+  testMessages(preparechainidSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit) {
+  testMessages(preparechainidSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // chainid
+
+
 BOOST_AUTO_TEST_SUITE_END() // contr_exec

@@ -17,6 +17,7 @@
 
 #include <Bech32/segwit_addr.h>
 #include <Schnorr.h>
+#include <cstdint>
 #include <ethash/keccak.h>
 #include <openssl/ripemd.h>
 #include <openssl/sha.h>
@@ -1170,7 +1171,18 @@ void *_read_blockchain(ScillaExecImpl *SJ, ScillaTypes::String QueryName,
     }
     return SJ->OM.create<BigNum>(BNum);
   } else if (QName == "CHAINID") {
-    CREATE_ERROR("CHAINID not supported yet");
+    auto QArg = std::string(QueryArg);
+    std::string CID;
+    if (!SJ->SPs.fetchBlockchainInfo("CHAINID", "", CID)) {
+      CREATE_ERROR("Unable to fetch CHAINID from blockchain");
+    }
+    uint64_t CIDi;
+    try {
+      CIDi = boost::lexical_cast<uint32_t>(CID);
+    } catch (boost::bad_lexical_cast &) {
+      CREATE_ERROR("Invalid BLOCKNUMBER");
+    }
+    return SJ->OM.create<SafeUint32>(CIDi);
   } else if (QName == "TIMESTAMP") {
     auto QArg = std::string(QueryArg);
     std::string TS;

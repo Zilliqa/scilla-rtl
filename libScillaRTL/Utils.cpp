@@ -117,19 +117,25 @@ void parseBlockchainJSON(
   BCInfo["BLOCKNUMBER"][""] = CurBlockS->asString();
 
   auto TS = vNameValue(BC, "TIMESTAMP");
-  if (!TS) {
-    return;
+  if (TS) {
+    if (!TS->isObject()) {
+      CREATE_ERROR("TIMESTAMP not found or invalid");
+    }
+    for (auto TSi = TS->begin(); TSi != TS->end(); TSi++) {
+      if (!TSi->isString()) {
+        CREATE_ERROR(
+            "Invalid TIMESTAMP in blockchain JSON. Expected string values.");
+      }
+      BCInfo["TIMESTAMP"][TSi.key().asString()] = TSi->asString();
+    }
   }
 
-  if (!TS->isObject()) {
-    CREATE_ERROR("TIMESTAMP not found or invalid");
-  }
-  for (auto TSi = TS->begin(); TSi != TS->end(); TSi++) {
-    if (!TSi->isString()) {
-      CREATE_ERROR(
-          "Invalid TIMESTAMP in blockchain JSON. Expected string values.");
+  auto CID = vNameValue(BC, "CHAINID");
+  if (CID) {
+    if (!CID->isString()) {
+      CREATE_ERROR("CHAINID not found or invalid");
     }
-    BCInfo["TIMESTAMP"][TSi.key().asString()] = TSi->asString();
+    BCInfo["CHAINID"][""] = CID->asString();
   }
 }
 

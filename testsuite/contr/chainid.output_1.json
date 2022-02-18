@@ -1,0 +1,14 @@
+{
+  "scilla_major_version": "0",
+  "gas_remaining": "9999991",
+  "_accepted": "false",
+  "messages": [],
+  "events": [
+    {
+      "_eventname": "ChainID",
+      "params": [
+        { "vname": "chain_id", "type": "Uint32", "value": "12218" }
+      ]
+    }
+  ]
+}
