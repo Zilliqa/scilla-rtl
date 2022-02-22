@@ -1,0 +1,22 @@
+{
+  "scilla_major_version": "0",
+  "gas_remaining": "9999991",
+  "_accepted": "false",
+  "messages": [],
+  "events": [
+    {
+      "_eventname": "TS",
+      "params": [
+        {
+          "vname": "timestamp",
+          "type": "Option (Uint64)",
+          "value": {
+            "constructor": "None",
+            "argtypes": [ "Uint64" ],
+            "arguments": []
+          }
+        }
+      ]
+    }
+  ]
+}

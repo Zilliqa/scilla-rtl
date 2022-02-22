@@ -51,6 +51,10 @@ extern Typ Map_int64_pair_int32_list_int64_typ;
 extern Typ Map_int32_map_int32_string_typ;
 
 extern Typ ByStr20_typ;
+extern Typ ByStr20_with_end_typ;
+extern Typ ByStr20_with_codehash_end_typ;
+extern Typ ByStr20_with_library_end_typ;
+extern Typ ByStr20_with_contract_end_typ;
 extern Typ ByStr_typ;
 
 // Address types

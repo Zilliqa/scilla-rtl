@@ -68,7 +68,10 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
                 ph::_3, ph::_4, ph::_5);
   ScillaParams::UpdateState_Type updateStateValue =
       std::bind(&MemStateServer::updateStateValue, &State, ph::_1, ph::_2);
-  ScillaParams SP(fetchStateValue, fetchRemoteStateValue, updateStateValue);
+  ScillaParams::FetchBCInfo_Type fetchBlockchainInfo = std::bind(
+      &MemStateServer::fetchBlockchainInfo, &State, ph::_1, ph::_2, ph::_3);
+  ScillaParams SP(fetchStateValue, fetchBlockchainInfo, fetchRemoteStateValue,
+                  updateStateValue);
 
   std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
   // Tool to compile the LLVM-IR to a binary shared object.
@@ -101,7 +104,6 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       // Prepare all inputs.
       InitJSON = parseJSONFile(PathPrefix + Input.InitFilename);
       BCJ = parseJSONFile(PathPrefix + Input.BCFilename);
-      uint64_t CurBlock = parseBlockchainJSON(BCJ);
       if (!Input.MessageFilename.empty()) {
         MessageJSON = parseJSONFile(PathPrefix + Input.MessageFilename);
       }
@@ -115,17 +117,16 @@ void testMessagesHelper(const ContractTest &CT, bool CommonJIT) {
       // Update our in-memory state table with the one from a state JSON.
       if (!Input.StateFilename.empty()) {
         auto StateJSON = parseJSONFile(PathPrefix + Input.StateFilename);
-        Balance = State.initState(InitJSON, StateJSON);
+        Balance = State.initState(InitJSON, StateJSON, BCJ);
       }
       // Let's execute.
       Json::Value OJ;
       {
         ScopeTimer ExecMsgTimer(CT.ContrFilename + ": ScillaExec::execMsg");
         if (Input.MessageFilename.empty()) {
-          OJ = JE->deploy(InitJSON, Config::GasLimit, CurBlock);
+          OJ = JE->deploy(InitJSON, Config::GasLimit);
         } else {
-          OJ = JE->execMsg(Balance, Config::GasLimit, CurBlock, InitJSON,
-                           MessageJSON);
+          OJ = JE->execMsg(Balance, Config::GasLimit, InitJSON, MessageJSON);
         }
       }
 
@@ -201,7 +202,10 @@ void testMessageFail(const std::string &ContrFilename,
                 ph::_3, ph::_4, ph::_5);
   ScillaParams::UpdateState_Type updateStateValue =
       std::bind(&MemStateServer::updateStateValue, &State, ph::_1, ph::_2);
-  ScillaParams SP(fetchStateValue, fetchRemoteStateValue, updateStateValue);
+  ScillaParams::FetchBCInfo_Type fetchBlockchainInfo = std::bind(
+      &MemStateServer::fetchBlockchainInfo, &State, ph::_1, ph::_2, ph::_3);
+  ScillaParams SP(fetchStateValue, fetchBlockchainInfo, fetchRemoteStateValue,
+                  updateStateValue);
 
   std::string PathPrefix = Config::TestsuiteSrc + "/contr/";
   // Tool to compile the LLVM-IR to a binary shared object.
@@ -227,9 +231,8 @@ void testMessageFail(const std::string &ContrFilename,
     // Update our in-memory state table with the one from a state JSON.
     if (!StateFilename.empty()) {
       auto StateJSON = parseJSONFile(PathPrefix + StateFilename);
-      Balance = State.initState(InitJSON, StateJSON);
+      Balance = State.initState(InitJSON, StateJSON, BCJ);
     }
-    uint64_t CurBlock = parseBlockchainJSON(BCJ);
     // Create a JIT engine
     {
       ScopeTimer CreateTimer(ContrFilename + ": ScillaExec::create");
@@ -238,9 +241,9 @@ void testMessageFail(const std::string &ContrFilename,
     {
       ScopeTimer ExecMsgTimer(ContrFilename + ": ScillaExec::execMsg");
       if (MessageFilename.empty()) {
-        JE->deploy(InitJSON, Config::GasLimit, CurBlock);
+        JE->deploy(InitJSON, Config::GasLimit);
       } else {
-        JE->execMsg(Balance, Config::GasLimit, CurBlock, InitJSON, MessageJSON);
+        JE->execMsg(Balance, Config::GasLimit, InitJSON, MessageJSON);
       }
     }
   } catch (const ScillaError &E) {
@@ -1036,5 +1039,124 @@ BOOST_AUTO_TEST_CASE(succ_common_jit) {
 }
 
 BOOST_AUTO_TEST_SUITE_END() // ecdsa
+
+BOOST_AUTO_TEST_SUITE(cconstraint)
+
+BOOST_AUTO_TEST_CASE(deploy) {
+  ContractTest CCDeploy = {
+      "cconstraint.ll",
+      {{"cconstraint_deploy", "", "cconstraint.init.json",
+        "cconstraint.contrinfo.json", "", "cconstraint.init_ostate.json",
+        "cconstraint.init_output.json", "blockchain_default.json"}}};
+  testMessages(CCDeploy, false);
+}
+
+BOOST_AUTO_TEST_CASE(deploy_fail) {
+  testMessageFail("cconstraint.ll", "", "cconstraint.init_bad.json",
+                  "cconstraint.contrinfo.json", "",
+                  "cconstraint.init_bad_output.txt", "blockchain_default.json");
+}
+
+BOOST_AUTO_TEST_SUITE_END() // cconstraint
+
+BOOST_AUTO_TEST_SUITE(codehash)
+
+auto preparecodehashSuccTests = []() {
+  ContractTest RSRSTs{"codehash.ll", {}};
+  for (int I = 1; I <= 4; I++) {
+    ContractTest::Input ThisInput = {
+        "codehash_succ_" + std::to_string(I),
+        "codehash.message_" + std::to_string(I) + ".json",
+        "empty_init.json",
+        "codehash.contrinfo.json",
+        "codehash.state_" + std::to_string(I) + ".json",
+        "codehash.ostate_" + std::to_string(I) + ".json",
+        "codehash.output_" + std::to_string(I) + ".json",
+        "codehash.blockchain_" + std::to_string(I) + ".json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits) {
+  testMessages(preparecodehashSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit) {
+  testMessages(preparecodehashSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(expfail) {
+  for (int I = 100; I <= 102; I++) {
+    BOOST_TEST_CHECKPOINT("Executing codehash_tests_fail_" << I);
+    testMessageFail("codehash.ll",
+                    "codehash.message_" + std::to_string(I) + ".json",
+                    "empty_init.json", "codehash.contrinfo.json",
+                    "codehash.state_" + std::to_string(I) + ".json",
+                    "codehash.output_" + std::to_string(I) + ".txt",
+                    "codehash.blockchain_" + std::to_string(I) + ".json");
+  }
+}
+
+BOOST_AUTO_TEST_SUITE_END() // codehash
+
+BOOST_AUTO_TEST_SUITE(timestamp)
+
+auto preparetimestampSuccTests = []() {
+  ContractTest RSRSTs{"timestamp.ll", {}};
+  for (int I = 1; I <= 2; I++) {
+    ContractTest::Input ThisInput = {
+        "timestamp_succ_" + std::to_string(I),
+        "timestamp.message_" + std::to_string(I) + ".json",
+        "empty_init.json",
+        "timestamp.contrinfo.json",
+        "timestamp.state_" + std::to_string(I) + ".json",
+        "timestamp.ostate_" + std::to_string(I) + ".json",
+        "timestamp.output_" + std::to_string(I) + ".json",
+        "timestamp.blockchain_" + std::to_string(I) + ".json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits) {
+  testMessages(preparetimestampSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit) {
+  testMessages(preparetimestampSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // timestamp
+
+BOOST_AUTO_TEST_SUITE(chainid)
+
+auto preparechainidSuccTests = []() {
+  ContractTest RSRSTs{"chainid.ll", {}};
+  for (int I = 1; I <= 1; I++) {
+    ContractTest::Input ThisInput = {
+        "chainid_succ_" + std::to_string(I),
+        "chainid.message_" + std::to_string(I) + ".json",
+        "empty_init.json",
+        "chainid.contrinfo.json",
+        "chainid.state_" + std::to_string(I) + ".json",
+        "chainid.ostate_" + std::to_string(I) + ".json",
+        "chainid.output_" + std::to_string(I) + ".json",
+        "chainid.blockchain_" + std::to_string(I) + ".json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits) {
+  testMessages(preparechainidSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit) {
+  testMessages(preparechainidSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_SUITE_END() // chainid
+
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec
