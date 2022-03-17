@@ -213,6 +213,9 @@ std::string Typ::toString(const Typ *T) {
       case PrimTyp::Exception_typ:
         Out += "Exception";
         break;
+      case PrimTyp::ReplicateContr_typ:
+        Out += "ReplicateContr";
+        break;
       case PrimTyp::Bystr_typ:
         Out += "ByStr";
         break;
@@ -303,6 +306,7 @@ int ScillaTypes::Typ::sizeOf(const Typ *T) {
     case PrimTyp::Msg_typ:
     case PrimTyp::Event_typ:
     case PrimTyp::Exception_typ:
+    case PrimTyp::ReplicateContr_typ:
       // MsgObjs are boxed. So just a pointer.
       return sizeof(void *);
     }

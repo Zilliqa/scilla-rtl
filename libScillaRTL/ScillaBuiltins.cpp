@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "json/value.h"
 #include <Bech32/segwit_addr.h>
 #include <Schnorr.h>
 #include <cstdint>
@@ -739,6 +740,30 @@ void _throw(ScillaExecImpl *SJ, const ScillaTypes::Typ *T, const void *V) {
   (void)SJ;
   auto J = ScillaValues::toJSON(T, V);
   SCILLA_EXCEPTION("Exception thrown: " + prettyPrintJSON(J));
+}
+
+uint8_t *_replicate_contract(ScillaRTL::ScillaExecImpl *SJ, uint8_t *Addr,
+                             const ScillaRTL::ScillaTypes::Typ *MsgT,
+                             const void *Msg) {
+  std::string AddrS = ScillaValues::rawToHex(Addr, ScillaTypes::AddrByStr_Len);
+  auto J = ScillaValues::toJSON(MsgT, Msg);
+  std::string NewAddr;
+
+  // [ "0x..address..", [init_params] ]
+  Json::Value KeyJ;
+  KeyJ.append(Json::Value(AddrS));
+  KeyJ.append(J);
+
+  if (!SJ->SPs.fetchBlockchainInfo("REPLICATE_CONTRACT", prettyPrintJSON(KeyJ),
+                                   NewAddr)) {
+    CREATE_ERROR("Unable to replicate contract at address" + AddrS);
+  }
+
+  int NBytes;
+  auto NewAddrBytes =
+      ScillaValues::hex2Raw(SJ->OM, nullptr, 0, NewAddr, NBytes);
+  ASSERT(NBytes == 20);
+  return NewAddrBytes;
 }
 
 uint8_t *_eq_String(ScillaExecImpl *SJ, ScillaTypes::String Lhs,

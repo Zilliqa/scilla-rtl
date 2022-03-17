@@ -112,14 +112,14 @@ void parseBlockchainJSON(
                        std::unordered_map<std::string, std::string>> &BCInfo) {
   auto CurBlockS = vNameValue(BC, "BLOCKNUMBER");
   if (!CurBlockS || !CurBlockS->isString()) {
-    CREATE_ERROR("BLOCKNUMBER not found or invalid");
+    CREATE_ERROR("BLOCKNUMBER not found or invalid in JSON");
   }
   BCInfo["BLOCKNUMBER"][""] = CurBlockS->asString();
 
   auto TS = vNameValue(BC, "TIMESTAMP");
   if (TS) {
     if (!TS->isObject()) {
-      CREATE_ERROR("TIMESTAMP not found or invalid");
+      CREATE_ERROR("TIMESTAMP not found or invalid in JSON");
     }
     for (auto TSi = TS->begin(); TSi != TS->end(); TSi++) {
       if (!TSi->isString()) {
@@ -133,9 +133,25 @@ void parseBlockchainJSON(
   auto CID = vNameValue(BC, "CHAINID");
   if (CID) {
     if (!CID->isString()) {
-      CREATE_ERROR("CHAINID not found or invalid");
+      CREATE_ERROR("CHAINID invalid in JSON");
     }
     BCInfo["CHAINID"][""] = CID->asString();
+  }
+
+  auto RC = vNameValue(BC, "REPLICATE_CONTRACT");
+  if (RC) {
+    if (!RC->isObject()) {
+      CREATE_ERROR("REPLICATE_CONTRACT invalid in JSON");
+    }
+    for (auto RCi = RC->begin(); RCi != RC->end(); RCi++) {
+      if (!RCi->isString()) {
+        CREATE_ERROR("Invalid REPLICATE_CONTRACT in blockchain JSON. Expected "
+                     "string values.");
+      }
+      // The key is a JSON in itself. Let's parse and canonical print it as key.
+      Json::Value Key = parseJSONString(RCi.key().asString());
+      BCInfo["REPLICATE_CONTRACT"][prettyPrintJSON(Key)] = RCi->asString();
+    }
   }
 }
 

@@ -1,0 +1,75 @@
+{
+  "contract_info": {
+    "scilla_major_version": "0",
+    "vname": "Foo",
+    "params": [],
+    "fields": [],
+    "transitions": [
+      {
+        "vname": "rep",
+        "params": [ { "vname": "bar", "type": "ByStr20 with contract end" } ]
+      },
+      {
+        "vname": "cfdeploy",
+        "params": [
+          { "vname": "cfaddr", "type": "ByStr20 with contract end" }
+        ]
+      },
+      {
+        "vname": "cfdeploy_incorrect",
+        "params": [
+          { "vname": "cfaddr", "type": "ByStr20 with contract end" }
+        ]
+      }
+    ],
+    "procedures": [],
+    "events": [
+      {
+        "vname": "Replicated",
+        "params": [ { "vname": "new_addr", "type": "ByStr20" } ]
+      }
+    ],
+    "ADTs": [
+      {
+        "tname": "Option",
+        "tparams": [ "'A" ],
+        "tmap": [
+          { "cname": "Some", "argtypes": [ "'A" ] },
+          { "cname": "None", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Bool",
+        "tparams": [],
+        "tmap": [
+          { "cname": "True", "argtypes": [] },
+          { "cname": "False", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Nat",
+        "tparams": [],
+        "tmap": [
+          { "cname": "Zero", "argtypes": [] },
+          { "cname": "Succ", "argtypes": [ "Nat" ] }
+        ]
+      },
+      {
+        "tname": "List",
+        "tparams": [ "'A" ],
+        "tmap": [
+          { "cname": "Cons", "argtypes": [ "'A", "List ('A)" ] },
+          { "cname": "Nil", "argtypes": [] }
+        ]
+      },
+      {
+        "tname": "Pair",
+        "tparams": [ "'A", "'B" ],
+        "tmap": [ { "cname": "Pair", "argtypes": [ "'A", "'B" ] } ]
+      }
+    ]
+  },
+  "warnings": [],
+  "gas_remaining": "9999"
+}
+
