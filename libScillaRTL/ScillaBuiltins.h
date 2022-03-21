@@ -281,6 +281,10 @@ void _event(ScillaRTL::ScillaExecImpl *SJ, const ScillaRTL::ScillaTypes::Typ *T,
 void _throw(ScillaRTL::ScillaExecImpl *SJ, const ScillaRTL::ScillaTypes::Typ *T,
             const void *V);
 
+uint8_t *_replicate_contract(ScillaRTL::ScillaExecImpl *SJ, uint8_t *Addr,
+                             const ScillaRTL::ScillaTypes::Typ *MsgT,
+                             const void *Msg);
+
 uint8_t *_eq_String(ScillaRTL::ScillaExecImpl *SJ,
                     ScillaRTL::ScillaTypes::String Lhs,
                     ScillaRTL::ScillaTypes::String Rhs);

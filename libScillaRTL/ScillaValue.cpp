@@ -22,6 +22,7 @@
 
 #include "SafeInt.h"
 #include "ScillaExecImpl.h"
+#include "ScillaTypes.h"
 #include "ScillaValue.h"
 
 namespace bmp = boost::multiprecision;
@@ -204,6 +205,7 @@ std::string toString(bool PrintType, const ScillaTypes::Typ *T, const void *V) {
       case ScillaTypes::PrimTyp::Msg_typ:
       case ScillaTypes::PrimTyp::Event_typ:
       case ScillaTypes::PrimTyp::Exception_typ:
+      case ScillaTypes::PrimTyp::ReplicateContr_typ:
         CREATE_ERROR("Unhandled PrimTyp values");
       }
       break;
@@ -302,7 +304,8 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
       } break;
       case ScillaTypes::PrimTyp::Msg_typ:
       case ScillaTypes::PrimTyp::Event_typ:
-      case ScillaTypes::PrimTyp::Exception_typ: {
+      case ScillaTypes::PrimTyp::Exception_typ: 
+      case ScillaTypes::PrimTyp::ReplicateContr_typ: {
         if (!V) {
           ASSERT(T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Exception_typ);
           Out = Json::Value("error");
@@ -318,6 +321,9 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
           break;
         case ScillaTypes::PrimTyp::Exception_typ:
           Name = "_exception";
+          break;
+        case ScillaRTL::ScillaTypes::PrimTyp::ReplicateContr_typ:
+          Name = "_replicate_contract";
           break;
         default:
           CREATE_ERROR("Unreachable");
@@ -341,6 +347,11 @@ Json::Value toJSON(const ScillaTypes::Typ *T, const void *V) {
                 Out["params"].append(VV);
               }
             });
+        if (Name == "_replicate_contract") {
+          // If this is a replicate contract Msg object,
+          // then output in the form of an init JSON.
+          Out = Out["params"];
+        }
         break;
       }
       }
@@ -512,7 +523,8 @@ void *fromJSONToMem(ObjManager &OM, void *MemV, int MemSize,
     }
     case ScillaTypes::PrimTyp::Msg_typ:
     case ScillaTypes::PrimTyp::Event_typ:
-    case ScillaTypes::PrimTyp::Exception_typ: {
+    case ScillaTypes::PrimTyp::Exception_typ: 
+    case ScillaTypes::PrimTyp::ReplicateContr_typ: {
       CREATE_ERROR("Unhandled PrimTyp values");
     }
     }
@@ -673,7 +685,8 @@ void serializeForHashing(ByteVec &Ret, const ScillaTypes::Typ *T,
     } break;
     case ScillaTypes::PrimTyp::Msg_typ:
     case ScillaTypes::PrimTyp::Event_typ:
-    case ScillaTypes::PrimTyp::Exception_typ: {
+    case ScillaTypes::PrimTyp::Exception_typ: 
+    case ScillaTypes::PrimTyp::ReplicateContr_typ: {
       CREATE_ERROR("Unhandled PrimTyp values");
     }
     }
@@ -731,7 +744,8 @@ uint64_t literalCost(const ScillaTypes::Typ *T, const void *V) {
     }
     case ScillaTypes::PrimTyp::Msg_typ:
     case ScillaTypes::PrimTyp::Event_typ:
-    case ScillaTypes::PrimTyp::Exception_typ: {
+    case ScillaTypes::PrimTyp::Exception_typ: 
+    case ScillaTypes::PrimTyp::ReplicateContr_typ: {
       uint64_t Acc = 0;
       iterScillaMsgObjectElms(T, V,
                               [&Acc, &stringLengthNormalize](
@@ -857,7 +871,8 @@ void iterScillaMsgObjectElms(const ScillaTypes::Typ *T, const void *V,
   switch (T->m_sub.m_primt->m_pt) {
   case ScillaTypes::PrimTyp::Msg_typ:
   case ScillaTypes::PrimTyp::Event_typ:
-  case ScillaTypes::PrimTyp::Exception_typ: {
+  case ScillaTypes::PrimTyp::Exception_typ: 
+  case ScillaTypes::PrimTyp::ReplicateContr_typ: {
     if (!V) {
       ASSERT(T->m_sub.m_primt->m_pt == ScillaTypes::PrimTyp::Exception_typ);
       return;

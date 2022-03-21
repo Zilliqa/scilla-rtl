@@ -75,6 +75,7 @@ struct PrimTyp {
     Exception_typ,
     Bystr_typ,
     Bystrx_typ,
+    ReplicateContr_typ,
   };
 
   Prims m_pt; // Tag for the union below

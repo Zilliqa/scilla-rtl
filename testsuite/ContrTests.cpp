@@ -1158,5 +1158,45 @@ BOOST_AUTO_TEST_CASE(succ_common_jit) {
 
 BOOST_AUTO_TEST_SUITE_END() // chainid
 
+BOOST_AUTO_TEST_SUITE(replicate)
+
+auto preparereplicateSuccTests = []() {
+  ContractTest RSRSTs{"replicate.ll", {}};
+  for (int I = 1; I <= 1; I++) {
+    ContractTest::Input ThisInput = {
+        "replicate_succ_" + std::to_string(I),
+        "replicate.message_" + std::to_string(I) + ".json",
+        "empty_init.json",
+        "replicate.contrinfo.json",
+        "replicate.state_" + std::to_string(I) + ".json",
+        "replicate.ostate_" + std::to_string(I) + ".json",
+        "replicate.output_" + std::to_string(I) + ".json",
+        "replicate.blockchain_" + std::to_string(I) + ".json"};
+    RSRSTs.Inputs.push_back(ThisInput);
+  }
+  return RSRSTs;
+};
+
+BOOST_AUTO_TEST_CASE(succ_unique_jits) {
+  testMessages(preparereplicateSuccTests(), false /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(succ_common_jit) {
+  testMessages(preparereplicateSuccTests(), true /* CommonJIT */);
+}
+
+BOOST_AUTO_TEST_CASE(expfail) {
+  for (int I = 100; I <= 100; I++) {
+    BOOST_TEST_CHECKPOINT("Executing replicate_tests_fail_" << I);
+    testMessageFail("replicate.ll",
+                    "replicate.message_" + std::to_string(I) + ".json",
+                    "empty_init.json", "replicate.contrinfo.json",
+                    "replicate.state_" + std::to_string(I) + ".json",
+                    "replicate.output_" + std::to_string(I) + ".txt",
+                    "replicate.blockchain_" + std::to_string(I) + ".json");
+  }
+}
+
+BOOST_AUTO_TEST_SUITE_END() // replicate
 
 BOOST_AUTO_TEST_SUITE_END() // contr_exec
