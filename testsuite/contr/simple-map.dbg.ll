@@ -4,7 +4,7 @@
 ; ModuleID = 'SimpleMap'
 source_filename = "SimpleMap"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_5" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -112,13 +112,14 @@ target triple = "x86_64-pc-linux-gnu"
 @_transition_parameters = constant [2 x %"$TransDescr_317"] [%"$TransDescr_317" { %ParamDescrString { i8* getelementptr inbounds ([9 x i8], [9 x i8]* @"$tname_Increment_325", i32 0, i32 0), i32 9 }, i32 3, %"$ParamDescr_316"* getelementptr inbounds ([3 x %"$ParamDescr_316"], [3 x %"$ParamDescr_316"]* @"$tparams_Increment_324", i32 0, i32 0) }, %"$TransDescr_317" { %ParamDescrString { i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$tname_IncrementNOpt_331", i32 0, i32 0), i32 13 }, i32 4, %"$ParamDescr_316"* getelementptr inbounds ([4 x %"$ParamDescr_316"], [4 x %"$ParamDescr_316"]* @"$tparams_IncrementNOpt_330", i32 0, i32 0) }]
 @_transition_parameters_length = constant i32 2
 
-define internal %Int32 @"$fundef_2"(%"$$fundef_2_env_61"* %0, %Int32 %1) !dbg !4 {
+define internal %Int32 @"$fundef_2"(%"$$fundef_2_env_61"* %0, %Int32 %1) !dbg !3 {
 entry:
   %"$$fundef_2_env_simple-map.one_62" = getelementptr inbounds %"$$fundef_2_env_61", %"$$fundef_2_env_61"* %0, i32 0, i32 0
   %"$simple-map.one_envload_63" = load %Int32, %Int32* %"$$fundef_2_env_simple-map.one_62", align 4
   %simple-map.one = alloca %Int32, align 8
   store %Int32 %"$simple-map.one_envload_63", %Int32* %simple-map.one, align 4
   %"$retval_3" = alloca %Int32, align 8
+  call void @llvm.dbg.declare(metadata %Int32* %"$retval_3", metadata !8, metadata !DIExpression()), !dbg !10
   %"$gasrem_64" = load i64, i64* @_gasrem, align 8
   %"$gascmp_65" = icmp ugt i64 4, %"$gasrem_64"
   br i1 %"$gascmp_65", label %"$out_of_gas_66", label %"$have_gas_67"
@@ -131,17 +132,20 @@ entry:
   %"$consume_68" = sub i64 %"$gasrem_64", 4
   store i64 %"$consume_68", i64* @_gasrem, align 8
   %"$simple-map.one_69" = load %Int32, %Int32* %simple-map.one, align 4
-  %"$add_call_70" = call %Int32 @_add_Int32(%Int32 %1, %Int32 %"$simple-map.one_69"), !dbg !8
-  store %Int32 %"$add_call_70", %Int32* %"$retval_3", align 4, !dbg !8
+  %"$add_call_70" = call %Int32 @_add_Int32(%Int32 %1, %Int32 %"$simple-map.one_69"), !dbg !10
+  store %Int32 %"$add_call_70", %Int32* %"$retval_3", align 4, !dbg !10
   %"$$retval_3_71" = load %Int32, %Int32* %"$retval_3", align 4
   ret %Int32 %"$$retval_3_71"
 }
+
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
 declare void @_out_of_gas()
 
 declare %Int32 @_add_Int32(%Int32, %Int32)
 
-define void @_init_libs() !dbg !9 {
+define void @_init_libs() !dbg !11 {
 entry:
   %"$gasrem_72" = load i64, i64* @_gasrem, align 8
   %"$gascmp_73" = icmp ugt i64 5, %"$gasrem_72"
@@ -154,7 +158,7 @@ entry:
 "$have_gas_75":                                   ; preds = %"$out_of_gas_74", %entry
   %"$consume_76" = sub i64 %"$gasrem_72", 5
   store i64 %"$consume_76", i64* @_gasrem, align 8
-  store %Int32 { i32 5 }, %Int32* @"$_gas_charge_acc_0", align 4, !dbg !11
+  store %Int32 { i32 5 }, %Int32* @"$_gas_charge_acc_0", align 4, !dbg !13
   %"$gasrem_77" = load i64, i64* @_gasrem, align 8
   %"$gascmp_78" = icmp ugt i64 1, %"$gasrem_77"
   br i1 %"$gascmp_78", label %"$out_of_gas_79", label %"$have_gas_80"
@@ -166,7 +170,7 @@ entry:
 "$have_gas_80":                                   ; preds = %"$out_of_gas_79", %"$have_gas_75"
   %"$consume_81" = sub i64 %"$gasrem_77", 1
   store i64 %"$consume_81", i64* @_gasrem, align 8
-  store %Int32 { i32 1 }, %Int32* @simple-map.one, align 4, !dbg !12
+  store %Int32 { i32 1 }, %Int32* @simple-map.one, align 4, !dbg !14
   %"$gasrem_82" = load i64, i64* @_gasrem, align 8
   %"$gascmp_83" = icmp ugt i64 1, %"$gasrem_82"
   br i1 %"$gascmp_83", label %"$out_of_gas_84", label %"$have_gas_85"
@@ -186,13 +190,13 @@ entry:
   %"$$fundef_2_env_simple-map.one_91" = getelementptr inbounds %"$$fundef_2_env_61", %"$$fundef_2_env_61"* %"$$fundef_2_envp_87", i32 0, i32 0
   %"$simple-map.one_92" = load %Int32, %Int32* @simple-map.one, align 4
   store %Int32 %"$simple-map.one_92", %Int32* %"$$fundef_2_env_simple-map.one_91", align 4
-  store { %Int32 (i8*, %Int32)*, i8* } %"$$fundef_2_cloval_90", { %Int32 (i8*, %Int32)*, i8* }* @simple-map.inc, align 8, !dbg !13
+  store { %Int32 (i8*, %Int32)*, i8* } %"$$fundef_2_cloval_90", { %Int32 (i8*, %Int32)*, i8* }* @simple-map.inc, align 8, !dbg !15
   ret void
 }
 
 declare i8* @_salloc(i8*, i64)
 
-define void @_deploy_ops() !dbg !14 {
+define void @_deploy_ops() !dbg !16 {
 entry:
   %"$gasrem_93" = load i64, i64* @_gasrem, align 8
   %"$gascmp_94" = icmp ugt i64 1, %"$gasrem_93"
@@ -206,6 +210,7 @@ entry:
   %"$consume_97" = sub i64 %"$gasrem_93", 1
   store i64 %"$consume_97", i64* @_gasrem, align 8
   %"$access_count_4" = alloca %Map_ByStr20_Int32*, align 8
+  call void @llvm.dbg.declare(metadata %Map_ByStr20_Int32** %"$access_count_4", metadata !17, metadata !DIExpression()), !dbg !20
   %"$gasrem_98" = load i64, i64* @_gasrem, align 8
   %"$gascmp_99" = icmp ugt i64 1, %"$gasrem_98"
   br i1 %"$gascmp_99", label %"$out_of_gas_100", label %"$have_gas_101"
@@ -220,11 +225,11 @@ entry:
   %"$execptr_load_103" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_104" = call i8* @_new_empty_map(i8* %"$execptr_load_103")
   %"$_new_empty_map_105" = bitcast i8* %"$_new_empty_map_call_104" to %Map_ByStr20_Int32*
-  store %Map_ByStr20_Int32* %"$_new_empty_map_105", %Map_ByStr20_Int32** %"$access_count_4", align 8, !dbg !15
+  store %Map_ByStr20_Int32* %"$_new_empty_map_105", %Map_ByStr20_Int32** %"$access_count_4", align 8, !dbg !21
   %"$execptr_load_106" = load i8*, i8** @_execptr, align 8
   %"$$access_count_4_108" = load %Map_ByStr20_Int32*, %Map_ByStr20_Int32** %"$access_count_4", align 8
   %"$update_value_109" = bitcast %Map_ByStr20_Int32* %"$$access_count_4_108" to i8*
-  call void @_update_field(i8* %"$execptr_load_106", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_107", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 0, i8* null, i8* %"$update_value_109"), !dbg !15
+  call void @_update_field(i8* %"$execptr_load_106", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_107", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 0, i8* null, i8* %"$update_value_109"), !dbg !21
   ret void
 }
 
@@ -232,11 +237,12 @@ declare i8* @_new_empty_map(i8*)
 
 declare void @_update_field(i8*, i8*, %_TyDescrTy_Typ*, i32, i8*, i8*)
 
-define internal void @"$Increment_110"(%Uint128 %_amount, [20 x i8]* %"$_origin_111", [20 x i8]* %"$_sender_112") !dbg !16 {
+define internal void @"$Increment_110"(%Uint128 %_amount, [20 x i8]* %"$_origin_111", [20 x i8]* %"$_sender_112") !dbg !22 {
 entry:
   %_origin = load [20 x i8], [20 x i8]* %"$_origin_111", align 1
   %_sender = load [20 x i8], [20 x i8]* %"$_sender_112", align 1
   %cur = alloca %TName_Option_Int32*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Option_Int32** %cur, metadata !23, metadata !DIExpression()), !dbg !26
   %"$indices_buf_113_salloc_load" = load i8*, i8** @_execptr, align 8
   %"$indices_buf_113_salloc_salloc" = call i8* @_salloc(i8* %"$indices_buf_113_salloc_load", i64 20)
   %"$indices_buf_113_salloc" = bitcast i8* %"$indices_buf_113_salloc_salloc" to [20 x i8]*
@@ -245,7 +251,7 @@ entry:
   %indices_cast = bitcast i8* %"$indices_gep_114" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %indices_cast, align 1
   %"$execptr_load_116" = load i8*, i8** @_execptr, align 8
-  %"$cur_call_117" = call i8* @_fetch_field(i8* %"$execptr_load_116", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_115", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 1, i8* %"$indices_buf_113", i32 1), !dbg !17
+  %"$cur_call_117" = call i8* @_fetch_field(i8* %"$execptr_load_116", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_115", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 1, i8* %"$indices_buf_113", i32 1), !dbg !26
   %"$cur_118" = bitcast i8* %"$cur_call_117" to %TName_Option_Int32*
   store %TName_Option_Int32* %"$cur_118", %TName_Option_Int32** %cur, align 8
   %"$cur_119" = load %TName_Option_Int32*, %TName_Option_Int32** %cur, align 8
@@ -281,7 +287,7 @@ entry:
   switch i8 %"$cur_tag_137", label %"$empty_default_138" [
     i8 0, label %"$Some_139"
     i8 1, label %"$None_176"
-  ], !dbg !18
+  ], !dbg !27
 
 "$Some_139":                                      ; preds = %"$have_gas_132"
   %"$cur_140" = bitcast %TName_Option_Int32* %"$cur_135" to %CName_Some_Int32*
@@ -301,6 +307,7 @@ entry:
   %"$consume_147" = sub i64 %"$gasrem_143", 1
   store i64 %"$consume_147", i64* @_gasrem, align 8
   %j = alloca %Int32, align 8
+  call void @llvm.dbg.declare(metadata %Int32* %j, metadata !28, metadata !DIExpression()), !dbg !31
   %"$gasrem_148" = load i64, i64* @_gasrem, align 8
   %"$gascmp_149" = icmp ugt i64 1, %"$gasrem_148"
   br i1 %"$gascmp_149", label %"$out_of_gas_150", label %"$have_gas_151"
@@ -313,14 +320,15 @@ entry:
   %"$consume_152" = sub i64 %"$gasrem_148", 1
   store i64 %"$consume_152", i64* @_gasrem, align 8
   %"$simple-map.inc_1" = alloca %Int32, align 8
+  call void @llvm.dbg.declare(metadata %Int32* %"$simple-map.inc_1", metadata !32, metadata !DIExpression()), !dbg !33
   %"$simple-map.inc_153" = load { %Int32 (i8*, %Int32)*, i8* }, { %Int32 (i8*, %Int32)*, i8* }* @simple-map.inc, align 8
   %"$simple-map.inc_fptr_154" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$simple-map.inc_153", 0
   %"$simple-map.inc_envptr_155" = extractvalue { %Int32 (i8*, %Int32)*, i8* } %"$simple-map.inc_153", 1
   %"$i_156" = load %Int32, %Int32* %i, align 4
-  %"$simple-map.inc_call_157" = call %Int32 %"$simple-map.inc_fptr_154"(i8* %"$simple-map.inc_envptr_155", %Int32 %"$i_156"), !dbg !19
-  store %Int32 %"$simple-map.inc_call_157", %Int32* %"$simple-map.inc_1", align 4, !dbg !19
+  %"$simple-map.inc_call_157" = call %Int32 %"$simple-map.inc_fptr_154"(i8* %"$simple-map.inc_envptr_155", %Int32 %"$i_156"), !dbg !33
+  store %Int32 %"$simple-map.inc_call_157", %Int32* %"$simple-map.inc_1", align 4, !dbg !33
   %"$$simple-map.inc_1_158" = load %Int32, %Int32* %"$simple-map.inc_1", align 4
-  store %Int32 %"$$simple-map.inc_1_158", %Int32* %j, align 4, !dbg !19
+  store %Int32 %"$$simple-map.inc_1_158", %Int32* %j, align 4, !dbg !33
   %"$_literal_cost_j_159" = alloca %Int32, align 8
   %"$j_160" = load %Int32, %Int32* %j, align 4
   store %Int32 %"$j_160", %Int32* %"$_literal_cost_j_159", align 4
@@ -350,7 +358,7 @@ entry:
   %"$update_value_174" = alloca %Int32, align 8
   store %Int32 %"$j_173", %Int32* %"$update_value_174", align 4
   %"$update_value_175" = bitcast %Int32* %"$update_value_174" to i8*
-  call void @_update_field(i8* %"$execptr_load_171", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_172", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 1, i8* %"$indices_buf_169", i8* %"$update_value_175"), !dbg !22
+  call void @_update_field(i8* %"$execptr_load_171", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_172", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 1, i8* %"$indices_buf_169", i8* %"$update_value_175"), !dbg !34
   br label %"$matchsucc_134"
 
 "$None_176":                                      ; preds = %"$have_gas_132"
@@ -384,7 +392,7 @@ entry:
   %"$update_value_193" = alloca %Int32, align 8
   store %Int32 %"$simple-map.one_192", %Int32* %"$update_value_193", align 4
   %"$update_value_194" = bitcast %Int32* %"$update_value_193" to i8*
-  call void @_update_field(i8* %"$execptr_load_190", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_191", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 1, i8* %"$indices_buf_188", i8* %"$update_value_194"), !dbg !23
+  call void @_update_field(i8* %"$execptr_load_190", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_191", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 1, i8* %"$indices_buf_188", i8* %"$update_value_194"), !dbg !35
   br label %"$matchsucc_134"
 
 "$empty_default_138":                             ; preds = %"$have_gas_132"
@@ -398,7 +406,7 @@ declare i8* @_fetch_field(i8*, i8*, %_TyDescrTy_Typ*, i32, i8*, i32)
 
 declare i64 @_literal_cost(%_TyDescrTy_Typ*, i8*)
 
-define void @Increment(i8* %0) !dbg !25 {
+define void @Increment(i8* %0) !dbg !37 {
 entry:
   %"$_amount_196" = getelementptr i8, i8* %0, i32 0
   %"$_amount_197" = bitcast i8* %"$_amount_196" to %Uint128*
@@ -407,15 +415,16 @@ entry:
   %"$_origin_199" = bitcast i8* %"$_origin_198" to [20 x i8]*
   %"$_sender_200" = getelementptr i8, i8* %0, i32 36
   %"$_sender_201" = bitcast i8* %"$_sender_200" to [20 x i8]*
-  call void @"$Increment_110"(%Uint128 %_amount, [20 x i8]* %"$_origin_199", [20 x i8]* %"$_sender_201"), !dbg !26
+  call void @"$Increment_110"(%Uint128 %_amount, [20 x i8]* %"$_origin_199", [20 x i8]* %"$_sender_201"), !dbg !38
   ret void
 }
 
-define internal void @"$IncrementN_202"(%Uint128 %_amount, [20 x i8]* %"$_origin_203", [20 x i8]* %"$_sender_204", %Int32 %n) !dbg !27 {
+define internal void @"$IncrementN_202"(%Uint128 %_amount, [20 x i8]* %"$_origin_203", [20 x i8]* %"$_sender_204", %Int32 %n) !dbg !39 {
 entry:
   %_origin = load [20 x i8], [20 x i8]* %"$_origin_203", align 1
   %_sender = load [20 x i8], [20 x i8]* %"$_sender_204", align 1
   %cur = alloca %TName_Option_Int32*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Option_Int32** %cur, metadata !40, metadata !DIExpression()), !dbg !41
   %"$indices_buf_205_salloc_load" = load i8*, i8** @_execptr, align 8
   %"$indices_buf_205_salloc_salloc" = call i8* @_salloc(i8* %"$indices_buf_205_salloc_load", i64 20)
   %"$indices_buf_205_salloc" = bitcast i8* %"$indices_buf_205_salloc_salloc" to [20 x i8]*
@@ -424,7 +433,7 @@ entry:
   %indices_cast = bitcast i8* %"$indices_gep_206" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %indices_cast, align 1
   %"$execptr_load_208" = load i8*, i8** @_execptr, align 8
-  %"$cur_call_209" = call i8* @_fetch_field(i8* %"$execptr_load_208", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_207", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 1, i8* %"$indices_buf_205", i32 1), !dbg !28
+  %"$cur_call_209" = call i8* @_fetch_field(i8* %"$execptr_load_208", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_207", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 1, i8* %"$indices_buf_205", i32 1), !dbg !41
   %"$cur_210" = bitcast i8* %"$cur_call_209" to %TName_Option_Int32*
   store %TName_Option_Int32* %"$cur_210", %TName_Option_Int32** %cur, align 8
   %"$cur_211" = load %TName_Option_Int32*, %TName_Option_Int32** %cur, align 8
@@ -460,7 +469,7 @@ entry:
   switch i8 %"$cur_tag_229", label %"$empty_default_230" [
     i8 0, label %"$Some_231"
     i8 1, label %"$None_264"
-  ], !dbg !29
+  ], !dbg !42
 
 "$Some_231":                                      ; preds = %"$have_gas_224"
   %"$cur_232" = bitcast %TName_Option_Int32* %"$cur_227" to %CName_Some_Int32*
@@ -480,6 +489,7 @@ entry:
   %"$consume_239" = sub i64 %"$gasrem_235", 1
   store i64 %"$consume_239", i64* @_gasrem, align 8
   %j = alloca %Int32, align 8
+  call void @llvm.dbg.declare(metadata %Int32* %j, metadata !43, metadata !DIExpression()), !dbg !46
   %"$gasrem_240" = load i64, i64* @_gasrem, align 8
   %"$gascmp_241" = icmp ugt i64 4, %"$gasrem_240"
   br i1 %"$gascmp_241", label %"$out_of_gas_242", label %"$have_gas_243"
@@ -492,8 +502,8 @@ entry:
   %"$consume_244" = sub i64 %"$gasrem_240", 4
   store i64 %"$consume_244", i64* @_gasrem, align 8
   %"$i_245" = load %Int32, %Int32* %i, align 4
-  %"$add_call_246" = call %Int32 @_add_Int32(%Int32 %"$i_245", %Int32 %n), !dbg !30
-  store %Int32 %"$add_call_246", %Int32* %j, align 4, !dbg !30
+  %"$add_call_246" = call %Int32 @_add_Int32(%Int32 %"$i_245", %Int32 %n), !dbg !47
+  store %Int32 %"$add_call_246", %Int32* %j, align 4, !dbg !47
   %"$_literal_cost_j_247" = alloca %Int32, align 8
   %"$j_248" = load %Int32, %Int32* %j, align 4
   store %Int32 %"$j_248", %Int32* %"$_literal_cost_j_247", align 4
@@ -523,7 +533,7 @@ entry:
   %"$update_value_262" = alloca %Int32, align 8
   store %Int32 %"$j_261", %Int32* %"$update_value_262", align 4
   %"$update_value_263" = bitcast %Int32* %"$update_value_262" to i8*
-  call void @_update_field(i8* %"$execptr_load_259", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_260", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 1, i8* %"$indices_buf_257", i8* %"$update_value_263"), !dbg !33
+  call void @_update_field(i8* %"$execptr_load_259", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_260", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 1, i8* %"$indices_buf_257", i8* %"$update_value_263"), !dbg !48
   br label %"$matchsucc_226"
 
 "$None_264":                                      ; preds = %"$have_gas_224"
@@ -555,7 +565,7 @@ entry:
   %"$update_value_279" = alloca %Int32, align 8
   store %Int32 %n, %Int32* %"$update_value_279", align 4
   %"$update_value_280" = bitcast %Int32* %"$update_value_279" to i8*
-  call void @_update_field(i8* %"$execptr_load_277", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_278", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 1, i8* %"$indices_buf_275", i8* %"$update_value_280"), !dbg !34
+  call void @_update_field(i8* %"$execptr_load_277", i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$access_count_278", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_43", i32 1, i8* %"$indices_buf_275", i8* %"$update_value_280"), !dbg !49
   br label %"$matchsucc_226"
 
 "$empty_default_230":                             ; preds = %"$have_gas_224"
@@ -565,7 +575,7 @@ entry:
   ret void
 }
 
-define internal void @"$IncrementNOpt_281"(%Uint128 %_amount, [20 x i8]* %"$_origin_282", [20 x i8]* %"$_sender_283", %TName_Option_Int32* %nopt) !dbg !36 {
+define internal void @"$IncrementNOpt_281"(%Uint128 %_amount, [20 x i8]* %"$_origin_282", [20 x i8]* %"$_sender_283", %TName_Option_Int32* %nopt) !dbg !51 {
 entry:
   %_origin = load [20 x i8], [20 x i8]* %"$_origin_282", align 1
   %_sender = load [20 x i8], [20 x i8]* %"$_sender_283", align 1
@@ -585,7 +595,7 @@ entry:
   switch i8 %"$nopt_tag_291", label %"$empty_default_292" [
     i8 0, label %"$Some_293"
     i8 1, label %"$None_305"
-  ], !dbg !37
+  ], !dbg !52
 
 "$Some_293":                                      ; preds = %"$have_gas_287"
   %"$nopt_294" = bitcast %TName_Option_Int32* %nopt to %CName_Some_Int32*
@@ -609,7 +619,7 @@ entry:
   %"$IncrementN__sender_303" = alloca [20 x i8], align 1
   store [20 x i8] %_sender, [20 x i8]* %"$IncrementN__sender_303", align 1
   %"$n_304" = load %Int32, %Int32* %n, align 4
-  call void @"$IncrementN_202"(%Uint128 %_amount, [20 x i8]* %"$IncrementN__origin_302", [20 x i8]* %"$IncrementN__sender_303", %Int32 %"$n_304"), !dbg !38
+  call void @"$IncrementN_202"(%Uint128 %_amount, [20 x i8]* %"$IncrementN__origin_302", [20 x i8]* %"$IncrementN__sender_303", %Int32 %"$n_304"), !dbg !53
   br label %"$matchsucc_289"
 
 "$None_305":                                      ; preds = %"$have_gas_287"
@@ -623,7 +633,7 @@ entry:
   ret void
 }
 
-define void @IncrementNOpt(i8* %0) !dbg !41 {
+define void @IncrementNOpt(i8* %0) !dbg !56 {
 entry:
   %"$_amount_308" = getelementptr i8, i8* %0, i32 0
   %"$_amount_309" = bitcast i8* %"$_amount_308" to %Uint128*
@@ -635,53 +645,70 @@ entry:
   %"$nopt_314" = getelementptr i8, i8* %0, i32 56
   %"$nopt_315" = bitcast i8* %"$nopt_314" to %TName_Option_Int32**
   %nopt = load %TName_Option_Int32*, %TName_Option_Int32** %"$nopt_315", align 8
-  call void @"$IncrementNOpt_281"(%Uint128 %_amount, [20 x i8]* %"$_origin_311", [20 x i8]* %"$_sender_313", %TName_Option_Int32* %nopt), !dbg !42
+  call void @"$IncrementNOpt_281"(%Uint128 %_amount, [20 x i8]* %"$_origin_311", [20 x i8]* %"$_sender_313", %TName_Option_Int32* %nopt), !dbg !57
   ret void
 }
+
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
 
 !llvm.module.flags = !{!0}
 !llvm.dbg.cu = !{!1}
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false)
 !2 = !DIFile(filename: "simple-map.scilla", directory: "codegen/contr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "$fundef_2", linkageName: "$fundef_2", scope: !2, file: !2, line: 9, type: !5, scopeLine: 9, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DISubroutineType(types: !6)
-!6 = !{!7}
-!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!8 = !DILocation(line: 9, column: 5, scope: !4)
-!9 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !10, file: !10, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!10 = !DIFile(filename: ".", directory: ".")
-!11 = !DILocation(line: 0, scope: !9)
-!12 = !DILocation(line: 5, column: 11, scope: !9)
-!13 = !DILocation(line: 9, column: 5, scope: !9)
-!14 = distinct !DISubprogram(name: "_deploy_ops", linkageName: "_deploy_ops", scope: !10, file: !10, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!15 = !DILocation(line: 13, column: 42, scope: !14)
-!16 = distinct !DISubprogram(name: "Increment", linkageName: "Increment", scope: !2, file: !2, line: 15, type: !5, scopeLine: 15, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!17 = !DILocation(line: 16, column: 3, scope: !16)
-!18 = !DILocation(line: 17, column: 3, scope: !16)
-!19 = !DILocation(line: 19, column: 9, scope: !20)
-!20 = distinct !DILexicalBlock(scope: !21, file: !2, line: 18, column: 5)
-!21 = distinct !DILexicalBlock(scope: !16, file: !2, line: 17, column: 3)
-!22 = !DILocation(line: 20, column: 5, scope: !20)
-!23 = !DILocation(line: 22, column: 5, scope: !24)
-!24 = distinct !DILexicalBlock(scope: !21, file: !2, line: 21, column: 5)
-!25 = distinct !DISubprogram(name: "Increment", linkageName: "Increment", scope: !2, file: !2, line: 15, type: !5, scopeLine: 15, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!26 = !DILocation(line: 15, column: 12, scope: !25)
-!27 = distinct !DISubprogram(name: "IncrementN", linkageName: "IncrementN", scope: !2, file: !2, line: 26, type: !5, scopeLine: 26, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!28 = !DILocation(line: 27, column: 3, scope: !27)
-!29 = !DILocation(line: 28, column: 3, scope: !27)
-!30 = !DILocation(line: 30, column: 9, scope: !31)
-!31 = distinct !DILexicalBlock(scope: !32, file: !2, line: 29, column: 5)
-!32 = distinct !DILexicalBlock(scope: !27, file: !2, line: 28, column: 3)
-!33 = !DILocation(line: 31, column: 5, scope: !31)
-!34 = !DILocation(line: 33, column: 5, scope: !35)
-!35 = distinct !DILexicalBlock(scope: !32, file: !2, line: 32, column: 5)
-!36 = distinct !DISubprogram(name: "IncrementNOpt", linkageName: "IncrementNOpt", scope: !2, file: !2, line: 37, type: !5, scopeLine: 37, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!37 = !DILocation(line: 38, column: 3, scope: !36)
-!38 = !DILocation(line: 40, column: 5, scope: !39)
-!39 = distinct !DILexicalBlock(scope: !40, file: !2, line: 39, column: 5)
-!40 = distinct !DILexicalBlock(scope: !36, file: !2, line: 38, column: 3)
-!41 = distinct !DISubprogram(name: "IncrementNOpt", linkageName: "IncrementNOpt", scope: !2, file: !2, line: 37, type: !5, scopeLine: 37, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!42 = !DILocation(line: 37, column: 12, scope: !41)
+!3 = distinct !DISubprogram(name: "$fundef_2", linkageName: "$fundef_2", scope: !2, file: !2, line: 9, type: !4, scopeLine: 9, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!4 = !DISubroutineType(types: !5)
+!5 = !{!6}
+!6 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!7 = !{}
+!8 = !DILocalVariable(name: "$retval_3", scope: !3, file: !2, line: 9, type: !9)
+!9 = !DIBasicType(name: "Int32", size: 4)
+!10 = !DILocation(line: 9, column: 5, scope: !3)
+!11 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !12, file: !12, type: !4, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!12 = !DIFile(filename: ".", directory: ".")
+!13 = !DILocation(line: 0, scope: !11)
+!14 = !DILocation(line: 5, column: 11, scope: !11)
+!15 = !DILocation(line: 9, column: 5, scope: !11)
+!16 = distinct !DISubprogram(name: "_deploy_ops", linkageName: "_deploy_ops", scope: !12, file: !12, type: !4, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!17 = !DILocalVariable(name: "$access_count_4", scope: !16, file: !2, line: 13, type: !18)
+!18 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Map (ByStr20) (Int32)", baseType: !19, size: 8, align: 8, dwarfAddressSpace: 0)
+!19 = !DIBasicType(name: "Map (ByStr20) (Int32)", size: 8)
+!20 = !DILocation(line: 13, column: 7, scope: !16)
+!21 = !DILocation(line: 13, column: 42, scope: !16)
+!22 = distinct !DISubprogram(name: "Increment", linkageName: "Increment", scope: !2, file: !2, line: 15, type: !4, scopeLine: 15, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!23 = !DILocalVariable(name: "cur", scope: !22, file: !2, line: 16, type: !24)
+!24 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Option (Int32)", baseType: !25, size: 8, align: 8, dwarfAddressSpace: 0)
+!25 = !DIBasicType(name: "Option (Int32)", size: 8)
+!26 = !DILocation(line: 16, column: 3, scope: !22)
+!27 = !DILocation(line: 17, column: 3, scope: !22)
+!28 = !DILocalVariable(name: "j", scope: !29, file: !2, line: 19, type: !9)
+!29 = distinct !DILexicalBlock(scope: !30, file: !2, line: 18, column: 5)
+!30 = distinct !DILexicalBlock(scope: !22, file: !2, line: 17, column: 3)
+!31 = !DILocation(line: 19, column: 5, scope: !29)
+!32 = !DILocalVariable(name: "$simple-map.inc_1", scope: !29, file: !2, line: 19, type: !9)
+!33 = !DILocation(line: 19, column: 9, scope: !29)
+!34 = !DILocation(line: 20, column: 5, scope: !29)
+!35 = !DILocation(line: 22, column: 5, scope: !36)
+!36 = distinct !DILexicalBlock(scope: !30, file: !2, line: 21, column: 5)
+!37 = distinct !DISubprogram(name: "Increment", linkageName: "Increment", scope: !2, file: !2, line: 15, type: !4, scopeLine: 15, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!38 = !DILocation(line: 15, column: 12, scope: !37)
+!39 = distinct !DISubprogram(name: "IncrementN", linkageName: "IncrementN", scope: !2, file: !2, line: 26, type: !4, scopeLine: 26, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!40 = !DILocalVariable(name: "cur", scope: !39, file: !2, line: 27, type: !24)
+!41 = !DILocation(line: 27, column: 3, scope: !39)
+!42 = !DILocation(line: 28, column: 3, scope: !39)
+!43 = !DILocalVariable(name: "j", scope: !44, file: !2, line: 30, type: !9)
+!44 = distinct !DILexicalBlock(scope: !45, file: !2, line: 29, column: 5)
+!45 = distinct !DILexicalBlock(scope: !39, file: !2, line: 28, column: 3)
+!46 = !DILocation(line: 30, column: 5, scope: !44)
+!47 = !DILocation(line: 30, column: 9, scope: !44)
+!48 = !DILocation(line: 31, column: 5, scope: !44)
+!49 = !DILocation(line: 33, column: 5, scope: !50)
+!50 = distinct !DILexicalBlock(scope: !45, file: !2, line: 32, column: 5)
+!51 = distinct !DISubprogram(name: "IncrementNOpt", linkageName: "IncrementNOpt", scope: !2, file: !2, line: 37, type: !4, scopeLine: 37, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!52 = !DILocation(line: 38, column: 3, scope: !51)
+!53 = !DILocation(line: 40, column: 5, scope: !54)
+!54 = distinct !DILexicalBlock(scope: !55, file: !2, line: 39, column: 5)
+!55 = distinct !DILexicalBlock(scope: !51, file: !2, line: 38, column: 3)
+!56 = distinct !DISubprogram(name: "IncrementNOpt", linkageName: "IncrementNOpt", scope: !2, file: !2, line: 37, type: !4, scopeLine: 37, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!57 = !DILocation(line: 37, column: 12, scope: !56)

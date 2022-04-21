@@ -4,7 +4,7 @@
 ; ModuleID = 'HelloWorld'
 source_filename = "HelloWorld"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -80,7 +80,7 @@ target triple = "x86_64-pc-linux-gnu"
 @_transition_parameters = constant [1 x %"$TransDescr_112"] [%"$TransDescr_112" { %ParamDescrString { i8* getelementptr inbounds ([12 x i8], [12 x i8]* @"$tname_EventChainID_120", i32 0, i32 0), i32 12 }, i32 3, %"$ParamDescr_111"* getelementptr inbounds ([3 x %"$ParamDescr_111"], [3 x %"$ParamDescr_111"]* @"$tparams_EventChainID_119", i32 0, i32 0) }]
 @_transition_parameters_length = constant i32 1
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() !dbg !3 {
 entry:
   %"$gasrem_42" = load i64, i64* @_gasrem, align 8
   %"$gascmp_43" = icmp ugt i64 5, %"$gasrem_42"
@@ -131,8 +131,9 @@ entry:
   %"$consume_59" = sub i64 %"$gasrem_55", 1
   store i64 %"$consume_59", i64* @_gasrem, align 8
   %cid = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %cid, metadata !12, metadata !DIExpression()), !dbg !14
   %"$execptr_load_62" = load i8*, i8** @_execptr, align 8
-  %"$cid_call_63" = call i8* @_read_blockchain(i8* %"$execptr_load_62", %BCQuery { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$fetchbc_query_name_60", i32 0, i32 0), i32 7 }, %String { i8* getelementptr inbounds ([0 x i8], [0 x i8]* @"$fetchbc_query_arg_61", i32 0, i32 0), i32 0 }), !dbg !12
+  %"$cid_call_63" = call i8* @_read_blockchain(i8* %"$execptr_load_62", %BCQuery { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$fetchbc_query_name_60", i32 0, i32 0), i32 7 }, %String { i8* getelementptr inbounds ([0 x i8], [0 x i8]* @"$fetchbc_query_arg_61", i32 0, i32 0), i32 0 }), !dbg !14
   %"$cid_64" = bitcast i8* %"$cid_call_63" to %Uint32*
   %"$cid_65" = load %Uint32, %Uint32* %"$cid_64", align 4
   store %Uint32 %"$cid_65", %Uint32* %cid, align 4
@@ -148,6 +149,7 @@ entry:
   %"$consume_70" = sub i64 %"$gasrem_66", 1
   store i64 %"$consume_70", i64* @_gasrem, align 8
   %e = alloca i8*, align 8
+  call void @llvm.dbg.declare(metadata i8** %e, metadata !15, metadata !DIExpression()), !dbg !18
   %"$gasrem_71" = load i64, i64* @_gasrem, align 8
   %"$gascmp_72" = icmp ugt i64 1, %"$gasrem_71"
   br i1 %"$gascmp_72", label %"$out_of_gas_73", label %"$have_gas_74"
@@ -183,7 +185,7 @@ entry:
   %"$msgobj_v_91" = getelementptr i8, i8* %"$msgobj_76", i32 65
   %"$msgobj_v_92" = bitcast i8* %"$msgobj_v_91" to %Uint32*
   store %Uint32 %"$cid_90", %Uint32* %"$msgobj_v_92", align 4
-  store i8* %"$msgobj_76", i8** %e, align 8, !dbg !13
+  store i8* %"$msgobj_76", i8** %e, align 8, !dbg !19
   %"$e_94" = load i8*, i8** %e, align 8
   %"$_literal_cost_call_96" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Event_25", i8* %"$e_94")
   %"$gasrem_97" = load i64, i64* @_gasrem, align 8
@@ -199,9 +201,12 @@ entry:
   store i64 %"$consume_101", i64* @_gasrem, align 8
   %"$execptr_load_102" = load i8*, i8** @_execptr, align 8
   %"$e_103" = load i8*, i8** %e, align 8
-  call void @_event(i8* %"$execptr_load_102", %_TyDescrTy_Typ* @"$TyDescr_Event_25", i8* %"$e_103"), !dbg !14
+  call void @_event(i8* %"$execptr_load_102", %_TyDescrTy_Typ* @"$TyDescr_Event_25", i8* %"$e_103"), !dbg !20
   ret void
 }
+
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
 declare i8* @_read_blockchain(i8*, %BCQuery, %String)
 
@@ -211,7 +216,7 @@ declare i64 @_literal_cost(%_TyDescrTy_Typ*, i8*)
 
 declare void @_event(i8*, %_TyDescrTy_Typ*, i8*)
 
-define void @EventChainID(i8* %0) !dbg !15 {
+define void @EventChainID(i8* %0) !dbg !21 {
 entry:
   %"$_amount_105" = getelementptr i8, i8* %0, i32 0
   %"$_amount_106" = bitcast i8* %"$_amount_105" to %Uint128*
@@ -220,27 +225,35 @@ entry:
   %"$_origin_108" = bitcast i8* %"$_origin_107" to [20 x i8]*
   %"$_sender_109" = getelementptr i8, i8* %0, i32 36
   %"$_sender_110" = bitcast i8* %"$_sender_109" to [20 x i8]*
-  call void @"$EventChainID_52"(%Uint128 %_amount, [20 x i8]* %"$_origin_108", [20 x i8]* %"$_sender_110"), !dbg !16
+  call void @"$EventChainID_52"(%Uint128 %_amount, [20 x i8]* %"$_origin_108", [20 x i8]* %"$_sender_110"), !dbg !22
   ret void
 }
+
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
 
 !llvm.module.flags = !{!0}
 !llvm.dbg.cu = !{!1}
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false)
 !2 = !DIFile(filename: "chainid.scilla", directory: "codegen/contr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = !DILocation(line: 0, scope: !4)
-!10 = distinct !DISubprogram(name: "_deploy_ops", linkageName: "_deploy_ops", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!11 = distinct !DISubprogram(name: "EventChainID", linkageName: "EventChainID", scope: !2, file: !2, line: 9, type: !6, scopeLine: 9, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!12 = !DILocation(line: 10, column: 3, scope: !11)
-!13 = !DILocation(line: 11, column: 7, scope: !11)
-!14 = !DILocation(line: 12, column: 3, scope: !11)
-!15 = distinct !DISubprogram(name: "EventChainID", linkageName: "EventChainID", scope: !2, file: !2, line: 9, type: !6, scopeLine: 9, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!16 = !DILocation(line: 9, column: 12, scope: !15)
+!3 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !4, file: !4, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!4 = !DIFile(filename: ".", directory: ".")
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = !{}
+!9 = !DILocation(line: 0, scope: !3)
+!10 = distinct !DISubprogram(name: "_deploy_ops", linkageName: "_deploy_ops", scope: !4, file: !4, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!11 = distinct !DISubprogram(name: "EventChainID", linkageName: "EventChainID", scope: !2, file: !2, line: 9, type: !5, scopeLine: 9, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!12 = !DILocalVariable(name: "cid", scope: !11, file: !2, line: 10, type: !13)
+!13 = !DIBasicType(name: "Uint32", size: 4)
+!14 = !DILocation(line: 10, column: 3, scope: !11)
+!15 = !DILocalVariable(name: "e", scope: !11, file: !2, line: 11, type: !16)
+!16 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Event", baseType: !17, size: 8, align: 8, dwarfAddressSpace: 0)
+!17 = !DIBasicType(name: "Event", size: 8)
+!18 = !DILocation(line: 11, column: 3, scope: !11)
+!19 = !DILocation(line: 11, column: 7, scope: !11)
+!20 = !DILocation(line: 12, column: 3, scope: !11)
+!21 = distinct !DISubprogram(name: "EventChainID", linkageName: "EventChainID", scope: !2, file: !2, line: 9, type: !5, scopeLine: 9, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!22 = !DILocation(line: 9, column: 12, scope: !21)

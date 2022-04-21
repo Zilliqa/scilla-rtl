@@ -62,6 +62,9 @@ public:
   uint64_t getGasRem() const;
   // Parse a string into a Scilla type. Raises error on failure.
   const ScillaTypes::Typ *parseTypeString(const std::string &) const;
+  // A function that can be conveniently called from GDB to print runtime
+  // values.
+  const std::string gdbPrintValue(const char *Type, const void *Value) const;
   // Raise an out-of-gas exception.
   static void outOfGasException(void);
   // Consume N units of gas. Raise an error if we're out of gas.

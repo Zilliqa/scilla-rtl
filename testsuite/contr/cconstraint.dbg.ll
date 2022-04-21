@@ -4,7 +4,7 @@
 ; ModuleID = 'TestConstraint'
 source_filename = "TestConstraint"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_3" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -82,7 +82,7 @@ target triple = "x86_64-pc-linux-gnu"
 @_transition_parameters = constant [1 x %"$TransDescr_96"] [%"$TransDescr_96" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tname_dummy_105", i32 0, i32 0), i32 5 }, i32 3, %"$ParamDescr_95"* getelementptr inbounds ([3 x %"$ParamDescr_95"], [3 x %"$ParamDescr_95"]* @"$tparams_dummy_104", i32 0, i32 0) }]
 @_transition_parameters_length = constant i32 1
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() !dbg !3 {
 entry:
   %"$gasrem_44" = load i64, i64* @_gasrem, align 8
   %"$gascmp_45" = icmp ugt i64 5, %"$gasrem_44"
@@ -116,6 +116,7 @@ declare void @_out_of_gas()
 define void @_deploy_ops() !dbg !11 {
 entry:
   %"$cconstraint_result_1" = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %"$cconstraint_result_1", metadata !12, metadata !DIExpression()), !dbg !15
   %"$gasrem_54" = load i64, i64* @_gasrem, align 8
   %"$gascmp_55" = icmp ugt i64 4, %"$gasrem_54"
   br i1 %"$gascmp_55", label %"$out_of_gas_56", label %"$have_gas_57"
@@ -130,19 +131,20 @@ entry:
   %"$execptr_load_59" = load i8*, i8** @_execptr, align 8
   %"$ivar_60" = load %Int32, %Int32* @_cparam_ivar, align 4
   %"$cconstraint.one_61" = load %Int32, %Int32* @cconstraint.one, align 4
-  %"$eq_call_62" = call %TName_Bool* @_eq_Int32(i8* %"$execptr_load_59", %Int32 %"$ivar_60", %Int32 %"$cconstraint.one_61"), !dbg !12
-  store %TName_Bool* %"$eq_call_62", %TName_Bool** %"$cconstraint_result_1", align 8, !dbg !12
+  %"$eq_call_62" = call %TName_Bool* @_eq_Int32(i8* %"$execptr_load_59", %Int32 %"$ivar_60", %Int32 %"$cconstraint.one_61"), !dbg !15
+  store %TName_Bool* %"$eq_call_62", %TName_Bool** %"$cconstraint_result_1", align 8, !dbg !15
   %"$$cconstraint_result_1_65" = load %TName_Bool*, %TName_Bool** %"$cconstraint_result_1", align 8
   %"$$cconstraint_result_1_tag_66" = getelementptr inbounds %TName_Bool, %TName_Bool* %"$$cconstraint_result_1_65", i32 0, i32 0
   %"$$cconstraint_result_1_tag_67" = load i8, i8* %"$$cconstraint_result_1_tag_66", align 1
   switch i8 %"$$cconstraint_result_1_tag_67", label %"$empty_default_68" [
     i8 1, label %"$False_69"
     i8 0, label %"$True_83"
-  ], !dbg !12
+  ], !dbg !15
 
 "$False_69":                                      ; preds = %"$have_gas_57"
   %"$$cconstraint_result_1_70" = bitcast %TName_Bool* %"$$cconstraint_result_1_65" to %CName_False*
   %"$cconstraint_fail_2" = alloca i8*, align 8
+  call void @llvm.dbg.declare(metadata i8** %"$cconstraint_fail_2", metadata !16, metadata !DIExpression()), !dbg !21
   %"$msgobj_71_salloc_load" = load i8*, i8** @_execptr, align 8
   %"$msgobj_71_salloc_salloc" = call i8* @_salloc(i8* %"$msgobj_71_salloc_load", i64 41)
   %"$msgobj_71_salloc" = bitcast i8* %"$msgobj_71_salloc_salloc" to [41 x i8]*
@@ -157,10 +159,10 @@ entry:
   %"$msgobj_v_78" = getelementptr i8, i8* %"$msgobj_71", i32 25
   %"$msgobj_v_79" = bitcast i8* %"$msgobj_v_78" to %String*
   store %String { i8* getelementptr inbounds ([38 x i8], [38 x i8]* @"$stringlit_77", i32 0, i32 0), i32 38 }, %String* %"$msgobj_v_79", align 8
-  store i8* %"$msgobj_71", i8** %"$cconstraint_fail_2", align 8, !dbg !13
+  store i8* %"$msgobj_71", i8** %"$cconstraint_fail_2", align 8, !dbg !21
   %"$execptr_load_81" = load i8*, i8** @_execptr, align 8
   %"$$cconstraint_fail_2_82" = load i8*, i8** %"$cconstraint_fail_2", align 8
-  call void @_throw(i8* %"$execptr_load_81", %_TyDescrTy_Typ* @"$TyDescr_Exception_29", i8* %"$$cconstraint_fail_2_82"), !dbg !13
+  call void @_throw(i8* %"$execptr_load_81", %_TyDescrTy_Typ* @"$TyDescr_Exception_29", i8* %"$$cconstraint_fail_2_82"), !dbg !21
   br label %"$matchsucc_64"
 
 "$True_83":                                       ; preds = %"$have_gas_57"
@@ -174,20 +176,23 @@ entry:
   ret void
 }
 
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
+
 declare %TName_Bool* @_eq_Int32(i8*, %Int32, %Int32)
 
 declare i8* @_salloc(i8*, i64)
 
 declare void @_throw(i8*, %_TyDescrTy_Typ*, i8*)
 
-define internal void @"$dummy_85"(%Uint128 %_amount, [20 x i8]* %"$_origin_86", [20 x i8]* %"$_sender_87") !dbg !16 {
+define internal void @"$dummy_85"(%Uint128 %_amount, [20 x i8]* %"$_origin_86", [20 x i8]* %"$_sender_87") !dbg !22 {
 entry:
   %_origin = load [20 x i8], [20 x i8]* %"$_origin_86", align 1
   %_sender = load [20 x i8], [20 x i8]* %"$_sender_87", align 1
   ret void
 }
 
-define void @dummy(i8* %0) !dbg !17 {
+define void @dummy(i8* %0) !dbg !23 {
 entry:
   %"$_amount_89" = getelementptr i8, i8* %0, i32 0
   %"$_amount_90" = bitcast i8* %"$_amount_89" to %Uint128*
@@ -196,29 +201,37 @@ entry:
   %"$_origin_92" = bitcast i8* %"$_origin_91" to [20 x i8]*
   %"$_sender_93" = getelementptr i8, i8* %0, i32 36
   %"$_sender_94" = bitcast i8* %"$_sender_93" to [20 x i8]*
-  call void @"$dummy_85"(%Uint128 %_amount, [20 x i8]* %"$_origin_92", [20 x i8]* %"$_sender_94"), !dbg !18
+  call void @"$dummy_85"(%Uint128 %_amount, [20 x i8]* %"$_origin_92", [20 x i8]* %"$_sender_94"), !dbg !24
   ret void
 }
+
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
 
 !llvm.module.flags = !{!0}
 !llvm.dbg.cu = !{!1}
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false)
 !2 = !DIFile(filename: "cconstraint.scilla", directory: "codegen/contr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = !DILocation(line: 0, scope: !4)
-!10 = !DILocation(line: 5, column: 11, scope: !4)
-!11 = distinct !DISubprogram(name: "_deploy_ops", linkageName: "_deploy_ops", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!12 = !DILocation(line: 10, column: 1, scope: !11)
-!13 = !DILocation(line: 10, column: 1, scope: !14)
-!14 = distinct !DILexicalBlock(scope: !15, file: !5, line: 10, column: 1)
-!15 = distinct !DILexicalBlock(scope: !11, file: !5, line: 10, column: 1)
-!16 = distinct !DISubprogram(name: "dummy", linkageName: "dummy", scope: !2, file: !2, line: 13, type: !6, scopeLine: 13, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!17 = distinct !DISubprogram(name: "dummy", linkageName: "dummy", scope: !2, file: !2, line: 13, type: !6, scopeLine: 13, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!18 = !DILocation(line: 13, column: 12, scope: !17)
+!3 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !4, file: !4, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!4 = !DIFile(filename: ".", directory: ".")
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = !{}
+!9 = !DILocation(line: 0, scope: !3)
+!10 = !DILocation(line: 5, column: 11, scope: !3)
+!11 = distinct !DISubprogram(name: "_deploy_ops", linkageName: "_deploy_ops", scope: !4, file: !4, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!12 = !DILocalVariable(name: "$cconstraint_result_1", scope: !11, file: !2, line: 10, type: !13)
+!13 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Bool", baseType: !14, size: 8, align: 8, dwarfAddressSpace: 0)
+!14 = !DIBasicType(name: "Bool", size: 8)
+!15 = !DILocation(line: 10, column: 1, scope: !11)
+!16 = !DILocalVariable(name: "$cconstraint_fail_2", scope: !17, file: !2, line: 10, type: !19)
+!17 = distinct !DILexicalBlock(scope: !18, file: !4, line: 10, column: 1)
+!18 = distinct !DILexicalBlock(scope: !11, file: !4, line: 10, column: 1)
+!19 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Exception", baseType: !20, size: 8, align: 8, dwarfAddressSpace: 0)
+!20 = !DIBasicType(name: "Exception", size: 8)
+!21 = !DILocation(line: 10, column: 1, scope: !17)
+!22 = distinct !DISubprogram(name: "dummy", linkageName: "dummy", scope: !2, file: !2, line: 13, type: !5, scopeLine: 13, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!23 = distinct !DISubprogram(name: "dummy", linkageName: "dummy", scope: !2, file: !2, line: 13, type: !5, scopeLine: 13, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!24 = !DILocation(line: 13, column: 12, scope: !23)

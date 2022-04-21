@@ -1,0 +1,24 @@
+define scilla_print
+
+  # Prepare a string of the value's type. '*' must be ommitted.
+  shell echo -n 'set $vt = "' > /tmp/gdb_scilla_value_type_nostar.tmp
+  pipe ptype *&$arg0 | cut -d '=' -f 2 | tr -d '\n' | tr -d '*' >> /tmp/gdb_scilla_value_type_nostar.tmp
+  shell echo -n '"' >> /tmp/gdb_scilla_value_type_nostar.tmp
+  source /tmp/gdb_scilla_value_type_nostar.tmp
+
+  # Check if the type contains a '*', indicating boxed type.
+  pipe ptype *&$arg0 | tee /tmp/gdb_scilla_value_type.tmp > /dev/null
+  shell fgrep -q '*' /tmp/gdb_scilla_value_type.tmp
+  set $isboxed = !$_shell_exitcode
+
+  # Print. Non-boxed values need their address taken.
+  if $isboxed
+    call (('ScillaRTL::ScillaExecImpl' *)_execptr)->gdbPrintValue($vt, (void *) $arg0)
+  else
+    call (('ScillaRTL::ScillaExecImpl' *)_execptr)->gdbPrintValue($vt, (void *) &$arg0)
+  end
+end
+
+document scilla_print
+  Print the Scilla value whose name is provided as the argument.
+end

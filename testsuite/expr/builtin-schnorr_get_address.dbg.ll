@@ -52,7 +52,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_40" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -140,7 +140,7 @@ target triple = "x86_64-pc-linux-gnu"
 @_transition_parameters = constant [0 x %"$TransDescr_1018"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
-define internal %TName_Bool* @"$fundef_33"(%"$$fundef_33_env_94"* %0, %TName_Bool* %1) !dbg !4 {
+define internal %TName_Bool* @"$fundef_33"(%"$$fundef_33_env_94"* %0, %TName_Bool* %1) !dbg !3 {
 entry:
   %"$$fundef_33_env_$BoolUtils.andb_6_241" = getelementptr inbounds %"$$fundef_33_env_94", %"$$fundef_33_env_94"* %0, i32 0, i32 0
   %"$$BoolUtils.andb_6_envload_242" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$$fundef_33_env_$BoolUtils.andb_6_241", align 8
@@ -159,6 +159,7 @@ entry:
   %c = alloca %TName_Bool*, align 8
   store %TName_Bool* %"$c_envload_248", %TName_Bool** %c, align 8
   %"$retval_34" = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %"$retval_34", metadata !9, metadata !DIExpression()), !dbg !12
   %"$gasrem_249" = load i64, i64* @_gasrem, align 8
   %"$gascmp_250" = icmp ugt i64 1, %"$gasrem_249"
   br i1 %"$gascmp_250", label %"$out_of_gas_251", label %"$have_gas_252"
@@ -171,6 +172,7 @@ entry:
   %"$consume_253" = sub i64 %"$gasrem_249", 1
   store i64 %"$consume_253", i64* @_gasrem, align 8
   %t1 = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %t1, metadata !13, metadata !DIExpression()), !dbg !14
   %"$gasrem_254" = load i64, i64* @_gasrem, align 8
   %"$gascmp_255" = icmp ugt i64 1, %"$gasrem_254"
   br i1 %"$gascmp_255", label %"$out_of_gas_256", label %"$have_gas_257"
@@ -187,17 +189,18 @@ entry:
   %"$$BoolUtils.andb_6_fptr_260" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_259", 0
   %"$$BoolUtils.andb_6_envptr_261" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_259", 1
   %"$a_262" = load %TName_Bool*, %TName_Bool** %a, align 8
-  %"$$BoolUtils.andb_6_call_263" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_fptr_260"(i8* %"$$BoolUtils.andb_6_envptr_261", %TName_Bool* %"$a_262"), !dbg !9
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_call_263", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$$BoolUtils.andb_6_7", align 8, !dbg !9
+  %"$$BoolUtils.andb_6_call_263" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_fptr_260"(i8* %"$$BoolUtils.andb_6_envptr_261", %TName_Bool* %"$a_262"), !dbg !15
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_call_263", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$$BoolUtils.andb_6_7", align 8, !dbg !15
   %"$$BoolUtils.andb_6_8" = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %"$$BoolUtils.andb_6_8", metadata !16, metadata !DIExpression()), !dbg !15
   %"$$$BoolUtils.andb_6_7_264" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$$BoolUtils.andb_6_7", align 8
   %"$$$BoolUtils.andb_6_7_fptr_265" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$$BoolUtils.andb_6_7_264", 0
   %"$$$BoolUtils.andb_6_7_envptr_266" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$$BoolUtils.andb_6_7_264", 1
   %"$b_267" = load %TName_Bool*, %TName_Bool** %b, align 8
-  %"$$$BoolUtils.andb_6_7_call_268" = call %TName_Bool* %"$$$BoolUtils.andb_6_7_fptr_265"(i8* %"$$$BoolUtils.andb_6_7_envptr_266", %TName_Bool* %"$b_267"), !dbg !9
-  store %TName_Bool* %"$$$BoolUtils.andb_6_7_call_268", %TName_Bool** %"$$BoolUtils.andb_6_8", align 8, !dbg !9
+  %"$$$BoolUtils.andb_6_7_call_268" = call %TName_Bool* %"$$$BoolUtils.andb_6_7_fptr_265"(i8* %"$$$BoolUtils.andb_6_7_envptr_266", %TName_Bool* %"$b_267"), !dbg !15
+  store %TName_Bool* %"$$$BoolUtils.andb_6_7_call_268", %TName_Bool** %"$$BoolUtils.andb_6_8", align 8, !dbg !15
   %"$$$BoolUtils.andb_6_8_269" = load %TName_Bool*, %TName_Bool** %"$$BoolUtils.andb_6_8", align 8
-  store %TName_Bool* %"$$$BoolUtils.andb_6_8_269", %TName_Bool** %t1, align 8, !dbg !9
+  store %TName_Bool* %"$$$BoolUtils.andb_6_8_269", %TName_Bool** %t1, align 8, !dbg !15
   %"$gasrem_270" = load i64, i64* @_gasrem, align 8
   %"$gascmp_271" = icmp ugt i64 1, %"$gasrem_270"
   br i1 %"$gascmp_271", label %"$out_of_gas_272", label %"$have_gas_273"
@@ -210,6 +213,7 @@ entry:
   %"$consume_274" = sub i64 %"$gasrem_270", 1
   store i64 %"$consume_274", i64* @_gasrem, align 8
   %t2 = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %t2, metadata !17, metadata !DIExpression()), !dbg !18
   %"$gasrem_275" = load i64, i64* @_gasrem, align 8
   %"$gascmp_276" = icmp ugt i64 1, %"$gasrem_275"
   br i1 %"$gascmp_276", label %"$out_of_gas_277", label %"$have_gas_278"
@@ -226,17 +230,18 @@ entry:
   %"$$BoolUtils.andb_6_fptr_281" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_280", 0
   %"$$BoolUtils.andb_6_envptr_282" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_280", 1
   %"$t1_283" = load %TName_Bool*, %TName_Bool** %t1, align 8
-  %"$$BoolUtils.andb_6_call_284" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_fptr_281"(i8* %"$$BoolUtils.andb_6_envptr_282", %TName_Bool* %"$t1_283"), !dbg !10
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_call_284", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$$BoolUtils.andb_6_9", align 8, !dbg !10
+  %"$$BoolUtils.andb_6_call_284" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_fptr_281"(i8* %"$$BoolUtils.andb_6_envptr_282", %TName_Bool* %"$t1_283"), !dbg !19
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_call_284", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$$BoolUtils.andb_6_9", align 8, !dbg !19
   %"$$BoolUtils.andb_6_10" = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %"$$BoolUtils.andb_6_10", metadata !20, metadata !DIExpression()), !dbg !19
   %"$$$BoolUtils.andb_6_9_285" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$$BoolUtils.andb_6_9", align 8
   %"$$$BoolUtils.andb_6_9_fptr_286" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$$BoolUtils.andb_6_9_285", 0
   %"$$$BoolUtils.andb_6_9_envptr_287" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$$BoolUtils.andb_6_9_285", 1
   %"$c_288" = load %TName_Bool*, %TName_Bool** %c, align 8
-  %"$$$BoolUtils.andb_6_9_call_289" = call %TName_Bool* %"$$$BoolUtils.andb_6_9_fptr_286"(i8* %"$$$BoolUtils.andb_6_9_envptr_287", %TName_Bool* %"$c_288"), !dbg !10
-  store %TName_Bool* %"$$$BoolUtils.andb_6_9_call_289", %TName_Bool** %"$$BoolUtils.andb_6_10", align 8, !dbg !10
+  %"$$$BoolUtils.andb_6_9_call_289" = call %TName_Bool* %"$$$BoolUtils.andb_6_9_fptr_286"(i8* %"$$$BoolUtils.andb_6_9_envptr_287", %TName_Bool* %"$c_288"), !dbg !19
+  store %TName_Bool* %"$$$BoolUtils.andb_6_9_call_289", %TName_Bool** %"$$BoolUtils.andb_6_10", align 8, !dbg !19
   %"$$$BoolUtils.andb_6_10_290" = load %TName_Bool*, %TName_Bool** %"$$BoolUtils.andb_6_10", align 8
-  store %TName_Bool* %"$$$BoolUtils.andb_6_10_290", %TName_Bool** %t2, align 8, !dbg !10
+  store %TName_Bool* %"$$$BoolUtils.andb_6_10_290", %TName_Bool** %t2, align 8, !dbg !19
   %"$gasrem_291" = load i64, i64* @_gasrem, align 8
   %"$gascmp_292" = icmp ugt i64 1, %"$gasrem_291"
   br i1 %"$gascmp_292", label %"$out_of_gas_293", label %"$have_gas_294"
@@ -253,21 +258,22 @@ entry:
   %"$$BoolUtils.andb_6_fptr_297" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_296", 0
   %"$$BoolUtils.andb_6_envptr_298" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_296", 1
   %"$t2_299" = load %TName_Bool*, %TName_Bool** %t2, align 8
-  %"$$BoolUtils.andb_6_call_300" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_fptr_297"(i8* %"$$BoolUtils.andb_6_envptr_298", %TName_Bool* %"$t2_299"), !dbg !11
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_call_300", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$$BoolUtils.andb_6_11", align 8, !dbg !11
+  %"$$BoolUtils.andb_6_call_300" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_fptr_297"(i8* %"$$BoolUtils.andb_6_envptr_298", %TName_Bool* %"$t2_299"), !dbg !21
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_call_300", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$$BoolUtils.andb_6_11", align 8, !dbg !21
   %"$$BoolUtils.andb_6_12" = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %"$$BoolUtils.andb_6_12", metadata !22, metadata !DIExpression()), !dbg !21
   %"$$$BoolUtils.andb_6_11_301" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$$BoolUtils.andb_6_11", align 8
   %"$$$BoolUtils.andb_6_11_fptr_302" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$$BoolUtils.andb_6_11_301", 0
   %"$$$BoolUtils.andb_6_11_envptr_303" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$$BoolUtils.andb_6_11_301", 1
-  %"$$$BoolUtils.andb_6_11_call_304" = call %TName_Bool* %"$$$BoolUtils.andb_6_11_fptr_302"(i8* %"$$$BoolUtils.andb_6_11_envptr_303", %TName_Bool* %1), !dbg !11
-  store %TName_Bool* %"$$$BoolUtils.andb_6_11_call_304", %TName_Bool** %"$$BoolUtils.andb_6_12", align 8, !dbg !11
+  %"$$$BoolUtils.andb_6_11_call_304" = call %TName_Bool* %"$$$BoolUtils.andb_6_11_fptr_302"(i8* %"$$$BoolUtils.andb_6_11_envptr_303", %TName_Bool* %1), !dbg !21
+  store %TName_Bool* %"$$$BoolUtils.andb_6_11_call_304", %TName_Bool** %"$$BoolUtils.andb_6_12", align 8, !dbg !21
   %"$$$BoolUtils.andb_6_12_305" = load %TName_Bool*, %TName_Bool** %"$$BoolUtils.andb_6_12", align 8
-  store %TName_Bool* %"$$$BoolUtils.andb_6_12_305", %TName_Bool** %"$retval_34", align 8, !dbg !11
+  store %TName_Bool* %"$$$BoolUtils.andb_6_12_305", %TName_Bool** %"$retval_34", align 8, !dbg !21
   %"$$retval_34_306" = load %TName_Bool*, %TName_Bool** %"$retval_34", align 8
   ret %TName_Bool* %"$$retval_34_306"
 }
 
-define internal { %TName_Bool* (i8*, %TName_Bool*)*, i8* } @"$fundef_31"(%"$$fundef_31_env_95"* %0, %TName_Bool* %1) !dbg !12 {
+define internal { %TName_Bool* (i8*, %TName_Bool*)*, i8* } @"$fundef_31"(%"$$fundef_31_env_95"* %0, %TName_Bool* %1) !dbg !23 {
 entry:
   %"$$fundef_31_env_$BoolUtils.andb_6_218" = getelementptr inbounds %"$$fundef_31_env_95", %"$$fundef_31_env_95"* %0, i32 0, i32 0
   %"$$BoolUtils.andb_6_envload_219" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$$fundef_31_env_$BoolUtils.andb_6_218", align 8
@@ -309,12 +315,12 @@ entry:
   store %TName_Bool* %"$b_238", %TName_Bool** %"$$fundef_33_env_b_237", align 8
   %"$$fundef_33_env_c_239" = getelementptr inbounds %"$$fundef_33_env_94", %"$$fundef_33_env_94"* %"$$fundef_33_envp_229", i32 0, i32 3
   store %TName_Bool* %1, %TName_Bool** %"$$fundef_33_env_c_239", align 8
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$fundef_33_cloval_232", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$retval_32", align 8, !dbg !13
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$fundef_33_cloval_232", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$retval_32", align 8, !dbg !24
   %"$$retval_32_240" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$retval_32", align 8
   ret { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$retval_32_240"
 }
 
-define internal { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } @"$fundef_29"(%"$$fundef_29_env_96"* %0, %TName_Bool* %1) !dbg !14 {
+define internal { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } @"$fundef_29"(%"$$fundef_29_env_96"* %0, %TName_Bool* %1) !dbg !25 {
 entry:
   %"$$fundef_29_env_$BoolUtils.andb_6_199" = getelementptr inbounds %"$$fundef_29_env_96", %"$$fundef_29_env_96"* %0, i32 0, i32 0
   %"$$BoolUtils.andb_6_envload_200" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$$fundef_29_env_$BoolUtils.andb_6_199", align 8
@@ -349,12 +355,12 @@ entry:
   store %TName_Bool* %"$a_215", %TName_Bool** %"$$fundef_31_env_a_214", align 8
   %"$$fundef_31_env_b_216" = getelementptr inbounds %"$$fundef_31_env_95", %"$$fundef_31_env_95"* %"$$fundef_31_envp_208", i32 0, i32 2
   store %TName_Bool* %1, %TName_Bool** %"$$fundef_31_env_b_216", align 8
-  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$fundef_31_cloval_211", { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$retval_30", align 8, !dbg !15
+  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$fundef_31_cloval_211", { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$retval_30", align 8, !dbg !26
   %"$$retval_30_217" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$retval_30", align 8
   ret { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$retval_30_217"
 }
 
-define internal { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } @"$fundef_27"(%"$$fundef_27_env_97"* %0, %TName_Bool* %1) !dbg !16 {
+define internal { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } @"$fundef_27"(%"$$fundef_27_env_97"* %0, %TName_Bool* %1) !dbg !27 {
 entry:
   %"$$fundef_27_env_$BoolUtils.andb_6_184" = getelementptr inbounds %"$$fundef_27_env_97", %"$$fundef_27_env_97"* %0, i32 0, i32 0
   %"$$BoolUtils.andb_6_envload_185" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$$fundef_27_env_$BoolUtils.andb_6_184", align 8
@@ -382,18 +388,19 @@ entry:
   store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_196", { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$$fundef_29_env_$BoolUtils.andb_6_195", align 8
   %"$$fundef_29_env_a_197" = getelementptr inbounds %"$$fundef_29_env_96", %"$$fundef_29_env_96"* %"$$fundef_29_envp_191", i32 0, i32 1
   store %TName_Bool* %1, %TName_Bool** %"$$fundef_29_env_a_197", align 8
-  store { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$fundef_29_cloval_194", { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$retval_28", align 8, !dbg !17
+  store { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$fundef_29_cloval_194", { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$retval_28", align 8, !dbg !28
   %"$$retval_28_198" = load { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$retval_28", align 8
   ret { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$retval_28_198"
 }
 
-define internal %TName_Bool* @"$fundef_25"(%"$$fundef_25_env_98"* %0, %TName_Bool* %1) !dbg !18 {
+define internal %TName_Bool* @"$fundef_25"(%"$$fundef_25_env_98"* %0, %TName_Bool* %1) !dbg !29 {
 entry:
   %"$$fundef_25_env_b_154" = getelementptr inbounds %"$$fundef_25_env_98", %"$$fundef_25_env_98"* %0, i32 0, i32 0
   %"$b_envload_155" = load %TName_Bool*, %TName_Bool** %"$$fundef_25_env_b_154", align 8
   %b = alloca %TName_Bool*, align 8
   store %TName_Bool* %"$b_envload_155", %TName_Bool** %b, align 8
   %"$retval_26" = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %"$retval_26", metadata !30, metadata !DIExpression()), !dbg !31
   %"$gasrem_156" = load i64, i64* @_gasrem, align 8
   %"$gascmp_157" = icmp ugt i64 2, %"$gasrem_156"
   br i1 %"$gascmp_157", label %"$out_of_gas_158", label %"$have_gas_159"
@@ -411,7 +418,7 @@ entry:
   switch i8 %"$b_tag_164", label %"$empty_default_165" [
     i8 1, label %"$False_166"
     i8 0, label %"$True_176"
-  ], !dbg !19
+  ], !dbg !31
 
 "$False_166":                                     ; preds = %"$have_gas_159"
   %"$b_167" = bitcast %TName_Bool* %"$b_162" to %CName_False*
@@ -432,7 +439,7 @@ entry:
   %"$adtgep_174" = getelementptr inbounds %CName_False, %CName_False* %"$adtval_173", i32 0, i32 0
   store i8 1, i8* %"$adtgep_174", align 1
   %"$adtptr_175" = bitcast %CName_False* %"$adtval_173" to %TName_Bool*
-  store %TName_Bool* %"$adtptr_175", %TName_Bool** %"$retval_26", align 8, !dbg !20
+  store %TName_Bool* %"$adtptr_175", %TName_Bool** %"$retval_26", align 8, !dbg !32
   br label %"$matchsucc_161"
 
 "$True_176":                                      ; preds = %"$have_gas_159"
@@ -448,7 +455,7 @@ entry:
 "$have_gas_181":                                  ; preds = %"$out_of_gas_180", %"$True_176"
   %"$consume_182" = sub i64 %"$gasrem_178", 1
   store i64 %"$consume_182", i64* @_gasrem, align 8
-  store %TName_Bool* %1, %TName_Bool** %"$retval_26", align 8, !dbg !23
+  store %TName_Bool* %1, %TName_Bool** %"$retval_26", align 8, !dbg !35
   br label %"$matchsucc_161"
 
 "$empty_default_165":                             ; preds = %"$have_gas_159"
@@ -459,7 +466,7 @@ entry:
   ret %TName_Bool* %"$$retval_26_183"
 }
 
-define internal { %TName_Bool* (i8*, %TName_Bool*)*, i8* } @"$fundef_23"(%"$$fundef_23_env_99"* %0, %TName_Bool* %1) !dbg !25 {
+define internal { %TName_Bool* (i8*, %TName_Bool*)*, i8* } @"$fundef_23"(%"$$fundef_23_env_99"* %0, %TName_Bool* %1) !dbg !37 {
 entry:
   %"$retval_24" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
   %"$gasrem_143" = load i64, i64* @_gasrem, align 8
@@ -480,18 +487,19 @@ entry:
   %"$$fundef_25_cloval_151" = insertvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } { %TName_Bool* (i8*, %TName_Bool*)* bitcast (%TName_Bool* (%"$$fundef_25_env_98"*, %TName_Bool*)* @"$fundef_25" to %TName_Bool* (i8*, %TName_Bool*)*), i8* undef }, i8* %"$$fundef_25_env_voidp_150", 1
   %"$$fundef_25_env_b_152" = getelementptr inbounds %"$$fundef_25_env_98", %"$$fundef_25_env_98"* %"$$fundef_25_envp_148", i32 0, i32 0
   store %TName_Bool* %1, %TName_Bool** %"$$fundef_25_env_b_152", align 8
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$fundef_25_cloval_151", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$retval_24", align 8, !dbg !26
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$fundef_25_cloval_151", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$retval_24", align 8, !dbg !38
   %"$$retval_24_153" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$retval_24", align 8
   ret { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$retval_24_153"
 }
 
-define internal %TName_Bool* @"$fundef_37"(%"$$fundef_37_env_100"* %0, %TName_Bool* %1) !dbg !27 {
+define internal %TName_Bool* @"$fundef_37"(%"$$fundef_37_env_100"* %0, %TName_Bool* %1) !dbg !39 {
 entry:
   %"$$fundef_37_env_b_113" = getelementptr inbounds %"$$fundef_37_env_100", %"$$fundef_37_env_100"* %0, i32 0, i32 0
   %"$b_envload_114" = load %TName_Bool*, %TName_Bool** %"$$fundef_37_env_b_113", align 8
   %b = alloca %TName_Bool*, align 8
   store %TName_Bool* %"$b_envload_114", %TName_Bool** %b, align 8
   %"$retval_38" = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %"$retval_38", metadata !40, metadata !DIExpression()), !dbg !41
   %"$gasrem_115" = load i64, i64* @_gasrem, align 8
   %"$gascmp_116" = icmp ugt i64 2, %"$gasrem_115"
   br i1 %"$gascmp_116", label %"$out_of_gas_117", label %"$have_gas_118"
@@ -509,7 +517,7 @@ entry:
   switch i8 %"$b_tag_123", label %"$empty_default_124" [
     i8 1, label %"$False_125"
     i8 0, label %"$True_135"
-  ], !dbg !28
+  ], !dbg !41
 
 "$False_125":                                     ; preds = %"$have_gas_118"
   %"$b_126" = bitcast %TName_Bool* %"$b_121" to %CName_False*
@@ -530,7 +538,7 @@ entry:
   %"$adtgep_133" = getelementptr inbounds %CName_False, %CName_False* %"$adtval_132", i32 0, i32 0
   store i8 1, i8* %"$adtgep_133", align 1
   %"$adtptr_134" = bitcast %CName_False* %"$adtval_132" to %TName_Bool*
-  store %TName_Bool* %"$adtptr_134", %TName_Bool** %"$retval_38", align 8, !dbg !29
+  store %TName_Bool* %"$adtptr_134", %TName_Bool** %"$retval_38", align 8, !dbg !42
   br label %"$matchsucc_120"
 
 "$True_135":                                      ; preds = %"$have_gas_118"
@@ -546,7 +554,7 @@ entry:
 "$have_gas_140":                                  ; preds = %"$out_of_gas_139", %"$True_135"
   %"$consume_141" = sub i64 %"$gasrem_137", 1
   store i64 %"$consume_141", i64* @_gasrem, align 8
-  store %TName_Bool* %1, %TName_Bool** %"$retval_38", align 8, !dbg !32
+  store %TName_Bool* %1, %TName_Bool** %"$retval_38", align 8, !dbg !45
   br label %"$matchsucc_120"
 
 "$empty_default_124":                             ; preds = %"$have_gas_118"
@@ -557,7 +565,7 @@ entry:
   ret %TName_Bool* %"$$retval_38_142"
 }
 
-define internal { %TName_Bool* (i8*, %TName_Bool*)*, i8* } @"$fundef_35"(%"$$fundef_35_env_101"* %0, %TName_Bool* %1) !dbg !34 {
+define internal { %TName_Bool* (i8*, %TName_Bool*)*, i8* } @"$fundef_35"(%"$$fundef_35_env_101"* %0, %TName_Bool* %1) !dbg !47 {
 entry:
   %"$retval_36" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
   %"$gasrem_102" = load i64, i64* @_gasrem, align 8
@@ -578,7 +586,7 @@ entry:
   %"$$fundef_37_cloval_110" = insertvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } { %TName_Bool* (i8*, %TName_Bool*)* bitcast (%TName_Bool* (%"$$fundef_37_env_100"*, %TName_Bool*)* @"$fundef_37" to %TName_Bool* (i8*, %TName_Bool*)*), i8* undef }, i8* %"$$fundef_37_env_voidp_109", 1
   %"$$fundef_37_env_b_111" = getelementptr inbounds %"$$fundef_37_env_100", %"$$fundef_37_env_100"* %"$$fundef_37_envp_107", i32 0, i32 0
   store %TName_Bool* %1, %TName_Bool** %"$$fundef_37_env_b_111", align 8
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$fundef_37_cloval_110", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$retval_36", align 8, !dbg !35
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$fundef_37_cloval_110", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$retval_36", align 8, !dbg !48
   %"$$retval_36_112" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$retval_36", align 8
   ret { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$retval_36_112"
 }
@@ -587,7 +595,10 @@ declare void @_out_of_gas()
 
 declare i8* @_salloc(i8*, i64)
 
-define void @_init_libs() !dbg !36 {
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
+
+define void @_init_libs() !dbg !49 {
 entry:
   %"$gasrem_307" = load i64, i64* @_gasrem, align 8
   %"$gascmp_308" = icmp ugt i64 5, %"$gasrem_307"
@@ -600,7 +611,7 @@ entry:
 "$have_gas_310":                                  ; preds = %"$out_of_gas_309", %entry
   %"$consume_311" = sub i64 %"$gasrem_307", 5
   store i64 %"$consume_311", i64* @_gasrem, align 8
-  store %Int32 { i32 5 }, %Int32* @"$_gas_charge_accrec_lib_5", align 4, !dbg !38
+  store %Int32 { i32 5 }, %Int32* @"$_gas_charge_accrec_lib_5", align 4, !dbg !51
   %"$gasrem_312" = load i64, i64* @_gasrem, align 8
   %"$gascmp_313" = icmp ugt i64 6, %"$gasrem_312"
   br i1 %"$gascmp_313", label %"$out_of_gas_314", label %"$have_gas_315"
@@ -612,7 +623,7 @@ entry:
 "$have_gas_315":                                  ; preds = %"$out_of_gas_314", %"$have_gas_310"
   %"$consume_316" = sub i64 %"$gasrem_312", 6
   store i64 %"$consume_316", i64* @_gasrem, align 8
-  store %Int32 { i32 6 }, %Int32* @"$_gas_charge_accBoolUtils_0", align 4, !dbg !38
+  store %Int32 { i32 6 }, %Int32* @"$_gas_charge_accBoolUtils_0", align 4, !dbg !51
   %"$gasrem_317" = load i64, i64* @_gasrem, align 8
   %"$gascmp_318" = icmp ugt i64 1, %"$gasrem_317"
   br i1 %"$gascmp_318", label %"$out_of_gas_319", label %"$have_gas_320"
@@ -624,7 +635,7 @@ entry:
 "$have_gas_320":                                  ; preds = %"$out_of_gas_319", %"$have_gas_315"
   %"$consume_321" = sub i64 %"$gasrem_317", 1
   store i64 %"$consume_321", i64* @_gasrem, align 8
-  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_35_env_101"*, %TName_Bool*)* @"$fundef_35" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8, !dbg !39
+  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_35_env_101"*, %TName_Bool*)* @"$fundef_35" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.andb, align 8, !dbg !52
   %"$gasrem_325" = load i64, i64* @_gasrem, align 8
   %"$gascmp_326" = icmp ugt i64 1, %"$gasrem_325"
   br i1 %"$gascmp_326", label %"$out_of_gas_327", label %"$have_gas_328"
@@ -637,7 +648,7 @@ entry:
   %"$consume_329" = sub i64 %"$gasrem_325", 1
   store i64 %"$consume_329", i64* @_gasrem, align 8
   %"$BoolUtils.andb_6" = alloca { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, align 8
-  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_23_env_99"*, %TName_Bool*)* @"$fundef_23" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_6", align 8, !dbg !39
+  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)* bitcast ({ %TName_Bool* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_23_env_99"*, %TName_Bool*)* @"$fundef_23" to { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*), i8* null }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_6", align 8, !dbg !52
   %"$$fundef_27_envp_333_load" = load i8*, i8** @_execptr, align 8
   %"$$fundef_27_envp_333_salloc" = call i8* @_salloc(i8* %"$$fundef_27_envp_333_load", i64 16)
   %"$$fundef_27_envp_333" = bitcast i8* %"$$fundef_27_envp_333_salloc" to %"$$fundef_27_env_97"*
@@ -646,7 +657,7 @@ entry:
   %"$$fundef_27_env_$BoolUtils.andb_6_337" = getelementptr inbounds %"$$fundef_27_env_97", %"$$fundef_27_env_97"* %"$$fundef_27_envp_333", i32 0, i32 0
   %"$$BoolUtils.andb_6_338" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_6", align 8
   store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_6_338", { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$$fundef_27_env_$BoolUtils.andb_6_337", align 8
-  store { { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$fundef_27_cloval_336", { { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.and_4, align 8, !dbg !40
+  store { { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$fundef_27_cloval_336", { { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* @BoolUtils.and_4, align 8, !dbg !53
   %"$gasrem_339" = load i64, i64* @_gasrem, align 8
   %"$gascmp_340" = icmp ugt i64 196, %"$gasrem_339"
   br i1 %"$gascmp_340", label %"$out_of_gas_341", label %"$have_gas_342"
@@ -658,7 +669,7 @@ entry:
 "$have_gas_342":                                  ; preds = %"$out_of_gas_341", %"$have_gas_328"
   %"$consume_343" = sub i64 %"$gasrem_339", 196
   store i64 %"$consume_343", i64* @_gasrem, align 8
-  store %Int32 { i32 196 }, %Int32* @"$_gas_charge_accIntUtils_1", align 4, !dbg !38
+  store %Int32 { i32 196 }, %Int32* @"$_gas_charge_accIntUtils_1", align 4, !dbg !51
   %"$gasrem_344" = load i64, i64* @_gasrem, align 8
   %"$gascmp_345" = icmp ugt i64 20, %"$gasrem_344"
   br i1 %"$gascmp_345", label %"$out_of_gas_346", label %"$have_gas_347"
@@ -670,7 +681,7 @@ entry:
 "$have_gas_347":                                  ; preds = %"$out_of_gas_346", %"$have_gas_342"
   %"$consume_348" = sub i64 %"$gasrem_344", 20
   store i64 %"$consume_348", i64* @_gasrem, align 8
-  store %Int32 { i32 20 }, %Int32* @"$_gas_charge_accListUtils_2", align 4, !dbg !38
+  store %Int32 { i32 20 }, %Int32* @"$_gas_charge_accListUtils_2", align 4, !dbg !51
   %"$gasrem_349" = load i64, i64* @_gasrem, align 8
   %"$gascmp_350" = icmp ugt i64 12, %"$gasrem_349"
   br i1 %"$gascmp_350", label %"$out_of_gas_351", label %"$have_gas_352"
@@ -682,7 +693,7 @@ entry:
 "$have_gas_352":                                  ; preds = %"$out_of_gas_351", %"$have_gas_347"
   %"$consume_353" = sub i64 %"$gasrem_349", 12
   store i64 %"$consume_353", i64* @_gasrem, align 8
-  store %Int32 { i32 12 }, %Int32* @"$_gas_charge_accNatUtils_3", align 4, !dbg !38
+  store %Int32 { i32 12 }, %Int32* @"$_gas_charge_accNatUtils_3", align 4, !dbg !51
   %"$gasrem_354" = load i64, i64* @_gasrem, align 8
   %"$gascmp_355" = icmp ugt i64 2, %"$gasrem_354"
   br i1 %"$gascmp_355", label %"$out_of_gas_356", label %"$have_gas_357"
@@ -694,13 +705,14 @@ entry:
 "$have_gas_357":                                  ; preds = %"$out_of_gas_356", %"$have_gas_352"
   %"$consume_358" = sub i64 %"$gasrem_354", 2
   store i64 %"$consume_358", i64* @_gasrem, align 8
-  store %Int32 { i32 2 }, %Int32* @"$_gas_charge_accPairUtils_4", align 4, !dbg !38
+  store %Int32 { i32 2 }, %Int32* @"$_gas_charge_accPairUtils_4", align 4, !dbg !51
   ret void
 }
 
-define internal %TName_Bool* @_scilla_expr_fun(i8* %0) !dbg !41 {
+define internal %TName_Bool* @_scilla_expr_fun(i8* %0) !dbg !54 {
 entry:
   %"$expr_39" = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %"$expr_39", metadata !55, metadata !DIExpression()), !dbg !56
   %"$gasrem_359" = load i64, i64* @_gasrem, align 8
   %"$gascmp_360" = icmp ugt i64 1, %"$gasrem_359"
   br i1 %"$gascmp_360", label %"$out_of_gas_361", label %"$have_gas_362"
@@ -713,6 +725,7 @@ entry:
   %"$consume_363" = sub i64 %"$gasrem_359", 1
   store i64 %"$consume_363", i64* @_gasrem, align 8
   %p1 = alloca [33 x i8], align 1
+  call void @llvm.dbg.declare(metadata [33 x i8]* %p1, metadata !57, metadata !DIExpression()), !dbg !59
   %"$gasrem_364" = load i64, i64* @_gasrem, align 8
   %"$gascmp_365" = icmp ugt i64 1, %"$gasrem_364"
   br i1 %"$gascmp_365", label %"$out_of_gas_366", label %"$have_gas_367"
@@ -724,7 +737,7 @@ entry:
 "$have_gas_367":                                  ; preds = %"$out_of_gas_366", %"$have_gas_362"
   %"$consume_368" = sub i64 %"$gasrem_364", 1
   store i64 %"$consume_368", i64* @_gasrem, align 8
-  store [33 x i8] c"\03\14s\81c\B9\BBg\AD\11\AAFO\E6\9A\11G\DF&>\89p\D7\DC\FD\8F\99=\DD9\E8\1B\D9", [33 x i8]* %p1, align 1, !dbg !42
+  store [33 x i8] c"\03\14s\81c\B9\BBg\AD\11\AAFO\E6\9A\11G\DF&>\89p\D7\DC\FD\8F\99=\DD9\E8\1B\D9", [33 x i8]* %p1, align 1, !dbg !56
   %"$gasrem_369" = load i64, i64* @_gasrem, align 8
   %"$gascmp_370" = icmp ugt i64 1, %"$gasrem_369"
   br i1 %"$gascmp_370", label %"$out_of_gas_371", label %"$have_gas_372"
@@ -737,6 +750,7 @@ entry:
   %"$consume_373" = sub i64 %"$gasrem_369", 1
   store i64 %"$consume_373", i64* @_gasrem, align 8
   %a1 = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a1, metadata !60, metadata !DIExpression()), !dbg !62
   %"$gasrem_374" = load i64, i64* @_gasrem, align 8
   %"$gascmp_375" = icmp ugt i64 1, %"$gasrem_374"
   br i1 %"$gascmp_375", label %"$out_of_gas_376", label %"$have_gas_377"
@@ -748,7 +762,7 @@ entry:
 "$have_gas_377":                                  ; preds = %"$out_of_gas_376", %"$have_gas_372"
   %"$consume_378" = sub i64 %"$gasrem_374", 1
   store i64 %"$consume_378", i64* @_gasrem, align 8
-  store [20 x i8] c"K\AF_\AD\A8\E5\DB\92\C3\D3$&\18\C5\B4q3\AE\00<", [20 x i8]* %a1, align 1, !dbg !43
+  store [20 x i8] c"K\AF_\AD\A8\E5\DB\92\C3\D3$&\18\C5\B4q3\AE\00<", [20 x i8]* %a1, align 1, !dbg !63
   %"$gasrem_379" = load i64, i64* @_gasrem, align 8
   %"$gascmp_380" = icmp ugt i64 1, %"$gasrem_379"
   br i1 %"$gascmp_380", label %"$out_of_gas_381", label %"$have_gas_382"
@@ -761,6 +775,7 @@ entry:
   %"$consume_383" = sub i64 %"$gasrem_379", 1
   store i64 %"$consume_383", i64* @_gasrem, align 8
   %a1_gen = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a1_gen, metadata !64, metadata !DIExpression()), !dbg !65
   %"$_literal_cost_p1_384" = alloca [33 x i8], align 1
   %"$p1_385" = load [33 x i8], [33 x i8]* %p1, align 1
   store [33 x i8] %"$p1_385", [33 x i8]* %"$_literal_cost_p1_384", align 1
@@ -787,9 +802,9 @@ entry:
   %"$schnorr_get_address_p1_400" = alloca [33 x i8], align 1
   %"$p1_401" = load [33 x i8], [33 x i8]* %p1, align 1
   store [33 x i8] %"$p1_401", [33 x i8]* %"$schnorr_get_address_p1_400", align 1
-  %"$schnorr_get_address_call_402" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_399", [33 x i8]* %"$schnorr_get_address_p1_400"), !dbg !44
+  %"$schnorr_get_address_call_402" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_399", [33 x i8]* %"$schnorr_get_address_p1_400"), !dbg !66
   %"$schnorr_get_address_404" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_402", align 1
-  store [20 x i8] %"$schnorr_get_address_404", [20 x i8]* %a1_gen, align 1, !dbg !44
+  store [20 x i8] %"$schnorr_get_address_404", [20 x i8]* %a1_gen, align 1, !dbg !66
   %"$gasrem_405" = load i64, i64* @_gasrem, align 8
   %"$gascmp_406" = icmp ugt i64 1, %"$gasrem_405"
   br i1 %"$gascmp_406", label %"$out_of_gas_407", label %"$have_gas_408"
@@ -802,6 +817,7 @@ entry:
   %"$consume_409" = sub i64 %"$gasrem_405", 1
   store i64 %"$consume_409", i64* @_gasrem, align 8
   %r1 = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %r1, metadata !67, metadata !DIExpression()), !dbg !68
   %"$gasrem_410" = load i64, i64* @_gasrem, align 8
   %"$gascmp_411" = icmp ugt i64 20, %"$gasrem_410"
   br i1 %"$gascmp_411", label %"$out_of_gas_412", label %"$have_gas_413"
@@ -822,8 +838,8 @@ entry:
   %"$a1_gen_420" = load [20 x i8], [20 x i8]* %a1_gen, align 1
   store [20 x i8] %"$a1_gen_420", [20 x i8]* %"$eq_a1_gen_419", align 1
   %"$$eq_a1_gen_419_421" = bitcast [20 x i8]* %"$eq_a1_gen_419" to i8*
-  %"$eq_call_422" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_415", i32 20, i8* %"$$eq_a1_416_418", i8* %"$$eq_a1_gen_419_421"), !dbg !45
-  store %TName_Bool* %"$eq_call_422", %TName_Bool** %r1, align 8, !dbg !45
+  %"$eq_call_422" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_415", i32 20, i8* %"$$eq_a1_416_418", i8* %"$$eq_a1_gen_419_421"), !dbg !69
+  store %TName_Bool* %"$eq_call_422", %TName_Bool** %r1, align 8, !dbg !69
   %"$gasrem_424" = load i64, i64* @_gasrem, align 8
   %"$gascmp_425" = icmp ugt i64 1, %"$gasrem_424"
   br i1 %"$gascmp_425", label %"$out_of_gas_426", label %"$have_gas_427"
@@ -836,6 +852,7 @@ entry:
   %"$consume_428" = sub i64 %"$gasrem_424", 1
   store i64 %"$consume_428", i64* @_gasrem, align 8
   %p2 = alloca [33 x i8], align 1
+  call void @llvm.dbg.declare(metadata [33 x i8]* %p2, metadata !70, metadata !DIExpression()), !dbg !71
   %"$gasrem_429" = load i64, i64* @_gasrem, align 8
   %"$gascmp_430" = icmp ugt i64 1, %"$gasrem_429"
   br i1 %"$gascmp_430", label %"$out_of_gas_431", label %"$have_gas_432"
@@ -847,7 +864,7 @@ entry:
 "$have_gas_432":                                  ; preds = %"$out_of_gas_431", %"$have_gas_427"
   %"$consume_433" = sub i64 %"$gasrem_429", 1
   store i64 %"$consume_433", i64* @_gasrem, align 8
-  store [33 x i8] c"\03L\E2h\ACZ4\008\D8\AC\EB\BD\D766\11\A5\B1\19y\16w^2H\1F]k\10O\AFe", [33 x i8]* %p2, align 1, !dbg !46
+  store [33 x i8] c"\03L\E2h\ACZ4\008\D8\AC\EB\BD\D766\11\A5\B1\19y\16w^2H\1F]k\10O\AFe", [33 x i8]* %p2, align 1, !dbg !72
   %"$gasrem_434" = load i64, i64* @_gasrem, align 8
   %"$gascmp_435" = icmp ugt i64 1, %"$gasrem_434"
   br i1 %"$gascmp_435", label %"$out_of_gas_436", label %"$have_gas_437"
@@ -860,6 +877,7 @@ entry:
   %"$consume_438" = sub i64 %"$gasrem_434", 1
   store i64 %"$consume_438", i64* @_gasrem, align 8
   %a2 = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a2, metadata !73, metadata !DIExpression()), !dbg !74
   %"$gasrem_439" = load i64, i64* @_gasrem, align 8
   %"$gascmp_440" = icmp ugt i64 1, %"$gasrem_439"
   br i1 %"$gascmp_440", label %"$out_of_gas_441", label %"$have_gas_442"
@@ -871,7 +889,7 @@ entry:
 "$have_gas_442":                                  ; preds = %"$out_of_gas_441", %"$have_gas_437"
   %"$consume_443" = sub i64 %"$gasrem_439", 1
   store i64 %"$consume_443", i64* @_gasrem, align 8
-  store [20 x i8] c"D\82a\91Z\80\CD\E9\BD\E7\C7\A7\91hR\00\D3\A0\BFN", [20 x i8]* %a2, align 1, !dbg !47
+  store [20 x i8] c"D\82a\91Z\80\CD\E9\BD\E7\C7\A7\91hR\00\D3\A0\BFN", [20 x i8]* %a2, align 1, !dbg !75
   %"$gasrem_444" = load i64, i64* @_gasrem, align 8
   %"$gascmp_445" = icmp ugt i64 1, %"$gasrem_444"
   br i1 %"$gascmp_445", label %"$out_of_gas_446", label %"$have_gas_447"
@@ -884,6 +902,7 @@ entry:
   %"$consume_448" = sub i64 %"$gasrem_444", 1
   store i64 %"$consume_448", i64* @_gasrem, align 8
   %a2_gen = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a2_gen, metadata !76, metadata !DIExpression()), !dbg !77
   %"$_literal_cost_p2_449" = alloca [33 x i8], align 1
   %"$p2_450" = load [33 x i8], [33 x i8]* %p2, align 1
   store [33 x i8] %"$p2_450", [33 x i8]* %"$_literal_cost_p2_449", align 1
@@ -910,9 +929,9 @@ entry:
   %"$schnorr_get_address_p2_465" = alloca [33 x i8], align 1
   %"$p2_466" = load [33 x i8], [33 x i8]* %p2, align 1
   store [33 x i8] %"$p2_466", [33 x i8]* %"$schnorr_get_address_p2_465", align 1
-  %"$schnorr_get_address_call_467" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_464", [33 x i8]* %"$schnorr_get_address_p2_465"), !dbg !48
+  %"$schnorr_get_address_call_467" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_464", [33 x i8]* %"$schnorr_get_address_p2_465"), !dbg !78
   %"$schnorr_get_address_469" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_467", align 1
-  store [20 x i8] %"$schnorr_get_address_469", [20 x i8]* %a2_gen, align 1, !dbg !48
+  store [20 x i8] %"$schnorr_get_address_469", [20 x i8]* %a2_gen, align 1, !dbg !78
   %"$gasrem_470" = load i64, i64* @_gasrem, align 8
   %"$gascmp_471" = icmp ugt i64 1, %"$gasrem_470"
   br i1 %"$gascmp_471", label %"$out_of_gas_472", label %"$have_gas_473"
@@ -925,6 +944,7 @@ entry:
   %"$consume_474" = sub i64 %"$gasrem_470", 1
   store i64 %"$consume_474", i64* @_gasrem, align 8
   %r2 = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %r2, metadata !79, metadata !DIExpression()), !dbg !80
   %"$gasrem_475" = load i64, i64* @_gasrem, align 8
   %"$gascmp_476" = icmp ugt i64 20, %"$gasrem_475"
   br i1 %"$gascmp_476", label %"$out_of_gas_477", label %"$have_gas_478"
@@ -945,8 +965,8 @@ entry:
   %"$a2_gen_485" = load [20 x i8], [20 x i8]* %a2_gen, align 1
   store [20 x i8] %"$a2_gen_485", [20 x i8]* %"$eq_a2_gen_484", align 1
   %"$$eq_a2_gen_484_486" = bitcast [20 x i8]* %"$eq_a2_gen_484" to i8*
-  %"$eq_call_487" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_480", i32 20, i8* %"$$eq_a2_481_483", i8* %"$$eq_a2_gen_484_486"), !dbg !49
-  store %TName_Bool* %"$eq_call_487", %TName_Bool** %r2, align 8, !dbg !49
+  %"$eq_call_487" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_480", i32 20, i8* %"$$eq_a2_481_483", i8* %"$$eq_a2_gen_484_486"), !dbg !81
+  store %TName_Bool* %"$eq_call_487", %TName_Bool** %r2, align 8, !dbg !81
   %"$gasrem_489" = load i64, i64* @_gasrem, align 8
   %"$gascmp_490" = icmp ugt i64 1, %"$gasrem_489"
   br i1 %"$gascmp_490", label %"$out_of_gas_491", label %"$have_gas_492"
@@ -959,6 +979,7 @@ entry:
   %"$consume_493" = sub i64 %"$gasrem_489", 1
   store i64 %"$consume_493", i64* @_gasrem, align 8
   %p3 = alloca [33 x i8], align 1
+  call void @llvm.dbg.declare(metadata [33 x i8]* %p3, metadata !82, metadata !DIExpression()), !dbg !83
   %"$gasrem_494" = load i64, i64* @_gasrem, align 8
   %"$gascmp_495" = icmp ugt i64 1, %"$gasrem_494"
   br i1 %"$gascmp_495", label %"$out_of_gas_496", label %"$have_gas_497"
@@ -970,7 +991,7 @@ entry:
 "$have_gas_497":                                  ; preds = %"$out_of_gas_496", %"$have_gas_492"
   %"$consume_498" = sub i64 %"$gasrem_494", 1
   store i64 %"$consume_498", i64* @_gasrem, align 8
-  store [33 x i8] c"\02\FAzP\1F2<\C5>\07\0C\0A\94Sp6\86y\E7W)`\EC$\D8\A08~\F3\B5\0A\22\85", [33 x i8]* %p3, align 1, !dbg !50
+  store [33 x i8] c"\02\FAzP\1F2<\C5>\07\0C\0A\94Sp6\86y\E7W)`\EC$\D8\A08~\F3\B5\0A\22\85", [33 x i8]* %p3, align 1, !dbg !84
   %"$gasrem_499" = load i64, i64* @_gasrem, align 8
   %"$gascmp_500" = icmp ugt i64 1, %"$gasrem_499"
   br i1 %"$gascmp_500", label %"$out_of_gas_501", label %"$have_gas_502"
@@ -983,6 +1004,7 @@ entry:
   %"$consume_503" = sub i64 %"$gasrem_499", 1
   store i64 %"$consume_503", i64* @_gasrem, align 8
   %a3 = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a3, metadata !85, metadata !DIExpression()), !dbg !86
   %"$gasrem_504" = load i64, i64* @_gasrem, align 8
   %"$gascmp_505" = icmp ugt i64 1, %"$gasrem_504"
   br i1 %"$gascmp_505", label %"$out_of_gas_506", label %"$have_gas_507"
@@ -994,7 +1016,7 @@ entry:
 "$have_gas_507":                                  ; preds = %"$out_of_gas_506", %"$have_gas_502"
   %"$consume_508" = sub i64 %"$gasrem_504", 1
   store i64 %"$consume_508", i64* @_gasrem, align 8
-  store [20 x i8] c"\DE\D0/\D9y\FC.U\C0$;\D2\F5-\F0\22\C4\0A\DA\1E", [20 x i8]* %a3, align 1, !dbg !51
+  store [20 x i8] c"\DE\D0/\D9y\FC.U\C0$;\D2\F5-\F0\22\C4\0A\DA\1E", [20 x i8]* %a3, align 1, !dbg !87
   %"$gasrem_509" = load i64, i64* @_gasrem, align 8
   %"$gascmp_510" = icmp ugt i64 1, %"$gasrem_509"
   br i1 %"$gascmp_510", label %"$out_of_gas_511", label %"$have_gas_512"
@@ -1007,6 +1029,7 @@ entry:
   %"$consume_513" = sub i64 %"$gasrem_509", 1
   store i64 %"$consume_513", i64* @_gasrem, align 8
   %a3_gen = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a3_gen, metadata !88, metadata !DIExpression()), !dbg !89
   %"$_literal_cost_p3_514" = alloca [33 x i8], align 1
   %"$p3_515" = load [33 x i8], [33 x i8]* %p3, align 1
   store [33 x i8] %"$p3_515", [33 x i8]* %"$_literal_cost_p3_514", align 1
@@ -1033,9 +1056,9 @@ entry:
   %"$schnorr_get_address_p3_530" = alloca [33 x i8], align 1
   %"$p3_531" = load [33 x i8], [33 x i8]* %p3, align 1
   store [33 x i8] %"$p3_531", [33 x i8]* %"$schnorr_get_address_p3_530", align 1
-  %"$schnorr_get_address_call_532" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_529", [33 x i8]* %"$schnorr_get_address_p3_530"), !dbg !52
+  %"$schnorr_get_address_call_532" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_529", [33 x i8]* %"$schnorr_get_address_p3_530"), !dbg !90
   %"$schnorr_get_address_534" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_532", align 1
-  store [20 x i8] %"$schnorr_get_address_534", [20 x i8]* %a3_gen, align 1, !dbg !52
+  store [20 x i8] %"$schnorr_get_address_534", [20 x i8]* %a3_gen, align 1, !dbg !90
   %"$gasrem_535" = load i64, i64* @_gasrem, align 8
   %"$gascmp_536" = icmp ugt i64 1, %"$gasrem_535"
   br i1 %"$gascmp_536", label %"$out_of_gas_537", label %"$have_gas_538"
@@ -1048,6 +1071,7 @@ entry:
   %"$consume_539" = sub i64 %"$gasrem_535", 1
   store i64 %"$consume_539", i64* @_gasrem, align 8
   %r3 = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %r3, metadata !91, metadata !DIExpression()), !dbg !92
   %"$gasrem_540" = load i64, i64* @_gasrem, align 8
   %"$gascmp_541" = icmp ugt i64 20, %"$gasrem_540"
   br i1 %"$gascmp_541", label %"$out_of_gas_542", label %"$have_gas_543"
@@ -1068,8 +1092,8 @@ entry:
   %"$a3_gen_550" = load [20 x i8], [20 x i8]* %a3_gen, align 1
   store [20 x i8] %"$a3_gen_550", [20 x i8]* %"$eq_a3_gen_549", align 1
   %"$$eq_a3_gen_549_551" = bitcast [20 x i8]* %"$eq_a3_gen_549" to i8*
-  %"$eq_call_552" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_545", i32 20, i8* %"$$eq_a3_546_548", i8* %"$$eq_a3_gen_549_551"), !dbg !53
-  store %TName_Bool* %"$eq_call_552", %TName_Bool** %r3, align 8, !dbg !53
+  %"$eq_call_552" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_545", i32 20, i8* %"$$eq_a3_546_548", i8* %"$$eq_a3_gen_549_551"), !dbg !93
+  store %TName_Bool* %"$eq_call_552", %TName_Bool** %r3, align 8, !dbg !93
   %"$gasrem_554" = load i64, i64* @_gasrem, align 8
   %"$gascmp_555" = icmp ugt i64 1, %"$gasrem_554"
   br i1 %"$gascmp_555", label %"$out_of_gas_556", label %"$have_gas_557"
@@ -1082,6 +1106,7 @@ entry:
   %"$consume_558" = sub i64 %"$gasrem_554", 1
   store i64 %"$consume_558", i64* @_gasrem, align 8
   %p4 = alloca [33 x i8], align 1
+  call void @llvm.dbg.declare(metadata [33 x i8]* %p4, metadata !94, metadata !DIExpression()), !dbg !95
   %"$gasrem_559" = load i64, i64* @_gasrem, align 8
   %"$gascmp_560" = icmp ugt i64 1, %"$gasrem_559"
   br i1 %"$gascmp_560", label %"$out_of_gas_561", label %"$have_gas_562"
@@ -1093,7 +1118,7 @@ entry:
 "$have_gas_562":                                  ; preds = %"$out_of_gas_561", %"$have_gas_557"
   %"$consume_563" = sub i64 %"$gasrem_559", 1
   store i64 %"$consume_563", i64* @_gasrem, align 8
-  store [33 x i8] c"\03o\86v\E4s\AF \B4\CC\E7\D3'\10=\E4PJ\9C\00\EA\E7\EA\03\D0\A3e\FBH\81z\C9\7F", [33 x i8]* %p4, align 1, !dbg !54
+  store [33 x i8] c"\03o\86v\E4s\AF \B4\CC\E7\D3'\10=\E4PJ\9C\00\EA\E7\EA\03\D0\A3e\FBH\81z\C9\7F", [33 x i8]* %p4, align 1, !dbg !96
   %"$gasrem_564" = load i64, i64* @_gasrem, align 8
   %"$gascmp_565" = icmp ugt i64 1, %"$gasrem_564"
   br i1 %"$gascmp_565", label %"$out_of_gas_566", label %"$have_gas_567"
@@ -1106,6 +1131,7 @@ entry:
   %"$consume_568" = sub i64 %"$gasrem_564", 1
   store i64 %"$consume_568", i64* @_gasrem, align 8
   %a4 = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a4, metadata !97, metadata !DIExpression()), !dbg !98
   %"$gasrem_569" = load i64, i64* @_gasrem, align 8
   %"$gascmp_570" = icmp ugt i64 1, %"$gasrem_569"
   br i1 %"$gascmp_570", label %"$out_of_gas_571", label %"$have_gas_572"
@@ -1117,7 +1143,7 @@ entry:
 "$have_gas_572":                                  ; preds = %"$out_of_gas_571", %"$have_gas_567"
   %"$consume_573" = sub i64 %"$gasrem_569", 1
   store i64 %"$consume_573", i64* @_gasrem, align 8
-  store [20 x i8] c"\13\F0n`){\EAj<@/od\C4\16\A6\B3\1EXn", [20 x i8]* %a4, align 1, !dbg !55
+  store [20 x i8] c"\13\F0n`){\EAj<@/od\C4\16\A6\B3\1EXn", [20 x i8]* %a4, align 1, !dbg !99
   %"$gasrem_574" = load i64, i64* @_gasrem, align 8
   %"$gascmp_575" = icmp ugt i64 1, %"$gasrem_574"
   br i1 %"$gascmp_575", label %"$out_of_gas_576", label %"$have_gas_577"
@@ -1130,6 +1156,7 @@ entry:
   %"$consume_578" = sub i64 %"$gasrem_574", 1
   store i64 %"$consume_578", i64* @_gasrem, align 8
   %a4_gen = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a4_gen, metadata !100, metadata !DIExpression()), !dbg !101
   %"$_literal_cost_p4_579" = alloca [33 x i8], align 1
   %"$p4_580" = load [33 x i8], [33 x i8]* %p4, align 1
   store [33 x i8] %"$p4_580", [33 x i8]* %"$_literal_cost_p4_579", align 1
@@ -1156,9 +1183,9 @@ entry:
   %"$schnorr_get_address_p4_595" = alloca [33 x i8], align 1
   %"$p4_596" = load [33 x i8], [33 x i8]* %p4, align 1
   store [33 x i8] %"$p4_596", [33 x i8]* %"$schnorr_get_address_p4_595", align 1
-  %"$schnorr_get_address_call_597" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_594", [33 x i8]* %"$schnorr_get_address_p4_595"), !dbg !56
+  %"$schnorr_get_address_call_597" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_594", [33 x i8]* %"$schnorr_get_address_p4_595"), !dbg !102
   %"$schnorr_get_address_599" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_597", align 1
-  store [20 x i8] %"$schnorr_get_address_599", [20 x i8]* %a4_gen, align 1, !dbg !56
+  store [20 x i8] %"$schnorr_get_address_599", [20 x i8]* %a4_gen, align 1, !dbg !102
   %"$gasrem_600" = load i64, i64* @_gasrem, align 8
   %"$gascmp_601" = icmp ugt i64 1, %"$gasrem_600"
   br i1 %"$gascmp_601", label %"$out_of_gas_602", label %"$have_gas_603"
@@ -1171,6 +1198,7 @@ entry:
   %"$consume_604" = sub i64 %"$gasrem_600", 1
   store i64 %"$consume_604", i64* @_gasrem, align 8
   %r4 = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %r4, metadata !103, metadata !DIExpression()), !dbg !104
   %"$gasrem_605" = load i64, i64* @_gasrem, align 8
   %"$gascmp_606" = icmp ugt i64 20, %"$gasrem_605"
   br i1 %"$gascmp_606", label %"$out_of_gas_607", label %"$have_gas_608"
@@ -1191,8 +1219,8 @@ entry:
   %"$a4_gen_615" = load [20 x i8], [20 x i8]* %a4_gen, align 1
   store [20 x i8] %"$a4_gen_615", [20 x i8]* %"$eq_a4_gen_614", align 1
   %"$$eq_a4_gen_614_616" = bitcast [20 x i8]* %"$eq_a4_gen_614" to i8*
-  %"$eq_call_617" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_610", i32 20, i8* %"$$eq_a4_611_613", i8* %"$$eq_a4_gen_614_616"), !dbg !57
-  store %TName_Bool* %"$eq_call_617", %TName_Bool** %r4, align 8, !dbg !57
+  %"$eq_call_617" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_610", i32 20, i8* %"$$eq_a4_611_613", i8* %"$$eq_a4_gen_614_616"), !dbg !105
+  store %TName_Bool* %"$eq_call_617", %TName_Bool** %r4, align 8, !dbg !105
   %"$gasrem_619" = load i64, i64* @_gasrem, align 8
   %"$gascmp_620" = icmp ugt i64 1, %"$gasrem_619"
   br i1 %"$gascmp_620", label %"$out_of_gas_621", label %"$have_gas_622"
@@ -1205,6 +1233,7 @@ entry:
   %"$consume_623" = sub i64 %"$gasrem_619", 1
   store i64 %"$consume_623", i64* @_gasrem, align 8
   %p5 = alloca [33 x i8], align 1
+  call void @llvm.dbg.declare(metadata [33 x i8]* %p5, metadata !106, metadata !DIExpression()), !dbg !107
   %"$gasrem_624" = load i64, i64* @_gasrem, align 8
   %"$gascmp_625" = icmp ugt i64 1, %"$gasrem_624"
   br i1 %"$gascmp_625", label %"$out_of_gas_626", label %"$have_gas_627"
@@ -1216,7 +1245,7 @@ entry:
 "$have_gas_627":                                  ; preds = %"$out_of_gas_626", %"$have_gas_622"
   %"$consume_628" = sub i64 %"$gasrem_624", 1
   store i64 %"$consume_628", i64* @_gasrem, align 8
-  store [33 x i8] c"\03L965)\C2\D4\07\8Fr\B8\C4\98\C4\CB\C5\BA^\10\D8fo\E0o\10J'\E0\E4BB\A0", [33 x i8]* %p5, align 1, !dbg !58
+  store [33 x i8] c"\03L965)\C2\D4\07\8Fr\B8\C4\98\C4\CB\C5\BA^\10\D8fo\E0o\10J'\E0\E4BB\A0", [33 x i8]* %p5, align 1, !dbg !108
   %"$gasrem_629" = load i64, i64* @_gasrem, align 8
   %"$gascmp_630" = icmp ugt i64 1, %"$gasrem_629"
   br i1 %"$gascmp_630", label %"$out_of_gas_631", label %"$have_gas_632"
@@ -1229,6 +1258,7 @@ entry:
   %"$consume_633" = sub i64 %"$gasrem_629", 1
   store i64 %"$consume_633", i64* @_gasrem, align 8
   %a5 = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a5, metadata !109, metadata !DIExpression()), !dbg !110
   %"$gasrem_634" = load i64, i64* @_gasrem, align 8
   %"$gascmp_635" = icmp ugt i64 1, %"$gasrem_634"
   br i1 %"$gascmp_635", label %"$out_of_gas_636", label %"$have_gas_637"
@@ -1240,7 +1270,7 @@ entry:
 "$have_gas_637":                                  ; preds = %"$out_of_gas_636", %"$have_gas_632"
   %"$consume_638" = sub i64 %"$gasrem_634", 1
   store i64 %"$consume_638", i64* @_gasrem, align 8
-  store [20 x i8] c"\1A\90\C2S\07\C3\CCq\95\8A\83\FA!:#b\D8Y\CF3", [20 x i8]* %a5, align 1, !dbg !59
+  store [20 x i8] c"\1A\90\C2S\07\C3\CCq\95\8A\83\FA!:#b\D8Y\CF3", [20 x i8]* %a5, align 1, !dbg !111
   %"$gasrem_639" = load i64, i64* @_gasrem, align 8
   %"$gascmp_640" = icmp ugt i64 1, %"$gasrem_639"
   br i1 %"$gascmp_640", label %"$out_of_gas_641", label %"$have_gas_642"
@@ -1253,6 +1283,7 @@ entry:
   %"$consume_643" = sub i64 %"$gasrem_639", 1
   store i64 %"$consume_643", i64* @_gasrem, align 8
   %a5_gen = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a5_gen, metadata !112, metadata !DIExpression()), !dbg !113
   %"$_literal_cost_p5_644" = alloca [33 x i8], align 1
   %"$p5_645" = load [33 x i8], [33 x i8]* %p5, align 1
   store [33 x i8] %"$p5_645", [33 x i8]* %"$_literal_cost_p5_644", align 1
@@ -1279,9 +1310,9 @@ entry:
   %"$schnorr_get_address_p5_660" = alloca [33 x i8], align 1
   %"$p5_661" = load [33 x i8], [33 x i8]* %p5, align 1
   store [33 x i8] %"$p5_661", [33 x i8]* %"$schnorr_get_address_p5_660", align 1
-  %"$schnorr_get_address_call_662" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_659", [33 x i8]* %"$schnorr_get_address_p5_660"), !dbg !60
+  %"$schnorr_get_address_call_662" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_659", [33 x i8]* %"$schnorr_get_address_p5_660"), !dbg !114
   %"$schnorr_get_address_664" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_662", align 1
-  store [20 x i8] %"$schnorr_get_address_664", [20 x i8]* %a5_gen, align 1, !dbg !60
+  store [20 x i8] %"$schnorr_get_address_664", [20 x i8]* %a5_gen, align 1, !dbg !114
   %"$gasrem_665" = load i64, i64* @_gasrem, align 8
   %"$gascmp_666" = icmp ugt i64 1, %"$gasrem_665"
   br i1 %"$gascmp_666", label %"$out_of_gas_667", label %"$have_gas_668"
@@ -1294,6 +1325,7 @@ entry:
   %"$consume_669" = sub i64 %"$gasrem_665", 1
   store i64 %"$consume_669", i64* @_gasrem, align 8
   %r5 = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %r5, metadata !115, metadata !DIExpression()), !dbg !116
   %"$gasrem_670" = load i64, i64* @_gasrem, align 8
   %"$gascmp_671" = icmp ugt i64 20, %"$gasrem_670"
   br i1 %"$gascmp_671", label %"$out_of_gas_672", label %"$have_gas_673"
@@ -1314,8 +1346,8 @@ entry:
   %"$a5_gen_680" = load [20 x i8], [20 x i8]* %a5_gen, align 1
   store [20 x i8] %"$a5_gen_680", [20 x i8]* %"$eq_a5_gen_679", align 1
   %"$$eq_a5_gen_679_681" = bitcast [20 x i8]* %"$eq_a5_gen_679" to i8*
-  %"$eq_call_682" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_675", i32 20, i8* %"$$eq_a5_676_678", i8* %"$$eq_a5_gen_679_681"), !dbg !61
-  store %TName_Bool* %"$eq_call_682", %TName_Bool** %r5, align 8, !dbg !61
+  %"$eq_call_682" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_675", i32 20, i8* %"$$eq_a5_676_678", i8* %"$$eq_a5_gen_679_681"), !dbg !117
+  store %TName_Bool* %"$eq_call_682", %TName_Bool** %r5, align 8, !dbg !117
   %"$gasrem_684" = load i64, i64* @_gasrem, align 8
   %"$gascmp_685" = icmp ugt i64 1, %"$gasrem_684"
   br i1 %"$gascmp_685", label %"$out_of_gas_686", label %"$have_gas_687"
@@ -1328,6 +1360,7 @@ entry:
   %"$consume_688" = sub i64 %"$gasrem_684", 1
   store i64 %"$consume_688", i64* @_gasrem, align 8
   %p6 = alloca [33 x i8], align 1
+  call void @llvm.dbg.declare(metadata [33 x i8]* %p6, metadata !118, metadata !DIExpression()), !dbg !119
   %"$gasrem_689" = load i64, i64* @_gasrem, align 8
   %"$gascmp_690" = icmp ugt i64 1, %"$gasrem_689"
   br i1 %"$gascmp_690", label %"$out_of_gas_691", label %"$have_gas_692"
@@ -1339,7 +1372,7 @@ entry:
 "$have_gas_692":                                  ; preds = %"$out_of_gas_691", %"$have_gas_687"
   %"$consume_693" = sub i64 %"$gasrem_689", 1
   store i64 %"$consume_693", i64* @_gasrem, align 8
-  store [33 x i8] c"\02m\A5\BFl:<\91\C0\8A=\D7\FB\CE\0B\EA\F5\D46\03\9C\97\B0z\0Fa\AAK\94\93\E4g\87", [33 x i8]* %p6, align 1, !dbg !62
+  store [33 x i8] c"\02m\A5\BFl:<\91\C0\8A=\D7\FB\CE\0B\EA\F5\D46\03\9C\97\B0z\0Fa\AAK\94\93\E4g\87", [33 x i8]* %p6, align 1, !dbg !120
   %"$gasrem_694" = load i64, i64* @_gasrem, align 8
   %"$gascmp_695" = icmp ugt i64 1, %"$gasrem_694"
   br i1 %"$gascmp_695", label %"$out_of_gas_696", label %"$have_gas_697"
@@ -1352,6 +1385,7 @@ entry:
   %"$consume_698" = sub i64 %"$gasrem_694", 1
   store i64 %"$consume_698", i64* @_gasrem, align 8
   %a6 = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a6, metadata !121, metadata !DIExpression()), !dbg !122
   %"$gasrem_699" = load i64, i64* @_gasrem, align 8
   %"$gascmp_700" = icmp ugt i64 1, %"$gasrem_699"
   br i1 %"$gascmp_700", label %"$out_of_gas_701", label %"$have_gas_702"
@@ -1363,7 +1397,7 @@ entry:
 "$have_gas_702":                                  ; preds = %"$out_of_gas_701", %"$have_gas_697"
   %"$consume_703" = sub i64 %"$gasrem_699", 1
   store i64 %"$consume_703", i64* @_gasrem, align 8
-  store [20 x i8] c"bZ\BA\EB\D8}\AE\9A\B1(\F3\B3\AE\99h\88\13\D9\C5\DF", [20 x i8]* %a6, align 1, !dbg !63
+  store [20 x i8] c"bZ\BA\EB\D8}\AE\9A\B1(\F3\B3\AE\99h\88\13\D9\C5\DF", [20 x i8]* %a6, align 1, !dbg !123
   %"$gasrem_704" = load i64, i64* @_gasrem, align 8
   %"$gascmp_705" = icmp ugt i64 1, %"$gasrem_704"
   br i1 %"$gascmp_705", label %"$out_of_gas_706", label %"$have_gas_707"
@@ -1376,6 +1410,7 @@ entry:
   %"$consume_708" = sub i64 %"$gasrem_704", 1
   store i64 %"$consume_708", i64* @_gasrem, align 8
   %a6_gen = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a6_gen, metadata !124, metadata !DIExpression()), !dbg !125
   %"$_literal_cost_p6_709" = alloca [33 x i8], align 1
   %"$p6_710" = load [33 x i8], [33 x i8]* %p6, align 1
   store [33 x i8] %"$p6_710", [33 x i8]* %"$_literal_cost_p6_709", align 1
@@ -1402,9 +1437,9 @@ entry:
   %"$schnorr_get_address_p6_725" = alloca [33 x i8], align 1
   %"$p6_726" = load [33 x i8], [33 x i8]* %p6, align 1
   store [33 x i8] %"$p6_726", [33 x i8]* %"$schnorr_get_address_p6_725", align 1
-  %"$schnorr_get_address_call_727" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_724", [33 x i8]* %"$schnorr_get_address_p6_725"), !dbg !64
+  %"$schnorr_get_address_call_727" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_724", [33 x i8]* %"$schnorr_get_address_p6_725"), !dbg !126
   %"$schnorr_get_address_729" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_727", align 1
-  store [20 x i8] %"$schnorr_get_address_729", [20 x i8]* %a6_gen, align 1, !dbg !64
+  store [20 x i8] %"$schnorr_get_address_729", [20 x i8]* %a6_gen, align 1, !dbg !126
   %"$gasrem_730" = load i64, i64* @_gasrem, align 8
   %"$gascmp_731" = icmp ugt i64 1, %"$gasrem_730"
   br i1 %"$gascmp_731", label %"$out_of_gas_732", label %"$have_gas_733"
@@ -1417,6 +1452,7 @@ entry:
   %"$consume_734" = sub i64 %"$gasrem_730", 1
   store i64 %"$consume_734", i64* @_gasrem, align 8
   %r6 = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %r6, metadata !127, metadata !DIExpression()), !dbg !128
   %"$gasrem_735" = load i64, i64* @_gasrem, align 8
   %"$gascmp_736" = icmp ugt i64 20, %"$gasrem_735"
   br i1 %"$gascmp_736", label %"$out_of_gas_737", label %"$have_gas_738"
@@ -1437,8 +1473,8 @@ entry:
   %"$a6_gen_745" = load [20 x i8], [20 x i8]* %a6_gen, align 1
   store [20 x i8] %"$a6_gen_745", [20 x i8]* %"$eq_a6_gen_744", align 1
   %"$$eq_a6_gen_744_746" = bitcast [20 x i8]* %"$eq_a6_gen_744" to i8*
-  %"$eq_call_747" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_740", i32 20, i8* %"$$eq_a6_741_743", i8* %"$$eq_a6_gen_744_746"), !dbg !65
-  store %TName_Bool* %"$eq_call_747", %TName_Bool** %r6, align 8, !dbg !65
+  %"$eq_call_747" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_740", i32 20, i8* %"$$eq_a6_741_743", i8* %"$$eq_a6_gen_744_746"), !dbg !129
+  store %TName_Bool* %"$eq_call_747", %TName_Bool** %r6, align 8, !dbg !129
   %"$gasrem_749" = load i64, i64* @_gasrem, align 8
   %"$gascmp_750" = icmp ugt i64 1, %"$gasrem_749"
   br i1 %"$gascmp_750", label %"$out_of_gas_751", label %"$have_gas_752"
@@ -1451,6 +1487,7 @@ entry:
   %"$consume_753" = sub i64 %"$gasrem_749", 1
   store i64 %"$consume_753", i64* @_gasrem, align 8
   %p7 = alloca [33 x i8], align 1
+  call void @llvm.dbg.declare(metadata [33 x i8]* %p7, metadata !130, metadata !DIExpression()), !dbg !131
   %"$gasrem_754" = load i64, i64* @_gasrem, align 8
   %"$gascmp_755" = icmp ugt i64 1, %"$gasrem_754"
   br i1 %"$gascmp_755", label %"$out_of_gas_756", label %"$have_gas_757"
@@ -1462,7 +1499,7 @@ entry:
 "$have_gas_757":                                  ; preds = %"$out_of_gas_756", %"$have_gas_752"
   %"$consume_758" = sub i64 %"$gasrem_754", 1
   store i64 %"$consume_758", i64* @_gasrem, align 8
-  store [33 x i8] c"\03*f\1F\9DJ\B8\DD\98\18\CE\D2\F6/=\A1O\DD#\E6\8EX\D0\1AJ\E1\86#\1D\7F\B6\09\BB", [33 x i8]* %p7, align 1, !dbg !66
+  store [33 x i8] c"\03*f\1F\9DJ\B8\DD\98\18\CE\D2\F6/=\A1O\DD#\E6\8EX\D0\1AJ\E1\86#\1D\7F\B6\09\BB", [33 x i8]* %p7, align 1, !dbg !132
   %"$gasrem_759" = load i64, i64* @_gasrem, align 8
   %"$gascmp_760" = icmp ugt i64 1, %"$gasrem_759"
   br i1 %"$gascmp_760", label %"$out_of_gas_761", label %"$have_gas_762"
@@ -1475,6 +1512,7 @@ entry:
   %"$consume_763" = sub i64 %"$gasrem_759", 1
   store i64 %"$consume_763", i64* @_gasrem, align 8
   %a7 = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a7, metadata !133, metadata !DIExpression()), !dbg !134
   %"$gasrem_764" = load i64, i64* @_gasrem, align 8
   %"$gascmp_765" = icmp ugt i64 1, %"$gasrem_764"
   br i1 %"$gascmp_765", label %"$out_of_gas_766", label %"$have_gas_767"
@@ -1486,7 +1524,7 @@ entry:
 "$have_gas_767":                                  ; preds = %"$out_of_gas_766", %"$have_gas_762"
   %"$consume_768" = sub i64 %"$gasrem_764", 1
   store i64 %"$consume_768", i64* @_gasrem, align 8
-  store [20 x i8] c"6\BA4\09\7F\86\11\91\C4\8C\83\9C\9B\1A\8BY\12\F5\83\CF", [20 x i8]* %a7, align 1, !dbg !67
+  store [20 x i8] c"6\BA4\09\7F\86\11\91\C4\8C\83\9C\9B\1A\8BY\12\F5\83\CF", [20 x i8]* %a7, align 1, !dbg !135
   %"$gasrem_769" = load i64, i64* @_gasrem, align 8
   %"$gascmp_770" = icmp ugt i64 1, %"$gasrem_769"
   br i1 %"$gascmp_770", label %"$out_of_gas_771", label %"$have_gas_772"
@@ -1499,6 +1537,7 @@ entry:
   %"$consume_773" = sub i64 %"$gasrem_769", 1
   store i64 %"$consume_773", i64* @_gasrem, align 8
   %a7_gen = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a7_gen, metadata !136, metadata !DIExpression()), !dbg !137
   %"$_literal_cost_p7_774" = alloca [33 x i8], align 1
   %"$p7_775" = load [33 x i8], [33 x i8]* %p7, align 1
   store [33 x i8] %"$p7_775", [33 x i8]* %"$_literal_cost_p7_774", align 1
@@ -1525,9 +1564,9 @@ entry:
   %"$schnorr_get_address_p7_790" = alloca [33 x i8], align 1
   %"$p7_791" = load [33 x i8], [33 x i8]* %p7, align 1
   store [33 x i8] %"$p7_791", [33 x i8]* %"$schnorr_get_address_p7_790", align 1
-  %"$schnorr_get_address_call_792" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_789", [33 x i8]* %"$schnorr_get_address_p7_790"), !dbg !68
+  %"$schnorr_get_address_call_792" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_789", [33 x i8]* %"$schnorr_get_address_p7_790"), !dbg !138
   %"$schnorr_get_address_794" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_792", align 1
-  store [20 x i8] %"$schnorr_get_address_794", [20 x i8]* %a7_gen, align 1, !dbg !68
+  store [20 x i8] %"$schnorr_get_address_794", [20 x i8]* %a7_gen, align 1, !dbg !138
   %"$gasrem_795" = load i64, i64* @_gasrem, align 8
   %"$gascmp_796" = icmp ugt i64 1, %"$gasrem_795"
   br i1 %"$gascmp_796", label %"$out_of_gas_797", label %"$have_gas_798"
@@ -1540,6 +1579,7 @@ entry:
   %"$consume_799" = sub i64 %"$gasrem_795", 1
   store i64 %"$consume_799", i64* @_gasrem, align 8
   %r7 = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %r7, metadata !139, metadata !DIExpression()), !dbg !140
   %"$gasrem_800" = load i64, i64* @_gasrem, align 8
   %"$gascmp_801" = icmp ugt i64 20, %"$gasrem_800"
   br i1 %"$gascmp_801", label %"$out_of_gas_802", label %"$have_gas_803"
@@ -1560,8 +1600,8 @@ entry:
   %"$a7_gen_810" = load [20 x i8], [20 x i8]* %a7_gen, align 1
   store [20 x i8] %"$a7_gen_810", [20 x i8]* %"$eq_a7_gen_809", align 1
   %"$$eq_a7_gen_809_811" = bitcast [20 x i8]* %"$eq_a7_gen_809" to i8*
-  %"$eq_call_812" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_805", i32 20, i8* %"$$eq_a7_806_808", i8* %"$$eq_a7_gen_809_811"), !dbg !69
-  store %TName_Bool* %"$eq_call_812", %TName_Bool** %r7, align 8, !dbg !69
+  %"$eq_call_812" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_805", i32 20, i8* %"$$eq_a7_806_808", i8* %"$$eq_a7_gen_809_811"), !dbg !141
+  store %TName_Bool* %"$eq_call_812", %TName_Bool** %r7, align 8, !dbg !141
   %"$gasrem_814" = load i64, i64* @_gasrem, align 8
   %"$gascmp_815" = icmp ugt i64 1, %"$gasrem_814"
   br i1 %"$gascmp_815", label %"$out_of_gas_816", label %"$have_gas_817"
@@ -1574,6 +1614,7 @@ entry:
   %"$consume_818" = sub i64 %"$gasrem_814", 1
   store i64 %"$consume_818", i64* @_gasrem, align 8
   %p8 = alloca [33 x i8], align 1
+  call void @llvm.dbg.declare(metadata [33 x i8]* %p8, metadata !142, metadata !DIExpression()), !dbg !143
   %"$gasrem_819" = load i64, i64* @_gasrem, align 8
   %"$gascmp_820" = icmp ugt i64 1, %"$gasrem_819"
   br i1 %"$gascmp_820", label %"$out_of_gas_821", label %"$have_gas_822"
@@ -1585,7 +1626,7 @@ entry:
 "$have_gas_822":                                  ; preds = %"$out_of_gas_821", %"$have_gas_817"
   %"$consume_823" = sub i64 %"$gasrem_819", 1
   store i64 %"$consume_823", i64* @_gasrem, align 8
-  store [33 x i8] c"\03j\94\E9%\BB \0D\CEA\A4l\90&\E0#\B2&\DD[L\B2'\CEvm`\CC\8F\AB!\81H", [33 x i8]* %p8, align 1, !dbg !70
+  store [33 x i8] c"\03j\94\E9%\BB \0D\CEA\A4l\90&\E0#\B2&\DD[L\B2'\CEvm`\CC\8F\AB!\81H", [33 x i8]* %p8, align 1, !dbg !144
   %"$gasrem_824" = load i64, i64* @_gasrem, align 8
   %"$gascmp_825" = icmp ugt i64 1, %"$gasrem_824"
   br i1 %"$gascmp_825", label %"$out_of_gas_826", label %"$have_gas_827"
@@ -1598,6 +1639,7 @@ entry:
   %"$consume_828" = sub i64 %"$gasrem_824", 1
   store i64 %"$consume_828", i64* @_gasrem, align 8
   %a8 = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a8, metadata !145, metadata !DIExpression()), !dbg !146
   %"$gasrem_829" = load i64, i64* @_gasrem, align 8
   %"$gascmp_830" = icmp ugt i64 1, %"$gasrem_829"
   br i1 %"$gascmp_830", label %"$out_of_gas_831", label %"$have_gas_832"
@@ -1609,7 +1651,7 @@ entry:
 "$have_gas_832":                                  ; preds = %"$out_of_gas_831", %"$have_gas_827"
   %"$consume_833" = sub i64 %"$gasrem_829", 1
   store i64 %"$consume_833", i64* @_gasrem, align 8
-  store [20 x i8] c"\D2E:\E7l\9A\86\AA\E5D\FC\A6\99\DB\DC\\Wj\EF:", [20 x i8]* %a8, align 1, !dbg !71
+  store [20 x i8] c"\D2E:\E7l\9A\86\AA\E5D\FC\A6\99\DB\DC\\Wj\EF:", [20 x i8]* %a8, align 1, !dbg !147
   %"$gasrem_834" = load i64, i64* @_gasrem, align 8
   %"$gascmp_835" = icmp ugt i64 1, %"$gasrem_834"
   br i1 %"$gascmp_835", label %"$out_of_gas_836", label %"$have_gas_837"
@@ -1622,6 +1664,7 @@ entry:
   %"$consume_838" = sub i64 %"$gasrem_834", 1
   store i64 %"$consume_838", i64* @_gasrem, align 8
   %a8_gen = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a8_gen, metadata !148, metadata !DIExpression()), !dbg !149
   %"$_literal_cost_p8_839" = alloca [33 x i8], align 1
   %"$p8_840" = load [33 x i8], [33 x i8]* %p8, align 1
   store [33 x i8] %"$p8_840", [33 x i8]* %"$_literal_cost_p8_839", align 1
@@ -1648,9 +1691,9 @@ entry:
   %"$schnorr_get_address_p8_855" = alloca [33 x i8], align 1
   %"$p8_856" = load [33 x i8], [33 x i8]* %p8, align 1
   store [33 x i8] %"$p8_856", [33 x i8]* %"$schnorr_get_address_p8_855", align 1
-  %"$schnorr_get_address_call_857" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_854", [33 x i8]* %"$schnorr_get_address_p8_855"), !dbg !72
+  %"$schnorr_get_address_call_857" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_854", [33 x i8]* %"$schnorr_get_address_p8_855"), !dbg !150
   %"$schnorr_get_address_859" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_857", align 1
-  store [20 x i8] %"$schnorr_get_address_859", [20 x i8]* %a8_gen, align 1, !dbg !72
+  store [20 x i8] %"$schnorr_get_address_859", [20 x i8]* %a8_gen, align 1, !dbg !150
   %"$gasrem_860" = load i64, i64* @_gasrem, align 8
   %"$gascmp_861" = icmp ugt i64 1, %"$gasrem_860"
   br i1 %"$gascmp_861", label %"$out_of_gas_862", label %"$have_gas_863"
@@ -1663,6 +1706,7 @@ entry:
   %"$consume_864" = sub i64 %"$gasrem_860", 1
   store i64 %"$consume_864", i64* @_gasrem, align 8
   %r8 = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %r8, metadata !151, metadata !DIExpression()), !dbg !152
   %"$gasrem_865" = load i64, i64* @_gasrem, align 8
   %"$gascmp_866" = icmp ugt i64 20, %"$gasrem_865"
   br i1 %"$gascmp_866", label %"$out_of_gas_867", label %"$have_gas_868"
@@ -1683,8 +1727,8 @@ entry:
   %"$a8_gen_875" = load [20 x i8], [20 x i8]* %a8_gen, align 1
   store [20 x i8] %"$a8_gen_875", [20 x i8]* %"$eq_a8_gen_874", align 1
   %"$$eq_a8_gen_874_876" = bitcast [20 x i8]* %"$eq_a8_gen_874" to i8*
-  %"$eq_call_877" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_870", i32 20, i8* %"$$eq_a8_871_873", i8* %"$$eq_a8_gen_874_876"), !dbg !73
-  store %TName_Bool* %"$eq_call_877", %TName_Bool** %r8, align 8, !dbg !73
+  %"$eq_call_877" = call %TName_Bool* @_eq_ByStrX(i8* %"$execptr_load_870", i32 20, i8* %"$$eq_a8_871_873", i8* %"$$eq_a8_gen_874_876"), !dbg !153
+  store %TName_Bool* %"$eq_call_877", %TName_Bool** %r8, align 8, !dbg !153
   %"$gasrem_879" = load i64, i64* @_gasrem, align 8
   %"$gascmp_880" = icmp ugt i64 1, %"$gasrem_879"
   br i1 %"$gascmp_880", label %"$out_of_gas_881", label %"$have_gas_882"
@@ -1697,6 +1741,7 @@ entry:
   %"$consume_883" = sub i64 %"$gasrem_879", 1
   store i64 %"$consume_883", i64* @_gasrem, align 8
   %p9 = alloca [33 x i8], align 1
+  call void @llvm.dbg.declare(metadata [33 x i8]* %p9, metadata !154, metadata !DIExpression()), !dbg !155
   %"$gasrem_884" = load i64, i64* @_gasrem, align 8
   %"$gascmp_885" = icmp ugt i64 1, %"$gasrem_884"
   br i1 %"$gascmp_885", label %"$out_of_gas_886", label %"$have_gas_887"
@@ -1708,7 +1753,7 @@ entry:
 "$have_gas_887":                                  ; preds = %"$out_of_gas_886", %"$have_gas_882"
   %"$consume_888" = sub i64 %"$gasrem_884", 1
   store i64 %"$consume_888", i64* @_gasrem, align 8
-  store [33 x i8] c"\02G\F169\C7Y|\8A\E2F}\D2\9D!\9C'I&\0Fi\0D@i\93\0F\DE\B7\86k+\C1\FA", [33 x i8]* %p9, align 1, !dbg !74
+  store [33 x i8] c"\02G\F169\C7Y|\8A\E2F}\D2\9D!\9C'I&\0Fi\0D@i\93\0F\DE\B7\86k+\C1\FA", [33 x i8]* %p9, align 1, !dbg !156
   %"$gasrem_889" = load i64, i64* @_gasrem, align 8
   %"$gascmp_890" = icmp ugt i64 1, %"$gasrem_889"
   br i1 %"$gascmp_890", label %"$out_of_gas_891", label %"$have_gas_892"
@@ -1743,6 +1788,7 @@ entry:
   %"$consume_903" = sub i64 %"$gasrem_899", 1
   store i64 %"$consume_903", i64* @_gasrem, align 8
   %a9_gen = alloca [20 x i8], align 1
+  call void @llvm.dbg.declare(metadata [20 x i8]* %a9_gen, metadata !157, metadata !DIExpression()), !dbg !158
   %"$_literal_cost_p9_904" = alloca [33 x i8], align 1
   %"$p9_905" = load [33 x i8], [33 x i8]* %p9, align 1
   store [33 x i8] %"$p9_905", [33 x i8]* %"$_literal_cost_p9_904", align 1
@@ -1769,9 +1815,9 @@ entry:
   %"$schnorr_get_address_p9_920" = alloca [33 x i8], align 1
   %"$p9_921" = load [33 x i8], [33 x i8]* %p9, align 1
   store [33 x i8] %"$p9_921", [33 x i8]* %"$schnorr_get_address_p9_920", align 1
-  %"$schnorr_get_address_call_922" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_919", [33 x i8]* %"$schnorr_get_address_p9_920"), !dbg !75
+  %"$schnorr_get_address_call_922" = call [20 x i8]* @_schnorr_get_address(i8* %"$execptr_load_919", [33 x i8]* %"$schnorr_get_address_p9_920"), !dbg !159
   %"$schnorr_get_address_924" = load [20 x i8], [20 x i8]* %"$schnorr_get_address_call_922", align 1
-  store [20 x i8] %"$schnorr_get_address_924", [20 x i8]* %a9_gen, align 1, !dbg !75
+  store [20 x i8] %"$schnorr_get_address_924", [20 x i8]* %a9_gen, align 1, !dbg !159
   %"$gasrem_925" = load i64, i64* @_gasrem, align 8
   %"$gascmp_926" = icmp ugt i64 1, %"$gasrem_925"
   br i1 %"$gascmp_926", label %"$out_of_gas_927", label %"$have_gas_928"
@@ -1806,6 +1852,7 @@ entry:
   %"$consume_939" = sub i64 %"$gasrem_935", 1
   store i64 %"$consume_939", i64* @_gasrem, align 8
   %res1 = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %res1, metadata !160, metadata !DIExpression()), !dbg !161
   %"$gasrem_940" = load i64, i64* @_gasrem, align 8
   %"$gascmp_941" = icmp ugt i64 1, %"$gasrem_940"
   br i1 %"$gascmp_941", label %"$out_of_gas_942", label %"$have_gas_943"
@@ -1822,31 +1869,32 @@ entry:
   %"$BoolUtils.and_4_fptr_946" = extractvalue { { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.and_4_945", 0
   %"$BoolUtils.and_4_envptr_947" = extractvalue { { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.and_4_945", 1
   %"$r1_948" = load %TName_Bool*, %TName_Bool** %r1, align 8
-  %"$BoolUtils.and_4_call_949" = call { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.and_4_fptr_946"(i8* %"$BoolUtils.and_4_envptr_947", %TName_Bool* %"$r1_948"), !dbg !76
-  store { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.and_4_call_949", { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_13", align 8, !dbg !76
+  %"$BoolUtils.and_4_call_949" = call { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.and_4_fptr_946"(i8* %"$BoolUtils.and_4_envptr_947", %TName_Bool* %"$r1_948"), !dbg !162
+  store { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.and_4_call_949", { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_13", align 8, !dbg !162
   %"$BoolUtils.and_4_14" = alloca { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, align 8
   %"$$BoolUtils.and_4_13_950" = load { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_13", align 8
   %"$$BoolUtils.and_4_13_fptr_951" = extractvalue { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_13_950", 0
   %"$$BoolUtils.and_4_13_envptr_952" = extractvalue { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_13_950", 1
   %"$r2_953" = load %TName_Bool*, %TName_Bool** %r2, align 8
-  %"$$BoolUtils.and_4_13_call_954" = call { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_13_fptr_951"(i8* %"$$BoolUtils.and_4_13_envptr_952", %TName_Bool* %"$r2_953"), !dbg !76
-  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_13_call_954", { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_14", align 8, !dbg !76
+  %"$$BoolUtils.and_4_13_call_954" = call { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_13_fptr_951"(i8* %"$$BoolUtils.and_4_13_envptr_952", %TName_Bool* %"$r2_953"), !dbg !162
+  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_13_call_954", { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_14", align 8, !dbg !162
   %"$BoolUtils.and_4_15" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
   %"$$BoolUtils.and_4_14_955" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_14", align 8
   %"$$BoolUtils.and_4_14_fptr_956" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_14_955", 0
   %"$$BoolUtils.and_4_14_envptr_957" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_14_955", 1
   %"$r3_958" = load %TName_Bool*, %TName_Bool** %r3, align 8
-  %"$$BoolUtils.and_4_14_call_959" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_14_fptr_956"(i8* %"$$BoolUtils.and_4_14_envptr_957", %TName_Bool* %"$r3_958"), !dbg !76
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_14_call_959", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_15", align 8, !dbg !76
+  %"$$BoolUtils.and_4_14_call_959" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_14_fptr_956"(i8* %"$$BoolUtils.and_4_14_envptr_957", %TName_Bool* %"$r3_958"), !dbg !162
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_14_call_959", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_15", align 8, !dbg !162
   %"$BoolUtils.and_4_16" = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %"$BoolUtils.and_4_16", metadata !163, metadata !DIExpression()), !dbg !162
   %"$$BoolUtils.and_4_15_960" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_15", align 8
   %"$$BoolUtils.and_4_15_fptr_961" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_15_960", 0
   %"$$BoolUtils.and_4_15_envptr_962" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_15_960", 1
   %"$r4_963" = load %TName_Bool*, %TName_Bool** %r4, align 8
-  %"$$BoolUtils.and_4_15_call_964" = call %TName_Bool* %"$$BoolUtils.and_4_15_fptr_961"(i8* %"$$BoolUtils.and_4_15_envptr_962", %TName_Bool* %"$r4_963"), !dbg !76
-  store %TName_Bool* %"$$BoolUtils.and_4_15_call_964", %TName_Bool** %"$BoolUtils.and_4_16", align 8, !dbg !76
+  %"$$BoolUtils.and_4_15_call_964" = call %TName_Bool* %"$$BoolUtils.and_4_15_fptr_961"(i8* %"$$BoolUtils.and_4_15_envptr_962", %TName_Bool* %"$r4_963"), !dbg !162
+  store %TName_Bool* %"$$BoolUtils.and_4_15_call_964", %TName_Bool** %"$BoolUtils.and_4_16", align 8, !dbg !162
   %"$$BoolUtils.and_4_16_965" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.and_4_16", align 8
-  store %TName_Bool* %"$$BoolUtils.and_4_16_965", %TName_Bool** %res1, align 8, !dbg !76
+  store %TName_Bool* %"$$BoolUtils.and_4_16_965", %TName_Bool** %res1, align 8, !dbg !162
   %"$gasrem_966" = load i64, i64* @_gasrem, align 8
   %"$gascmp_967" = icmp ugt i64 1, %"$gasrem_966"
   br i1 %"$gascmp_967", label %"$out_of_gas_968", label %"$have_gas_969"
@@ -1859,6 +1907,7 @@ entry:
   %"$consume_970" = sub i64 %"$gasrem_966", 1
   store i64 %"$consume_970", i64* @_gasrem, align 8
   %res2 = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %res2, metadata !164, metadata !DIExpression()), !dbg !165
   %"$gasrem_971" = load i64, i64* @_gasrem, align 8
   %"$gascmp_972" = icmp ugt i64 1, %"$gasrem_971"
   br i1 %"$gascmp_972", label %"$out_of_gas_973", label %"$have_gas_974"
@@ -1875,31 +1924,32 @@ entry:
   %"$BoolUtils.and_4_fptr_977" = extractvalue { { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.and_4_976", 0
   %"$BoolUtils.and_4_envptr_978" = extractvalue { { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.and_4_976", 1
   %"$r5_979" = load %TName_Bool*, %TName_Bool** %r5, align 8
-  %"$BoolUtils.and_4_call_980" = call { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.and_4_fptr_977"(i8* %"$BoolUtils.and_4_envptr_978", %TName_Bool* %"$r5_979"), !dbg !77
-  store { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.and_4_call_980", { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_17", align 8, !dbg !77
+  %"$BoolUtils.and_4_call_980" = call { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.and_4_fptr_977"(i8* %"$BoolUtils.and_4_envptr_978", %TName_Bool* %"$r5_979"), !dbg !166
+  store { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.and_4_call_980", { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_17", align 8, !dbg !166
   %"$BoolUtils.and_4_18" = alloca { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, align 8
   %"$$BoolUtils.and_4_17_981" = load { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_17", align 8
   %"$$BoolUtils.and_4_17_fptr_982" = extractvalue { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_17_981", 0
   %"$$BoolUtils.and_4_17_envptr_983" = extractvalue { { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_17_981", 1
   %"$r6_984" = load %TName_Bool*, %TName_Bool** %r6, align 8
-  %"$$BoolUtils.and_4_17_call_985" = call { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_17_fptr_982"(i8* %"$$BoolUtils.and_4_17_envptr_983", %TName_Bool* %"$r6_984"), !dbg !77
-  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_17_call_985", { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_18", align 8, !dbg !77
+  %"$$BoolUtils.and_4_17_call_985" = call { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_17_fptr_982"(i8* %"$$BoolUtils.and_4_17_envptr_983", %TName_Bool* %"$r6_984"), !dbg !166
+  store { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_17_call_985", { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_18", align 8, !dbg !166
   %"$BoolUtils.and_4_19" = alloca { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, align 8
   %"$$BoolUtils.and_4_18_986" = load { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }, { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_18", align 8
   %"$$BoolUtils.and_4_18_fptr_987" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_18_986", 0
   %"$$BoolUtils.and_4_18_envptr_988" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_18_986", 1
   %"$r7_989" = load %TName_Bool*, %TName_Bool** %r7, align 8
-  %"$$BoolUtils.and_4_18_call_990" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_18_fptr_987"(i8* %"$$BoolUtils.and_4_18_envptr_988", %TName_Bool* %"$r7_989"), !dbg !77
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_18_call_990", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_19", align 8, !dbg !77
+  %"$$BoolUtils.and_4_18_call_990" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_18_fptr_987"(i8* %"$$BoolUtils.and_4_18_envptr_988", %TName_Bool* %"$r7_989"), !dbg !166
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_18_call_990", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_19", align 8, !dbg !166
   %"$BoolUtils.and_4_20" = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %"$BoolUtils.and_4_20", metadata !167, metadata !DIExpression()), !dbg !166
   %"$$BoolUtils.and_4_19_991" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.and_4_19", align 8
   %"$$BoolUtils.and_4_19_fptr_992" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_19_991", 0
   %"$$BoolUtils.and_4_19_envptr_993" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.and_4_19_991", 1
   %"$r8_994" = load %TName_Bool*, %TName_Bool** %r8, align 8
-  %"$$BoolUtils.and_4_19_call_995" = call %TName_Bool* %"$$BoolUtils.and_4_19_fptr_992"(i8* %"$$BoolUtils.and_4_19_envptr_993", %TName_Bool* %"$r8_994"), !dbg !77
-  store %TName_Bool* %"$$BoolUtils.and_4_19_call_995", %TName_Bool** %"$BoolUtils.and_4_20", align 8, !dbg !77
+  %"$$BoolUtils.and_4_19_call_995" = call %TName_Bool* %"$$BoolUtils.and_4_19_fptr_992"(i8* %"$$BoolUtils.and_4_19_envptr_993", %TName_Bool* %"$r8_994"), !dbg !166
+  store %TName_Bool* %"$$BoolUtils.and_4_19_call_995", %TName_Bool** %"$BoolUtils.and_4_20", align 8, !dbg !166
   %"$$BoolUtils.and_4_20_996" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.and_4_20", align 8
-  store %TName_Bool* %"$$BoolUtils.and_4_20_996", %TName_Bool** %res2, align 8, !dbg !77
+  store %TName_Bool* %"$$BoolUtils.and_4_20_996", %TName_Bool** %res2, align 8, !dbg !166
   %"$gasrem_997" = load i64, i64* @_gasrem, align 8
   %"$gascmp_998" = icmp ugt i64 1, %"$gasrem_997"
   br i1 %"$gascmp_998", label %"$out_of_gas_999", label %"$have_gas_1000"
@@ -1916,17 +1966,18 @@ entry:
   %"$BoolUtils.andb_fptr_1003" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1002", 0
   %"$BoolUtils.andb_envptr_1004" = extractvalue { { %TName_Bool* (i8*, %TName_Bool*)*, i8* } (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_1002", 1
   %"$res1_1005" = load %TName_Bool*, %TName_Bool** %res1, align 8
-  %"$BoolUtils.andb_call_1006" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1003"(i8* %"$BoolUtils.andb_envptr_1004", %TName_Bool* %"$res1_1005"), !dbg !78
-  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1006", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_21", align 8, !dbg !78
+  %"$BoolUtils.andb_call_1006" = call { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_fptr_1003"(i8* %"$BoolUtils.andb_envptr_1004", %TName_Bool* %"$res1_1005"), !dbg !168
+  store { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$BoolUtils.andb_call_1006", { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_21", align 8, !dbg !168
   %"$BoolUtils.andb_22" = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %"$BoolUtils.andb_22", metadata !169, metadata !DIExpression()), !dbg !168
   %"$$BoolUtils.andb_21_1007" = load { %TName_Bool* (i8*, %TName_Bool*)*, i8* }, { %TName_Bool* (i8*, %TName_Bool*)*, i8* }* %"$BoolUtils.andb_21", align 8
   %"$$BoolUtils.andb_21_fptr_1008" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_21_1007", 0
   %"$$BoolUtils.andb_21_envptr_1009" = extractvalue { %TName_Bool* (i8*, %TName_Bool*)*, i8* } %"$$BoolUtils.andb_21_1007", 1
   %"$res2_1010" = load %TName_Bool*, %TName_Bool** %res2, align 8
-  %"$$BoolUtils.andb_21_call_1011" = call %TName_Bool* %"$$BoolUtils.andb_21_fptr_1008"(i8* %"$$BoolUtils.andb_21_envptr_1009", %TName_Bool* %"$res2_1010"), !dbg !78
-  store %TName_Bool* %"$$BoolUtils.andb_21_call_1011", %TName_Bool** %"$BoolUtils.andb_22", align 8, !dbg !78
+  %"$$BoolUtils.andb_21_call_1011" = call %TName_Bool* %"$$BoolUtils.andb_21_fptr_1008"(i8* %"$$BoolUtils.andb_21_envptr_1009", %TName_Bool* %"$res2_1010"), !dbg !168
+  store %TName_Bool* %"$$BoolUtils.andb_21_call_1011", %TName_Bool** %"$BoolUtils.andb_22", align 8, !dbg !168
   %"$$BoolUtils.andb_22_1012" = load %TName_Bool*, %TName_Bool** %"$BoolUtils.andb_22", align 8
-  store %TName_Bool* %"$$BoolUtils.andb_22_1012", %TName_Bool** %"$expr_39", align 8, !dbg !78
+  store %TName_Bool* %"$$BoolUtils.andb_22_1012", %TName_Bool** %"$expr_39", align 8, !dbg !168
   %"$$expr_39_1013" = load %TName_Bool*, %TName_Bool** %"$expr_39", align 8
   ret %TName_Bool* %"$$expr_39_1013"
 }
@@ -1948,85 +1999,178 @@ entry:
   ret void
 }
 
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
+
 !llvm.module.flags = !{!0}
 !llvm.dbg.cu = !{!1}
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false)
 !2 = !DIFile(filename: "builtin-schnorr_get_address.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "$fundef_33", linkageName: "$fundef_33", scope: !5, file: !5, line: 52, type: !6, scopeLine: 52, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: "BoolUtils.scillib", directory: "../src/stdlib")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = !DILocation(line: 52, column: 14, scope: !4)
-!10 = !DILocation(line: 53, column: 14, scope: !4)
-!11 = !DILocation(line: 54, column: 5, scope: !4)
-!12 = distinct !DISubprogram(name: "$fundef_31", linkageName: "$fundef_31", scope: !5, file: !5, line: 51, type: !6, scopeLine: 51, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!13 = !DILocation(line: 52, column: 5, scope: !12)
-!14 = distinct !DISubprogram(name: "$fundef_29", linkageName: "$fundef_29", scope: !5, file: !5, line: 51, type: !6, scopeLine: 51, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!15 = !DILocation(line: 51, column: 57, scope: !14)
-!16 = distinct !DISubprogram(name: "$fundef_27", linkageName: "$fundef_27", scope: !5, file: !5, line: 51, type: !6, scopeLine: 51, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!17 = !DILocation(line: 51, column: 39, scope: !16)
-!18 = distinct !DISubprogram(name: "$fundef_25", linkageName: "$fundef_25", scope: !5, file: !5, line: 8, type: !6, scopeLine: 8, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!19 = !DILocation(line: 8, column: 5, scope: !18)
-!20 = !DILocation(line: 9, column: 16, scope: !21)
-!21 = distinct !DILexicalBlock(scope: !22, file: !5, line: 9, column: 7)
-!22 = distinct !DILexicalBlock(scope: !18, file: !5, line: 8, column: 5)
-!23 = !DILocation(line: 10, column: 16, scope: !24)
-!24 = distinct !DILexicalBlock(scope: !22, file: !5, line: 10, column: 7)
-!25 = distinct !DISubprogram(name: "$fundef_23", linkageName: "$fundef_23", scope: !5, file: !5, line: 7, type: !6, scopeLine: 7, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!26 = !DILocation(line: 8, column: 5, scope: !25)
-!27 = distinct !DISubprogram(name: "$fundef_37", linkageName: "$fundef_37", scope: !5, file: !5, line: 8, type: !6, scopeLine: 8, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!28 = !DILocation(line: 8, column: 5, scope: !27)
-!29 = !DILocation(line: 9, column: 16, scope: !30)
-!30 = distinct !DILexicalBlock(scope: !31, file: !5, line: 9, column: 7)
-!31 = distinct !DILexicalBlock(scope: !27, file: !5, line: 8, column: 5)
-!32 = !DILocation(line: 10, column: 16, scope: !33)
-!33 = distinct !DILexicalBlock(scope: !31, file: !5, line: 10, column: 7)
-!34 = distinct !DISubprogram(name: "$fundef_35", linkageName: "$fundef_35", scope: !5, file: !5, line: 7, type: !6, scopeLine: 7, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!35 = !DILocation(line: 8, column: 5, scope: !34)
-!36 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !37, file: !37, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!37 = !DIFile(filename: ".", directory: ".")
-!38 = !DILocation(line: 0, scope: !36)
-!39 = !DILocation(line: 7, column: 3, scope: !36)
-!40 = !DILocation(line: 51, column: 21, scope: !36)
-!41 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 3, type: !6, scopeLine: 3, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!42 = !DILocation(line: 3, column: 9, scope: !41)
-!43 = !DILocation(line: 4, column: 10, scope: !41)
-!44 = !DILocation(line: 5, column: 14, scope: !41)
-!45 = !DILocation(line: 6, column: 10, scope: !41)
-!46 = !DILocation(line: 8, column: 9, scope: !41)
-!47 = !DILocation(line: 9, column: 10, scope: !41)
-!48 = !DILocation(line: 10, column: 14, scope: !41)
-!49 = !DILocation(line: 11, column: 10, scope: !41)
-!50 = !DILocation(line: 13, column: 9, scope: !41)
-!51 = !DILocation(line: 14, column: 10, scope: !41)
-!52 = !DILocation(line: 15, column: 14, scope: !41)
-!53 = !DILocation(line: 16, column: 10, scope: !41)
-!54 = !DILocation(line: 18, column: 9, scope: !41)
-!55 = !DILocation(line: 19, column: 10, scope: !41)
-!56 = !DILocation(line: 20, column: 14, scope: !41)
-!57 = !DILocation(line: 21, column: 10, scope: !41)
-!58 = !DILocation(line: 23, column: 9, scope: !41)
-!59 = !DILocation(line: 24, column: 10, scope: !41)
-!60 = !DILocation(line: 25, column: 14, scope: !41)
-!61 = !DILocation(line: 26, column: 10, scope: !41)
-!62 = !DILocation(line: 28, column: 9, scope: !41)
-!63 = !DILocation(line: 29, column: 10, scope: !41)
-!64 = !DILocation(line: 30, column: 14, scope: !41)
-!65 = !DILocation(line: 31, column: 10, scope: !41)
-!66 = !DILocation(line: 33, column: 9, scope: !41)
-!67 = !DILocation(line: 34, column: 10, scope: !41)
-!68 = !DILocation(line: 35, column: 14, scope: !41)
-!69 = !DILocation(line: 36, column: 10, scope: !41)
-!70 = !DILocation(line: 38, column: 9, scope: !41)
-!71 = !DILocation(line: 39, column: 10, scope: !41)
-!72 = !DILocation(line: 40, column: 14, scope: !41)
-!73 = !DILocation(line: 41, column: 10, scope: !41)
-!74 = !DILocation(line: 43, column: 9, scope: !41)
-!75 = !DILocation(line: 45, column: 14, scope: !41)
-!76 = !DILocation(line: 48, column: 12, scope: !41)
-!77 = !DILocation(line: 49, column: 12, scope: !41)
-!78 = !DILocation(line: 51, column: 1, scope: !41)
+!3 = distinct !DISubprogram(name: "$fundef_33", linkageName: "$fundef_33", scope: !4, file: !4, line: 52, type: !5, scopeLine: 52, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!4 = !DIFile(filename: "BoolUtils.scillib", directory: "../src/stdlib")
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = !{}
+!9 = !DILocalVariable(name: "$retval_34", scope: !3, file: !4, line: 52, type: !10)
+!10 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Bool", baseType: !11, size: 8, align: 8, dwarfAddressSpace: 0)
+!11 = !DIBasicType(name: "Bool", size: 8)
+!12 = !DILocation(line: 52, column: 5, scope: !3)
+!13 = !DILocalVariable(name: "t1", scope: !3, file: !4, line: 52, type: !10)
+!14 = !DILocation(line: 52, column: 9, scope: !3)
+!15 = !DILocation(line: 52, column: 14, scope: !3)
+!16 = !DILocalVariable(name: "$$BoolUtils.andb_6_8", scope: !3, file: !4, line: 52, type: !10)
+!17 = !DILocalVariable(name: "t2", scope: !3, file: !4, line: 53, type: !10)
+!18 = !DILocation(line: 53, column: 9, scope: !3)
+!19 = !DILocation(line: 53, column: 14, scope: !3)
+!20 = !DILocalVariable(name: "$$BoolUtils.andb_6_10", scope: !3, file: !4, line: 53, type: !10)
+!21 = !DILocation(line: 54, column: 5, scope: !3)
+!22 = !DILocalVariable(name: "$$BoolUtils.andb_6_12", scope: !3, file: !4, line: 54, type: !10)
+!23 = distinct !DISubprogram(name: "$fundef_31", linkageName: "$fundef_31", scope: !4, file: !4, line: 51, type: !5, scopeLine: 51, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!24 = !DILocation(line: 52, column: 5, scope: !23)
+!25 = distinct !DISubprogram(name: "$fundef_29", linkageName: "$fundef_29", scope: !4, file: !4, line: 51, type: !5, scopeLine: 51, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!26 = !DILocation(line: 51, column: 57, scope: !25)
+!27 = distinct !DISubprogram(name: "$fundef_27", linkageName: "$fundef_27", scope: !4, file: !4, line: 51, type: !5, scopeLine: 51, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!28 = !DILocation(line: 51, column: 39, scope: !27)
+!29 = distinct !DISubprogram(name: "$fundef_25", linkageName: "$fundef_25", scope: !4, file: !4, line: 8, type: !5, scopeLine: 8, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!30 = !DILocalVariable(name: "$retval_26", scope: !29, file: !4, line: 8, type: !10)
+!31 = !DILocation(line: 8, column: 5, scope: !29)
+!32 = !DILocation(line: 9, column: 16, scope: !33)
+!33 = distinct !DILexicalBlock(scope: !34, file: !4, line: 9, column: 7)
+!34 = distinct !DILexicalBlock(scope: !29, file: !4, line: 8, column: 5)
+!35 = !DILocation(line: 10, column: 16, scope: !36)
+!36 = distinct !DILexicalBlock(scope: !34, file: !4, line: 10, column: 7)
+!37 = distinct !DISubprogram(name: "$fundef_23", linkageName: "$fundef_23", scope: !4, file: !4, line: 7, type: !5, scopeLine: 7, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!38 = !DILocation(line: 8, column: 5, scope: !37)
+!39 = distinct !DISubprogram(name: "$fundef_37", linkageName: "$fundef_37", scope: !4, file: !4, line: 8, type: !5, scopeLine: 8, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!40 = !DILocalVariable(name: "$retval_38", scope: !39, file: !4, line: 8, type: !10)
+!41 = !DILocation(line: 8, column: 5, scope: !39)
+!42 = !DILocation(line: 9, column: 16, scope: !43)
+!43 = distinct !DILexicalBlock(scope: !44, file: !4, line: 9, column: 7)
+!44 = distinct !DILexicalBlock(scope: !39, file: !4, line: 8, column: 5)
+!45 = !DILocation(line: 10, column: 16, scope: !46)
+!46 = distinct !DILexicalBlock(scope: !44, file: !4, line: 10, column: 7)
+!47 = distinct !DISubprogram(name: "$fundef_35", linkageName: "$fundef_35", scope: !4, file: !4, line: 7, type: !5, scopeLine: 7, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!48 = !DILocation(line: 8, column: 5, scope: !47)
+!49 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !50, file: !50, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!50 = !DIFile(filename: ".", directory: ".")
+!51 = !DILocation(line: 0, scope: !49)
+!52 = !DILocation(line: 7, column: 3, scope: !49)
+!53 = !DILocation(line: 51, column: 21, scope: !49)
+!54 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 3, type: !5, scopeLine: 3, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!55 = !DILocalVariable(name: "$expr_39", scope: !54, file: !2, line: 3, type: !10)
+!56 = !DILocation(line: 3, column: 9, scope: !54)
+!57 = !DILocalVariable(name: "p1", scope: !54, file: !2, line: 3, type: !58)
+!58 = !DIBasicType(name: "ByStr33", size: 33)
+!59 = !DILocation(line: 3, column: 5, scope: !54)
+!60 = !DILocalVariable(name: "a1", scope: !54, file: !2, line: 4, type: !61)
+!61 = !DIBasicType(name: "ByStr20", size: 20)
+!62 = !DILocation(line: 4, column: 5, scope: !54)
+!63 = !DILocation(line: 4, column: 10, scope: !54)
+!64 = !DILocalVariable(name: "a1_gen", scope: !54, file: !2, line: 5, type: !61)
+!65 = !DILocation(line: 5, column: 5, scope: !54)
+!66 = !DILocation(line: 5, column: 14, scope: !54)
+!67 = !DILocalVariable(name: "r1", scope: !54, file: !2, line: 6, type: !10)
+!68 = !DILocation(line: 6, column: 5, scope: !54)
+!69 = !DILocation(line: 6, column: 10, scope: !54)
+!70 = !DILocalVariable(name: "p2", scope: !54, file: !2, line: 8, type: !58)
+!71 = !DILocation(line: 8, column: 5, scope: !54)
+!72 = !DILocation(line: 8, column: 9, scope: !54)
+!73 = !DILocalVariable(name: "a2", scope: !54, file: !2, line: 9, type: !61)
+!74 = !DILocation(line: 9, column: 5, scope: !54)
+!75 = !DILocation(line: 9, column: 10, scope: !54)
+!76 = !DILocalVariable(name: "a2_gen", scope: !54, file: !2, line: 10, type: !61)
+!77 = !DILocation(line: 10, column: 5, scope: !54)
+!78 = !DILocation(line: 10, column: 14, scope: !54)
+!79 = !DILocalVariable(name: "r2", scope: !54, file: !2, line: 11, type: !10)
+!80 = !DILocation(line: 11, column: 5, scope: !54)
+!81 = !DILocation(line: 11, column: 10, scope: !54)
+!82 = !DILocalVariable(name: "p3", scope: !54, file: !2, line: 13, type: !58)
+!83 = !DILocation(line: 13, column: 5, scope: !54)
+!84 = !DILocation(line: 13, column: 9, scope: !54)
+!85 = !DILocalVariable(name: "a3", scope: !54, file: !2, line: 14, type: !61)
+!86 = !DILocation(line: 14, column: 5, scope: !54)
+!87 = !DILocation(line: 14, column: 10, scope: !54)
+!88 = !DILocalVariable(name: "a3_gen", scope: !54, file: !2, line: 15, type: !61)
+!89 = !DILocation(line: 15, column: 5, scope: !54)
+!90 = !DILocation(line: 15, column: 14, scope: !54)
+!91 = !DILocalVariable(name: "r3", scope: !54, file: !2, line: 16, type: !10)
+!92 = !DILocation(line: 16, column: 5, scope: !54)
+!93 = !DILocation(line: 16, column: 10, scope: !54)
+!94 = !DILocalVariable(name: "p4", scope: !54, file: !2, line: 18, type: !58)
+!95 = !DILocation(line: 18, column: 5, scope: !54)
+!96 = !DILocation(line: 18, column: 9, scope: !54)
+!97 = !DILocalVariable(name: "a4", scope: !54, file: !2, line: 19, type: !61)
+!98 = !DILocation(line: 19, column: 5, scope: !54)
+!99 = !DILocation(line: 19, column: 10, scope: !54)
+!100 = !DILocalVariable(name: "a4_gen", scope: !54, file: !2, line: 20, type: !61)
+!101 = !DILocation(line: 20, column: 5, scope: !54)
+!102 = !DILocation(line: 20, column: 14, scope: !54)
+!103 = !DILocalVariable(name: "r4", scope: !54, file: !2, line: 21, type: !10)
+!104 = !DILocation(line: 21, column: 5, scope: !54)
+!105 = !DILocation(line: 21, column: 10, scope: !54)
+!106 = !DILocalVariable(name: "p5", scope: !54, file: !2, line: 23, type: !58)
+!107 = !DILocation(line: 23, column: 5, scope: !54)
+!108 = !DILocation(line: 23, column: 9, scope: !54)
+!109 = !DILocalVariable(name: "a5", scope: !54, file: !2, line: 24, type: !61)
+!110 = !DILocation(line: 24, column: 5, scope: !54)
+!111 = !DILocation(line: 24, column: 10, scope: !54)
+!112 = !DILocalVariable(name: "a5_gen", scope: !54, file: !2, line: 25, type: !61)
+!113 = !DILocation(line: 25, column: 5, scope: !54)
+!114 = !DILocation(line: 25, column: 14, scope: !54)
+!115 = !DILocalVariable(name: "r5", scope: !54, file: !2, line: 26, type: !10)
+!116 = !DILocation(line: 26, column: 5, scope: !54)
+!117 = !DILocation(line: 26, column: 10, scope: !54)
+!118 = !DILocalVariable(name: "p6", scope: !54, file: !2, line: 28, type: !58)
+!119 = !DILocation(line: 28, column: 5, scope: !54)
+!120 = !DILocation(line: 28, column: 9, scope: !54)
+!121 = !DILocalVariable(name: "a6", scope: !54, file: !2, line: 29, type: !61)
+!122 = !DILocation(line: 29, column: 5, scope: !54)
+!123 = !DILocation(line: 29, column: 10, scope: !54)
+!124 = !DILocalVariable(name: "a6_gen", scope: !54, file: !2, line: 30, type: !61)
+!125 = !DILocation(line: 30, column: 5, scope: !54)
+!126 = !DILocation(line: 30, column: 14, scope: !54)
+!127 = !DILocalVariable(name: "r6", scope: !54, file: !2, line: 31, type: !10)
+!128 = !DILocation(line: 31, column: 5, scope: !54)
+!129 = !DILocation(line: 31, column: 10, scope: !54)
+!130 = !DILocalVariable(name: "p7", scope: !54, file: !2, line: 33, type: !58)
+!131 = !DILocation(line: 33, column: 5, scope: !54)
+!132 = !DILocation(line: 33, column: 9, scope: !54)
+!133 = !DILocalVariable(name: "a7", scope: !54, file: !2, line: 34, type: !61)
+!134 = !DILocation(line: 34, column: 5, scope: !54)
+!135 = !DILocation(line: 34, column: 10, scope: !54)
+!136 = !DILocalVariable(name: "a7_gen", scope: !54, file: !2, line: 35, type: !61)
+!137 = !DILocation(line: 35, column: 5, scope: !54)
+!138 = !DILocation(line: 35, column: 14, scope: !54)
+!139 = !DILocalVariable(name: "r7", scope: !54, file: !2, line: 36, type: !10)
+!140 = !DILocation(line: 36, column: 5, scope: !54)
+!141 = !DILocation(line: 36, column: 10, scope: !54)
+!142 = !DILocalVariable(name: "p8", scope: !54, file: !2, line: 38, type: !58)
+!143 = !DILocation(line: 38, column: 5, scope: !54)
+!144 = !DILocation(line: 38, column: 9, scope: !54)
+!145 = !DILocalVariable(name: "a8", scope: !54, file: !2, line: 39, type: !61)
+!146 = !DILocation(line: 39, column: 5, scope: !54)
+!147 = !DILocation(line: 39, column: 10, scope: !54)
+!148 = !DILocalVariable(name: "a8_gen", scope: !54, file: !2, line: 40, type: !61)
+!149 = !DILocation(line: 40, column: 5, scope: !54)
+!150 = !DILocation(line: 40, column: 14, scope: !54)
+!151 = !DILocalVariable(name: "r8", scope: !54, file: !2, line: 41, type: !10)
+!152 = !DILocation(line: 41, column: 5, scope: !54)
+!153 = !DILocation(line: 41, column: 10, scope: !54)
+!154 = !DILocalVariable(name: "p9", scope: !54, file: !2, line: 43, type: !58)
+!155 = !DILocation(line: 43, column: 5, scope: !54)
+!156 = !DILocation(line: 43, column: 9, scope: !54)
+!157 = !DILocalVariable(name: "a9_gen", scope: !54, file: !2, line: 45, type: !61)
+!158 = !DILocation(line: 45, column: 5, scope: !54)
+!159 = !DILocation(line: 45, column: 14, scope: !54)
+!160 = !DILocalVariable(name: "res1", scope: !54, file: !2, line: 48, type: !10)
+!161 = !DILocation(line: 48, column: 5, scope: !54)
+!162 = !DILocation(line: 48, column: 12, scope: !54)
+!163 = !DILocalVariable(name: "$BoolUtils.and_4_16", scope: !54, file: !2, line: 48, type: !10)
+!164 = !DILocalVariable(name: "res2", scope: !54, file: !2, line: 49, type: !10)
+!165 = !DILocation(line: 49, column: 5, scope: !54)
+!166 = !DILocation(line: 49, column: 12, scope: !54)
+!167 = !DILocalVariable(name: "$BoolUtils.and_4_20", scope: !54, file: !2, line: 49, type: !10)
+!168 = !DILocation(line: 51, column: 1, scope: !54)
+!169 = !DILocalVariable(name: "$BoolUtils.andb_22", scope: !54, file: !2, line: 51, type: !10)

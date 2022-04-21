@@ -43,7 +43,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_21" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -805,7 +805,7 @@ declare [65 x i8]* @_ecdsa_recover_pk(i8*, %Bystr, [64 x i8]*, %Uint32)
 
 declare %Bystr @_to_bystr(i8*, i32, i8*)
 
-; Function Attrs: nofree nosync nounwind readnone speculatable willreturn
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
 declare i64 @llvm.umin.i64(i64, i64) #0
 
 declare %Bystr @_substr_ByStr(i8*, %Bystr, %Uint32, %Uint32)
@@ -1193,4 +1193,4 @@ entry:
   ret void
 }
 
-attributes #0 = { nofree nosync nounwind readnone speculatable willreturn }
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }

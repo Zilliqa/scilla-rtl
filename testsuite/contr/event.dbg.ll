@@ -4,7 +4,7 @@
 ; ModuleID = 'Event'
 source_filename = "Event"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_1" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -79,7 +79,7 @@ target triple = "x86_64-pc-linux-gnu"
 @_transition_parameters = constant [1 x %"$TransDescr_109"] [%"$TransDescr_109" { %ParamDescrString { i8* getelementptr inbounds ([11 x i8], [11 x i8]* @"$tname_EventCreate_117", i32 0, i32 0), i32 11 }, i32 3, %"$ParamDescr_108"* getelementptr inbounds ([3 x %"$ParamDescr_108"], [3 x %"$ParamDescr_108"]* @"$tparams_EventCreate_116", i32 0, i32 0) }]
 @_transition_parameters_length = constant i32 1
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() !dbg !3 {
 entry:
   %"$gasrem_42" = load i64, i64* @_gasrem, align 8
   %"$gascmp_43" = icmp ugt i64 5, %"$gasrem_42"
@@ -130,6 +130,7 @@ entry:
   %"$consume_59" = sub i64 %"$gasrem_55", 1
   store i64 %"$consume_59", i64* @_gasrem, align 8
   %e = alloca i8*, align 8
+  call void @llvm.dbg.declare(metadata i8** %e, metadata !12, metadata !DIExpression()), !dbg !15
   %"$gasrem_60" = load i64, i64* @_gasrem, align 8
   %"$gascmp_61" = icmp ugt i64 1, %"$gasrem_60"
   br i1 %"$gascmp_61", label %"$out_of_gas_62", label %"$have_gas_63"
@@ -174,7 +175,7 @@ entry:
   %"$msgobj_v_88" = getelementptr i8, i8* %"$msgobj_65", i32 105
   %"$msgobj_v_89" = bitcast i8* %"$msgobj_v_88" to i8**
   store i8* %"$_creation_block_87", i8** %"$msgobj_v_89", align 8
-  store i8* %"$msgobj_65", i8** %e, align 8, !dbg !12
+  store i8* %"$msgobj_65", i8** %e, align 8, !dbg !16
   %"$e_91" = load i8*, i8** %e, align 8
   %"$_literal_cost_call_93" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Event_25", i8* %"$e_91")
   %"$gasrem_94" = load i64, i64* @_gasrem, align 8
@@ -190,9 +191,12 @@ entry:
   store i64 %"$consume_98", i64* @_gasrem, align 8
   %"$execptr_load_99" = load i8*, i8** @_execptr, align 8
   %"$e_100" = load i8*, i8** %e, align 8
-  call void @_event(i8* %"$execptr_load_99", %_TyDescrTy_Typ* @"$TyDescr_Event_25", i8* %"$e_100"), !dbg !13
+  call void @_event(i8* %"$execptr_load_99", %_TyDescrTy_Typ* @"$TyDescr_Event_25", i8* %"$e_100"), !dbg !17
   ret void
 }
+
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
 declare i8* @_salloc(i8*, i64)
 
@@ -200,7 +204,7 @@ declare i64 @_literal_cost(%_TyDescrTy_Typ*, i8*)
 
 declare void @_event(i8*, %_TyDescrTy_Typ*, i8*)
 
-define void @EventCreate(i8* %0) !dbg !14 {
+define void @EventCreate(i8* %0) !dbg !18 {
 entry:
   %"$_amount_102" = getelementptr i8, i8* %0, i32 0
   %"$_amount_103" = bitcast i8* %"$_amount_102" to %Uint128*
@@ -209,26 +213,32 @@ entry:
   %"$_origin_105" = bitcast i8* %"$_origin_104" to [20 x i8]*
   %"$_sender_106" = getelementptr i8, i8* %0, i32 36
   %"$_sender_107" = bitcast i8* %"$_sender_106" to [20 x i8]*
-  call void @"$EventCreate_52"(%Uint128 %_amount, [20 x i8]* %"$_origin_105", [20 x i8]* %"$_sender_107"), !dbg !15
+  call void @"$EventCreate_52"(%Uint128 %_amount, [20 x i8]* %"$_origin_105", [20 x i8]* %"$_sender_107"), !dbg !19
   ret void
 }
+
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
 
 !llvm.module.flags = !{!0}
 !llvm.dbg.cu = !{!1}
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false)
 !2 = !DIFile(filename: "event.scilla", directory: "codegen/contr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = !DILocation(line: 0, scope: !4)
-!10 = distinct !DISubprogram(name: "_deploy_ops", linkageName: "_deploy_ops", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!11 = distinct !DISubprogram(name: "EventCreate", linkageName: "EventCreate", scope: !2, file: !2, line: 8, type: !6, scopeLine: 8, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!12 = !DILocation(line: 9, column: 9, scope: !11)
-!13 = !DILocation(line: 10, column: 5, scope: !11)
-!14 = distinct !DISubprogram(name: "EventCreate", linkageName: "EventCreate", scope: !2, file: !2, line: 8, type: !6, scopeLine: 8, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!15 = !DILocation(line: 8, column: 12, scope: !14)
+!3 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !4, file: !4, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!4 = !DIFile(filename: ".", directory: ".")
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = !{}
+!9 = !DILocation(line: 0, scope: !3)
+!10 = distinct !DISubprogram(name: "_deploy_ops", linkageName: "_deploy_ops", scope: !4, file: !4, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!11 = distinct !DISubprogram(name: "EventCreate", linkageName: "EventCreate", scope: !2, file: !2, line: 8, type: !5, scopeLine: 8, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!12 = !DILocalVariable(name: "e", scope: !11, file: !2, line: 9, type: !13)
+!13 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Event", baseType: !14, size: 8, align: 8, dwarfAddressSpace: 0)
+!14 = !DIBasicType(name: "Event", size: 8)
+!15 = !DILocation(line: 9, column: 5, scope: !11)
+!16 = !DILocation(line: 9, column: 9, scope: !11)
+!17 = !DILocation(line: 10, column: 5, scope: !11)
+!18 = distinct !DISubprogram(name: "EventCreate", linkageName: "EventCreate", scope: !2, file: !2, line: 8, type: !5, scopeLine: 8, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!19 = !DILocation(line: 8, column: 12, scope: !18)

@@ -4,7 +4,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_7" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -61,7 +61,7 @@ target triple = "x86_64-pc-linux-gnu"
 @_transition_parameters = constant [0 x %"$TransDescr_106"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() !dbg !3 {
 entry:
   %"$gasrem_46" = load i64, i64* @_gasrem, align 8
   %"$gascmp_47" = icmp ugt i64 5, %"$gasrem_46"
@@ -143,6 +143,7 @@ declare void @_out_of_gas()
 define internal %String @_scilla_expr_fun(i8* %0) !dbg !10 {
 entry:
   %"$expr_6" = alloca %String, align 8
+  call void @llvm.dbg.declare(metadata %String* %"$expr_6", metadata !11, metadata !DIExpression()), !dbg !13
   %"$gasrem_76" = load i64, i64* @_gasrem, align 8
   %"$gascmp_77" = icmp ugt i64 1, %"$gasrem_76"
   br i1 %"$gascmp_77", label %"$out_of_gas_78", label %"$have_gas_79"
@@ -155,6 +156,7 @@ entry:
   %"$consume_80" = sub i64 %"$gasrem_76", 1
   store i64 %"$consume_80", i64* @_gasrem, align 8
   %hello_0 = alloca [6 x i8], align 1
+  call void @llvm.dbg.declare(metadata [6 x i8]* %hello_0, metadata !14, metadata !DIExpression()), !dbg !16
   %"$gasrem_81" = load i64, i64* @_gasrem, align 8
   %"$gascmp_82" = icmp ugt i64 1, %"$gasrem_81"
   br i1 %"$gascmp_82", label %"$out_of_gas_83", label %"$have_gas_84"
@@ -166,7 +168,7 @@ entry:
 "$have_gas_84":                                   ; preds = %"$out_of_gas_83", %"$have_gas_79"
   %"$consume_85" = sub i64 %"$gasrem_81", 1
   store i64 %"$consume_85", i64* @_gasrem, align 8
-  store [6 x i8] c"hello\00", [6 x i8]* %hello_0, align 1, !dbg !11
+  store [6 x i8] c"hello\00", [6 x i8]* %hello_0, align 1, !dbg !13
   %"$_literal_cost_hello_0_86" = alloca [6 x i8], align 1
   %"$hello_0_87" = load [6 x i8], [6 x i8]* %hello_0, align 1
   store [6 x i8] %"$hello_0_87", [6 x i8]* %"$_literal_cost_hello_0_86", align 1
@@ -188,11 +190,14 @@ entry:
   %"$hello_0_97" = load [6 x i8], [6 x i8]* %hello_0, align 1
   store [6 x i8] %"$hello_0_97", [6 x i8]* %"$to_ascii_hello_0_96", align 1
   %"$$to_ascii_hello_0_96_98" = bitcast [6 x i8]* %"$to_ascii_hello_0_96" to i8*
-  %"$to_ascii_call_99" = call %String @_to_ascii(i8* %"$execptr_load_95", i8* %"$$to_ascii_hello_0_96_98", i32 6), !dbg !12
-  store %String %"$to_ascii_call_99", %String* %"$expr_6", align 8, !dbg !12
+  %"$to_ascii_call_99" = call %String @_to_ascii(i8* %"$execptr_load_95", i8* %"$$to_ascii_hello_0_96_98", i32 6), !dbg !17
+  store %String %"$to_ascii_call_99", %String* %"$expr_6", align 8, !dbg !17
   %"$$expr_6_100" = load %String, %String* %"$expr_6", align 8
   ret %String %"$$expr_6_100"
 }
+
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
 declare i64 @_literal_cost(%_TyDescrTy_Typ*, i8*)
 
@@ -211,19 +216,26 @@ entry:
   ret void
 }
 
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
+
 !llvm.module.flags = !{!0}
 !llvm.dbg.cu = !{!1}
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false)
 !2 = !DIFile(filename: "builtin_to_ascii_error.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = !DILocation(line: 0, scope: !4)
-!10 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 2, type: !6, scopeLine: 2, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!11 = !DILocation(line: 2, column: 15, scope: !10)
-!12 = !DILocation(line: 3, column: 1, scope: !10)
+!3 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !4, file: !4, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!4 = !DIFile(filename: ".", directory: ".")
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = !{}
+!9 = !DILocation(line: 0, scope: !3)
+!10 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 2, type: !5, scopeLine: 2, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!11 = !DILocalVariable(name: "$expr_6", scope: !10, file: !2, line: 2, type: !12)
+!12 = !DIBasicType(name: "String", size: 16)
+!13 = !DILocation(line: 2, column: 15, scope: !10)
+!14 = !DILocalVariable(name: "hello_0", scope: !10, file: !2, line: 2, type: !15)
+!15 = !DIBasicType(name: "ByStr6", size: 6)
+!16 = !DILocation(line: 2, column: 5, scope: !10)
+!17 = !DILocation(line: 3, column: 1, scope: !10)

@@ -8,7 +8,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_7" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -108,7 +108,7 @@ target triple = "x86_64-pc-linux-gnu"
 @_transition_parameters = constant [0 x %"$TransDescr_204"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() !dbg !3 {
 entry:
   %"$gasrem_77" = load i64, i64* @_gasrem, align 8
   %"$gascmp_78" = icmp ugt i64 5, %"$gasrem_77"
@@ -190,6 +190,7 @@ declare void @_out_of_gas()
 define internal %"TName_Pair_List_(Int32)_List_(Uint32)"* @_scilla_expr_fun(i8* %0) !dbg !10 {
 entry:
   %"$expr_6" = alloca %"TName_Pair_List_(Int32)_List_(Uint32)"*, align 8
+  call void @llvm.dbg.declare(metadata %"TName_Pair_List_(Int32)_List_(Uint32)"** %"$expr_6", metadata !11, metadata !DIExpression()), !dbg !14
   %"$gasrem_107" = load i64, i64* @_gasrem, align 8
   %"$gascmp_108" = icmp ugt i64 1, %"$gasrem_107"
   br i1 %"$gascmp_108", label %"$out_of_gas_109", label %"$have_gas_110"
@@ -202,6 +203,7 @@ entry:
   %"$consume_111" = sub i64 %"$gasrem_107", 1
   store i64 %"$consume_111", i64* @_gasrem, align 8
   %nil_int32 = alloca %TName_List_Int32*, align 8
+  call void @llvm.dbg.declare(metadata %TName_List_Int32** %nil_int32, metadata !15, metadata !DIExpression()), !dbg !18
   %"$gasrem_112" = load i64, i64* @_gasrem, align 8
   %"$gascmp_113" = icmp ugt i64 1, %"$gasrem_112"
   br i1 %"$gascmp_113", label %"$out_of_gas_114", label %"$have_gas_115"
@@ -219,7 +221,7 @@ entry:
   %"$adtgep_118" = getelementptr inbounds %CName_Nil_Int32, %CName_Nil_Int32* %"$adtval_117", i32 0, i32 0
   store i8 1, i8* %"$adtgep_118", align 1
   %"$adtptr_119" = bitcast %CName_Nil_Int32* %"$adtval_117" to %TName_List_Int32*
-  store %TName_List_Int32* %"$adtptr_119", %TName_List_Int32** %nil_int32, align 8, !dbg !11
+  store %TName_List_Int32* %"$adtptr_119", %TName_List_Int32** %nil_int32, align 8, !dbg !14
   %"$gasrem_120" = load i64, i64* @_gasrem, align 8
   %"$gascmp_121" = icmp ugt i64 1, %"$gasrem_120"
   br i1 %"$gascmp_121", label %"$out_of_gas_122", label %"$have_gas_123"
@@ -232,6 +234,7 @@ entry:
   %"$consume_124" = sub i64 %"$gasrem_120", 1
   store i64 %"$consume_124", i64* @_gasrem, align 8
   %ione = alloca %Int32, align 8
+  call void @llvm.dbg.declare(metadata %Int32* %ione, metadata !19, metadata !DIExpression()), !dbg !21
   %"$gasrem_125" = load i64, i64* @_gasrem, align 8
   %"$gascmp_126" = icmp ugt i64 1, %"$gasrem_125"
   br i1 %"$gascmp_126", label %"$out_of_gas_127", label %"$have_gas_128"
@@ -243,7 +246,7 @@ entry:
 "$have_gas_128":                                  ; preds = %"$out_of_gas_127", %"$have_gas_123"
   %"$consume_129" = sub i64 %"$gasrem_125", 1
   store i64 %"$consume_129", i64* @_gasrem, align 8
-  store %Int32 { i32 1 }, %Int32* %ione, align 4, !dbg !12
+  store %Int32 { i32 1 }, %Int32* %ione, align 4, !dbg !22
   %"$gasrem_130" = load i64, i64* @_gasrem, align 8
   %"$gascmp_131" = icmp ugt i64 1, %"$gasrem_130"
   br i1 %"$gascmp_131", label %"$out_of_gas_132", label %"$have_gas_133"
@@ -256,6 +259,7 @@ entry:
   %"$consume_134" = sub i64 %"$gasrem_130", 1
   store i64 %"$consume_134", i64* @_gasrem, align 8
   %cons_int32 = alloca %TName_List_Int32*, align 8
+  call void @llvm.dbg.declare(metadata %TName_List_Int32** %cons_int32, metadata !23, metadata !DIExpression()), !dbg !24
   %"$gasrem_135" = load i64, i64* @_gasrem, align 8
   %"$gascmp_136" = icmp ugt i64 1, %"$gasrem_135"
   br i1 %"$gascmp_136", label %"$out_of_gas_137", label %"$have_gas_138"
@@ -279,7 +283,7 @@ entry:
   %"$adtgep_145" = getelementptr inbounds %CName_Cons_Int32, %CName_Cons_Int32* %"$adtval_142", i32 0, i32 2
   store %TName_List_Int32* %"$nil_int32_141", %TName_List_Int32** %"$adtgep_145", align 8
   %"$adtptr_146" = bitcast %CName_Cons_Int32* %"$adtval_142" to %TName_List_Int32*
-  store %TName_List_Int32* %"$adtptr_146", %TName_List_Int32** %cons_int32, align 8, !dbg !13
+  store %TName_List_Int32* %"$adtptr_146", %TName_List_Int32** %cons_int32, align 8, !dbg !25
   %"$gasrem_147" = load i64, i64* @_gasrem, align 8
   %"$gascmp_148" = icmp ugt i64 1, %"$gasrem_147"
   br i1 %"$gascmp_148", label %"$out_of_gas_149", label %"$have_gas_150"
@@ -292,6 +296,7 @@ entry:
   %"$consume_151" = sub i64 %"$gasrem_147", 1
   store i64 %"$consume_151", i64* @_gasrem, align 8
   %nil_uint32 = alloca %TName_List_Uint32*, align 8
+  call void @llvm.dbg.declare(metadata %TName_List_Uint32** %nil_uint32, metadata !26, metadata !DIExpression()), !dbg !29
   %"$gasrem_152" = load i64, i64* @_gasrem, align 8
   %"$gascmp_153" = icmp ugt i64 1, %"$gasrem_152"
   br i1 %"$gascmp_153", label %"$out_of_gas_154", label %"$have_gas_155"
@@ -309,7 +314,7 @@ entry:
   %"$adtgep_158" = getelementptr inbounds %CName_Nil_Uint32, %CName_Nil_Uint32* %"$adtval_157", i32 0, i32 0
   store i8 1, i8* %"$adtgep_158", align 1
   %"$adtptr_159" = bitcast %CName_Nil_Uint32* %"$adtval_157" to %TName_List_Uint32*
-  store %TName_List_Uint32* %"$adtptr_159", %TName_List_Uint32** %nil_uint32, align 8, !dbg !14
+  store %TName_List_Uint32* %"$adtptr_159", %TName_List_Uint32** %nil_uint32, align 8, !dbg !30
   %"$gasrem_160" = load i64, i64* @_gasrem, align 8
   %"$gascmp_161" = icmp ugt i64 1, %"$gasrem_160"
   br i1 %"$gascmp_161", label %"$out_of_gas_162", label %"$have_gas_163"
@@ -322,6 +327,7 @@ entry:
   %"$consume_164" = sub i64 %"$gasrem_160", 1
   store i64 %"$consume_164", i64* @_gasrem, align 8
   %uione = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %uione, metadata !31, metadata !DIExpression()), !dbg !33
   %"$gasrem_165" = load i64, i64* @_gasrem, align 8
   %"$gascmp_166" = icmp ugt i64 1, %"$gasrem_165"
   br i1 %"$gascmp_166", label %"$out_of_gas_167", label %"$have_gas_168"
@@ -333,7 +339,7 @@ entry:
 "$have_gas_168":                                  ; preds = %"$out_of_gas_167", %"$have_gas_163"
   %"$consume_169" = sub i64 %"$gasrem_165", 1
   store i64 %"$consume_169", i64* @_gasrem, align 8
-  store %Uint32 { i32 1 }, %Uint32* %uione, align 4, !dbg !15
+  store %Uint32 { i32 1 }, %Uint32* %uione, align 4, !dbg !34
   %"$gasrem_170" = load i64, i64* @_gasrem, align 8
   %"$gascmp_171" = icmp ugt i64 1, %"$gasrem_170"
   br i1 %"$gascmp_171", label %"$out_of_gas_172", label %"$have_gas_173"
@@ -346,6 +352,7 @@ entry:
   %"$consume_174" = sub i64 %"$gasrem_170", 1
   store i64 %"$consume_174", i64* @_gasrem, align 8
   %cons_uint32 = alloca %TName_List_Uint32*, align 8
+  call void @llvm.dbg.declare(metadata %TName_List_Uint32** %cons_uint32, metadata !35, metadata !DIExpression()), !dbg !36
   %"$gasrem_175" = load i64, i64* @_gasrem, align 8
   %"$gascmp_176" = icmp ugt i64 1, %"$gasrem_175"
   br i1 %"$gascmp_176", label %"$out_of_gas_177", label %"$have_gas_178"
@@ -369,7 +376,7 @@ entry:
   %"$adtgep_185" = getelementptr inbounds %CName_Cons_Uint32, %CName_Cons_Uint32* %"$adtval_182", i32 0, i32 2
   store %TName_List_Uint32* %"$nil_uint32_181", %TName_List_Uint32** %"$adtgep_185", align 8
   %"$adtptr_186" = bitcast %CName_Cons_Uint32* %"$adtval_182" to %TName_List_Uint32*
-  store %TName_List_Uint32* %"$adtptr_186", %TName_List_Uint32** %cons_uint32, align 8, !dbg !16
+  store %TName_List_Uint32* %"$adtptr_186", %TName_List_Uint32** %cons_uint32, align 8, !dbg !37
   %"$gasrem_187" = load i64, i64* @_gasrem, align 8
   %"$gascmp_188" = icmp ugt i64 1, %"$gasrem_187"
   br i1 %"$gascmp_188", label %"$out_of_gas_189", label %"$have_gas_190"
@@ -393,10 +400,13 @@ entry:
   %"$adtgep_197" = getelementptr inbounds %"CName_Pair_List_(Int32)_List_(Uint32)", %"CName_Pair_List_(Int32)_List_(Uint32)"* %"$adtval_194", i32 0, i32 2
   store %TName_List_Uint32* %"$cons_uint32_193", %TName_List_Uint32** %"$adtgep_197", align 8
   %"$adtptr_198" = bitcast %"CName_Pair_List_(Int32)_List_(Uint32)"* %"$adtval_194" to %"TName_Pair_List_(Int32)_List_(Uint32)"*
-  store %"TName_Pair_List_(Int32)_List_(Uint32)"* %"$adtptr_198", %"TName_Pair_List_(Int32)_List_(Uint32)"** %"$expr_6", align 8, !dbg !17
+  store %"TName_Pair_List_(Int32)_List_(Uint32)"* %"$adtptr_198", %"TName_Pair_List_(Int32)_List_(Uint32)"** %"$expr_6", align 8, !dbg !38
   %"$$expr_6_199" = load %"TName_Pair_List_(Int32)_List_(Uint32)"*, %"TName_Pair_List_(Int32)_List_(Uint32)"** %"$expr_6", align 8
   ret %"TName_Pair_List_(Int32)_List_(Uint32)"* %"$$expr_6_199"
 }
+
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
 declare i8* @_salloc(i8*, i64)
 
@@ -411,24 +421,47 @@ entry:
   ret void
 }
 
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
+
 !llvm.module.flags = !{!0}
 !llvm.dbg.cu = !{!1}
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false)
 !2 = !DIFile(filename: "lit-pair-list-int.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = !DILocation(line: 0, scope: !4)
-!10 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!11 = !DILocation(line: 1, column: 17, scope: !10)
-!12 = !DILocation(line: 2, column: 12, scope: !10)
-!13 = !DILocation(line: 3, column: 18, scope: !10)
-!14 = !DILocation(line: 4, column: 18, scope: !10)
-!15 = !DILocation(line: 5, column: 13, scope: !10)
-!16 = !DILocation(line: 6, column: 19, scope: !10)
-!17 = !DILocation(line: 7, column: 1, scope: !10)
+!3 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !4, file: !4, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!4 = !DIFile(filename: ".", directory: ".")
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = !{}
+!9 = !DILocation(line: 0, scope: !3)
+!10 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !5, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!11 = !DILocalVariable(name: "$expr_6", scope: !10, file: !2, line: 1, type: !12)
+!12 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Pair (List (Int32)) (List (Uint32))", baseType: !13, size: 8, align: 8, dwarfAddressSpace: 0)
+!13 = !DIBasicType(name: "Pair (List (Int32)) (List (Uint32))", size: 8)
+!14 = !DILocation(line: 1, column: 17, scope: !10)
+!15 = !DILocalVariable(name: "nil_int32", scope: !10, file: !2, line: 1, type: !16)
+!16 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "List (Int32)", baseType: !17, size: 8, align: 8, dwarfAddressSpace: 0)
+!17 = !DIBasicType(name: "List (Int32)", size: 8)
+!18 = !DILocation(line: 1, column: 5, scope: !10)
+!19 = !DILocalVariable(name: "ione", scope: !10, file: !2, line: 2, type: !20)
+!20 = !DIBasicType(name: "Int32", size: 4)
+!21 = !DILocation(line: 2, column: 5, scope: !10)
+!22 = !DILocation(line: 2, column: 12, scope: !10)
+!23 = !DILocalVariable(name: "cons_int32", scope: !10, file: !2, line: 3, type: !16)
+!24 = !DILocation(line: 3, column: 5, scope: !10)
+!25 = !DILocation(line: 3, column: 18, scope: !10)
+!26 = !DILocalVariable(name: "nil_uint32", scope: !10, file: !2, line: 4, type: !27)
+!27 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "List (Uint32)", baseType: !28, size: 8, align: 8, dwarfAddressSpace: 0)
+!28 = !DIBasicType(name: "List (Uint32)", size: 8)
+!29 = !DILocation(line: 4, column: 5, scope: !10)
+!30 = !DILocation(line: 4, column: 18, scope: !10)
+!31 = !DILocalVariable(name: "uione", scope: !10, file: !2, line: 5, type: !32)
+!32 = !DIBasicType(name: "Uint32", size: 4)
+!33 = !DILocation(line: 5, column: 5, scope: !10)
+!34 = !DILocation(line: 5, column: 13, scope: !10)
+!35 = !DILocalVariable(name: "cons_uint32", scope: !10, file: !2, line: 6, type: !27)
+!36 = !DILocation(line: 6, column: 5, scope: !10)
+!37 = !DILocation(line: 6, column: 19, scope: !10)
+!38 = !DILocation(line: 7, column: 1, scope: !10)

@@ -4,7 +4,7 @@
 ; ModuleID = 'Admin'
 source_filename = "Admin"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_13" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -170,13 +170,14 @@ target triple = "x86_64-pc-linux-gnu"
 @_transition_parameters = constant [2 x %"$TransDescr_571"] [%"$TransDescr_571" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tname_setAdmin_583", i32 0, i32 0), i32 8 }, i32 5, %"$ParamDescr_570"* getelementptr inbounds ([5 x %"$ParamDescr_570"], [5 x %"$ParamDescr_570"]* @"$tparams_setAdmin_582", i32 0, i32 0) }, %"$TransDescr_571" { %ParamDescrString { i8* getelementptr inbounds ([6 x i8], [6 x i8]* @"$tname_bestow_591", i32 0, i32 0), i32 6 }, i32 6, %"$ParamDescr_570"* getelementptr inbounds ([6 x %"$ParamDescr_570"], [6 x %"$ParamDescr_570"]* @"$tparams_bestow_590", i32 0, i32 0) }]
 @_transition_parameters_length = constant i32 2
 
-define internal i8* @"$fundef_8"(%"$$fundef_8_env_95"* %0, %TName_Bool* %1) !dbg !4 {
+define internal i8* @"$fundef_8"(%"$$fundef_8_env_95"* %0, %TName_Bool* %1) !dbg !3 {
 entry:
   %"$$fundef_8_env_address_123" = getelementptr inbounds %"$$fundef_8_env_95", %"$$fundef_8_env_95"* %0, i32 0, i32 0
   %"$address_envload_124" = load [20 x i8], [20 x i8]* %"$$fundef_8_env_address_123", align 1
   %address = alloca [20 x i8], align 1
   store [20 x i8] %"$address_envload_124", [20 x i8]* %address, align 1
   %"$retval_9" = alloca i8*, align 8
+  call void @llvm.dbg.declare(metadata i8** %"$retval_9", metadata !8, metadata !DIExpression()), !dbg !11
   %"$gasrem_125" = load i64, i64* @_gasrem, align 8
   %"$gascmp_126" = icmp ugt i64 1, %"$gasrem_125"
   br i1 %"$gascmp_126", label %"$out_of_gas_127", label %"$have_gas_128"
@@ -221,12 +222,12 @@ entry:
   %"$msgobj_v_152" = getelementptr i8, i8* %"$msgobj_130", i32 109
   %"$msgobj_v_153" = bitcast i8* %"$msgobj_v_152" to %TName_Bool**
   store %TName_Bool* %1, %TName_Bool** %"$msgobj_v_153", align 8
-  store i8* %"$msgobj_130", i8** %"$retval_9", align 8, !dbg !8
+  store i8* %"$msgobj_130", i8** %"$retval_9", align 8, !dbg !11
   %"$$retval_9_155" = load i8*, i8** %"$retval_9", align 8
   ret i8* %"$$retval_9_155"
 }
 
-define internal { i8* (i8*, %TName_Bool*)*, i8* } @"$fundef_6"(%"$$fundef_6_env_96"* %0, [20 x i8]* %1) !dbg !9 {
+define internal { i8* (i8*, %TName_Bool*)*, i8* } @"$fundef_6"(%"$$fundef_6_env_96"* %0, [20 x i8]* %1) !dbg !12 {
 entry:
   %address = load [20 x i8], [20 x i8]* %1, align 1
   %"$retval_7" = alloca { i8* (i8*, %TName_Bool*)*, i8* }, align 8
@@ -248,18 +249,19 @@ entry:
   %"$$fundef_8_cloval_120" = insertvalue { i8* (i8*, %TName_Bool*)*, i8* } { i8* (i8*, %TName_Bool*)* bitcast (i8* (%"$$fundef_8_env_95"*, %TName_Bool*)* @"$fundef_8" to i8* (i8*, %TName_Bool*)*), i8* undef }, i8* %"$$fundef_8_env_voidp_119", 1
   %"$$fundef_8_env_address_121" = getelementptr inbounds %"$$fundef_8_env_95", %"$$fundef_8_env_95"* %"$$fundef_8_envp_117", i32 0, i32 0
   store [20 x i8] %address, [20 x i8]* %"$$fundef_8_env_address_121", align 1
-  store { i8* (i8*, %TName_Bool*)*, i8* } %"$$fundef_8_cloval_120", { i8* (i8*, %TName_Bool*)*, i8* }* %"$retval_7", align 8, !dbg !10
+  store { i8* (i8*, %TName_Bool*)*, i8* } %"$$fundef_8_cloval_120", { i8* (i8*, %TName_Bool*)*, i8* }* %"$retval_7", align 8, !dbg !13
   %"$$retval_7_122" = load { i8* (i8*, %TName_Bool*)*, i8* }, { i8* (i8*, %TName_Bool*)*, i8* }* %"$retval_7", align 8
   ret { i8* (i8*, %TName_Bool*)*, i8* } %"$$retval_7_122"
 }
 
-define internal %TName_List_Message* @"$fundef_10"(%"$$fundef_10_env_97"* %0, i8* %1) !dbg !11 {
+define internal %TName_List_Message* @"$fundef_10"(%"$$fundef_10_env_97"* %0, i8* %1) !dbg !14 {
 entry:
   %"$$fundef_10_env_ud-proxy.nilMessage_98" = getelementptr inbounds %"$$fundef_10_env_97", %"$$fundef_10_env_97"* %0, i32 0, i32 0
   %"$ud-proxy.nilMessage_envload_99" = load %TName_List_Message*, %TName_List_Message** %"$$fundef_10_env_ud-proxy.nilMessage_98", align 8
   %ud-proxy.nilMessage = alloca %TName_List_Message*, align 8
   store %TName_List_Message* %"$ud-proxy.nilMessage_envload_99", %TName_List_Message** %ud-proxy.nilMessage, align 8
   %"$retval_11" = alloca %TName_List_Message*, align 8
+  call void @llvm.dbg.declare(metadata %TName_List_Message** %"$retval_11", metadata !15, metadata !DIExpression()), !dbg !18
   %"$gasrem_100" = load i64, i64* @_gasrem, align 8
   %"$gascmp_101" = icmp ugt i64 1, %"$gasrem_100"
   br i1 %"$gascmp_101", label %"$out_of_gas_102", label %"$have_gas_103"
@@ -282,16 +284,19 @@ entry:
   %"$adtgep_109" = getelementptr inbounds %CName_Cons_Message, %CName_Cons_Message* %"$adtval_106", i32 0, i32 2
   store %TName_List_Message* %"$ud-proxy.nilMessage_105", %TName_List_Message** %"$adtgep_109", align 8
   %"$adtptr_110" = bitcast %CName_Cons_Message* %"$adtval_106" to %TName_List_Message*
-  store %TName_List_Message* %"$adtptr_110", %TName_List_Message** %"$retval_11", align 8, !dbg !12
+  store %TName_List_Message* %"$adtptr_110", %TName_List_Message** %"$retval_11", align 8, !dbg !18
   %"$$retval_11_111" = load %TName_List_Message*, %TName_List_Message** %"$retval_11", align 8
   ret %TName_List_Message* %"$$retval_11_111"
 }
+
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
 declare void @_out_of_gas()
 
 declare i8* @_salloc(i8*, i64)
 
-define void @_init_libs() !dbg !13 {
+define void @_init_libs() !dbg !19 {
 entry:
   %"$gasrem_156" = load i64, i64* @_gasrem, align 8
   %"$gascmp_157" = icmp ugt i64 5, %"$gasrem_156"
@@ -304,7 +309,7 @@ entry:
 "$have_gas_159":                                  ; preds = %"$out_of_gas_158", %entry
   %"$consume_160" = sub i64 %"$gasrem_156", 5
   store i64 %"$consume_160", i64* @_gasrem, align 8
-  store %Int32 { i32 5 }, %Int32* @"$_gas_charge_acc_2", align 4, !dbg !15
+  store %Int32 { i32 5 }, %Int32* @"$_gas_charge_acc_2", align 4, !dbg !21
   %"$gasrem_161" = load i64, i64* @_gasrem, align 8
   %"$gascmp_162" = icmp ugt i64 8, %"$gasrem_161"
   br i1 %"$gascmp_162", label %"$out_of_gas_163", label %"$have_gas_164"
@@ -316,7 +321,7 @@ entry:
 "$have_gas_164":                                  ; preds = %"$out_of_gas_163", %"$have_gas_159"
   %"$consume_165" = sub i64 %"$gasrem_161", 8
   store i64 %"$consume_165", i64* @_gasrem, align 8
-  store %Int32 { i32 8 }, %Int32* @"$_gas_charge_accBoolUtils_0", align 4, !dbg !15
+  store %Int32 { i32 8 }, %Int32* @"$_gas_charge_accBoolUtils_0", align 4, !dbg !21
   %"$gasrem_166" = load i64, i64* @_gasrem, align 8
   %"$gascmp_167" = icmp ugt i64 20, %"$gasrem_166"
   br i1 %"$gascmp_167", label %"$out_of_gas_168", label %"$have_gas_169"
@@ -328,7 +333,7 @@ entry:
 "$have_gas_169":                                  ; preds = %"$out_of_gas_168", %"$have_gas_164"
   %"$consume_170" = sub i64 %"$gasrem_166", 20
   store i64 %"$consume_170", i64* @_gasrem, align 8
-  store %Int32 { i32 20 }, %Int32* @"$_gas_charge_accListUtils_1", align 4, !dbg !15
+  store %Int32 { i32 20 }, %Int32* @"$_gas_charge_accListUtils_1", align 4, !dbg !21
   %"$gasrem_171" = load i64, i64* @_gasrem, align 8
   %"$gascmp_172" = icmp ugt i64 1, %"$gasrem_171"
   br i1 %"$gascmp_172", label %"$out_of_gas_173", label %"$have_gas_174"
@@ -346,7 +351,7 @@ entry:
   %"$adtgep_177" = getelementptr inbounds %CName_True, %CName_True* %"$adtval_176", i32 0, i32 0
   store i8 0, i8* %"$adtgep_177", align 1
   %"$adtptr_178" = bitcast %CName_True* %"$adtval_176" to %TName_Bool*
-  store %TName_Bool* %"$adtptr_178", %TName_Bool** @ud-proxy.true, align 8, !dbg !16
+  store %TName_Bool* %"$adtptr_178", %TName_Bool** @ud-proxy.true, align 8, !dbg !22
   %"$gasrem_179" = load i64, i64* @_gasrem, align 8
   %"$gascmp_180" = icmp ugt i64 1, %"$gasrem_179"
   br i1 %"$gascmp_180", label %"$out_of_gas_181", label %"$have_gas_182"
@@ -364,7 +369,7 @@ entry:
   %"$adtgep_185" = getelementptr inbounds %CName_Nil_Message, %CName_Nil_Message* %"$adtval_184", i32 0, i32 0
   store i8 1, i8* %"$adtgep_185", align 1
   %"$adtptr_186" = bitcast %CName_Nil_Message* %"$adtval_184" to %TName_List_Message*
-  store %TName_List_Message* %"$adtptr_186", %TName_List_Message** @ud-proxy.nilMessage, align 8, !dbg !17
+  store %TName_List_Message* %"$adtptr_186", %TName_List_Message** @ud-proxy.nilMessage, align 8, !dbg !23
   %"$gasrem_187" = load i64, i64* @_gasrem, align 8
   %"$gascmp_188" = icmp ugt i64 1, %"$gasrem_187"
   br i1 %"$gascmp_188", label %"$out_of_gas_189", label %"$have_gas_190"
@@ -384,7 +389,7 @@ entry:
   %"$$fundef_10_env_ud-proxy.nilMessage_196" = getelementptr inbounds %"$$fundef_10_env_97", %"$$fundef_10_env_97"* %"$$fundef_10_envp_192", i32 0, i32 0
   %"$ud-proxy.nilMessage_197" = load %TName_List_Message*, %TName_List_Message** @ud-proxy.nilMessage, align 8
   store %TName_List_Message* %"$ud-proxy.nilMessage_197", %TName_List_Message** %"$$fundef_10_env_ud-proxy.nilMessage_196", align 8
-  store { %TName_List_Message* (i8*, i8*)*, i8* } %"$$fundef_10_cloval_195", { %TName_List_Message* (i8*, i8*)*, i8* }* @ud-proxy.oneMsg, align 8, !dbg !18
+  store { %TName_List_Message* (i8*, i8*)*, i8* } %"$$fundef_10_cloval_195", { %TName_List_Message* (i8*, i8*)*, i8* }* @ud-proxy.oneMsg, align 8, !dbg !24
   %"$gasrem_198" = load i64, i64* @_gasrem, align 8
   %"$gascmp_199" = icmp ugt i64 1, %"$gasrem_198"
   br i1 %"$gascmp_199", label %"$out_of_gas_200", label %"$have_gas_201"
@@ -396,7 +401,7 @@ entry:
 "$have_gas_201":                                  ; preds = %"$out_of_gas_200", %"$have_gas_190"
   %"$consume_202" = sub i64 %"$gasrem_198", 1
   store i64 %"$consume_202", i64* @_gasrem, align 8
-  store { { i8* (i8*, %TName_Bool*)*, i8* } (i8*, [20 x i8]*)*, i8* } { { i8* (i8*, %TName_Bool*)*, i8* } (i8*, [20 x i8]*)* bitcast ({ i8* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_6_env_96"*, [20 x i8]*)* @"$fundef_6" to { i8* (i8*, %TName_Bool*)*, i8* } (i8*, [20 x i8]*)*), i8* null }, { { i8* (i8*, %TName_Bool*)*, i8* } (i8*, [20 x i8]*)*, i8* }* @ud-proxy.eAdminSet, align 8, !dbg !19
+  store { { i8* (i8*, %TName_Bool*)*, i8* } (i8*, [20 x i8]*)*, i8* } { { i8* (i8*, %TName_Bool*)*, i8* } (i8*, [20 x i8]*)* bitcast ({ i8* (i8*, %TName_Bool*)*, i8* } (%"$$fundef_6_env_96"*, [20 x i8]*)* @"$fundef_6" to { i8* (i8*, %TName_Bool*)*, i8* } (i8*, [20 x i8]*)*), i8* null }, { { i8* (i8*, %TName_Bool*)*, i8* } (i8*, [20 x i8]*)*, i8* }* @ud-proxy.eAdminSet, align 8, !dbg !25
   %"$gasrem_206" = load i64, i64* @_gasrem, align 8
   %"$gascmp_207" = icmp ugt i64 1, %"$gasrem_206"
   br i1 %"$gascmp_207", label %"$out_of_gas_208", label %"$have_gas_209"
@@ -422,11 +427,11 @@ entry:
   %"$msgobj_v_218" = getelementptr i8, i8* %"$msgobj_211", i32 25
   %"$msgobj_v_219" = bitcast i8* %"$msgobj_v_218" to %String*
   store %String { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$stringlit_217", i32 0, i32 0), i32 5 }, %String* %"$msgobj_v_219", align 8
-  store i8* %"$msgobj_211", i8** @ud-proxy.eError, align 8, !dbg !20
+  store i8* %"$msgobj_211", i8** @ud-proxy.eError, align 8, !dbg !26
   ret void
 }
 
-define void @_deploy_ops() !dbg !21 {
+define void @_deploy_ops() !dbg !27 {
 entry:
   %"$gasrem_221" = load i64, i64* @_gasrem, align 8
   %"$gascmp_222" = icmp ugt i64 1, %"$gasrem_221"
@@ -440,6 +445,7 @@ entry:
   %"$consume_225" = sub i64 %"$gasrem_221", 1
   store i64 %"$consume_225", i64* @_gasrem, align 8
   %"$admins_12" = alloca %Map_ByStr20_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %Map_ByStr20_Bool** %"$admins_12", metadata !28, metadata !DIExpression()), !dbg !31
   %"$gasrem_226" = load i64, i64* @_gasrem, align 8
   %"$gascmp_227" = icmp ugt i64 1, %"$gasrem_226"
   br i1 %"$gascmp_227", label %"$out_of_gas_228", label %"$have_gas_229"
@@ -452,6 +458,7 @@ entry:
   %"$consume_230" = sub i64 %"$gasrem_226", 1
   store i64 %"$consume_230", i64* @_gasrem, align 8
   %empty = alloca %Map_ByStr20_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %Map_ByStr20_Bool** %empty, metadata !32, metadata !DIExpression()), !dbg !33
   %"$gasrem_231" = load i64, i64* @_gasrem, align 8
   %"$gascmp_232" = icmp ugt i64 1, %"$gasrem_231"
   br i1 %"$gascmp_232", label %"$out_of_gas_233", label %"$have_gas_234"
@@ -466,7 +473,7 @@ entry:
   %"$execptr_load_236" = load i8*, i8** @_execptr, align 8
   %"$_new_empty_map_call_237" = call i8* @_new_empty_map(i8* %"$execptr_load_236")
   %"$_new_empty_map_238" = bitcast i8* %"$_new_empty_map_call_237" to %Map_ByStr20_Bool*
-  store %Map_ByStr20_Bool* %"$_new_empty_map_238", %Map_ByStr20_Bool** %empty, align 8, !dbg !22
+  store %Map_ByStr20_Bool* %"$_new_empty_map_238", %Map_ByStr20_Bool** %empty, align 8, !dbg !34
   %"$empty_239" = load %Map_ByStr20_Bool*, %Map_ByStr20_Bool** %empty, align 8
   %"$$empty_239_240" = bitcast %Map_ByStr20_Bool* %"$empty_239" to i8*
   %"$_lengthof_call_241" = call i64 @_lengthof(%_TyDescrTy_Typ* @"$TyDescr_Map_53", i8* %"$$empty_239_240")
@@ -491,13 +498,13 @@ entry:
   %"$$put_initialAdmin_251_253" = bitcast [20 x i8]* %"$put_initialAdmin_251" to i8*
   %"$ud-proxy.true_254" = load %TName_Bool*, %TName_Bool** @ud-proxy.true, align 8
   %"$$ud-proxy.true_254_255" = bitcast %TName_Bool* %"$ud-proxy.true_254" to i8*
-  %"$put_call_256" = call i8* @_put(i8* %"$execptr_load_248", %_TyDescrTy_Typ* @"$TyDescr_Map_53", i8* %"$$empty_249_250", i8* %"$$put_initialAdmin_251_253", i8* %"$$ud-proxy.true_254_255"), !dbg !23
+  %"$put_call_256" = call i8* @_put(i8* %"$execptr_load_248", %_TyDescrTy_Typ* @"$TyDescr_Map_53", i8* %"$$empty_249_250", i8* %"$$put_initialAdmin_251_253", i8* %"$$ud-proxy.true_254_255"), !dbg !35
   %"$put_257" = bitcast i8* %"$put_call_256" to %Map_ByStr20_Bool*
-  store %Map_ByStr20_Bool* %"$put_257", %Map_ByStr20_Bool** %"$admins_12", align 8, !dbg !23
+  store %Map_ByStr20_Bool* %"$put_257", %Map_ByStr20_Bool** %"$admins_12", align 8, !dbg !35
   %"$execptr_load_258" = load i8*, i8** @_execptr, align 8
   %"$$admins_12_260" = load %Map_ByStr20_Bool*, %Map_ByStr20_Bool** %"$admins_12", align 8
   %"$update_value_261" = bitcast %Map_ByStr20_Bool* %"$$admins_12_260" to i8*
-  call void @_update_field(i8* %"$execptr_load_258", i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$admins_259", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_53", i32 0, i8* null, i8* %"$update_value_261"), !dbg !22
+  call void @_update_field(i8* %"$execptr_load_258", i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$admins_259", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_53", i32 0, i8* null, i8* %"$update_value_261"), !dbg !34
   ret void
 }
 
@@ -509,12 +516,13 @@ declare i8* @_put(i8*, %_TyDescrTy_Typ*, i8*, i8*, i8*)
 
 declare void @_update_field(i8*, i8*, %_TyDescrTy_Typ*, i32, i8*, i8*)
 
-define internal void @"$setAdmin_262"(%Uint128 %_amount, [20 x i8]* %"$_origin_263", [20 x i8]* %"$_sender_264", [20 x i8]* %"$address_265", %TName_Bool* %isApproved) !dbg !24 {
+define internal void @"$setAdmin_262"(%Uint128 %_amount, [20 x i8]* %"$_origin_263", [20 x i8]* %"$_sender_264", [20 x i8]* %"$address_265", %TName_Bool* %isApproved) !dbg !36 {
 entry:
   %_origin = load [20 x i8], [20 x i8]* %"$_origin_263", align 1
   %_sender = load [20 x i8], [20 x i8]* %"$_sender_264", align 1
   %address = load [20 x i8], [20 x i8]* %"$address_265", align 1
   %maybeAdmin = alloca %TName_Option_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Option_Bool** %maybeAdmin, metadata !37, metadata !DIExpression()), !dbg !40
   %"$indices_buf_266_salloc_load" = load i8*, i8** @_execptr, align 8
   %"$indices_buf_266_salloc_salloc" = call i8* @_salloc(i8* %"$indices_buf_266_salloc_load", i64 20)
   %"$indices_buf_266_salloc" = bitcast i8* %"$indices_buf_266_salloc_salloc" to [20 x i8]*
@@ -523,7 +531,7 @@ entry:
   %indices_cast = bitcast i8* %"$indices_gep_267" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %indices_cast, align 1
   %"$execptr_load_269" = load i8*, i8** @_execptr, align 8
-  %"$maybeAdmin_call_270" = call i8* @_fetch_field(i8* %"$execptr_load_269", i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$admins_268", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_53", i32 1, i8* %"$indices_buf_266", i32 1), !dbg !25
+  %"$maybeAdmin_call_270" = call i8* @_fetch_field(i8* %"$execptr_load_269", i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$admins_268", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_53", i32 1, i8* %"$indices_buf_266", i32 1), !dbg !40
   %"$maybeAdmin_271" = bitcast i8* %"$maybeAdmin_call_270" to %TName_Option_Bool*
   store %TName_Option_Bool* %"$maybeAdmin_271", %TName_Option_Bool** %maybeAdmin, align 8
   %"$maybeAdmin_272" = load %TName_Option_Bool*, %TName_Option_Bool** %maybeAdmin, align 8
@@ -554,6 +562,7 @@ entry:
   %"$consume_286" = sub i64 %"$gasrem_282", 1
   store i64 %"$consume_286", i64* @_gasrem, align 8
   %isSenderAdmin = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %isSenderAdmin, metadata !41, metadata !DIExpression()), !dbg !44
   %"$gasrem_287" = load i64, i64* @_gasrem, align 8
   %"$gascmp_288" = icmp ugt i64 2, %"$gasrem_287"
   br i1 %"$gascmp_288", label %"$out_of_gas_289", label %"$have_gas_290"
@@ -571,7 +580,7 @@ entry:
   switch i8 %"$maybeAdmin_tag_295", label %"$empty_default_296" [
     i8 0, label %"$Some_297"
     i8 1, label %"$None_307"
-  ], !dbg !26
+  ], !dbg !45
 
 "$Some_297":                                      ; preds = %"$have_gas_290"
   %"$maybeAdmin_298" = bitcast %TName_Option_Bool* %"$maybeAdmin_293" to %CName_Some_Bool*
@@ -591,7 +600,7 @@ entry:
   %"$consume_305" = sub i64 %"$gasrem_301", 1
   store i64 %"$consume_305", i64* @_gasrem, align 8
   %"$approval_306" = load %TName_Bool*, %TName_Bool** %approval, align 8
-  store %TName_Bool* %"$approval_306", %TName_Bool** %isSenderAdmin, align 8, !dbg !27
+  store %TName_Bool* %"$approval_306", %TName_Bool** %isSenderAdmin, align 8, !dbg !46
   br label %"$matchsucc_292"
 
 "$None_307":                                      ; preds = %"$have_gas_290"
@@ -613,7 +622,7 @@ entry:
   %"$adtgep_315" = getelementptr inbounds %CName_False, %CName_False* %"$adtval_314", i32 0, i32 0
   store i8 1, i8* %"$adtgep_315", align 1
   %"$adtptr_316" = bitcast %CName_False* %"$adtval_314" to %TName_Bool*
-  store %TName_Bool* %"$adtptr_316", %TName_Bool** %isSenderAdmin, align 8, !dbg !30
+  store %TName_Bool* %"$adtptr_316", %TName_Bool** %isSenderAdmin, align 8, !dbg !49
   br label %"$matchsucc_292"
 
 "$empty_default_296":                             ; preds = %"$have_gas_290"
@@ -637,7 +646,7 @@ entry:
   switch i8 %"$isSenderAdmin_tag_325", label %"$empty_default_326" [
     i8 0, label %"$True_327"
     i8 1, label %"$False_372"
-  ], !dbg !32
+  ], !dbg !51
 
 "$True_327":                                      ; preds = %"$have_gas_320"
   %"$isSenderAdmin_328" = bitcast %TName_Bool* %"$isSenderAdmin_323" to %CName_True*
@@ -664,7 +673,7 @@ entry:
   store [20 x i8] %address, [20 x i8]* %indices_cast1, align 1
   %"$execptr_load_339" = load i8*, i8** @_execptr, align 8
   %"$update_value_341" = bitcast %TName_Bool* %isApproved to i8*
-  call void @_update_field(i8* %"$execptr_load_339", i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$admins_340", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_53", i32 1, i8* %"$indices_buf_337", i8* %"$update_value_341"), !dbg !33
+  call void @_update_field(i8* %"$execptr_load_339", i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$admins_340", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_53", i32 1, i8* %"$indices_buf_337", i8* %"$update_value_341"), !dbg !52
   %"$gasrem_342" = load i64, i64* @_gasrem, align 8
   %"$gascmp_343" = icmp ugt i64 1, %"$gasrem_342"
   br i1 %"$gascmp_343", label %"$out_of_gas_344", label %"$have_gas_345"
@@ -677,6 +686,7 @@ entry:
   %"$consume_346" = sub i64 %"$gasrem_342", 1
   store i64 %"$consume_346", i64* @_gasrem, align 8
   %e = alloca i8*, align 8
+  call void @llvm.dbg.declare(metadata i8** %e, metadata !55, metadata !DIExpression()), !dbg !56
   %"$gasrem_347" = load i64, i64* @_gasrem, align 8
   %"$gascmp_348" = icmp ugt i64 1, %"$gasrem_347"
   br i1 %"$gascmp_348", label %"$out_of_gas_349", label %"$have_gas_350"
@@ -694,16 +704,17 @@ entry:
   %"$ud-proxy.eAdminSet_envptr_354" = extractvalue { { i8* (i8*, %TName_Bool*)*, i8* } (i8*, [20 x i8]*)*, i8* } %"$ud-proxy.eAdminSet_352", 1
   %"$ud-proxy.eAdminSet_address_355" = alloca [20 x i8], align 1
   store [20 x i8] %address, [20 x i8]* %"$ud-proxy.eAdminSet_address_355", align 1
-  %"$ud-proxy.eAdminSet_call_356" = call { i8* (i8*, %TName_Bool*)*, i8* } %"$ud-proxy.eAdminSet_fptr_353"(i8* %"$ud-proxy.eAdminSet_envptr_354", [20 x i8]* %"$ud-proxy.eAdminSet_address_355"), !dbg !36
-  store { i8* (i8*, %TName_Bool*)*, i8* } %"$ud-proxy.eAdminSet_call_356", { i8* (i8*, %TName_Bool*)*, i8* }* %"$ud-proxy.eAdminSet_3", align 8, !dbg !36
+  %"$ud-proxy.eAdminSet_call_356" = call { i8* (i8*, %TName_Bool*)*, i8* } %"$ud-proxy.eAdminSet_fptr_353"(i8* %"$ud-proxy.eAdminSet_envptr_354", [20 x i8]* %"$ud-proxy.eAdminSet_address_355"), !dbg !57
+  store { i8* (i8*, %TName_Bool*)*, i8* } %"$ud-proxy.eAdminSet_call_356", { i8* (i8*, %TName_Bool*)*, i8* }* %"$ud-proxy.eAdminSet_3", align 8, !dbg !57
   %"$ud-proxy.eAdminSet_4" = alloca i8*, align 8
+  call void @llvm.dbg.declare(metadata i8** %"$ud-proxy.eAdminSet_4", metadata !58, metadata !DIExpression()), !dbg !57
   %"$$ud-proxy.eAdminSet_3_357" = load { i8* (i8*, %TName_Bool*)*, i8* }, { i8* (i8*, %TName_Bool*)*, i8* }* %"$ud-proxy.eAdminSet_3", align 8
   %"$$ud-proxy.eAdminSet_3_fptr_358" = extractvalue { i8* (i8*, %TName_Bool*)*, i8* } %"$$ud-proxy.eAdminSet_3_357", 0
   %"$$ud-proxy.eAdminSet_3_envptr_359" = extractvalue { i8* (i8*, %TName_Bool*)*, i8* } %"$$ud-proxy.eAdminSet_3_357", 1
-  %"$$ud-proxy.eAdminSet_3_call_360" = call i8* %"$$ud-proxy.eAdminSet_3_fptr_358"(i8* %"$$ud-proxy.eAdminSet_3_envptr_359", %TName_Bool* %isApproved), !dbg !36
-  store i8* %"$$ud-proxy.eAdminSet_3_call_360", i8** %"$ud-proxy.eAdminSet_4", align 8, !dbg !36
+  %"$$ud-proxy.eAdminSet_3_call_360" = call i8* %"$$ud-proxy.eAdminSet_3_fptr_358"(i8* %"$$ud-proxy.eAdminSet_3_envptr_359", %TName_Bool* %isApproved), !dbg !57
+  store i8* %"$$ud-proxy.eAdminSet_3_call_360", i8** %"$ud-proxy.eAdminSet_4", align 8, !dbg !57
   %"$$ud-proxy.eAdminSet_4_361" = load i8*, i8** %"$ud-proxy.eAdminSet_4", align 8
-  store i8* %"$$ud-proxy.eAdminSet_4_361", i8** %e, align 8, !dbg !36
+  store i8* %"$$ud-proxy.eAdminSet_4_361", i8** %e, align 8, !dbg !57
   %"$e_362" = load i8*, i8** %e, align 8
   %"$_literal_cost_call_364" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Event_37", i8* %"$e_362")
   %"$gasrem_365" = load i64, i64* @_gasrem, align 8
@@ -719,7 +730,7 @@ entry:
   store i64 %"$consume_369", i64* @_gasrem, align 8
   %"$execptr_load_370" = load i8*, i8** @_execptr, align 8
   %"$e_371" = load i8*, i8** %e, align 8
-  call void @_event(i8* %"$execptr_load_370", %_TyDescrTy_Typ* @"$TyDescr_Event_37", i8* %"$e_371"), !dbg !37
+  call void @_event(i8* %"$execptr_load_370", %_TyDescrTy_Typ* @"$TyDescr_Event_37", i8* %"$e_371"), !dbg !59
   br label %"$matchsucc_322"
 
 "$False_372":                                     ; preds = %"$have_gas_320"
@@ -739,7 +750,7 @@ entry:
   store i64 %"$consume_381", i64* @_gasrem, align 8
   %"$execptr_load_382" = load i8*, i8** @_execptr, align 8
   %"$ud-proxy.eError_383" = load i8*, i8** @ud-proxy.eError, align 8
-  call void @_event(i8* %"$execptr_load_382", %_TyDescrTy_Typ* @"$TyDescr_Event_37", i8* %"$ud-proxy.eError_383"), !dbg !38
+  call void @_event(i8* %"$execptr_load_382", %_TyDescrTy_Typ* @"$TyDescr_Event_37", i8* %"$ud-proxy.eError_383"), !dbg !60
   br label %"$matchsucc_322"
 
 "$empty_default_326":                             ; preds = %"$have_gas_320"
@@ -755,7 +766,7 @@ declare i64 @_literal_cost(%_TyDescrTy_Typ*, i8*)
 
 declare void @_event(i8*, %_TyDescrTy_Typ*, i8*)
 
-define void @setAdmin(i8* %0) !dbg !40 {
+define void @setAdmin(i8* %0) !dbg !62 {
 entry:
   %"$_amount_385" = getelementptr i8, i8* %0, i32 0
   %"$_amount_386" = bitcast i8* %"$_amount_385" to %Uint128*
@@ -769,17 +780,18 @@ entry:
   %"$isApproved_393" = getelementptr i8, i8* %0, i32 76
   %"$isApproved_394" = bitcast i8* %"$isApproved_393" to %TName_Bool**
   %isApproved = load %TName_Bool*, %TName_Bool** %"$isApproved_394", align 8
-  call void @"$setAdmin_262"(%Uint128 %_amount, [20 x i8]* %"$_origin_388", [20 x i8]* %"$_sender_390", [20 x i8]* %"$address_392", %TName_Bool* %isApproved), !dbg !41
+  call void @"$setAdmin_262"(%Uint128 %_amount, [20 x i8]* %"$_origin_388", [20 x i8]* %"$_sender_390", [20 x i8]* %"$address_392", %TName_Bool* %isApproved), !dbg !63
   ret void
 }
 
-define internal void @"$bestow_395"(%Uint128 %_amount, [20 x i8]* %"$_origin_396", [20 x i8]* %"$_sender_397", %String %label, [20 x i8]* %"$owner_398", [20 x i8]* %"$resolver_399") !dbg !42 {
+define internal void @"$bestow_395"(%Uint128 %_amount, [20 x i8]* %"$_origin_396", [20 x i8]* %"$_sender_397", %String %label, [20 x i8]* %"$owner_398", [20 x i8]* %"$resolver_399") !dbg !64 {
 entry:
   %_origin = load [20 x i8], [20 x i8]* %"$_origin_396", align 1
   %_sender = load [20 x i8], [20 x i8]* %"$_sender_397", align 1
   %owner = load [20 x i8], [20 x i8]* %"$owner_398", align 1
   %resolver = load [20 x i8], [20 x i8]* %"$resolver_399", align 1
   %maybeAdmin = alloca %TName_Option_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Option_Bool** %maybeAdmin, metadata !65, metadata !DIExpression()), !dbg !66
   %"$indices_buf_400_salloc_load" = load i8*, i8** @_execptr, align 8
   %"$indices_buf_400_salloc_salloc" = call i8* @_salloc(i8* %"$indices_buf_400_salloc_load", i64 20)
   %"$indices_buf_400_salloc" = bitcast i8* %"$indices_buf_400_salloc_salloc" to [20 x i8]*
@@ -788,7 +800,7 @@ entry:
   %indices_cast = bitcast i8* %"$indices_gep_401" to [20 x i8]*
   store [20 x i8] %_sender, [20 x i8]* %indices_cast, align 1
   %"$execptr_load_403" = load i8*, i8** @_execptr, align 8
-  %"$maybeAdmin_call_404" = call i8* @_fetch_field(i8* %"$execptr_load_403", i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$admins_402", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_53", i32 1, i8* %"$indices_buf_400", i32 1), !dbg !43
+  %"$maybeAdmin_call_404" = call i8* @_fetch_field(i8* %"$execptr_load_403", i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$admins_402", i32 0, i32 0), %_TyDescrTy_Typ* @"$TyDescr_Map_53", i32 1, i8* %"$indices_buf_400", i32 1), !dbg !66
   %"$maybeAdmin_405" = bitcast i8* %"$maybeAdmin_call_404" to %TName_Option_Bool*
   store %TName_Option_Bool* %"$maybeAdmin_405", %TName_Option_Bool** %maybeAdmin, align 8
   %"$maybeAdmin_406" = load %TName_Option_Bool*, %TName_Option_Bool** %maybeAdmin, align 8
@@ -819,6 +831,7 @@ entry:
   %"$consume_420" = sub i64 %"$gasrem_416", 1
   store i64 %"$consume_420", i64* @_gasrem, align 8
   %isSenderAdmin = alloca %TName_Bool*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Bool** %isSenderAdmin, metadata !67, metadata !DIExpression()), !dbg !68
   %"$gasrem_421" = load i64, i64* @_gasrem, align 8
   %"$gascmp_422" = icmp ugt i64 2, %"$gasrem_421"
   br i1 %"$gascmp_422", label %"$out_of_gas_423", label %"$have_gas_424"
@@ -836,7 +849,7 @@ entry:
   switch i8 %"$maybeAdmin_tag_429", label %"$empty_default_430" [
     i8 0, label %"$Some_431"
     i8 1, label %"$None_441"
-  ], !dbg !44
+  ], !dbg !69
 
 "$Some_431":                                      ; preds = %"$have_gas_424"
   %"$maybeAdmin_432" = bitcast %TName_Option_Bool* %"$maybeAdmin_427" to %CName_Some_Bool*
@@ -856,7 +869,7 @@ entry:
   %"$consume_439" = sub i64 %"$gasrem_435", 1
   store i64 %"$consume_439", i64* @_gasrem, align 8
   %"$isAdmin_440" = load %TName_Bool*, %TName_Bool** %isAdmin, align 8
-  store %TName_Bool* %"$isAdmin_440", %TName_Bool** %isSenderAdmin, align 8, !dbg !45
+  store %TName_Bool* %"$isAdmin_440", %TName_Bool** %isSenderAdmin, align 8, !dbg !70
   br label %"$matchsucc_426"
 
 "$None_441":                                      ; preds = %"$have_gas_424"
@@ -878,7 +891,7 @@ entry:
   %"$adtgep_449" = getelementptr inbounds %CName_False, %CName_False* %"$adtval_448", i32 0, i32 0
   store i8 1, i8* %"$adtgep_449", align 1
   %"$adtptr_450" = bitcast %CName_False* %"$adtval_448" to %TName_Bool*
-  store %TName_Bool* %"$adtptr_450", %TName_Bool** %isSenderAdmin, align 8, !dbg !48
+  store %TName_Bool* %"$adtptr_450", %TName_Bool** %isSenderAdmin, align 8, !dbg !73
   br label %"$matchsucc_426"
 
 "$empty_default_430":                             ; preds = %"$have_gas_424"
@@ -902,7 +915,7 @@ entry:
   switch i8 %"$isSenderAdmin_tag_459", label %"$empty_default_460" [
     i8 0, label %"$True_461"
     i8 1, label %"$False_545"
-  ], !dbg !50
+  ], !dbg !75
 
 "$True_461":                                      ; preds = %"$have_gas_454"
   %"$isSenderAdmin_462" = bitcast %TName_Bool* %"$isSenderAdmin_457" to %CName_True*
@@ -918,6 +931,7 @@ entry:
   %"$consume_467" = sub i64 %"$gasrem_463", 1
   store i64 %"$consume_467", i64* @_gasrem, align 8
   %msgs = alloca %TName_List_Message*, align 8
+  call void @llvm.dbg.declare(metadata %TName_List_Message** %msgs, metadata !76, metadata !DIExpression()), !dbg !79
   %"$gasrem_468" = load i64, i64* @_gasrem, align 8
   %"$gascmp_469" = icmp ugt i64 1, %"$gasrem_468"
   br i1 %"$gascmp_469", label %"$out_of_gas_470", label %"$have_gas_471"
@@ -930,6 +944,7 @@ entry:
   %"$consume_472" = sub i64 %"$gasrem_468", 1
   store i64 %"$consume_472", i64* @_gasrem, align 8
   %m = alloca i8*, align 8
+  call void @llvm.dbg.declare(metadata i8** %m, metadata !80, metadata !DIExpression()), !dbg !83
   %"$gasrem_473" = load i64, i64* @_gasrem, align 8
   %"$gascmp_474" = icmp ugt i64 1, %"$gasrem_473"
   br i1 %"$gascmp_474", label %"$out_of_gas_475", label %"$have_gas_476"
@@ -1001,7 +1016,7 @@ entry:
   %"$msgobj_v_521" = getelementptr i8, i8* %"$msgobj_478", i32 233
   %"$msgobj_v_522" = bitcast i8* %"$msgobj_v_521" to [20 x i8]*
   store [20 x i8] %resolver, [20 x i8]* %"$msgobj_v_522", align 1
-  store i8* %"$msgobj_478", i8** %m, align 8, !dbg !51
+  store i8* %"$msgobj_478", i8** %m, align 8, !dbg !84
   %"$gasrem_524" = load i64, i64* @_gasrem, align 8
   %"$gascmp_525" = icmp ugt i64 1, %"$gasrem_524"
   br i1 %"$gascmp_525", label %"$out_of_gas_526", label %"$have_gas_527"
@@ -1014,14 +1029,15 @@ entry:
   %"$consume_528" = sub i64 %"$gasrem_524", 1
   store i64 %"$consume_528", i64* @_gasrem, align 8
   %"$ud-proxy.oneMsg_5" = alloca %TName_List_Message*, align 8
+  call void @llvm.dbg.declare(metadata %TName_List_Message** %"$ud-proxy.oneMsg_5", metadata !85, metadata !DIExpression()), !dbg !86
   %"$ud-proxy.oneMsg_529" = load { %TName_List_Message* (i8*, i8*)*, i8* }, { %TName_List_Message* (i8*, i8*)*, i8* }* @ud-proxy.oneMsg, align 8
   %"$ud-proxy.oneMsg_fptr_530" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$ud-proxy.oneMsg_529", 0
   %"$ud-proxy.oneMsg_envptr_531" = extractvalue { %TName_List_Message* (i8*, i8*)*, i8* } %"$ud-proxy.oneMsg_529", 1
   %"$m_532" = load i8*, i8** %m, align 8
-  %"$ud-proxy.oneMsg_call_533" = call %TName_List_Message* %"$ud-proxy.oneMsg_fptr_530"(i8* %"$ud-proxy.oneMsg_envptr_531", i8* %"$m_532"), !dbg !54
-  store %TName_List_Message* %"$ud-proxy.oneMsg_call_533", %TName_List_Message** %"$ud-proxy.oneMsg_5", align 8, !dbg !54
+  %"$ud-proxy.oneMsg_call_533" = call %TName_List_Message* %"$ud-proxy.oneMsg_fptr_530"(i8* %"$ud-proxy.oneMsg_envptr_531", i8* %"$m_532"), !dbg !86
+  store %TName_List_Message* %"$ud-proxy.oneMsg_call_533", %TName_List_Message** %"$ud-proxy.oneMsg_5", align 8, !dbg !86
   %"$$ud-proxy.oneMsg_5_534" = load %TName_List_Message*, %TName_List_Message** %"$ud-proxy.oneMsg_5", align 8
-  store %TName_List_Message* %"$$ud-proxy.oneMsg_5_534", %TName_List_Message** %msgs, align 8, !dbg !54
+  store %TName_List_Message* %"$$ud-proxy.oneMsg_5_534", %TName_List_Message** %msgs, align 8, !dbg !86
   %"$msgs_535" = load %TName_List_Message*, %TName_List_Message** %msgs, align 8
   %"$$msgs_535_536" = bitcast %TName_List_Message* %"$msgs_535" to i8*
   %"$_literal_cost_call_537" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_51", i8* %"$$msgs_535_536")
@@ -1038,7 +1054,7 @@ entry:
   store i64 %"$consume_542", i64* @_gasrem, align 8
   %"$execptr_load_543" = load i8*, i8** @_execptr, align 8
   %"$msgs_544" = load %TName_List_Message*, %TName_List_Message** %msgs, align 8
-  call void @_send(i8* %"$execptr_load_543", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_51", %TName_List_Message* %"$msgs_544"), !dbg !55
+  call void @_send(i8* %"$execptr_load_543", %_TyDescrTy_Typ* @"$TyDescr_ADT_List_Message_51", %TName_List_Message* %"$msgs_544"), !dbg !87
   br label %"$matchsucc_456"
 
 "$False_545":                                     ; preds = %"$have_gas_454"
@@ -1058,7 +1074,7 @@ entry:
   store i64 %"$consume_554", i64* @_gasrem, align 8
   %"$execptr_load_555" = load i8*, i8** @_execptr, align 8
   %"$ud-proxy.eError_556" = load i8*, i8** @ud-proxy.eError, align 8
-  call void @_event(i8* %"$execptr_load_555", %_TyDescrTy_Typ* @"$TyDescr_Event_37", i8* %"$ud-proxy.eError_556"), !dbg !56
+  call void @_event(i8* %"$execptr_load_555", %_TyDescrTy_Typ* @"$TyDescr_Event_37", i8* %"$ud-proxy.eError_556"), !dbg !88
   br label %"$matchsucc_456"
 
 "$empty_default_460":                             ; preds = %"$have_gas_454"
@@ -1070,7 +1086,7 @@ entry:
 
 declare void @_send(i8*, %_TyDescrTy_Typ*, %TName_List_Message*)
 
-define void @bestow(i8* %0) !dbg !58 {
+define void @bestow(i8* %0) !dbg !90 {
 entry:
   %"$_amount_558" = getelementptr i8, i8* %0, i32 0
   %"$_amount_559" = bitcast i8* %"$_amount_558" to %Uint128*
@@ -1086,70 +1102,104 @@ entry:
   %"$owner_567" = bitcast i8* %"$owner_566" to [20 x i8]*
   %"$resolver_568" = getelementptr i8, i8* %0, i32 92
   %"$resolver_569" = bitcast i8* %"$resolver_568" to [20 x i8]*
-  call void @"$bestow_395"(%Uint128 %_amount, [20 x i8]* %"$_origin_561", [20 x i8]* %"$_sender_563", %String %label, [20 x i8]* %"$owner_567", [20 x i8]* %"$resolver_569"), !dbg !59
+  call void @"$bestow_395"(%Uint128 %_amount, [20 x i8]* %"$_origin_561", [20 x i8]* %"$_sender_563", %String %label, [20 x i8]* %"$owner_567", [20 x i8]* %"$resolver_569"), !dbg !91
   ret void
 }
+
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
 
 !llvm.module.flags = !{!0}
 !llvm.dbg.cu = !{!1}
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false)
 !2 = !DIFile(filename: "ud-proxy.scilla", directory: "codegen/contr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "$fundef_8", linkageName: "$fundef_8", scope: !2, file: !2, line: 17, type: !5, scopeLine: 17, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DISubroutineType(types: !6)
-!6 = !{!7}
-!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!8 = !DILocation(line: 17, column: 5, scope: !4)
-!9 = distinct !DISubprogram(name: "$fundef_6", linkageName: "$fundef_6", scope: !2, file: !2, line: 16, type: !5, scopeLine: 16, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!10 = !DILocation(line: 17, column: 5, scope: !9)
-!11 = distinct !DISubprogram(name: "$fundef_10", linkageName: "$fundef_10", scope: !2, file: !2, line: 12, type: !5, scopeLine: 12, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!12 = !DILocation(line: 12, column: 5, scope: !11)
-!13 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !14, file: !14, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!14 = !DIFile(filename: ".", directory: ".")
-!15 = !DILocation(line: 0, scope: !13)
-!16 = !DILocation(line: 7, column: 12, scope: !13)
-!17 = !DILocation(line: 8, column: 18, scope: !13)
-!18 = !DILocation(line: 12, column: 5, scope: !13)
-!19 = !DILocation(line: 16, column: 3, scope: !13)
-!20 = !DILocation(line: 19, column: 14, scope: !13)
-!21 = distinct !DISubprogram(name: "_deploy_ops", linkageName: "_deploy_ops", scope: !14, file: !14, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!22 = !DILocation(line: 26, column: 15, scope: !21)
-!23 = !DILocation(line: 27, column: 5, scope: !21)
-!24 = distinct !DISubprogram(name: "setAdmin", linkageName: "setAdmin", scope: !2, file: !2, line: 29, type: !5, scopeLine: 29, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!25 = !DILocation(line: 30, column: 3, scope: !24)
-!26 = !DILocation(line: 33, column: 5, scope: !24)
-!27 = !DILocation(line: 34, column: 24, scope: !28)
-!28 = distinct !DILexicalBlock(scope: !29, file: !2, line: 34, column: 7)
-!29 = distinct !DILexicalBlock(scope: !24, file: !2, line: 33, column: 5)
-!30 = !DILocation(line: 35, column: 15, scope: !31)
-!31 = distinct !DILexicalBlock(scope: !29, file: !2, line: 35, column: 7)
-!32 = !DILocation(line: 38, column: 3, scope: !24)
-!33 = !DILocation(line: 40, column: 5, scope: !34)
-!34 = distinct !DILexicalBlock(scope: !35, file: !2, line: 39, column: 5)
-!35 = distinct !DILexicalBlock(scope: !24, file: !2, line: 38, column: 3)
-!36 = !DILocation(line: 42, column: 9, scope: !34)
-!37 = !DILocation(line: 43, column: 5, scope: !34)
-!38 = !DILocation(line: 45, column: 5, scope: !39)
-!39 = distinct !DILexicalBlock(scope: !35, file: !2, line: 44, column: 5)
-!40 = distinct !DISubprogram(name: "setAdmin", linkageName: "setAdmin", scope: !2, file: !2, line: 29, type: !5, scopeLine: 29, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!41 = !DILocation(line: 29, column: 12, scope: !40)
-!42 = distinct !DISubprogram(name: "bestow", linkageName: "bestow", scope: !2, file: !2, line: 49, type: !5, scopeLine: 49, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!43 = !DILocation(line: 50, column: 3, scope: !42)
-!44 = !DILocation(line: 53, column: 5, scope: !42)
-!45 = !DILocation(line: 54, column: 23, scope: !46)
-!46 = distinct !DILexicalBlock(scope: !47, file: !2, line: 54, column: 7)
-!47 = distinct !DILexicalBlock(scope: !42, file: !2, line: 53, column: 5)
-!48 = !DILocation(line: 55, column: 15, scope: !49)
-!49 = distinct !DILexicalBlock(scope: !47, file: !2, line: 55, column: 7)
-!50 = !DILocation(line: 58, column: 3, scope: !42)
-!51 = !DILocation(line: 61, column: 15, scope: !52)
-!52 = distinct !DILexicalBlock(scope: !53, file: !2, line: 59, column: 5)
-!53 = distinct !DILexicalBlock(scope: !42, file: !2, line: 58, column: 3)
-!54 = !DILocation(line: 63, column: 7, scope: !52)
-!55 = !DILocation(line: 64, column: 5, scope: !52)
-!56 = !DILocation(line: 66, column: 5, scope: !57)
-!57 = distinct !DILexicalBlock(scope: !53, file: !2, line: 65, column: 5)
-!58 = distinct !DISubprogram(name: "bestow", linkageName: "bestow", scope: !2, file: !2, line: 49, type: !5, scopeLine: 49, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!59 = !DILocation(line: 49, column: 12, scope: !58)
+!3 = distinct !DISubprogram(name: "$fundef_8", linkageName: "$fundef_8", scope: !2, file: !2, line: 17, type: !4, scopeLine: 17, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!4 = !DISubroutineType(types: !5)
+!5 = !{!6}
+!6 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!7 = !{}
+!8 = !DILocalVariable(name: "$retval_9", scope: !3, file: !2, line: 17, type: !9)
+!9 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Event", baseType: !10, size: 8, align: 8, dwarfAddressSpace: 0)
+!10 = !DIBasicType(name: "Event", size: 8)
+!11 = !DILocation(line: 17, column: 5, scope: !3)
+!12 = distinct !DISubprogram(name: "$fundef_6", linkageName: "$fundef_6", scope: !2, file: !2, line: 16, type: !4, scopeLine: 16, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!13 = !DILocation(line: 17, column: 5, scope: !12)
+!14 = distinct !DISubprogram(name: "$fundef_10", linkageName: "$fundef_10", scope: !2, file: !2, line: 12, type: !4, scopeLine: 12, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!15 = !DILocalVariable(name: "$retval_11", scope: !14, file: !2, line: 12, type: !16)
+!16 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "List (Message)", baseType: !17, size: 8, align: 8, dwarfAddressSpace: 0)
+!17 = !DIBasicType(name: "List (Message)", size: 8)
+!18 = !DILocation(line: 12, column: 5, scope: !14)
+!19 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !20, file: !20, type: !4, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!20 = !DIFile(filename: ".", directory: ".")
+!21 = !DILocation(line: 0, scope: !19)
+!22 = !DILocation(line: 7, column: 12, scope: !19)
+!23 = !DILocation(line: 8, column: 18, scope: !19)
+!24 = !DILocation(line: 12, column: 5, scope: !19)
+!25 = !DILocation(line: 16, column: 3, scope: !19)
+!26 = !DILocation(line: 19, column: 14, scope: !19)
+!27 = distinct !DISubprogram(name: "_deploy_ops", linkageName: "_deploy_ops", scope: !20, file: !20, type: !4, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!28 = !DILocalVariable(name: "$admins_12", scope: !27, file: !2, line: 25, type: !29)
+!29 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Map (ByStr20) (Bool)", baseType: !30, size: 8, align: 8, dwarfAddressSpace: 0)
+!30 = !DIBasicType(name: "Map (ByStr20) (Bool)", size: 8)
+!31 = !DILocation(line: 25, column: 7, scope: !27)
+!32 = !DILocalVariable(name: "empty", scope: !27, file: !2, line: 26, type: !29)
+!33 = !DILocation(line: 26, column: 7, scope: !27)
+!34 = !DILocation(line: 26, column: 15, scope: !27)
+!35 = !DILocation(line: 27, column: 5, scope: !27)
+!36 = distinct !DISubprogram(name: "setAdmin", linkageName: "setAdmin", scope: !2, file: !2, line: 29, type: !4, scopeLine: 29, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!37 = !DILocalVariable(name: "maybeAdmin", scope: !36, file: !2, line: 30, type: !38)
+!38 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Option (Bool)", baseType: !39, size: 8, align: 8, dwarfAddressSpace: 0)
+!39 = !DIBasicType(name: "Option (Bool)", size: 8)
+!40 = !DILocation(line: 30, column: 3, scope: !36)
+!41 = !DILocalVariable(name: "isSenderAdmin", scope: !36, file: !2, line: 32, type: !42)
+!42 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Bool", baseType: !43, size: 8, align: 8, dwarfAddressSpace: 0)
+!43 = !DIBasicType(name: "Bool", size: 8)
+!44 = !DILocation(line: 32, column: 3, scope: !36)
+!45 = !DILocation(line: 33, column: 5, scope: !36)
+!46 = !DILocation(line: 34, column: 24, scope: !47)
+!47 = distinct !DILexicalBlock(scope: !48, file: !2, line: 34, column: 7)
+!48 = distinct !DILexicalBlock(scope: !36, file: !2, line: 33, column: 5)
+!49 = !DILocation(line: 35, column: 15, scope: !50)
+!50 = distinct !DILexicalBlock(scope: !48, file: !2, line: 35, column: 7)
+!51 = !DILocation(line: 38, column: 3, scope: !36)
+!52 = !DILocation(line: 40, column: 5, scope: !53)
+!53 = distinct !DILexicalBlock(scope: !54, file: !2, line: 39, column: 5)
+!54 = distinct !DILexicalBlock(scope: !36, file: !2, line: 38, column: 3)
+!55 = !DILocalVariable(name: "e", scope: !53, file: !2, line: 42, type: !9)
+!56 = !DILocation(line: 42, column: 5, scope: !53)
+!57 = !DILocation(line: 42, column: 9, scope: !53)
+!58 = !DILocalVariable(name: "$ud-proxy.eAdminSet_4", scope: !53, file: !2, line: 42, type: !9)
+!59 = !DILocation(line: 43, column: 5, scope: !53)
+!60 = !DILocation(line: 45, column: 5, scope: !61)
+!61 = distinct !DILexicalBlock(scope: !54, file: !2, line: 44, column: 5)
+!62 = distinct !DISubprogram(name: "setAdmin", linkageName: "setAdmin", scope: !2, file: !2, line: 29, type: !4, scopeLine: 29, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!63 = !DILocation(line: 29, column: 12, scope: !62)
+!64 = distinct !DISubprogram(name: "bestow", linkageName: "bestow", scope: !2, file: !2, line: 49, type: !4, scopeLine: 49, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!65 = !DILocalVariable(name: "maybeAdmin", scope: !64, file: !2, line: 50, type: !38)
+!66 = !DILocation(line: 50, column: 3, scope: !64)
+!67 = !DILocalVariable(name: "isSenderAdmin", scope: !64, file: !2, line: 52, type: !42)
+!68 = !DILocation(line: 52, column: 3, scope: !64)
+!69 = !DILocation(line: 53, column: 5, scope: !64)
+!70 = !DILocation(line: 54, column: 23, scope: !71)
+!71 = distinct !DILexicalBlock(scope: !72, file: !2, line: 54, column: 7)
+!72 = distinct !DILexicalBlock(scope: !64, file: !2, line: 53, column: 5)
+!73 = !DILocation(line: 55, column: 15, scope: !74)
+!74 = distinct !DILexicalBlock(scope: !72, file: !2, line: 55, column: 7)
+!75 = !DILocation(line: 58, column: 3, scope: !64)
+!76 = !DILocalVariable(name: "msgs", scope: !77, file: !2, line: 60, type: !16)
+!77 = distinct !DILexicalBlock(scope: !78, file: !2, line: 59, column: 5)
+!78 = distinct !DILexicalBlock(scope: !64, file: !2, line: 58, column: 3)
+!79 = !DILocation(line: 60, column: 5, scope: !77)
+!80 = !DILocalVariable(name: "m", scope: !77, file: !2, line: 61, type: !81)
+!81 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Message", baseType: !82, size: 8, align: 8, dwarfAddressSpace: 0)
+!82 = !DIBasicType(name: "Message", size: 8)
+!83 = !DILocation(line: 61, column: 11, scope: !77)
+!84 = !DILocation(line: 61, column: 15, scope: !77)
+!85 = !DILocalVariable(name: "$ud-proxy.oneMsg_5", scope: !77, file: !2, line: 63, type: !16)
+!86 = !DILocation(line: 63, column: 7, scope: !77)
+!87 = !DILocation(line: 64, column: 5, scope: !77)
+!88 = !DILocation(line: 66, column: 5, scope: !89)
+!89 = distinct !DILexicalBlock(scope: !78, file: !2, line: 65, column: 5)
+!90 = distinct !DISubprogram(name: "bestow", linkageName: "bestow", scope: !2, file: !2, line: 49, type: !4, scopeLine: 49, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!91 = !DILocation(line: 49, column: 12, scope: !90)

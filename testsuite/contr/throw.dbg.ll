@@ -4,7 +4,7 @@
 ; ModuleID = 'Throw'
 source_filename = "Throw"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_2" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -82,7 +82,7 @@ target triple = "x86_64-pc-linux-gnu"
 @_transition_parameters = constant [2 x %"$TransDescr_115"] [%"$TransDescr_115" { %ParamDescrString { i8* getelementptr inbounds ([10 x i8], [10 x i8]* @"$tname_ThrowEmpty_123", i32 0, i32 0), i32 10 }, i32 3, %"$ParamDescr_114"* getelementptr inbounds ([3 x %"$ParamDescr_114"], [3 x %"$ParamDescr_114"]* @"$tparams_ThrowEmpty_122", i32 0, i32 0) }, %"$TransDescr_115" { %ParamDescrString { i8* getelementptr inbounds ([8 x i8], [8 x i8]* @"$tname_ThrowObj_128", i32 0, i32 0), i32 8 }, i32 3, %"$ParamDescr_114"* getelementptr inbounds ([3 x %"$ParamDescr_114"], [3 x %"$ParamDescr_114"]* @"$tparams_ThrowObj_127", i32 0, i32 0) }]
 @_transition_parameters_length = constant i32 2
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() !dbg !3 {
 entry:
   %"$gasrem_43" = load i64, i64* @_gasrem, align 8
   %"$gascmp_44" = icmp ugt i64 5, %"$gasrem_43"
@@ -180,6 +180,7 @@ entry:
   %"$consume_81" = sub i64 %"$gasrem_77", 1
   store i64 %"$consume_81", i64* @_gasrem, align 8
   %t = alloca i8*, align 8
+  call void @llvm.dbg.declare(metadata i8** %t, metadata !16, metadata !DIExpression()), !dbg !19
   %"$gasrem_82" = load i64, i64* @_gasrem, align 8
   %"$gascmp_83" = icmp ugt i64 1, %"$gasrem_82"
   br i1 %"$gascmp_83", label %"$out_of_gas_84", label %"$have_gas_85"
@@ -205,7 +206,7 @@ entry:
   %"$msgobj_v_94" = getelementptr i8, i8* %"$msgobj_87", i32 25
   %"$msgobj_v_95" = bitcast i8* %"$msgobj_v_94" to %String*
   store %String { i8* getelementptr inbounds ([3 x i8], [3 x i8]* @"$stringlit_93", i32 0, i32 0), i32 3 }, %String* %"$msgobj_v_95", align 8
-  store i8* %"$msgobj_87", i8** %t, align 8, !dbg !16
+  store i8* %"$msgobj_87", i8** %t, align 8, !dbg !20
   %"$t_97" = load i8*, i8** %t, align 8
   %"$_literal_cost_call_99" = call i64 @_literal_cost(%_TyDescrTy_Typ* @"$TyDescr_Exception_28", i8* %"$t_97")
   %"$gasrem_100" = load i64, i64* @_gasrem, align 8
@@ -221,15 +222,18 @@ entry:
   store i64 %"$consume_104", i64* @_gasrem, align 8
   %"$execptr_load_105" = load i8*, i8** @_execptr, align 8
   %"$t_106" = load i8*, i8** %t, align 8
-  call void @_throw(i8* %"$execptr_load_105", %_TyDescrTy_Typ* @"$TyDescr_Exception_28", i8* %"$t_106"), !dbg !17
+  call void @_throw(i8* %"$execptr_load_105", %_TyDescrTy_Typ* @"$TyDescr_Exception_28", i8* %"$t_106"), !dbg !21
   ret void
 }
+
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
 declare i8* @_salloc(i8*, i64)
 
 declare i64 @_literal_cost(%_TyDescrTy_Typ*, i8*)
 
-define void @ThrowObj(i8* %0) !dbg !18 {
+define void @ThrowObj(i8* %0) !dbg !22 {
 entry:
   %"$_amount_108" = getelementptr i8, i8* %0, i32 0
   %"$_amount_109" = bitcast i8* %"$_amount_108" to %Uint128*
@@ -238,30 +242,36 @@ entry:
   %"$_origin_111" = bitcast i8* %"$_origin_110" to [20 x i8]*
   %"$_sender_112" = getelementptr i8, i8* %0, i32 36
   %"$_sender_113" = bitcast i8* %"$_sender_112" to [20 x i8]*
-  call void @"$ThrowObj_74"(%Uint128 %_amount, [20 x i8]* %"$_origin_111", [20 x i8]* %"$_sender_113"), !dbg !19
+  call void @"$ThrowObj_74"(%Uint128 %_amount, [20 x i8]* %"$_origin_111", [20 x i8]* %"$_sender_113"), !dbg !23
   ret void
 }
+
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
 
 !llvm.module.flags = !{!0}
 !llvm.dbg.cu = !{!1}
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false)
 !2 = !DIFile(filename: "throw.scilla", directory: "codegen/contr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = !DILocation(line: 0, scope: !4)
-!10 = distinct !DISubprogram(name: "_deploy_ops", linkageName: "_deploy_ops", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!11 = distinct !DISubprogram(name: "ThrowEmpty", linkageName: "ThrowEmpty", scope: !2, file: !2, line: 13, type: !6, scopeLine: 13, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!3 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !4, file: !4, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!4 = !DIFile(filename: ".", directory: ".")
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = !{}
+!9 = !DILocation(line: 0, scope: !3)
+!10 = distinct !DISubprogram(name: "_deploy_ops", linkageName: "_deploy_ops", scope: !4, file: !4, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!11 = distinct !DISubprogram(name: "ThrowEmpty", linkageName: "ThrowEmpty", scope: !2, file: !2, line: 13, type: !5, scopeLine: 13, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
 !12 = !DILocation(line: 14, column: 3, scope: !11)
-!13 = distinct !DISubprogram(name: "ThrowEmpty", linkageName: "ThrowEmpty", scope: !2, file: !2, line: 13, type: !6, scopeLine: 13, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
+!13 = distinct !DISubprogram(name: "ThrowEmpty", linkageName: "ThrowEmpty", scope: !2, file: !2, line: 13, type: !5, scopeLine: 13, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
 !14 = !DILocation(line: 13, column: 12, scope: !13)
-!15 = distinct !DISubprogram(name: "ThrowObj", linkageName: "ThrowObj", scope: !2, file: !2, line: 17, type: !6, scopeLine: 17, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!16 = !DILocation(line: 18, column: 7, scope: !15)
-!17 = !DILocation(line: 19, column: 3, scope: !15)
-!18 = distinct !DISubprogram(name: "ThrowObj", linkageName: "ThrowObj", scope: !2, file: !2, line: 17, type: !6, scopeLine: 17, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!19 = !DILocation(line: 17, column: 12, scope: !18)
+!15 = distinct !DISubprogram(name: "ThrowObj", linkageName: "ThrowObj", scope: !2, file: !2, line: 17, type: !5, scopeLine: 17, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!16 = !DILocalVariable(name: "t", scope: !15, file: !2, line: 18, type: !17)
+!17 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Exception", baseType: !18, size: 8, align: 8, dwarfAddressSpace: 0)
+!18 = !DIBasicType(name: "Exception", size: 8)
+!19 = !DILocation(line: 18, column: 3, scope: !15)
+!20 = !DILocation(line: 18, column: 7, scope: !15)
+!21 = !DILocation(line: 19, column: 3, scope: !15)
+!22 = distinct !DISubprogram(name: "ThrowObj", linkageName: "ThrowObj", scope: !2, file: !2, line: 17, type: !5, scopeLine: 17, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!23 = !DILocation(line: 17, column: 12, scope: !22)

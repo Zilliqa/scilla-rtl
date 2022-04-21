@@ -34,7 +34,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_7" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -1093,7 +1093,7 @@ entry:
   ret %"TName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"* %"$$expr_6_564"
 }
 
-; Function Attrs: nofree nosync nounwind readnone speculatable willreturn
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
 declare double @llvm.log.f64(double) #0
 
 declare %Uint32 @_isqrt_Uint32(%Uint32)
@@ -1102,7 +1102,7 @@ declare %Uint64 @_isqrt_Uint64(%Uint64)
 
 declare %Uint128 @_isqrt_Uint128(%Uint128)
 
-; Function Attrs: nofree nosync nounwind readnone speculatable willreturn
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
 declare double @llvm.pow.f64(double, double) #0
 
 declare %Uint256* @_isqrt_Uint256(i8*, %Uint256*)
@@ -1126,4 +1126,4 @@ entry:
   ret void
 }
 
-attributes #0 = { nofree nosync nounwind readnone speculatable willreturn }
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
