@@ -66,9 +66,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %"$TyDescrTy_PrimTyp_77" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
 %Int32 = type { i32 }
-%"$ParamDescr_860" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_864" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_861" = type { %ParamDescrString, i32, %"$ParamDescr_860"* }
+%"$TransDescr_865" = type { %ParamDescrString, i32, %"$ParamDescr_864"* }
 %"$$fundef_75_env_114" = type { %Uint32 }
 %Uint32 = type { i32 }
 %"$$fundef_73_env_115" = type {}
@@ -128,776 +128,788 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$_gas_charge_accPairUtils_4" = global %Int32 zeroinitializer
 @_tydescr_table = constant [15 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_101", %_TyDescrTy_Typ* @"$TyDescr_Int64_83", %_TyDescrTy_Typ* @"$TyDescr_Uint256_93", %_TyDescrTy_Typ* @"$TyDescr_Uint32_81", %_TyDescrTy_Typ* @"$TyDescr_Uint64_85", %_TyDescrTy_Typ* @"$TyDescr_Bnum_97", %_TyDescrTy_Typ* @"$TyDescr_Uint128_89", %_TyDescrTy_Typ* @"$TyDescr_Exception_103", %_TyDescrTy_Typ* @"$TyDescr_String_95", %_TyDescrTy_Typ* @"$TyDescr_Int256_91", %_TyDescrTy_Typ* @"$TyDescr_Int128_87", %_TyDescrTy_Typ* @"$TyDescr_Bystr_107", %_TyDescrTy_Typ* @"$TyDescr_ReplicateContr_105", %_TyDescrTy_Typ* @"$TyDescr_Message_99", %_TyDescrTy_Typ* @"$TyDescr_Int32_79"]
 @_tydescr_table_length = constant i32 15
-@_contract_parameters = constant [0 x %"$ParamDescr_860"] zeroinitializer
+@_contract_parameters = constant [0 x %"$ParamDescr_864"] zeroinitializer
 @_contract_parameters_length = constant i32 0
-@_transition_parameters = constant [0 x %"$TransDescr_861"] zeroinitializer
+@_transition_parameters = constant [0 x %"$TransDescr_865"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
 define internal %Uint32 @"$fundef_75"(%"$$fundef_75_env_114"* %0, %Uint32 %1) !dbg !3 {
 entry:
-  %"$$fundef_75_env_one_504" = getelementptr inbounds %"$$fundef_75_env_114", %"$$fundef_75_env_114"* %0, i32 0, i32 0
-  %"$one_envload_505" = load %Uint32, %Uint32* %"$$fundef_75_env_one_504", align 4
+  %"$x_517" = alloca %Uint32, align 8
+  store %Uint32 %1, %Uint32* %"$x_517", align 4
+  call void @llvm.dbg.declare(metadata %Uint32* %"$x_517", metadata !8, metadata !DIExpression()), !dbg !10
+  %"$$fundef_75_env_one_507" = getelementptr inbounds %"$$fundef_75_env_114", %"$$fundef_75_env_114"* %0, i32 0, i32 0
+  %"$one_envload_508" = load %Uint32, %Uint32* %"$$fundef_75_env_one_507", align 4
   %one = alloca %Uint32, align 8
-  store %Uint32 %"$one_envload_505", %Uint32* %one, align 4
+  store %Uint32 %"$one_envload_508", %Uint32* %one, align 4
   %"$retval_76" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$retval_76", metadata !8, metadata !DIExpression()), !dbg !10
-  %"$gasrem_506" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_507" = icmp ugt i64 4, %"$gasrem_506"
-  br i1 %"$gascmp_507", label %"$out_of_gas_508", label %"$have_gas_509"
+  call void @llvm.dbg.declare(metadata %Uint32* %"$retval_76", metadata !11, metadata !DIExpression()), !dbg !12
+  %"$gasrem_509" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_510" = icmp ugt i64 4, %"$gasrem_509"
+  br i1 %"$gascmp_510", label %"$out_of_gas_511", label %"$have_gas_512"
 
-"$out_of_gas_508":                                ; preds = %entry
+"$out_of_gas_511":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_509"
+  br label %"$have_gas_512"
 
-"$have_gas_509":                                  ; preds = %"$out_of_gas_508", %entry
-  %"$consume_510" = sub i64 %"$gasrem_506", 4
-  store i64 %"$consume_510", i64* @_gasrem, align 8
-  %"$one_511" = load %Uint32, %Uint32* %one, align 4
-  %"$add_call_512" = call %Uint32 @_add_Uint32(%Uint32 %"$one_511", %Uint32 %1), !dbg !10
-  store %Uint32 %"$add_call_512", %Uint32* %"$retval_76", align 4, !dbg !10
-  %"$$retval_76_513" = load %Uint32, %Uint32* %"$retval_76", align 4
-  ret %Uint32 %"$$retval_76_513"
+"$have_gas_512":                                  ; preds = %"$out_of_gas_511", %entry
+  %"$consume_513" = sub i64 %"$gasrem_509", 4
+  store i64 %"$consume_513", i64* @_gasrem, align 8
+  %"$one_514" = load %Uint32, %Uint32* %one, align 4
+  %"$add_call_515" = call %Uint32 @_add_Uint32(%Uint32 %"$one_514", %Uint32 %1), !dbg !12
+  store %Uint32 %"$add_call_515", %Uint32* %"$retval_76", align 4, !dbg !12
+  %"$$retval_76_516" = load %Uint32, %Uint32* %"$retval_76", align 4
+  ret %Uint32 %"$$retval_76_516"
 }
 
-define internal %Uint32 @"$fundef_73"(%"$$fundef_73_env_115"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !11 {
+define internal %Uint32 @"$fundef_73"(%"$$fundef_73_env_115"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !13 {
 entry:
   %"$retval_74" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$retval_74", metadata !12, metadata !DIExpression()), !dbg !13
-  %"$gasrem_452" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_453" = icmp ugt i64 1, %"$gasrem_452"
-  br i1 %"$gascmp_453", label %"$out_of_gas_454", label %"$have_gas_455"
+  call void @llvm.dbg.declare(metadata %Uint32* %"$retval_74", metadata !14, metadata !DIExpression()), !dbg !15
+  %"$gasrem_455" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_456" = icmp ugt i64 1, %"$gasrem_455"
+  br i1 %"$gascmp_456", label %"$out_of_gas_457", label %"$have_gas_458"
 
-"$out_of_gas_454":                                ; preds = %entry
+"$out_of_gas_457":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_455"
+  br label %"$have_gas_458"
 
-"$have_gas_455":                                  ; preds = %"$out_of_gas_454", %entry
-  %"$consume_456" = sub i64 %"$gasrem_452", 1
-  store i64 %"$consume_456", i64* @_gasrem, align 8
+"$have_gas_458":                                  ; preds = %"$out_of_gas_457", %entry
+  %"$consume_459" = sub i64 %"$gasrem_455", 1
+  store i64 %"$consume_459", i64* @_gasrem, align 8
   %zero = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %zero, metadata !14, metadata !DIExpression()), !dbg !15
-  %"$gasrem_457" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_458" = icmp ugt i64 1, %"$gasrem_457"
-  br i1 %"$gascmp_458", label %"$out_of_gas_459", label %"$have_gas_460"
+  call void @llvm.dbg.declare(metadata %Uint32* %zero, metadata !16, metadata !DIExpression()), !dbg !17
+  %"$gasrem_460" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_461" = icmp ugt i64 1, %"$gasrem_460"
+  br i1 %"$gascmp_461", label %"$out_of_gas_462", label %"$have_gas_463"
 
-"$out_of_gas_459":                                ; preds = %"$have_gas_455"
+"$out_of_gas_462":                                ; preds = %"$have_gas_458"
   call void @_out_of_gas()
-  br label %"$have_gas_460"
+  br label %"$have_gas_463"
 
-"$have_gas_460":                                  ; preds = %"$out_of_gas_459", %"$have_gas_455"
-  %"$consume_461" = sub i64 %"$gasrem_457", 1
-  store i64 %"$consume_461", i64* @_gasrem, align 8
-  store %Uint32 zeroinitializer, %Uint32* %zero, align 4, !dbg !16
-  %"$gasrem_462" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_463" = icmp ugt i64 1, %"$gasrem_462"
-  br i1 %"$gascmp_463", label %"$out_of_gas_464", label %"$have_gas_465"
+"$have_gas_463":                                  ; preds = %"$out_of_gas_462", %"$have_gas_458"
+  %"$consume_464" = sub i64 %"$gasrem_460", 1
+  store i64 %"$consume_464", i64* @_gasrem, align 8
+  store %Uint32 zeroinitializer, %Uint32* %zero, align 4, !dbg !18
+  %"$gasrem_465" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_466" = icmp ugt i64 1, %"$gasrem_465"
+  br i1 %"$gascmp_466", label %"$out_of_gas_467", label %"$have_gas_468"
 
-"$out_of_gas_464":                                ; preds = %"$have_gas_460"
+"$out_of_gas_467":                                ; preds = %"$have_gas_463"
   call void @_out_of_gas()
-  br label %"$have_gas_465"
+  br label %"$have_gas_468"
 
-"$have_gas_465":                                  ; preds = %"$out_of_gas_464", %"$have_gas_460"
-  %"$consume_466" = sub i64 %"$gasrem_462", 1
-  store i64 %"$consume_466", i64* @_gasrem, align 8
+"$have_gas_468":                                  ; preds = %"$out_of_gas_467", %"$have_gas_463"
+  %"$consume_469" = sub i64 %"$gasrem_465", 1
+  store i64 %"$consume_469", i64* @_gasrem, align 8
   %one = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %one, metadata !17, metadata !DIExpression()), !dbg !18
-  %"$gasrem_467" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_468" = icmp ugt i64 1, %"$gasrem_467"
-  br i1 %"$gascmp_468", label %"$out_of_gas_469", label %"$have_gas_470"
+  call void @llvm.dbg.declare(metadata %Uint32* %one, metadata !19, metadata !DIExpression()), !dbg !20
+  %"$gasrem_470" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_471" = icmp ugt i64 1, %"$gasrem_470"
+  br i1 %"$gascmp_471", label %"$out_of_gas_472", label %"$have_gas_473"
 
-"$out_of_gas_469":                                ; preds = %"$have_gas_465"
+"$out_of_gas_472":                                ; preds = %"$have_gas_468"
   call void @_out_of_gas()
-  br label %"$have_gas_470"
+  br label %"$have_gas_473"
 
-"$have_gas_470":                                  ; preds = %"$out_of_gas_469", %"$have_gas_465"
-  %"$consume_471" = sub i64 %"$gasrem_467", 1
-  store i64 %"$consume_471", i64* @_gasrem, align 8
-  store %Uint32 { i32 1 }, %Uint32* %one, align 4, !dbg !19
-  %"$gasrem_472" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_473" = icmp ugt i64 1, %"$gasrem_472"
-  br i1 %"$gascmp_473", label %"$out_of_gas_474", label %"$have_gas_475"
+"$have_gas_473":                                  ; preds = %"$out_of_gas_472", %"$have_gas_468"
+  %"$consume_474" = sub i64 %"$gasrem_470", 1
+  store i64 %"$consume_474", i64* @_gasrem, align 8
+  store %Uint32 { i32 1 }, %Uint32* %one, align 4, !dbg !21
+  %"$gasrem_475" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_476" = icmp ugt i64 1, %"$gasrem_475"
+  br i1 %"$gascmp_476", label %"$out_of_gas_477", label %"$have_gas_478"
 
-"$out_of_gas_474":                                ; preds = %"$have_gas_470"
+"$out_of_gas_477":                                ; preds = %"$have_gas_473"
   call void @_out_of_gas()
-  br label %"$have_gas_475"
+  br label %"$have_gas_478"
 
-"$have_gas_475":                                  ; preds = %"$out_of_gas_474", %"$have_gas_470"
-  %"$consume_476" = sub i64 %"$gasrem_472", 1
-  store i64 %"$consume_476", i64* @_gasrem, align 8
+"$have_gas_478":                                  ; preds = %"$out_of_gas_477", %"$have_gas_473"
+  %"$consume_479" = sub i64 %"$gasrem_475", 1
+  store i64 %"$consume_479", i64* @_gasrem, align 8
   %add1 = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$gasrem_477" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_478" = icmp ugt i64 1, %"$gasrem_477"
-  br i1 %"$gascmp_478", label %"$out_of_gas_479", label %"$have_gas_480"
+  %"$gasrem_480" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_481" = icmp ugt i64 1, %"$gasrem_480"
+  br i1 %"$gascmp_481", label %"$out_of_gas_482", label %"$have_gas_483"
 
-"$out_of_gas_479":                                ; preds = %"$have_gas_475"
+"$out_of_gas_482":                                ; preds = %"$have_gas_478"
   call void @_out_of_gas()
-  br label %"$have_gas_480"
+  br label %"$have_gas_483"
 
-"$have_gas_480":                                  ; preds = %"$out_of_gas_479", %"$have_gas_475"
-  %"$consume_481" = sub i64 %"$gasrem_477", 1
-  store i64 %"$consume_481", i64* @_gasrem, align 8
-  %"$$fundef_75_envp_482_load" = load i8*, i8** @_execptr, align 8
-  %"$$fundef_75_envp_482_salloc" = call i8* @_salloc(i8* %"$$fundef_75_envp_482_load", i64 4)
-  %"$$fundef_75_envp_482" = bitcast i8* %"$$fundef_75_envp_482_salloc" to %"$$fundef_75_env_114"*
-  %"$$fundef_75_env_voidp_484" = bitcast %"$$fundef_75_env_114"* %"$$fundef_75_envp_482" to i8*
-  %"$$fundef_75_cloval_485" = insertvalue { %Uint32 (i8*, %Uint32)*, i8* } { %Uint32 (i8*, %Uint32)* bitcast (%Uint32 (%"$$fundef_75_env_114"*, %Uint32)* @"$fundef_75" to %Uint32 (i8*, %Uint32)*), i8* undef }, i8* %"$$fundef_75_env_voidp_484", 1
-  %"$$fundef_75_env_one_486" = getelementptr inbounds %"$$fundef_75_env_114", %"$$fundef_75_env_114"* %"$$fundef_75_envp_482", i32 0, i32 0
-  %"$one_487" = load %Uint32, %Uint32* %one, align 4
-  store %Uint32 %"$one_487", %Uint32* %"$$fundef_75_env_one_486", align 4
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$fundef_75_cloval_485", { %Uint32 (i8*, %Uint32)*, i8* }* %add1, align 8, !dbg !20
-  %"$gasrem_488" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_489" = icmp ugt i64 1, %"$gasrem_488"
-  br i1 %"$gascmp_489", label %"$out_of_gas_490", label %"$have_gas_491"
+"$have_gas_483":                                  ; preds = %"$out_of_gas_482", %"$have_gas_478"
+  %"$consume_484" = sub i64 %"$gasrem_480", 1
+  store i64 %"$consume_484", i64* @_gasrem, align 8
+  %"$$fundef_75_envp_485_load" = load i8*, i8** @_execptr, align 8
+  %"$$fundef_75_envp_485_salloc" = call i8* @_salloc(i8* %"$$fundef_75_envp_485_load", i64 4)
+  %"$$fundef_75_envp_485" = bitcast i8* %"$$fundef_75_envp_485_salloc" to %"$$fundef_75_env_114"*
+  %"$$fundef_75_env_voidp_487" = bitcast %"$$fundef_75_env_114"* %"$$fundef_75_envp_485" to i8*
+  %"$$fundef_75_cloval_488" = insertvalue { %Uint32 (i8*, %Uint32)*, i8* } { %Uint32 (i8*, %Uint32)* bitcast (%Uint32 (%"$$fundef_75_env_114"*, %Uint32)* @"$fundef_75" to %Uint32 (i8*, %Uint32)*), i8* undef }, i8* %"$$fundef_75_env_voidp_487", 1
+  %"$$fundef_75_env_one_489" = getelementptr inbounds %"$$fundef_75_env_114", %"$$fundef_75_env_114"* %"$$fundef_75_envp_485", i32 0, i32 0
+  %"$one_490" = load %Uint32, %Uint32* %one, align 4
+  store %Uint32 %"$one_490", %Uint32* %"$$fundef_75_env_one_489", align 4
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$fundef_75_cloval_488", { %Uint32 (i8*, %Uint32)*, i8* }* %add1, align 8, !dbg !22
+  %"$gasrem_491" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_492" = icmp ugt i64 1, %"$gasrem_491"
+  br i1 %"$gascmp_492", label %"$out_of_gas_493", label %"$have_gas_494"
 
-"$out_of_gas_490":                                ; preds = %"$have_gas_480"
+"$out_of_gas_493":                                ; preds = %"$have_gas_483"
   call void @_out_of_gas()
-  br label %"$have_gas_491"
+  br label %"$have_gas_494"
 
-"$have_gas_491":                                  ; preds = %"$out_of_gas_490", %"$have_gas_480"
-  %"$consume_492" = sub i64 %"$gasrem_488", 1
-  store i64 %"$consume_492", i64* @_gasrem, align 8
+"$have_gas_494":                                  ; preds = %"$out_of_gas_493", %"$have_gas_483"
+  %"$consume_495" = sub i64 %"$gasrem_491", 1
+  store i64 %"$consume_495", i64* @_gasrem, align 8
   %"$c_21" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$c_fptr_493" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, 0
-  %"$c_envptr_494" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, 1
-  %"$add1_495" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %add1, align 8
-  %"$c_call_496" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$c_fptr_493"(i8* %"$c_envptr_494", { %Uint32 (i8*, %Uint32)*, i8* } %"$add1_495"), !dbg !21
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$c_call_496", { %Uint32 (i8*, %Uint32)*, i8* }* %"$c_21", align 8, !dbg !21
+  %"$c_fptr_496" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, 0
+  %"$c_envptr_497" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, 1
+  %"$add1_498" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %add1, align 8
+  %"$c_call_499" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$c_fptr_496"(i8* %"$c_envptr_497", { %Uint32 (i8*, %Uint32)*, i8* } %"$add1_498"), !dbg !23
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$c_call_499", { %Uint32 (i8*, %Uint32)*, i8* }* %"$c_21", align 8, !dbg !23
   %"$c_22" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$c_22", metadata !22, metadata !DIExpression()), !dbg !21
-  %"$$c_21_497" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$c_21", align 8
-  %"$$c_21_fptr_498" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$$c_21_497", 0
-  %"$$c_21_envptr_499" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$$c_21_497", 1
-  %"$zero_500" = load %Uint32, %Uint32* %zero, align 4
-  %"$$c_21_call_501" = call %Uint32 %"$$c_21_fptr_498"(i8* %"$$c_21_envptr_499", %Uint32 %"$zero_500"), !dbg !21
-  store %Uint32 %"$$c_21_call_501", %Uint32* %"$c_22", align 4, !dbg !21
-  %"$$c_22_502" = load %Uint32, %Uint32* %"$c_22", align 4
-  store %Uint32 %"$$c_22_502", %Uint32* %"$retval_74", align 4, !dbg !21
-  %"$$retval_74_503" = load %Uint32, %Uint32* %"$retval_74", align 4
-  ret %Uint32 %"$$retval_74_503"
+  call void @llvm.dbg.declare(metadata %Uint32* %"$c_22", metadata !24, metadata !DIExpression()), !dbg !23
+  %"$$c_21_500" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$c_21", align 8
+  %"$$c_21_fptr_501" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$$c_21_500", 0
+  %"$$c_21_envptr_502" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$$c_21_500", 1
+  %"$zero_503" = load %Uint32, %Uint32* %zero, align 4
+  %"$$c_21_call_504" = call %Uint32 %"$$c_21_fptr_501"(i8* %"$$c_21_envptr_502", %Uint32 %"$zero_503"), !dbg !23
+  store %Uint32 %"$$c_21_call_504", %Uint32* %"$c_22", align 4, !dbg !23
+  %"$$c_22_505" = load %Uint32, %Uint32* %"$c_22", align 4
+  store %Uint32 %"$$c_22_505", %Uint32* %"$retval_74", align 4, !dbg !23
+  %"$$retval_74_506" = load %Uint32, %Uint32* %"$retval_74", align 4
+  ret %Uint32 %"$$retval_74_506"
 }
 
-define internal { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } @"$fundef_71"(%"$$fundef_71_env_116"* %0, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %1) !dbg !23 {
+define internal { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } @"$fundef_71"(%"$$fundef_71_env_116"* %0, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %1) !dbg !25 {
 entry:
-  %"$$fundef_71_env_m_439" = getelementptr inbounds %"$$fundef_71_env_116", %"$$fundef_71_env_116"* %0, i32 0, i32 0
-  %"$m_envload_440" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_71_env_m_439", align 8
+  %"$$fundef_71_env_m_442" = getelementptr inbounds %"$$fundef_71_env_116", %"$$fundef_71_env_116"* %0, i32 0, i32 0
+  %"$m_envload_443" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_71_env_m_442", align 8
   %m = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_envload_440", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_envload_443", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
   %"$retval_72" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_441" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_442" = icmp ugt i64 1, %"$gasrem_441"
-  br i1 %"$gascmp_442", label %"$out_of_gas_443", label %"$have_gas_444"
+  %"$gasrem_444" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_445" = icmp ugt i64 1, %"$gasrem_444"
+  br i1 %"$gascmp_445", label %"$out_of_gas_446", label %"$have_gas_447"
 
-"$out_of_gas_443":                                ; preds = %entry
+"$out_of_gas_446":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_444"
+  br label %"$have_gas_447"
 
-"$have_gas_444":                                  ; preds = %"$out_of_gas_443", %entry
-  %"$consume_445" = sub i64 %"$gasrem_441", 1
-  store i64 %"$consume_445", i64* @_gasrem, align 8
+"$have_gas_447":                                  ; preds = %"$out_of_gas_446", %entry
+  %"$consume_448" = sub i64 %"$gasrem_444", 1
+  store i64 %"$consume_448", i64* @_gasrem, align 8
   %"$n_20" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$n_fptr_446" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %1, 0
-  %"$n_envptr_447" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %1, 1
-  %"$m_448" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
-  %"$n_call_449" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_fptr_446"(i8* %"$n_envptr_447", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_448"), !dbg !24
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_call_449", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$n_20", align 8, !dbg !24
-  %"$$n_20_450" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$n_20", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$n_20_450", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_72", align 8, !dbg !24
-  %"$$retval_72_451" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_72", align 8
-  ret { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$retval_72_451"
+  %"$n_fptr_449" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %1, 0
+  %"$n_envptr_450" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %1, 1
+  %"$m_451" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
+  %"$n_call_452" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_fptr_449"(i8* %"$n_envptr_450", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_451"), !dbg !26
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_call_452", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$n_20", align 8, !dbg !26
+  %"$$n_20_453" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$n_20", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$n_20_453", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_72", align 8, !dbg !26
+  %"$$retval_72_454" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_72", align 8
+  ret { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$retval_72_454"
 }
 
-define internal { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } @"$fundef_69"(%"$$fundef_69_env_117"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !25 {
+define internal { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } @"$fundef_69"(%"$$fundef_69_env_117"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !27 {
 entry:
   %"$retval_70" = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }, align 8
-  %"$gasrem_428" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_429" = icmp ugt i64 1, %"$gasrem_428"
-  br i1 %"$gascmp_429", label %"$out_of_gas_430", label %"$have_gas_431"
+  %"$gasrem_431" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_432" = icmp ugt i64 1, %"$gasrem_431"
+  br i1 %"$gascmp_432", label %"$out_of_gas_433", label %"$have_gas_434"
 
-"$out_of_gas_430":                                ; preds = %entry
+"$out_of_gas_433":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_431"
+  br label %"$have_gas_434"
 
-"$have_gas_431":                                  ; preds = %"$out_of_gas_430", %entry
-  %"$consume_432" = sub i64 %"$gasrem_428", 1
-  store i64 %"$consume_432", i64* @_gasrem, align 8
-  %"$$fundef_71_envp_433_load" = load i8*, i8** @_execptr, align 8
-  %"$$fundef_71_envp_433_salloc" = call i8* @_salloc(i8* %"$$fundef_71_envp_433_load", i64 16)
-  %"$$fundef_71_envp_433" = bitcast i8* %"$$fundef_71_envp_433_salloc" to %"$$fundef_71_env_116"*
-  %"$$fundef_71_env_voidp_435" = bitcast %"$$fundef_71_env_116"* %"$$fundef_71_envp_433" to i8*
-  %"$$fundef_71_cloval_436" = insertvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })* bitcast ({ { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (%"$$fundef_71_env_116"*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })* @"$fundef_71" to { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*), i8* undef }, i8* %"$$fundef_71_env_voidp_435", 1
-  %"$$fundef_71_env_m_437" = getelementptr inbounds %"$$fundef_71_env_116", %"$$fundef_71_env_116"* %"$$fundef_71_envp_433", i32 0, i32 0
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_71_env_m_437", align 8
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } %"$$fundef_71_cloval_436", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }* %"$retval_70", align 8, !dbg !26
-  %"$$retval_70_438" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }* %"$retval_70", align 8
-  ret { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } %"$$retval_70_438"
+"$have_gas_434":                                  ; preds = %"$out_of_gas_433", %entry
+  %"$consume_435" = sub i64 %"$gasrem_431", 1
+  store i64 %"$consume_435", i64* @_gasrem, align 8
+  %"$$fundef_71_envp_436_load" = load i8*, i8** @_execptr, align 8
+  %"$$fundef_71_envp_436_salloc" = call i8* @_salloc(i8* %"$$fundef_71_envp_436_load", i64 16)
+  %"$$fundef_71_envp_436" = bitcast i8* %"$$fundef_71_envp_436_salloc" to %"$$fundef_71_env_116"*
+  %"$$fundef_71_env_voidp_438" = bitcast %"$$fundef_71_env_116"* %"$$fundef_71_envp_436" to i8*
+  %"$$fundef_71_cloval_439" = insertvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })* bitcast ({ { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (%"$$fundef_71_env_116"*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })* @"$fundef_71" to { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*), i8* undef }, i8* %"$$fundef_71_env_voidp_438", 1
+  %"$$fundef_71_env_m_440" = getelementptr inbounds %"$$fundef_71_env_116", %"$$fundef_71_env_116"* %"$$fundef_71_envp_436", i32 0, i32 0
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_71_env_m_440", align 8
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } %"$$fundef_71_cloval_439", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }* %"$retval_70", align 8, !dbg !28
+  %"$$retval_70_441" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }* %"$retval_70", align 8
+  ret { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } %"$$retval_70_441"
 }
 
-define internal { %Uint32 (i8*, %Uint32)*, i8* } @"$fundef_67"(%"$$fundef_67_env_118"* %0, { %Uint32 (i8*, %Uint32)*, i8* } %1) !dbg !27 {
+define internal { %Uint32 (i8*, %Uint32)*, i8* } @"$fundef_67"(%"$$fundef_67_env_118"* %0, { %Uint32 (i8*, %Uint32)*, i8* } %1) !dbg !29 {
 entry:
-  %"$$fundef_67_env_m_397" = getelementptr inbounds %"$$fundef_67_env_118", %"$$fundef_67_env_118"* %0, i32 0, i32 0
-  %"$m_envload_398" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_67_env_m_397", align 8
+  %"$$fundef_67_env_m_400" = getelementptr inbounds %"$$fundef_67_env_118", %"$$fundef_67_env_118"* %0, i32 0, i32 0
+  %"$m_envload_401" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_67_env_m_400", align 8
   %m = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_envload_398", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
-  %"$$fundef_67_env_n_399" = getelementptr inbounds %"$$fundef_67_env_118", %"$$fundef_67_env_118"* %0, i32 0, i32 1
-  %"$n_envload_400" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_67_env_n_399", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_envload_401", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
+  %"$$fundef_67_env_n_402" = getelementptr inbounds %"$$fundef_67_env_118", %"$$fundef_67_env_118"* %0, i32 0, i32 1
+  %"$n_envload_403" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_67_env_n_402", align 8
   %n = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_envload_400", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %n, align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_envload_403", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %n, align 8
   %"$retval_68" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$gasrem_401" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_402" = icmp ugt i64 1, %"$gasrem_401"
-  br i1 %"$gascmp_402", label %"$out_of_gas_403", label %"$have_gas_404"
+  %"$gasrem_404" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_405" = icmp ugt i64 1, %"$gasrem_404"
+  br i1 %"$gascmp_405", label %"$out_of_gas_406", label %"$have_gas_407"
 
-"$out_of_gas_403":                                ; preds = %entry
+"$out_of_gas_406":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_404"
+  br label %"$have_gas_407"
 
-"$have_gas_404":                                  ; preds = %"$out_of_gas_403", %entry
-  %"$consume_405" = sub i64 %"$gasrem_401", 1
-  store i64 %"$consume_405", i64* @_gasrem, align 8
+"$have_gas_407":                                  ; preds = %"$out_of_gas_406", %entry
+  %"$consume_408" = sub i64 %"$gasrem_404", 1
+  store i64 %"$consume_408", i64* @_gasrem, align 8
   %add_m = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$gasrem_406" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_407" = icmp ugt i64 1, %"$gasrem_406"
-  br i1 %"$gascmp_407", label %"$out_of_gas_408", label %"$have_gas_409"
+  %"$gasrem_409" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_410" = icmp ugt i64 1, %"$gasrem_409"
+  br i1 %"$gascmp_410", label %"$out_of_gas_411", label %"$have_gas_412"
 
-"$out_of_gas_408":                                ; preds = %"$have_gas_404"
+"$out_of_gas_411":                                ; preds = %"$have_gas_407"
   call void @_out_of_gas()
-  br label %"$have_gas_409"
+  br label %"$have_gas_412"
 
-"$have_gas_409":                                  ; preds = %"$out_of_gas_408", %"$have_gas_404"
-  %"$consume_410" = sub i64 %"$gasrem_406", 1
-  store i64 %"$consume_410", i64* @_gasrem, align 8
+"$have_gas_412":                                  ; preds = %"$out_of_gas_411", %"$have_gas_407"
+  %"$consume_413" = sub i64 %"$gasrem_409", 1
+  store i64 %"$consume_413", i64* @_gasrem, align 8
   %"$m_18" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$m_411" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
-  %"$m_fptr_412" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_411", 0
-  %"$m_envptr_413" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_411", 1
-  %"$m_call_414" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$m_fptr_412"(i8* %"$m_envptr_413", { %Uint32 (i8*, %Uint32)*, i8* } %1), !dbg !28
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$m_call_414", { %Uint32 (i8*, %Uint32)*, i8* }* %"$m_18", align 8, !dbg !28
-  %"$$m_18_415" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$m_18", align 8
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$m_18_415", { %Uint32 (i8*, %Uint32)*, i8* }* %add_m, align 8, !dbg !28
-  %"$gasrem_416" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_417" = icmp ugt i64 1, %"$gasrem_416"
-  br i1 %"$gascmp_417", label %"$out_of_gas_418", label %"$have_gas_419"
+  %"$m_414" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
+  %"$m_fptr_415" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_414", 0
+  %"$m_envptr_416" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_414", 1
+  %"$m_call_417" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$m_fptr_415"(i8* %"$m_envptr_416", { %Uint32 (i8*, %Uint32)*, i8* } %1), !dbg !30
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$m_call_417", { %Uint32 (i8*, %Uint32)*, i8* }* %"$m_18", align 8, !dbg !30
+  %"$$m_18_418" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$m_18", align 8
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$m_18_418", { %Uint32 (i8*, %Uint32)*, i8* }* %add_m, align 8, !dbg !30
+  %"$gasrem_419" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_420" = icmp ugt i64 1, %"$gasrem_419"
+  br i1 %"$gascmp_420", label %"$out_of_gas_421", label %"$have_gas_422"
 
-"$out_of_gas_418":                                ; preds = %"$have_gas_409"
+"$out_of_gas_421":                                ; preds = %"$have_gas_412"
   call void @_out_of_gas()
-  br label %"$have_gas_419"
+  br label %"$have_gas_422"
 
-"$have_gas_419":                                  ; preds = %"$out_of_gas_418", %"$have_gas_409"
-  %"$consume_420" = sub i64 %"$gasrem_416", 1
-  store i64 %"$consume_420", i64* @_gasrem, align 8
+"$have_gas_422":                                  ; preds = %"$out_of_gas_421", %"$have_gas_412"
+  %"$consume_423" = sub i64 %"$gasrem_419", 1
+  store i64 %"$consume_423", i64* @_gasrem, align 8
   %"$n_19" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$n_421" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %n, align 8
-  %"$n_fptr_422" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_421", 0
-  %"$n_envptr_423" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_421", 1
-  %"$add_m_424" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %add_m, align 8
-  %"$n_call_425" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$n_fptr_422"(i8* %"$n_envptr_423", { %Uint32 (i8*, %Uint32)*, i8* } %"$add_m_424"), !dbg !29
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$n_call_425", { %Uint32 (i8*, %Uint32)*, i8* }* %"$n_19", align 8, !dbg !29
-  %"$$n_19_426" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$n_19", align 8
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$n_19_426", { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_68", align 8, !dbg !29
-  %"$$retval_68_427" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_68", align 8
-  ret { %Uint32 (i8*, %Uint32)*, i8* } %"$$retval_68_427"
+  %"$n_424" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %n, align 8
+  %"$n_fptr_425" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_424", 0
+  %"$n_envptr_426" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_424", 1
+  %"$add_m_427" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %add_m, align 8
+  %"$n_call_428" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$n_fptr_425"(i8* %"$n_envptr_426", { %Uint32 (i8*, %Uint32)*, i8* } %"$add_m_427"), !dbg !31
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$n_call_428", { %Uint32 (i8*, %Uint32)*, i8* }* %"$n_19", align 8, !dbg !31
+  %"$$n_19_429" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$n_19", align 8
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$n_19_429", { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_68", align 8, !dbg !31
+  %"$$retval_68_430" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_68", align 8
+  ret { %Uint32 (i8*, %Uint32)*, i8* } %"$$retval_68_430"
 }
 
-define internal { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } @"$fundef_65"(%"$$fundef_65_env_119"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !30 {
+define internal { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } @"$fundef_65"(%"$$fundef_65_env_119"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !32 {
 entry:
-  %"$$fundef_65_env_m_382" = getelementptr inbounds %"$$fundef_65_env_119", %"$$fundef_65_env_119"* %0, i32 0, i32 0
-  %"$m_envload_383" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_65_env_m_382", align 8
+  %"$$fundef_65_env_m_385" = getelementptr inbounds %"$$fundef_65_env_119", %"$$fundef_65_env_119"* %0, i32 0, i32 0
+  %"$m_envload_386" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_65_env_m_385", align 8
   %m = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_envload_383", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_envload_386", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
   %"$retval_66" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_384" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_385" = icmp ugt i64 1, %"$gasrem_384"
-  br i1 %"$gascmp_385", label %"$out_of_gas_386", label %"$have_gas_387"
+  %"$gasrem_387" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_388" = icmp ugt i64 1, %"$gasrem_387"
+  br i1 %"$gascmp_388", label %"$out_of_gas_389", label %"$have_gas_390"
 
-"$out_of_gas_386":                                ; preds = %entry
+"$out_of_gas_389":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_387"
+  br label %"$have_gas_390"
 
-"$have_gas_387":                                  ; preds = %"$out_of_gas_386", %entry
-  %"$consume_388" = sub i64 %"$gasrem_384", 1
-  store i64 %"$consume_388", i64* @_gasrem, align 8
-  %"$$fundef_67_envp_389_load" = load i8*, i8** @_execptr, align 8
-  %"$$fundef_67_envp_389_salloc" = call i8* @_salloc(i8* %"$$fundef_67_envp_389_load", i64 32)
-  %"$$fundef_67_envp_389" = bitcast i8* %"$$fundef_67_envp_389_salloc" to %"$$fundef_67_env_118"*
-  %"$$fundef_67_env_voidp_391" = bitcast %"$$fundef_67_env_118"* %"$$fundef_67_envp_389" to i8*
-  %"$$fundef_67_cloval_392" = insertvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })* bitcast ({ %Uint32 (i8*, %Uint32)*, i8* } (%"$$fundef_67_env_118"*, { %Uint32 (i8*, %Uint32)*, i8* })* @"$fundef_67" to { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*), i8* undef }, i8* %"$$fundef_67_env_voidp_391", 1
-  %"$$fundef_67_env_m_393" = getelementptr inbounds %"$$fundef_67_env_118", %"$$fundef_67_env_118"* %"$$fundef_67_envp_389", i32 0, i32 0
-  %"$m_394" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_394", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_67_env_m_393", align 8
-  %"$$fundef_67_env_n_395" = getelementptr inbounds %"$$fundef_67_env_118", %"$$fundef_67_env_118"* %"$$fundef_67_envp_389", i32 0, i32 1
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_67_env_n_395", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$fundef_67_cloval_392", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_66", align 8, !dbg !31
-  %"$$retval_66_396" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_66", align 8
-  ret { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$retval_66_396"
+"$have_gas_390":                                  ; preds = %"$out_of_gas_389", %entry
+  %"$consume_391" = sub i64 %"$gasrem_387", 1
+  store i64 %"$consume_391", i64* @_gasrem, align 8
+  %"$$fundef_67_envp_392_load" = load i8*, i8** @_execptr, align 8
+  %"$$fundef_67_envp_392_salloc" = call i8* @_salloc(i8* %"$$fundef_67_envp_392_load", i64 32)
+  %"$$fundef_67_envp_392" = bitcast i8* %"$$fundef_67_envp_392_salloc" to %"$$fundef_67_env_118"*
+  %"$$fundef_67_env_voidp_394" = bitcast %"$$fundef_67_env_118"* %"$$fundef_67_envp_392" to i8*
+  %"$$fundef_67_cloval_395" = insertvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })* bitcast ({ %Uint32 (i8*, %Uint32)*, i8* } (%"$$fundef_67_env_118"*, { %Uint32 (i8*, %Uint32)*, i8* })* @"$fundef_67" to { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*), i8* undef }, i8* %"$$fundef_67_env_voidp_394", 1
+  %"$$fundef_67_env_m_396" = getelementptr inbounds %"$$fundef_67_env_118", %"$$fundef_67_env_118"* %"$$fundef_67_envp_392", i32 0, i32 0
+  %"$m_397" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_397", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_67_env_m_396", align 8
+  %"$$fundef_67_env_n_398" = getelementptr inbounds %"$$fundef_67_env_118", %"$$fundef_67_env_118"* %"$$fundef_67_envp_392", i32 0, i32 1
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_67_env_n_398", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$fundef_67_cloval_395", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_66", align 8, !dbg !33
+  %"$$retval_66_399" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_66", align 8
+  ret { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$retval_66_399"
 }
 
-define internal { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } @"$fundef_63"(%"$$fundef_63_env_120"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !32 {
+define internal { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } @"$fundef_63"(%"$$fundef_63_env_120"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !34 {
 entry:
   %"$retval_64" = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$gasrem_371" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_372" = icmp ugt i64 1, %"$gasrem_371"
-  br i1 %"$gascmp_372", label %"$out_of_gas_373", label %"$have_gas_374"
+  %"$gasrem_374" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_375" = icmp ugt i64 1, %"$gasrem_374"
+  br i1 %"$gascmp_375", label %"$out_of_gas_376", label %"$have_gas_377"
 
-"$out_of_gas_373":                                ; preds = %entry
+"$out_of_gas_376":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_374"
+  br label %"$have_gas_377"
 
-"$have_gas_374":                                  ; preds = %"$out_of_gas_373", %entry
-  %"$consume_375" = sub i64 %"$gasrem_371", 1
-  store i64 %"$consume_375", i64* @_gasrem, align 8
-  %"$$fundef_65_envp_376_load" = load i8*, i8** @_execptr, align 8
-  %"$$fundef_65_envp_376_salloc" = call i8* @_salloc(i8* %"$$fundef_65_envp_376_load", i64 16)
-  %"$$fundef_65_envp_376" = bitcast i8* %"$$fundef_65_envp_376_salloc" to %"$$fundef_65_env_119"*
-  %"$$fundef_65_env_voidp_378" = bitcast %"$$fundef_65_env_119"* %"$$fundef_65_envp_376" to i8*
-  %"$$fundef_65_cloval_379" = insertvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast ({ { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (%"$$fundef_65_env_119"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_65" to { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* undef }, i8* %"$$fundef_65_env_voidp_378", 1
-  %"$$fundef_65_env_m_380" = getelementptr inbounds %"$$fundef_65_env_119", %"$$fundef_65_env_119"* %"$$fundef_65_envp_376", i32 0, i32 0
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_65_env_m_380", align 8
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$fundef_65_cloval_379", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$retval_64", align 8, !dbg !33
-  %"$$retval_64_381" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$retval_64", align 8
-  ret { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$retval_64_381"
+"$have_gas_377":                                  ; preds = %"$out_of_gas_376", %entry
+  %"$consume_378" = sub i64 %"$gasrem_374", 1
+  store i64 %"$consume_378", i64* @_gasrem, align 8
+  %"$$fundef_65_envp_379_load" = load i8*, i8** @_execptr, align 8
+  %"$$fundef_65_envp_379_salloc" = call i8* @_salloc(i8* %"$$fundef_65_envp_379_load", i64 16)
+  %"$$fundef_65_envp_379" = bitcast i8* %"$$fundef_65_envp_379_salloc" to %"$$fundef_65_env_119"*
+  %"$$fundef_65_env_voidp_381" = bitcast %"$$fundef_65_env_119"* %"$$fundef_65_envp_379" to i8*
+  %"$$fundef_65_cloval_382" = insertvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast ({ { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (%"$$fundef_65_env_119"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_65" to { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* undef }, i8* %"$$fundef_65_env_voidp_381", 1
+  %"$$fundef_65_env_m_383" = getelementptr inbounds %"$$fundef_65_env_119", %"$$fundef_65_env_119"* %"$$fundef_65_envp_379", i32 0, i32 0
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_65_env_m_383", align 8
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$fundef_65_cloval_382", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$retval_64", align 8, !dbg !35
+  %"$$retval_64_384" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$retval_64", align 8
+  ret { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$retval_64_384"
 }
 
-define internal %Uint32 @"$fundef_61"(%"$$fundef_61_env_121"* %0, %Uint32 %1) !dbg !34 {
+define internal %Uint32 @"$fundef_61"(%"$$fundef_61_env_121"* %0, %Uint32 %1) !dbg !36 {
 entry:
-  %"$$fundef_61_env_m_328" = getelementptr inbounds %"$$fundef_61_env_121", %"$$fundef_61_env_121"* %0, i32 0, i32 0
-  %"$m_envload_329" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_61_env_m_328", align 8
+  %"$z_373" = alloca %Uint32, align 8
+  store %Uint32 %1, %Uint32* %"$z_373", align 4
+  call void @llvm.dbg.declare(metadata %Uint32* %"$z_373", metadata !37, metadata !DIExpression()), !dbg !38
+  %"$$fundef_61_env_m_330" = getelementptr inbounds %"$$fundef_61_env_121", %"$$fundef_61_env_121"* %0, i32 0, i32 0
+  %"$m_envload_331" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_61_env_m_330", align 8
   %m = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_envload_329", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
-  %"$$fundef_61_env_n_330" = getelementptr inbounds %"$$fundef_61_env_121", %"$$fundef_61_env_121"* %0, i32 0, i32 1
-  %"$n_envload_331" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_61_env_n_330", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_envload_331", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
+  %"$$fundef_61_env_n_332" = getelementptr inbounds %"$$fundef_61_env_121", %"$$fundef_61_env_121"* %0, i32 0, i32 1
+  %"$n_envload_333" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_61_env_n_332", align 8
   %n = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_envload_331", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %n, align 8
-  %"$$fundef_61_env_s_332" = getelementptr inbounds %"$$fundef_61_env_121", %"$$fundef_61_env_121"* %0, i32 0, i32 2
-  %"$s_envload_333" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$$fundef_61_env_s_332", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_envload_333", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %n, align 8
+  %"$$fundef_61_env_s_334" = getelementptr inbounds %"$$fundef_61_env_121", %"$$fundef_61_env_121"* %0, i32 0, i32 2
+  %"$s_envload_335" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$$fundef_61_env_s_334", align 8
   %s = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$s_envload_333", { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$s_envload_335", { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
   %"$retval_62" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$retval_62", metadata !35, metadata !DIExpression()), !dbg !36
-  %"$gasrem_334" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_335" = icmp ugt i64 1, %"$gasrem_334"
-  br i1 %"$gascmp_335", label %"$out_of_gas_336", label %"$have_gas_337"
+  call void @llvm.dbg.declare(metadata %Uint32* %"$retval_62", metadata !39, metadata !DIExpression()), !dbg !40
+  %"$gasrem_336" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_337" = icmp ugt i64 1, %"$gasrem_336"
+  br i1 %"$gascmp_337", label %"$out_of_gas_338", label %"$have_gas_339"
 
-"$out_of_gas_336":                                ; preds = %entry
+"$out_of_gas_338":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_337"
+  br label %"$have_gas_339"
 
-"$have_gas_337":                                  ; preds = %"$out_of_gas_336", %entry
-  %"$consume_338" = sub i64 %"$gasrem_334", 1
-  store i64 %"$consume_338", i64* @_gasrem, align 8
+"$have_gas_339":                                  ; preds = %"$out_of_gas_338", %entry
+  %"$consume_340" = sub i64 %"$gasrem_336", 1
+  store i64 %"$consume_340", i64* @_gasrem, align 8
   %nsz = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %nsz, metadata !37, metadata !DIExpression()), !dbg !38
-  %"$gasrem_339" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_340" = icmp ugt i64 1, %"$gasrem_339"
-  br i1 %"$gascmp_340", label %"$out_of_gas_341", label %"$have_gas_342"
+  call void @llvm.dbg.declare(metadata %Uint32* %nsz, metadata !41, metadata !DIExpression()), !dbg !42
+  %"$gasrem_341" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_342" = icmp ugt i64 1, %"$gasrem_341"
+  br i1 %"$gascmp_342", label %"$out_of_gas_343", label %"$have_gas_344"
 
-"$out_of_gas_341":                                ; preds = %"$have_gas_337"
+"$out_of_gas_343":                                ; preds = %"$have_gas_339"
   call void @_out_of_gas()
-  br label %"$have_gas_342"
+  br label %"$have_gas_344"
 
-"$have_gas_342":                                  ; preds = %"$out_of_gas_341", %"$have_gas_337"
-  %"$consume_343" = sub i64 %"$gasrem_339", 1
-  store i64 %"$consume_343", i64* @_gasrem, align 8
+"$have_gas_344":                                  ; preds = %"$out_of_gas_343", %"$have_gas_339"
+  %"$consume_345" = sub i64 %"$gasrem_341", 1
+  store i64 %"$consume_345", i64* @_gasrem, align 8
   %"$n_14" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$n_344" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %n, align 8
-  %"$n_fptr_345" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_344", 0
-  %"$n_envptr_346" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_344", 1
-  %"$s_347" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
-  %"$n_call_348" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$n_fptr_345"(i8* %"$n_envptr_346", { %Uint32 (i8*, %Uint32)*, i8* } %"$s_347"), !dbg !39
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$n_call_348", { %Uint32 (i8*, %Uint32)*, i8* }* %"$n_14", align 8, !dbg !39
+  %"$n_346" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %n, align 8
+  %"$n_fptr_347" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_346", 0
+  %"$n_envptr_348" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_346", 1
+  %"$s_349" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
+  %"$n_call_350" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$n_fptr_347"(i8* %"$n_envptr_348", { %Uint32 (i8*, %Uint32)*, i8* } %"$s_349"), !dbg !43
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$n_call_350", { %Uint32 (i8*, %Uint32)*, i8* }* %"$n_14", align 8, !dbg !43
   %"$n_15" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$n_15", metadata !40, metadata !DIExpression()), !dbg !39
-  %"$$n_14_349" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$n_14", align 8
-  %"$$n_14_fptr_350" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$$n_14_349", 0
-  %"$$n_14_envptr_351" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$$n_14_349", 1
-  %"$$n_14_call_352" = call %Uint32 %"$$n_14_fptr_350"(i8* %"$$n_14_envptr_351", %Uint32 %1), !dbg !39
-  store %Uint32 %"$$n_14_call_352", %Uint32* %"$n_15", align 4, !dbg !39
-  %"$$n_15_353" = load %Uint32, %Uint32* %"$n_15", align 4
-  store %Uint32 %"$$n_15_353", %Uint32* %nsz, align 4, !dbg !39
-  %"$gasrem_354" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_355" = icmp ugt i64 1, %"$gasrem_354"
-  br i1 %"$gascmp_355", label %"$out_of_gas_356", label %"$have_gas_357"
+  call void @llvm.dbg.declare(metadata %Uint32* %"$n_15", metadata !44, metadata !DIExpression()), !dbg !43
+  %"$$n_14_351" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$n_14", align 8
+  %"$$n_14_fptr_352" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$$n_14_351", 0
+  %"$$n_14_envptr_353" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$$n_14_351", 1
+  %"$$n_14_call_354" = call %Uint32 %"$$n_14_fptr_352"(i8* %"$$n_14_envptr_353", %Uint32 %1), !dbg !43
+  store %Uint32 %"$$n_14_call_354", %Uint32* %"$n_15", align 4, !dbg !43
+  %"$$n_15_355" = load %Uint32, %Uint32* %"$n_15", align 4
+  store %Uint32 %"$$n_15_355", %Uint32* %nsz, align 4, !dbg !43
+  %"$gasrem_356" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_357" = icmp ugt i64 1, %"$gasrem_356"
+  br i1 %"$gascmp_357", label %"$out_of_gas_358", label %"$have_gas_359"
 
-"$out_of_gas_356":                                ; preds = %"$have_gas_342"
+"$out_of_gas_358":                                ; preds = %"$have_gas_344"
   call void @_out_of_gas()
-  br label %"$have_gas_357"
+  br label %"$have_gas_359"
 
-"$have_gas_357":                                  ; preds = %"$out_of_gas_356", %"$have_gas_342"
-  %"$consume_358" = sub i64 %"$gasrem_354", 1
-  store i64 %"$consume_358", i64* @_gasrem, align 8
+"$have_gas_359":                                  ; preds = %"$out_of_gas_358", %"$have_gas_344"
+  %"$consume_360" = sub i64 %"$gasrem_356", 1
+  store i64 %"$consume_360", i64* @_gasrem, align 8
   %"$m_16" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$m_359" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
-  %"$m_fptr_360" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_359", 0
-  %"$m_envptr_361" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_359", 1
-  %"$s_362" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
-  %"$m_call_363" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$m_fptr_360"(i8* %"$m_envptr_361", { %Uint32 (i8*, %Uint32)*, i8* } %"$s_362"), !dbg !41
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$m_call_363", { %Uint32 (i8*, %Uint32)*, i8* }* %"$m_16", align 8, !dbg !41
+  %"$m_361" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
+  %"$m_fptr_362" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_361", 0
+  %"$m_envptr_363" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_361", 1
+  %"$s_364" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
+  %"$m_call_365" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$m_fptr_362"(i8* %"$m_envptr_363", { %Uint32 (i8*, %Uint32)*, i8* } %"$s_364"), !dbg !45
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$m_call_365", { %Uint32 (i8*, %Uint32)*, i8* }* %"$m_16", align 8, !dbg !45
   %"$m_17" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$m_17", metadata !42, metadata !DIExpression()), !dbg !41
-  %"$$m_16_364" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$m_16", align 8
-  %"$$m_16_fptr_365" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$$m_16_364", 0
-  %"$$m_16_envptr_366" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$$m_16_364", 1
-  %"$nsz_367" = load %Uint32, %Uint32* %nsz, align 4
-  %"$$m_16_call_368" = call %Uint32 %"$$m_16_fptr_365"(i8* %"$$m_16_envptr_366", %Uint32 %"$nsz_367"), !dbg !41
-  store %Uint32 %"$$m_16_call_368", %Uint32* %"$m_17", align 4, !dbg !41
-  %"$$m_17_369" = load %Uint32, %Uint32* %"$m_17", align 4
-  store %Uint32 %"$$m_17_369", %Uint32* %"$retval_62", align 4, !dbg !41
-  %"$$retval_62_370" = load %Uint32, %Uint32* %"$retval_62", align 4
-  ret %Uint32 %"$$retval_62_370"
+  call void @llvm.dbg.declare(metadata %Uint32* %"$m_17", metadata !46, metadata !DIExpression()), !dbg !45
+  %"$$m_16_366" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$m_16", align 8
+  %"$$m_16_fptr_367" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$$m_16_366", 0
+  %"$$m_16_envptr_368" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$$m_16_366", 1
+  %"$nsz_369" = load %Uint32, %Uint32* %nsz, align 4
+  %"$$m_16_call_370" = call %Uint32 %"$$m_16_fptr_367"(i8* %"$$m_16_envptr_368", %Uint32 %"$nsz_369"), !dbg !45
+  store %Uint32 %"$$m_16_call_370", %Uint32* %"$m_17", align 4, !dbg !45
+  %"$$m_17_371" = load %Uint32, %Uint32* %"$m_17", align 4
+  store %Uint32 %"$$m_17_371", %Uint32* %"$retval_62", align 4, !dbg !45
+  %"$$retval_62_372" = load %Uint32, %Uint32* %"$retval_62", align 4
+  ret %Uint32 %"$$retval_62_372"
 }
 
-define internal { %Uint32 (i8*, %Uint32)*, i8* } @"$fundef_59"(%"$$fundef_59_env_122"* %0, { %Uint32 (i8*, %Uint32)*, i8* } %1) !dbg !43 {
+define internal { %Uint32 (i8*, %Uint32)*, i8* } @"$fundef_59"(%"$$fundef_59_env_122"* %0, { %Uint32 (i8*, %Uint32)*, i8* } %1) !dbg !47 {
 entry:
-  %"$$fundef_59_env_m_309" = getelementptr inbounds %"$$fundef_59_env_122", %"$$fundef_59_env_122"* %0, i32 0, i32 0
-  %"$m_envload_310" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_59_env_m_309", align 8
+  %"$$fundef_59_env_m_311" = getelementptr inbounds %"$$fundef_59_env_122", %"$$fundef_59_env_122"* %0, i32 0, i32 0
+  %"$m_envload_312" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_59_env_m_311", align 8
   %m = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_envload_310", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
-  %"$$fundef_59_env_n_311" = getelementptr inbounds %"$$fundef_59_env_122", %"$$fundef_59_env_122"* %0, i32 0, i32 1
-  %"$n_envload_312" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_59_env_n_311", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_envload_312", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
+  %"$$fundef_59_env_n_313" = getelementptr inbounds %"$$fundef_59_env_122", %"$$fundef_59_env_122"* %0, i32 0, i32 1
+  %"$n_envload_314" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_59_env_n_313", align 8
   %n = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_envload_312", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %n, align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_envload_314", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %n, align 8
   %"$retval_60" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$gasrem_313" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_314" = icmp ugt i64 1, %"$gasrem_313"
-  br i1 %"$gascmp_314", label %"$out_of_gas_315", label %"$have_gas_316"
+  %"$gasrem_315" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_316" = icmp ugt i64 1, %"$gasrem_315"
+  br i1 %"$gascmp_316", label %"$out_of_gas_317", label %"$have_gas_318"
 
-"$out_of_gas_315":                                ; preds = %entry
+"$out_of_gas_317":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_316"
+  br label %"$have_gas_318"
 
-"$have_gas_316":                                  ; preds = %"$out_of_gas_315", %entry
-  %"$consume_317" = sub i64 %"$gasrem_313", 1
-  store i64 %"$consume_317", i64* @_gasrem, align 8
-  %"$$fundef_61_envp_318_load" = load i8*, i8** @_execptr, align 8
-  %"$$fundef_61_envp_318_salloc" = call i8* @_salloc(i8* %"$$fundef_61_envp_318_load", i64 48)
-  %"$$fundef_61_envp_318" = bitcast i8* %"$$fundef_61_envp_318_salloc" to %"$$fundef_61_env_121"*
-  %"$$fundef_61_env_voidp_320" = bitcast %"$$fundef_61_env_121"* %"$$fundef_61_envp_318" to i8*
-  %"$$fundef_61_cloval_321" = insertvalue { %Uint32 (i8*, %Uint32)*, i8* } { %Uint32 (i8*, %Uint32)* bitcast (%Uint32 (%"$$fundef_61_env_121"*, %Uint32)* @"$fundef_61" to %Uint32 (i8*, %Uint32)*), i8* undef }, i8* %"$$fundef_61_env_voidp_320", 1
-  %"$$fundef_61_env_m_322" = getelementptr inbounds %"$$fundef_61_env_121", %"$$fundef_61_env_121"* %"$$fundef_61_envp_318", i32 0, i32 0
-  %"$m_323" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_323", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_61_env_m_322", align 8
-  %"$$fundef_61_env_n_324" = getelementptr inbounds %"$$fundef_61_env_121", %"$$fundef_61_env_121"* %"$$fundef_61_envp_318", i32 0, i32 1
-  %"$n_325" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %n, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_325", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_61_env_n_324", align 8
-  %"$$fundef_61_env_s_326" = getelementptr inbounds %"$$fundef_61_env_121", %"$$fundef_61_env_121"* %"$$fundef_61_envp_318", i32 0, i32 2
-  store { %Uint32 (i8*, %Uint32)*, i8* } %1, { %Uint32 (i8*, %Uint32)*, i8* }* %"$$fundef_61_env_s_326", align 8
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$fundef_61_cloval_321", { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_60", align 8, !dbg !44
-  %"$$retval_60_327" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_60", align 8
-  ret { %Uint32 (i8*, %Uint32)*, i8* } %"$$retval_60_327"
+"$have_gas_318":                                  ; preds = %"$out_of_gas_317", %entry
+  %"$consume_319" = sub i64 %"$gasrem_315", 1
+  store i64 %"$consume_319", i64* @_gasrem, align 8
+  %"$$fundef_61_envp_320_load" = load i8*, i8** @_execptr, align 8
+  %"$$fundef_61_envp_320_salloc" = call i8* @_salloc(i8* %"$$fundef_61_envp_320_load", i64 48)
+  %"$$fundef_61_envp_320" = bitcast i8* %"$$fundef_61_envp_320_salloc" to %"$$fundef_61_env_121"*
+  %"$$fundef_61_env_voidp_322" = bitcast %"$$fundef_61_env_121"* %"$$fundef_61_envp_320" to i8*
+  %"$$fundef_61_cloval_323" = insertvalue { %Uint32 (i8*, %Uint32)*, i8* } { %Uint32 (i8*, %Uint32)* bitcast (%Uint32 (%"$$fundef_61_env_121"*, %Uint32)* @"$fundef_61" to %Uint32 (i8*, %Uint32)*), i8* undef }, i8* %"$$fundef_61_env_voidp_322", 1
+  %"$$fundef_61_env_m_324" = getelementptr inbounds %"$$fundef_61_env_121", %"$$fundef_61_env_121"* %"$$fundef_61_envp_320", i32 0, i32 0
+  %"$m_325" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_325", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_61_env_m_324", align 8
+  %"$$fundef_61_env_n_326" = getelementptr inbounds %"$$fundef_61_env_121", %"$$fundef_61_env_121"* %"$$fundef_61_envp_320", i32 0, i32 1
+  %"$n_327" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %n, align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$n_327", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_61_env_n_326", align 8
+  %"$$fundef_61_env_s_328" = getelementptr inbounds %"$$fundef_61_env_121", %"$$fundef_61_env_121"* %"$$fundef_61_envp_320", i32 0, i32 2
+  store { %Uint32 (i8*, %Uint32)*, i8* } %1, { %Uint32 (i8*, %Uint32)*, i8* }* %"$$fundef_61_env_s_328", align 8
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$fundef_61_cloval_323", { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_60", align 8, !dbg !48
+  %"$$retval_60_329" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_60", align 8
+  ret { %Uint32 (i8*, %Uint32)*, i8* } %"$$retval_60_329"
 }
 
-define internal { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } @"$fundef_57"(%"$$fundef_57_env_123"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !45 {
+define internal { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } @"$fundef_57"(%"$$fundef_57_env_123"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !49 {
 entry:
-  %"$$fundef_57_env_m_294" = getelementptr inbounds %"$$fundef_57_env_123", %"$$fundef_57_env_123"* %0, i32 0, i32 0
-  %"$m_envload_295" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_57_env_m_294", align 8
+  %"$$fundef_57_env_m_296" = getelementptr inbounds %"$$fundef_57_env_123", %"$$fundef_57_env_123"* %0, i32 0, i32 0
+  %"$m_envload_297" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_57_env_m_296", align 8
   %m = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_envload_295", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_envload_297", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
   %"$retval_58" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_296" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_297" = icmp ugt i64 1, %"$gasrem_296"
-  br i1 %"$gascmp_297", label %"$out_of_gas_298", label %"$have_gas_299"
+  %"$gasrem_298" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_299" = icmp ugt i64 1, %"$gasrem_298"
+  br i1 %"$gascmp_299", label %"$out_of_gas_300", label %"$have_gas_301"
 
-"$out_of_gas_298":                                ; preds = %entry
+"$out_of_gas_300":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_299"
+  br label %"$have_gas_301"
 
-"$have_gas_299":                                  ; preds = %"$out_of_gas_298", %entry
-  %"$consume_300" = sub i64 %"$gasrem_296", 1
-  store i64 %"$consume_300", i64* @_gasrem, align 8
-  %"$$fundef_59_envp_301_load" = load i8*, i8** @_execptr, align 8
-  %"$$fundef_59_envp_301_salloc" = call i8* @_salloc(i8* %"$$fundef_59_envp_301_load", i64 32)
-  %"$$fundef_59_envp_301" = bitcast i8* %"$$fundef_59_envp_301_salloc" to %"$$fundef_59_env_122"*
-  %"$$fundef_59_env_voidp_303" = bitcast %"$$fundef_59_env_122"* %"$$fundef_59_envp_301" to i8*
-  %"$$fundef_59_cloval_304" = insertvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })* bitcast ({ %Uint32 (i8*, %Uint32)*, i8* } (%"$$fundef_59_env_122"*, { %Uint32 (i8*, %Uint32)*, i8* })* @"$fundef_59" to { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*), i8* undef }, i8* %"$$fundef_59_env_voidp_303", 1
-  %"$$fundef_59_env_m_305" = getelementptr inbounds %"$$fundef_59_env_122", %"$$fundef_59_env_122"* %"$$fundef_59_envp_301", i32 0, i32 0
-  %"$m_306" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_306", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_59_env_m_305", align 8
-  %"$$fundef_59_env_n_307" = getelementptr inbounds %"$$fundef_59_env_122", %"$$fundef_59_env_122"* %"$$fundef_59_envp_301", i32 0, i32 1
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_59_env_n_307", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$fundef_59_cloval_304", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_58", align 8, !dbg !46
-  %"$$retval_58_308" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_58", align 8
-  ret { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$retval_58_308"
+"$have_gas_301":                                  ; preds = %"$out_of_gas_300", %entry
+  %"$consume_302" = sub i64 %"$gasrem_298", 1
+  store i64 %"$consume_302", i64* @_gasrem, align 8
+  %"$$fundef_59_envp_303_load" = load i8*, i8** @_execptr, align 8
+  %"$$fundef_59_envp_303_salloc" = call i8* @_salloc(i8* %"$$fundef_59_envp_303_load", i64 32)
+  %"$$fundef_59_envp_303" = bitcast i8* %"$$fundef_59_envp_303_salloc" to %"$$fundef_59_env_122"*
+  %"$$fundef_59_env_voidp_305" = bitcast %"$$fundef_59_env_122"* %"$$fundef_59_envp_303" to i8*
+  %"$$fundef_59_cloval_306" = insertvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })* bitcast ({ %Uint32 (i8*, %Uint32)*, i8* } (%"$$fundef_59_env_122"*, { %Uint32 (i8*, %Uint32)*, i8* })* @"$fundef_59" to { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*), i8* undef }, i8* %"$$fundef_59_env_voidp_305", 1
+  %"$$fundef_59_env_m_307" = getelementptr inbounds %"$$fundef_59_env_122", %"$$fundef_59_env_122"* %"$$fundef_59_envp_303", i32 0, i32 0
+  %"$m_308" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %m, align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$m_308", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_59_env_m_307", align 8
+  %"$$fundef_59_env_n_309" = getelementptr inbounds %"$$fundef_59_env_122", %"$$fundef_59_env_122"* %"$$fundef_59_envp_303", i32 0, i32 1
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_59_env_n_309", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$fundef_59_cloval_306", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_58", align 8, !dbg !50
+  %"$$retval_58_310" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_58", align 8
+  ret { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$retval_58_310"
 }
 
-define internal { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } @"$fundef_55"(%"$$fundef_55_env_124"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !47 {
+define internal { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } @"$fundef_55"(%"$$fundef_55_env_124"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !51 {
 entry:
   %"$retval_56" = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$gasrem_283" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_284" = icmp ugt i64 1, %"$gasrem_283"
-  br i1 %"$gascmp_284", label %"$out_of_gas_285", label %"$have_gas_286"
+  %"$gasrem_285" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_286" = icmp ugt i64 1, %"$gasrem_285"
+  br i1 %"$gascmp_286", label %"$out_of_gas_287", label %"$have_gas_288"
 
-"$out_of_gas_285":                                ; preds = %entry
+"$out_of_gas_287":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_286"
+  br label %"$have_gas_288"
 
-"$have_gas_286":                                  ; preds = %"$out_of_gas_285", %entry
-  %"$consume_287" = sub i64 %"$gasrem_283", 1
-  store i64 %"$consume_287", i64* @_gasrem, align 8
-  %"$$fundef_57_envp_288_load" = load i8*, i8** @_execptr, align 8
-  %"$$fundef_57_envp_288_salloc" = call i8* @_salloc(i8* %"$$fundef_57_envp_288_load", i64 16)
-  %"$$fundef_57_envp_288" = bitcast i8* %"$$fundef_57_envp_288_salloc" to %"$$fundef_57_env_123"*
-  %"$$fundef_57_env_voidp_290" = bitcast %"$$fundef_57_env_123"* %"$$fundef_57_envp_288" to i8*
-  %"$$fundef_57_cloval_291" = insertvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast ({ { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (%"$$fundef_57_env_123"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_57" to { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* undef }, i8* %"$$fundef_57_env_voidp_290", 1
-  %"$$fundef_57_env_m_292" = getelementptr inbounds %"$$fundef_57_env_123", %"$$fundef_57_env_123"* %"$$fundef_57_envp_288", i32 0, i32 0
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_57_env_m_292", align 8
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$fundef_57_cloval_291", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$retval_56", align 8, !dbg !48
-  %"$$retval_56_293" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$retval_56", align 8
-  ret { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$retval_56_293"
+"$have_gas_288":                                  ; preds = %"$out_of_gas_287", %entry
+  %"$consume_289" = sub i64 %"$gasrem_285", 1
+  store i64 %"$consume_289", i64* @_gasrem, align 8
+  %"$$fundef_57_envp_290_load" = load i8*, i8** @_execptr, align 8
+  %"$$fundef_57_envp_290_salloc" = call i8* @_salloc(i8* %"$$fundef_57_envp_290_load", i64 16)
+  %"$$fundef_57_envp_290" = bitcast i8* %"$$fundef_57_envp_290_salloc" to %"$$fundef_57_env_123"*
+  %"$$fundef_57_env_voidp_292" = bitcast %"$$fundef_57_env_123"* %"$$fundef_57_envp_290" to i8*
+  %"$$fundef_57_cloval_293" = insertvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast ({ { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (%"$$fundef_57_env_123"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_57" to { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* undef }, i8* %"$$fundef_57_env_voidp_292", 1
+  %"$$fundef_57_env_m_294" = getelementptr inbounds %"$$fundef_57_env_123", %"$$fundef_57_env_123"* %"$$fundef_57_envp_290", i32 0, i32 0
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_57_env_m_294", align 8
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$fundef_57_cloval_293", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$retval_56", align 8, !dbg !52
+  %"$$retval_56_295" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$retval_56", align 8
+  ret { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$retval_56_295"
 }
 
-define internal { %Uint32 (i8*, %Uint32)*, i8* } @"$fundef_53"(%"$$fundef_53_env_125"* %0, { %Uint32 (i8*, %Uint32)*, i8* } %1) !dbg !49 {
+define internal { %Uint32 (i8*, %Uint32)*, i8* } @"$fundef_53"(%"$$fundef_53_env_125"* %0, { %Uint32 (i8*, %Uint32)*, i8* } %1) !dbg !53 {
 entry:
-  %"$$fundef_53_env_s_238" = getelementptr inbounds %"$$fundef_53_env_125", %"$$fundef_53_env_125"* %0, i32 0, i32 0
-  %"$s_envload_239" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_53_env_s_238", align 8
+  %"$$fundef_53_env_s_240" = getelementptr inbounds %"$$fundef_53_env_125", %"$$fundef_53_env_125"* %0, i32 0, i32 0
+  %"$s_envload_241" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_53_env_s_240", align 8
   %s = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_envload_239", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %s, align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_envload_241", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %s, align 8
   %"$retval_54" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$gasrem_240" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_241" = icmp ugt i64 1, %"$gasrem_240"
-  br i1 %"$gascmp_241", label %"$out_of_gas_242", label %"$have_gas_243"
+  %"$gasrem_242" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_243" = icmp ugt i64 1, %"$gasrem_242"
+  br i1 %"$gascmp_243", label %"$out_of_gas_244", label %"$have_gas_245"
 
-"$out_of_gas_242":                                ; preds = %entry
+"$out_of_gas_244":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_243"
+  br label %"$have_gas_245"
 
-"$have_gas_243":                                  ; preds = %"$out_of_gas_242", %entry
-  %"$consume_244" = sub i64 %"$gasrem_240", 1
-  store i64 %"$consume_244", i64* @_gasrem, align 8
+"$have_gas_245":                                  ; preds = %"$out_of_gas_244", %entry
+  %"$consume_246" = sub i64 %"$gasrem_242", 1
+  store i64 %"$consume_246", i64* @_gasrem, align 8
   %sz = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$gasrem_245" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_246" = icmp ugt i64 1, %"$gasrem_245"
-  br i1 %"$gascmp_246", label %"$out_of_gas_247", label %"$have_gas_248"
+  %"$gasrem_247" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_248" = icmp ugt i64 1, %"$gasrem_247"
+  br i1 %"$gascmp_248", label %"$out_of_gas_249", label %"$have_gas_250"
 
-"$out_of_gas_247":                                ; preds = %"$have_gas_243"
+"$out_of_gas_249":                                ; preds = %"$have_gas_245"
   call void @_out_of_gas()
-  br label %"$have_gas_248"
+  br label %"$have_gas_250"
 
-"$have_gas_248":                                  ; preds = %"$out_of_gas_247", %"$have_gas_243"
-  %"$consume_249" = sub i64 %"$gasrem_245", 1
-  store i64 %"$consume_249", i64* @_gasrem, align 8
+"$have_gas_250":                                  ; preds = %"$out_of_gas_249", %"$have_gas_245"
+  %"$consume_251" = sub i64 %"$gasrem_247", 1
+  store i64 %"$consume_251", i64* @_gasrem, align 8
   %"$s_11" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$s_250" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %s, align 8
-  %"$s_fptr_251" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_250", 0
-  %"$s_envptr_252" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_250", 1
-  %"$s_call_253" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$s_fptr_251"(i8* %"$s_envptr_252", { %Uint32 (i8*, %Uint32)*, i8* } %1), !dbg !50
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$s_call_253", { %Uint32 (i8*, %Uint32)*, i8* }* %"$s_11", align 8, !dbg !50
-  %"$$s_11_254" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$s_11", align 8
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$s_11_254", { %Uint32 (i8*, %Uint32)*, i8* }* %sz, align 8, !dbg !50
-  %"$gasrem_255" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_256" = icmp ugt i64 1, %"$gasrem_255"
-  br i1 %"$gascmp_256", label %"$out_of_gas_257", label %"$have_gas_258"
+  %"$s_252" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %s, align 8
+  %"$s_fptr_253" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_252", 0
+  %"$s_envptr_254" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_252", 1
+  %"$s_call_255" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$s_fptr_253"(i8* %"$s_envptr_254", { %Uint32 (i8*, %Uint32)*, i8* } %1), !dbg !54
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$s_call_255", { %Uint32 (i8*, %Uint32)*, i8* }* %"$s_11", align 8, !dbg !54
+  %"$$s_11_256" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$s_11", align 8
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$s_11_256", { %Uint32 (i8*, %Uint32)*, i8* }* %sz, align 8, !dbg !54
+  %"$gasrem_257" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_258" = icmp ugt i64 1, %"$gasrem_257"
+  br i1 %"$gascmp_258", label %"$out_of_gas_259", label %"$have_gas_260"
 
-"$out_of_gas_257":                                ; preds = %"$have_gas_248"
+"$out_of_gas_259":                                ; preds = %"$have_gas_250"
   call void @_out_of_gas()
-  br label %"$have_gas_258"
+  br label %"$have_gas_260"
 
-"$have_gas_258":                                  ; preds = %"$out_of_gas_257", %"$have_gas_248"
-  %"$consume_259" = sub i64 %"$gasrem_255", 1
-  store i64 %"$consume_259", i64* @_gasrem, align 8
+"$have_gas_260":                                  ; preds = %"$out_of_gas_259", %"$have_gas_250"
+  %"$consume_261" = sub i64 %"$gasrem_257", 1
+  store i64 %"$consume_261", i64* @_gasrem, align 8
   %ssz = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$gasrem_260" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_261" = icmp ugt i64 1, %"$gasrem_260"
-  br i1 %"$gascmp_261", label %"$out_of_gas_262", label %"$have_gas_263"
+  %"$gasrem_262" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_263" = icmp ugt i64 1, %"$gasrem_262"
+  br i1 %"$gascmp_263", label %"$out_of_gas_264", label %"$have_gas_265"
 
-"$out_of_gas_262":                                ; preds = %"$have_gas_258"
+"$out_of_gas_264":                                ; preds = %"$have_gas_260"
   call void @_out_of_gas()
-  br label %"$have_gas_263"
+  br label %"$have_gas_265"
 
-"$have_gas_263":                                  ; preds = %"$out_of_gas_262", %"$have_gas_258"
-  %"$consume_264" = sub i64 %"$gasrem_260", 1
-  store i64 %"$consume_264", i64* @_gasrem, align 8
+"$have_gas_265":                                  ; preds = %"$out_of_gas_264", %"$have_gas_260"
+  %"$consume_266" = sub i64 %"$gasrem_262", 1
+  store i64 %"$consume_266", i64* @_gasrem, align 8
   %"$s_12" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$s_265" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %s, align 8
-  %"$s_fptr_266" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_265", 0
-  %"$s_envptr_267" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_265", 1
-  %"$sz_268" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %sz, align 8
-  %"$s_call_269" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$s_fptr_266"(i8* %"$s_envptr_267", { %Uint32 (i8*, %Uint32)*, i8* } %"$sz_268"), !dbg !51
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$s_call_269", { %Uint32 (i8*, %Uint32)*, i8* }* %"$s_12", align 8, !dbg !51
-  %"$$s_12_270" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$s_12", align 8
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$s_12_270", { %Uint32 (i8*, %Uint32)*, i8* }* %ssz, align 8, !dbg !51
-  %"$gasrem_271" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_272" = icmp ugt i64 1, %"$gasrem_271"
-  br i1 %"$gascmp_272", label %"$out_of_gas_273", label %"$have_gas_274"
+  %"$s_267" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %s, align 8
+  %"$s_fptr_268" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_267", 0
+  %"$s_envptr_269" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_267", 1
+  %"$sz_270" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %sz, align 8
+  %"$s_call_271" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$s_fptr_268"(i8* %"$s_envptr_269", { %Uint32 (i8*, %Uint32)*, i8* } %"$sz_270"), !dbg !55
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$s_call_271", { %Uint32 (i8*, %Uint32)*, i8* }* %"$s_12", align 8, !dbg !55
+  %"$$s_12_272" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$s_12", align 8
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$s_12_272", { %Uint32 (i8*, %Uint32)*, i8* }* %ssz, align 8, !dbg !55
+  %"$gasrem_273" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_274" = icmp ugt i64 1, %"$gasrem_273"
+  br i1 %"$gascmp_274", label %"$out_of_gas_275", label %"$have_gas_276"
 
-"$out_of_gas_273":                                ; preds = %"$have_gas_263"
+"$out_of_gas_275":                                ; preds = %"$have_gas_265"
   call void @_out_of_gas()
-  br label %"$have_gas_274"
+  br label %"$have_gas_276"
 
-"$have_gas_274":                                  ; preds = %"$out_of_gas_273", %"$have_gas_263"
-  %"$consume_275" = sub i64 %"$gasrem_271", 1
-  store i64 %"$consume_275", i64* @_gasrem, align 8
+"$have_gas_276":                                  ; preds = %"$out_of_gas_275", %"$have_gas_265"
+  %"$consume_277" = sub i64 %"$gasrem_273", 1
+  store i64 %"$consume_277", i64* @_gasrem, align 8
   %"$s_13" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$s_276" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %s, align 8
-  %"$s_fptr_277" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_276", 0
-  %"$s_envptr_278" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_276", 1
-  %"$ssz_279" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %ssz, align 8
-  %"$s_call_280" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$s_fptr_277"(i8* %"$s_envptr_278", { %Uint32 (i8*, %Uint32)*, i8* } %"$ssz_279"), !dbg !52
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$s_call_280", { %Uint32 (i8*, %Uint32)*, i8* }* %"$s_13", align 8, !dbg !52
-  %"$$s_13_281" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$s_13", align 8
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$s_13_281", { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_54", align 8, !dbg !52
-  %"$$retval_54_282" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_54", align 8
-  ret { %Uint32 (i8*, %Uint32)*, i8* } %"$$retval_54_282"
+  %"$s_278" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %s, align 8
+  %"$s_fptr_279" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_278", 0
+  %"$s_envptr_280" = extractvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$s_278", 1
+  %"$ssz_281" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %ssz, align 8
+  %"$s_call_282" = call { %Uint32 (i8*, %Uint32)*, i8* } %"$s_fptr_279"(i8* %"$s_envptr_280", { %Uint32 (i8*, %Uint32)*, i8* } %"$ssz_281"), !dbg !56
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$s_call_282", { %Uint32 (i8*, %Uint32)*, i8* }* %"$s_13", align 8, !dbg !56
+  %"$$s_13_283" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$s_13", align 8
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$s_13_283", { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_54", align 8, !dbg !56
+  %"$$retval_54_284" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_54", align 8
+  ret { %Uint32 (i8*, %Uint32)*, i8* } %"$$retval_54_284"
 }
 
-define internal { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } @"$fundef_51"(%"$$fundef_51_env_126"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !53 {
+define internal { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } @"$fundef_51"(%"$$fundef_51_env_126"* %0, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1) !dbg !57 {
 entry:
   %"$retval_52" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_227" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_228" = icmp ugt i64 1, %"$gasrem_227"
-  br i1 %"$gascmp_228", label %"$out_of_gas_229", label %"$have_gas_230"
+  %"$gasrem_229" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_230" = icmp ugt i64 1, %"$gasrem_229"
+  br i1 %"$gascmp_230", label %"$out_of_gas_231", label %"$have_gas_232"
 
-"$out_of_gas_229":                                ; preds = %entry
+"$out_of_gas_231":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_230"
+  br label %"$have_gas_232"
 
-"$have_gas_230":                                  ; preds = %"$out_of_gas_229", %entry
-  %"$consume_231" = sub i64 %"$gasrem_227", 1
-  store i64 %"$consume_231", i64* @_gasrem, align 8
-  %"$$fundef_53_envp_232_load" = load i8*, i8** @_execptr, align 8
-  %"$$fundef_53_envp_232_salloc" = call i8* @_salloc(i8* %"$$fundef_53_envp_232_load", i64 16)
-  %"$$fundef_53_envp_232" = bitcast i8* %"$$fundef_53_envp_232_salloc" to %"$$fundef_53_env_125"*
-  %"$$fundef_53_env_voidp_234" = bitcast %"$$fundef_53_env_125"* %"$$fundef_53_envp_232" to i8*
-  %"$$fundef_53_cloval_235" = insertvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })* bitcast ({ %Uint32 (i8*, %Uint32)*, i8* } (%"$$fundef_53_env_125"*, { %Uint32 (i8*, %Uint32)*, i8* })* @"$fundef_53" to { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*), i8* undef }, i8* %"$$fundef_53_env_voidp_234", 1
-  %"$$fundef_53_env_s_236" = getelementptr inbounds %"$$fundef_53_env_125", %"$$fundef_53_env_125"* %"$$fundef_53_envp_232", i32 0, i32 0
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_53_env_s_236", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$fundef_53_cloval_235", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_52", align 8, !dbg !54
-  %"$$retval_52_237" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_52", align 8
-  ret { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$retval_52_237"
+"$have_gas_232":                                  ; preds = %"$out_of_gas_231", %entry
+  %"$consume_233" = sub i64 %"$gasrem_229", 1
+  store i64 %"$consume_233", i64* @_gasrem, align 8
+  %"$$fundef_53_envp_234_load" = load i8*, i8** @_execptr, align 8
+  %"$$fundef_53_envp_234_salloc" = call i8* @_salloc(i8* %"$$fundef_53_envp_234_load", i64 16)
+  %"$$fundef_53_envp_234" = bitcast i8* %"$$fundef_53_envp_234_salloc" to %"$$fundef_53_env_125"*
+  %"$$fundef_53_env_voidp_236" = bitcast %"$$fundef_53_env_125"* %"$$fundef_53_envp_234" to i8*
+  %"$$fundef_53_cloval_237" = insertvalue { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })* bitcast ({ %Uint32 (i8*, %Uint32)*, i8* } (%"$$fundef_53_env_125"*, { %Uint32 (i8*, %Uint32)*, i8* })* @"$fundef_53" to { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*), i8* undef }, i8* %"$$fundef_53_env_voidp_236", 1
+  %"$$fundef_53_env_s_238" = getelementptr inbounds %"$$fundef_53_env_125", %"$$fundef_53_env_125"* %"$$fundef_53_envp_234", i32 0, i32 0
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %1, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$$fundef_53_env_s_238", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$fundef_53_cloval_237", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_52", align 8, !dbg !58
+  %"$$retval_52_239" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$retval_52", align 8
+  ret { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$retval_52_239"
 }
 
-define internal %Uint32 @"$fundef_49"(%"$$fundef_49_env_127"* %0, %Uint32 %1) !dbg !55 {
+define internal %Uint32 @"$fundef_49"(%"$$fundef_49_env_127"* %0, %Uint32 %1) !dbg !59 {
 entry:
-  %"$$fundef_49_env_s_182" = getelementptr inbounds %"$$fundef_49_env_127", %"$$fundef_49_env_127"* %0, i32 0, i32 0
-  %"$s_envload_183" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$$fundef_49_env_s_182", align 8
+  %"$z_228" = alloca %Uint32, align 8
+  store %Uint32 %1, %Uint32* %"$z_228", align 4
+  call void @llvm.dbg.declare(metadata %Uint32* %"$z_228", metadata !60, metadata !DIExpression()), !dbg !61
+  %"$$fundef_49_env_s_183" = getelementptr inbounds %"$$fundef_49_env_127", %"$$fundef_49_env_127"* %0, i32 0, i32 0
+  %"$s_envload_184" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$$fundef_49_env_s_183", align 8
   %s = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$s_envload_183", { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$s_envload_184", { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
   %"$retval_50" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$retval_50", metadata !56, metadata !DIExpression()), !dbg !57
-  %"$gasrem_184" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_185" = icmp ugt i64 1, %"$gasrem_184"
-  br i1 %"$gascmp_185", label %"$out_of_gas_186", label %"$have_gas_187"
+  call void @llvm.dbg.declare(metadata %Uint32* %"$retval_50", metadata !62, metadata !DIExpression()), !dbg !63
+  %"$gasrem_185" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_186" = icmp ugt i64 1, %"$gasrem_185"
+  br i1 %"$gascmp_186", label %"$out_of_gas_187", label %"$have_gas_188"
 
-"$out_of_gas_186":                                ; preds = %entry
+"$out_of_gas_187":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_187"
+  br label %"$have_gas_188"
 
-"$have_gas_187":                                  ; preds = %"$out_of_gas_186", %entry
-  %"$consume_188" = sub i64 %"$gasrem_184", 1
-  store i64 %"$consume_188", i64* @_gasrem, align 8
+"$have_gas_188":                                  ; preds = %"$out_of_gas_187", %entry
+  %"$consume_189" = sub i64 %"$gasrem_185", 1
+  store i64 %"$consume_189", i64* @_gasrem, align 8
   %sz = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %sz, metadata !58, metadata !DIExpression()), !dbg !59
-  %"$gasrem_189" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_190" = icmp ugt i64 1, %"$gasrem_189"
-  br i1 %"$gascmp_190", label %"$out_of_gas_191", label %"$have_gas_192"
+  call void @llvm.dbg.declare(metadata %Uint32* %sz, metadata !64, metadata !DIExpression()), !dbg !65
+  %"$gasrem_190" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_191" = icmp ugt i64 1, %"$gasrem_190"
+  br i1 %"$gascmp_191", label %"$out_of_gas_192", label %"$have_gas_193"
 
-"$out_of_gas_191":                                ; preds = %"$have_gas_187"
+"$out_of_gas_192":                                ; preds = %"$have_gas_188"
   call void @_out_of_gas()
-  br label %"$have_gas_192"
+  br label %"$have_gas_193"
 
-"$have_gas_192":                                  ; preds = %"$out_of_gas_191", %"$have_gas_187"
-  %"$consume_193" = sub i64 %"$gasrem_189", 1
-  store i64 %"$consume_193", i64* @_gasrem, align 8
+"$have_gas_193":                                  ; preds = %"$out_of_gas_192", %"$have_gas_188"
+  %"$consume_194" = sub i64 %"$gasrem_190", 1
+  store i64 %"$consume_194", i64* @_gasrem, align 8
   %"$s_8" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$s_8", metadata !60, metadata !DIExpression()), !dbg !61
-  %"$s_194" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
-  %"$s_fptr_195" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_194", 0
-  %"$s_envptr_196" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_194", 1
-  %"$s_call_197" = call %Uint32 %"$s_fptr_195"(i8* %"$s_envptr_196", %Uint32 %1), !dbg !61
-  store %Uint32 %"$s_call_197", %Uint32* %"$s_8", align 4, !dbg !61
-  %"$$s_8_198" = load %Uint32, %Uint32* %"$s_8", align 4
-  store %Uint32 %"$$s_8_198", %Uint32* %sz, align 4, !dbg !61
-  %"$gasrem_199" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_200" = icmp ugt i64 1, %"$gasrem_199"
-  br i1 %"$gascmp_200", label %"$out_of_gas_201", label %"$have_gas_202"
+  call void @llvm.dbg.declare(metadata %Uint32* %"$s_8", metadata !66, metadata !DIExpression()), !dbg !67
+  %"$s_195" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
+  %"$s_fptr_196" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_195", 0
+  %"$s_envptr_197" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_195", 1
+  %"$s_call_198" = call %Uint32 %"$s_fptr_196"(i8* %"$s_envptr_197", %Uint32 %1), !dbg !67
+  store %Uint32 %"$s_call_198", %Uint32* %"$s_8", align 4, !dbg !67
+  %"$$s_8_199" = load %Uint32, %Uint32* %"$s_8", align 4
+  store %Uint32 %"$$s_8_199", %Uint32* %sz, align 4, !dbg !67
+  %"$gasrem_200" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_201" = icmp ugt i64 1, %"$gasrem_200"
+  br i1 %"$gascmp_201", label %"$out_of_gas_202", label %"$have_gas_203"
 
-"$out_of_gas_201":                                ; preds = %"$have_gas_192"
+"$out_of_gas_202":                                ; preds = %"$have_gas_193"
   call void @_out_of_gas()
-  br label %"$have_gas_202"
+  br label %"$have_gas_203"
 
-"$have_gas_202":                                  ; preds = %"$out_of_gas_201", %"$have_gas_192"
-  %"$consume_203" = sub i64 %"$gasrem_199", 1
-  store i64 %"$consume_203", i64* @_gasrem, align 8
+"$have_gas_203":                                  ; preds = %"$out_of_gas_202", %"$have_gas_193"
+  %"$consume_204" = sub i64 %"$gasrem_200", 1
+  store i64 %"$consume_204", i64* @_gasrem, align 8
   %ssz = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %ssz, metadata !62, metadata !DIExpression()), !dbg !63
-  %"$gasrem_204" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_205" = icmp ugt i64 1, %"$gasrem_204"
-  br i1 %"$gascmp_205", label %"$out_of_gas_206", label %"$have_gas_207"
+  call void @llvm.dbg.declare(metadata %Uint32* %ssz, metadata !68, metadata !DIExpression()), !dbg !69
+  %"$gasrem_205" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_206" = icmp ugt i64 1, %"$gasrem_205"
+  br i1 %"$gascmp_206", label %"$out_of_gas_207", label %"$have_gas_208"
 
-"$out_of_gas_206":                                ; preds = %"$have_gas_202"
+"$out_of_gas_207":                                ; preds = %"$have_gas_203"
   call void @_out_of_gas()
-  br label %"$have_gas_207"
+  br label %"$have_gas_208"
 
-"$have_gas_207":                                  ; preds = %"$out_of_gas_206", %"$have_gas_202"
-  %"$consume_208" = sub i64 %"$gasrem_204", 1
-  store i64 %"$consume_208", i64* @_gasrem, align 8
+"$have_gas_208":                                  ; preds = %"$out_of_gas_207", %"$have_gas_203"
+  %"$consume_209" = sub i64 %"$gasrem_205", 1
+  store i64 %"$consume_209", i64* @_gasrem, align 8
   %"$s_9" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$s_9", metadata !64, metadata !DIExpression()), !dbg !65
-  %"$s_209" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
-  %"$s_fptr_210" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_209", 0
-  %"$s_envptr_211" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_209", 1
-  %"$sz_212" = load %Uint32, %Uint32* %sz, align 4
-  %"$s_call_213" = call %Uint32 %"$s_fptr_210"(i8* %"$s_envptr_211", %Uint32 %"$sz_212"), !dbg !65
-  store %Uint32 %"$s_call_213", %Uint32* %"$s_9", align 4, !dbg !65
-  %"$$s_9_214" = load %Uint32, %Uint32* %"$s_9", align 4
-  store %Uint32 %"$$s_9_214", %Uint32* %ssz, align 4, !dbg !65
-  %"$gasrem_215" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_216" = icmp ugt i64 1, %"$gasrem_215"
-  br i1 %"$gascmp_216", label %"$out_of_gas_217", label %"$have_gas_218"
+  call void @llvm.dbg.declare(metadata %Uint32* %"$s_9", metadata !70, metadata !DIExpression()), !dbg !71
+  %"$s_210" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
+  %"$s_fptr_211" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_210", 0
+  %"$s_envptr_212" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_210", 1
+  %"$sz_213" = load %Uint32, %Uint32* %sz, align 4
+  %"$s_call_214" = call %Uint32 %"$s_fptr_211"(i8* %"$s_envptr_212", %Uint32 %"$sz_213"), !dbg !71
+  store %Uint32 %"$s_call_214", %Uint32* %"$s_9", align 4, !dbg !71
+  %"$$s_9_215" = load %Uint32, %Uint32* %"$s_9", align 4
+  store %Uint32 %"$$s_9_215", %Uint32* %ssz, align 4, !dbg !71
+  %"$gasrem_216" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_217" = icmp ugt i64 1, %"$gasrem_216"
+  br i1 %"$gascmp_217", label %"$out_of_gas_218", label %"$have_gas_219"
 
-"$out_of_gas_217":                                ; preds = %"$have_gas_207"
+"$out_of_gas_218":                                ; preds = %"$have_gas_208"
   call void @_out_of_gas()
-  br label %"$have_gas_218"
+  br label %"$have_gas_219"
 
-"$have_gas_218":                                  ; preds = %"$out_of_gas_217", %"$have_gas_207"
-  %"$consume_219" = sub i64 %"$gasrem_215", 1
-  store i64 %"$consume_219", i64* @_gasrem, align 8
+"$have_gas_219":                                  ; preds = %"$out_of_gas_218", %"$have_gas_208"
+  %"$consume_220" = sub i64 %"$gasrem_216", 1
+  store i64 %"$consume_220", i64* @_gasrem, align 8
   %"$s_10" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$s_10", metadata !66, metadata !DIExpression()), !dbg !67
-  %"$s_220" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
-  %"$s_fptr_221" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_220", 0
-  %"$s_envptr_222" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_220", 1
-  %"$ssz_223" = load %Uint32, %Uint32* %ssz, align 4
-  %"$s_call_224" = call %Uint32 %"$s_fptr_221"(i8* %"$s_envptr_222", %Uint32 %"$ssz_223"), !dbg !67
-  store %Uint32 %"$s_call_224", %Uint32* %"$s_10", align 4, !dbg !67
-  %"$$s_10_225" = load %Uint32, %Uint32* %"$s_10", align 4
-  store %Uint32 %"$$s_10_225", %Uint32* %"$retval_50", align 4, !dbg !67
-  %"$$retval_50_226" = load %Uint32, %Uint32* %"$retval_50", align 4
-  ret %Uint32 %"$$retval_50_226"
+  call void @llvm.dbg.declare(metadata %Uint32* %"$s_10", metadata !72, metadata !DIExpression()), !dbg !73
+  %"$s_221" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
+  %"$s_fptr_222" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_221", 0
+  %"$s_envptr_223" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_221", 1
+  %"$ssz_224" = load %Uint32, %Uint32* %ssz, align 4
+  %"$s_call_225" = call %Uint32 %"$s_fptr_222"(i8* %"$s_envptr_223", %Uint32 %"$ssz_224"), !dbg !73
+  store %Uint32 %"$s_call_225", %Uint32* %"$s_10", align 4, !dbg !73
+  %"$$s_10_226" = load %Uint32, %Uint32* %"$s_10", align 4
+  store %Uint32 %"$$s_10_226", %Uint32* %"$retval_50", align 4, !dbg !73
+  %"$$retval_50_227" = load %Uint32, %Uint32* %"$retval_50", align 4
+  ret %Uint32 %"$$retval_50_227"
 }
 
-define internal { %Uint32 (i8*, %Uint32)*, i8* } @"$fundef_47"(%"$$fundef_47_env_128"* %0, { %Uint32 (i8*, %Uint32)*, i8* } %1) !dbg !68 {
+define internal { %Uint32 (i8*, %Uint32)*, i8* } @"$fundef_47"(%"$$fundef_47_env_128"* %0, { %Uint32 (i8*, %Uint32)*, i8* } %1) !dbg !74 {
 entry:
   %"$retval_48" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
-  %"$gasrem_171" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_172" = icmp ugt i64 1, %"$gasrem_171"
-  br i1 %"$gascmp_172", label %"$out_of_gas_173", label %"$have_gas_174"
+  %"$gasrem_172" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_173" = icmp ugt i64 1, %"$gasrem_172"
+  br i1 %"$gascmp_173", label %"$out_of_gas_174", label %"$have_gas_175"
 
-"$out_of_gas_173":                                ; preds = %entry
+"$out_of_gas_174":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_174"
+  br label %"$have_gas_175"
 
-"$have_gas_174":                                  ; preds = %"$out_of_gas_173", %entry
-  %"$consume_175" = sub i64 %"$gasrem_171", 1
-  store i64 %"$consume_175", i64* @_gasrem, align 8
-  %"$$fundef_49_envp_176_load" = load i8*, i8** @_execptr, align 8
-  %"$$fundef_49_envp_176_salloc" = call i8* @_salloc(i8* %"$$fundef_49_envp_176_load", i64 16)
-  %"$$fundef_49_envp_176" = bitcast i8* %"$$fundef_49_envp_176_salloc" to %"$$fundef_49_env_127"*
-  %"$$fundef_49_env_voidp_178" = bitcast %"$$fundef_49_env_127"* %"$$fundef_49_envp_176" to i8*
-  %"$$fundef_49_cloval_179" = insertvalue { %Uint32 (i8*, %Uint32)*, i8* } { %Uint32 (i8*, %Uint32)* bitcast (%Uint32 (%"$$fundef_49_env_127"*, %Uint32)* @"$fundef_49" to %Uint32 (i8*, %Uint32)*), i8* undef }, i8* %"$$fundef_49_env_voidp_178", 1
-  %"$$fundef_49_env_s_180" = getelementptr inbounds %"$$fundef_49_env_127", %"$$fundef_49_env_127"* %"$$fundef_49_envp_176", i32 0, i32 0
-  store { %Uint32 (i8*, %Uint32)*, i8* } %1, { %Uint32 (i8*, %Uint32)*, i8* }* %"$$fundef_49_env_s_180", align 8
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$fundef_49_cloval_179", { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_48", align 8, !dbg !69
-  %"$$retval_48_181" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_48", align 8
-  ret { %Uint32 (i8*, %Uint32)*, i8* } %"$$retval_48_181"
+"$have_gas_175":                                  ; preds = %"$out_of_gas_174", %entry
+  %"$consume_176" = sub i64 %"$gasrem_172", 1
+  store i64 %"$consume_176", i64* @_gasrem, align 8
+  %"$$fundef_49_envp_177_load" = load i8*, i8** @_execptr, align 8
+  %"$$fundef_49_envp_177_salloc" = call i8* @_salloc(i8* %"$$fundef_49_envp_177_load", i64 16)
+  %"$$fundef_49_envp_177" = bitcast i8* %"$$fundef_49_envp_177_salloc" to %"$$fundef_49_env_127"*
+  %"$$fundef_49_env_voidp_179" = bitcast %"$$fundef_49_env_127"* %"$$fundef_49_envp_177" to i8*
+  %"$$fundef_49_cloval_180" = insertvalue { %Uint32 (i8*, %Uint32)*, i8* } { %Uint32 (i8*, %Uint32)* bitcast (%Uint32 (%"$$fundef_49_env_127"*, %Uint32)* @"$fundef_49" to %Uint32 (i8*, %Uint32)*), i8* undef }, i8* %"$$fundef_49_env_voidp_179", 1
+  %"$$fundef_49_env_s_181" = getelementptr inbounds %"$$fundef_49_env_127", %"$$fundef_49_env_127"* %"$$fundef_49_envp_177", i32 0, i32 0
+  store { %Uint32 (i8*, %Uint32)*, i8* } %1, { %Uint32 (i8*, %Uint32)*, i8* }* %"$$fundef_49_env_s_181", align 8
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$fundef_49_cloval_180", { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_48", align 8, !dbg !75
+  %"$$retval_48_182" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_48", align 8
+  ret { %Uint32 (i8*, %Uint32)*, i8* } %"$$retval_48_182"
 }
 
-define internal %Uint32 @"$fundef_45"(%"$$fundef_45_env_129"* %0, %Uint32 %1) !dbg !70 {
+define internal %Uint32 @"$fundef_45"(%"$$fundef_45_env_129"* %0, %Uint32 %1) !dbg !76 {
 entry:
+  %"$z_171" = alloca %Uint32, align 8
+  store %Uint32 %1, %Uint32* %"$z_171", align 4
+  call void @llvm.dbg.declare(metadata %Uint32* %"$z_171", metadata !77, metadata !DIExpression()), !dbg !78
   %"$$fundef_45_env_s_142" = getelementptr inbounds %"$$fundef_45_env_129", %"$$fundef_45_env_129"* %0, i32 0, i32 0
   %"$s_envload_143" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$$fundef_45_env_s_142", align 8
   %s = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
   store { %Uint32 (i8*, %Uint32)*, i8* } %"$s_envload_143", { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
   %"$retval_46" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$retval_46", metadata !71, metadata !DIExpression()), !dbg !72
+  call void @llvm.dbg.declare(metadata %Uint32* %"$retval_46", metadata !79, metadata !DIExpression()), !dbg !80
   %"$gasrem_144" = load i64, i64* @_gasrem, align 8
   %"$gascmp_145" = icmp ugt i64 1, %"$gasrem_144"
   br i1 %"$gascmp_145", label %"$out_of_gas_146", label %"$have_gas_147"
@@ -910,7 +922,7 @@ entry:
   %"$consume_148" = sub i64 %"$gasrem_144", 1
   store i64 %"$consume_148", i64* @_gasrem, align 8
   %sz = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %sz, metadata !73, metadata !DIExpression()), !dbg !74
+  call void @llvm.dbg.declare(metadata %Uint32* %sz, metadata !81, metadata !DIExpression()), !dbg !82
   %"$gasrem_149" = load i64, i64* @_gasrem, align 8
   %"$gascmp_150" = icmp ugt i64 1, %"$gasrem_149"
   br i1 %"$gascmp_150", label %"$out_of_gas_151", label %"$have_gas_152"
@@ -923,14 +935,14 @@ entry:
   %"$consume_153" = sub i64 %"$gasrem_149", 1
   store i64 %"$consume_153", i64* @_gasrem, align 8
   %"$s_6" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$s_6", metadata !75, metadata !DIExpression()), !dbg !76
+  call void @llvm.dbg.declare(metadata %Uint32* %"$s_6", metadata !83, metadata !DIExpression()), !dbg !84
   %"$s_154" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
   %"$s_fptr_155" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_154", 0
   %"$s_envptr_156" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_154", 1
-  %"$s_call_157" = call %Uint32 %"$s_fptr_155"(i8* %"$s_envptr_156", %Uint32 %1), !dbg !76
-  store %Uint32 %"$s_call_157", %Uint32* %"$s_6", align 4, !dbg !76
+  %"$s_call_157" = call %Uint32 %"$s_fptr_155"(i8* %"$s_envptr_156", %Uint32 %1), !dbg !84
+  store %Uint32 %"$s_call_157", %Uint32* %"$s_6", align 4, !dbg !84
   %"$$s_6_158" = load %Uint32, %Uint32* %"$s_6", align 4
-  store %Uint32 %"$$s_6_158", %Uint32* %sz, align 4, !dbg !76
+  store %Uint32 %"$$s_6_158", %Uint32* %sz, align 4, !dbg !84
   %"$gasrem_159" = load i64, i64* @_gasrem, align 8
   %"$gascmp_160" = icmp ugt i64 1, %"$gasrem_159"
   br i1 %"$gascmp_160", label %"$out_of_gas_161", label %"$have_gas_162"
@@ -943,20 +955,20 @@ entry:
   %"$consume_163" = sub i64 %"$gasrem_159", 1
   store i64 %"$consume_163", i64* @_gasrem, align 8
   %"$s_7" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$s_7", metadata !77, metadata !DIExpression()), !dbg !78
+  call void @llvm.dbg.declare(metadata %Uint32* %"$s_7", metadata !85, metadata !DIExpression()), !dbg !86
   %"$s_164" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %s, align 8
   %"$s_fptr_165" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_164", 0
   %"$s_envptr_166" = extractvalue { %Uint32 (i8*, %Uint32)*, i8* } %"$s_164", 1
   %"$sz_167" = load %Uint32, %Uint32* %sz, align 4
-  %"$s_call_168" = call %Uint32 %"$s_fptr_165"(i8* %"$s_envptr_166", %Uint32 %"$sz_167"), !dbg !78
-  store %Uint32 %"$s_call_168", %Uint32* %"$s_7", align 4, !dbg !78
+  %"$s_call_168" = call %Uint32 %"$s_fptr_165"(i8* %"$s_envptr_166", %Uint32 %"$sz_167"), !dbg !86
+  store %Uint32 %"$s_call_168", %Uint32* %"$s_7", align 4, !dbg !86
   %"$$s_7_169" = load %Uint32, %Uint32* %"$s_7", align 4
-  store %Uint32 %"$$s_7_169", %Uint32* %"$retval_46", align 4, !dbg !78
+  store %Uint32 %"$$s_7_169", %Uint32* %"$retval_46", align 4, !dbg !86
   %"$$retval_46_170" = load %Uint32, %Uint32* %"$retval_46", align 4
   ret %Uint32 %"$$retval_46_170"
 }
 
-define internal { %Uint32 (i8*, %Uint32)*, i8* } @"$fundef_43"(%"$$fundef_43_env_130"* %0, { %Uint32 (i8*, %Uint32)*, i8* } %1) !dbg !79 {
+define internal { %Uint32 (i8*, %Uint32)*, i8* } @"$fundef_43"(%"$$fundef_43_env_130"* %0, { %Uint32 (i8*, %Uint32)*, i8* } %1) !dbg !87 {
 entry:
   %"$retval_44" = alloca { %Uint32 (i8*, %Uint32)*, i8* }, align 8
   %"$gasrem_131" = load i64, i64* @_gasrem, align 8
@@ -977,7 +989,7 @@ entry:
   %"$$fundef_45_cloval_139" = insertvalue { %Uint32 (i8*, %Uint32)*, i8* } { %Uint32 (i8*, %Uint32)* bitcast (%Uint32 (%"$$fundef_45_env_129"*, %Uint32)* @"$fundef_45" to %Uint32 (i8*, %Uint32)*), i8* undef }, i8* %"$$fundef_45_env_voidp_138", 1
   %"$$fundef_45_env_s_140" = getelementptr inbounds %"$$fundef_45_env_129", %"$$fundef_45_env_129"* %"$$fundef_45_envp_136", i32 0, i32 0
   store { %Uint32 (i8*, %Uint32)*, i8* } %1, { %Uint32 (i8*, %Uint32)*, i8* }* %"$$fundef_45_env_s_140", align 8
-  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$fundef_45_cloval_139", { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_44", align 8, !dbg !80
+  store { %Uint32 (i8*, %Uint32)*, i8* } %"$$fundef_45_cloval_139", { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_44", align 8, !dbg !88
   %"$$retval_44_141" = load { %Uint32 (i8*, %Uint32)*, i8* }, { %Uint32 (i8*, %Uint32)*, i8* }* %"$retval_44", align 8
   ret { %Uint32 (i8*, %Uint32)*, i8* } %"$$retval_44_141"
 }
@@ -991,685 +1003,685 @@ declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
 declare %Uint32 @_add_Uint32(%Uint32, %Uint32)
 
-define void @_init_libs() !dbg !81 {
+define void @_init_libs() !dbg !89 {
 entry:
-  %"$gasrem_514" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_515" = icmp ugt i64 5, %"$gasrem_514"
-  br i1 %"$gascmp_515", label %"$out_of_gas_516", label %"$have_gas_517"
+  %"$gasrem_518" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_519" = icmp ugt i64 5, %"$gasrem_518"
+  br i1 %"$gascmp_519", label %"$out_of_gas_520", label %"$have_gas_521"
 
-"$out_of_gas_516":                                ; preds = %entry
+"$out_of_gas_520":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_517"
+  br label %"$have_gas_521"
 
-"$have_gas_517":                                  ; preds = %"$out_of_gas_516", %entry
-  %"$consume_518" = sub i64 %"$gasrem_514", 5
-  store i64 %"$consume_518", i64* @_gasrem, align 8
-  store %Int32 { i32 5 }, %Int32* @"$_gas_charge_accrec_lib_5", align 4, !dbg !83
-  %"$gasrem_519" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_520" = icmp ugt i64 8, %"$gasrem_519"
-  br i1 %"$gascmp_520", label %"$out_of_gas_521", label %"$have_gas_522"
+"$have_gas_521":                                  ; preds = %"$out_of_gas_520", %entry
+  %"$consume_522" = sub i64 %"$gasrem_518", 5
+  store i64 %"$consume_522", i64* @_gasrem, align 8
+  store %Int32 { i32 5 }, %Int32* @"$_gas_charge_accrec_lib_5", align 4, !dbg !91
+  %"$gasrem_523" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_524" = icmp ugt i64 8, %"$gasrem_523"
+  br i1 %"$gascmp_524", label %"$out_of_gas_525", label %"$have_gas_526"
 
-"$out_of_gas_521":                                ; preds = %"$have_gas_517"
+"$out_of_gas_525":                                ; preds = %"$have_gas_521"
   call void @_out_of_gas()
-  br label %"$have_gas_522"
+  br label %"$have_gas_526"
 
-"$have_gas_522":                                  ; preds = %"$out_of_gas_521", %"$have_gas_517"
-  %"$consume_523" = sub i64 %"$gasrem_519", 8
-  store i64 %"$consume_523", i64* @_gasrem, align 8
-  store %Int32 { i32 8 }, %Int32* @"$_gas_charge_accBoolUtils_0", align 4, !dbg !83
-  %"$gasrem_524" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_525" = icmp ugt i64 196, %"$gasrem_524"
-  br i1 %"$gascmp_525", label %"$out_of_gas_526", label %"$have_gas_527"
+"$have_gas_526":                                  ; preds = %"$out_of_gas_525", %"$have_gas_521"
+  %"$consume_527" = sub i64 %"$gasrem_523", 8
+  store i64 %"$consume_527", i64* @_gasrem, align 8
+  store %Int32 { i32 8 }, %Int32* @"$_gas_charge_accBoolUtils_0", align 4, !dbg !91
+  %"$gasrem_528" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_529" = icmp ugt i64 196, %"$gasrem_528"
+  br i1 %"$gascmp_529", label %"$out_of_gas_530", label %"$have_gas_531"
 
-"$out_of_gas_526":                                ; preds = %"$have_gas_522"
+"$out_of_gas_530":                                ; preds = %"$have_gas_526"
   call void @_out_of_gas()
-  br label %"$have_gas_527"
+  br label %"$have_gas_531"
 
-"$have_gas_527":                                  ; preds = %"$out_of_gas_526", %"$have_gas_522"
-  %"$consume_528" = sub i64 %"$gasrem_524", 196
-  store i64 %"$consume_528", i64* @_gasrem, align 8
-  store %Int32 { i32 196 }, %Int32* @"$_gas_charge_accIntUtils_1", align 4, !dbg !83
-  %"$gasrem_529" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_530" = icmp ugt i64 20, %"$gasrem_529"
-  br i1 %"$gascmp_530", label %"$out_of_gas_531", label %"$have_gas_532"
+"$have_gas_531":                                  ; preds = %"$out_of_gas_530", %"$have_gas_526"
+  %"$consume_532" = sub i64 %"$gasrem_528", 196
+  store i64 %"$consume_532", i64* @_gasrem, align 8
+  store %Int32 { i32 196 }, %Int32* @"$_gas_charge_accIntUtils_1", align 4, !dbg !91
+  %"$gasrem_533" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_534" = icmp ugt i64 20, %"$gasrem_533"
+  br i1 %"$gascmp_534", label %"$out_of_gas_535", label %"$have_gas_536"
 
-"$out_of_gas_531":                                ; preds = %"$have_gas_527"
+"$out_of_gas_535":                                ; preds = %"$have_gas_531"
   call void @_out_of_gas()
-  br label %"$have_gas_532"
+  br label %"$have_gas_536"
 
-"$have_gas_532":                                  ; preds = %"$out_of_gas_531", %"$have_gas_527"
-  %"$consume_533" = sub i64 %"$gasrem_529", 20
-  store i64 %"$consume_533", i64* @_gasrem, align 8
-  store %Int32 { i32 20 }, %Int32* @"$_gas_charge_accListUtils_2", align 4, !dbg !83
-  %"$gasrem_534" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_535" = icmp ugt i64 12, %"$gasrem_534"
-  br i1 %"$gascmp_535", label %"$out_of_gas_536", label %"$have_gas_537"
+"$have_gas_536":                                  ; preds = %"$out_of_gas_535", %"$have_gas_531"
+  %"$consume_537" = sub i64 %"$gasrem_533", 20
+  store i64 %"$consume_537", i64* @_gasrem, align 8
+  store %Int32 { i32 20 }, %Int32* @"$_gas_charge_accListUtils_2", align 4, !dbg !91
+  %"$gasrem_538" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_539" = icmp ugt i64 12, %"$gasrem_538"
+  br i1 %"$gascmp_539", label %"$out_of_gas_540", label %"$have_gas_541"
 
-"$out_of_gas_536":                                ; preds = %"$have_gas_532"
+"$out_of_gas_540":                                ; preds = %"$have_gas_536"
   call void @_out_of_gas()
-  br label %"$have_gas_537"
+  br label %"$have_gas_541"
 
-"$have_gas_537":                                  ; preds = %"$out_of_gas_536", %"$have_gas_532"
-  %"$consume_538" = sub i64 %"$gasrem_534", 12
-  store i64 %"$consume_538", i64* @_gasrem, align 8
-  store %Int32 { i32 12 }, %Int32* @"$_gas_charge_accNatUtils_3", align 4, !dbg !83
-  %"$gasrem_539" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_540" = icmp ugt i64 2, %"$gasrem_539"
-  br i1 %"$gascmp_540", label %"$out_of_gas_541", label %"$have_gas_542"
+"$have_gas_541":                                  ; preds = %"$out_of_gas_540", %"$have_gas_536"
+  %"$consume_542" = sub i64 %"$gasrem_538", 12
+  store i64 %"$consume_542", i64* @_gasrem, align 8
+  store %Int32 { i32 12 }, %Int32* @"$_gas_charge_accNatUtils_3", align 4, !dbg !91
+  %"$gasrem_543" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_544" = icmp ugt i64 2, %"$gasrem_543"
+  br i1 %"$gascmp_544", label %"$out_of_gas_545", label %"$have_gas_546"
 
-"$out_of_gas_541":                                ; preds = %"$have_gas_537"
+"$out_of_gas_545":                                ; preds = %"$have_gas_541"
   call void @_out_of_gas()
-  br label %"$have_gas_542"
+  br label %"$have_gas_546"
 
-"$have_gas_542":                                  ; preds = %"$out_of_gas_541", %"$have_gas_537"
-  %"$consume_543" = sub i64 %"$gasrem_539", 2
-  store i64 %"$consume_543", i64* @_gasrem, align 8
-  store %Int32 { i32 2 }, %Int32* @"$_gas_charge_accPairUtils_4", align 4, !dbg !83
+"$have_gas_546":                                  ; preds = %"$out_of_gas_545", %"$have_gas_541"
+  %"$consume_547" = sub i64 %"$gasrem_543", 2
+  store i64 %"$consume_547", i64* @_gasrem, align 8
+  store %Int32 { i32 2 }, %Int32* @"$_gas_charge_accPairUtils_4", align 4, !dbg !91
   ret void
 }
 
-define internal %Uint32 @_scilla_expr_fun(i8* %0) !dbg !84 {
+define internal %Uint32 @_scilla_expr_fun(i8* %0) !dbg !92 {
 entry:
   %"$expr_42" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$expr_42", metadata !85, metadata !DIExpression()), !dbg !86
-  %"$gasrem_544" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_545" = icmp ugt i64 1, %"$gasrem_544"
-  br i1 %"$gascmp_545", label %"$out_of_gas_546", label %"$have_gas_547"
+  call void @llvm.dbg.declare(metadata %Uint32* %"$expr_42", metadata !93, metadata !DIExpression()), !dbg !94
+  %"$gasrem_548" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_549" = icmp ugt i64 1, %"$gasrem_548"
+  br i1 %"$gascmp_549", label %"$out_of_gas_550", label %"$have_gas_551"
 
-"$out_of_gas_546":                                ; preds = %entry
+"$out_of_gas_550":                                ; preds = %entry
   call void @_out_of_gas()
-  br label %"$have_gas_547"
+  br label %"$have_gas_551"
 
-"$have_gas_547":                                  ; preds = %"$out_of_gas_546", %entry
-  %"$consume_548" = sub i64 %"$gasrem_544", 1
-  store i64 %"$consume_548", i64* @_gasrem, align 8
-  %"$gasrem_549" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_550" = icmp ugt i64 1, %"$gasrem_549"
-  br i1 %"$gascmp_550", label %"$out_of_gas_551", label %"$have_gas_552"
+"$have_gas_551":                                  ; preds = %"$out_of_gas_550", %entry
+  %"$consume_552" = sub i64 %"$gasrem_548", 1
+  store i64 %"$consume_552", i64* @_gasrem, align 8
+  %"$gasrem_553" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_554" = icmp ugt i64 1, %"$gasrem_553"
+  br i1 %"$gascmp_554", label %"$out_of_gas_555", label %"$have_gas_556"
 
-"$out_of_gas_551":                                ; preds = %"$have_gas_547"
+"$out_of_gas_555":                                ; preds = %"$have_gas_551"
   call void @_out_of_gas()
-  br label %"$have_gas_552"
+  br label %"$have_gas_556"
 
-"$have_gas_552":                                  ; preds = %"$out_of_gas_551", %"$have_gas_547"
-  %"$consume_553" = sub i64 %"$gasrem_549", 1
-  store i64 %"$consume_553", i64* @_gasrem, align 8
-  %"$gasrem_554" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_555" = icmp ugt i64 1, %"$gasrem_554"
-  br i1 %"$gascmp_555", label %"$out_of_gas_556", label %"$have_gas_557"
+"$have_gas_556":                                  ; preds = %"$out_of_gas_555", %"$have_gas_551"
+  %"$consume_557" = sub i64 %"$gasrem_553", 1
+  store i64 %"$consume_557", i64* @_gasrem, align 8
+  %"$gasrem_558" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_559" = icmp ugt i64 1, %"$gasrem_558"
+  br i1 %"$gascmp_559", label %"$out_of_gas_560", label %"$have_gas_561"
 
-"$out_of_gas_556":                                ; preds = %"$have_gas_552"
+"$out_of_gas_560":                                ; preds = %"$have_gas_556"
   call void @_out_of_gas()
-  br label %"$have_gas_557"
+  br label %"$have_gas_561"
 
-"$have_gas_557":                                  ; preds = %"$out_of_gas_556", %"$have_gas_552"
-  %"$consume_558" = sub i64 %"$gasrem_554", 1
-  store i64 %"$consume_558", i64* @_gasrem, align 8
-  %"$gasrem_559" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_560" = icmp ugt i64 1, %"$gasrem_559"
-  br i1 %"$gascmp_560", label %"$out_of_gas_561", label %"$have_gas_562"
+"$have_gas_561":                                  ; preds = %"$out_of_gas_560", %"$have_gas_556"
+  %"$consume_562" = sub i64 %"$gasrem_558", 1
+  store i64 %"$consume_562", i64* @_gasrem, align 8
+  %"$gasrem_563" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_564" = icmp ugt i64 1, %"$gasrem_563"
+  br i1 %"$gascmp_564", label %"$out_of_gas_565", label %"$have_gas_566"
 
-"$out_of_gas_561":                                ; preds = %"$have_gas_557"
+"$out_of_gas_565":                                ; preds = %"$have_gas_561"
   call void @_out_of_gas()
-  br label %"$have_gas_562"
+  br label %"$have_gas_566"
 
-"$have_gas_562":                                  ; preds = %"$out_of_gas_561", %"$have_gas_557"
-  %"$consume_563" = sub i64 %"$gasrem_559", 1
-  store i64 %"$consume_563", i64* @_gasrem, align 8
-  %"$gasrem_564" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_565" = icmp ugt i64 1, %"$gasrem_564"
-  br i1 %"$gascmp_565", label %"$out_of_gas_566", label %"$have_gas_567"
+"$have_gas_566":                                  ; preds = %"$out_of_gas_565", %"$have_gas_561"
+  %"$consume_567" = sub i64 %"$gasrem_563", 1
+  store i64 %"$consume_567", i64* @_gasrem, align 8
+  %"$gasrem_568" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_569" = icmp ugt i64 1, %"$gasrem_568"
+  br i1 %"$gascmp_569", label %"$out_of_gas_570", label %"$have_gas_571"
 
-"$out_of_gas_566":                                ; preds = %"$have_gas_562"
+"$out_of_gas_570":                                ; preds = %"$have_gas_566"
   call void @_out_of_gas()
-  br label %"$have_gas_567"
+  br label %"$have_gas_571"
 
-"$have_gas_567":                                  ; preds = %"$out_of_gas_566", %"$have_gas_562"
-  %"$consume_568" = sub i64 %"$gasrem_564", 1
-  store i64 %"$consume_568", i64* @_gasrem, align 8
+"$have_gas_571":                                  ; preds = %"$out_of_gas_570", %"$have_gas_566"
+  %"$consume_572" = sub i64 %"$gasrem_568", 1
+  store i64 %"$consume_572", i64* @_gasrem, align 8
   %c2 = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_569" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_570" = icmp ugt i64 1, %"$gasrem_569"
-  br i1 %"$gascmp_570", label %"$out_of_gas_571", label %"$have_gas_572"
+  %"$gasrem_573" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_574" = icmp ugt i64 1, %"$gasrem_573"
+  br i1 %"$gascmp_574", label %"$out_of_gas_575", label %"$have_gas_576"
 
-"$out_of_gas_571":                                ; preds = %"$have_gas_567"
+"$out_of_gas_575":                                ; preds = %"$have_gas_571"
   call void @_out_of_gas()
-  br label %"$have_gas_572"
+  br label %"$have_gas_576"
 
-"$have_gas_572":                                  ; preds = %"$out_of_gas_571", %"$have_gas_567"
-  %"$consume_573" = sub i64 %"$gasrem_569", 1
-  store i64 %"$consume_573", i64* @_gasrem, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })* bitcast ({ %Uint32 (i8*, %Uint32)*, i8* } (%"$$fundef_43_env_130"*, { %Uint32 (i8*, %Uint32)*, i8* })* @"$fundef_43" to { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*), i8* null }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c2, align 8, !dbg !87
-  %"$gasrem_577" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_578" = icmp ugt i64 1, %"$gasrem_577"
-  br i1 %"$gascmp_578", label %"$out_of_gas_579", label %"$have_gas_580"
+"$have_gas_576":                                  ; preds = %"$out_of_gas_575", %"$have_gas_571"
+  %"$consume_577" = sub i64 %"$gasrem_573", 1
+  store i64 %"$consume_577", i64* @_gasrem, align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })* bitcast ({ %Uint32 (i8*, %Uint32)*, i8* } (%"$$fundef_43_env_130"*, { %Uint32 (i8*, %Uint32)*, i8* })* @"$fundef_43" to { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*), i8* null }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c2, align 8, !dbg !95
+  %"$gasrem_581" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_582" = icmp ugt i64 1, %"$gasrem_581"
+  br i1 %"$gascmp_582", label %"$out_of_gas_583", label %"$have_gas_584"
 
-"$out_of_gas_579":                                ; preds = %"$have_gas_572"
+"$out_of_gas_583":                                ; preds = %"$have_gas_576"
   call void @_out_of_gas()
-  br label %"$have_gas_580"
+  br label %"$have_gas_584"
 
-"$have_gas_580":                                  ; preds = %"$out_of_gas_579", %"$have_gas_572"
-  %"$consume_581" = sub i64 %"$gasrem_577", 1
-  store i64 %"$consume_581", i64* @_gasrem, align 8
+"$have_gas_584":                                  ; preds = %"$out_of_gas_583", %"$have_gas_576"
+  %"$consume_585" = sub i64 %"$gasrem_581", 1
+  store i64 %"$consume_585", i64* @_gasrem, align 8
   %c3 = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_582" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_583" = icmp ugt i64 1, %"$gasrem_582"
-  br i1 %"$gascmp_583", label %"$out_of_gas_584", label %"$have_gas_585"
+  %"$gasrem_586" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_587" = icmp ugt i64 1, %"$gasrem_586"
+  br i1 %"$gascmp_587", label %"$out_of_gas_588", label %"$have_gas_589"
 
-"$out_of_gas_584":                                ; preds = %"$have_gas_580"
+"$out_of_gas_588":                                ; preds = %"$have_gas_584"
   call void @_out_of_gas()
-  br label %"$have_gas_585"
+  br label %"$have_gas_589"
 
-"$have_gas_585":                                  ; preds = %"$out_of_gas_584", %"$have_gas_580"
-  %"$consume_586" = sub i64 %"$gasrem_582", 1
-  store i64 %"$consume_586", i64* @_gasrem, align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })* bitcast ({ %Uint32 (i8*, %Uint32)*, i8* } (%"$$fundef_47_env_128"*, { %Uint32 (i8*, %Uint32)*, i8* })* @"$fundef_47" to { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*), i8* null }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c3, align 8, !dbg !88
-  %"$gasrem_590" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_591" = icmp ugt i64 1, %"$gasrem_590"
-  br i1 %"$gascmp_591", label %"$out_of_gas_592", label %"$have_gas_593"
+"$have_gas_589":                                  ; preds = %"$out_of_gas_588", %"$have_gas_584"
+  %"$consume_590" = sub i64 %"$gasrem_586", 1
+  store i64 %"$consume_590", i64* @_gasrem, align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })* bitcast ({ %Uint32 (i8*, %Uint32)*, i8* } (%"$$fundef_47_env_128"*, { %Uint32 (i8*, %Uint32)*, i8* })* @"$fundef_47" to { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*), i8* null }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c3, align 8, !dbg !96
+  %"$gasrem_594" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_595" = icmp ugt i64 1, %"$gasrem_594"
+  br i1 %"$gascmp_595", label %"$out_of_gas_596", label %"$have_gas_597"
 
-"$out_of_gas_592":                                ; preds = %"$have_gas_585"
+"$out_of_gas_596":                                ; preds = %"$have_gas_589"
   call void @_out_of_gas()
-  br label %"$have_gas_593"
+  br label %"$have_gas_597"
 
-"$have_gas_593":                                  ; preds = %"$out_of_gas_592", %"$have_gas_585"
-  %"$consume_594" = sub i64 %"$gasrem_590", 1
-  store i64 %"$consume_594", i64* @_gasrem, align 8
+"$have_gas_597":                                  ; preds = %"$out_of_gas_596", %"$have_gas_589"
+  %"$consume_598" = sub i64 %"$gasrem_594", 1
+  store i64 %"$consume_598", i64* @_gasrem, align 8
   %c3_ = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$gasrem_595" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_596" = icmp ugt i64 1, %"$gasrem_595"
-  br i1 %"$gascmp_596", label %"$out_of_gas_597", label %"$have_gas_598"
+  %"$gasrem_599" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_600" = icmp ugt i64 1, %"$gasrem_599"
+  br i1 %"$gascmp_600", label %"$out_of_gas_601", label %"$have_gas_602"
 
-"$out_of_gas_597":                                ; preds = %"$have_gas_593"
+"$out_of_gas_601":                                ; preds = %"$have_gas_597"
   call void @_out_of_gas()
-  br label %"$have_gas_598"
+  br label %"$have_gas_602"
 
-"$have_gas_598":                                  ; preds = %"$out_of_gas_597", %"$have_gas_593"
-  %"$consume_599" = sub i64 %"$gasrem_595", 1
-  store i64 %"$consume_599", i64* @_gasrem, align 8
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast ({ { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (%"$$fundef_51_env_126"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_51" to { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* null }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %c3_, align 8, !dbg !89
-  %"$gasrem_603" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_604" = icmp ugt i64 1, %"$gasrem_603"
-  br i1 %"$gascmp_604", label %"$out_of_gas_605", label %"$have_gas_606"
+"$have_gas_602":                                  ; preds = %"$out_of_gas_601", %"$have_gas_597"
+  %"$consume_603" = sub i64 %"$gasrem_599", 1
+  store i64 %"$consume_603", i64* @_gasrem, align 8
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast ({ { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (%"$$fundef_51_env_126"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_51" to { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* null }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %c3_, align 8, !dbg !97
+  %"$gasrem_607" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_608" = icmp ugt i64 1, %"$gasrem_607"
+  br i1 %"$gascmp_608", label %"$out_of_gas_609", label %"$have_gas_610"
 
-"$out_of_gas_605":                                ; preds = %"$have_gas_598"
+"$out_of_gas_609":                                ; preds = %"$have_gas_602"
   call void @_out_of_gas()
-  br label %"$have_gas_606"
+  br label %"$have_gas_610"
 
-"$have_gas_606":                                  ; preds = %"$out_of_gas_605", %"$have_gas_598"
-  %"$consume_607" = sub i64 %"$gasrem_603", 1
-  store i64 %"$consume_607", i64* @_gasrem, align 8
+"$have_gas_610":                                  ; preds = %"$out_of_gas_609", %"$have_gas_602"
+  %"$consume_611" = sub i64 %"$gasrem_607", 1
+  store i64 %"$consume_611", i64* @_gasrem, align 8
   %cadd = alloca { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$gasrem_608" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_609" = icmp ugt i64 1, %"$gasrem_608"
-  br i1 %"$gascmp_609", label %"$out_of_gas_610", label %"$have_gas_611"
+  %"$gasrem_612" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_613" = icmp ugt i64 1, %"$gasrem_612"
+  br i1 %"$gascmp_613", label %"$out_of_gas_614", label %"$have_gas_615"
 
-"$out_of_gas_610":                                ; preds = %"$have_gas_606"
+"$out_of_gas_614":                                ; preds = %"$have_gas_610"
   call void @_out_of_gas()
-  br label %"$have_gas_611"
+  br label %"$have_gas_615"
 
-"$have_gas_611":                                  ; preds = %"$out_of_gas_610", %"$have_gas_606"
-  %"$consume_612" = sub i64 %"$gasrem_608", 1
-  store i64 %"$consume_612", i64* @_gasrem, align 8
-  store { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast ({ { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (%"$$fundef_55_env_124"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_55" to { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* null }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cadd, align 8, !dbg !90
-  %"$gasrem_616" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_617" = icmp ugt i64 1, %"$gasrem_616"
-  br i1 %"$gascmp_617", label %"$out_of_gas_618", label %"$have_gas_619"
+"$have_gas_615":                                  ; preds = %"$out_of_gas_614", %"$have_gas_610"
+  %"$consume_616" = sub i64 %"$gasrem_612", 1
+  store i64 %"$consume_616", i64* @_gasrem, align 8
+  store { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast ({ { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (%"$$fundef_55_env_124"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_55" to { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* null }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cadd, align 8, !dbg !98
+  %"$gasrem_620" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_621" = icmp ugt i64 1, %"$gasrem_620"
+  br i1 %"$gascmp_621", label %"$out_of_gas_622", label %"$have_gas_623"
 
-"$out_of_gas_618":                                ; preds = %"$have_gas_611"
+"$out_of_gas_622":                                ; preds = %"$have_gas_615"
   call void @_out_of_gas()
-  br label %"$have_gas_619"
+  br label %"$have_gas_623"
 
-"$have_gas_619":                                  ; preds = %"$out_of_gas_618", %"$have_gas_611"
-  %"$consume_620" = sub i64 %"$gasrem_616", 1
-  store i64 %"$consume_620", i64* @_gasrem, align 8
+"$have_gas_623":                                  ; preds = %"$out_of_gas_622", %"$have_gas_615"
+  %"$consume_624" = sub i64 %"$gasrem_620", 1
+  store i64 %"$consume_624", i64* @_gasrem, align 8
   %cmul = alloca { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$gasrem_621" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_622" = icmp ugt i64 1, %"$gasrem_621"
-  br i1 %"$gascmp_622", label %"$out_of_gas_623", label %"$have_gas_624"
+  %"$gasrem_625" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_626" = icmp ugt i64 1, %"$gasrem_625"
+  br i1 %"$gascmp_626", label %"$out_of_gas_627", label %"$have_gas_628"
 
-"$out_of_gas_623":                                ; preds = %"$have_gas_619"
+"$out_of_gas_627":                                ; preds = %"$have_gas_623"
   call void @_out_of_gas()
-  br label %"$have_gas_624"
+  br label %"$have_gas_628"
 
-"$have_gas_624":                                  ; preds = %"$out_of_gas_623", %"$have_gas_619"
-  %"$consume_625" = sub i64 %"$gasrem_621", 1
-  store i64 %"$consume_625", i64* @_gasrem, align 8
-  store { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast ({ { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (%"$$fundef_63_env_120"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_63" to { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* null }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cmul, align 8, !dbg !91
-  %"$gasrem_629" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_630" = icmp ugt i64 1, %"$gasrem_629"
-  br i1 %"$gascmp_630", label %"$out_of_gas_631", label %"$have_gas_632"
+"$have_gas_628":                                  ; preds = %"$out_of_gas_627", %"$have_gas_623"
+  %"$consume_629" = sub i64 %"$gasrem_625", 1
+  store i64 %"$consume_629", i64* @_gasrem, align 8
+  store { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast ({ { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (%"$$fundef_63_env_120"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_63" to { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* null }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cmul, align 8, !dbg !99
+  %"$gasrem_633" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_634" = icmp ugt i64 1, %"$gasrem_633"
+  br i1 %"$gascmp_634", label %"$out_of_gas_635", label %"$have_gas_636"
 
-"$out_of_gas_631":                                ; preds = %"$have_gas_624"
+"$out_of_gas_635":                                ; preds = %"$have_gas_628"
   call void @_out_of_gas()
-  br label %"$have_gas_632"
+  br label %"$have_gas_636"
 
-"$have_gas_632":                                  ; preds = %"$out_of_gas_631", %"$have_gas_624"
-  %"$consume_633" = sub i64 %"$gasrem_629", 1
-  store i64 %"$consume_633", i64* @_gasrem, align 8
+"$have_gas_636":                                  ; preds = %"$out_of_gas_635", %"$have_gas_628"
+  %"$consume_637" = sub i64 %"$gasrem_633", 1
+  store i64 %"$consume_637", i64* @_gasrem, align 8
   %cexp = alloca { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$gasrem_634" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_635" = icmp ugt i64 1, %"$gasrem_634"
-  br i1 %"$gascmp_635", label %"$out_of_gas_636", label %"$have_gas_637"
+  %"$gasrem_638" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_639" = icmp ugt i64 1, %"$gasrem_638"
+  br i1 %"$gascmp_639", label %"$out_of_gas_640", label %"$have_gas_641"
 
-"$out_of_gas_636":                                ; preds = %"$have_gas_632"
+"$out_of_gas_640":                                ; preds = %"$have_gas_636"
   call void @_out_of_gas()
-  br label %"$have_gas_637"
+  br label %"$have_gas_641"
 
-"$have_gas_637":                                  ; preds = %"$out_of_gas_636", %"$have_gas_632"
-  %"$consume_638" = sub i64 %"$gasrem_634", 1
-  store i64 %"$consume_638", i64* @_gasrem, align 8
-  store { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast ({ { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (%"$$fundef_69_env_117"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_69" to { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* null }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cexp, align 8, !dbg !92
-  %"$gasrem_642" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_643" = icmp ugt i64 1, %"$gasrem_642"
-  br i1 %"$gascmp_643", label %"$out_of_gas_644", label %"$have_gas_645"
+"$have_gas_641":                                  ; preds = %"$out_of_gas_640", %"$have_gas_636"
+  %"$consume_642" = sub i64 %"$gasrem_638", 1
+  store i64 %"$consume_642", i64* @_gasrem, align 8
+  store { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast ({ { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (%"$$fundef_69_env_117"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_69" to { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* null }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cexp, align 8, !dbg !100
+  %"$gasrem_646" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_647" = icmp ugt i64 1, %"$gasrem_646"
+  br i1 %"$gascmp_647", label %"$out_of_gas_648", label %"$have_gas_649"
 
-"$out_of_gas_644":                                ; preds = %"$have_gas_637"
+"$out_of_gas_648":                                ; preds = %"$have_gas_641"
   call void @_out_of_gas()
-  br label %"$have_gas_645"
+  br label %"$have_gas_649"
 
-"$have_gas_645":                                  ; preds = %"$out_of_gas_644", %"$have_gas_637"
-  %"$consume_646" = sub i64 %"$gasrem_642", 1
-  store i64 %"$consume_646", i64* @_gasrem, align 8
+"$have_gas_649":                                  ; preds = %"$out_of_gas_648", %"$have_gas_641"
+  %"$consume_650" = sub i64 %"$gasrem_646", 1
+  store i64 %"$consume_650", i64* @_gasrem, align 8
   %church_nat_to_uint32 = alloca { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$gasrem_647" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_648" = icmp ugt i64 1, %"$gasrem_647"
-  br i1 %"$gascmp_648", label %"$out_of_gas_649", label %"$have_gas_650"
+  %"$gasrem_651" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_652" = icmp ugt i64 1, %"$gasrem_651"
+  br i1 %"$gascmp_652", label %"$out_of_gas_653", label %"$have_gas_654"
 
-"$out_of_gas_649":                                ; preds = %"$have_gas_645"
+"$out_of_gas_653":                                ; preds = %"$have_gas_649"
   call void @_out_of_gas()
-  br label %"$have_gas_650"
+  br label %"$have_gas_654"
 
-"$have_gas_650":                                  ; preds = %"$out_of_gas_649", %"$have_gas_645"
-  %"$consume_651" = sub i64 %"$gasrem_647", 1
-  store i64 %"$consume_651", i64* @_gasrem, align 8
-  store { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast (%Uint32 (%"$$fundef_73_env_115"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_73" to %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* null }, { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %church_nat_to_uint32, align 8, !dbg !93
-  %"$gasrem_655" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_656" = icmp ugt i64 1, %"$gasrem_655"
-  br i1 %"$gascmp_656", label %"$out_of_gas_657", label %"$have_gas_658"
+"$have_gas_654":                                  ; preds = %"$out_of_gas_653", %"$have_gas_649"
+  %"$consume_655" = sub i64 %"$gasrem_651", 1
+  store i64 %"$consume_655", i64* @_gasrem, align 8
+  store { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* bitcast (%Uint32 (%"$$fundef_73_env_115"*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })* @"$fundef_73" to %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*), i8* null }, { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %church_nat_to_uint32, align 8, !dbg !101
+  %"$gasrem_659" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_660" = icmp ugt i64 1, %"$gasrem_659"
+  br i1 %"$gascmp_660", label %"$out_of_gas_661", label %"$have_gas_662"
 
-"$out_of_gas_657":                                ; preds = %"$have_gas_650"
+"$out_of_gas_661":                                ; preds = %"$have_gas_654"
   call void @_out_of_gas()
-  br label %"$have_gas_658"
+  br label %"$have_gas_662"
 
-"$have_gas_658":                                  ; preds = %"$out_of_gas_657", %"$have_gas_650"
-  %"$consume_659" = sub i64 %"$gasrem_655", 1
-  store i64 %"$consume_659", i64* @_gasrem, align 8
+"$have_gas_662":                                  ; preds = %"$out_of_gas_661", %"$have_gas_654"
+  %"$consume_663" = sub i64 %"$gasrem_659", 1
+  store i64 %"$consume_663", i64* @_gasrem, align 8
   %c4 = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_660" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_661" = icmp ugt i64 1, %"$gasrem_660"
-  br i1 %"$gascmp_661", label %"$out_of_gas_662", label %"$have_gas_663"
+  %"$gasrem_664" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_665" = icmp ugt i64 1, %"$gasrem_664"
+  br i1 %"$gascmp_665", label %"$out_of_gas_666", label %"$have_gas_667"
 
-"$out_of_gas_662":                                ; preds = %"$have_gas_658"
+"$out_of_gas_666":                                ; preds = %"$have_gas_662"
   call void @_out_of_gas()
-  br label %"$have_gas_663"
+  br label %"$have_gas_667"
 
-"$have_gas_663":                                  ; preds = %"$out_of_gas_662", %"$have_gas_658"
-  %"$consume_664" = sub i64 %"$gasrem_660", 1
-  store i64 %"$consume_664", i64* @_gasrem, align 8
+"$have_gas_667":                                  ; preds = %"$out_of_gas_666", %"$have_gas_662"
+  %"$consume_668" = sub i64 %"$gasrem_664", 1
+  store i64 %"$consume_668", i64* @_gasrem, align 8
   %"$cmul_23" = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$cmul_665" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cmul, align 8
-  %"$cmul_fptr_666" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_665", 0
-  %"$cmul_envptr_667" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_665", 1
-  %"$c2_668" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c2, align 8
-  %"$cmul_call_669" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_fptr_666"(i8* %"$cmul_envptr_667", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c2_668"), !dbg !94
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_call_669", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_23", align 8, !dbg !94
+  %"$cmul_669" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cmul, align 8
+  %"$cmul_fptr_670" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_669", 0
+  %"$cmul_envptr_671" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_669", 1
+  %"$c2_672" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c2, align 8
+  %"$cmul_call_673" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_fptr_670"(i8* %"$cmul_envptr_671", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c2_672"), !dbg !102
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_call_673", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_23", align 8, !dbg !102
   %"$cmul_24" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$$cmul_23_670" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_23", align 8
-  %"$$cmul_23_fptr_671" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_23_670", 0
-  %"$$cmul_23_envptr_672" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_23_670", 1
-  %"$c2_673" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c2, align 8
-  %"$$cmul_23_call_674" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_23_fptr_671"(i8* %"$$cmul_23_envptr_672", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c2_673"), !dbg !94
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_23_call_674", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_24", align 8, !dbg !94
-  %"$$cmul_24_675" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_24", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_24_675", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c4, align 8, !dbg !94
-  %"$gasrem_676" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_677" = icmp ugt i64 1, %"$gasrem_676"
-  br i1 %"$gascmp_677", label %"$out_of_gas_678", label %"$have_gas_679"
+  %"$$cmul_23_674" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_23", align 8
+  %"$$cmul_23_fptr_675" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_23_674", 0
+  %"$$cmul_23_envptr_676" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_23_674", 1
+  %"$c2_677" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c2, align 8
+  %"$$cmul_23_call_678" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_23_fptr_675"(i8* %"$$cmul_23_envptr_676", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c2_677"), !dbg !102
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_23_call_678", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_24", align 8, !dbg !102
+  %"$$cmul_24_679" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_24", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_24_679", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c4, align 8, !dbg !102
+  %"$gasrem_680" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_681" = icmp ugt i64 1, %"$gasrem_680"
+  br i1 %"$gascmp_681", label %"$out_of_gas_682", label %"$have_gas_683"
 
-"$out_of_gas_678":                                ; preds = %"$have_gas_663"
+"$out_of_gas_682":                                ; preds = %"$have_gas_667"
   call void @_out_of_gas()
-  br label %"$have_gas_679"
+  br label %"$have_gas_683"
 
-"$have_gas_679":                                  ; preds = %"$out_of_gas_678", %"$have_gas_663"
-  %"$consume_680" = sub i64 %"$gasrem_676", 1
-  store i64 %"$consume_680", i64* @_gasrem, align 8
+"$have_gas_683":                                  ; preds = %"$out_of_gas_682", %"$have_gas_667"
+  %"$consume_684" = sub i64 %"$gasrem_680", 1
+  store i64 %"$consume_684", i64* @_gasrem, align 8
   %c16 = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_681" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_682" = icmp ugt i64 1, %"$gasrem_681"
-  br i1 %"$gascmp_682", label %"$out_of_gas_683", label %"$have_gas_684"
+  %"$gasrem_685" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_686" = icmp ugt i64 1, %"$gasrem_685"
+  br i1 %"$gascmp_686", label %"$out_of_gas_687", label %"$have_gas_688"
 
-"$out_of_gas_683":                                ; preds = %"$have_gas_679"
+"$out_of_gas_687":                                ; preds = %"$have_gas_683"
   call void @_out_of_gas()
-  br label %"$have_gas_684"
+  br label %"$have_gas_688"
 
-"$have_gas_684":                                  ; preds = %"$out_of_gas_683", %"$have_gas_679"
-  %"$consume_685" = sub i64 %"$gasrem_681", 1
-  store i64 %"$consume_685", i64* @_gasrem, align 8
+"$have_gas_688":                                  ; preds = %"$out_of_gas_687", %"$have_gas_683"
+  %"$consume_689" = sub i64 %"$gasrem_685", 1
+  store i64 %"$consume_689", i64* @_gasrem, align 8
   %"$cmul_25" = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$cmul_686" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cmul, align 8
-  %"$cmul_fptr_687" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_686", 0
-  %"$cmul_envptr_688" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_686", 1
-  %"$c4_689" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c4, align 8
-  %"$cmul_call_690" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_fptr_687"(i8* %"$cmul_envptr_688", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c4_689"), !dbg !95
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_call_690", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_25", align 8, !dbg !95
+  %"$cmul_690" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cmul, align 8
+  %"$cmul_fptr_691" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_690", 0
+  %"$cmul_envptr_692" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_690", 1
+  %"$c4_693" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c4, align 8
+  %"$cmul_call_694" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_fptr_691"(i8* %"$cmul_envptr_692", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c4_693"), !dbg !103
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_call_694", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_25", align 8, !dbg !103
   %"$cmul_26" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$$cmul_25_691" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_25", align 8
-  %"$$cmul_25_fptr_692" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_25_691", 0
-  %"$$cmul_25_envptr_693" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_25_691", 1
-  %"$c4_694" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c4, align 8
-  %"$$cmul_25_call_695" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_25_fptr_692"(i8* %"$$cmul_25_envptr_693", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c4_694"), !dbg !95
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_25_call_695", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_26", align 8, !dbg !95
-  %"$$cmul_26_696" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_26", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_26_696", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c16, align 8, !dbg !95
-  %"$gasrem_697" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_698" = icmp ugt i64 1, %"$gasrem_697"
-  br i1 %"$gascmp_698", label %"$out_of_gas_699", label %"$have_gas_700"
+  %"$$cmul_25_695" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_25", align 8
+  %"$$cmul_25_fptr_696" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_25_695", 0
+  %"$$cmul_25_envptr_697" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_25_695", 1
+  %"$c4_698" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c4, align 8
+  %"$$cmul_25_call_699" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_25_fptr_696"(i8* %"$$cmul_25_envptr_697", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c4_698"), !dbg !103
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_25_call_699", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_26", align 8, !dbg !103
+  %"$$cmul_26_700" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_26", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_26_700", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c16, align 8, !dbg !103
+  %"$gasrem_701" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_702" = icmp ugt i64 1, %"$gasrem_701"
+  br i1 %"$gascmp_702", label %"$out_of_gas_703", label %"$have_gas_704"
 
-"$out_of_gas_699":                                ; preds = %"$have_gas_684"
+"$out_of_gas_703":                                ; preds = %"$have_gas_688"
   call void @_out_of_gas()
-  br label %"$have_gas_700"
+  br label %"$have_gas_704"
 
-"$have_gas_700":                                  ; preds = %"$out_of_gas_699", %"$have_gas_684"
-  %"$consume_701" = sub i64 %"$gasrem_697", 1
-  store i64 %"$consume_701", i64* @_gasrem, align 8
+"$have_gas_704":                                  ; preds = %"$out_of_gas_703", %"$have_gas_688"
+  %"$consume_705" = sub i64 %"$gasrem_701", 1
+  store i64 %"$consume_705", i64* @_gasrem, align 8
   %c32 = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_702" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_703" = icmp ugt i64 1, %"$gasrem_702"
-  br i1 %"$gascmp_703", label %"$out_of_gas_704", label %"$have_gas_705"
+  %"$gasrem_706" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_707" = icmp ugt i64 1, %"$gasrem_706"
+  br i1 %"$gascmp_707", label %"$out_of_gas_708", label %"$have_gas_709"
 
-"$out_of_gas_704":                                ; preds = %"$have_gas_700"
+"$out_of_gas_708":                                ; preds = %"$have_gas_704"
   call void @_out_of_gas()
-  br label %"$have_gas_705"
+  br label %"$have_gas_709"
 
-"$have_gas_705":                                  ; preds = %"$out_of_gas_704", %"$have_gas_700"
-  %"$consume_706" = sub i64 %"$gasrem_702", 1
-  store i64 %"$consume_706", i64* @_gasrem, align 8
+"$have_gas_709":                                  ; preds = %"$out_of_gas_708", %"$have_gas_704"
+  %"$consume_710" = sub i64 %"$gasrem_706", 1
+  store i64 %"$consume_710", i64* @_gasrem, align 8
   %"$cadd_27" = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$cadd_707" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cadd, align 8
-  %"$cadd_fptr_708" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_707", 0
-  %"$cadd_envptr_709" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_707", 1
-  %"$c16_710" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c16, align 8
-  %"$cadd_call_711" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_fptr_708"(i8* %"$cadd_envptr_709", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c16_710"), !dbg !96
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_call_711", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_27", align 8, !dbg !96
+  %"$cadd_711" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cadd, align 8
+  %"$cadd_fptr_712" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_711", 0
+  %"$cadd_envptr_713" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_711", 1
+  %"$c16_714" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c16, align 8
+  %"$cadd_call_715" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_fptr_712"(i8* %"$cadd_envptr_713", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c16_714"), !dbg !104
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_call_715", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_27", align 8, !dbg !104
   %"$cadd_28" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$$cadd_27_712" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_27", align 8
-  %"$$cadd_27_fptr_713" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_27_712", 0
-  %"$$cadd_27_envptr_714" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_27_712", 1
-  %"$c16_715" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c16, align 8
-  %"$$cadd_27_call_716" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_27_fptr_713"(i8* %"$$cadd_27_envptr_714", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c16_715"), !dbg !96
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_27_call_716", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_28", align 8, !dbg !96
-  %"$$cadd_28_717" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_28", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_28_717", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c32, align 8, !dbg !96
-  %"$gasrem_718" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_719" = icmp ugt i64 1, %"$gasrem_718"
-  br i1 %"$gascmp_719", label %"$out_of_gas_720", label %"$have_gas_721"
+  %"$$cadd_27_716" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_27", align 8
+  %"$$cadd_27_fptr_717" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_27_716", 0
+  %"$$cadd_27_envptr_718" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_27_716", 1
+  %"$c16_719" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c16, align 8
+  %"$$cadd_27_call_720" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_27_fptr_717"(i8* %"$$cadd_27_envptr_718", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c16_719"), !dbg !104
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_27_call_720", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_28", align 8, !dbg !104
+  %"$$cadd_28_721" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_28", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_28_721", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c32, align 8, !dbg !104
+  %"$gasrem_722" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_723" = icmp ugt i64 1, %"$gasrem_722"
+  br i1 %"$gascmp_723", label %"$out_of_gas_724", label %"$have_gas_725"
 
-"$out_of_gas_720":                                ; preds = %"$have_gas_705"
+"$out_of_gas_724":                                ; preds = %"$have_gas_709"
   call void @_out_of_gas()
-  br label %"$have_gas_721"
+  br label %"$have_gas_725"
 
-"$have_gas_721":                                  ; preds = %"$out_of_gas_720", %"$have_gas_705"
-  %"$consume_722" = sub i64 %"$gasrem_718", 1
-  store i64 %"$consume_722", i64* @_gasrem, align 8
+"$have_gas_725":                                  ; preds = %"$out_of_gas_724", %"$have_gas_709"
+  %"$consume_726" = sub i64 %"$gasrem_722", 1
+  store i64 %"$consume_726", i64* @_gasrem, align 8
   %c128 = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_723" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_724" = icmp ugt i64 1, %"$gasrem_723"
-  br i1 %"$gascmp_724", label %"$out_of_gas_725", label %"$have_gas_726"
+  %"$gasrem_727" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_728" = icmp ugt i64 1, %"$gasrem_727"
+  br i1 %"$gascmp_728", label %"$out_of_gas_729", label %"$have_gas_730"
 
-"$out_of_gas_725":                                ; preds = %"$have_gas_721"
+"$out_of_gas_729":                                ; preds = %"$have_gas_725"
   call void @_out_of_gas()
-  br label %"$have_gas_726"
+  br label %"$have_gas_730"
 
-"$have_gas_726":                                  ; preds = %"$out_of_gas_725", %"$have_gas_721"
-  %"$consume_727" = sub i64 %"$gasrem_723", 1
-  store i64 %"$consume_727", i64* @_gasrem, align 8
+"$have_gas_730":                                  ; preds = %"$out_of_gas_729", %"$have_gas_725"
+  %"$consume_731" = sub i64 %"$gasrem_727", 1
+  store i64 %"$consume_731", i64* @_gasrem, align 8
   %"$cmul_29" = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$cmul_728" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cmul, align 8
-  %"$cmul_fptr_729" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_728", 0
-  %"$cmul_envptr_730" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_728", 1
-  %"$c4_731" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c4, align 8
-  %"$cmul_call_732" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_fptr_729"(i8* %"$cmul_envptr_730", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c4_731"), !dbg !97
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_call_732", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_29", align 8, !dbg !97
+  %"$cmul_732" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cmul, align 8
+  %"$cmul_fptr_733" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_732", 0
+  %"$cmul_envptr_734" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_732", 1
+  %"$c4_735" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c4, align 8
+  %"$cmul_call_736" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_fptr_733"(i8* %"$cmul_envptr_734", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c4_735"), !dbg !105
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_call_736", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_29", align 8, !dbg !105
   %"$cmul_30" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$$cmul_29_733" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_29", align 8
-  %"$$cmul_29_fptr_734" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_29_733", 0
-  %"$$cmul_29_envptr_735" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_29_733", 1
-  %"$c32_736" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c32, align 8
-  %"$$cmul_29_call_737" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_29_fptr_734"(i8* %"$$cmul_29_envptr_735", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c32_736"), !dbg !97
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_29_call_737", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_30", align 8, !dbg !97
-  %"$$cmul_30_738" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_30", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_30_738", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c128, align 8, !dbg !97
-  %"$gasrem_739" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_740" = icmp ugt i64 1, %"$gasrem_739"
-  br i1 %"$gascmp_740", label %"$out_of_gas_741", label %"$have_gas_742"
+  %"$$cmul_29_737" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_29", align 8
+  %"$$cmul_29_fptr_738" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_29_737", 0
+  %"$$cmul_29_envptr_739" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_29_737", 1
+  %"$c32_740" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c32, align 8
+  %"$$cmul_29_call_741" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_29_fptr_738"(i8* %"$$cmul_29_envptr_739", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c32_740"), !dbg !105
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_29_call_741", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_30", align 8, !dbg !105
+  %"$$cmul_30_742" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_30", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_30_742", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c128, align 8, !dbg !105
+  %"$gasrem_743" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_744" = icmp ugt i64 1, %"$gasrem_743"
+  br i1 %"$gascmp_744", label %"$out_of_gas_745", label %"$have_gas_746"
 
-"$out_of_gas_741":                                ; preds = %"$have_gas_726"
+"$out_of_gas_745":                                ; preds = %"$have_gas_730"
   call void @_out_of_gas()
-  br label %"$have_gas_742"
+  br label %"$have_gas_746"
 
-"$have_gas_742":                                  ; preds = %"$out_of_gas_741", %"$have_gas_726"
-  %"$consume_743" = sub i64 %"$gasrem_739", 1
-  store i64 %"$consume_743", i64* @_gasrem, align 8
+"$have_gas_746":                                  ; preds = %"$out_of_gas_745", %"$have_gas_730"
+  %"$consume_747" = sub i64 %"$gasrem_743", 1
+  store i64 %"$consume_747", i64* @_gasrem, align 8
   %c256 = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_744" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_745" = icmp ugt i64 1, %"$gasrem_744"
-  br i1 %"$gascmp_745", label %"$out_of_gas_746", label %"$have_gas_747"
+  %"$gasrem_748" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_749" = icmp ugt i64 1, %"$gasrem_748"
+  br i1 %"$gascmp_749", label %"$out_of_gas_750", label %"$have_gas_751"
 
-"$out_of_gas_746":                                ; preds = %"$have_gas_742"
+"$out_of_gas_750":                                ; preds = %"$have_gas_746"
   call void @_out_of_gas()
-  br label %"$have_gas_747"
+  br label %"$have_gas_751"
 
-"$have_gas_747":                                  ; preds = %"$out_of_gas_746", %"$have_gas_742"
-  %"$consume_748" = sub i64 %"$gasrem_744", 1
-  store i64 %"$consume_748", i64* @_gasrem, align 8
+"$have_gas_751":                                  ; preds = %"$out_of_gas_750", %"$have_gas_746"
+  %"$consume_752" = sub i64 %"$gasrem_748", 1
+  store i64 %"$consume_752", i64* @_gasrem, align 8
   %"$cadd_31" = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$cadd_749" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cadd, align 8
-  %"$cadd_fptr_750" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_749", 0
-  %"$cadd_envptr_751" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_749", 1
-  %"$c128_752" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c128, align 8
-  %"$cadd_call_753" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_fptr_750"(i8* %"$cadd_envptr_751", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c128_752"), !dbg !98
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_call_753", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_31", align 8, !dbg !98
+  %"$cadd_753" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cadd, align 8
+  %"$cadd_fptr_754" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_753", 0
+  %"$cadd_envptr_755" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_753", 1
+  %"$c128_756" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c128, align 8
+  %"$cadd_call_757" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_fptr_754"(i8* %"$cadd_envptr_755", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c128_756"), !dbg !106
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_call_757", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_31", align 8, !dbg !106
   %"$cadd_32" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$$cadd_31_754" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_31", align 8
-  %"$$cadd_31_fptr_755" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_31_754", 0
-  %"$$cadd_31_envptr_756" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_31_754", 1
-  %"$c128_757" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c128, align 8
-  %"$$cadd_31_call_758" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_31_fptr_755"(i8* %"$$cadd_31_envptr_756", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c128_757"), !dbg !98
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_31_call_758", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_32", align 8, !dbg !98
-  %"$$cadd_32_759" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_32", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_32_759", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c256, align 8, !dbg !98
-  %"$gasrem_760" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_761" = icmp ugt i64 1, %"$gasrem_760"
-  br i1 %"$gascmp_761", label %"$out_of_gas_762", label %"$have_gas_763"
+  %"$$cadd_31_758" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_31", align 8
+  %"$$cadd_31_fptr_759" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_31_758", 0
+  %"$$cadd_31_envptr_760" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_31_758", 1
+  %"$c128_761" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c128, align 8
+  %"$$cadd_31_call_762" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_31_fptr_759"(i8* %"$$cadd_31_envptr_760", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c128_761"), !dbg !106
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_31_call_762", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_32", align 8, !dbg !106
+  %"$$cadd_32_763" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_32", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_32_763", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c256, align 8, !dbg !106
+  %"$gasrem_764" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_765" = icmp ugt i64 1, %"$gasrem_764"
+  br i1 %"$gascmp_765", label %"$out_of_gas_766", label %"$have_gas_767"
 
-"$out_of_gas_762":                                ; preds = %"$have_gas_747"
+"$out_of_gas_766":                                ; preds = %"$have_gas_751"
   call void @_out_of_gas()
-  br label %"$have_gas_763"
+  br label %"$have_gas_767"
 
-"$have_gas_763":                                  ; preds = %"$out_of_gas_762", %"$have_gas_747"
-  %"$consume_764" = sub i64 %"$gasrem_760", 1
-  store i64 %"$consume_764", i64* @_gasrem, align 8
+"$have_gas_767":                                  ; preds = %"$out_of_gas_766", %"$have_gas_751"
+  %"$consume_768" = sub i64 %"$gasrem_764", 1
+  store i64 %"$consume_768", i64* @_gasrem, align 8
   %c65536 = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_765" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_766" = icmp ugt i64 1, %"$gasrem_765"
-  br i1 %"$gascmp_766", label %"$out_of_gas_767", label %"$have_gas_768"
+  %"$gasrem_769" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_770" = icmp ugt i64 1, %"$gasrem_769"
+  br i1 %"$gascmp_770", label %"$out_of_gas_771", label %"$have_gas_772"
 
-"$out_of_gas_767":                                ; preds = %"$have_gas_763"
+"$out_of_gas_771":                                ; preds = %"$have_gas_767"
   call void @_out_of_gas()
-  br label %"$have_gas_768"
+  br label %"$have_gas_772"
 
-"$have_gas_768":                                  ; preds = %"$out_of_gas_767", %"$have_gas_763"
-  %"$consume_769" = sub i64 %"$gasrem_765", 1
-  store i64 %"$consume_769", i64* @_gasrem, align 8
+"$have_gas_772":                                  ; preds = %"$out_of_gas_771", %"$have_gas_767"
+  %"$consume_773" = sub i64 %"$gasrem_769", 1
+  store i64 %"$consume_773", i64* @_gasrem, align 8
   %"$cmul_33" = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$cmul_770" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cmul, align 8
-  %"$cmul_fptr_771" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_770", 0
-  %"$cmul_envptr_772" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_770", 1
-  %"$c256_773" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c256, align 8
-  %"$cmul_call_774" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_fptr_771"(i8* %"$cmul_envptr_772", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c256_773"), !dbg !99
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_call_774", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_33", align 8, !dbg !99
+  %"$cmul_774" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cmul, align 8
+  %"$cmul_fptr_775" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_774", 0
+  %"$cmul_envptr_776" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_774", 1
+  %"$c256_777" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c256, align 8
+  %"$cmul_call_778" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_fptr_775"(i8* %"$cmul_envptr_776", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c256_777"), !dbg !107
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cmul_call_778", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_33", align 8, !dbg !107
   %"$cmul_34" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$$cmul_33_775" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_33", align 8
-  %"$$cmul_33_fptr_776" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_33_775", 0
-  %"$$cmul_33_envptr_777" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_33_775", 1
-  %"$c256_778" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c256, align 8
-  %"$$cmul_33_call_779" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_33_fptr_776"(i8* %"$$cmul_33_envptr_777", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c256_778"), !dbg !99
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_33_call_779", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_34", align 8, !dbg !99
-  %"$$cmul_34_780" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_34", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_34_780", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c65536, align 8, !dbg !99
-  %"$gasrem_781" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_782" = icmp ugt i64 1, %"$gasrem_781"
-  br i1 %"$gascmp_782", label %"$out_of_gas_783", label %"$have_gas_784"
+  %"$$cmul_33_779" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cmul_33", align 8
+  %"$$cmul_33_fptr_780" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_33_779", 0
+  %"$$cmul_33_envptr_781" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cmul_33_779", 1
+  %"$c256_782" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c256, align 8
+  %"$$cmul_33_call_783" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_33_fptr_780"(i8* %"$$cmul_33_envptr_781", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c256_782"), !dbg !107
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_33_call_783", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_34", align 8, !dbg !107
+  %"$$cmul_34_784" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cmul_34", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cmul_34_784", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c65536, align 8, !dbg !107
+  %"$gasrem_785" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_786" = icmp ugt i64 1, %"$gasrem_785"
+  br i1 %"$gascmp_786", label %"$out_of_gas_787", label %"$have_gas_788"
 
-"$out_of_gas_783":                                ; preds = %"$have_gas_768"
+"$out_of_gas_787":                                ; preds = %"$have_gas_772"
   call void @_out_of_gas()
-  br label %"$have_gas_784"
+  br label %"$have_gas_788"
 
-"$have_gas_784":                                  ; preds = %"$out_of_gas_783", %"$have_gas_768"
-  %"$consume_785" = sub i64 %"$gasrem_781", 1
-  store i64 %"$consume_785", i64* @_gasrem, align 8
+"$have_gas_788":                                  ; preds = %"$out_of_gas_787", %"$have_gas_772"
+  %"$consume_789" = sub i64 %"$gasrem_785", 1
+  store i64 %"$consume_789", i64* @_gasrem, align 8
   %c131072 = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_786" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_787" = icmp ugt i64 1, %"$gasrem_786"
-  br i1 %"$gascmp_787", label %"$out_of_gas_788", label %"$have_gas_789"
+  %"$gasrem_790" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_791" = icmp ugt i64 1, %"$gasrem_790"
+  br i1 %"$gascmp_791", label %"$out_of_gas_792", label %"$have_gas_793"
 
-"$out_of_gas_788":                                ; preds = %"$have_gas_784"
+"$out_of_gas_792":                                ; preds = %"$have_gas_788"
   call void @_out_of_gas()
-  br label %"$have_gas_789"
+  br label %"$have_gas_793"
 
-"$have_gas_789":                                  ; preds = %"$out_of_gas_788", %"$have_gas_784"
-  %"$consume_790" = sub i64 %"$gasrem_786", 1
-  store i64 %"$consume_790", i64* @_gasrem, align 8
+"$have_gas_793":                                  ; preds = %"$out_of_gas_792", %"$have_gas_788"
+  %"$consume_794" = sub i64 %"$gasrem_790", 1
+  store i64 %"$consume_794", i64* @_gasrem, align 8
   %"$cadd_35" = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$cadd_791" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cadd, align 8
-  %"$cadd_fptr_792" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_791", 0
-  %"$cadd_envptr_793" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_791", 1
-  %"$c65536_794" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c65536, align 8
-  %"$cadd_call_795" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_fptr_792"(i8* %"$cadd_envptr_793", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c65536_794"), !dbg !100
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_call_795", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_35", align 8, !dbg !100
+  %"$cadd_795" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cadd, align 8
+  %"$cadd_fptr_796" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_795", 0
+  %"$cadd_envptr_797" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_795", 1
+  %"$c65536_798" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c65536, align 8
+  %"$cadd_call_799" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_fptr_796"(i8* %"$cadd_envptr_797", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c65536_798"), !dbg !108
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_call_799", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_35", align 8, !dbg !108
   %"$cadd_36" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$$cadd_35_796" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_35", align 8
-  %"$$cadd_35_fptr_797" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_35_796", 0
-  %"$$cadd_35_envptr_798" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_35_796", 1
-  %"$c65536_799" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c65536, align 8
-  %"$$cadd_35_call_800" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_35_fptr_797"(i8* %"$$cadd_35_envptr_798", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c65536_799"), !dbg !100
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_35_call_800", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_36", align 8, !dbg !100
-  %"$$cadd_36_801" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_36", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_36_801", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c131072, align 8, !dbg !100
-  %"$gasrem_802" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_803" = icmp ugt i64 1, %"$gasrem_802"
-  br i1 %"$gascmp_803", label %"$out_of_gas_804", label %"$have_gas_805"
+  %"$$cadd_35_800" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_35", align 8
+  %"$$cadd_35_fptr_801" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_35_800", 0
+  %"$$cadd_35_envptr_802" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_35_800", 1
+  %"$c65536_803" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c65536, align 8
+  %"$$cadd_35_call_804" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_35_fptr_801"(i8* %"$$cadd_35_envptr_802", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c65536_803"), !dbg !108
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_35_call_804", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_36", align 8, !dbg !108
+  %"$$cadd_36_805" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_36", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_36_805", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c131072, align 8, !dbg !108
+  %"$gasrem_806" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_807" = icmp ugt i64 1, %"$gasrem_806"
+  br i1 %"$gascmp_807", label %"$out_of_gas_808", label %"$have_gas_809"
 
-"$out_of_gas_804":                                ; preds = %"$have_gas_789"
+"$out_of_gas_808":                                ; preds = %"$have_gas_793"
   call void @_out_of_gas()
-  br label %"$have_gas_805"
+  br label %"$have_gas_809"
 
-"$have_gas_805":                                  ; preds = %"$out_of_gas_804", %"$have_gas_789"
-  %"$consume_806" = sub i64 %"$gasrem_802", 1
-  store i64 %"$consume_806", i64* @_gasrem, align 8
+"$have_gas_809":                                  ; preds = %"$out_of_gas_808", %"$have_gas_793"
+  %"$consume_810" = sub i64 %"$gasrem_806", 1
+  store i64 %"$consume_810", i64* @_gasrem, align 8
   %c27 = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_807" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_808" = icmp ugt i64 1, %"$gasrem_807"
-  br i1 %"$gascmp_808", label %"$out_of_gas_809", label %"$have_gas_810"
+  %"$gasrem_811" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_812" = icmp ugt i64 1, %"$gasrem_811"
+  br i1 %"$gascmp_812", label %"$out_of_gas_813", label %"$have_gas_814"
 
-"$out_of_gas_809":                                ; preds = %"$have_gas_805"
+"$out_of_gas_813":                                ; preds = %"$have_gas_809"
   call void @_out_of_gas()
-  br label %"$have_gas_810"
+  br label %"$have_gas_814"
 
-"$have_gas_810":                                  ; preds = %"$out_of_gas_809", %"$have_gas_805"
-  %"$consume_811" = sub i64 %"$gasrem_807", 1
-  store i64 %"$consume_811", i64* @_gasrem, align 8
+"$have_gas_814":                                  ; preds = %"$out_of_gas_813", %"$have_gas_809"
+  %"$consume_815" = sub i64 %"$gasrem_811", 1
+  store i64 %"$consume_815", i64* @_gasrem, align 8
   %"$cexp_37" = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }, align 8
-  %"$cexp_812" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cexp, align 8
-  %"$cexp_fptr_813" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cexp_812", 0
-  %"$cexp_envptr_814" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cexp_812", 1
-  %"$c3_815" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c3, align 8
-  %"$cexp_call_816" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } %"$cexp_fptr_813"(i8* %"$cexp_envptr_814", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c3_815"), !dbg !101
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } %"$cexp_call_816", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }* %"$cexp_37", align 8, !dbg !101
+  %"$cexp_816" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cexp, align 8
+  %"$cexp_fptr_817" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cexp_816", 0
+  %"$cexp_envptr_818" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cexp_816", 1
+  %"$c3_819" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c3, align 8
+  %"$cexp_call_820" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } %"$cexp_fptr_817"(i8* %"$cexp_envptr_818", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c3_819"), !dbg !109
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } %"$cexp_call_820", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }* %"$cexp_37", align 8, !dbg !109
   %"$cexp_38" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$$cexp_37_817" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }* %"$cexp_37", align 8
-  %"$$cexp_37_fptr_818" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } %"$$cexp_37_817", 0
-  %"$$cexp_37_envptr_819" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } %"$$cexp_37_817", 1
-  %"$c3__820" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %c3_, align 8
-  %"$$cexp_37_call_821" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cexp_37_fptr_818"(i8* %"$$cexp_37_envptr_819", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$c3__820"), !dbg !101
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cexp_37_call_821", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cexp_38", align 8, !dbg !101
-  %"$$cexp_38_822" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cexp_38", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cexp_38_822", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c27, align 8, !dbg !101
-  %"$gasrem_823" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_824" = icmp ugt i64 1, %"$gasrem_823"
-  br i1 %"$gascmp_824", label %"$out_of_gas_825", label %"$have_gas_826"
+  %"$$cexp_37_821" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* }* %"$cexp_37", align 8
+  %"$$cexp_37_fptr_822" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } %"$$cexp_37_821", 0
+  %"$$cexp_37_envptr_823" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* })*, i8* } %"$$cexp_37_821", 1
+  %"$c3__824" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %c3_, align 8
+  %"$$cexp_37_call_825" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cexp_37_fptr_822"(i8* %"$$cexp_37_envptr_823", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$c3__824"), !dbg !109
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cexp_37_call_825", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cexp_38", align 8, !dbg !109
+  %"$$cexp_38_826" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cexp_38", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cexp_38_826", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c27, align 8, !dbg !109
+  %"$gasrem_827" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_828" = icmp ugt i64 1, %"$gasrem_827"
+  br i1 %"$gascmp_828", label %"$out_of_gas_829", label %"$have_gas_830"
 
-"$out_of_gas_825":                                ; preds = %"$have_gas_810"
+"$out_of_gas_829":                                ; preds = %"$have_gas_814"
   call void @_out_of_gas()
-  br label %"$have_gas_826"
+  br label %"$have_gas_830"
 
-"$have_gas_826":                                  ; preds = %"$out_of_gas_825", %"$have_gas_810"
-  %"$consume_827" = sub i64 %"$gasrem_823", 1
-  store i64 %"$consume_827", i64* @_gasrem, align 8
+"$have_gas_830":                                  ; preds = %"$out_of_gas_829", %"$have_gas_814"
+  %"$consume_831" = sub i64 %"$gasrem_827", 1
+  store i64 %"$consume_831", i64* @_gasrem, align 8
   %c131099 = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$gasrem_828" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_829" = icmp ugt i64 1, %"$gasrem_828"
-  br i1 %"$gascmp_829", label %"$out_of_gas_830", label %"$have_gas_831"
+  %"$gasrem_832" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_833" = icmp ugt i64 1, %"$gasrem_832"
+  br i1 %"$gascmp_833", label %"$out_of_gas_834", label %"$have_gas_835"
 
-"$out_of_gas_830":                                ; preds = %"$have_gas_826"
+"$out_of_gas_834":                                ; preds = %"$have_gas_830"
   call void @_out_of_gas()
-  br label %"$have_gas_831"
+  br label %"$have_gas_835"
 
-"$have_gas_831":                                  ; preds = %"$out_of_gas_830", %"$have_gas_826"
-  %"$consume_832" = sub i64 %"$gasrem_828", 1
-  store i64 %"$consume_832", i64* @_gasrem, align 8
+"$have_gas_835":                                  ; preds = %"$out_of_gas_834", %"$have_gas_830"
+  %"$consume_836" = sub i64 %"$gasrem_832", 1
+  store i64 %"$consume_836", i64* @_gasrem, align 8
   %"$cadd_39" = alloca { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, align 8
-  %"$cadd_833" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cadd, align 8
-  %"$cadd_fptr_834" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_833", 0
-  %"$cadd_envptr_835" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_833", 1
-  %"$c131072_836" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c131072, align 8
-  %"$cadd_call_837" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_fptr_834"(i8* %"$cadd_envptr_835", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c131072_836"), !dbg !102
-  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_call_837", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_39", align 8, !dbg !102
+  %"$cadd_837" = load { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %cadd, align 8
+  %"$cadd_fptr_838" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_837", 0
+  %"$cadd_envptr_839" = extractvalue { { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_837", 1
+  %"$c131072_840" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c131072, align 8
+  %"$cadd_call_841" = call { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_fptr_838"(i8* %"$cadd_envptr_839", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c131072_840"), !dbg !110
+  store { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$cadd_call_841", { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_39", align 8, !dbg !110
   %"$cadd_40" = alloca { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, align 8
-  %"$$cadd_39_838" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_39", align 8
-  %"$$cadd_39_fptr_839" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_39_838", 0
-  %"$$cadd_39_envptr_840" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_39_838", 1
-  %"$c27_841" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c27, align 8
-  %"$$cadd_39_call_842" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_39_fptr_839"(i8* %"$$cadd_39_envptr_840", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c27_841"), !dbg !102
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_39_call_842", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_40", align 8, !dbg !102
-  %"$$cadd_40_843" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_40", align 8
-  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_40_843", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c131099, align 8, !dbg !102
-  %"$gasrem_844" = load i64, i64* @_gasrem, align 8
-  %"$gascmp_845" = icmp ugt i64 1, %"$gasrem_844"
-  br i1 %"$gascmp_845", label %"$out_of_gas_846", label %"$have_gas_847"
+  %"$$cadd_39_842" = load { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %"$cadd_39", align 8
+  %"$$cadd_39_fptr_843" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_39_842", 0
+  %"$$cadd_39_envptr_844" = extractvalue { { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$$cadd_39_842", 1
+  %"$c27_845" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c27, align 8
+  %"$$cadd_39_call_846" = call { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_39_fptr_843"(i8* %"$$cadd_39_envptr_844", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c27_845"), !dbg !110
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_39_call_846", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_40", align 8, !dbg !110
+  %"$$cadd_40_847" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %"$cadd_40", align 8
+  store { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$$cadd_40_847", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c131099, align 8, !dbg !110
+  %"$gasrem_848" = load i64, i64* @_gasrem, align 8
+  %"$gascmp_849" = icmp ugt i64 1, %"$gasrem_848"
+  br i1 %"$gascmp_849", label %"$out_of_gas_850", label %"$have_gas_851"
 
-"$out_of_gas_846":                                ; preds = %"$have_gas_831"
+"$out_of_gas_850":                                ; preds = %"$have_gas_835"
   call void @_out_of_gas()
-  br label %"$have_gas_847"
+  br label %"$have_gas_851"
 
-"$have_gas_847":                                  ; preds = %"$out_of_gas_846", %"$have_gas_831"
-  %"$consume_848" = sub i64 %"$gasrem_844", 1
-  store i64 %"$consume_848", i64* @_gasrem, align 8
+"$have_gas_851":                                  ; preds = %"$out_of_gas_850", %"$have_gas_835"
+  %"$consume_852" = sub i64 %"$gasrem_848", 1
+  store i64 %"$consume_852", i64* @_gasrem, align 8
   %"$church_nat_to_uint32_41" = alloca %Uint32, align 8
-  call void @llvm.dbg.declare(metadata %Uint32* %"$church_nat_to_uint32_41", metadata !103, metadata !DIExpression()), !dbg !104
-  %"$church_nat_to_uint32_849" = load { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %church_nat_to_uint32, align 8
-  %"$church_nat_to_uint32_fptr_850" = extractvalue { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$church_nat_to_uint32_849", 0
-  %"$church_nat_to_uint32_envptr_851" = extractvalue { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$church_nat_to_uint32_849", 1
-  %"$c131099_852" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c131099, align 8
-  %"$church_nat_to_uint32_call_853" = call %Uint32 %"$church_nat_to_uint32_fptr_850"(i8* %"$church_nat_to_uint32_envptr_851", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c131099_852"), !dbg !104
-  store %Uint32 %"$church_nat_to_uint32_call_853", %Uint32* %"$church_nat_to_uint32_41", align 4, !dbg !104
-  %"$$church_nat_to_uint32_41_854" = load %Uint32, %Uint32* %"$church_nat_to_uint32_41", align 4
-  store %Uint32 %"$$church_nat_to_uint32_41_854", %Uint32* %"$expr_42", align 4, !dbg !104
-  %"$$expr_42_855" = load %Uint32, %Uint32* %"$expr_42", align 4
-  ret %Uint32 %"$$expr_42_855"
+  call void @llvm.dbg.declare(metadata %Uint32* %"$church_nat_to_uint32_41", metadata !111, metadata !DIExpression()), !dbg !112
+  %"$church_nat_to_uint32_853" = load { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }, { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* }* %church_nat_to_uint32, align 8
+  %"$church_nat_to_uint32_fptr_854" = extractvalue { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$church_nat_to_uint32_853", 0
+  %"$church_nat_to_uint32_envptr_855" = extractvalue { %Uint32 (i8*, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* })*, i8* } %"$church_nat_to_uint32_853", 1
+  %"$c131099_856" = load { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }, { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* }* %c131099, align 8
+  %"$church_nat_to_uint32_call_857" = call %Uint32 %"$church_nat_to_uint32_fptr_854"(i8* %"$church_nat_to_uint32_envptr_855", { { %Uint32 (i8*, %Uint32)*, i8* } (i8*, { %Uint32 (i8*, %Uint32)*, i8* })*, i8* } %"$c131099_856"), !dbg !112
+  store %Uint32 %"$church_nat_to_uint32_call_857", %Uint32* %"$church_nat_to_uint32_41", align 4, !dbg !112
+  %"$$church_nat_to_uint32_41_858" = load %Uint32, %Uint32* %"$church_nat_to_uint32_41", align 4
+  store %Uint32 %"$$church_nat_to_uint32_41_858", %Uint32* %"$expr_42", align 4, !dbg !112
+  %"$$expr_42_859" = load %Uint32, %Uint32* %"$expr_42", align 4
+  ret %Uint32 %"$$expr_42_859"
 }
 
 declare void @_print_scilla_val(i8*, %_TyDescrTy_Typ*, i8*)
 
 define void @scilla_main() {
 entry:
-  %"$exprval_856" = call %Uint32 @_scilla_expr_fun(i8* null)
-  %"$pval_857" = alloca %Uint32, align 8
-  %"$memvoidcast_858" = bitcast %Uint32* %"$pval_857" to i8*
-  store %Uint32 %"$exprval_856", %Uint32* %"$pval_857", align 4
-  %"$execptr_load_859" = load i8*, i8** @_execptr, align 8
-  call void @_print_scilla_val(i8* %"$execptr_load_859", %_TyDescrTy_Typ* @"$TyDescr_Uint32_81", i8* %"$memvoidcast_858")
+  %"$exprval_860" = call %Uint32 @_scilla_expr_fun(i8* null)
+  %"$pval_861" = alloca %Uint32, align 8
+  %"$memvoidcast_862" = bitcast %Uint32* %"$pval_861" to i8*
+  store %Uint32 %"$exprval_860", %Uint32* %"$pval_861", align 4
+  %"$execptr_load_863" = load i8*, i8** @_execptr, align 8
+  call void @_print_scilla_val(i8* %"$execptr_load_863", %_TyDescrTy_Typ* @"$TyDescr_Uint32_81", i8* %"$memvoidcast_862")
   ret void
 }
 
@@ -1686,100 +1698,108 @@ attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willre
 !5 = !{!6}
 !6 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
 !7 = !{}
-!8 = !DILocalVariable(name: "$retval_76", scope: !3, file: !2, line: 47, type: !9)
+!8 = !DILocalVariable(name: "x", scope: !3, file: !2, line: 47, type: !9)
 !9 = !DIBasicType(name: "Uint32", size: 4)
-!10 = !DILocation(line: 47, column: 36, scope: !3)
-!11 = distinct !DISubprogram(name: "$fundef_73", linkageName: "$fundef_73", scope: !2, file: !2, line: 45, type: !4, scopeLine: 45, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!12 = !DILocalVariable(name: "$retval_74", scope: !11, file: !2, line: 45, type: !9)
-!13 = !DILocation(line: 45, column: 5, scope: !11)
-!14 = !DILocalVariable(name: "zero", scope: !11, file: !2, line: 45, type: !9)
-!15 = !DILocation(line: 45, column: 9, scope: !11)
-!16 = !DILocation(line: 45, column: 16, scope: !11)
-!17 = !DILocalVariable(name: "one", scope: !11, file: !2, line: 46, type: !9)
-!18 = !DILocation(line: 46, column: 9, scope: !11)
-!19 = !DILocation(line: 46, column: 15, scope: !11)
-!20 = !DILocation(line: 47, column: 36, scope: !11)
-!21 = !DILocation(line: 48, column: 5, scope: !11)
-!22 = !DILocalVariable(name: "$c_22", scope: !11, file: !2, line: 48, type: !9)
-!23 = distinct !DISubprogram(name: "$fundef_71", linkageName: "$fundef_71", scope: !2, file: !2, line: 39, type: !4, scopeLine: 39, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!24 = !DILocation(line: 39, column: 3, scope: !23)
-!25 = distinct !DISubprogram(name: "$fundef_69", linkageName: "$fundef_69", scope: !2, file: !2, line: 38, type: !4, scopeLine: 38, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!10 = !DILocation(line: 47, column: 21, scope: !3)
+!11 = !DILocalVariable(name: "$retval_76", scope: !3, file: !2, line: 47, type: !9)
+!12 = !DILocation(line: 47, column: 36, scope: !3)
+!13 = distinct !DISubprogram(name: "$fundef_73", linkageName: "$fundef_73", scope: !2, file: !2, line: 45, type: !4, scopeLine: 45, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!14 = !DILocalVariable(name: "$retval_74", scope: !13, file: !2, line: 45, type: !9)
+!15 = !DILocation(line: 45, column: 5, scope: !13)
+!16 = !DILocalVariable(name: "zero", scope: !13, file: !2, line: 45, type: !9)
+!17 = !DILocation(line: 45, column: 9, scope: !13)
+!18 = !DILocation(line: 45, column: 16, scope: !13)
+!19 = !DILocalVariable(name: "one", scope: !13, file: !2, line: 46, type: !9)
+!20 = !DILocation(line: 46, column: 9, scope: !13)
+!21 = !DILocation(line: 46, column: 15, scope: !13)
+!22 = !DILocation(line: 47, column: 36, scope: !13)
+!23 = !DILocation(line: 48, column: 5, scope: !13)
+!24 = !DILocalVariable(name: "$c_22", scope: !13, file: !2, line: 48, type: !9)
+!25 = distinct !DISubprogram(name: "$fundef_71", linkageName: "$fundef_71", scope: !2, file: !2, line: 39, type: !4, scopeLine: 39, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
 !26 = !DILocation(line: 39, column: 3, scope: !25)
-!27 = distinct !DISubprogram(name: "$fundef_67", linkageName: "$fundef_67", scope: !2, file: !2, line: 31, type: !4, scopeLine: 31, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!28 = !DILocation(line: 31, column: 15, scope: !27)
-!29 = !DILocation(line: 32, column: 3, scope: !27)
-!30 = distinct !DISubprogram(name: "$fundef_65", linkageName: "$fundef_65", scope: !2, file: !2, line: 30, type: !4, scopeLine: 30, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!31 = !DILocation(line: 31, column: 3, scope: !30)
-!32 = distinct !DISubprogram(name: "$fundef_63", linkageName: "$fundef_63", scope: !2, file: !2, line: 29, type: !4, scopeLine: 29, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!33 = !DILocation(line: 30, column: 3, scope: !32)
-!34 = distinct !DISubprogram(name: "$fundef_61", linkageName: "$fundef_61", scope: !2, file: !2, line: 23, type: !4, scopeLine: 23, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!35 = !DILocalVariable(name: "$retval_62", scope: !34, file: !2, line: 23, type: !9)
-!36 = !DILocation(line: 23, column: 3, scope: !34)
-!37 = !DILocalVariable(name: "nsz", scope: !34, file: !2, line: 23, type: !9)
-!38 = !DILocation(line: 23, column: 7, scope: !34)
-!39 = !DILocation(line: 23, column: 13, scope: !34)
-!40 = !DILocalVariable(name: "$n_15", scope: !34, file: !2, line: 23, type: !9)
-!41 = !DILocation(line: 24, column: 3, scope: !34)
-!42 = !DILocalVariable(name: "$m_17", scope: !34, file: !2, line: 24, type: !9)
-!43 = distinct !DISubprogram(name: "$fundef_59", linkageName: "$fundef_59", scope: !2, file: !2, line: 22, type: !4, scopeLine: 22, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!44 = !DILocation(line: 23, column: 3, scope: !43)
-!45 = distinct !DISubprogram(name: "$fundef_57", linkageName: "$fundef_57", scope: !2, file: !2, line: 21, type: !4, scopeLine: 21, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!46 = !DILocation(line: 22, column: 3, scope: !45)
-!47 = distinct !DISubprogram(name: "$fundef_55", linkageName: "$fundef_55", scope: !2, file: !2, line: 20, type: !4, scopeLine: 20, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!48 = !DILocation(line: 21, column: 3, scope: !47)
-!49 = distinct !DISubprogram(name: "$fundef_53", linkageName: "$fundef_53", scope: !2, file: !2, line: 14, type: !4, scopeLine: 14, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!50 = !DILocation(line: 14, column: 104, scope: !49)
-!51 = !DILocation(line: 14, column: 121, scope: !49)
-!52 = !DILocation(line: 14, column: 129, scope: !49)
-!53 = distinct !DISubprogram(name: "$fundef_51", linkageName: "$fundef_51", scope: !2, file: !2, line: 14, type: !4, scopeLine: 14, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!54 = !DILocation(line: 14, column: 95, scope: !53)
-!55 = distinct !DISubprogram(name: "$fundef_49", linkageName: "$fundef_49", scope: !2, file: !2, line: 11, type: !4, scopeLine: 11, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!56 = !DILocalVariable(name: "$retval_50", scope: !55, file: !2, line: 11, type: !9)
-!57 = !DILocation(line: 11, column: 60, scope: !55)
-!58 = !DILocalVariable(name: "sz", scope: !55, file: !2, line: 11, type: !9)
-!59 = !DILocation(line: 11, column: 64, scope: !55)
-!60 = !DILocalVariable(name: "$s_8", scope: !55, file: !2, line: 11, type: !9)
-!61 = !DILocation(line: 11, column: 69, scope: !55)
-!62 = !DILocalVariable(name: "ssz", scope: !55, file: !2, line: 11, type: !9)
-!63 = !DILocation(line: 11, column: 80, scope: !55)
-!64 = !DILocalVariable(name: "$s_9", scope: !55, file: !2, line: 11, type: !9)
-!65 = !DILocation(line: 11, column: 86, scope: !55)
-!66 = !DILocalVariable(name: "$s_10", scope: !55, file: !2, line: 11, type: !9)
-!67 = !DILocation(line: 11, column: 94, scope: !55)
-!68 = distinct !DISubprogram(name: "$fundef_47", linkageName: "$fundef_47", scope: !2, file: !2, line: 11, type: !4, scopeLine: 11, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!69 = !DILocation(line: 11, column: 60, scope: !68)
-!70 = distinct !DISubprogram(name: "$fundef_45", linkageName: "$fundef_45", scope: !2, file: !2, line: 9, type: !4, scopeLine: 9, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!71 = !DILocalVariable(name: "$retval_46", scope: !70, file: !2, line: 9, type: !9)
-!72 = !DILocation(line: 9, column: 60, scope: !70)
-!73 = !DILocalVariable(name: "sz", scope: !70, file: !2, line: 9, type: !9)
-!74 = !DILocation(line: 9, column: 64, scope: !70)
-!75 = !DILocalVariable(name: "$s_6", scope: !70, file: !2, line: 9, type: !9)
-!76 = !DILocation(line: 9, column: 69, scope: !70)
-!77 = !DILocalVariable(name: "$s_7", scope: !70, file: !2, line: 9, type: !9)
-!78 = !DILocation(line: 9, column: 76, scope: !70)
-!79 = distinct !DISubprogram(name: "$fundef_43", linkageName: "$fundef_43", scope: !2, file: !2, line: 9, type: !4, scopeLine: 9, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!80 = !DILocation(line: 9, column: 60, scope: !79)
-!81 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !82, file: !82, type: !4, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!82 = !DIFile(filename: ".", directory: ".")
-!83 = !DILocation(line: 0, scope: !81)
-!84 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 3, type: !4, scopeLine: 3, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !7)
-!85 = !DILocalVariable(name: "$expr_42", scope: !84, file: !2, line: 3, type: !9)
-!86 = !DILocation(line: 3, column: 10, scope: !84)
-!87 = !DILocation(line: 9, column: 40, scope: !84)
-!88 = !DILocation(line: 11, column: 40, scope: !84)
-!89 = !DILocation(line: 14, column: 65, scope: !84)
-!90 = !DILocation(line: 20, column: 3, scope: !84)
-!91 = !DILocation(line: 29, column: 3, scope: !84)
-!92 = !DILocation(line: 38, column: 3, scope: !84)
-!93 = !DILocation(line: 45, column: 5, scope: !84)
-!94 = !DILocation(line: 51, column: 10, scope: !84)
-!95 = !DILocation(line: 52, column: 11, scope: !84)
-!96 = !DILocation(line: 53, column: 11, scope: !84)
-!97 = !DILocation(line: 54, column: 12, scope: !84)
-!98 = !DILocation(line: 55, column: 12, scope: !84)
-!99 = !DILocation(line: 56, column: 14, scope: !84)
-!100 = !DILocation(line: 57, column: 15, scope: !84)
-!101 = !DILocation(line: 58, column: 11, scope: !84)
-!102 = !DILocation(line: 59, column: 15, scope: !84)
-!103 = !DILocalVariable(name: "$church_nat_to_uint32_41", scope: !84, file: !2, line: 60, type: !9)
-!104 = !DILocation(line: 60, column: 1, scope: !84)
+!27 = distinct !DISubprogram(name: "$fundef_69", linkageName: "$fundef_69", scope: !2, file: !2, line: 38, type: !4, scopeLine: 38, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!28 = !DILocation(line: 39, column: 3, scope: !27)
+!29 = distinct !DISubprogram(name: "$fundef_67", linkageName: "$fundef_67", scope: !2, file: !2, line: 31, type: !4, scopeLine: 31, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!30 = !DILocation(line: 31, column: 15, scope: !29)
+!31 = !DILocation(line: 32, column: 3, scope: !29)
+!32 = distinct !DISubprogram(name: "$fundef_65", linkageName: "$fundef_65", scope: !2, file: !2, line: 30, type: !4, scopeLine: 30, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!33 = !DILocation(line: 31, column: 3, scope: !32)
+!34 = distinct !DISubprogram(name: "$fundef_63", linkageName: "$fundef_63", scope: !2, file: !2, line: 29, type: !4, scopeLine: 29, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!35 = !DILocation(line: 30, column: 3, scope: !34)
+!36 = distinct !DISubprogram(name: "$fundef_61", linkageName: "$fundef_61", scope: !2, file: !2, line: 23, type: !4, scopeLine: 23, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!37 = !DILocalVariable(name: "z", scope: !36, file: !2, line: 22, type: !9)
+!38 = !DILocation(line: 22, column: 8, scope: !36)
+!39 = !DILocalVariable(name: "$retval_62", scope: !36, file: !2, line: 23, type: !9)
+!40 = !DILocation(line: 23, column: 3, scope: !36)
+!41 = !DILocalVariable(name: "nsz", scope: !36, file: !2, line: 23, type: !9)
+!42 = !DILocation(line: 23, column: 7, scope: !36)
+!43 = !DILocation(line: 23, column: 13, scope: !36)
+!44 = !DILocalVariable(name: "$n_15", scope: !36, file: !2, line: 23, type: !9)
+!45 = !DILocation(line: 24, column: 3, scope: !36)
+!46 = !DILocalVariable(name: "$m_17", scope: !36, file: !2, line: 24, type: !9)
+!47 = distinct !DISubprogram(name: "$fundef_59", linkageName: "$fundef_59", scope: !2, file: !2, line: 22, type: !4, scopeLine: 22, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!48 = !DILocation(line: 23, column: 3, scope: !47)
+!49 = distinct !DISubprogram(name: "$fundef_57", linkageName: "$fundef_57", scope: !2, file: !2, line: 21, type: !4, scopeLine: 21, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!50 = !DILocation(line: 22, column: 3, scope: !49)
+!51 = distinct !DISubprogram(name: "$fundef_55", linkageName: "$fundef_55", scope: !2, file: !2, line: 20, type: !4, scopeLine: 20, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!52 = !DILocation(line: 21, column: 3, scope: !51)
+!53 = distinct !DISubprogram(name: "$fundef_53", linkageName: "$fundef_53", scope: !2, file: !2, line: 14, type: !4, scopeLine: 14, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!54 = !DILocation(line: 14, column: 104, scope: !53)
+!55 = !DILocation(line: 14, column: 121, scope: !53)
+!56 = !DILocation(line: 14, column: 129, scope: !53)
+!57 = distinct !DISubprogram(name: "$fundef_51", linkageName: "$fundef_51", scope: !2, file: !2, line: 14, type: !4, scopeLine: 14, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!58 = !DILocation(line: 14, column: 95, scope: !57)
+!59 = distinct !DISubprogram(name: "$fundef_49", linkageName: "$fundef_49", scope: !2, file: !2, line: 11, type: !4, scopeLine: 11, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!60 = !DILocalVariable(name: "z", scope: !59, file: !2, line: 11, type: !9)
+!61 = !DILocation(line: 11, column: 45, scope: !59)
+!62 = !DILocalVariable(name: "$retval_50", scope: !59, file: !2, line: 11, type: !9)
+!63 = !DILocation(line: 11, column: 60, scope: !59)
+!64 = !DILocalVariable(name: "sz", scope: !59, file: !2, line: 11, type: !9)
+!65 = !DILocation(line: 11, column: 64, scope: !59)
+!66 = !DILocalVariable(name: "$s_8", scope: !59, file: !2, line: 11, type: !9)
+!67 = !DILocation(line: 11, column: 69, scope: !59)
+!68 = !DILocalVariable(name: "ssz", scope: !59, file: !2, line: 11, type: !9)
+!69 = !DILocation(line: 11, column: 80, scope: !59)
+!70 = !DILocalVariable(name: "$s_9", scope: !59, file: !2, line: 11, type: !9)
+!71 = !DILocation(line: 11, column: 86, scope: !59)
+!72 = !DILocalVariable(name: "$s_10", scope: !59, file: !2, line: 11, type: !9)
+!73 = !DILocation(line: 11, column: 94, scope: !59)
+!74 = distinct !DISubprogram(name: "$fundef_47", linkageName: "$fundef_47", scope: !2, file: !2, line: 11, type: !4, scopeLine: 11, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!75 = !DILocation(line: 11, column: 60, scope: !74)
+!76 = distinct !DISubprogram(name: "$fundef_45", linkageName: "$fundef_45", scope: !2, file: !2, line: 9, type: !4, scopeLine: 9, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!77 = !DILocalVariable(name: "z", scope: !76, file: !2, line: 9, type: !9)
+!78 = !DILocation(line: 9, column: 45, scope: !76)
+!79 = !DILocalVariable(name: "$retval_46", scope: !76, file: !2, line: 9, type: !9)
+!80 = !DILocation(line: 9, column: 60, scope: !76)
+!81 = !DILocalVariable(name: "sz", scope: !76, file: !2, line: 9, type: !9)
+!82 = !DILocation(line: 9, column: 64, scope: !76)
+!83 = !DILocalVariable(name: "$s_6", scope: !76, file: !2, line: 9, type: !9)
+!84 = !DILocation(line: 9, column: 69, scope: !76)
+!85 = !DILocalVariable(name: "$s_7", scope: !76, file: !2, line: 9, type: !9)
+!86 = !DILocation(line: 9, column: 76, scope: !76)
+!87 = distinct !DISubprogram(name: "$fundef_43", linkageName: "$fundef_43", scope: !2, file: !2, line: 9, type: !4, scopeLine: 9, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!88 = !DILocation(line: 9, column: 60, scope: !87)
+!89 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !90, file: !90, type: !4, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!90 = !DIFile(filename: ".", directory: ".")
+!91 = !DILocation(line: 0, scope: !89)
+!92 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 3, type: !4, scopeLine: 3, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !7)
+!93 = !DILocalVariable(name: "$expr_42", scope: !92, file: !2, line: 3, type: !9)
+!94 = !DILocation(line: 3, column: 10, scope: !92)
+!95 = !DILocation(line: 9, column: 40, scope: !92)
+!96 = !DILocation(line: 11, column: 40, scope: !92)
+!97 = !DILocation(line: 14, column: 65, scope: !92)
+!98 = !DILocation(line: 20, column: 3, scope: !92)
+!99 = !DILocation(line: 29, column: 3, scope: !92)
+!100 = !DILocation(line: 38, column: 3, scope: !92)
+!101 = !DILocation(line: 45, column: 5, scope: !92)
+!102 = !DILocation(line: 51, column: 10, scope: !92)
+!103 = !DILocation(line: 52, column: 11, scope: !92)
+!104 = !DILocation(line: 53, column: 11, scope: !92)
+!105 = !DILocation(line: 54, column: 12, scope: !92)
+!106 = !DILocation(line: 55, column: 12, scope: !92)
+!107 = !DILocation(line: 56, column: 14, scope: !92)
+!108 = !DILocation(line: 57, column: 15, scope: !92)
+!109 = !DILocation(line: 58, column: 11, scope: !92)
+!110 = !DILocation(line: 59, column: 15, scope: !92)
+!111 = !DILocalVariable(name: "$church_nat_to_uint32_41", scope: !92, file: !2, line: 60, type: !9)
+!112 = !DILocation(line: 60, column: 1, scope: !92)

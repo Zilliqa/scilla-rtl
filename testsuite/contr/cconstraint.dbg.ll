@@ -13,9 +13,9 @@ target triple = "x86_64-unknown-linux-gnu"
 %TyDescrString = type { i8*, i32 }
 %Int32 = type { i32 }
 %Uint32 = type { i32 }
-%"$ParamDescr_95" = type { %ParamDescrString, %_TyDescrTy_Typ* }
+%"$ParamDescr_98" = type { %ParamDescrString, %_TyDescrTy_Typ* }
 %ParamDescrString = type { i8*, i32 }
-%"$TransDescr_96" = type { %ParamDescrString, i32, %"$ParamDescr_95"* }
+%"$TransDescr_99" = type { %ParamDescrString, i32, %"$ParamDescr_98"* }
 %TName_Bool = type { i8, %CName_True*, %CName_False* }
 %CName_True = type <{ i8 }>
 %CName_False = type <{ i8 }>
@@ -68,18 +68,18 @@ target triple = "x86_64-unknown-linux-gnu"
 @"$stringlit_77" = unnamed_addr constant [38 x i8] c"Contract constraint evaluated to False"
 @_tydescr_table = constant [17 x %_TyDescrTy_Typ*] [%_TyDescrTy_Typ* @"$TyDescr_Event_27", %_TyDescrTy_Typ* @"$TyDescr_Int64_9", %_TyDescrTy_Typ* @"$TyDescr_Addr_42", %_TyDescrTy_Typ* @"$TyDescr_Bystr20_35", %_TyDescrTy_Typ* @"$TyDescr_Uint256_19", %_TyDescrTy_Typ* @"$TyDescr_Uint32_7", %_TyDescrTy_Typ* @"$TyDescr_Uint64_11", %_TyDescrTy_Typ* @"$TyDescr_Bnum_23", %_TyDescrTy_Typ* @"$TyDescr_Uint128_15", %_TyDescrTy_Typ* @"$TyDescr_Exception_29", %_TyDescrTy_Typ* @"$TyDescr_String_21", %_TyDescrTy_Typ* @"$TyDescr_Int256_17", %_TyDescrTy_Typ* @"$TyDescr_Int128_13", %_TyDescrTy_Typ* @"$TyDescr_Bystr_33", %_TyDescrTy_Typ* @"$TyDescr_ReplicateContr_31", %_TyDescrTy_Typ* @"$TyDescr_Message_25", %_TyDescrTy_Typ* @"$TyDescr_Int32_5"]
 @_tydescr_table_length = constant i32 17
-@"$pname__scilla_version_97" = unnamed_addr constant [15 x i8] c"_scilla_version"
-@"$pname__this_address_98" = unnamed_addr constant [13 x i8] c"_this_address"
-@"$pname__creation_block_99" = unnamed_addr constant [15 x i8] c"_creation_block"
-@"$pname_ivar_100" = unnamed_addr constant [4 x i8] c"ivar"
-@_contract_parameters = constant [4 x %"$ParamDescr_95"] [%"$ParamDescr_95" { %ParamDescrString { i8* getelementptr inbounds ([15 x i8], [15 x i8]* @"$pname__scilla_version_97", i32 0, i32 0), i32 15 }, %_TyDescrTy_Typ* @"$TyDescr_Uint32_7" }, %"$ParamDescr_95" { %ParamDescrString { i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$pname__this_address_98", i32 0, i32 0), i32 13 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_35" }, %"$ParamDescr_95" { %ParamDescrString { i8* getelementptr inbounds ([15 x i8], [15 x i8]* @"$pname__creation_block_99", i32 0, i32 0), i32 15 }, %_TyDescrTy_Typ* @"$TyDescr_Bnum_23" }, %"$ParamDescr_95" { %ParamDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$pname_ivar_100", i32 0, i32 0), i32 4 }, %_TyDescrTy_Typ* @"$TyDescr_Int32_5" }]
+@"$pname__scilla_version_100" = unnamed_addr constant [15 x i8] c"_scilla_version"
+@"$pname__this_address_101" = unnamed_addr constant [13 x i8] c"_this_address"
+@"$pname__creation_block_102" = unnamed_addr constant [15 x i8] c"_creation_block"
+@"$pname_ivar_103" = unnamed_addr constant [4 x i8] c"ivar"
+@_contract_parameters = constant [4 x %"$ParamDescr_98"] [%"$ParamDescr_98" { %ParamDescrString { i8* getelementptr inbounds ([15 x i8], [15 x i8]* @"$pname__scilla_version_100", i32 0, i32 0), i32 15 }, %_TyDescrTy_Typ* @"$TyDescr_Uint32_7" }, %"$ParamDescr_98" { %ParamDescrString { i8* getelementptr inbounds ([13 x i8], [13 x i8]* @"$pname__this_address_101", i32 0, i32 0), i32 13 }, %_TyDescrTy_Typ* @"$TyDescr_Bystr20_35" }, %"$ParamDescr_98" { %ParamDescrString { i8* getelementptr inbounds ([15 x i8], [15 x i8]* @"$pname__creation_block_102", i32 0, i32 0), i32 15 }, %_TyDescrTy_Typ* @"$TyDescr_Bnum_23" }, %"$ParamDescr_98" { %ParamDescrString { i8* getelementptr inbounds ([4 x i8], [4 x i8]* @"$pname_ivar_103", i32 0, i32 0), i32 4 }, %_TyDescrTy_Typ* @"$TyDescr_Int32_5" }]
 @_contract_parameters_length = constant i32 4
-@"$tpname__amount_101" = unnamed_addr constant [7 x i8] c"_amount"
-@"$tpname__origin_102" = unnamed_addr constant [7 x i8] c"_origin"
-@"$tpname__sender_103" = unnamed_addr constant [7 x i8] c"_sender"
-@"$tparams_dummy_104" = unnamed_addr constant [3 x %"$ParamDescr_95"] [%"$ParamDescr_95" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_101", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_15" }, %"$ParamDescr_95" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_102", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_42" }, %"$ParamDescr_95" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_103", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_42" }]
-@"$tname_dummy_105" = unnamed_addr constant [5 x i8] c"dummy"
-@_transition_parameters = constant [1 x %"$TransDescr_96"] [%"$TransDescr_96" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tname_dummy_105", i32 0, i32 0), i32 5 }, i32 3, %"$ParamDescr_95"* getelementptr inbounds ([3 x %"$ParamDescr_95"], [3 x %"$ParamDescr_95"]* @"$tparams_dummy_104", i32 0, i32 0) }]
+@"$tpname__amount_104" = unnamed_addr constant [7 x i8] c"_amount"
+@"$tpname__origin_105" = unnamed_addr constant [7 x i8] c"_origin"
+@"$tpname__sender_106" = unnamed_addr constant [7 x i8] c"_sender"
+@"$tparams_dummy_107" = unnamed_addr constant [3 x %"$ParamDescr_98"] [%"$ParamDescr_98" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__amount_104", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Uint128_15" }, %"$ParamDescr_98" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__origin_105", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_42" }, %"$ParamDescr_98" { %ParamDescrString { i8* getelementptr inbounds ([7 x i8], [7 x i8]* @"$tpname__sender_106", i32 0, i32 0), i32 7 }, %_TyDescrTy_Typ* @"$TyDescr_Addr_42" }]
+@"$tname_dummy_108" = unnamed_addr constant [5 x i8] c"dummy"
+@_transition_parameters = constant [1 x %"$TransDescr_99"] [%"$TransDescr_99" { %ParamDescrString { i8* getelementptr inbounds ([5 x i8], [5 x i8]* @"$tname_dummy_108", i32 0, i32 0), i32 5 }, i32 3, %"$ParamDescr_98"* getelementptr inbounds ([3 x %"$ParamDescr_98"], [3 x %"$ParamDescr_98"]* @"$tparams_dummy_107", i32 0, i32 0) }]
 @_transition_parameters_length = constant i32 1
 
 define void @_init_libs() !dbg !3 {
@@ -187,21 +187,30 @@ declare void @_throw(i8*, %_TyDescrTy_Typ*, i8*)
 
 define internal void @"$dummy_85"(%Uint128 %_amount, [20 x i8]* %"$_origin_86", [20 x i8]* %"$_sender_87") !dbg !22 {
 entry:
+  %"$_sender_90" = alloca [20 x i8]*, align 8
+  store [20 x i8]* %"$_sender_87", [20 x i8]** %"$_sender_90", align 8
+  call void @llvm.dbg.declare(metadata [20 x i8]** %"$_sender_90", metadata !23, metadata !DIExpression()), !dbg !25
+  %"$_origin_89" = alloca [20 x i8]*, align 8
+  store [20 x i8]* %"$_origin_86", [20 x i8]** %"$_origin_89", align 8
+  call void @llvm.dbg.declare(metadata [20 x i8]** %"$_origin_89", metadata !26, metadata !DIExpression()), !dbg !25
+  %"$_amount_88" = alloca %Uint128, align 8
+  store %Uint128 %_amount, %Uint128* %"$_amount_88", align 8
+  call void @llvm.dbg.declare(metadata %Uint128* %"$_amount_88", metadata !27, metadata !DIExpression()), !dbg !25
   %_origin = load [20 x i8], [20 x i8]* %"$_origin_86", align 1
   %_sender = load [20 x i8], [20 x i8]* %"$_sender_87", align 1
   ret void
 }
 
-define void @dummy(i8* %0) !dbg !23 {
+define void @dummy(i8* %0) !dbg !29 {
 entry:
-  %"$_amount_89" = getelementptr i8, i8* %0, i32 0
-  %"$_amount_90" = bitcast i8* %"$_amount_89" to %Uint128*
-  %_amount = load %Uint128, %Uint128* %"$_amount_90", align 8
-  %"$_origin_91" = getelementptr i8, i8* %0, i32 16
-  %"$_origin_92" = bitcast i8* %"$_origin_91" to [20 x i8]*
-  %"$_sender_93" = getelementptr i8, i8* %0, i32 36
-  %"$_sender_94" = bitcast i8* %"$_sender_93" to [20 x i8]*
-  call void @"$dummy_85"(%Uint128 %_amount, [20 x i8]* %"$_origin_92", [20 x i8]* %"$_sender_94"), !dbg !24
+  %"$_amount_92" = getelementptr i8, i8* %0, i32 0
+  %"$_amount_93" = bitcast i8* %"$_amount_92" to %Uint128*
+  %_amount = load %Uint128, %Uint128* %"$_amount_93", align 8
+  %"$_origin_94" = getelementptr i8, i8* %0, i32 16
+  %"$_origin_95" = bitcast i8* %"$_origin_94" to [20 x i8]*
+  %"$_sender_96" = getelementptr i8, i8* %0, i32 36
+  %"$_sender_97" = bitcast i8* %"$_sender_96" to [20 x i8]*
+  call void @"$dummy_85"(%Uint128 %_amount, [20 x i8]* %"$_origin_95", [20 x i8]* %"$_sender_97"), !dbg !30
   ret void
 }
 
@@ -233,5 +242,11 @@ attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willre
 !20 = !DIBasicType(name: "Exception", size: 8)
 !21 = !DILocation(line: 10, column: 1, scope: !17)
 !22 = distinct !DISubprogram(name: "dummy", linkageName: "dummy", scope: !2, file: !2, line: 13, type: !5, scopeLine: 13, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
-!23 = distinct !DISubprogram(name: "dummy", linkageName: "dummy", scope: !2, file: !2, line: 13, type: !5, scopeLine: 13, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
-!24 = !DILocation(line: 13, column: 12, scope: !23)
+!23 = !DILocalVariable(name: "_sender", scope: !22, file: !2, line: 13, type: !24)
+!24 = !DIBasicType(name: "ByStr20 with end", size: 20)
+!25 = !DILocation(line: 13, column: 12, scope: !22)
+!26 = !DILocalVariable(name: "_origin", scope: !22, file: !2, line: 13, type: !24)
+!27 = !DILocalVariable(name: "_amount", scope: !22, file: !2, line: 13, type: !28)
+!28 = !DIBasicType(name: "Uint128", size: 16)
+!29 = distinct !DISubprogram(name: "dummy", linkageName: "dummy", scope: !2, file: !2, line: 13, type: !5, scopeLine: 13, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!30 = !DILocation(line: 13, column: 12, scope: !29)
