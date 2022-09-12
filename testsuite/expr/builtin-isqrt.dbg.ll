@@ -34,7 +34,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_7" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -126,7 +126,7 @@ target triple = "x86_64-pc-linux-gnu"
 @_transition_parameters = constant [0 x %"$TransDescr_569"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() !dbg !3 {
 entry:
   %"$gasrem_68" = load i64, i64* @_gasrem, align 8
   %"$gascmp_69" = icmp ugt i64 5, %"$gasrem_68"
@@ -208,6 +208,7 @@ declare void @_out_of_gas()
 define internal %"TName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"* @_scilla_expr_fun(i8* %0) !dbg !10 {
 entry:
   %"$expr_6" = alloca %"TName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"*, align 8
+  call void @llvm.dbg.declare(metadata %"TName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"** %"$expr_6", metadata !11, metadata !DIExpression()), !dbg !14
   %"$gasrem_98" = load i64, i64* @_gasrem, align 8
   %"$gascmp_99" = icmp ugt i64 1, %"$gasrem_98"
   br i1 %"$gascmp_99", label %"$out_of_gas_100", label %"$have_gas_101"
@@ -220,6 +221,7 @@ entry:
   %"$consume_102" = sub i64 %"$gasrem_98", 1
   store i64 %"$consume_102", i64* @_gasrem, align 8
   %zero = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %zero, metadata !15, metadata !DIExpression()), !dbg !17
   %"$gasrem_103" = load i64, i64* @_gasrem, align 8
   %"$gascmp_104" = icmp ugt i64 1, %"$gasrem_103"
   br i1 %"$gascmp_104", label %"$out_of_gas_105", label %"$have_gas_106"
@@ -231,7 +233,7 @@ entry:
 "$have_gas_106":                                  ; preds = %"$out_of_gas_105", %"$have_gas_101"
   %"$consume_107" = sub i64 %"$gasrem_103", 1
   store i64 %"$consume_107", i64* @_gasrem, align 8
-  store %Uint32 zeroinitializer, %Uint32* %zero, align 4, !dbg !11
+  store %Uint32 zeroinitializer, %Uint32* %zero, align 4, !dbg !14
   %"$gasrem_108" = load i64, i64* @_gasrem, align 8
   %"$gascmp_109" = icmp ugt i64 1, %"$gasrem_108"
   br i1 %"$gascmp_109", label %"$out_of_gas_110", label %"$have_gas_111"
@@ -244,6 +246,7 @@ entry:
   %"$consume_112" = sub i64 %"$gasrem_108", 1
   store i64 %"$consume_112", i64* @_gasrem, align 8
   %one = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %one, metadata !18, metadata !DIExpression()), !dbg !19
   %"$gasrem_113" = load i64, i64* @_gasrem, align 8
   %"$gascmp_114" = icmp ugt i64 1, %"$gasrem_113"
   br i1 %"$gascmp_114", label %"$out_of_gas_115", label %"$have_gas_116"
@@ -255,7 +258,7 @@ entry:
 "$have_gas_116":                                  ; preds = %"$out_of_gas_115", %"$have_gas_111"
   %"$consume_117" = sub i64 %"$gasrem_113", 1
   store i64 %"$consume_117", i64* @_gasrem, align 8
-  store %Uint32 { i32 1 }, %Uint32* %one, align 4, !dbg !12
+  store %Uint32 { i32 1 }, %Uint32* %one, align 4, !dbg !20
   %"$gasrem_118" = load i64, i64* @_gasrem, align 8
   %"$gascmp_119" = icmp ugt i64 1, %"$gasrem_118"
   br i1 %"$gascmp_119", label %"$out_of_gas_120", label %"$have_gas_121"
@@ -268,6 +271,7 @@ entry:
   %"$consume_122" = sub i64 %"$gasrem_118", 1
   store i64 %"$consume_122", i64* @_gasrem, align 8
   %two = alloca %Uint64, align 8
+  call void @llvm.dbg.declare(metadata %Uint64* %two, metadata !21, metadata !DIExpression()), !dbg !23
   %"$gasrem_123" = load i64, i64* @_gasrem, align 8
   %"$gascmp_124" = icmp ugt i64 1, %"$gasrem_123"
   br i1 %"$gascmp_124", label %"$out_of_gas_125", label %"$have_gas_126"
@@ -279,7 +283,7 @@ entry:
 "$have_gas_126":                                  ; preds = %"$out_of_gas_125", %"$have_gas_121"
   %"$consume_127" = sub i64 %"$gasrem_123", 1
   store i64 %"$consume_127", i64* @_gasrem, align 8
-  store %Uint64 { i64 2 }, %Uint64* %two, align 8, !dbg !13
+  store %Uint64 { i64 2 }, %Uint64* %two, align 8, !dbg !24
   %"$gasrem_128" = load i64, i64* @_gasrem, align 8
   %"$gascmp_129" = icmp ugt i64 1, %"$gasrem_128"
   br i1 %"$gascmp_129", label %"$out_of_gas_130", label %"$have_gas_131"
@@ -292,6 +296,7 @@ entry:
   %"$consume_132" = sub i64 %"$gasrem_128", 1
   store i64 %"$consume_132", i64* @_gasrem, align 8
   %three = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %three, metadata !25, metadata !DIExpression()), !dbg !26
   %"$gasrem_133" = load i64, i64* @_gasrem, align 8
   %"$gascmp_134" = icmp ugt i64 1, %"$gasrem_133"
   br i1 %"$gascmp_134", label %"$out_of_gas_135", label %"$have_gas_136"
@@ -303,7 +308,7 @@ entry:
 "$have_gas_136":                                  ; preds = %"$out_of_gas_135", %"$have_gas_131"
   %"$consume_137" = sub i64 %"$gasrem_133", 1
   store i64 %"$consume_137", i64* @_gasrem, align 8
-  store %Uint32 { i32 3 }, %Uint32* %three, align 4, !dbg !14
+  store %Uint32 { i32 3 }, %Uint32* %three, align 4, !dbg !27
   %"$gasrem_138" = load i64, i64* @_gasrem, align 8
   %"$gascmp_139" = icmp ugt i64 1, %"$gasrem_138"
   br i1 %"$gascmp_139", label %"$out_of_gas_140", label %"$have_gas_141"
@@ -316,6 +321,7 @@ entry:
   %"$consume_142" = sub i64 %"$gasrem_138", 1
   store i64 %"$consume_142", i64* @_gasrem, align 8
   %four = alloca %Uint128, align 8
+  call void @llvm.dbg.declare(metadata %Uint128* %four, metadata !28, metadata !DIExpression()), !dbg !30
   %"$gasrem_143" = load i64, i64* @_gasrem, align 8
   %"$gascmp_144" = icmp ugt i64 1, %"$gasrem_143"
   br i1 %"$gascmp_144", label %"$out_of_gas_145", label %"$have_gas_146"
@@ -327,7 +333,7 @@ entry:
 "$have_gas_146":                                  ; preds = %"$out_of_gas_145", %"$have_gas_141"
   %"$consume_147" = sub i64 %"$gasrem_143", 1
   store i64 %"$consume_147", i64* @_gasrem, align 8
-  store %Uint128 { i128 4 }, %Uint128* %four, align 8, !dbg !15
+  store %Uint128 { i128 4 }, %Uint128* %four, align 8, !dbg !31
   %"$gasrem_148" = load i64, i64* @_gasrem, align 8
   %"$gascmp_149" = icmp ugt i64 1, %"$gasrem_148"
   br i1 %"$gascmp_149", label %"$out_of_gas_150", label %"$have_gas_151"
@@ -340,6 +346,7 @@ entry:
   %"$consume_152" = sub i64 %"$gasrem_148", 1
   store i64 %"$consume_152", i64* @_gasrem, align 8
   %six = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %six, metadata !32, metadata !DIExpression()), !dbg !33
   %"$gasrem_153" = load i64, i64* @_gasrem, align 8
   %"$gascmp_154" = icmp ugt i64 1, %"$gasrem_153"
   br i1 %"$gascmp_154", label %"$out_of_gas_155", label %"$have_gas_156"
@@ -351,7 +358,7 @@ entry:
 "$have_gas_156":                                  ; preds = %"$out_of_gas_155", %"$have_gas_151"
   %"$consume_157" = sub i64 %"$gasrem_153", 1
   store i64 %"$consume_157", i64* @_gasrem, align 8
-  store %Uint32 { i32 6 }, %Uint32* %six, align 4, !dbg !16
+  store %Uint32 { i32 6 }, %Uint32* %six, align 4, !dbg !34
   %"$gasrem_158" = load i64, i64* @_gasrem, align 8
   %"$gascmp_159" = icmp ugt i64 1, %"$gasrem_158"
   br i1 %"$gascmp_159", label %"$out_of_gas_160", label %"$have_gas_161"
@@ -364,6 +371,7 @@ entry:
   %"$consume_162" = sub i64 %"$gasrem_158", 1
   store i64 %"$consume_162", i64* @_gasrem, align 8
   %ten = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %ten, metadata !35, metadata !DIExpression()), !dbg !36
   %"$gasrem_163" = load i64, i64* @_gasrem, align 8
   %"$gascmp_164" = icmp ugt i64 1, %"$gasrem_163"
   br i1 %"$gascmp_164", label %"$out_of_gas_165", label %"$have_gas_166"
@@ -375,7 +383,7 @@ entry:
 "$have_gas_166":                                  ; preds = %"$out_of_gas_165", %"$have_gas_161"
   %"$consume_167" = sub i64 %"$gasrem_163", 1
   store i64 %"$consume_167", i64* @_gasrem, align 8
-  store %Uint32 { i32 10 }, %Uint32* %ten, align 4, !dbg !17
+  store %Uint32 { i32 10 }, %Uint32* %ten, align 4, !dbg !37
   %"$gasrem_168" = load i64, i64* @_gasrem, align 8
   %"$gascmp_169" = icmp ugt i64 1, %"$gasrem_168"
   br i1 %"$gascmp_169", label %"$out_of_gas_170", label %"$have_gas_171"
@@ -388,6 +396,7 @@ entry:
   %"$consume_172" = sub i64 %"$gasrem_168", 1
   store i64 %"$consume_172", i64* @_gasrem, align 8
   %thirty_six = alloca %Uint256, align 8
+  call void @llvm.dbg.declare(metadata %Uint256* %thirty_six, metadata !38, metadata !DIExpression()), !dbg !40
   %"$gasrem_173" = load i64, i64* @_gasrem, align 8
   %"$gascmp_174" = icmp ugt i64 1, %"$gasrem_173"
   br i1 %"$gascmp_174", label %"$out_of_gas_175", label %"$have_gas_176"
@@ -399,7 +408,7 @@ entry:
 "$have_gas_176":                                  ; preds = %"$out_of_gas_175", %"$have_gas_171"
   %"$consume_177" = sub i64 %"$gasrem_173", 1
   store i64 %"$consume_177", i64* @_gasrem, align 8
-  store %Uint256 { i256 36 }, %Uint256* %thirty_six, align 8, !dbg !18
+  store %Uint256 { i256 36 }, %Uint256* %thirty_six, align 8, !dbg !41
   %"$gasrem_178" = load i64, i64* @_gasrem, align 8
   %"$gascmp_179" = icmp ugt i64 1, %"$gasrem_178"
   br i1 %"$gascmp_179", label %"$out_of_gas_180", label %"$have_gas_181"
@@ -412,6 +421,7 @@ entry:
   %"$consume_182" = sub i64 %"$gasrem_178", 1
   store i64 %"$consume_182", i64* @_gasrem, align 8
   %uint256_max = alloca %Uint256, align 8
+  call void @llvm.dbg.declare(metadata %Uint256* %uint256_max, metadata !42, metadata !DIExpression()), !dbg !43
   %"$gasrem_183" = load i64, i64* @_gasrem, align 8
   %"$gascmp_184" = icmp ugt i64 1, %"$gasrem_183"
   br i1 %"$gascmp_184", label %"$out_of_gas_185", label %"$have_gas_186"
@@ -423,7 +433,7 @@ entry:
 "$have_gas_186":                                  ; preds = %"$out_of_gas_185", %"$have_gas_181"
   %"$consume_187" = sub i64 %"$gasrem_183", 1
   store i64 %"$consume_187", i64* @_gasrem, align 8
-  store %Uint256 { i256 57896044618658097711785492504343953926634992332820282019728792003956564819967 }, %Uint256* %uint256_max, align 8, !dbg !19
+  store %Uint256 { i256 57896044618658097711785492504343953926634992332820282019728792003956564819967 }, %Uint256* %uint256_max, align 8, !dbg !44
   %"$gasrem_188" = load i64, i64* @_gasrem, align 8
   %"$gascmp_189" = icmp ugt i64 1, %"$gasrem_188"
   br i1 %"$gascmp_189", label %"$out_of_gas_190", label %"$have_gas_191"
@@ -436,6 +446,7 @@ entry:
   %"$consume_192" = sub i64 %"$gasrem_188", 1
   store i64 %"$consume_192", i64* @_gasrem, align 8
   %uint128_max = alloca %Uint128, align 8
+  call void @llvm.dbg.declare(metadata %Uint128* %uint128_max, metadata !45, metadata !DIExpression()), !dbg !46
   %"$gasrem_193" = load i64, i64* @_gasrem, align 8
   %"$gascmp_194" = icmp ugt i64 1, %"$gasrem_193"
   br i1 %"$gascmp_194", label %"$out_of_gas_195", label %"$have_gas_196"
@@ -447,7 +458,7 @@ entry:
 "$have_gas_196":                                  ; preds = %"$out_of_gas_195", %"$have_gas_191"
   %"$consume_197" = sub i64 %"$gasrem_193", 1
   store i64 %"$consume_197", i64* @_gasrem, align 8
-  store %Uint128 { i128 -1 }, %Uint128* %uint128_max, align 8, !dbg !20
+  store %Uint128 { i128 -1 }, %Uint128* %uint128_max, align 8, !dbg !47
   %"$gasrem_198" = load i64, i64* @_gasrem, align 8
   %"$gascmp_199" = icmp ugt i64 1, %"$gasrem_198"
   br i1 %"$gascmp_199", label %"$out_of_gas_200", label %"$have_gas_201"
@@ -460,6 +471,7 @@ entry:
   %"$consume_202" = sub i64 %"$gasrem_198", 1
   store i64 %"$consume_202", i64* @_gasrem, align 8
   %isqrt_zero = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %isqrt_zero, metadata !48, metadata !DIExpression()), !dbg !49
   %"$zero_203" = load %Uint32, %Uint32* %zero, align 4
   %"$valueof_204" = extractvalue %Uint32 %"$zero_203", 0
   %"$valueof_205" = zext i32 %"$valueof_204" to i64
@@ -481,8 +493,8 @@ entry:
   %"$consume_216" = sub i64 %"$gasrem_212", %"$gasmul_211"
   store i64 %"$consume_216", i64* @_gasrem, align 8
   %"$zero_217" = load %Uint32, %Uint32* %zero, align 4
-  %"$isqrt_call_218" = call %Uint32 @_isqrt_Uint32(%Uint32 %"$zero_217"), !dbg !21
-  store %Uint32 %"$isqrt_call_218", %Uint32* %isqrt_zero, align 4, !dbg !21
+  %"$isqrt_call_218" = call %Uint32 @_isqrt_Uint32(%Uint32 %"$zero_217"), !dbg !50
+  store %Uint32 %"$isqrt_call_218", %Uint32* %isqrt_zero, align 4, !dbg !50
   %"$gasrem_219" = load i64, i64* @_gasrem, align 8
   %"$gascmp_220" = icmp ugt i64 1, %"$gasrem_219"
   br i1 %"$gascmp_220", label %"$out_of_gas_221", label %"$have_gas_222"
@@ -495,6 +507,7 @@ entry:
   %"$consume_223" = sub i64 %"$gasrem_219", 1
   store i64 %"$consume_223", i64* @_gasrem, align 8
   %isqrt_one = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %isqrt_one, metadata !51, metadata !DIExpression()), !dbg !52
   %"$one_224" = load %Uint32, %Uint32* %one, align 4
   %"$valueof_225" = extractvalue %Uint32 %"$one_224", 0
   %"$valueof_226" = zext i32 %"$valueof_225" to i64
@@ -516,8 +529,8 @@ entry:
   %"$consume_237" = sub i64 %"$gasrem_233", %"$gasmul_232"
   store i64 %"$consume_237", i64* @_gasrem, align 8
   %"$one_238" = load %Uint32, %Uint32* %one, align 4
-  %"$isqrt_call_239" = call %Uint32 @_isqrt_Uint32(%Uint32 %"$one_238"), !dbg !22
-  store %Uint32 %"$isqrt_call_239", %Uint32* %isqrt_one, align 4, !dbg !22
+  %"$isqrt_call_239" = call %Uint32 @_isqrt_Uint32(%Uint32 %"$one_238"), !dbg !53
+  store %Uint32 %"$isqrt_call_239", %Uint32* %isqrt_one, align 4, !dbg !53
   %"$gasrem_240" = load i64, i64* @_gasrem, align 8
   %"$gascmp_241" = icmp ugt i64 1, %"$gasrem_240"
   br i1 %"$gascmp_241", label %"$out_of_gas_242", label %"$have_gas_243"
@@ -530,6 +543,7 @@ entry:
   %"$consume_244" = sub i64 %"$gasrem_240", 1
   store i64 %"$consume_244", i64* @_gasrem, align 8
   %isqrt_two = alloca %Uint64, align 8
+  call void @llvm.dbg.declare(metadata %Uint64* %isqrt_two, metadata !54, metadata !DIExpression()), !dbg !55
   %"$two_245" = load %Uint64, %Uint64* %two, align 8
   %"$gaslogof_246" = extractvalue %Uint64 %"$two_245", 0
   %"$gaslogof_247" = uitofp i64 %"$gaslogof_246" to double
@@ -550,8 +564,8 @@ entry:
   %"$consume_257" = sub i64 %"$gasrem_253", %"$gasmul_252"
   store i64 %"$consume_257", i64* @_gasrem, align 8
   %"$two_258" = load %Uint64, %Uint64* %two, align 8
-  %"$isqrt_call_259" = call %Uint64 @_isqrt_Uint64(%Uint64 %"$two_258"), !dbg !23
-  store %Uint64 %"$isqrt_call_259", %Uint64* %isqrt_two, align 8, !dbg !23
+  %"$isqrt_call_259" = call %Uint64 @_isqrt_Uint64(%Uint64 %"$two_258"), !dbg !56
+  store %Uint64 %"$isqrt_call_259", %Uint64* %isqrt_two, align 8, !dbg !56
   %"$gasrem_260" = load i64, i64* @_gasrem, align 8
   %"$gascmp_261" = icmp ugt i64 1, %"$gasrem_260"
   br i1 %"$gascmp_261", label %"$out_of_gas_262", label %"$have_gas_263"
@@ -564,6 +578,7 @@ entry:
   %"$consume_264" = sub i64 %"$gasrem_260", 1
   store i64 %"$consume_264", i64* @_gasrem, align 8
   %isqrt_three = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %isqrt_three, metadata !57, metadata !DIExpression()), !dbg !58
   %"$three_265" = load %Uint32, %Uint32* %three, align 4
   %"$valueof_266" = extractvalue %Uint32 %"$three_265", 0
   %"$valueof_267" = zext i32 %"$valueof_266" to i64
@@ -585,8 +600,8 @@ entry:
   %"$consume_278" = sub i64 %"$gasrem_274", %"$gasmul_273"
   store i64 %"$consume_278", i64* @_gasrem, align 8
   %"$three_279" = load %Uint32, %Uint32* %three, align 4
-  %"$isqrt_call_280" = call %Uint32 @_isqrt_Uint32(%Uint32 %"$three_279"), !dbg !24
-  store %Uint32 %"$isqrt_call_280", %Uint32* %isqrt_three, align 4, !dbg !24
+  %"$isqrt_call_280" = call %Uint32 @_isqrt_Uint32(%Uint32 %"$three_279"), !dbg !59
+  store %Uint32 %"$isqrt_call_280", %Uint32* %isqrt_three, align 4, !dbg !59
   %"$gasrem_281" = load i64, i64* @_gasrem, align 8
   %"$gascmp_282" = icmp ugt i64 1, %"$gasrem_281"
   br i1 %"$gascmp_282", label %"$out_of_gas_283", label %"$have_gas_284"
@@ -599,6 +614,7 @@ entry:
   %"$consume_285" = sub i64 %"$gasrem_281", 1
   store i64 %"$consume_285", i64* @_gasrem, align 8
   %isqrt_four = alloca %Uint128, align 8
+  call void @llvm.dbg.declare(metadata %Uint128* %isqrt_four, metadata !60, metadata !DIExpression()), !dbg !61
   %"$four_286" = load %Uint128, %Uint128* %four, align 8
   %"$gaslogof_287" = extractvalue %Uint128 %"$four_286", 0
   %"$gaslogof_288" = uitofp i128 %"$gaslogof_287" to double
@@ -620,8 +636,8 @@ entry:
   %"$consume_299" = sub i64 %"$gasrem_295", %"$gasmul_294"
   store i64 %"$consume_299", i64* @_gasrem, align 8
   %"$four_300" = load %Uint128, %Uint128* %four, align 8
-  %"$isqrt_call_301" = call %Uint128 @_isqrt_Uint128(%Uint128 %"$four_300"), !dbg !25
-  store %Uint128 %"$isqrt_call_301", %Uint128* %isqrt_four, align 8, !dbg !25
+  %"$isqrt_call_301" = call %Uint128 @_isqrt_Uint128(%Uint128 %"$four_300"), !dbg !62
+  store %Uint128 %"$isqrt_call_301", %Uint128* %isqrt_four, align 8, !dbg !62
   %"$gasrem_302" = load i64, i64* @_gasrem, align 8
   %"$gascmp_303" = icmp ugt i64 1, %"$gasrem_302"
   br i1 %"$gascmp_303", label %"$out_of_gas_304", label %"$have_gas_305"
@@ -634,6 +650,7 @@ entry:
   %"$consume_306" = sub i64 %"$gasrem_302", 1
   store i64 %"$consume_306", i64* @_gasrem, align 8
   %isqrt_six = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %isqrt_six, metadata !63, metadata !DIExpression()), !dbg !64
   %"$six_307" = load %Uint32, %Uint32* %six, align 4
   %"$valueof_308" = extractvalue %Uint32 %"$six_307", 0
   %"$valueof_309" = zext i32 %"$valueof_308" to i64
@@ -655,8 +672,8 @@ entry:
   %"$consume_320" = sub i64 %"$gasrem_316", %"$gasmul_315"
   store i64 %"$consume_320", i64* @_gasrem, align 8
   %"$six_321" = load %Uint32, %Uint32* %six, align 4
-  %"$isqrt_call_322" = call %Uint32 @_isqrt_Uint32(%Uint32 %"$six_321"), !dbg !26
-  store %Uint32 %"$isqrt_call_322", %Uint32* %isqrt_six, align 4, !dbg !26
+  %"$isqrt_call_322" = call %Uint32 @_isqrt_Uint32(%Uint32 %"$six_321"), !dbg !65
+  store %Uint32 %"$isqrt_call_322", %Uint32* %isqrt_six, align 4, !dbg !65
   %"$gasrem_323" = load i64, i64* @_gasrem, align 8
   %"$gascmp_324" = icmp ugt i64 1, %"$gasrem_323"
   br i1 %"$gascmp_324", label %"$out_of_gas_325", label %"$have_gas_326"
@@ -669,6 +686,7 @@ entry:
   %"$consume_327" = sub i64 %"$gasrem_323", 1
   store i64 %"$consume_327", i64* @_gasrem, align 8
   %isqrt_ten = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %isqrt_ten, metadata !66, metadata !DIExpression()), !dbg !67
   %"$ten_328" = load %Uint32, %Uint32* %ten, align 4
   %"$valueof_329" = extractvalue %Uint32 %"$ten_328", 0
   %"$valueof_330" = zext i32 %"$valueof_329" to i64
@@ -690,8 +708,8 @@ entry:
   %"$consume_341" = sub i64 %"$gasrem_337", %"$gasmul_336"
   store i64 %"$consume_341", i64* @_gasrem, align 8
   %"$ten_342" = load %Uint32, %Uint32* %ten, align 4
-  %"$isqrt_call_343" = call %Uint32 @_isqrt_Uint32(%Uint32 %"$ten_342"), !dbg !27
-  store %Uint32 %"$isqrt_call_343", %Uint32* %isqrt_ten, align 4, !dbg !27
+  %"$isqrt_call_343" = call %Uint32 @_isqrt_Uint32(%Uint32 %"$ten_342"), !dbg !68
+  store %Uint32 %"$isqrt_call_343", %Uint32* %isqrt_ten, align 4, !dbg !68
   %"$gasrem_344" = load i64, i64* @_gasrem, align 8
   %"$gascmp_345" = icmp ugt i64 1, %"$gasrem_344"
   br i1 %"$gascmp_345", label %"$out_of_gas_346", label %"$have_gas_347"
@@ -704,6 +722,7 @@ entry:
   %"$consume_348" = sub i64 %"$gasrem_344", 1
   store i64 %"$consume_348", i64* @_gasrem, align 8
   %isqrt_thirty_six = alloca %Uint256, align 8
+  call void @llvm.dbg.declare(metadata %Uint256* %isqrt_thirty_six, metadata !69, metadata !DIExpression()), !dbg !70
   %"$thirty_six_349" = load %Uint256, %Uint256* %thirty_six, align 8
   %"$gaslogof_350" = extractvalue %Uint256 %"$thirty_six_349", 0
   %"$gaslogof_351" = alloca i256, align 8
@@ -738,9 +757,9 @@ entry:
   %"$isqrt_thirty_six_373" = alloca %Uint256, align 8
   %"$thirty_six_374" = load %Uint256, %Uint256* %thirty_six, align 8
   store %Uint256 %"$thirty_six_374", %Uint256* %"$isqrt_thirty_six_373", align 8
-  %"$isqrt_call_375" = call %Uint256* @_isqrt_Uint256(i8* %"$execptr_load_372", %Uint256* %"$isqrt_thirty_six_373"), !dbg !28
+  %"$isqrt_call_375" = call %Uint256* @_isqrt_Uint256(i8* %"$execptr_load_372", %Uint256* %"$isqrt_thirty_six_373"), !dbg !71
   %"$isqrt_377" = load %Uint256, %Uint256* %"$isqrt_call_375", align 8
-  store %Uint256 %"$isqrt_377", %Uint256* %isqrt_thirty_six, align 8, !dbg !28
+  store %Uint256 %"$isqrt_377", %Uint256* %isqrt_thirty_six, align 8, !dbg !71
   %"$gasrem_378" = load i64, i64* @_gasrem, align 8
   %"$gascmp_379" = icmp ugt i64 1, %"$gasrem_378"
   br i1 %"$gascmp_379", label %"$out_of_gas_380", label %"$have_gas_381"
@@ -753,6 +772,7 @@ entry:
   %"$consume_382" = sub i64 %"$gasrem_378", 1
   store i64 %"$consume_382", i64* @_gasrem, align 8
   %isqrt_uint256_max = alloca %Uint256, align 8
+  call void @llvm.dbg.declare(metadata %Uint256* %isqrt_uint256_max, metadata !72, metadata !DIExpression()), !dbg !73
   %"$uint256_max_383" = load %Uint256, %Uint256* %uint256_max, align 8
   %"$gaslogof_384" = extractvalue %Uint256 %"$uint256_max_383", 0
   %"$gaslogof_385" = alloca i256, align 8
@@ -787,9 +807,9 @@ entry:
   %"$isqrt_uint256_max_407" = alloca %Uint256, align 8
   %"$uint256_max_408" = load %Uint256, %Uint256* %uint256_max, align 8
   store %Uint256 %"$uint256_max_408", %Uint256* %"$isqrt_uint256_max_407", align 8
-  %"$isqrt_call_409" = call %Uint256* @_isqrt_Uint256(i8* %"$execptr_load_406", %Uint256* %"$isqrt_uint256_max_407"), !dbg !29
+  %"$isqrt_call_409" = call %Uint256* @_isqrt_Uint256(i8* %"$execptr_load_406", %Uint256* %"$isqrt_uint256_max_407"), !dbg !74
   %"$isqrt_411" = load %Uint256, %Uint256* %"$isqrt_call_409", align 8
-  store %Uint256 %"$isqrt_411", %Uint256* %isqrt_uint256_max, align 8, !dbg !29
+  store %Uint256 %"$isqrt_411", %Uint256* %isqrt_uint256_max, align 8, !dbg !74
   %"$gasrem_412" = load i64, i64* @_gasrem, align 8
   %"$gascmp_413" = icmp ugt i64 1, %"$gasrem_412"
   br i1 %"$gascmp_413", label %"$out_of_gas_414", label %"$have_gas_415"
@@ -802,6 +822,7 @@ entry:
   %"$consume_416" = sub i64 %"$gasrem_412", 1
   store i64 %"$consume_416", i64* @_gasrem, align 8
   %isqrt_uint128_max = alloca %Uint128, align 8
+  call void @llvm.dbg.declare(metadata %Uint128* %isqrt_uint128_max, metadata !75, metadata !DIExpression()), !dbg !76
   %"$uint128_max_417" = load %Uint128, %Uint128* %uint128_max, align 8
   %"$gaslogof_418" = extractvalue %Uint128 %"$uint128_max_417", 0
   %"$gaslogof_419" = uitofp i128 %"$gaslogof_418" to double
@@ -823,8 +844,8 @@ entry:
   %"$consume_430" = sub i64 %"$gasrem_426", %"$gasmul_425"
   store i64 %"$consume_430", i64* @_gasrem, align 8
   %"$uint128_max_431" = load %Uint128, %Uint128* %uint128_max, align 8
-  %"$isqrt_call_432" = call %Uint128 @_isqrt_Uint128(%Uint128 %"$uint128_max_431"), !dbg !30
-  store %Uint128 %"$isqrt_call_432", %Uint128* %isqrt_uint128_max, align 8, !dbg !30
+  %"$isqrt_call_432" = call %Uint128 @_isqrt_Uint128(%Uint128 %"$uint128_max_431"), !dbg !77
+  store %Uint128 %"$isqrt_call_432", %Uint128* %isqrt_uint128_max, align 8, !dbg !77
   %"$gasrem_433" = load i64, i64* @_gasrem, align 8
   %"$gascmp_434" = icmp ugt i64 1, %"$gasrem_433"
   br i1 %"$gascmp_434", label %"$out_of_gas_435", label %"$have_gas_436"
@@ -837,6 +858,7 @@ entry:
   %"$consume_437" = sub i64 %"$gasrem_433", 1
   store i64 %"$consume_437", i64* @_gasrem, align 8
   %res1 = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %res1, metadata !78, metadata !DIExpression()), !dbg !79
   %"$gasrem_438" = load i64, i64* @_gasrem, align 8
   %"$gascmp_439" = icmp ugt i64 4, %"$gasrem_438"
   br i1 %"$gascmp_439", label %"$out_of_gas_440", label %"$have_gas_441"
@@ -850,8 +872,8 @@ entry:
   store i64 %"$consume_442", i64* @_gasrem, align 8
   %"$isqrt_zero_443" = load %Uint32, %Uint32* %isqrt_zero, align 4
   %"$isqrt_one_444" = load %Uint32, %Uint32* %isqrt_one, align 4
-  %"$add_call_445" = call %Uint32 @_add_Uint32(%Uint32 %"$isqrt_zero_443", %Uint32 %"$isqrt_one_444"), !dbg !31
-  store %Uint32 %"$add_call_445", %Uint32* %res1, align 4, !dbg !31
+  %"$add_call_445" = call %Uint32 @_add_Uint32(%Uint32 %"$isqrt_zero_443", %Uint32 %"$isqrt_one_444"), !dbg !80
+  store %Uint32 %"$add_call_445", %Uint32* %res1, align 4, !dbg !80
   %"$gasrem_446" = load i64, i64* @_gasrem, align 8
   %"$gascmp_447" = icmp ugt i64 1, %"$gasrem_446"
   br i1 %"$gascmp_447", label %"$out_of_gas_448", label %"$have_gas_449"
@@ -864,6 +886,7 @@ entry:
   %"$consume_450" = sub i64 %"$gasrem_446", 1
   store i64 %"$consume_450", i64* @_gasrem, align 8
   %res2 = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %res2, metadata !81, metadata !DIExpression()), !dbg !82
   %"$gasrem_451" = load i64, i64* @_gasrem, align 8
   %"$gascmp_452" = icmp ugt i64 4, %"$gasrem_451"
   br i1 %"$gascmp_452", label %"$out_of_gas_453", label %"$have_gas_454"
@@ -877,8 +900,8 @@ entry:
   store i64 %"$consume_455", i64* @_gasrem, align 8
   %"$isqrt_three_456" = load %Uint32, %Uint32* %isqrt_three, align 4
   %"$isqrt_six_457" = load %Uint32, %Uint32* %isqrt_six, align 4
-  %"$add_call_458" = call %Uint32 @_add_Uint32(%Uint32 %"$isqrt_three_456", %Uint32 %"$isqrt_six_457"), !dbg !32
-  store %Uint32 %"$add_call_458", %Uint32* %res2, align 4, !dbg !32
+  %"$add_call_458" = call %Uint32 @_add_Uint32(%Uint32 %"$isqrt_three_456", %Uint32 %"$isqrt_six_457"), !dbg !83
+  store %Uint32 %"$add_call_458", %Uint32* %res2, align 4, !dbg !83
   %"$gasrem_459" = load i64, i64* @_gasrem, align 8
   %"$gascmp_460" = icmp ugt i64 1, %"$gasrem_459"
   br i1 %"$gascmp_460", label %"$out_of_gas_461", label %"$have_gas_462"
@@ -891,6 +914,7 @@ entry:
   %"$consume_463" = sub i64 %"$gasrem_459", 1
   store i64 %"$consume_463", i64* @_gasrem, align 8
   %res3 = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %res3, metadata !84, metadata !DIExpression()), !dbg !85
   %"$gasrem_464" = load i64, i64* @_gasrem, align 8
   %"$gascmp_465" = icmp ugt i64 4, %"$gasrem_464"
   br i1 %"$gascmp_465", label %"$out_of_gas_466", label %"$have_gas_467"
@@ -904,8 +928,8 @@ entry:
   store i64 %"$consume_468", i64* @_gasrem, align 8
   %"$res1_469" = load %Uint32, %Uint32* %res1, align 4
   %"$res2_470" = load %Uint32, %Uint32* %res2, align 4
-  %"$add_call_471" = call %Uint32 @_add_Uint32(%Uint32 %"$res1_469", %Uint32 %"$res2_470"), !dbg !33
-  store %Uint32 %"$add_call_471", %Uint32* %res3, align 4, !dbg !33
+  %"$add_call_471" = call %Uint32 @_add_Uint32(%Uint32 %"$res1_469", %Uint32 %"$res2_470"), !dbg !86
+  store %Uint32 %"$add_call_471", %Uint32* %res3, align 4, !dbg !86
   %"$gasrem_472" = load i64, i64* @_gasrem, align 8
   %"$gascmp_473" = icmp ugt i64 1, %"$gasrem_472"
   br i1 %"$gascmp_473", label %"$out_of_gas_474", label %"$have_gas_475"
@@ -918,6 +942,7 @@ entry:
   %"$consume_476" = sub i64 %"$gasrem_472", 1
   store i64 %"$consume_476", i64* @_gasrem, align 8
   %res4 = alloca %Uint32, align 8
+  call void @llvm.dbg.declare(metadata %Uint32* %res4, metadata !87, metadata !DIExpression()), !dbg !88
   %"$gasrem_477" = load i64, i64* @_gasrem, align 8
   %"$gascmp_478" = icmp ugt i64 4, %"$gasrem_477"
   br i1 %"$gascmp_478", label %"$out_of_gas_479", label %"$have_gas_480"
@@ -931,8 +956,8 @@ entry:
   store i64 %"$consume_481", i64* @_gasrem, align 8
   %"$res3_482" = load %Uint32, %Uint32* %res3, align 4
   %"$isqrt_ten_483" = load %Uint32, %Uint32* %isqrt_ten, align 4
-  %"$add_call_484" = call %Uint32 @_add_Uint32(%Uint32 %"$res3_482", %Uint32 %"$isqrt_ten_483"), !dbg !34
-  store %Uint32 %"$add_call_484", %Uint32* %res4, align 4, !dbg !34
+  %"$add_call_484" = call %Uint32 @_add_Uint32(%Uint32 %"$res3_482", %Uint32 %"$isqrt_ten_483"), !dbg !89
+  store %Uint32 %"$add_call_484", %Uint32* %res4, align 4, !dbg !89
   %"$gasrem_485" = load i64, i64* @_gasrem, align 8
   %"$gascmp_486" = icmp ugt i64 1, %"$gasrem_485"
   br i1 %"$gascmp_486", label %"$out_of_gas_487", label %"$have_gas_488"
@@ -945,6 +970,7 @@ entry:
   %"$consume_489" = sub i64 %"$gasrem_485", 1
   store i64 %"$consume_489", i64* @_gasrem, align 8
   %res5 = alloca %Uint256, align 8
+  call void @llvm.dbg.declare(metadata %Uint256* %res5, metadata !90, metadata !DIExpression()), !dbg !91
   %"$gasrem_491" = load i64, i64* @_gasrem, align 8
   %"$gascmp_492" = icmp ugt i64 16, %"$gasrem_491"
   br i1 %"$gascmp_492", label %"$out_of_gas_493", label %"$have_gas_494"
@@ -963,9 +989,9 @@ entry:
   %"$add_isqrt_uint256_max_499" = alloca %Uint256, align 8
   %"$isqrt_uint256_max_500" = load %Uint256, %Uint256* %isqrt_uint256_max, align 8
   store %Uint256 %"$isqrt_uint256_max_500", %Uint256* %"$add_isqrt_uint256_max_499", align 8
-  %"$add_call_501" = call %Uint256* @_add_Uint256(i8* %"$execptr_load_496", %Uint256* %"$add_isqrt_thirty_six_497", %Uint256* %"$add_isqrt_uint256_max_499"), !dbg !35
+  %"$add_call_501" = call %Uint256* @_add_Uint256(i8* %"$execptr_load_496", %Uint256* %"$add_isqrt_thirty_six_497", %Uint256* %"$add_isqrt_uint256_max_499"), !dbg !92
   %"$add_503" = load %Uint256, %Uint256* %"$add_call_501", align 8
-  store %Uint256 %"$add_503", %Uint256* %res5, align 8, !dbg !35
+  store %Uint256 %"$add_503", %Uint256* %res5, align 8, !dbg !92
   %"$gasrem_504" = load i64, i64* @_gasrem, align 8
   %"$gascmp_505" = icmp ugt i64 1, %"$gasrem_504"
   br i1 %"$gascmp_505", label %"$out_of_gas_506", label %"$have_gas_507"
@@ -978,6 +1004,7 @@ entry:
   %"$consume_508" = sub i64 %"$gasrem_504", 1
   store i64 %"$consume_508", i64* @_gasrem, align 8
   %res6 = alloca %Uint128, align 8
+  call void @llvm.dbg.declare(metadata %Uint128* %res6, metadata !93, metadata !DIExpression()), !dbg !94
   %"$gasrem_510" = load i64, i64* @_gasrem, align 8
   %"$gascmp_511" = icmp ugt i64 8, %"$gasrem_510"
   br i1 %"$gascmp_511", label %"$out_of_gas_512", label %"$have_gas_513"
@@ -991,8 +1018,8 @@ entry:
   store i64 %"$consume_514", i64* @_gasrem, align 8
   %"$isqrt_four_515" = load %Uint128, %Uint128* %isqrt_four, align 8
   %"$isqrt_uint128_max_516" = load %Uint128, %Uint128* %isqrt_uint128_max, align 8
-  %"$add_call_517" = call %Uint128 @_add_Uint128(%Uint128 %"$isqrt_four_515", %Uint128 %"$isqrt_uint128_max_516"), !dbg !36
-  store %Uint128 %"$add_call_517", %Uint128* %res6, align 8, !dbg !36
+  %"$add_call_517" = call %Uint128 @_add_Uint128(%Uint128 %"$isqrt_four_515", %Uint128 %"$isqrt_uint128_max_516"), !dbg !95
+  store %Uint128 %"$add_call_517", %Uint128* %res6, align 8, !dbg !95
   %"$gasrem_518" = load i64, i64* @_gasrem, align 8
   %"$gascmp_519" = icmp ugt i64 1, %"$gasrem_518"
   br i1 %"$gascmp_519", label %"$out_of_gas_520", label %"$have_gas_521"
@@ -1005,6 +1032,7 @@ entry:
   %"$consume_522" = sub i64 %"$gasrem_518", 1
   store i64 %"$consume_522", i64* @_gasrem, align 8
   %res7 = alloca %TName_Pair_Uint128_Uint256*, align 8
+  call void @llvm.dbg.declare(metadata %TName_Pair_Uint128_Uint256** %res7, metadata !96, metadata !DIExpression()), !dbg !99
   %"$gasrem_523" = load i64, i64* @_gasrem, align 8
   %"$gascmp_524" = icmp ugt i64 1, %"$gasrem_523"
   br i1 %"$gascmp_524", label %"$out_of_gas_525", label %"$have_gas_526"
@@ -1028,7 +1056,7 @@ entry:
   %"$adtgep_533" = getelementptr inbounds %CName_Pair_Uint128_Uint256, %CName_Pair_Uint128_Uint256* %"$adtval_530", i32 0, i32 2
   store %Uint256 %"$res5_529", %Uint256* %"$adtgep_533", align 8
   %"$adtptr_534" = bitcast %CName_Pair_Uint128_Uint256* %"$adtval_530" to %TName_Pair_Uint128_Uint256*
-  store %TName_Pair_Uint128_Uint256* %"$adtptr_534", %TName_Pair_Uint128_Uint256** %res7, align 8, !dbg !37
+  store %TName_Pair_Uint128_Uint256* %"$adtptr_534", %TName_Pair_Uint128_Uint256** %res7, align 8, !dbg !100
   %"$gasrem_535" = load i64, i64* @_gasrem, align 8
   %"$gascmp_536" = icmp ugt i64 1, %"$gasrem_535"
   br i1 %"$gascmp_536", label %"$out_of_gas_537", label %"$have_gas_538"
@@ -1041,6 +1069,7 @@ entry:
   %"$consume_539" = sub i64 %"$gasrem_535", 1
   store i64 %"$consume_539", i64* @_gasrem, align 8
   %res8 = alloca %"TName_Pair_Pair_(Uint128)_(Uint256)_Uint32"*, align 8
+  call void @llvm.dbg.declare(metadata %"TName_Pair_Pair_(Uint128)_(Uint256)_Uint32"** %res8, metadata !101, metadata !DIExpression()), !dbg !104
   %"$gasrem_540" = load i64, i64* @_gasrem, align 8
   %"$gascmp_541" = icmp ugt i64 1, %"$gasrem_540"
   br i1 %"$gascmp_541", label %"$out_of_gas_542", label %"$have_gas_543"
@@ -1064,7 +1093,7 @@ entry:
   %"$adtgep_550" = getelementptr inbounds %"CName_Pair_Pair_(Uint128)_(Uint256)_Uint32", %"CName_Pair_Pair_(Uint128)_(Uint256)_Uint32"* %"$adtval_547", i32 0, i32 2
   store %Uint32 %"$res4_546", %Uint32* %"$adtgep_550", align 4
   %"$adtptr_551" = bitcast %"CName_Pair_Pair_(Uint128)_(Uint256)_Uint32"* %"$adtval_547" to %"TName_Pair_Pair_(Uint128)_(Uint256)_Uint32"*
-  store %"TName_Pair_Pair_(Uint128)_(Uint256)_Uint32"* %"$adtptr_551", %"TName_Pair_Pair_(Uint128)_(Uint256)_Uint32"** %res8, align 8, !dbg !38
+  store %"TName_Pair_Pair_(Uint128)_(Uint256)_Uint32"* %"$adtptr_551", %"TName_Pair_Pair_(Uint128)_(Uint256)_Uint32"** %res8, align 8, !dbg !105
   %"$gasrem_552" = load i64, i64* @_gasrem, align 8
   %"$gascmp_553" = icmp ugt i64 1, %"$gasrem_552"
   br i1 %"$gascmp_553", label %"$out_of_gas_554", label %"$have_gas_555"
@@ -1088,12 +1117,15 @@ entry:
   %"$adtgep_562" = getelementptr inbounds %"CName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)", %"CName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"* %"$adtval_559", i32 0, i32 2
   store %"TName_Pair_Pair_(Uint128)_(Uint256)_Uint32"* %"$res8_558", %"TName_Pair_Pair_(Uint128)_(Uint256)_Uint32"** %"$adtgep_562", align 8
   %"$adtptr_563" = bitcast %"CName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"* %"$adtval_559" to %"TName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"*
-  store %"TName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"* %"$adtptr_563", %"TName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"** %"$expr_6", align 8, !dbg !39
+  store %"TName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"* %"$adtptr_563", %"TName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"** %"$expr_6", align 8, !dbg !106
   %"$$expr_6_564" = load %"TName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"*, %"TName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"** %"$expr_6", align 8
   ret %"TName_Pair_Uint64_Pair_(Pair_(Uint128)_(Uint256))_(Uint32)"* %"$$expr_6_564"
 }
 
-; Function Attrs: nofree nosync nounwind readnone speculatable willreturn
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
+
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
 declare double @llvm.log.f64(double) #0
 
 declare %Uint32 @_isqrt_Uint32(%Uint32)
@@ -1102,7 +1134,7 @@ declare %Uint64 @_isqrt_Uint64(%Uint64)
 
 declare %Uint128 @_isqrt_Uint128(%Uint128)
 
-; Function Attrs: nofree nosync nounwind readnone speculatable willreturn
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
 declare double @llvm.pow.f64(double, double) #0
 
 declare %Uint256* @_isqrt_Uint256(i8*, %Uint256*)
@@ -1126,48 +1158,115 @@ entry:
   ret void
 }
 
-attributes #0 = { nofree nosync nounwind readnone speculatable willreturn }
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
 
 !llvm.module.flags = !{!0}
 !llvm.dbg.cu = !{!1}
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false)
 !2 = !DIFile(filename: "builtin-isqrt.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = !DILocation(line: 0, scope: !4)
-!10 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!11 = !DILocation(line: 1, column: 12, scope: !10)
-!12 = !DILocation(line: 2, column: 11, scope: !10)
-!13 = !DILocation(line: 3, column: 11, scope: !10)
-!14 = !DILocation(line: 4, column: 13, scope: !10)
-!15 = !DILocation(line: 5, column: 12, scope: !10)
-!16 = !DILocation(line: 6, column: 11, scope: !10)
-!17 = !DILocation(line: 7, column: 11, scope: !10)
-!18 = !DILocation(line: 8, column: 18, scope: !10)
-!19 = !DILocation(line: 9, column: 19, scope: !10)
-!20 = !DILocation(line: 10, column: 19, scope: !10)
-!21 = !DILocation(line: 12, column: 18, scope: !10)
-!22 = !DILocation(line: 13, column: 17, scope: !10)
-!23 = !DILocation(line: 14, column: 17, scope: !10)
-!24 = !DILocation(line: 15, column: 19, scope: !10)
-!25 = !DILocation(line: 16, column: 18, scope: !10)
-!26 = !DILocation(line: 17, column: 17, scope: !10)
-!27 = !DILocation(line: 18, column: 17, scope: !10)
-!28 = !DILocation(line: 19, column: 24, scope: !10)
-!29 = !DILocation(line: 20, column: 25, scope: !10)
-!30 = !DILocation(line: 21, column: 25, scope: !10)
-!31 = !DILocation(line: 23, column: 12, scope: !10)
-!32 = !DILocation(line: 24, column: 12, scope: !10)
-!33 = !DILocation(line: 25, column: 12, scope: !10)
-!34 = !DILocation(line: 26, column: 12, scope: !10)
-!35 = !DILocation(line: 28, column: 12, scope: !10)
-!36 = !DILocation(line: 29, column: 12, scope: !10)
-!37 = !DILocation(line: 31, column: 12, scope: !10)
-!38 = !DILocation(line: 32, column: 12, scope: !10)
-!39 = !DILocation(line: 33, column: 1, scope: !10)
+!3 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !4, file: !4, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!4 = !DIFile(filename: ".", directory: ".")
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = !{}
+!9 = !DILocation(line: 0, scope: !3)
+!10 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !5, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!11 = !DILocalVariable(name: "$expr_6", scope: !10, file: !2, line: 1, type: !12)
+!12 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Pair (Uint64) (Pair (Pair (Uint128) (Uint256)) (Uint32))", baseType: !13, size: 8, align: 8, dwarfAddressSpace: 0)
+!13 = !DIBasicType(name: "Pair (Uint64) (Pair (Pair (Uint128) (Uint256)) (Uint32))", size: 8)
+!14 = !DILocation(line: 1, column: 12, scope: !10)
+!15 = !DILocalVariable(name: "zero", scope: !10, file: !2, line: 1, type: !16)
+!16 = !DIBasicType(name: "Uint32", size: 4)
+!17 = !DILocation(line: 1, column: 5, scope: !10)
+!18 = !DILocalVariable(name: "one", scope: !10, file: !2, line: 2, type: !16)
+!19 = !DILocation(line: 2, column: 5, scope: !10)
+!20 = !DILocation(line: 2, column: 11, scope: !10)
+!21 = !DILocalVariable(name: "two", scope: !10, file: !2, line: 3, type: !22)
+!22 = !DIBasicType(name: "Uint64", size: 8)
+!23 = !DILocation(line: 3, column: 5, scope: !10)
+!24 = !DILocation(line: 3, column: 11, scope: !10)
+!25 = !DILocalVariable(name: "three", scope: !10, file: !2, line: 4, type: !16)
+!26 = !DILocation(line: 4, column: 5, scope: !10)
+!27 = !DILocation(line: 4, column: 13, scope: !10)
+!28 = !DILocalVariable(name: "four", scope: !10, file: !2, line: 5, type: !29)
+!29 = !DIBasicType(name: "Uint128", size: 16)
+!30 = !DILocation(line: 5, column: 5, scope: !10)
+!31 = !DILocation(line: 5, column: 12, scope: !10)
+!32 = !DILocalVariable(name: "six", scope: !10, file: !2, line: 6, type: !16)
+!33 = !DILocation(line: 6, column: 5, scope: !10)
+!34 = !DILocation(line: 6, column: 11, scope: !10)
+!35 = !DILocalVariable(name: "ten", scope: !10, file: !2, line: 7, type: !16)
+!36 = !DILocation(line: 7, column: 5, scope: !10)
+!37 = !DILocation(line: 7, column: 11, scope: !10)
+!38 = !DILocalVariable(name: "thirty_six", scope: !10, file: !2, line: 8, type: !39)
+!39 = !DIBasicType(name: "Uint256", size: 32)
+!40 = !DILocation(line: 8, column: 5, scope: !10)
+!41 = !DILocation(line: 8, column: 18, scope: !10)
+!42 = !DILocalVariable(name: "uint256_max", scope: !10, file: !2, line: 9, type: !39)
+!43 = !DILocation(line: 9, column: 5, scope: !10)
+!44 = !DILocation(line: 9, column: 19, scope: !10)
+!45 = !DILocalVariable(name: "uint128_max", scope: !10, file: !2, line: 10, type: !29)
+!46 = !DILocation(line: 10, column: 5, scope: !10)
+!47 = !DILocation(line: 10, column: 19, scope: !10)
+!48 = !DILocalVariable(name: "isqrt_zero", scope: !10, file: !2, line: 12, type: !16)
+!49 = !DILocation(line: 12, column: 5, scope: !10)
+!50 = !DILocation(line: 12, column: 18, scope: !10)
+!51 = !DILocalVariable(name: "isqrt_one", scope: !10, file: !2, line: 13, type: !16)
+!52 = !DILocation(line: 13, column: 5, scope: !10)
+!53 = !DILocation(line: 13, column: 17, scope: !10)
+!54 = !DILocalVariable(name: "isqrt_two", scope: !10, file: !2, line: 14, type: !22)
+!55 = !DILocation(line: 14, column: 5, scope: !10)
+!56 = !DILocation(line: 14, column: 17, scope: !10)
+!57 = !DILocalVariable(name: "isqrt_three", scope: !10, file: !2, line: 15, type: !16)
+!58 = !DILocation(line: 15, column: 5, scope: !10)
+!59 = !DILocation(line: 15, column: 19, scope: !10)
+!60 = !DILocalVariable(name: "isqrt_four", scope: !10, file: !2, line: 16, type: !29)
+!61 = !DILocation(line: 16, column: 5, scope: !10)
+!62 = !DILocation(line: 16, column: 18, scope: !10)
+!63 = !DILocalVariable(name: "isqrt_six", scope: !10, file: !2, line: 17, type: !16)
+!64 = !DILocation(line: 17, column: 5, scope: !10)
+!65 = !DILocation(line: 17, column: 17, scope: !10)
+!66 = !DILocalVariable(name: "isqrt_ten", scope: !10, file: !2, line: 18, type: !16)
+!67 = !DILocation(line: 18, column: 5, scope: !10)
+!68 = !DILocation(line: 18, column: 17, scope: !10)
+!69 = !DILocalVariable(name: "isqrt_thirty_six", scope: !10, file: !2, line: 19, type: !39)
+!70 = !DILocation(line: 19, column: 5, scope: !10)
+!71 = !DILocation(line: 19, column: 24, scope: !10)
+!72 = !DILocalVariable(name: "isqrt_uint256_max", scope: !10, file: !2, line: 20, type: !39)
+!73 = !DILocation(line: 20, column: 5, scope: !10)
+!74 = !DILocation(line: 20, column: 25, scope: !10)
+!75 = !DILocalVariable(name: "isqrt_uint128_max", scope: !10, file: !2, line: 21, type: !29)
+!76 = !DILocation(line: 21, column: 5, scope: !10)
+!77 = !DILocation(line: 21, column: 25, scope: !10)
+!78 = !DILocalVariable(name: "res1", scope: !10, file: !2, line: 23, type: !16)
+!79 = !DILocation(line: 23, column: 5, scope: !10)
+!80 = !DILocation(line: 23, column: 12, scope: !10)
+!81 = !DILocalVariable(name: "res2", scope: !10, file: !2, line: 24, type: !16)
+!82 = !DILocation(line: 24, column: 5, scope: !10)
+!83 = !DILocation(line: 24, column: 12, scope: !10)
+!84 = !DILocalVariable(name: "res3", scope: !10, file: !2, line: 25, type: !16)
+!85 = !DILocation(line: 25, column: 5, scope: !10)
+!86 = !DILocation(line: 25, column: 12, scope: !10)
+!87 = !DILocalVariable(name: "res4", scope: !10, file: !2, line: 26, type: !16)
+!88 = !DILocation(line: 26, column: 5, scope: !10)
+!89 = !DILocation(line: 26, column: 12, scope: !10)
+!90 = !DILocalVariable(name: "res5", scope: !10, file: !2, line: 28, type: !39)
+!91 = !DILocation(line: 28, column: 5, scope: !10)
+!92 = !DILocation(line: 28, column: 12, scope: !10)
+!93 = !DILocalVariable(name: "res6", scope: !10, file: !2, line: 29, type: !29)
+!94 = !DILocation(line: 29, column: 5, scope: !10)
+!95 = !DILocation(line: 29, column: 12, scope: !10)
+!96 = !DILocalVariable(name: "res7", scope: !10, file: !2, line: 31, type: !97)
+!97 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Pair (Uint128) (Uint256)", baseType: !98, size: 8, align: 8, dwarfAddressSpace: 0)
+!98 = !DIBasicType(name: "Pair (Uint128) (Uint256)", size: 8)
+!99 = !DILocation(line: 31, column: 5, scope: !10)
+!100 = !DILocation(line: 31, column: 12, scope: !10)
+!101 = !DILocalVariable(name: "res8", scope: !10, file: !2, line: 32, type: !102)
+!102 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "Pair (Pair (Uint128) (Uint256)) (Uint32)", baseType: !103, size: 8, align: 8, dwarfAddressSpace: 0)
+!103 = !DIBasicType(name: "Pair (Pair (Uint128) (Uint256)) (Uint32)", size: 8)
+!104 = !DILocation(line: 32, column: 5, scope: !10)
+!105 = !DILocation(line: 32, column: 12, scope: !10)
+!106 = !DILocation(line: 33, column: 1, scope: !10)

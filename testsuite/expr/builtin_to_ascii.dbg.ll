@@ -8,7 +8,7 @@
 ; ModuleID = 'scilla_expr'
 source_filename = "scilla_expr"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %"$TyDescrTy_PrimTyp_7" = type { i32, i32 }
 %_TyDescrTy_Typ = type { i32, i8* }
@@ -68,7 +68,7 @@ target triple = "x86_64-pc-linux-gnu"
 @_transition_parameters = constant [0 x %"$TransDescr_175"] zeroinitializer
 @_transition_parameters_length = constant i32 0
 
-define void @_init_libs() !dbg !4 {
+define void @_init_libs() !dbg !3 {
 entry:
   %"$gasrem_48" = load i64, i64* @_gasrem, align 8
   %"$gascmp_49" = icmp ugt i64 5, %"$gasrem_48"
@@ -150,6 +150,7 @@ declare void @_out_of_gas()
 define internal %String @_scilla_expr_fun(i8* %0) !dbg !10 {
 entry:
   %"$expr_6" = alloca %String, align 8
+  call void @llvm.dbg.declare(metadata %String* %"$expr_6", metadata !11, metadata !DIExpression()), !dbg !13
   %"$gasrem_78" = load i64, i64* @_gasrem, align 8
   %"$gascmp_79" = icmp ugt i64 1, %"$gasrem_78"
   br i1 %"$gascmp_79", label %"$out_of_gas_80", label %"$have_gas_81"
@@ -162,6 +163,7 @@ entry:
   %"$consume_82" = sub i64 %"$gasrem_78", 1
   store i64 %"$consume_82", i64* @_gasrem, align 8
   %hello = alloca [5 x i8], align 1
+  call void @llvm.dbg.declare(metadata [5 x i8]* %hello, metadata !14, metadata !DIExpression()), !dbg !16
   %"$gasrem_83" = load i64, i64* @_gasrem, align 8
   %"$gascmp_84" = icmp ugt i64 1, %"$gasrem_83"
   br i1 %"$gascmp_84", label %"$out_of_gas_85", label %"$have_gas_86"
@@ -173,7 +175,7 @@ entry:
 "$have_gas_86":                                   ; preds = %"$out_of_gas_85", %"$have_gas_81"
   %"$consume_87" = sub i64 %"$gasrem_83", 1
   store i64 %"$consume_87", i64* @_gasrem, align 8
-  store [5 x i8] c"hello", [5 x i8]* %hello, align 1, !dbg !11
+  store [5 x i8] c"hello", [5 x i8]* %hello, align 1, !dbg !13
   %"$gasrem_88" = load i64, i64* @_gasrem, align 8
   %"$gascmp_89" = icmp ugt i64 1, %"$gasrem_88"
   br i1 %"$gascmp_89", label %"$out_of_gas_90", label %"$have_gas_91"
@@ -186,6 +188,7 @@ entry:
   %"$consume_92" = sub i64 %"$gasrem_88", 1
   store i64 %"$consume_92", i64* @_gasrem, align 8
   %world = alloca [6 x i8], align 1
+  call void @llvm.dbg.declare(metadata [6 x i8]* %world, metadata !17, metadata !DIExpression()), !dbg !19
   %"$gasrem_93" = load i64, i64* @_gasrem, align 8
   %"$gascmp_94" = icmp ugt i64 1, %"$gasrem_93"
   br i1 %"$gascmp_94", label %"$out_of_gas_95", label %"$have_gas_96"
@@ -197,7 +200,7 @@ entry:
 "$have_gas_96":                                   ; preds = %"$out_of_gas_95", %"$have_gas_91"
   %"$consume_97" = sub i64 %"$gasrem_93", 1
   store i64 %"$consume_97", i64* @_gasrem, align 8
-  store [6 x i8] c" world", [6 x i8]* %world, align 1, !dbg !12
+  store [6 x i8] c" world", [6 x i8]* %world, align 1, !dbg !20
   %"$gasrem_98" = load i64, i64* @_gasrem, align 8
   %"$gascmp_99" = icmp ugt i64 1, %"$gasrem_98"
   br i1 %"$gascmp_99", label %"$out_of_gas_100", label %"$have_gas_101"
@@ -210,6 +213,7 @@ entry:
   %"$consume_102" = sub i64 %"$gasrem_98", 1
   store i64 %"$consume_102", i64* @_gasrem, align 8
   %worldx = alloca %Bystr, align 8
+  call void @llvm.dbg.declare(metadata %Bystr* %worldx, metadata !21, metadata !DIExpression()), !dbg !23
   %"$gasrem_103" = load i64, i64* @_gasrem, align 8
   %"$gascmp_104" = icmp ugt i64 6, %"$gasrem_103"
   br i1 %"$gascmp_104", label %"$out_of_gas_105", label %"$have_gas_106"
@@ -226,8 +230,8 @@ entry:
   %"$world_110" = load [6 x i8], [6 x i8]* %world, align 1
   store [6 x i8] %"$world_110", [6 x i8]* %"$to_bystr_world_109", align 1
   %"$$to_bystr_world_109_111" = bitcast [6 x i8]* %"$to_bystr_world_109" to i8*
-  %"$to_bystr_call_112" = call %Bystr @_to_bystr(i8* %"$execptr_load_108", i32 6, i8* %"$$to_bystr_world_109_111"), !dbg !13
-  store %Bystr %"$to_bystr_call_112", %Bystr* %worldx, align 8, !dbg !13
+  %"$to_bystr_call_112" = call %Bystr @_to_bystr(i8* %"$execptr_load_108", i32 6, i8* %"$$to_bystr_world_109_111"), !dbg !24
+  store %Bystr %"$to_bystr_call_112", %Bystr* %worldx, align 8, !dbg !24
   %"$gasrem_113" = load i64, i64* @_gasrem, align 8
   %"$gascmp_114" = icmp ugt i64 1, %"$gasrem_113"
   br i1 %"$gascmp_114", label %"$out_of_gas_115", label %"$have_gas_116"
@@ -240,6 +244,7 @@ entry:
   %"$consume_117" = sub i64 %"$gasrem_113", 1
   store i64 %"$consume_117", i64* @_gasrem, align 8
   %hello_s = alloca %String, align 8
+  call void @llvm.dbg.declare(metadata %String* %hello_s, metadata !25, metadata !DIExpression()), !dbg !26
   %"$_literal_cost_hello_118" = alloca [5 x i8], align 1
   %"$hello_119" = load [5 x i8], [5 x i8]* %hello, align 1
   store [5 x i8] %"$hello_119", [5 x i8]* %"$_literal_cost_hello_118", align 1
@@ -261,8 +266,8 @@ entry:
   %"$hello_129" = load [5 x i8], [5 x i8]* %hello, align 1
   store [5 x i8] %"$hello_129", [5 x i8]* %"$to_ascii_hello_128", align 1
   %"$$to_ascii_hello_128_130" = bitcast [5 x i8]* %"$to_ascii_hello_128" to i8*
-  %"$to_ascii_call_131" = call %String @_to_ascii(i8* %"$execptr_load_127", i8* %"$$to_ascii_hello_128_130", i32 5), !dbg !14
-  store %String %"$to_ascii_call_131", %String* %hello_s, align 8, !dbg !14
+  %"$to_ascii_call_131" = call %String @_to_ascii(i8* %"$execptr_load_127", i8* %"$$to_ascii_hello_128_130", i32 5), !dbg !27
+  store %String %"$to_ascii_call_131", %String* %hello_s, align 8, !dbg !27
   %"$gasrem_132" = load i64, i64* @_gasrem, align 8
   %"$gascmp_133" = icmp ugt i64 1, %"$gasrem_132"
   br i1 %"$gascmp_133", label %"$out_of_gas_134", label %"$have_gas_135"
@@ -275,6 +280,7 @@ entry:
   %"$consume_136" = sub i64 %"$gasrem_132", 1
   store i64 %"$consume_136", i64* @_gasrem, align 8
   %world_s = alloca %String, align 8
+  call void @llvm.dbg.declare(metadata %String* %world_s, metadata !28, metadata !DIExpression()), !dbg !29
   %"$_literal_cost_worldx_137" = alloca %Bystr, align 8
   %"$worldx_138" = load %Bystr, %Bystr* %worldx, align 8
   store %Bystr %"$worldx_138", %Bystr* %"$_literal_cost_worldx_137", align 8
@@ -295,8 +301,8 @@ entry:
   %"$to_ascii_147" = extractvalue %Bystr %"$worldx_146", 0
   %"$to_ascii_148" = extractvalue %Bystr %"$worldx_146", 1
   %"$execptr_load_149" = load i8*, i8** @_execptr, align 8
-  %"$to_ascii_call_150" = call %String @_to_ascii(i8* %"$execptr_load_149", i8* %"$to_ascii_147", i32 %"$to_ascii_148"), !dbg !15
-  store %String %"$to_ascii_call_150", %String* %world_s, align 8, !dbg !15
+  %"$to_ascii_call_150" = call %String @_to_ascii(i8* %"$execptr_load_149", i8* %"$to_ascii_147", i32 %"$to_ascii_148"), !dbg !30
+  store %String %"$to_ascii_call_150", %String* %world_s, align 8, !dbg !30
   %"$_literal_cost_hello_s_151" = alloca %String, align 8
   %"$hello_s_152" = load %String, %String* %hello_s, align 8
   store %String %"$hello_s_152", %String* %"$_literal_cost_hello_s_151", align 8
@@ -322,11 +328,14 @@ entry:
   %"$execptr_load_165" = load i8*, i8** @_execptr, align 8
   %"$hello_s_166" = load %String, %String* %hello_s, align 8
   %"$world_s_167" = load %String, %String* %world_s, align 8
-  %"$concat_call_168" = call %String @_concat_String(i8* %"$execptr_load_165", %String %"$hello_s_166", %String %"$world_s_167"), !dbg !16
-  store %String %"$concat_call_168", %String* %"$expr_6", align 8, !dbg !16
+  %"$concat_call_168" = call %String @_concat_String(i8* %"$execptr_load_165", %String %"$hello_s_166", %String %"$world_s_167"), !dbg !31
+  store %String %"$concat_call_168", %String* %"$expr_6", align 8, !dbg !31
   %"$$expr_6_169" = load %String, %String* %"$expr_6", align 8
   ret %String %"$$expr_6_169"
 }
+
+; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
 
 declare %Bystr @_to_bystr(i8*, i32, i8*)
 
@@ -349,23 +358,40 @@ entry:
   ret void
 }
 
+attributes #0 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
+
 !llvm.module.flags = !{!0}
 !llvm.dbg.cu = !{!1}
 
 !0 = !{i32 2, !"Debug Info Version", i32 3}
-!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: LineTablesOnly, enums: !3, splitDebugInlining: false)
+!1 = distinct !DICompileUnit(language: DW_LANG_C89, file: !2, producer: "Scilla Compiler", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug, splitDebugInlining: false)
 !2 = !DIFile(filename: "builtin_to_ascii.scilexp", directory: "codegen/expr")
-!3 = !{}
-!4 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !5, file: !5, type: !6, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!5 = !DIFile(filename: ".", directory: ".")
-!6 = !DISubroutineType(types: !7)
-!7 = !{!8}
-!8 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
-!9 = !DILocation(line: 0, scope: !4)
-!10 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !6, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !3)
-!11 = !DILocation(line: 1, column: 13, scope: !10)
-!12 = !DILocation(line: 2, column: 13, scope: !10)
-!13 = !DILocation(line: 3, column: 14, scope: !10)
-!14 = !DILocation(line: 5, column: 15, scope: !10)
-!15 = !DILocation(line: 6, column: 15, scope: !10)
-!16 = !DILocation(line: 7, column: 1, scope: !10)
+!3 = distinct !DISubprogram(name: "_init_libs", linkageName: "_init_libs", scope: !4, file: !4, type: !5, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!4 = !DIFile(filename: ".", directory: ".")
+!5 = !DISubroutineType(types: !6)
+!6 = !{!7}
+!7 = !DIBasicType(tag: DW_TAG_unspecified_type, name: "void")
+!8 = !{}
+!9 = !DILocation(line: 0, scope: !3)
+!10 = distinct !DISubprogram(name: "_scilla_expr_fun", linkageName: "_scilla_expr_fun", scope: !2, file: !2, line: 1, type: !5, scopeLine: 1, spFlags: DISPFlagDefinition, unit: !1, retainedNodes: !8)
+!11 = !DILocalVariable(name: "$expr_6", scope: !10, file: !2, line: 1, type: !12)
+!12 = !DIBasicType(name: "String", size: 16)
+!13 = !DILocation(line: 1, column: 13, scope: !10)
+!14 = !DILocalVariable(name: "hello", scope: !10, file: !2, line: 1, type: !15)
+!15 = !DIBasicType(name: "ByStr5", size: 5)
+!16 = !DILocation(line: 1, column: 5, scope: !10)
+!17 = !DILocalVariable(name: "world", scope: !10, file: !2, line: 2, type: !18)
+!18 = !DIBasicType(name: "ByStr6", size: 6)
+!19 = !DILocation(line: 2, column: 5, scope: !10)
+!20 = !DILocation(line: 2, column: 13, scope: !10)
+!21 = !DILocalVariable(name: "worldx", scope: !10, file: !2, line: 3, type: !22)
+!22 = !DIBasicType(name: "ByStr", size: 16)
+!23 = !DILocation(line: 3, column: 5, scope: !10)
+!24 = !DILocation(line: 3, column: 14, scope: !10)
+!25 = !DILocalVariable(name: "hello_s", scope: !10, file: !2, line: 5, type: !12)
+!26 = !DILocation(line: 5, column: 5, scope: !10)
+!27 = !DILocation(line: 5, column: 15, scope: !10)
+!28 = !DILocalVariable(name: "world_s", scope: !10, file: !2, line: 6, type: !12)
+!29 = !DILocation(line: 6, column: 5, scope: !10)
+!30 = !DILocation(line: 6, column: 15, scope: !10)
+!31 = !DILocation(line: 7, column: 1, scope: !10)

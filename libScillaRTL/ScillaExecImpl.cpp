@@ -28,6 +28,7 @@
 #include "ScillaBuiltins.h"
 #include "ScillaExecImpl.h"
 #include "ScillaTypes.h"
+#include "ScillaValue.h"
 #include "SharedObject.h"
 
 namespace ScillaRTL {
@@ -219,6 +220,16 @@ ScillaExecImpl::parseTypeString(const std::string &TStr) const {
   auto TyDescrs = getTypeDescrTable();
   return ScillaTypes::Typ::fromString(TPPC.get(), TyDescrs.first,
                                       TyDescrs.second, TStr);
+}
+
+const std::string ScillaExecImpl::gdbPrintValue(const char *Type,
+                                                const void *Value) const {
+  try {
+    auto T = parseTypeString(Type);
+    return ScillaValues::toString(false, T, Value);
+  } catch (...) {
+    return "Type or value error";
+  }
 }
 
 void ScillaExecImpl::outOfGasException(void) {
